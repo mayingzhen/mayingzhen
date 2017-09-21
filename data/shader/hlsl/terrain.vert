@@ -2,7 +2,7 @@
 #include"common.h"
 
 #if USING_SHADOW != 0
-#include"shadowMap.h"
+#include"shadowmap_vs.h"
 #endif
 
 cbuffer ObjectVS : register(b5)
@@ -16,7 +16,7 @@ cbuffer ObjectVS : register(b5)
 	float3 pos_extent;
 	float3 pos_center;
 	float4 tc_extent_center;
-}
+};
 
 
 struct VS_INPUT

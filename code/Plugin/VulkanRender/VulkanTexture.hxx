@@ -71,47 +71,19 @@ namespace ma
 // 			return format;
 // 	}
 
-// 	DXGI_FORMAT GetSRGBFormat(DXGI_FORMAT format)
-// 	{
-// 		if (format == DXGI_FORMAT_R8G8B8A8_UNORM)
-// 			return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-// 		else if (format == DXGI_FORMAT_BC1_UNORM)
-// 			return DXGI_FORMAT_BC1_UNORM_SRGB;
-// 		else if (format == DXGI_FORMAT_BC2_UNORM)
-// 			return DXGI_FORMAT_BC2_UNORM_SRGB;
-// 		else if (format == DXGI_FORMAT_BC3_UNORM)
-// 			return DXGI_FORMAT_BC3_UNORM_SRGB;
-// 		else
-// 			return format;
-// 	}
-
-// 	DXGI_FORMAT GetTypelessFormat(DXGI_FORMAT format) {
-// 		switch(format) {
-// 		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
-// 		case DXGI_FORMAT_R8G8B8A8_UNORM:
-// 		case DXGI_FORMAT_R8G8B8A8_UINT:
-// 		case DXGI_FORMAT_R8G8B8A8_SNORM:
-// 		case DXGI_FORMAT_R8G8B8A8_SINT:
-// 			return DXGI_FORMAT_R8G8B8A8_TYPELESS;
-// 
-// 		case DXGI_FORMAT_BC1_UNORM_SRGB:
-// 		case DXGI_FORMAT_BC1_UNORM:
-// 			return DXGI_FORMAT_BC1_TYPELESS;
-// 		case DXGI_FORMAT_BC2_UNORM_SRGB:
-// 		case DXGI_FORMAT_BC2_UNORM:
-// 			return DXGI_FORMAT_BC2_TYPELESS;
-// 		case DXGI_FORMAT_BC3_UNORM_SRGB:
-// 		case DXGI_FORMAT_BC3_UNORM:
-// 			return DXGI_FORMAT_BC3_TYPELESS;
-// 
-// 		// Depth
-// 		case DXGI_FORMAT_D24_UNORM_S8_UINT:
-// 			return DXGI_FORMAT_R24G8_TYPELESS;
-// 		};
-// 		
-// 		ASSERT(false);
-// 		return format;
-// 	}
+	VkFormat GetSRGBFormat(VkFormat format)
+	{
+		if (format == VK_FORMAT_B8G8R8A8_UNORM)
+			return VK_FORMAT_B8G8R8A8_SNORM;
+		else if (format == VK_FORMAT_BC1_RGB_UNORM_BLOCK)
+			return VK_FORMAT_BC1_RGB_SRGB_BLOCK;
+		else if (format == VK_FORMAT_BC2_UNORM_BLOCK)
+			return VK_FORMAT_BC2_SRGB_BLOCK;
+		else if (format == VK_FORMAT_BC3_UNORM_BLOCK)
+			return VK_FORMAT_BC3_SRGB_BLOCK;
+		else
+			return format;
+	}
 
 // 	bool IsCompressed(DXGI_FORMAT format)
 // 	{
@@ -185,76 +157,74 @@ namespace ma
 
 	bool VulkanTexture::RT_CreateTexture()
 	{
-// 		m_eFormat = VulkanMapping::_getClosestSupportedPF(m_eFormat);
-// 		m_descFormat = VulkanMapping::_getPF(m_eFormat);
-// 		if (m_bSRGB)
-// 		{
-// 			m_descFormat = GetSRGBFormat(m_descFormat);
-// 		}
-// 		if (m_bTypeLess)
-// 		{
-// 			m_descFormat = GetTypelessFormat(m_descFormat);
-// 		}
-// 
-// 		Vulkan_TEXTURE2D_DESC textureDesc;
-// 		memset(&textureDesc, 0, sizeof textureDesc);
-// 		textureDesc.Width = (UINT)m_nWidth;
-// 		textureDesc.Height = (UINT)m_nHeight;
-// 		textureDesc.MipLevels = m_nMipLevels;
-// 		textureDesc.ArraySize = 1;
-// 		textureDesc.Format = m_descFormat;
-// 		textureDesc.SampleDesc.Count = 1;
-// 		textureDesc.SampleDesc.Quality = 0;
-// 		//if (m_eUsage == USAGE_STATIC)
-// 		//{
-// 		//	textureDesc.Usage = Vulkan_USAGE_IMMUTABLE;
-// 		//}
-// 		//else 
-// 		if (m_eUsage == USAGE_DYNAMIC)
-// 		{
-// 			textureDesc.Usage = Vulkan_USAGE_DYNAMIC;
-// 		}
-// 		else 
-// 		{
-// 			textureDesc.Usage = Vulkan_USAGE_DEFAULT;
-// 		}
-// 		textureDesc.BindFlags = Vulkan_BIND_SHADER_RESOURCE;
-// 		if (m_eUsage == USAGE_RENDERTARGET)
-// 			textureDesc.BindFlags |= Vulkan_BIND_RENDER_TARGET;
-// 		else if (m_eUsage == USAGE_DEPTHSTENCIL)
-// 			textureDesc.BindFlags |= Vulkan_BIND_DEPTH_STENCIL;
-// 		textureDesc.CPUAccessFlags = m_eUsage == USAGE_DYNAMIC ? Vulkan_CPU_ACCESS_WRITE : 0;
-// 
-// 		GetVulkanDxDevive()->CreateTexture2D(&textureDesc, 0, (IVulkanTexture2D**)&m_pVulkanTex2D);
-// 		ASSERT(m_pVulkanTex2D);
-// 		if (m_pVulkanTex2D == NULL)
-// 		{
-// 			LogError("Failed to create DepthStencile");
-// 			return false;
-// 		}
-// 
-// 		DXGI_FORMAT srvFormat = VulkanMapping::_getPF(m_eFormat);
-// 		if (m_bSRGB)
-// 		{
-// 			srvFormat = GetSRGBFormat(srvFormat);
-// 		}
-// 		if (m_bTypeLess)
-// 		{
-// 			srvFormat = GetSRVFormat(m_descFormat);
-// 		}
-// 
-// 		Vulkan_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-// 		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
-// 		resourceViewDesc.Format = srvFormat;
-// 		resourceViewDesc.ViewDimension = Vulkan_SRV_DIMENSION_TEXTURE2D;
-// 		resourceViewDesc.Texture2D.MipLevels = m_nMipLevels;
-// 
-// 		GetVulkanDxDevive()->CreateShaderResourceView(m_pVulkanTex2D, &resourceViewDesc,&m_pVulkanShaderResourceView);
-// 		if (!m_pVulkanShaderResourceView)
-// 		{
-// 			LogError("Failed to create shader resource view for texture");
-// 			return false;
-// 		}
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		m_eFormat = VulkanMapping::_getClosestSupportedPF(m_eFormat);
+		m_vkformat = VulkanMapping::_getPF(m_eFormat);
+		if (m_bSRGB)
+		{
+			m_vkformat = GetSRGBFormat(m_vkformat);
+		}
+
+		// For shadow mapping we only need a depth attachment
+		VkImageCreateInfo image = vks::initializers::imageCreateInfo();
+		image.imageType = VK_IMAGE_TYPE_2D;
+		image.extent.width = m_nWidth;
+		image.extent.height = m_nHeight;
+		image.extent.depth = 1;
+		image.mipLevels = 1;
+		image.arrayLayers = 1;
+		image.samples = VK_SAMPLE_COUNT_1_BIT;
+		image.tiling = VK_IMAGE_TILING_OPTIMAL;
+		image.format = m_vkformat;	
+		image.usage = VK_IMAGE_USAGE_SAMPLED_BIT;
+		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		{
+			image.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+
+			m_imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+		}
+		else if (m_eUsage == USAGE_RENDERTARGET)
+		{
+			image.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+		}
+		VK_CHECK_RESULT(vkCreateImage(device->logicalDevice, &image, nullptr, &m_image));
+
+		VkMemoryAllocateInfo memAlloc = vks::initializers::memoryAllocateInfo();
+		VkMemoryRequirements memReqs;
+		vkGetImageMemoryRequirements(device->logicalDevice, m_image, &memReqs);
+		memAlloc.allocationSize = memReqs.size;
+		memAlloc.memoryTypeIndex = device->getMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		VK_CHECK_RESULT(vkAllocateMemory(device->logicalDevice, &memAlloc, nullptr, &m_deviceMemory));
+		VK_CHECK_RESULT(vkBindImageMemory(device->logicalDevice, m_image, m_deviceMemory, 0));
+
+		// Create image view
+		// Textures are not directly accessed by the shaders and
+		// are abstracted by image views containing additional
+		// information and sub resource ranges
+		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
+		view.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		view.format = m_vkformat;
+		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		{
+			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+		}
+		else
+		{
+			view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
+			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		}
+		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
+		// It's possible to create multiple image views for a single image referring to different (and/or overlapping) ranges of the image
+		view.subresourceRange.baseMipLevel = 0;
+		view.subresourceRange.baseArrayLayer = 0;
+		view.subresourceRange.layerCount = 1;
+		// Linear tiling usually won't support mip maps
+		// Only set mip map count if optimal tiling is used
+		view.subresourceRange.levelCount = m_nMipLevels/* (useStaging) ? texture.mipLevels : 1*/;
+		// The view will be based on the texture's image
+		view.image = m_image;
+		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_view));
 
 		return true;
 	}
@@ -284,22 +254,24 @@ namespace ma
 // 		return m_pVulkanShaderResourceViewSRGBNotEqual;
 // 	}
 
-// 	IVulkanDepthStencilView* VulkanTexture::GetDepthStencilView()
+// 	VkImageView VulkanTexture::GetDepthStencilView()
 // 	{
-// 		if (m_pDepthStencilView)
+// 		vks::VulkanDevice* device = GetVulkanDevice();
+// 
+// 		if (m_pDepthStencilView != 0)
 // 			return m_pDepthStencilView;
 // 
-// 		Vulkan_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-// 		memset(&depthStencilViewDesc, 0, sizeof depthStencilViewDesc);
-// 		depthStencilViewDesc.Format = GetDSVFormat(m_descFormat);
-// 		depthStencilViewDesc.ViewDimension = Vulkan_DSV_DIMENSION_TEXTURE2D;
-// 
-// 		GetVulkanDxDevive()->CreateDepthStencilView(m_pVulkanTex2D,&depthStencilViewDesc,&m_pDepthStencilView);
-// 		if (!m_pDepthStencilView)
-// 		{
-// 			LogError("Failed to create depth-stencil view for texture");
-// 			return NULL;
-// 		}
+// 		VkImageViewCreateInfo depthStencilView = vks::initializers::imageViewCreateInfo();
+// 		depthStencilView.viewType = VK_IMAGE_VIEW_TYPE_2D;
+// 		depthStencilView.format = m_vkformat;
+// 		depthStencilView.subresourceRange = {};
+// 		depthStencilView.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+// 		depthStencilView.subresourceRange.baseMipLevel = 0;
+// 		depthStencilView.subresourceRange.levelCount = 1;
+// 		depthStencilView.subresourceRange.baseArrayLayer = 0;
+// 		depthStencilView.subresourceRange.layerCount = 1;
+// 		depthStencilView.image = m_image;
+// 		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &depthStencilView, nullptr, &m_pDepthStencilView));
 // 
 // 		return m_pDepthStencilView;
 // 	}

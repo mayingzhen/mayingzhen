@@ -25,7 +25,13 @@ namespace ma
 		samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 		samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 		samplerCreateInfo.mipLodBias = 0.0f;
+		samplerCreateInfo.compareEnable = false;
 		samplerCreateInfo.compareOp = VK_COMPARE_OP_NEVER;
+		if (GetFilterMode() == TFO_SHADOWCOMPARE)
+		{
+			samplerCreateInfo.compareEnable = VK_TRUE;
+			samplerCreateInfo.compareOp = VK_COMPARE_OP_LESS;
+		}
 		samplerCreateInfo.minLod = 0.0f;
 		// Max level-of-detail should match mip level count
 		samplerCreateInfo.maxLod = /*(useStaging) ? */(float)pTex->GetMipMapNumber()/* : 0.0f*/;

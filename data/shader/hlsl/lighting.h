@@ -21,7 +21,7 @@ cbuffer ObjectLightPS : register(b2)
 	float u_glossiness;
 
 	float2 u_diff_spec_mip;
-}
+};
 
 
 void GetMetalnessGlossiness(float2 iUV, out float metalness, out float glossiness,float2 iUV1,float blendWeight)

@@ -34,7 +34,7 @@ namespace ma
 		virtual	UINT	GetRenderableCount(uint32 nLod) const;
 		virtual Renderable* GetRenderableByIndex(uint32 nLod,UINT index) const;
 
-		void			SetShadowCaster(bool b) {m_bShadowCaster = b;}
+		virtual void	SetShadowCaster(bool b) {m_bShadowCaster = b;}
 		bool			GetShadowCaster() const {return m_bShadowCaster;}
 	
 		void			SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}

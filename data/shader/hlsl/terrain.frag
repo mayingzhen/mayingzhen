@@ -2,7 +2,7 @@
 #include "lighting.h"
 
 #if USING_SHADOW != 0
-#include "shadowMap.h"
+#include "shadowMap_ps.h"
 #endif
 
 #ifdef DEFERREDSHADING 
@@ -17,7 +17,7 @@ cbuffer ObjectPS : register(b5)
 	//float4 u_cSpecColor;
 	//float u_roughness;
 	float g_heightScale;
-}
+};
 
 Texture2D tBlendingMap : register(t2);
 SamplerState sBlendingMap : register(s2);

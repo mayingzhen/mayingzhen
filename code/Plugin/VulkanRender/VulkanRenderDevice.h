@@ -11,6 +11,7 @@ namespace ma
 	class VulkanResource;
 	class VulkanShaderProgram;
 	class VulkanVertexDeclaration;
+	class VulkanRenderPass;
 
 	class VulkanRenderDevice : public IRenderDevice
 	{
@@ -29,15 +30,15 @@ namespace ma
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual ShaderProgram*		CreateShaderProgram();
 		virtual ConstantBuffer*		CreateConstantBuffer(UINT nSize);
-
 		virtual BlendState*			CreateBlendState();
 		virtual DepthStencilState*	CreateDepthStencilState();
 		virtual RasterizerState*	CreateRasterizerState();
-
 		virtual SamplerState*		CreateSamplerState();
-
 		virtual Technique*			CreateTechnique();
+		virtual FrameBuffer*		CreateFrameBuffer();
 
+		virtual	void				BeginRenderPass(FrameBuffer* pFB);
+		virtual	void				EndRenderPass(FrameBuffer* pFB);
 		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
 		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
@@ -45,21 +46,11 @@ namespace ma
 		virtual Texture*			GetDefaultDepthStencil();
 		virtual void				SetViewport(const Rectangle& rect);
 		virtual Rectangle			GetViewport();
+		virtual FrameBuffer*		GetDefaultFrameBuffer();
 
 		virtual void				SetBlendState(const BlendState* pBlendState);
 		virtual void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef);
 		virtual void				SetRasterizerState(const RasterizerState* pRSState);
-		
-// 		virtual void				SetValue(Uniform* uniform, int value);
-// 		virtual void				SetValue(Uniform* uniform, float value);
-// 		virtual void				SetValue(Uniform* uniform, const Vector2& value);
-// 		virtual void				SetValue(Uniform* uniform, const Vector3& value);
-// 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
-// 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
-// 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
-// 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-// 		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);
-// 		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
 
 		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);
@@ -147,7 +138,8 @@ namespace ma
 
 		uint32_t m_currentBuffer = 0;
 
-		VkRenderPass m_renderPass;
+		//VkRenderPass m_renderPass;
+		RefPtr<VulkanRenderPass> m_pDefaultPass;
 
 		VkPipelineCache m_pipelineCache;
 
@@ -168,6 +160,9 @@ namespace ma
 
 		//VkPhysicalDeviceFeatures enabledFeatures{};
 		std::vector<const char*> enabledExtensions;
+
+// 		VulkanTexture* m_pDefaultColor;
+// 		VulkanTexture* m_pDefaultDepth;
 	};
 
 	vks::VulkanDevice* GetVulkanDevice();

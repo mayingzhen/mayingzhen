@@ -250,6 +250,12 @@ namespace ma
 				return;
 			}
 
+			if (0)
+			{
+				program.buildReflection();
+				program.dumpReflection();
+			}
+
 			glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
 
 		}

@@ -15,8 +15,39 @@ namespace ma
 		Vector3 VAtPos = Vector3(0, 0, 0);
 		GetCamera()->LookAt(vEyePos, VAtPos);
 
+		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
+		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
+		m_pScene->GetDirLight()->SetSplitPosParam(Vector4(500.0f));
+		m_pScene->GetDirLight()->SetShadowEnabled(true);
+		m_pScene->SetAmbientColor(Vector3(0.0, 0.0, 0.0));
+
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
+
+		for (uint32 i = 0; i < 2; ++i)
+		{
+			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
+			pCharMagic->SetScale(Vector3(0.01f));
+			float x = Math::RangeRandom(0, 10);
+			float y = Math::RangeRandom(0, 10);
+			pCharMagic->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
+			pCharMagic->SetPos(Vector3(1.5f, 2.0f, m_pTerrain->GetHeight(1.50f, 2.0f)));
+			SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
+			pMeshComp->SetShadowCaster(true);
+			AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
+			pAnimComp->SetAnimation(100);
+		}
+
+		for (uint32 i = 0; i < 2; ++i)
+		{
+			SceneNode* pBox = m_pScene->CreateSceneNode();
+			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
+			pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
+			pBoxMesh->SetShadowCaster(true);
+			float x = Math::RangeRandom(0, 10);
+			float y = Math::RangeRandom(0, 10);
+			pBox->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
+		}
 
 		m_pTerrain->mLoadOverEvent.notify(this, &SampleShadowMap::OnTerrainLoadOver);
 	}

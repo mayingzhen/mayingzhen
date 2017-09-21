@@ -264,3 +264,7 @@ EXPORTS
 ?BindUniform@Technique@ma@@IAEXXZ
 ?SetName@ConstantBuffer@ma@@QAEXPBD@Z
 ?GetName@ConstantBuffer@ma@@QAEPBDXZ
+?Create@FrameBuffer@ma@@UAEXXZ
+?AddSampler@Technique@ma@@QAEXPAVUniform@2@@Z
+?GetSamplerCount@Technique@ma@@QAEIXZ
+?GetSamplerByIndex@Technique@ma@@QAEPAVUniform@2@I@Z

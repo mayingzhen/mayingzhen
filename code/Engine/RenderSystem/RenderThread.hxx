@@ -315,6 +315,30 @@ namespace ma
 		AddPointer(pShader);
 	}
 
+	void RenderThread::RC_BeginRenderPass(FrameBuffer* pFB)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->BeginRenderPass(pFB);
+			return;
+		}
+
+		AddCommand(eRC_BeginRenderPass);
+		AddPointer(pFB);
+	}
+
+	void RenderThread::RC_EndRenderPass(FrameBuffer* pFB)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->EndRenderPass(pFB);
+			return;
+		}
+
+		AddCommand(eRC_EndRenderPass);
+		AddPointer(pFB);
+	}
+
 	void RenderThread::RC_SetFrameBuffer(FrameBuffer* pFB)
 	{
 		if (IsRenderThread())
@@ -697,6 +721,18 @@ namespace ma
 				{
 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
 					pShader->RT_SetShader();
+				}
+				break;
+			case eRC_BeginRenderPass:
+				{
+					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
+					GetRenderDevice()->BeginRenderPass(pFB);
+				}
+				break;
+			case eRC_EndRenderPass:
+				{
+					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
+					GetRenderDevice()->EndRenderPass(pFB);
 				}
 				break;
 			case eRC_SetFrameBuffer:

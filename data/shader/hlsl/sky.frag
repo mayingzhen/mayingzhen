@@ -18,7 +18,7 @@ cbuffer ObjectPS : register(b5)
 	float u_speed;
 	float u_emptiness;
 	float u_sharpness;
-}
+};
 
 void main(float4 iUV0      : TEXCOORD0,
 			float4 iUV1      : TEXCOORD1,

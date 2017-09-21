@@ -32,6 +32,8 @@ namespace ma
 		eRC_CreateTexture,
  		eRC_ClearBuffer,
 		eRC_SetFrameBuffer,
+		eRC_BeginRenderPass,
+		eRC_EndRenderPass,
  		eRC_SetRenderTarget,
 		eRC_SetDepthStencil,
  		eRC_SetViewPort,
@@ -136,6 +138,8 @@ namespace ma
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		void	RC_SetShaderProgram(ShaderProgram* pShader);
+		void	RC_BeginRenderPass(FrameBuffer* pFB);
+		void	RC_EndRenderPass(FrameBuffer* pFB);
 		void	RC_SetFrameBuffer(FrameBuffer* pFB);
 		void	RC_SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		void	RC_SetDepthStencil(Texture* pTexture);

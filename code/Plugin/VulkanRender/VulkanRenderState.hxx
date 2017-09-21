@@ -102,30 +102,58 @@ namespace ma
 
 	VulkanBlendStateObject::VulkanBlendStateObject()
 	{
+// 		cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+// 		cb.flags = 0;
+// 		cb.pNext = NULL;
+// 		if (m_bColorWrite)
+// 		{
+// 			att_state[0].colorWriteMask = 0xf;
+// 			att_state[0].blendEnable = VK_FALSE;
+// 			att_state[0].alphaBlendOp = VK_BLEND_OP_ADD;
+// 			att_state[0].colorBlendOp = VK_BLEND_OP_ADD;
+// 			att_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+// 			att_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+// 			att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+// 			att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+// 			cb.attachmentCount = 1;
+// 			cb.pAttachments = att_state;
+// 		}
+// 
+// 		cb.logicOpEnable = VK_FALSE;
+// 		cb.logicOp = VK_LOGIC_OP_NO_OP;
+// 		cb.blendConstants[0] = 1.0f;
+// 		cb.blendConstants[1] = 1.0f;
+// 		cb.blendConstants[2] = 1.0f;
+// 		cb.blendConstants[3] = 1.0f;
+	}
+
+	void VulkanBlendStateObject::RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/)
+	{
+		cb = {};
 		cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		cb.flags = 0;
 		cb.pNext = NULL;
-		att_state[1];
-		att_state[0].colorWriteMask = 0xf;
-		att_state[0].blendEnable = VK_FALSE;
-		att_state[0].alphaBlendOp = VK_BLEND_OP_ADD;
-		att_state[0].colorBlendOp = VK_BLEND_OP_ADD;
-		att_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-		cb.attachmentCount = 1;
-		cb.pAttachments = att_state;
+		if (m_bColorWrite)
+		{
+			att_state[0].colorWriteMask = 0xf;
+			att_state[0].blendEnable = VK_FALSE;
+			att_state[0].alphaBlendOp = VK_BLEND_OP_ADD;
+			att_state[0].colorBlendOp = VK_BLEND_OP_ADD;
+			att_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			att_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			cb.attachmentCount = 1;
+			cb.pAttachments = att_state;
+		}
+
 		cb.logicOpEnable = VK_FALSE;
 		cb.logicOp = VK_LOGIC_OP_NO_OP;
 		cb.blendConstants[0] = 1.0f;
 		cb.blendConstants[1] = 1.0f;
 		cb.blendConstants[2] = 1.0f;
 		cb.blendConstants[3] = 1.0f;
-	}
 
-	void VulkanBlendStateObject::RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/)
-	{
 // 		ASSERT(m_pVulkanBlendState == NULL);
 // 
 // 		Vulkan_BLEND_DESC stateDesc;

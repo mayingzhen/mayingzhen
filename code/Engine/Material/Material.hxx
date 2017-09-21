@@ -34,11 +34,18 @@ namespace ma
 	{
 		if (m_pShadowDepthTech == NULL)
 		{
+			VertexDeclaration* pVertexDecl = m_pShadingTech->GetShaderProgram()->GetVertexDeclaration();
 			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-            m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str(), NULL);
+            m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str(), pVertexDecl);
 			RefPtr<BlendState> pBlendSate = CreateBlendState();
 			pBlendSate->m_bColorWrite = false;
 			m_pShadowDepthTech->SetBlendState(pBlendSate.get());
+
+			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
+			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
+			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
+
+			m_pShadowDepthTech->StreamComplete();
 		}
 
 		return m_pShadowDepthTech.get();
@@ -83,11 +90,15 @@ namespace ma
 
 		if (m_pShadingTech)
 		{
+			m_pShadingTech->SetRenderPass(GetRenderSystem()->GetDefaultFrameBuffer());
 			m_pShadingTech->StreamComplete();
 		}
 
 		if (m_pShadowDepthTech)
 		{
+			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
+			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
+			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 			m_pShadowDepthTech->StreamComplete();
 		}
 	}

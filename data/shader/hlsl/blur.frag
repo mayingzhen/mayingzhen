@@ -4,7 +4,7 @@ cbuffer ObjectPS : register(b5)
 	float2 src_tex_size;
 
 	float color_weight[8];
-}
+};
 
 Texture2D g_SamplerSrc;
 SamplerState s_SamplerSrc;

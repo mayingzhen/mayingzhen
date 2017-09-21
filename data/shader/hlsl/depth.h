@@ -5,7 +5,7 @@ cbuffer ObjectPS : register(b7)
 	float4 vStoWBasisY;
 	float4 vStoWBasisZ;
 	float4 vStoCamPos;
-}
+};
 
 
 Texture2D tDepthMapSampler;

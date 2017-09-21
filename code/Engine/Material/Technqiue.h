@@ -67,12 +67,19 @@ namespace ma
 		UINT				GetConstBufferCount(ShaderType eType);
 		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, UINT nIndex);
 
+		void				AddSampler(Uniform* pUniform);
+		UINT				GetSamplerCount();
+		Uniform*			GetSamplerByIndex(UINT nIndex);
+
         void                StreamComplete();
 
 		virtual void        RT_StreamComplete() {}
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
+
+		void				SetRenderPass(FrameBuffer* pRenderPass) { m_pRenderPass = pRenderPass; }
+		FrameBuffer*		GetRenderPass() { return m_pRenderPass; }
 
 	protected:
 		void				BindUniform();
@@ -96,8 +103,12 @@ namespace ma
 
 		std::vector<Parameter*>			m_arrParameters; 
 
+		FrameBuffer*					m_pRenderPass = NULL;
+
 		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
 		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
+
+		std::vector< RefPtr<Uniform> > m_vecPSSamplers;
 
 	protected:
 		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];

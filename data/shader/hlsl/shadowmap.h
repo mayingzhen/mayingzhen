@@ -1,7 +1,7 @@
 
 // texture
-Texture2D g_tShadowMap : register(t5);
-SamplerComparisonState g_sShadowMap : register(s5);
+Texture2D g_tShadowMap : register(t7);
+SamplerComparisonState g_sShadowMap : register(s7);
 
 Texture2D tRotSampler : register(t6);
 SamplerState sRotSampler : register(s6);
@@ -13,7 +13,7 @@ SamplerState sRotSampler : register(s6);
 cbuffer ShadowVS : register(b6)
 {
 	float4x4 g_matShadow;
-}
+};
 
 cbuffer ShadowPS : register(b6)
 {
@@ -24,7 +24,7 @@ cbuffer ShadowPS : register(b6)
 	float4 irreg_kernel_2d[SHADOW_SAMPLES_NUM/2];
 	float4 g_vViewPosVecLS;
 	float2 kernelRadius;
-}
+};
 
 
 float GetDirShadowFade(float inLight, float depth)

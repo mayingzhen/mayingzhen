@@ -9,7 +9,7 @@ namespace ma
 	RenderScheme::RenderScheme(Scene* pScene)
 	{
 		m_pScene = pScene;
-		m_pFrameBuffer = new FrameBuffer();
+		m_pFrameBuffer = GetRenderDevice()->CreateFrameBuffer();
 	}
 
 	void RenderScheme::Init()
@@ -128,7 +128,8 @@ namespace ma
 	{
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
-		GetRenderSystem()->SetFrameBuffer(m_pFrameBuffer.get());
+		//GetRenderSystem()->SetFrameBuffer(m_pFrameBuffer.get());
+		GetRenderSystem()->BeginRenderPass(GetRenderSystem()->GetDefaultFrameBuffer());
 
 		ColourValue cClearClor = GetRenderSystem()->GetClearColor();
 
@@ -183,6 +184,8 @@ namespace ma
 		{
 			m_pSMAA->Render();
 		}
+
+		GetRenderSystem()->EndRenderPass(GetRenderSystem()->GetDefaultFrameBuffer());
 	}
 
 	void RenderScheme::SetSMAAEnabled(bool b)

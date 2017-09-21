@@ -16,6 +16,7 @@
 #include "VulkanRender/VulkanSamplerState.hxx"
 #include "VulkanRender/VulkanTechniqueh.hxx"
 #include "VulkanRender/VulkanPipeline.hxx"
+#include "VulkanRender/VulkanRenderPass.hxx"
 
 #include "SPIRV/GlslangToSpv.h"
 

@@ -42,6 +42,8 @@ namespace ma
 		
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		
+		void				BeginRenderPass(FrameBuffer* pFB);
+		void				EndRenderPass(FrameBuffer* pFB);
 		void				SetFrameBuffer(FrameBuffer* pFB);
 		RefPtr<Texture>		SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		RefPtr<Texture>		GetRenderTarget(int index = 0);
@@ -50,6 +52,7 @@ namespace ma
 		RefPtr<Texture>		SetDepthStencil(RefPtr<Texture>	pTexture);	
 		Rectangle			SetViewPort(const Rectangle& viewPort);
 		Rectangle			GetViewPort() {return m_curViewport;}
+		FrameBuffer*		GetDefaultFrameBuffer();
 		
 		void				SetShaderProgram(ShaderProgram* pShader);
 		
@@ -59,19 +62,6 @@ namespace ma
 		void				SetRasterizerState(const RasterizerState* pRSState);
 
 		void				SetVertexDeclaration(const VertexDeclaration* pVertexDecl);
-
-		// Uniform
-// 		void				SetValue(Uniform* uniform, int value);
-// 		void				SetValue(Uniform* uniform, float value);
-// 		void				SetValue(Uniform* uniform, const Vector2& value);
-// 		void				SetValue(Uniform* uniform, const Vector3& value);
-// 		void				SetValue(Uniform* uniform, const Vector4& value);
-// 		void				SetValue(Uniform* uniform, const Matrix4& value);
-// 		void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
-// 		void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
-// 		void				SetValue(Uniform* uniform, const ColourValue& value);
-// 		void				SetValue(Uniform* uniform, Texture* pTexture);
-// 		void				SetValue(Uniform* uniform, SamplerState* sampler);
 		
 		HWND				GetMainWnd() {return m_hWnd;}
 		
@@ -126,7 +116,10 @@ namespace ma
 		
 		void				UpdatePoolId();
 		int					GetPoolId();
-		int					GetPooIdRT();			
+		int					GetPooIdRT();	
+
+		bool				ResizeInstancingBuffer(unsigned numInstances);
+		VertexBuffer*		GetInstanceBuffer() { return instancingBuffer_.get(); }
 
 	protected: 
 		void				RT_Init(HWND wndhandle);
@@ -178,6 +171,8 @@ namespace ma
 		// right now the particle are using this id
 		uint32				m_nPoolIndex;
 		uint32				m_nPoolIndexRT;
+
+		RefPtr<VertexBuffer> instancingBuffer_;
 
 		bool				m_bThread;
 		ColourValue			m_cClearClor;

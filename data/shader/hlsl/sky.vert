@@ -11,7 +11,7 @@ cbuffer ObjectVS : register(b5)
 	float4 tc_extent_center;
 	
 	float u_speed;
-}
+};
 
 // Attributes
 struct VS_IN

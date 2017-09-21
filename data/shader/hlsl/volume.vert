@@ -3,7 +3,7 @@
 cbuffer ObjectVS : register(b5)
 {
 	float4x4 matFrustum;
-}
+};
 
 void main(float3 iPos			: POSITION0,
 		out float4 oPos     : SV_POSITION) 

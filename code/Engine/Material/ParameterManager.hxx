@@ -155,7 +155,7 @@ namespace ma
 
 	SamplerState* ParameterManager::autoBindingShadowMap() const
 	{
-		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		Scene* pCurScene = GetRenderSystem()->GetScene(0); //GetRenderContext()->GetCurScene();
 		if (pCurScene == NULL)
 			return NULL;
 

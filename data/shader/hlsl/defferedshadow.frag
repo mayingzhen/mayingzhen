@@ -20,7 +20,7 @@ cbuffer ObjectPS : register(b5)
 	float4 g_vNextViewPosVecLS;
 	float2 NextkernelRadius;
 	float4 g_NextshadowMapTexelSize;
-}
+};
 
 Texture2D g_tNextShadowMap : register(t6);
 SamplerComparisonState g_sNextShadowMap : register(s6);

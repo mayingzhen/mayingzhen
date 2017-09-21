@@ -12,7 +12,7 @@ cbuffer ObjectPS : register(b5)
 	#endif
 
 	float4 light_color ;
-}
+};
 
 
 // Gbuffer

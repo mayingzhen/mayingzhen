@@ -280,13 +280,6 @@ namespace ma
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-		//if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
-		{
-			//GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
-
-			//m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
-		}
-
 		//if (m_pCurVB != pRenderable->m_pVertexBuffer)
 		{
 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get());
@@ -328,6 +321,16 @@ namespace ma
 		Texture* pTarget = GetRenderDevice()->CreateDepthStencil(nWidth,nHeight,format,bTypeLess);
 		m_pRenderThread->RC_CreateTexture(pTarget);
 		return pTarget;
+	}
+
+	void RenderSystem::BeginRenderPass(FrameBuffer* pFB)
+	{
+		m_pRenderThread->RC_BeginRenderPass(pFB);
+	}
+
+	void RenderSystem::EndRenderPass(FrameBuffer* pFB)
+	{
+		m_pRenderThread->RC_EndRenderPass(pFB);
 	}
 
 	void RenderSystem::SetFrameBuffer(FrameBuffer* pFB)
@@ -382,6 +385,11 @@ namespace ma
 		m_curViewport = viewPort;
 
 		return preViewPort;
+	}
+
+	FrameBuffer* RenderSystem::GetDefaultFrameBuffer()
+	{
+		return GetRenderDevice()->GetDefaultFrameBuffer();
 	}
 	
 	void RenderSystem::SetShaderProgram(ShaderProgram* pShader)
@@ -723,6 +731,36 @@ namespace ma
 	int	RenderSystem::GetPooIdRT()
 	{
 		return m_nPoolIndexRT;
+	}
+
+	bool RenderSystem::ResizeInstancingBuffer(unsigned numInstances)
+	{
+		//if (!instancingBuffer_ || !dynamicInstancing_)
+		//	return false;
+
+		unsigned oldSize = instancingBuffer_->GetSize() / instancingBuffer_->GetStride();
+		if (numInstances <= oldSize)
+			return true;
+
+		static const int INSTANCING_BUFFER_DEFAULT_SIZE = 1024;
+
+		unsigned newSize = INSTANCING_BUFFER_DEFAULT_SIZE;
+		while (newSize < numInstances)
+			newSize <<= 1;
+
+// 		const PODVector<VertexElement> instancingBufferElements = CreateInstancingBufferElements(numExtraInstancingBufferElements_);
+// 		if (!instancingBuffer_->SetSize(newSize, instancingBufferElements, true))
+// 		{
+// 			URHO3D_LOGERROR("Failed to resize instancing buffer to " + String(newSize));
+// 			// If failed, try to restore the old size
+// 			instancingBuffer_->SetSize(oldSize, instancingBufferElements, true);
+// 			return false;
+// 		}
+
+		instancingBuffer_ = GetRenderSystem()->CreateVertexBuffer(NULL, newSize, sizeof(Matrix3x4));
+
+
+		return true;
 	}
 
 }

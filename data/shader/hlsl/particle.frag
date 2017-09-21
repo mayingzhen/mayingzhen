@@ -30,7 +30,7 @@ cbuffer ObjectPS : register(b5)
 	float DissolveTexScale;
 	float4 DissolveColor;  
 	float DissolveFadeSize;
-}
+};
 
 
 void main(float2 oUV      : TEXCOORD0,

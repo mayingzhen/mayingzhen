@@ -33,7 +33,7 @@ namespace ma
 		m_viewPosVecLS = Vector4::ZERO;
 		m_vkernelRadius = Vector2(2.0f,2.0f);
 
-		m_pShadowMapFB = new FrameBuffer;
+		m_pShadowMapFB = GetRenderDevice()->CreateFrameBuffer();
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
@@ -46,6 +46,7 @@ namespace ma
 		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();	
 		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat,true);
 		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
+		m_pShadowMapFB->Create();
 
 		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
 
@@ -56,6 +57,7 @@ namespace ma
 		m_pShadowMapSampler->SetTexture( m_pShdowMapDepth.get() );
 		m_pShadowMapSampler->SetFilterMode(TFO_SHADOWCOMPARE);
 		m_pShadowMapSampler->SetSRGB(false);
+		
 	}
 
 	SamplerState* ShadowMapFrustum::GetShadowMap() const 
@@ -94,7 +96,11 @@ namespace ma
 				offset.y -= 0.5f / height;
 			}
 
-			scale.y = -scale.y;
+			if (GetRenderDevice()->GetRenderDeviceType() != RenderDevice_VULKAN)
+			{
+				scale.y = -scale.y;
+			}
+
 			texAdjust.setTrans(Vector3(offset.x, offset.y, 0.0f));
 			texAdjust.setScale(Vector3(scale.x, scale.y, 1.0f));
 		}
@@ -354,7 +360,7 @@ namespace ma
 
 		Rectangle rPreViewport = GetRenderSystem()->SetViewPort(m_viewport);
 
-		GetRenderSystem()->SetFrameBuffer(m_pShadowMapFB.get());
+		GetRenderSystem()->BeginRenderPass(m_pShadowMapFB.get());
 		
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.f, 0);
 
@@ -384,6 +390,7 @@ namespace ma
 
 		GetRenderSystem()->SetViewPort(rPreViewport);
 
+		GetRenderSystem()->EndRenderPass(m_pShadowMapFB.get());
 // 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
 // 		{
 // 			GetRenderSystem()->SetDepthBias(0,0);

@@ -66,8 +66,10 @@ namespace ma
 		void		SetIndex(UINT nIndex) { m_index = nIndex; }
 
 		void		SetParent(ConstantBuffer* pCB) { m_pCBPtr = pCB; }
-
 		ConstantBuffer* GetParent() { return m_pCBPtr; }
+
+		void		SetTechnique(Technique* pTech) { m_pTech = pTech; }
+		Technique*	GetTechnique() { return m_pTech; }
 
 		UINT		GetOffset() { return m_nOffSetInCB; }
 		void		SetOffset(UINT nOffset) { m_nOffSetInCB = nOffset;}
@@ -86,6 +88,7 @@ namespace ma
 		ConstantBuffer* m_pCBPtr = NULL;
 		UINT			m_nOffSetInCB = 0;
 		UINT			m_nSizeInCB = 0;
+		Technique*		m_pTech = NULL;
 
 		MethodBinding*  m_pMethod = NULL;
 	};

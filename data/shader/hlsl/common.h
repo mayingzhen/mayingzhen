@@ -16,14 +16,14 @@ cbuffer CameraVS : register(b1)
 	float2 g_vViewport;
 	float2 g_vViewportInv;
 	float4  g_vCameraNearFar;
-}
+};
 
 cbuffer LightPS : register(b3)
 {
 	float3 g_cSkyLight;
 	float3 g_cDirLight;
 	float3 g_vDirLight;
-}
+};
 
 float3 transform_quat(float3 v, float4 quat)
 {

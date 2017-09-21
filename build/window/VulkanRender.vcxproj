@@ -126,6 +126,8 @@
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanPipeline.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanPipeline.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderDevice.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderPass.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderPass.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderState.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanSamplerState.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanShaderProgram.h" />
@@ -142,7 +144,8 @@
     <ClInclude Include="..\..\data\shader\hlsl\gbuffer.h" />
     <ClInclude Include="..\..\data\shader\hlsl\lighting.h" />
     <ClInclude Include="..\..\data\shader\hlsl\prefiltercube.h" />
-    <ClInclude Include="..\..\data\shader\hlsl\shadowmap.h" />
+    <ClInclude Include="..\..\data\shader\hlsl\shadowmap_ps.h" />
+    <ClInclude Include="..\..\data\shader\hlsl\shadowmap_vs.h" />
     <ClInclude Include="..\..\data\shader\hlsl\skin.h" />
     <ClInclude Include="..\..\data\shader\hlsl\windvertex.h" />
   </ItemGroup>

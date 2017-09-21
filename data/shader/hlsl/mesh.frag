@@ -14,7 +14,7 @@ Texture2D u_texture : register(t0);
 SamplerState s_texture : register(s0);
 
 
-// Varyings
+// Varyings	
 struct PS_IN
 {
    float2   v_texCoord : TEXCOORD0;

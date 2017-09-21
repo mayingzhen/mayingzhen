@@ -5,7 +5,7 @@ cbuffer ObjectVS : register(b5)
 {
 	float4 colorMultiply;
 	float billboard_offset;
-}
+};
 
 void main(float4 iPos     : POSITION0,
         float2 iUV		: TEXCOORD0,

@@ -38,6 +38,8 @@ namespace ma
 
 		bool				GetDraw() {return m_bDraw[GetRenderSystem()->CurThreadProcess()];}
 
+		FrameBuffer*		GetShadowMapFrameBuffer() {return m_pShadowMapFB.get();}
+
 	private:
 		void				UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar);
 		void				UpdateFrustum(Camera* pCamera,float fSpiltNear,float fSpiltFar);

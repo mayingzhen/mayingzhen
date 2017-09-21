@@ -2,7 +2,7 @@
 cbuffer ObjectVS : register(b5)
 {
 	float tex_coord_offset[8];
-}
+};
 
 float2 TexCoordFromPos(float4 pos)
 {

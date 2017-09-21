@@ -15,7 +15,11 @@ namespace ma
 	
 		virtual void	CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel);
 
+		//VkImageView		GetDepthStencilView();
+
 		virtual bool	SaveToFile(const char* pszPath);
+
+		void			SetImageView(VkImageView view) { m_view = view; }
 
 	private:
 		virtual	bool			RT_CreateCubeTexture();	
@@ -36,6 +40,8 @@ namespace ma
 		VkDeviceMemory m_deviceMemory;
 
 		VkFormat m_vkformat;
+
+		//VkImageView m_pDepthStencilView = 0;
 	};
 
 

@@ -18,7 +18,7 @@ cbuffer SKIN_INFO : register(b7)
 #else
 	float4x3 boneMatrix[MAX_MAT_NUM_BONES];
 #endif
-}
+};
 
 
 #ifdef BONE_DQ

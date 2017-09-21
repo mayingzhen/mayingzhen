@@ -9,7 +9,7 @@ cbuffer ObjectVS : register(b5)
 	
 	float4x4	g_matWorld;	
 	float4x4	matLightViewProj;
-}
+};
 
 // Attributes
 struct VS_IN

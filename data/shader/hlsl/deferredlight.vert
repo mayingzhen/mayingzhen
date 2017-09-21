@@ -18,7 +18,7 @@ cbuffer ObjectVS : register(b5)
 	
 	float3 pos_extent;
 	float3 pos_center;
-}
+};
 
 
 void main(

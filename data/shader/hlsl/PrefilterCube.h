@@ -4,7 +4,7 @@ cbuffer ObjectVS : register(b5)
 {
 	int face;
 	float roughness;
-}
+};
 
 
 textureCUBE skybox_cube_tex : register(t1);

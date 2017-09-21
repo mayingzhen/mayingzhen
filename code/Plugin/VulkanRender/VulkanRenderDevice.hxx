@@ -4,6 +4,7 @@
 #include "VulkanRenderState.h"
 #include "VulkanSamplerState.h"
 #include "VulkanTechniqueh.h"
+#include "VulkanRenderPass.h"
 
 #include <array>
 
@@ -95,6 +96,11 @@ namespace ma
 	Technique* VulkanRenderDevice::CreateTechnique()
 	{
 		return new VulkanTechnique();
+	}
+
+	FrameBuffer* VulkanRenderDevice::CreateFrameBuffer()
+	{
+		return new VulkanRenderPass();
 	}
 
 	void VulkanRenderDevice::Shoutdown()
@@ -243,7 +249,6 @@ namespace ma
 		CreatePipelineCache();
 
 		SetupFrameBuffer();
-
 	}
 
 	void VulkanRenderDevice::SetupDepthStencil()
@@ -363,7 +368,13 @@ namespace ma
 		renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
 		renderPassInfo.pDependencies = dependencies.data();
 
-		VK_CHECK_RESULT(vkCreateRenderPass(vulkanDevice->logicalDevice, &renderPassInfo, nullptr, &m_renderPass));
+		VkRenderPass renderPass;
+		VK_CHECK_RESULT(vkCreateRenderPass(vulkanDevice->logicalDevice, &renderPassInfo, nullptr, &renderPass));
+
+		m_pDefaultPass = new VulkanRenderPass();
+		m_pDefaultPass->m_impl = renderPass;
+		m_pDefaultPass->m_width = m_width;
+		m_pDefaultPass->m_height = m_height;
 	}
 
 	void VulkanRenderDevice::CreatePipelineCache()
@@ -383,7 +394,7 @@ namespace ma
 		VkFramebufferCreateInfo frameBufferCreateInfo = {};
 		frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 		frameBufferCreateInfo.pNext = NULL;
-		frameBufferCreateInfo.renderPass = m_renderPass;
+		frameBufferCreateInfo.renderPass = m_pDefaultPass->m_impl;
 		frameBufferCreateInfo.attachmentCount = 2;
 		frameBufferCreateInfo.pAttachments = attachments;
 		frameBufferCreateInfo.width = m_width;
@@ -431,31 +442,11 @@ namespace ma
 		res = vkBeginCommandBuffer(m_drawCmdBuffers[m_currentBuffer], &cmd_buf_info);
 		assert(res == VK_SUCCESS);
 
-		VkClearValue clearValues[2];
-		clearValues[0].color = { { 0.025f, 0.025f, 0.025f, 1.0f } };
-		clearValues[0].color = { { 0.25f, 0.25f, 0.25f, 1.0f } };
-		clearValues[1].depthStencil = { 1.0f, 0 };
-
-		VkRenderPassBeginInfo rp_begin = {};
-		rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		rp_begin.pNext = NULL;
-		rp_begin.renderPass = m_renderPass;
-		rp_begin.framebuffer = m_frameBuffers[m_currentBuffer];
-		rp_begin.renderArea.offset.x = 0;
-		rp_begin.renderArea.offset.y = 0;
-		rp_begin.renderArea.extent.width = m_width;
-		rp_begin.renderArea.extent.height = m_height;
-		rp_begin.clearValueCount = 2;
-		rp_begin.pClearValues = clearValues;
-
-		vkCmdBeginRenderPass(m_drawCmdBuffers[m_currentBuffer], &rp_begin, VK_SUBPASS_CONTENTS_INLINE);
-
+		m_pDefaultPass->m_frameBuffer = m_frameBuffers[m_currentBuffer];
 	}
 
 	void VulkanRenderDevice::EndRender()
 	{
-		vkCmdEndRenderPass(m_drawCmdBuffers[m_currentBuffer]);
-
 		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers[m_currentBuffer]));
 
 		// Command buffer to be sumitted to the queue
@@ -477,8 +468,21 @@ namespace ma
 		VK_CHECK_RESULT(vkQueueWaitIdle(m_queue));
 	}
 
+	void VulkanRenderDevice::BeginRenderPass(FrameBuffer* pFB)
+	{
+		VulkanRenderPass* pRenderPass = (VulkanRenderPass*)pFB;
+		pRenderPass->Begine(m_drawCmdBuffers[m_currentBuffer]);
+	}
+
+	void VulkanRenderDevice::EndRenderPass(FrameBuffer* pFB)
+	{
+		VulkanRenderPass* pRenderPass = (VulkanRenderPass*)pFB;
+		pRenderPass->End();
+	}
+
 	void VulkanRenderDevice::SetFrameBuffer(FrameBuffer* pFB)
 	{
+
 	}
 
 	void VulkanRenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
@@ -498,6 +502,11 @@ namespace ma
 	Texture* VulkanRenderDevice::GetDefaultDepthStencil()
 	{
 		return NULL;
+	}
+
+	FrameBuffer* VulkanRenderDevice::GetDefaultFrameBuffer()
+	{
+		return m_pDefaultPass.get();
 	}
 
 	void VulkanRenderDevice::SetViewport(const Rectangle& rect)
@@ -532,71 +541,9 @@ namespace ma
 
 	}
 
-// 	void VulkanRenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
-// 	{
-// 
-// 	}
-// 
-// 
-// 	void VulkanRenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
-// 	{
-// 		
-// 	}
-// 
-// 	void VulkanRenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
-// 	{
-// 		//m_arrSampler[uniform->m_index] = pSampler;
-// 	}
-
 	void VulkanRenderDevice::CommitChanges()
 	{
 	}
-
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
-// 	{
-// 		ASSERT(uniform);
-// 		ASSERT(values);
-// 
-// 		VulkanConstantBuffer* pConstantBuffer = (VulkanConstantBuffer*)(uniform->m_pCBPtr);
-// 
-// 		ASSERT(nSize <= uniform->GetSize());
-// 		pConstantBuffer->SetParameter(uniform->GetOffset(), nSize, values);
-// 	}
-// 
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, int value)
-// 	{
-// 		SetValue(uniform,(const float*)&value,sizeof(int));
-// 	}
-// 
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, float value)
-// 	{
-// 		SetValue(uniform,(const float*)&value,sizeof(float));
-// 	}
-// 
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
-// 	{
-// 		SetValue(uniform,(const float*)&value,sizeof(Vector2));
-// 	}
-// 
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector3& value)
-// 	{
-// 		SetValue(uniform,(const float*)&value,sizeof(Vector3));
-// 	}
-// 
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
-// 	{
-// 		SetValue(uniform,(const float*)values,sizeof(Vector4) * count);
-// 	}
-// 
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
-// 	{
-// 		SetValue(uniform,(const float*)values,sizeof(Matrix4) * count);
-// 	}
-
-// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
-// 	{
-// 		SetValue(uniform,(const float*)&value,12);
-// 	}
 
 	void VulkanRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
@@ -695,6 +642,11 @@ namespace ma
 			out[1][2] = out[1][3] =
 			out[2][1] = 
 			out[3][1] = out[3][2] = 0;
+
+		//Vulkan clip space has inverted Y
+		Matrix4 Clip = Matrix4::IDENTITY;
+		Clip.setScale(Vector3(1, -1, 1));
+		out = Clip * out;
 
 		return out;
 	}

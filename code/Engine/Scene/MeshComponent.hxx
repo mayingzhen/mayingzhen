@@ -37,6 +37,8 @@ namespace ma
 		
 			pXmlLodMeshData = pXmlElem->next_sibling("LodMeshData");
 		}
+		
+		IsReady();
 
 		return true;
 	}
@@ -115,6 +117,36 @@ namespace ma
 	Renderable*	MeshComponent::GetRenderableByIndex(uint32 nLod,UINT index) const
 	{
 		return m_arrLodRenderable[nLod][index].get();
+	}
+
+	void MeshComponent::SetShadowCaster(bool b)
+	{
+		RenderComponent::SetShadowCaster(b);
+		if (b)
+		{
+			for (UINT i = 0; i < m_arrLodRenderable.size(); ++i)
+			{
+				VEC_RENDERABLE& vecRenderable = m_arrLodRenderable[i];
+				MeshData* pMesData = m_vecMesData[i].get();
+
+				for (UINT j = 0; j < vecRenderable.size(); ++j)
+				{
+					MeshRenderable* pMesh = vecRenderable[j].get();
+					SubMaterial* pMaterial = pMesh->GetMaterial();
+					Technique* pTech = pMaterial->GetShadowDepthTechnqiue();
+
+					Vector3 pos_extent = pMesData->GetBoundingAABB().getHalfSize();
+					Vector3 pos_center = pMesData->GetBoundingAABB().getCenter();
+					Vector2 tc_extent = pMesData->GetUVBoundingAABB().getHalfSize();
+					Vector2	tc_center = pMesData->GetUVBoundingAABB().getCenter();
+					Vector4 tc_extent_center = Vector4(tc_extent.x, tc_extent.y, tc_center.x, tc_center.y);
+
+					pTech->SetValue(pTech->GetUniform("pos_extent"), pos_extent);
+					pTech->SetValue(pTech->GetUniform("pos_center"), pos_center);
+					pTech->SetValue(pTech->GetUniform("tc_extent_center"), tc_extent_center);
+				}
+			}
+		}
 	}
 
 	UINT32 MeshComponent::GetSubMaterialCount(uint32 nLod)

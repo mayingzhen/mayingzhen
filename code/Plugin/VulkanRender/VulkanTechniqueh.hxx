@@ -63,6 +63,19 @@ namespace ma
 			}
 		}
 
+		for (uint32 i = 0; i < pShader->GetSamplerCount(); ++i)
+		{
+			Uniform* pUniform = pShader->GetSamplerByIndex(i);
+
+			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
+			pUniformCopy->SetTechnique(this);
+			pUniformCopy->SetIndex(pUniform->GetIndex());
+
+			this->AddSampler(pUniformCopy.get());
+
+			GetParameterManager()->UseDefaultBing(pUniformCopy.get());
+		}
+
 		BindUniform();
 
 		VkResult res;
@@ -143,8 +156,6 @@ namespace ma
 
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
-		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
-
 		{
 			VkDescriptorSetAllocateInfo alloc_info[1];
 			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -157,9 +168,9 @@ namespace ma
 			assert(res == VK_SUCCESS);
 
 			std::vector<VkWriteDescriptorSet> vec_write;
-			for (uint32 i = 0; i < pShader->GetSamplerCount(); ++i)
+			for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
 			{
-				uint32 nIndex = pShader->GetSamplerByIndex(i)->GetIndex();
+				uint32 nIndex = this->GetSamplerByIndex(i)->GetIndex();
 				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)m_arrSampler[nIndex];
 				if (pSampler == NULL)
 					continue;
@@ -194,9 +205,9 @@ namespace ma
 			assert(res == VK_SUCCESS);
 
 			std::vector<VkWriteDescriptorSet> vec_write;
-			for (uint32 i = 0; i < pShader->GetSamplerCount(); ++i)
+			for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
 			{
-				uint32 nIndex = pShader->GetSamplerByIndex(i)->GetIndex();
+				uint32 nIndex = this->GetSamplerByIndex(i)->GetIndex();
 				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)m_arrSampler[nIndex];
 				if (pSampler == NULL)
 					continue;

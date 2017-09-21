@@ -230,10 +230,9 @@ namespace ma
 			}
 		}
 		
-		ShaderProgram* pShader = this->GetShaderProgram();
-		for (uint32 i = 0; i < pShader->GetSamplerCount(); ++i)
+		for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
 		{
-			Uniform* pUniform = pShader->GetSamplerByIndex(i);
+			Uniform* pUniform = this->GetSamplerByIndex(i);
 			
 			pUniform->Bind();
 
@@ -481,6 +480,21 @@ namespace ma
 		return m_vecConstBuffer[eType][nIndex].get();
 	}
 
+	void Technique::AddSampler(Uniform* pUniform)
+	{
+		m_vecPSSamplers.push_back(pUniform);
+	}
+
+	UINT Technique::GetSamplerCount()
+	{
+		return m_vecPSSamplers.size();
+	}
+
+	Uniform* Technique::GetSamplerByIndex(UINT nIndex)
+	{
+		return m_vecPSSamplers[nIndex].get();
+	}
+
 	Uniform* Technique::GetUniform(const char* pszName)
 	{
 		for (UINT i = 0; i < ShaderType_Number; ++i)
@@ -499,6 +513,18 @@ namespace ma
 						return pUniform;
 					}
 				}
+			}
+		}
+
+		for (UINT i = 0; i < m_vecPSSamplers.size(); ++i)
+		{
+			Uniform* pUniform = m_vecPSSamplers[i].get();
+			if (pUniform == NULL)
+				continue;
+
+			if (strcmp(pszName, pUniform->GetName()) == 0)
+			{
+				return pUniform;
 			}
 		}
 
