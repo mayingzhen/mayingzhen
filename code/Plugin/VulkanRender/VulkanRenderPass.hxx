@@ -34,7 +34,7 @@ namespace ma
 		rp_begin.clearValueCount = m_vecClearValues.size();
 		rp_begin.pClearValues = m_vecClearValues.data();
 
-		vkCmdBeginRenderPass(commandBuffer, &rp_begin, VK_SUBPASS_CONTENTS_INLINE);
+		vkCmdBeginRenderPass(commandBuffer, &rp_begin, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS/*VK_SUBPASS_CONTENTS_INLINE*/);
 	}
 
 	void VulkanRenderPass::End()

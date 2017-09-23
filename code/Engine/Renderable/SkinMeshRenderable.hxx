@@ -3,12 +3,11 @@
 
 namespace ma
 {
-		
-	void SkinMeshRenderable::Render(Technique* pTech)
+	void SkinMeshRenderable::PreRender(Technique* pTech)
 	{
-		GetRenderContext()->SetCurRenderObj(this);
-
-		pTech->Bind();
+ 		GetRenderContext()->SetCurRenderObj(this);
+ 
+ 		pTech->Bind();
 
 		if (pTech->GetUniform("boneDQ"))
 		{
@@ -22,7 +21,10 @@ namespace ma
 			UINT32 nNumMatrix = GetSkinMatrixCount();
 			pTech->SetValue(pTech->GetUniform("boneMatrix"), (const Vector4*)pMatrix, nNumMatrix * 3 );
 		}
+	}
 
+	void SkinMeshRenderable::Render(Technique* pTech)
+	{
 		pTech->CommitChanges();
 
 		GetRenderSystem()->DrawRenderable(this,pTech);

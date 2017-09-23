@@ -2,6 +2,7 @@
 
 #include "VulkanSwapChain.h"
 #include "VulkanDevice.h"
+#include "Engine\RenderSystem\RenderQueue.h"
 
 namespace ma
 {
@@ -12,6 +13,7 @@ namespace ma
 	class VulkanShaderProgram;
 	class VulkanVertexDeclaration;
 	class VulkanRenderPass;
+
 
 	class VulkanRenderDevice : public IRenderDevice
 	{
@@ -44,7 +46,7 @@ namespace ma
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
 		virtual void				SetDepthStencil(Texture* pTexture);
 		virtual Texture*			GetDefaultDepthStencil();
-		virtual void				SetViewport(const Rectangle& rect);
+		virtual void				SetViewport(const Rectangle& rect, void* pCommand);
 		virtual Rectangle			GetViewport();
 		virtual FrameBuffer*		GetDefaultFrameBuffer();
 
@@ -53,8 +55,8 @@ namespace ma
 		virtual void				SetRasterizerState(const RasterizerState* pRSState);
 
 		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
-		virtual void				SetIndexBuffer(IndexBuffer* pIB);
-		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB);
+		virtual void				SetIndexBuffer(IndexBuffer* pIB, void* pCommand);
+		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB, void* pCommand);
 
 		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech);
 
@@ -73,6 +75,10 @@ namespace ma
 
 		virtual	void				BeginProfile(const char* pszLale);
 		virtual	void				EndProfile();
+
+		virtual void*				GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType);
+		virtual void				BegineThreadCommand(void* pCmmand);
+		virtual void				EndThreadCommand(void* pCmmand);
 
 		// Help fun
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
@@ -134,18 +140,23 @@ namespace ma
 
 		VkPipelineStageFlags m_submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
-		std::vector<VkCommandBuffer> m_drawCmdBuffers;
+		VkFence m_renderFence = {};
+
+		VkCommandBuffer m_drawCmdBuffers;
+
+		std::vector<VkCommandBuffer> m_threadCmdBuffers;
+		std::vector<VkCommandPool> m_threadcommandPool;
 
 		uint32_t m_currentBuffer = 0;
 
 		//VkRenderPass m_renderPass;
 		RefPtr<VulkanRenderPass> m_pDefaultPass;
 
+		VulkanRenderPass* m_pCurRenderPass = NULL;
+
 		VkPipelineCache m_pipelineCache;
 
 		std::vector<VkFramebuffer> m_frameBuffers;
-
-		//SamplerState* m_arrSampler[MAX_TEXTURE_UNITS];
 
 		struct
 		{
@@ -160,13 +171,9 @@ namespace ma
 
 		//VkPhysicalDeviceFeatures enabledFeatures{};
 		std::vector<const char*> enabledExtensions;
-
-// 		VulkanTexture* m_pDefaultColor;
-// 		VulkanTexture* m_pDefaultDepth;
 	};
 
 	vks::VulkanDevice* GetVulkanDevice();
-	//VkPhysicalDevice GetPhysicalDevice();
 }
 
 

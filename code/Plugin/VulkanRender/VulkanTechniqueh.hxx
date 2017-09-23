@@ -241,7 +241,11 @@ namespace ma
 
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
-		VkCommandBuffer cmdBuffer = pRender->m_drawCmdBuffers[pRender->m_currentBuffer];
+		VkCommandBuffer cmdBuffer = pRender->m_drawCmdBuffers;
+		if (m_pCommand)
+		{
+			cmdBuffer = *(VkCommandBuffer*)m_pCommand;
+		}
 
 		VkDescriptorSet descriptorSets[4];
 		descriptorSets[0] = m_descriptorSets[0];

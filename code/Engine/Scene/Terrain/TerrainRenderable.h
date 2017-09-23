@@ -15,6 +15,8 @@ namespace ma
 
 		~TerrainRenderable();
 
+		void PreRender(Technique* pTech);
+
 		void Render(Technique* pTech);
 
 		void UpdateUniform(TerrainTrunk* pParent);

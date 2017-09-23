@@ -52,12 +52,15 @@ namespace ma
 		pTech->SetValue(pTech->GetUniform("tc_extent_center"), tc_extent_center);
 	}
 
-	void TerrainRenderable::Render(Technique* pTech)
+	void TerrainRenderable::PreRender(Technique* pTech)
 	{
 		GetRenderContext()->SetCurRenderObj(this);
 
 		pTech->Bind();
+	}
 
+	void TerrainRenderable::Render(Technique* pTech)
+	{
 		pTech->CommitChanges();
 
 		GetRenderSystem()->DrawRenderable(this,pTech);

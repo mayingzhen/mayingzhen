@@ -8,6 +8,8 @@ namespace ma
 	class SkinMeshRenderable : public MeshRenderable
 	{
 	public:
+		virtual void					PreRender(Technique* pTech);
+
 		virtual void					Render(Technique* pTech);
 
 		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount);

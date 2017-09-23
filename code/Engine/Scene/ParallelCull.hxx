@@ -250,9 +250,9 @@ namespace ma
 
         uint32 nNumJob = MT::g_pTaskScheduler ? MT::g_pTaskScheduler->GetWorkersCount() : 0;//GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 		
-		if (MT::g_pTaskScheduler && m_vecNode.size() > nNumJob)
+		if (/*MT::g_pTaskScheduler && m_vecNode.size() > nNumJob*/0)
 		{
-			BEGIN_TIME(g_pTaskScheduler);
+			//BEGIN_TIME(g_pTaskScheduler);
 
 			static vector<int> vecVis;
 			vecVis.resize(m_vecNode.size(), false);
@@ -293,7 +293,7 @@ namespace ma
 				}
 			}
 
-			END_TIME(g_pTaskScheduler);
+			//END_TIME(g_pTaskScheduler);
 		}
 		
 		

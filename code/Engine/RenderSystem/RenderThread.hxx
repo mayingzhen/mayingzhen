@@ -383,7 +383,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetViewport(viewPort);
+			GetRenderDevice()->SetViewport(viewPort,NULL);
 			return;
 		}
 
@@ -761,7 +761,7 @@ namespace ma
 				{
 					Rectangle viewPort;
 					ReadData(n,viewPort);
-					GetRenderDevice()->SetViewport(viewPort);
+					GetRenderDevice()->SetViewport(viewPort,NULL);
 				}
 				break;
 			case  eRC_ClearBuffer:

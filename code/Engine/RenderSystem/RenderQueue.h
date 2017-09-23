@@ -6,13 +6,21 @@
 namespace ma
 {
 	class BatchRenderable;
+	class Renderable;
 
 	enum RenderListType
 	{
 		RL_Mesh,
-		RL_MeshTrans,
 		RL_Terrain,
+		RL_MeshTrans,
 		RL_Count,
+	};
+
+	enum RenderPassType
+	{
+		RP_ShadowDepth,
+		RP_Shading,
+		RP_Count,
 	};
 
 	class RenderQueue
@@ -24,7 +32,7 @@ namespace ma
 
 		void					AddRenderObj(RenderListType eRLType,Renderable* pRenderObj);	
 
-		void					RenderObjList(RenderListType eRLType);
+		void					RenderObjList(RenderListType eRLType, RenderPassType eRPType);
 
 		void					Clear();
 

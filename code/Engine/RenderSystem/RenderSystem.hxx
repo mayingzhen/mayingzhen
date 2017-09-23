@@ -282,14 +282,14 @@ namespace ma
 
 		//if (m_pCurVB != pRenderable->m_pVertexBuffer)
 		{
-			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get());
+			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get(),pRenderable->m_pCommand);
 
 			m_pCurVB = pRenderable->m_pVertexBuffer.get();
 		}
 
 		//if (m_pCurIB != pRenderable->m_pIndexBuffer)
 		{
-			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
+			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get(), pRenderable->m_pCommand);
 
 			m_pCurIB = pRenderable->m_pIndexBuffer.get();
 		}

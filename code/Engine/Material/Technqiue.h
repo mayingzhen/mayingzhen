@@ -81,6 +81,8 @@ namespace ma
 		void				SetRenderPass(FrameBuffer* pRenderPass) { m_pRenderPass = pRenderPass; }
 		FrameBuffer*		GetRenderPass() { return m_pRenderPass; }
 
+		void				SetCommamd(void* p) { m_pCommand = p; }
+
 	protected:
 		void				BindUniform();
 
@@ -112,6 +114,8 @@ namespace ma
 
 	protected:
 		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];
+
+		void*							m_pCommand = NULL;
 	};
 	
 	RefPtr<Technique> CreateTechnique();

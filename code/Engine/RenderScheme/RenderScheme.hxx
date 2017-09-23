@@ -137,12 +137,12 @@ namespace ma
 
 		{
 			RENDER_PROFILE(RL_Mesh);
-			pRenderQueue->RenderObjList(RL_Mesh);
+			pRenderQueue->RenderObjList(RL_Mesh,RP_Shading);
 		}
 
 		{
 			RENDER_PROFILE(RL_Terrain);
-			pRenderQueue->RenderObjList(RL_Terrain);
+			pRenderQueue->RenderObjList(RL_Terrain,RP_Shading);
 		}
 
 		if (m_pDeferredShadingPass || m_pDeferredShadowPass)

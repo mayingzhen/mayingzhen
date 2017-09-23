@@ -22,12 +22,15 @@ namespace ma
 		return m_matWorld[index];
 	}
 
+	void Renderable::PreRender(Technique* pTech)
+	{
+ 		GetRenderContext()->SetCurRenderObj(this);
+ 
+ 		pTech->Bind();
+	}
+
 	void Renderable::Render(Technique* pTech)
 	{
-		GetRenderContext()->SetCurRenderObj(this);
-
-		pTech->Bind();
-
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 

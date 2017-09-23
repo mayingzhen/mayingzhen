@@ -8,12 +8,15 @@ namespace ma
 
 	}
 
-	void MeshRenderable::Render(Technique* pTech)
+	void MeshRenderable::PreRender(Technique* pTech)
 	{
 		GetRenderContext()->SetCurRenderObj(this);
+ 
+ 		pTech->Bind();
+	}
 
-		pTech->Bind();
-
+	void MeshRenderable::Render(Technique* pTech)
+	{
 		pTech->CommitChanges();
 
 		GetRenderSystem()->DrawRenderable(this,pTech);

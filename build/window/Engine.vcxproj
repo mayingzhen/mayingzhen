@@ -206,6 +206,8 @@
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexBuffer.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.hxx" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\ParallelCommad.h" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\ParallelCommad.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.h" />

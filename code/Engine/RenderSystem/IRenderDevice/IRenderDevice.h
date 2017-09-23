@@ -2,6 +2,7 @@
 #define  _IRenderDevice__H__
 
 #include "Engine/ImageData/PixelFormat.h"
+#include "../RenderQueue.h"
 
 namespace ma
 {
@@ -44,7 +45,6 @@ namespace ma
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0) = 0;
 		virtual	void				SetDepthStencil(Texture* pTexture) = 0;
 		virtual	Texture*			GetDefaultDepthStencil() = 0;
-		virtual void				SetViewport(const Rectangle& rect) = 0;
 		virtual Rectangle			GetViewport() = 0;
 		virtual FrameBuffer*		GetDefaultFrameBuffer() = 0;
 
@@ -53,8 +53,8 @@ namespace ma
 		virtual void				SetRasterizerState(const RasterizerState* pRSState) = 0;
 		
 		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec) = 0;
-		virtual void				SetIndexBuffer(IndexBuffer* pIB) = 0;
-		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB) = 0;
+		virtual void				SetIndexBuffer(IndexBuffer* pIB, void* pCommand) = 0;
+		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB, void* pCommand) = 0;
 
 		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech) = 0;
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s) = 0;
@@ -68,7 +68,7 @@ namespace ma
 
 		virtual	void				BeginProfile(const char* pszLale) = 0;
 		virtual	void				EndProfile() = 0;
-		
+
 	public:
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
@@ -93,6 +93,13 @@ namespace ma
 
 		//CheckDevice
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage) = 0;
+
+		virtual void*				GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType) = 0;
+
+		virtual void				BegineThreadCommand(void* pCmmand) = 0;
+		virtual void				EndThreadCommand(void* pCmmand) = 0;
+
+		virtual void				SetViewport(const Rectangle& rect, void* pCommand) = 0;
 
 		friend class RenderSystem;
 		friend class RenderThread;

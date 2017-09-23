@@ -33,12 +33,16 @@ namespace ma
 		m_viewPosVecLS = Vector4::ZERO;
 		m_vkernelRadius = Vector2(2.0f,2.0f);
 
+		m_pRenderQueue[0] = new RenderQueue();
+		m_pRenderQueue[1] = new RenderQueue();
+
 		m_pShadowMapFB = GetRenderDevice()->CreateFrameBuffer();
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
 	{
-
+		SAFE_DELETE(m_pRenderQueue[0]);
+		SAFE_DELETE(m_pRenderQueue[1]);
 	}
 
 	void ShadowMapFrustum::CreateShadowMap(int nSize)
@@ -113,7 +117,9 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		m_arrRenderable[GetRenderSystem()->CurThreadFill()].clear();
+		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadFill()];
+		pRenderQueue->Clear();
+		//m_arrRenderable[GetRenderSystem()->CurThreadFill()].clear();
 
 		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
 		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
@@ -131,7 +137,7 @@ namespace ma
 			uint32 nLod = pRenderComp->GetLodIndex();
 			for (UINT i = 0; i < pRenderComp->GetRenderableCount(nLod); ++i)
 			{
-				m_arrRenderable[GetRenderSystem()->CurThreadFill()].push_back(pRenderComp->GetRenderableByIndex(nLod,i));
+				pRenderQueue->AddRenderObj(RL_Mesh,pRenderComp->GetRenderableByIndex(nLod,i));
 			}
 		}
 	}
@@ -368,6 +374,9 @@ namespace ma
 		float fSlopeScaleBias = m_fSlopeScaleBias[GetRenderSystem()->CurThreadProcess()];
 		//GetRenderSystem()->SetDepthBias(fConstantBias,fSlopeScaleBias);
 
+		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];
+		pRenderQueue->RenderObjList(RL_Mesh,RP_ShadowDepth);
+		/*
 		for (UINT i = 0; i <  m_arrRenderable[GetRenderSystem()->CurThreadProcess()].size(); ++i)
 		{
 			Renderable* pRenderObj = m_arrRenderable[GetRenderSystem()->CurThreadProcess()][i];
@@ -387,8 +396,9 @@ namespace ma
 
 			 pRenderObj->Render(pTech);
 		}
+		*/
 
-		GetRenderSystem()->SetViewPort(rPreViewport);
+		//GetRenderSystem()->SetViewPort(rPreViewport);
 
 		GetRenderSystem()->EndRenderPass(m_pShadowMapFB.get());
 // 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
@@ -399,7 +409,7 @@ namespace ma
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)
 	{
-		m_arrRenderable[GetRenderSystem()->CurThreadFill()].clear();
+		m_pRenderQueue[GetRenderSystem()->CurThreadFill()]->Clear();
 		m_casterAABB.setNull();
 		m_arrCaster.clear();	
 		m_sceneAABB.setNull();

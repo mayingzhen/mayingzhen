@@ -7,6 +7,8 @@
 #include "VulkanRenderPass.h"
 
 #include <array>
+#include <thread>
+#include "Engine\RenderSystem\RenderQueue.h"
 
 namespace ma
 {
@@ -193,6 +195,8 @@ namespace ma
 
 		vkGetDeviceQueue(vulkanDevice->logicalDevice, vulkanDevice->queueFamilyIndices.graphics, 0, &m_queue);
 
+		VkFenceCreateInfo fenceCreateInfo = vks::initializers::fenceCreateInfo(VK_FLAGS_NONE);
+		vkCreateFence(vulkanDevice->logicalDevice, &fenceCreateInfo, NULL, &m_renderFence);
 
 // 		// Create synchronization objects
  		//VkSemaphoreCreateInfo semaphoreCreateInfo = vks::initializers::semaphoreCreateInfo();
@@ -228,15 +232,34 @@ namespace ma
 		m_swapChain.create(&m_width, &m_height, false);
 
 		// createCommandBuffers
-		m_drawCmdBuffers.resize(m_swapChain.imageCount);
-
 		VkCommandBufferAllocateInfo cmdBufAllocateInfo =
 			vks::initializers::commandBufferAllocateInfo(
 				vulkanDevice->commandPool,
 				VK_COMMAND_BUFFER_LEVEL_PRIMARY,
-				static_cast<uint32_t>(m_drawCmdBuffers.size()));
+				1);
 
-		VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, m_drawCmdBuffers.data()));
+		VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, &m_drawCmdBuffers));
+
+		UINT numThreads = std::thread::hardware_concurrency() - 1;
+
+		m_threadcommandPool.resize(numThreads * RL_Count * RP_Count);
+		m_threadCmdBuffers.resize(numThreads * RL_Count * RP_Count);
+		for (UINT i = 0; i < m_threadcommandPool.size(); ++i)
+		{
+			// Create one command pool for each thread
+			VkCommandPoolCreateInfo cmdPoolInfo = vks::initializers::commandPoolCreateInfo();
+			cmdPoolInfo.queueFamilyIndex = m_swapChain.queueNodeIndex;
+			cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+			VK_CHECK_RESULT(vkCreateCommandPool(vulkanDevice->logicalDevice, &cmdPoolInfo, nullptr, &m_threadcommandPool[i]));
+
+			// Generate secondary command buffers for each thread
+			VkCommandBufferAllocateInfo secondaryCmdBufAllocateInfo =
+				vks::initializers::commandBufferAllocateInfo(
+					m_threadcommandPool[i],
+					VK_COMMAND_BUFFER_LEVEL_SECONDARY,
+					1);
+			VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &secondaryCmdBufAllocateInfo, &m_threadCmdBuffers[i]));
+		}
 
 		vks::debugmarker::setup(vulkanDevice->logicalDevice);
 
@@ -439,7 +462,7 @@ namespace ma
 		cmd_buf_info.flags = 0;
 		cmd_buf_info.pInheritanceInfo = NULL;
 
-		res = vkBeginCommandBuffer(m_drawCmdBuffers[m_currentBuffer], &cmd_buf_info);
+		res = vkBeginCommandBuffer(m_drawCmdBuffers, &cmd_buf_info);
 		assert(res == VK_SUCCESS);
 
 		m_pDefaultPass->m_frameBuffer = m_frameBuffers[m_currentBuffer];
@@ -447,11 +470,11 @@ namespace ma
 
 	void VulkanRenderDevice::EndRender()
 	{
-		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers[m_currentBuffer]));
+		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers));
 
 		// Command buffer to be sumitted to the queue
  		m_submitInfo.commandBufferCount = 1;
- 		m_submitInfo.pCommandBuffers = &m_drawCmdBuffers[m_currentBuffer];
+ 		m_submitInfo.pCommandBuffers = &m_drawCmdBuffers;
 // 		m_submitInfo.waitSemaphoreCount = 1;
 // 		m_submitInfo.pWaitSemaphores = &m_presentComplete;
 // 		m_submitInfo.signalSemaphoreCount = 1;
@@ -461,7 +484,16 @@ namespace ma
 		//m_submitInfo.pWaitDstStageMask = &stageFlags;
 
 		// Submit to queue
-		VK_CHECK_RESULT(vkQueueSubmit(m_queue, 1, &m_submitInfo, VK_NULL_HANDLE));
+		VK_CHECK_RESULT(vkQueueSubmit(m_queue, 1, &m_submitInfo, m_renderFence));
+
+		// Wait for fence to signal that all command buffers are ready
+		VkResult fenceRes;
+		do
+		{
+			fenceRes = vkWaitForFences(vulkanDevice->logicalDevice, 1, &m_renderFence, VK_TRUE, 100000000);
+		} while (fenceRes == VK_TIMEOUT);
+		VK_CHECK_RESULT(fenceRes);
+		vkResetFences(vulkanDevice->logicalDevice, 1, &m_renderFence);
 
 		VK_CHECK_RESULT(m_swapChain.queuePresent(m_queue, m_currentBuffer, m_renderComplete));
 
@@ -471,12 +503,21 @@ namespace ma
 	void VulkanRenderDevice::BeginRenderPass(FrameBuffer* pFB)
 	{
 		VulkanRenderPass* pRenderPass = (VulkanRenderPass*)pFB;
-		pRenderPass->Begine(m_drawCmdBuffers[m_currentBuffer]);
+		pRenderPass->Begine(m_drawCmdBuffers);
+
+		m_pCurRenderPass = pRenderPass;
 	}
 
 	void VulkanRenderDevice::EndRenderPass(FrameBuffer* pFB)
 	{
 		VulkanRenderPass* pRenderPass = (VulkanRenderPass*)pFB;
+		bool bShadowDepthPass = pRenderPass->m_arrColor[0] == NULL  && pRenderPass->m_pDepthStencil != NULL;
+		RenderPassType eRPType = bShadowDepthPass ? RP_ShadowDepth : RP_Shading;
+		UINT nCount = bShadowDepthPass ? 1 * 3 : 2 * 3;
+		UINT nOffset = eRPType * 3 * RL_Count;
+
+		vkCmdExecuteCommands(m_drawCmdBuffers, nCount, m_threadCmdBuffers.data() + nOffset);
+
 		pRenderPass->End();
 	}
 
@@ -509,13 +550,19 @@ namespace ma
 		return m_pDefaultPass.get();
 	}
 
-	void VulkanRenderDevice::SetViewport(const Rectangle& rect)
+	void VulkanRenderDevice::SetViewport(const Rectangle& rect, void* pCommand)
 	{
+		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
+		if (pCommand)
+		{
+			cmdBuffer = *(VkCommandBuffer*)pCommand;
+		}
+
 		VkViewport viewport = vks::initializers::viewport((float)rect.width(), (float)rect.height(), 0.0f, 1.0f);
-		vkCmdSetViewport(m_drawCmdBuffers[m_currentBuffer], 0, 1, &viewport);
+		vkCmdSetViewport(cmdBuffer, 0, 1, &viewport);
 
 		VkRect2D scissor = vks::initializers::rect2D((int)rect.width(), (int)rect.height(), 0, 0);
-		vkCmdSetScissor(m_drawCmdBuffers[m_currentBuffer], 0, 1, &scissor);
+		vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
 	}
 
 	Rectangle VulkanRenderDevice::GetViewport()
@@ -549,19 +596,31 @@ namespace ma
 	{
 	}
 
-	void VulkanRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
+	void VulkanRenderDevice::SetIndexBuffer(IndexBuffer* pIB,void* pCommand)
 	{
+		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
+		if (pCommand)
+		{
+			cmdBuffer = *(VkCommandBuffer*)pCommand;
+		}
+
 		VulkanIndexBuffer* pIml = (VulkanIndexBuffer*)pIB;
-		vkCmdBindIndexBuffer(m_drawCmdBuffers[m_currentBuffer], pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
+		vkCmdBindIndexBuffer(cmdBuffer, pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 	}
 
-	void VulkanRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
+	void VulkanRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB, void* pCommand)
 	{
  		VulkanVertexBuffer* pIml = (VulkanVertexBuffer*)pVB;
 
 		const VkDeviceSize offsets[1] = { 0 };
 
-		vkCmdBindVertexBuffers(m_drawCmdBuffers[m_currentBuffer], 0, 1, &pIml->vertexBuffer.buffer, offsets);
+		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
+		if (pCommand)
+		{
+			cmdBuffer = *(VkCommandBuffer*)pCommand;
+		}
+
+		vkCmdBindVertexBuffers(cmdBuffer, 0, 1, &pIml->vertexBuffer.buffer, offsets);
 	}
 
 	void VulkanRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
@@ -574,7 +633,44 @@ namespace ma
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 
-		vkCmdDrawIndexed(m_drawCmdBuffers[m_currentBuffer], nIndexCount, 1, 0, nIndexStart, 0);
+		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
+		if (pRenderable->m_pCommand)
+		{
+			cmdBuffer = *(VkCommandBuffer*)pRenderable->m_pCommand;
+		}
+
+		vkCmdDrawIndexed(cmdBuffer, nIndexCount, 1, 0, nIndexStart, 0);
+	}
+
+	void* VulkanRenderDevice::GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType)
+	{
+		UINT nAt = (3 * RL_Count) * eRPType + eRLType * 3 + nIndex;
+		return &m_threadCmdBuffers[nAt];
+	}
+
+	void VulkanRenderDevice::BegineThreadCommand(void* pCmmand)
+	{
+		VkCommandBuffer cmdBuffer = *(VkCommandBuffer*)pCmmand;
+
+		// Inheritance info for the secondary command buffers
+		VkCommandBufferInheritanceInfo inheritanceInfo = vks::initializers::commandBufferInheritanceInfo();
+		inheritanceInfo.renderPass = m_pCurRenderPass->m_impl;
+		// Secondary command buffer also use the currently active framebuffer
+		inheritanceInfo.framebuffer = m_pCurRenderPass->m_frameBuffer;
+
+		VkCommandBufferBeginInfo commandBufferBeginInfo = vks::initializers::commandBufferBeginInfo();
+		commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT;
+		commandBufferBeginInfo.pInheritanceInfo = &inheritanceInfo;
+
+		VK_CHECK_RESULT(vkBeginCommandBuffer(cmdBuffer, &commandBufferBeginInfo));
+
+	}
+
+	void VulkanRenderDevice::EndThreadCommand(void* pCmmand)
+	{
+		VkCommandBuffer cmdBuffer = *(VkCommandBuffer*)pCmmand;
+
+		VK_CHECK_RESULT(vkEndCommandBuffer(cmdBuffer));
 	}
 
 	void VulkanRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
