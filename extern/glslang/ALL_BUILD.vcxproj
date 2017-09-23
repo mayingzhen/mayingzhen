@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{3E8A2856-F4AD-3AD3-8F2F-E28887B81F09}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.8\Modules\GNUInstallDirs.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTest.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestUseLaunchers.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestTargets.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\DartConfiguration.tcl.in;D:\VulkanSDK\1.0.49.0\glslang\ChooseMSVCCRT.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.8\Modules\GNUInstallDirs.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTest.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestUseLaunchers.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestTargets.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\DartConfiguration.tcl.in;D:\VulkanSDK\1.0.49.0\glslang\ChooseMSVCCRT.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.8\Modules\GNUInstallDirs.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTest.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestUseLaunchers.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestTargets.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\DartConfiguration.tcl.in;D:\VulkanSDK\1.0.49.0\glslang\ChooseMSVCCRT.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/VulkanSDK/1.0.49.0/glslang/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.8\Modules\GNUInstallDirs.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTest.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestUseLaunchers.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CTestTargets.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\DartConfiguration.tcl.in;D:\VulkanSDK\1.0.49.0\glslang\ChooseMSVCCRT.cmake;D:\VulkanSDK\1.0.49.0\glslang\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\VulkanSDK\1.0.49.0\glslang\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\ZERO_CHECK.vcxproj">
+      <Project>D3BCD2DB-9892-369A-9740-32A63E766CB6</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\HLSL.vcxproj">
+      <Project>1B77E603-151B-3769-9B1B-04CF8956CD94</Project>
+      <Name>HLSL</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\OGLCompilersDLL\OGLCompiler.vcxproj">
+      <Project>79E74BC0-CEC2-3848-A0C9-3E81E4E67C5C</Project>
+      <Name>OGLCompiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\glslang\OSDependent\Windows\OSDependent.vcxproj">
+      <Project>82099658-A69D-34BC-9C2A-E866B71189B9</Project>
+      <Name>OSDependent</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\SPIRV\SPIRV.vcxproj">
+      <Project>9852F7D4-11D4-3487-AE9D-527AE7042EB4</Project>
+      <Name>SPIRV</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\SPIRV\SPVRemapper.vcxproj">
+      <Project>DFBCFA73-7058-3E8C-A003-A4778B81E3A4</Project>
+      <Name>SPVRemapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\glslang\glslang.vcxproj">
+      <Project>619B2787-56ED-3869-89D6-B0E9A3D6B8CE</Project>
+      <Name>glslang</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\StandAlone\glslang-default-resource-limits.vcxproj">
+      <Project>30CF7208-8DD5-3121-B448-9E8D009AF6EF</Project>
+      <Name>glslang-default-resource-limits</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\StandAlone\glslangValidator.vcxproj">
+      <Project>5367CFC4-5A62-3A8C-89FD-712F95AD357D</Project>
+      <Name>glslangValidator</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\StandAlone\spirv-remap.vcxproj">
+      <Project>FBB24486-49C0-3823-B954-692008546C56</Project>
+      <Name>spirv-remap</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -115,3 +115,6 @@
 /Bin/Release/GLESRender.lib
 /Bin/Release/MonoScript.lib
 /ios_res
+/extern/Debug
+obj
+ShaderCach
