@@ -17,9 +17,9 @@ namespace ma
 
 	void MeshRenderable::Render(Technique* pTech)
 	{
-		pTech->CommitChanges();
+		//pTech->CommitChanges();
 
-		GetRenderSystem()->DrawRenderable(this,pTech);
+		//GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 }
 

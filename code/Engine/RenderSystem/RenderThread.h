@@ -30,21 +30,21 @@ namespace ma
 		eRC_DrawRenderable,
 		eRC_CreateShader,
 		eRC_CreateTexture,
- 		eRC_ClearBuffer,
-		eRC_SetFrameBuffer,
-		eRC_BeginRenderPass,
-		eRC_EndRenderPass,
- 		eRC_SetRenderTarget,
-		eRC_SetDepthStencil,
- 		eRC_SetViewPort,
-		eRC_SetShader,
+ 		//eRC_ClearBuffer,
+		//eRC_SetFrameBuffer,
+// 		eRC_BeginRenderPass,
+// 		eRC_EndRenderPass,
+//  		eRC_SetRenderTarget,
+// 		eRC_SetDepthStencil,
+//  		eRC_SetViewPort,
+// 		eRC_SetShader,
 
 		// RenderState
-		eRC_SetBlendState,
-		eRC_SetDepthStencilState,
-		eRC_SetRasterizerState,
-
-		eRC_SetVertexDeclation,
+// 		eRC_SetBlendState,
+// 		eRC_SetDepthStencilState,
+// 		eRC_SetRasterizerState,
+// 
+// 		eRC_SetVertexDeclation,
 
 		// Unfiform
 // 		eRC_SetInt,
@@ -137,20 +137,20 @@ namespace ma
 		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
-		void	RC_SetShaderProgram(ShaderProgram* pShader);
-		void	RC_BeginRenderPass(FrameBuffer* pFB);
-		void	RC_EndRenderPass(FrameBuffer* pFB);
-		void	RC_SetFrameBuffer(FrameBuffer* pFB);
-		void	RC_SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
-		void	RC_SetDepthStencil(Texture* pTexture);
-		void	RC_SetViewPort(const Rectangle& viewPort);
-		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
-
-		void	RC_SetBlendState(const BlendState* pBlendState);
-		void	RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef);
-		void	RC_SetRasterizerState(const RasterizerState* pRSState);
-
-		void	RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl);
+// 		void	RC_SetShaderProgram(ShaderProgram* pShader);
+// 		void	RC_BeginRenderPass(FrameBuffer* pFB);
+// 		void	RC_EndRenderPass(FrameBuffer* pFB);
+// 		void	RC_SetFrameBuffer(FrameBuffer* pFB);
+// 		void	RC_SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
+// 		void	RC_SetDepthStencil(Texture* pTexture);
+// 		void	RC_SetViewPort(const Rectangle& viewPort);
+// 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
+// 
+// 		void	RC_SetBlendState(const BlendState* pBlendState);
+// 		void	RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef);
+// 		void	RC_SetRasterizerState(const RasterizerState* pRSState);
+// 
+// 		void	RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl);
 
 // 		void	RC_SetInt(Uniform* uniform, int value);
 // 		void	RC_SetFloat(Uniform* uniform, float value);

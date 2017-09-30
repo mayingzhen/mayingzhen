@@ -71,8 +71,10 @@ namespace ma
 		m_eResState = ResLoadIng;
 
 		m_pDataStream = GetArchiveMananger()->ReadAll( m_sResPath.c_str() );
+        ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 		{
+            
 			m_eResState = ResLoadError;
 			return false;
 		}

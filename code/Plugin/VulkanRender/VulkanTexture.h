@@ -40,8 +40,6 @@ namespace ma
 		VkDeviceMemory m_deviceMemory;
 
 		VkFormat m_vkformat;
-
-		//VkImageView m_pDepthStencilView = 0;
 	};
 
 

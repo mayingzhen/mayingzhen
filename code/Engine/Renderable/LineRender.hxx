@@ -37,7 +37,7 @@ namespace ma
         
 		gpLinTech->SetDepthStencilState(pDSSate.get());
         
-		gpLinTech->SetRenderPass(GetRenderSystem()->GetDefaultFrameBuffer());
+		gpLinTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
         gpLinTech->StreamComplete();
         
 

@@ -15,7 +15,7 @@ namespace ma
 
 		//virtual void		Bind();
 
-		virtual void		CommitChanges();
+		virtual void		CommitChanges(RenderCommand* pCmd);
 
 		void				RT_StreamComplete();
 

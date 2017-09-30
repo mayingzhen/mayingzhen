@@ -9,8 +9,6 @@ namespace ma
 		VulkanIndexBuffer();
 
 		~VulkanIndexBuffer();
-	
-		//IVulkanBuffer * GetD3DIndexBuffer() ;
 
 	private:
 		virtual void*	LockImpl(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
@@ -20,8 +18,7 @@ namespace ma
 		virtual void	RT_StreamComplete();
 
 	public:
-	
-		//IVulkanBuffer*    mVulkanIndexBuffer;	
+
 		vks::Buffer indexBuffer;
 	};
 

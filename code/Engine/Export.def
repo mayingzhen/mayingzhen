@@ -32,7 +32,6 @@ EXPORTS
 ?GetArchiveByIndex@ArchiveManager@ma@@QAEPAVArchive@2@I@Z
 ??0MemoryStream@ma@@QAE@PAXI_N@Z
 ?Reset@MeshBatch@ma@@QAEXXZ
-?ClearBuffer@RenderSystem@ma@@QAEX_N00ABVColourValue@2@MH@Z
 ?Shoutdown@RenderSystem@ma@@QAEXXZ
 ?Update@RenderSystem@ma@@QAEXXZ
 ?UpdateFrame@Time@ma@@QAEXXZ
@@ -235,7 +234,6 @@ EXPORTS
 ??1Technique@ma@@UAE@XZ
 ?Bind@Technique@ma@@UAEXXZ
 ?UnBind@Technique@ma@@UAEXXZ
-?CommitChanges@Technique@ma@@UAEXXZ
 ?Import@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
 ?Export@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z
 ?GetPixelBox@ImageData@ma@@QBE?AVPixelBox@2@II@Z
@@ -264,7 +262,6 @@ EXPORTS
 ?BindUniform@Technique@ma@@IAEXXZ
 ?SetName@ConstantBuffer@ma@@QAEXPBD@Z
 ?GetName@ConstantBuffer@ma@@QAEPBDXZ
-?Create@FrameBuffer@ma@@UAEXXZ
 ?AddSampler@Technique@ma@@QAEXPAVUniform@2@@Z
 ?GetSamplerCount@Technique@ma@@QAEIXZ
 ?GetSamplerByIndex@Technique@ma@@QAEPAVUniform@2@I@Z

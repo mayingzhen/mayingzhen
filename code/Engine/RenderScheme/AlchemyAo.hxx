@@ -39,11 +39,11 @@ namespace ma
 	{
 		// ssao
 		{
-			FrameBuffer fb;
-			fb.AttachColor(0,mTexSSAO.get());
-			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
-			GetRenderSystem()->SetFrameBuffer(&fb);
-			ScreenQuad::Render(m_pAlchemyAo.get());
+// 			FrameBuffer fb;
+// 			fb.AttachColor(0,mTexSSAO.get());
+// 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+// 			GetRenderSystem()->SetFrameBuffer(&fb);
+// 			ScreenQuad::Render(m_pAlchemyAo.get());
 		}
 
 		// blur

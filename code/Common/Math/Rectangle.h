@@ -35,6 +35,8 @@ namespace ma
 			bottom = fBottom;
 		}
 
+		float offsetX() const { return left; }
+		float offsetY() const { return top; }
 		float width() const {return right - left;}
 		float height() const {return bottom - top;}
 

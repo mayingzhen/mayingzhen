@@ -131,24 +131,24 @@ namespace ma
 	{
 		RENDER_PROFILE(MeasureLuminance);
 
-		GetRenderSystem()->SetRenderTarget(0,m_lumTexs[0].get());
-
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
+// 		GetRenderSystem()->SetRenderTarget(0,m_lumTexs[0].get());
+// 
+// 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		ScreenQuad::Render(m_SumLogTech.get());
 
 		for (int i = 1; i < NUM_SUM_LUM; ++i)
 		{
-			GetRenderSystem()->SetRenderTarget(0,m_lumTexs[i].get());
+			//GetRenderSystem()->SetRenderTarget(0,m_lumTexs[i].get());
 
-			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
+			//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 			ScreenQuad::Render(m_SumLumIterativeTech[i].get());
 		}
 
-		GetRenderSystem()->SetRenderTarget(0,m_lumTexs[NUM_SUM_LUM].get());
+		//GetRenderSystem()->SetRenderTarget(0,m_lumTexs[NUM_SUM_LUM].get());
 		
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
+		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		ScreenQuad::Render(m_SumLumFinal.get());
 	}
@@ -162,9 +162,9 @@ namespace ma
 		m_AdaptedTex[AdaptedTex_LAST] = m_AdaptedTex[AdaptedTex_CUR];
 		m_AdaptedTex[AdaptedTex_CUR] = pTexSwap;	
 
-		GetRenderSystem()->SetRenderTarget(0,m_AdaptedTex[AdaptedTex_CUR].get());
+		//GetRenderSystem()->SetRenderTarget(0,m_AdaptedTex[AdaptedTex_CUR].get());
 
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
+		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		ScreenQuad::Render(m_AdaptedLumTech.get());
 
@@ -174,17 +174,17 @@ namespace ma
 	{
 		RENDER_PROFILE(BrightPassDownSample);
 
-		GetRenderSystem()->SetRenderTarget(0,m_DownSampleTex[0].get());
+		//GetRenderSystem()->SetRenderTarget(0,m_DownSampleTex[0].get());
 
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
+		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
 		ScreenQuad::Render(m_BrightPassTech.get());
 
 		for (int i = 0; i < NUM_DownSamplers; ++i)
 		{
-			GetRenderSystem()->SetRenderTarget(0,m_DownSampleTex[i + 1].get());
+			//GetRenderSystem()->SetRenderTarget(0,m_DownSampleTex[i + 1].get());
 
-			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
+			//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
 			ScreenQuad::Render(m_DownSamplersTech[i].get());
 		}
@@ -205,8 +205,8 @@ namespace ma
 	{
 		RENDER_PROFILE(ToneMapping);
 
-		if (m_pOutputTex)
-			GetRenderSystem()->SetRenderTarget(0,m_pOutputTex.get());
+// 		if (m_pOutputTex)
+// 			GetRenderSystem()->SetRenderTarget(0,m_pOutputTex.get());
 
 		ScreenQuad::Render(m_ToneMappingTech.get());
 	}

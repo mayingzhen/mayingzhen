@@ -90,7 +90,7 @@ namespace ma
 
 		if (m_pShadingTech)
 		{
-			m_pShadingTech->SetRenderPass(GetRenderSystem()->GetDefaultFrameBuffer());
+			m_pShadingTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
 			m_pShadingTech->StreamComplete();
 		}
 

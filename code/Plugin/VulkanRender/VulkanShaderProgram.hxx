@@ -289,8 +289,10 @@ namespace ma
 			moduleCreateInfo.flags = 0;
 			moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(UINT);
 			moduleCreateInfo.pCode = vtx_spv.data();
-			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[0].module);
-			assert(res == VK_SUCCESS);
+			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[0].module);
+
+			assert(res == VK_SUCCESS);
+
 		}
 
 		// PS
@@ -313,8 +315,10 @@ namespace ma
 			moduleCreateInfo.flags = 0;
 			moduleCreateInfo.codeSize = fsh_spv.size() * sizeof(unsigned int);
 			moduleCreateInfo.pCode = fsh_spv.data();
-			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[1].module);
-			assert(res == VK_SUCCESS);
+			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[1].module);
+
+			assert(res == VK_SUCCESS);
+
 		}
 
 		return;
@@ -371,23 +375,6 @@ namespace ma
 
 			this->AddSampler(pUniform.get());
 		}
-	}
-
-	void VulkanShaderProgram::RT_SetShader()
-	{
-	}
-
-	void VulkanShaderProgram::CommitChanges()
-	{
-// 		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
-// 		{
-// 			m_vecVSConstantBuffers[i]->Apply();
-// 		}
-// 
-// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
-// 		{
-// 			m_vecPSConstantBuffers[i]->Apply();
-// 		}
 	}
 
 	void VulkanShaderProgram::RT_StreamComplete()

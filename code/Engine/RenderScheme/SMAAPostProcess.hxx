@@ -128,8 +128,8 @@ namespace ma
 
 		// Pass1 EdgeDetection
 		{
-			GetRenderSystem()->SetRenderTarget(0,m_pTexEdge.get());
-			GetRenderSystem()->ClearBuffer(true,false,true, ColourValue::ZERO, 1.0f, 0);
+			//GetRenderSystem()->SetRenderTarget(0,m_pTexEdge.get());
+			//GetRenderSystem()->ClearBuffer(true,false,true, ColourValue::ZERO, 1.0f, 0);
 
 			ScreenQuad::Render(m_pColorEdgeDetection.get());
 		}
@@ -137,15 +137,15 @@ namespace ma
 	
 		// Pass2 BlendWeightCalculation
 		{
-			GetRenderSystem()->SetRenderTarget(0,m_pTexBlend.get());
-			GetRenderSystem()->ClearBuffer(true,false,false, ColourValue::ZERO, 1.0f, 0);
+			//GetRenderSystem()->SetRenderTarget(0,m_pTexBlend.get());
+			//GetRenderSystem()->ClearBuffer(true,false,false, ColourValue::ZERO, 1.0f, 0);
 
 			ScreenQuad::Render(m_pBlendWeightCalculation.get());
 		}
 
 		// Pass3 NeiborhoodBlending
 		{
-			GetRenderSystem()->SetRenderTarget(0,m_pOutputTex.get());
+			//GetRenderSystem()->SetRenderTarget(0,m_pOutputTex.get());
 
 			ScreenQuad::Render(m_pNeiborhoodBlending.get());
 		}

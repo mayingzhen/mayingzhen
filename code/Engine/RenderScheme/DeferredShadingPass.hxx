@@ -3,8 +3,8 @@
 
 namespace ma
 {	
-	DeferredShadingPass::DeferredShadingPass(Scene* pScene)
-		:RenderPass(pScene)
+	DeferredShadingPass::DeferredShadingPass(/*Scene* pScene*/)
+		//:RenderPass(pScene)
 	{
 
 	}
@@ -37,19 +37,19 @@ namespace ma
 	{
 		RENDER_PROFILE(DefferedLighting);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black, 1.0f, 0);
+		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black, 1.0f, 0);
 
 		// AmbientLight
-		Vector3 cAmbientColor = m_pScene->GetAmbientColor();
+		Vector3 cAmbientColor;//= m_pScene->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color",Any(cAmbientColor));
 		ScreenQuad::Render(m_pAmbientLight.get());	
 
 		Matrix4 matView = GetRenderContext()->GetViewMatrix();
 
-		UINT nLigtNumber = m_pScene->GetVisibleLightNum();
+		UINT nLigtNumber = 0;//m_pScene->GetVisibleLightNum();
 		for (UINT i = 0; i < nLigtNumber; ++i)
 		{
-			Light* pLight = m_pScene->GetVisibleLightByIndex(i);
+			Light* pLight = NULL; // m_pScene->GetVisibleLightByIndex(i);
 			if (pLight == NULL)
 				continue;
 

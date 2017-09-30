@@ -34,9 +34,9 @@ namespace ma
 			// level 0 保存原始图
 			{
 				Rectangle viewPort(0,0,(float)(in_height),(float)(in_height));
-				GetRenderSystem()->SetViewPort(viewPort);
+				//GetRenderSystem()->SetViewPort(viewPort);
 
-				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), 0, 0, face);
+				//GetRenderSystem()->SetRenderTarget(0, out_tex.get(), 0, 0, face);
 
 				PrefilterCopySrc->SetParameter("face",Any(face));
 
@@ -48,9 +48,9 @@ namespace ma
 				float roughness = static_cast<float>(level) / (out_num_mipmaps - 1);
 
 				Rectangle viewPort(0,0,(float)(in_height >> level),(float)(in_height >> level));
-				GetRenderSystem()->SetViewPort(viewPort);
+				//GetRenderSystem()->SetViewPort(viewPort);
 
-				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), level, 0, face);
+				//GetRenderSystem()->SetRenderTarget(0, out_tex.get(), level, 0, face);
 
 				PrefilterCubeSpecular->SetParameter("face",Any(face));
 				PrefilterCubeSpecular->SetParameter("roughness",Any(roughness));
@@ -61,9 +61,9 @@ namespace ma
 			// 最后一级 保存Diffuse
 			{
 				Rectangle viewPort(0,0,(float)(in_height >> (out_num_mipmaps - 1)),(float)(in_height >> (out_num_mipmaps - 1)));
-				GetRenderSystem()->SetViewPort(viewPort);
+				//GetRenderSystem()->SetViewPort(viewPort);
 
-				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), out_num_mipmaps - 1, 0, face);
+				//GetRenderSystem()->SetRenderTarget(0, out_tex.get(), out_num_mipmaps - 1, 0, face);
 
 				PrefilterCubeDiffuse->SetParameter("face",Any(face));
 
@@ -87,9 +87,9 @@ namespace ma
 		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf","PrefilterBrdf","PrefilterBrdf","");
 
 		Rectangle viewPort(0,0,(float)(WIDTH),(float)(HEIGHT));
-		GetRenderSystem()->SetViewPort(viewPort);
+		//GetRenderSystem()->SetViewPort(viewPort);
 
-		GetRenderSystem()->SetRenderTarget(0, pOutTex.get(), 0, 0, 0);
+		//GetRenderSystem()->SetRenderTarget(0, pOutTex.get(), 0, 0, 0);
 
 		ScreenQuad::Render(pPrefilterBrdf.get());
 

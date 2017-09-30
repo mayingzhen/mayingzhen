@@ -30,6 +30,9 @@ namespace ma
 
 		virtual bool	SaveToFile(const char* pszPath);
 
+    protected:
+        virtual bool            LoadFromImagData(const ImageData& imageData);
+        
 	private:
 		virtual	bool			RT_CreateCubeTexture();	
 

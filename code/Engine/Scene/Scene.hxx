@@ -235,14 +235,14 @@ namespace ma
 			m_vecRenderLight[i]->RenderShadowMap(m_pCamera.get());
 		}
 
-		GetRenderSystem()->SetViewPort(m_viewport);
+		//GetRenderSystem()->SetViewPort(m_viewport);
 
 		GetRenderContext()->SetCamera(m_pCamera.get());
 
-		if (m_pCallback)
-		{
-			m_pCallback->OnPreRender(this);
-		}
+// 		if (m_pCallback)
+// 		{
+// 			m_pCallback->OnPreRender(this);
+// 		}
 
 		m_pRenderScheme->Render();
 

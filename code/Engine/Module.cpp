@@ -75,7 +75,6 @@
 #include "Engine/RenderSystem/IRenderDevice/TransientBuffer.hxx"
 #include "Engine/RenderSystem/IRenderDevice/VertexDeclaration.hxx"
 #include "Engine/RenderSystem/IRenderDevice/RenderState.hxx"
-#include "Engine/RenderSystem/ParallelCommad.hxx"
 #include "Engine/RenderSystem/PrefilterCube.hxx"
 
 #include "Engine/Material/Material.hxx"

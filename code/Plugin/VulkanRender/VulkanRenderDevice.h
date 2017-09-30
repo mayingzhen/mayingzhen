@@ -13,7 +13,7 @@ namespace ma
 	class VulkanShaderProgram;
 	class VulkanVertexDeclaration;
 	class VulkanRenderPass;
-
+	class VulkanRenderCommand;
 
 	class VulkanRenderDevice : public IRenderDevice
 	{
@@ -37,30 +37,31 @@ namespace ma
 		virtual RasterizerState*	CreateRasterizerState();
 		virtual SamplerState*		CreateSamplerState();
 		virtual Technique*			CreateTechnique();
-		virtual FrameBuffer*		CreateFrameBuffer();
+		virtual RenderPass*			CreateRenderPass();
+		virtual RenderCommand*		CreateRenderCommand();
 
-		virtual	void				BeginRenderPass(FrameBuffer* pFB);
-		virtual	void				EndRenderPass(FrameBuffer* pFB);
-		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
-		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
-		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
-		virtual void				SetDepthStencil(Texture* pTexture);
-		virtual Texture*			GetDefaultDepthStencil();
-		virtual void				SetViewport(const Rectangle& rect, void* pCommand);
+// 		virtual	void				BeginRenderPass(FrameBuffer* pFB);
+// 		virtual	void				EndRenderPass(FrameBuffer* pFB);
+// 		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
+// 		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
+// 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
+// 		virtual void				SetDepthStencil(Texture* pTexture);
+// 		virtual Texture*			GetDefaultDepthStencil();
+// 		virtual void				SetViewport(const Rectangle& rect, void* pCommand);
 		virtual Rectangle			GetViewport();
-		virtual FrameBuffer*		GetDefaultFrameBuffer();
+		virtual RenderPass*			GetDefaultRenderPass();
 
-		virtual void				SetBlendState(const BlendState* pBlendState);
-		virtual void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef);
-		virtual void				SetRasterizerState(const RasterizerState* pRSState);
+// 		virtual void				SetBlendState(const BlendState* pBlendState);
+// 		virtual void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef);
+// 		virtual void				SetRasterizerState(const RasterizerState* pRSState);
 
-		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
-		virtual void				SetIndexBuffer(IndexBuffer* pIB, void* pCommand);
-		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB, void* pCommand);
+// 		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
+// 		virtual void				SetIndexBuffer(IndexBuffer* pIB, void* pCommand);
+// 		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB, void* pCommand);
+// 
+// 		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech);
 
-		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech);
-
-		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
+//		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 
 		virtual	void				Init(HWND wndhandle);
 		virtual void				Shoutdown();
@@ -76,9 +77,9 @@ namespace ma
 		virtual	void				BeginProfile(const char* pszLale);
 		virtual	void				EndProfile();
 
-		virtual void*				GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType);
-		virtual void				BegineThreadCommand(void* pCmmand);
-		virtual void				EndThreadCommand(void* pCmmand);
+		virtual RenderCommand*		GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType);
+		//virtual void				BegineThreadCommand(void* pCmmand);
+		//virtual void				EndThreadCommand(void* pCmmand);
 
 		// Help fun
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
@@ -144,8 +145,9 @@ namespace ma
 
 		VkCommandBuffer m_drawCmdBuffers;
 
-		std::vector<VkCommandBuffer> m_threadCmdBuffers;
-		std::vector<VkCommandPool> m_threadcommandPool;
+		//std::vector<VkCommandBuffer> m_threadCmdBuffers;
+		//std::vector<VkCommandPool> m_threadcommandPool;
+		std::vector< RefPtr<VulkanRenderCommand> > m_threadCmdBuffers;
 
 		uint32_t m_currentBuffer = 0;
 

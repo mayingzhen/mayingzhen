@@ -181,6 +181,7 @@
     <ClInclude Include="..\..\code\Engine\RenderScheme\PostProcess.h" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\PostProcess.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\RenderPass.h" />
+    <ClInclude Include="..\..\code\Engine\RenderScheme\RenderPass.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\RenderScheme.h" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\RenderScheme.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\SMAAPostProcess.h" />
@@ -191,8 +192,8 @@
     <ClInclude Include="..\..\code\Engine\RenderSystem\BatchTerrainRenderable.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\DeviceCapabilities.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\DeviceCapabilities.hxx" />
-    <ClInclude Include="..\..\code\Engine\RenderSystem\FrameBuffer.h" />
-    <ClInclude Include="..\..\code\Engine\RenderSystem\FrameBuffer.hxx" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.h" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\HardwareBuffer.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\HardwareBuffer.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\IndexBuffer.h" />
@@ -206,8 +207,6 @@
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexBuffer.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.hxx" />
-    <ClInclude Include="..\..\code\Engine\RenderSystem\ParallelCommad.h" />
-    <ClInclude Include="..\..\code\Engine\RenderSystem\ParallelCommad.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.h" />

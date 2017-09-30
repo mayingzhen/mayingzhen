@@ -5,17 +5,17 @@ namespace ma
 {
 
 	/// Hardware constant buffer.
-	class ConstantBuffer : public Referenced
+	class MetalConstantBuffer : public ConstantBuffer
 	{
 	public:
-		ConstantBuffer();
-		virtual ~ConstantBuffer();
+		MetalConstantBuffer();
+		virtual ~MetalConstantBuffer();
+        
+        /// Set size and create GPU-side buffer. Return true on success.
+        bool Create();
 
 		/// Release buffer.
 		virtual void Release();
-
-		/// Set size and create GPU-side buffer. Return true on success.
-		bool SetSize(UINT size,UINT nIndex);
 
 		/// Set a generic parameter and mark buffer dirty.
 		void SetParameter(unsigned offset, unsigned size, const void* data);
@@ -41,7 +41,7 @@ namespace ma
 
 	private:
 		/// Shadow data.
-        UINT m_nSize;
+        //UINT m_nSize;
 
 		/// Dirty flag.
 		bool m_bDirty;
@@ -49,11 +49,8 @@ namespace ma
 		id<MTLBuffer> m_pMetalBuffer[3];
         UINT m_nCurFrame;
         
-        
-        UINT m_nIndex;
-        
 	};
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(const char* pszName, UINT nIndex, UINT size);
+	RefPtr<MetalConstantBuffer> CreateConstantBuffer(const char* pszName, UINT nIndex, UINT size);
 
 }

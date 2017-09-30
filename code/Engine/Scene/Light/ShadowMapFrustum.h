@@ -6,7 +6,7 @@ namespace ma
 {
 	class Light;
 	class Texture;
-	class FrameBuffer;
+	class RenderPass;
 	class RenderQueue;
 
 	enum Shadow_Blur
@@ -39,7 +39,7 @@ namespace ma
 
 		bool				GetDraw() {return m_bDraw[GetRenderSystem()->CurThreadProcess()];}
 
-		FrameBuffer*		GetShadowMapFrameBuffer() {return m_pShadowMapFB.get();}
+		RenderPass*			GetShadowMapFrameBuffer() {return m_pShadowMapFB.get();}
 
 	private:
 		void				UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar);
@@ -79,7 +79,7 @@ namespace ma
 
 		Rectangle			m_viewport;	
 		
-		RefPtr<FrameBuffer>	m_pShadowMapFB;
+		RefPtr<RenderPass>	m_pShadowMapFB;
 		RefPtr<Texture>		m_pShdowMapDepth;
 		RefPtr<SamplerState> m_pShadowMapSampler;
 

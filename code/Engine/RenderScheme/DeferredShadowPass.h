@@ -6,7 +6,7 @@ namespace ma
 	class DeferredShadowPass : public RenderPass
 	{
 	public:
-		DeferredShadowPass(Scene* pScene);
+		DeferredShadowPass(/*Scene* pScene*/);
 
 		void Init();
 	

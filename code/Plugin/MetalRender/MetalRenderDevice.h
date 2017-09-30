@@ -14,6 +14,7 @@ namespace ma
 	class MetalVertexDeclaration;
     class MetalBlendStateObject;
     class MetalRasterizerStateObject;
+    class MetalRenderPass;
     
     /* metal fence is used to sync CPU with GPU,
      * MetalCommandBuffer creates a fence at the start of each frame, and signal this fence when GPU complete this command buffer
@@ -68,47 +69,21 @@ namespace ma
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual ShaderProgram*		CreateShaderProgram();
-
+        virtual ConstantBuffer*		CreateConstantBuffer(UINT nSize);
 		virtual BlendState*			CreateBlendState();
 		virtual DepthStencilState*	CreateDepthStencilState();
 		virtual RasterizerState*	CreateRasterizerState();
-
 		virtual SamplerState*		CreateSamplerState();
+        virtual Technique*			CreateTechnique();
+        virtual RenderPass*			CreateRenderPass();
+        virtual RenderCommand*		CreateRenderCommand();
 
-		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
-		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
-		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
-		virtual void				SetDepthStencil(Texture* pTexture);
-		virtual Texture*			GetDefaultDepthStencil();
-		virtual void				SetViewport(const Rectangle& rect);
 		virtual Rectangle			GetViewport();
+        virtual RenderPass*			GetDefaultRenderPass();
 
-		virtual void				SetBlendState(const BlendState* pBlendState);
-		virtual void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef);
-		virtual void				SetRasterizerState(const RasterizerState* pRSState);
-		
-		virtual void				SetValue(Uniform* uniform, int value);
-		virtual void				SetValue(Uniform* uniform, float value);
-		virtual void				SetValue(Uniform* uniform, const Vector2& value);
-		virtual void				SetValue(Uniform* uniform, const Vector3& value);
-		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
-		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
-		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
-		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);
-		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
-
-		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
-		virtual void				SetIndexBuffer(IndexBuffer* pIB);
-		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB);
-
-		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech);
-
-		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 
 		virtual	void				Init(HWND wndhandle);
 		virtual void				Shoutdown();
-		virtual bool				TestDeviceLost();
 		virtual	bool				Rest();
 		virtual void				BeginRender();
 		virtual void				EndRender();
@@ -124,7 +99,6 @@ namespace ma
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 
 		id<MTLDevice>				GetMetalDevive() {return m_device;}
-        id<MTLRenderCommandEncoder> GetRenderCommandEncoder() {return m_encoder;}
 
 		void						NotifyResourceCreated(MetalResource* pRes);
 
@@ -134,25 +108,22 @@ namespace ma
 
 	private:
 		void						SetValue(Uniform* uniform, const float* values, UINT count);
-
-		void						CommitChanges();
 		
 		bool						BuildDeviceCapabilities();
 
 		bool						UpdateSwapChain(int width, int height);
-
-		//void						DetachSRV(IMetalShaderResourceView* rtv_src);
 	
-	private:
+	public:
         id<MTLDevice>               m_device;
         id<MTLCommandQueue>         m_command_queue;
         dispatch_semaphore_t        _inflight_semaphore;
         //MetalCommandBuffer          m_command_buffer;
         id<MTLCommandBuffer>           m_command_buffer;
         
-        MTLRenderPassDescriptor*    m_pass_desc;
-        MTLRenderPipelineDescriptor* m_pipe_desc;
-        id<MTLRenderCommandEncoder> m_encoder;
+        RefPtr<MetalRenderPass>     m_pDefaultRenderPass;
+        
+        //MTLRenderPassDescriptor*    m_pass_desc;
+        //id<MTLRenderCommandEncoder> m_encoder;
   
         
         MetalBlendStateObject*      m_pCurBlendState;
@@ -165,7 +136,6 @@ namespace ma
 	};
 
 	id<MTLDevice> GetMetalDevive();
-	//IMetalDeviceContext* GetMetalDeviveContext();
 }
 
 

@@ -116,6 +116,8 @@
     <ClInclude Include="..\..\code\Plugin\VulkanRender\Module.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\stdafx.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanBuffer.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderCommand.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderCommand.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanConstantBuffer.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanDebug.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanDebug.hxx" />

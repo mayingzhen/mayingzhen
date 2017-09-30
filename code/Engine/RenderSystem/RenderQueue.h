@@ -7,6 +7,7 @@ namespace ma
 {
 	class BatchRenderable;
 	class Renderable;
+	class RenderPass;
 
 	enum RenderListType
 	{
@@ -32,7 +33,7 @@ namespace ma
 
 		void					AddRenderObj(RenderListType eRLType,Renderable* pRenderObj);	
 
-		void					RenderObjList(RenderListType eRLType, RenderPassType eRPType);
+		void					RenderObjList(RenderPass* pPass, RenderListType eRLType, RenderPassType eRPType);
 
 		void					Clear();
 

@@ -94,7 +94,8 @@ namespace ma
 	};
 
 	RefPtr<Uniform> CreateUniform(const char* pszName);
-
+    
+ 
 	template <class ClassType, class ParameterType>
 	void Uniform::BindMethod(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const)
 	{
@@ -108,6 +109,41 @@ namespace ma
 		SAFE_DELETE(m_pMethod);
 		m_pMethod = new MethodArrayBinding<ClassType, ParameterType>(this, classInstance, valueMethod, countMethod);
 	}
+    
+	   
+    template <class ClassType, class ParameterType>
+    MethodValueBinding<ClassType, ParameterType>::MethodValueBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod) :
+    MethodBinding(param), m_pInstance(instance), m_pValueMethod(valueMethod)
+    {
+    }
+    
+    template <class ClassType, class ParameterType>
+    void MethodValueBinding<ClassType, ParameterType>::SetValue()
+    {
+        Technique* pTech = m_pParameter->GetTechnique() ? m_pParameter->GetTechnique() : m_pParameter->GetParent()->GetParent();
+        ASSERT(pTech);
+        if (pTech == NULL)
+            return;
+        
+        pTech->SetValue(m_pParameter, (m_pInstance->*m_pValueMethod)() );
+    }
+    
+    template <class ClassType, class ParameterType>
+    MethodArrayBinding<ClassType, ParameterType>::MethodArrayBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod) :
+    MethodBinding(param), m_pInstance(instance), m_pValueMethod(valueMethod), m_nCountMethod(countMethod)
+    {
+    }
+    
+    template <class ClassType, class ParameterType>
+    void MethodArrayBinding<ClassType, ParameterType>::SetValue()
+    {
+        Technique* pTech = m_pParameter->GetTechnique() ? m_pParameter->GetTechnique() : m_pParameter->GetParent()->GetParent();
+        ASSERT(pTech);
+        if (pTech == NULL)
+            return;
+        
+        pTech->SetValue(m_pParameter,  (m_pInstance->*m_pValueMethod)(), (m_pInstance->*m_nCountMethod)() );
+    }
 
 }
 

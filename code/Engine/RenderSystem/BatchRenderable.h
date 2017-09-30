@@ -11,7 +11,7 @@ namespace ma
 
 		virtual void	PrepareRender(RenderPassType eRPType);
 
-		virtual void	Render(RenderPassType eRPType, RenderListType eRLType);
+		virtual void	Render(RenderPass* pPass, RenderPassType eRPType, RenderListType eRLType);
 
 		virtual void	Clear();
 

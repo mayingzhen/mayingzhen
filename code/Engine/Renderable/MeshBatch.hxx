@@ -50,7 +50,7 @@ namespace ma
 
 		pTech->Bind();
 
-		GetRenderSystem()->DrawRenderable(this,pTech);
+		//GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 
 	void MeshBatch::Add(const void* vertices, size_t size, UINT vertexCount, const uint16* indices, UINT indexCount)

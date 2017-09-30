@@ -37,80 +37,18 @@ namespace ma
 		return true;
 	}
 
-    /*
-	DXGI_FORMAT GetSRVFormat(DXGI_FORMAT format)
+
+	MTLPixelFormat GetSRGBFormat(MTLPixelFormat format)
 	{
-		if (format == DXGI_FORMAT_R24G8_TYPELESS)
-			return DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-		else if (format == DXGI_FORMAT_R16_TYPELESS)
-			return DXGI_FORMAT_R16_UNORM;
-		else if (format == DXGI_FORMAT_R32_TYPELESS)
-			return DXGI_FORMAT_R32_FLOAT;
-		else if (format == DXGI_FORMAT_R8G8B8A8_TYPELESS)
-			return DXGI_FORMAT_R8G8B8A8_UNORM;
+		if (format == MTLPixelFormatBGRA8Unorm)
+			return MTLPixelFormatBGRA8Unorm_sRGB;
+		else if (format == MTLPixelFormatPVRTC_RGB_2BPP)
+			return MTLPixelFormatPVRTC_RGB_2BPP_sRGB;
+		else if (format == MTLPixelFormatPVRTC_RGB_4BPP)
+			return MTLPixelFormatPVRTC_RGB_4BPP_sRGB;
 		else
 			return format;
 	}
-
-	DXGI_FORMAT GetDSVFormat(DXGI_FORMAT format)
-	{
-		if (format == DXGI_FORMAT_R24G8_TYPELESS)
-			return DXGI_FORMAT_D24_UNORM_S8_UINT;
-		else if (format == DXGI_FORMAT_R16_TYPELESS)
-			return DXGI_FORMAT_D16_UNORM;
-		else if (format == DXGI_FORMAT_R32_TYPELESS)
-			return DXGI_FORMAT_D32_FLOAT;
-		else
-			return format;
-	}
-
-	DXGI_FORMAT GetSRGBFormat(DXGI_FORMAT format)
-	{
-		if (format == DXGI_FORMAT_R8G8B8A8_UNORM)
-			return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-		else if (format == DXGI_FORMAT_BC1_UNORM)
-			return DXGI_FORMAT_BC1_UNORM_SRGB;
-		else if (format == DXGI_FORMAT_BC2_UNORM)
-			return DXGI_FORMAT_BC2_UNORM_SRGB;
-		else if (format == DXGI_FORMAT_BC3_UNORM)
-			return DXGI_FORMAT_BC3_UNORM_SRGB;
-		else
-			return format;
-	}
-
-	DXGI_FORMAT GetTypelessFormat(DXGI_FORMAT format) {
-		switch(format) {
-		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
-		case DXGI_FORMAT_R8G8B8A8_UNORM:
-		case DXGI_FORMAT_R8G8B8A8_UINT:
-		case DXGI_FORMAT_R8G8B8A8_SNORM:
-		case DXGI_FORMAT_R8G8B8A8_SINT:
-			return DXGI_FORMAT_R8G8B8A8_TYPELESS;
-
-		case DXGI_FORMAT_BC1_UNORM_SRGB:
-		case DXGI_FORMAT_BC1_UNORM:
-			return DXGI_FORMAT_BC1_TYPELESS;
-		case DXGI_FORMAT_BC2_UNORM_SRGB:
-		case DXGI_FORMAT_BC2_UNORM:
-			return DXGI_FORMAT_BC2_TYPELESS;
-		case DXGI_FORMAT_BC3_UNORM_SRGB:
-		case DXGI_FORMAT_BC3_UNORM:
-			return DXGI_FORMAT_BC3_TYPELESS;
-
-		// Depth
-		case DXGI_FORMAT_D24_UNORM_S8_UINT:
-			return DXGI_FORMAT_R24G8_TYPELESS;
-		};
-		
-		ASSERT(false);
-		return format;
-	}
-     */
-
-	//bool IsCompressed(DXGI_FORMAT format)
-	//{
-	//	return format == DXGI_FORMAT_BC1_UNORM || format == DXGI_FORMAT_BC2_UNORM || format == DXGI_FORMAT_BC3_UNORM;
-	//}
 
 	bool MetalTexture::RT_CreateCubeTexture()
 	{
@@ -183,14 +121,10 @@ namespace ma
 	{
 		m_eFormat = MetalMapping::_getClosestSupportedPF(m_eFormat);
 		m_descFormat = MetalMapping::_getPF(m_eFormat);
-		//if (m_bSRGB)
-		//{
-		//	m_descFormat = GetSRGBFormat(m_descFormat);
-		//}
-		//if (m_bTypeLess)
-		//{
-		//	m_descFormat = GetTypelessFormat(m_descFormat);
-		//}
+		if (m_bSRGB)
+		{
+			m_descFormat = GetSRGBFormat(m_descFormat);
+		}
 
 		MTLTextureDescriptor* textureDesc = [MTLTextureDescriptor new];
 		textureDesc.textureType = MTLTextureType2D;
@@ -337,6 +271,81 @@ namespace ma
 		return res;
 	}
      */
+    
+    bool MetalTexture::LoadFromImagData(const ImageData& imageData)
+    {
+        m_eFormat = MetalMapping::_getClosestSupportedPF(imageData.m_eFormat);
+        if (m_eFormat != imageData.m_eFormat)
+        {
+            ImageData& tem = const_cast<ImageData&>(imageData);
+            tem.bulkPixelConversion(m_eFormat);
+        }
+        
+        // Set desired texture size and properties from images[0]
+        m_nWidth = imageData.m_nWidth;
+        m_nHeight = imageData.m_nHeight;
+        
+        // Get source image format and adjust if required
+        m_eFormat = imageData.m_eFormat;
+        
+        // The custom mipmaps in the image have priority over everything
+        //size_t imageMips = imageData.num_mipmaps;
+        
+        bool bAutoMipMap = m_bMipMap;
+        
+        if(imageData.m_nNumMipmaps > 0)
+        {
+            m_nMipLevels = imageData.m_nNumMipmaps;
+            // Disable flag for auto mip generation
+            //bAutoMipMap  = false;
+        }
+        
+        // Create the texture
+        if (imageData.m_nFlags & IF_CUBEMAP)
+        {
+            m_eType = TEXTYPE_CUBE;
+            if (!RT_CreateCubeTexture())
+            {
+                LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
+                return false;
+            }
+            
+            for(size_t mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
+            {
+                for (UINT32 iFace = 0; iFace < 6; ++iFace)
+                {
+                    PixelBox src = imageData.GetPixelBox(iFace, mip);
+                    
+                    SetLevelData(mip,iFace,src);
+                }
+            }
+        }
+        else
+        {
+            m_eType = TEXTYPE_2D;
+            if (!RT_CreateTexture())
+            {
+                LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
+                return false;
+            }
+            
+            for(size_t mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
+            {
+                PixelBox src = imageData.GetPixelBox(0, mip);
+                
+                SetLevelData(mip,0,src);
+            }
+        }
+        
+        if (bAutoMipMap)
+        {
+            GenerateMipmaps();
+        }
+        
+        m_eResState = ResInited;
+        
+        return true;
+    }
 
 	bool MetalTexture::SetLevelData(int nLevel, int nFace, const PixelBox& src)
 	{

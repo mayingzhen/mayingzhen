@@ -118,3 +118,16 @@
 /extern/Debug
 obj
 ShaderCach
+/extern/SPIRV-Cross/Debug/spirv-cross-core.lib
+/extern/SPIRV-Cross/Debug/spirv-cross-glsl.lib
+/extern/SPIRV-Cross/Debug/spirv-cross-hlsl.lib
+/extern/SPIRV-Cross/Debug/spirv-cross-msl.lib
+/extern/glslang/OGLCompilersDLL/Debug/OGLCompilerd.lib
+/extern/glslang/SPIRV/Debug/SPIRVd.lib
+/extern/glslang/glslang/Debug/glslangd.lib
+/extern/glslang/glslang/OSDependent/Windows/Debug/OSDependentd.lib
+/extern/glslang/hlsl/Debug/HLSLd.lib
+/Bin/Debug/D3D9Render.dll
+/Bin/Debug/VulkanRender.dll
+/Bin/Debug/VulkanRender.lib
+/Bin/Release/SampleBrowser.exe

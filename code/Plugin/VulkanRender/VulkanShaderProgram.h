@@ -12,17 +12,12 @@ namespace ma
 
 		~VulkanShaderProgram();
 
-		virtual void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
-
-		virtual void CommitChanges();
-
-		virtual void RT_SetShader();
-
+	private:
 		virtual void RT_StreamComplete();
 
-	private:
-
 		void Destory();
+
+		void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
 
 		void ParseShaderUniform(ShaderType eType, const vector<uint32>& vtx_spv);
 

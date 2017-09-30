@@ -233,7 +233,7 @@ namespace ma
 		m_bSamperDirty = false;
 	}
 
-	void VulkanTechnique::CommitChanges()
+	void VulkanTechnique::CommitChanges(RenderCommand* pCmd)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -241,11 +241,8 @@ namespace ma
 
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
-		VkCommandBuffer cmdBuffer = pRender->m_drawCmdBuffers;
-		if (m_pCommand)
-		{
-			cmdBuffer = *(VkCommandBuffer*)m_pCommand;
-		}
+		VulkanRenderCommand* pVkCmd = (VulkanRenderCommand*)pCmd;
+		VkCommandBuffer cmdBuffer = pVkCmd->m_vkCmdBuffer;
 
 		VkDescriptorSet descriptorSets[4];
 		descriptorSets[0] = m_descriptorSets[0];

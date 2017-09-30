@@ -9,7 +9,7 @@ namespace ma
 	{
 
 	public:
-		DeferredShadingPass(Scene* pScene);
+		DeferredShadingPass(/*Scene* pScene*/);
 
 		void		Init();
 		

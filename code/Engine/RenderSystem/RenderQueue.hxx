@@ -25,10 +25,10 @@ namespace ma
 		m_arrRenderList[eRLType]->AddRenderObj(pRenderObj);
 	}
 
-	void RenderQueue::RenderObjList(RenderListType eRLType, RenderPassType eRPType)
+	void RenderQueue::RenderObjList(RenderPass* pPass, RenderListType eRLType, RenderPassType eRPType)
 	{
 		m_arrRenderList[eRLType]->PrepareRender(eRPType);
-		m_arrRenderList[eRLType]->Render(eRPType, eRLType);
+		m_arrRenderList[eRLType]->Render(pPass,eRPType, eRLType);
 	}
 
 	void RenderQueue::Clear()

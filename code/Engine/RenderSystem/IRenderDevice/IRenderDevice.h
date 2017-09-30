@@ -23,8 +23,9 @@ namespace ma
 	class RasterizerState;
 	class Technique;
 	class Uniform;
-	class FrameBuffer;
+	class RenderPass;
 	class ConstantBuffer;
+	class RenderCommand;
 
 	enum RenderDeviceType
 	{
@@ -38,31 +39,14 @@ namespace ma
 	class IRenderDevice 
 	{
 	private:
-		virtual	void				BeginRenderPass(FrameBuffer* pFB) = 0;
-		virtual	void				EndRenderPass(FrameBuffer* pFB) = 0;
-		virtual	void				SetFrameBuffer(FrameBuffer* pFB) = 0;
-		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0) = 0;
-		virtual	Texture*			GetDefaultRenderTarget(int index = 0) = 0;
-		virtual	void				SetDepthStencil(Texture* pTexture) = 0;
-		virtual	Texture*			GetDefaultDepthStencil() = 0;
+
 		virtual Rectangle			GetViewport() = 0;
-		virtual FrameBuffer*		GetDefaultFrameBuffer() = 0;
+		virtual RenderPass*			GetDefaultRenderPass() = 0;
 
-		virtual void				SetBlendState(const BlendState* pBlendState) = 0;
-		virtual void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef) = 0;
-		virtual void				SetRasterizerState(const RasterizerState* pRSState) = 0;
-		
-		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec) = 0;
-		virtual void				SetIndexBuffer(IndexBuffer* pIB, void* pCommand) = 0;
-		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB, void* pCommand) = 0;
-
-		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech) = 0;
-		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s) = 0;
 
 		virtual	void				Init(HWND wndhandle) = 0;
 		virtual void				Shoutdown() = 0;
 
-		virtual bool				TestDeviceLost() = 0;	
 		virtual void				BeginRender() = 0;
 		virtual void				EndRender() = 0;
 
@@ -85,7 +69,8 @@ namespace ma
 		virtual RasterizerState*	CreateRasterizerState() = 0;
 		virtual SamplerState*		CreateSamplerState() = 0;
 		virtual Technique*			CreateTechnique() = 0;
-		virtual FrameBuffer*		CreateFrameBuffer() = 0;
+		virtual RenderPass*			CreateRenderPass() = 0;
+		virtual RenderCommand*		CreateRenderCommand() = 0;
 
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf) = 0;
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf) = 0;		
@@ -93,13 +78,6 @@ namespace ma
 
 		//CheckDevice
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage) = 0;
-
-		virtual void*				GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType) = 0;
-
-		virtual void				BegineThreadCommand(void* pCmmand) = 0;
-		virtual void				EndThreadCommand(void* pCmmand) = 0;
-
-		virtual void				SetViewport(const Rectangle& rect, void* pCommand) = 0;
 
 		friend class RenderSystem;
 		friend class RenderThread;

@@ -29,10 +29,10 @@ namespace ma
  		pTech->Bind();
 	}
 
-	void Renderable::Render(Technique* pTech)
-	{
-		GetRenderSystem()->DrawRenderable(this,pTech);
-	}
+// 	void Renderable::Render(Technique* pTech)
+// 	{
+// 		GetRenderSystem()->DrawRenderable(this,pTech);
+// 	}
 
 }
 

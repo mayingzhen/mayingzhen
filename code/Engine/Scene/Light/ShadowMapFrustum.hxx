@@ -1,5 +1,5 @@
 #include "ShadowMapFrustum.h"
-#include "../../RenderSystem/FrameBuffer.h"
+#include "../../RenderSystem/RenderCommand.h"
 
 namespace ma
 {
@@ -36,7 +36,7 @@ namespace ma
 		m_pRenderQueue[0] = new RenderQueue();
 		m_pRenderQueue[1] = new RenderQueue();
 
-		m_pShadowMapFB = GetRenderDevice()->CreateFrameBuffer();
+		m_pShadowMapFB = GetRenderDevice()->CreateRenderPass();
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
@@ -47,12 +47,13 @@ namespace ma
 
 	void ShadowMapFrustum::CreateShadowMap(int nSize)
 	{
+		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
+
 		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();	
 		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat,true);
 		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
+		m_pShadowMapFB->SetViewPort(m_viewport);
 		m_pShadowMapFB->Create();
-
-		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
 
 		m_matTexAdjust = CalculateTexAdjustMatrix(m_pShdowMapDepth.get(),m_viewport);
 
@@ -364,43 +365,22 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		Rectangle rPreViewport = GetRenderSystem()->SetViewPort(m_viewport);
+		//Rectangle rPreViewport = GetRenderSystem()->SetViewPort(m_viewport);
 
-		GetRenderSystem()->BeginRenderPass(m_pShadowMapFB.get());
+		//GetRenderSystem()->BeginRenderPass(m_pShadowMapFB.get());
 		
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.f, 0);
+		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.f, 0);
+
+		m_pShadowMapFB->Begine();
 
 		float fConstantBias = m_fConstantBias[GetRenderSystem()->CurThreadProcess()];
 		float fSlopeScaleBias = m_fSlopeScaleBias[GetRenderSystem()->CurThreadProcess()];
 		//GetRenderSystem()->SetDepthBias(fConstantBias,fSlopeScaleBias);
 
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];
-		pRenderQueue->RenderObjList(RL_Mesh,RP_ShadowDepth);
-		/*
-		for (UINT i = 0; i <  m_arrRenderable[GetRenderSystem()->CurThreadProcess()].size(); ++i)
-		{
-			Renderable* pRenderObj = m_arrRenderable[GetRenderSystem()->CurThreadProcess()][i];
-			if (pRenderObj == NULL)
-				continue;
-			 
-			 SubMaterial* pMaterial = pRenderObj->GetMaterial();
-		
-			 Technique* pTech = pMaterial->GetShadowDepthTechnqiue();
- 
-			 GetRenderContext()->SetCurRenderObj(pRenderObj);
+		pRenderQueue->RenderObjList(m_pShadowMapFB.get(),RL_Mesh,RP_ShadowDepth);
 
-			 pTech->Bind();
-
-			 Uniform* pUniform = pTech->GetUniform("matLightViewProj");
-			 pTech->SetValue(pUniform,m_matLightViewProj[GetRenderSystem()->CurThreadProcess()]);
-
-			 pRenderObj->Render(pTech);
-		}
-		*/
-
-		//GetRenderSystem()->SetViewPort(rPreViewport);
-
-		GetRenderSystem()->EndRenderPass(m_pShadowMapFB.get());
+		m_pShadowMapFB->End();
 // 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
 // 		{
 // 			GetRenderSystem()->SetDepthBias(0,0);

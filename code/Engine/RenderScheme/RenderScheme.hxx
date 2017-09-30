@@ -2,14 +2,14 @@
 #include "HDRPostProcess.h"
 #include "SMAAPostProcess.h"
 #include "AlchemyAo.h"
-#include "../RenderSystem/FrameBuffer.h"
+#include "../RenderSystem/RenderCommand.h"
 
 namespace ma
 {
 	RenderScheme::RenderScheme(Scene* pScene)
 	{
 		m_pScene = pScene;
-		m_pFrameBuffer = GetRenderDevice()->CreateFrameBuffer();
+		//m_pFrameBuffer = GetRenderDevice()->CreateRenderPass();
 	}
 
 	void RenderScheme::Init()
@@ -44,11 +44,11 @@ namespace ma
 
 	void RenderScheme::Reset()
 	{
-		m_pFrameBuffer->AttachDepthStencil(NULL);
-		m_pFrameBuffer->AttachColor(0,NULL);
-		m_pFrameBuffer->AttachColor(1,NULL);
+// 		m_pFrameBuffer->AttachDepthStencil(NULL);
+// 		m_pFrameBuffer->AttachColor(0,NULL);
+// 		m_pFrameBuffer->AttachColor(1,NULL);
 		
-		m_pDiffuseTex = GetRenderSystem()->GetDefaultRenderTarget();
+//		m_pDiffuseTex = GetRenderSystem()->GetDefaultRenderTarget();
 		if (m_pHDR)
 		{
 			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT16_RGBA,true);
@@ -58,15 +58,15 @@ namespace ma
 			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
 		}
 
-		m_pDepthTex = GetRenderSystem()->GetDefaultDepthStencil();
-		m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
-		m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
+		//m_pDepthTex = GetRenderSystem()->GetDefaultDepthStencil();
+		//m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
+		//m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
 
 		if (m_pDeferredShadingPass)
 		{
             m_pLinearDepthTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT32_R,false);
             m_pLinearDepthSampler = CreateSamplerState(m_pLinearDepthTex.get(),CLAMP,TFO_POINT,false);
-            m_pTecLinearDepth = CreateTechnique("LinearDepth","screen","linearizedepth","");
+            //m_pTecLinearDepth = CreateTechnique("LinearDepth","screen","linearizedepth","");
             
 			m_pDiffTemp = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
 			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,false);
@@ -74,18 +74,18 @@ namespace ma
 			m_pDiffTempSampler = CreateSamplerState(m_pDiffTemp.get(),CLAMP,TFO_POINT,true);
 			m_pNormalSampler = CreateSamplerState(m_pNormalTex.get(),CLAMP,TFO_POINT,false);
 
-			m_pFrameBuffer->AttachColor(0,m_pDiffTemp.get());
-			m_pFrameBuffer->AttachColor(1,m_pNormalTex.get());
+			//m_pFrameBuffer->AttachColor(0,m_pDiffTemp.get());
+			//m_pFrameBuffer->AttachColor(1,m_pNormalTex.get());
 		}
 		else
 		{
 			if (m_pDiffuseTex)
 			{
-				m_pFrameBuffer->AttachColor( 0,m_pDiffuseTex.get() );
+				//m_pFrameBuffer->AttachColor( 0,m_pDiffuseTex.get() );
 			}
 			else
 			{
-				m_pFrameBuffer->AttachColor( 0,GetRenderSystem()->GetDefaultRenderTarget().get() );
+				//m_pFrameBuffer->AttachColor( 0,GetRenderSystem()->GetDefaultRenderTarget().get() );
 			}
 		}
 
@@ -104,17 +104,17 @@ namespace ma
 			m_pSSAO->Reset(NULL,NULL);
 		}
 
-		RefPtr<Texture> pOutputTex = GetRenderSystem()->GetDefaultRenderTarget();
-
-		if (m_pHDR)
-		{
-			m_pHDR->Reset(m_pDiffuseTex.get(),pOutputTex.get());
-		}
-
-		if (m_pSMAA)
-		{
-			m_pSMAA->Reset(m_pDiffuseTex.get(),pOutputTex.get());
-		}
+// 		RefPtr<Texture> pOutputTex = GetRenderSystem()->GetDefaultRenderTarget();
+// 
+// 		if (m_pHDR)
+// 		{
+// 			m_pHDR->Reset(m_pDiffuseTex.get(),pOutputTex.get());
+// 		}
+// 
+// 		if (m_pSMAA)
+// 		{
+// 			m_pSMAA->Reset(m_pDiffuseTex.get(),pOutputTex.get());
+// 		}
 	}
 
 	void RenderScheme::Shoutdown()
@@ -128,30 +128,25 @@ namespace ma
 	{
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
-		//GetRenderSystem()->SetFrameBuffer(m_pFrameBuffer.get());
-		GetRenderSystem()->BeginRenderPass(GetRenderSystem()->GetDefaultFrameBuffer());
-
-		ColourValue cClearClor = GetRenderSystem()->GetClearColor();
-
-		GetRenderSystem()->ClearBuffer(true,true,true,cClearClor, 1.0f, 0);
+		RenderPass* pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
+		pRenderPass->Begine();
 
 		{
 			RENDER_PROFILE(RL_Mesh);
-			pRenderQueue->RenderObjList(RL_Mesh,RP_Shading);
+			pRenderQueue->RenderObjList(pRenderPass,RL_Mesh,RP_Shading);
 		}
 
 		{
 			RENDER_PROFILE(RL_Terrain);
-			pRenderQueue->RenderObjList(RL_Terrain,RP_Shading);
+			pRenderQueue->RenderObjList(pRenderPass,RL_Terrain,RP_Shading);
 		}
 
-		if (m_pDeferredShadingPass || m_pDeferredShadowPass)
-		{
-			FrameBuffer fb;
-			fb.AttachColor(0,m_pLinearDepthTex.get());
-			GetRenderSystem()->SetFrameBuffer(&fb);
-			ScreenQuad::Render(m_pTecLinearDepth.get());
-		}
+// 		if (m_pLinearDepthPass)
+// 		{
+// 			m_pLinearDepthPass->Begine();
+// 			ScreenQuad::Render(m_pTecLinearDepth.get());
+// 			m_pLinearDepthPass->End();
+// 		}
 
 		if (m_pDeferredShadowPass)
 		{
@@ -164,16 +159,18 @@ namespace ma
 			m_pSSAO->Render();
 		}
 
-		if (m_pDeferredShadingPass)
-		{
-			FrameBuffer fb;
-			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
-			fb.AttachColor(0,m_pDiffuseTex.get());
-			GetRenderSystem()->SetFrameBuffer(&fb);
+// 		if (m_pDeferredShadingPass)
+// 		{
+// 			FrameBuffer fb;
+// 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+// 			fb.AttachColor(0,m_pDiffuseTex.get());
+// 			GetRenderSystem()->SetFrameBuffer(&fb);
+// 
+// 			RENDER_PROFILE(m_pDeferredShadingPass);
+// 			m_pDeferredShadingPass->Render();
+// 		}
 
-			RENDER_PROFILE(m_pDeferredShadingPass);
-			m_pDeferredShadingPass->Render();
-		}
+		pRenderPass->End();
 
 		if (m_pHDR)
 		{
@@ -184,8 +181,6 @@ namespace ma
 		{
 			m_pSMAA->Render();
 		}
-
-		GetRenderSystem()->EndRenderPass(GetRenderSystem()->GetDefaultFrameBuffer());
 	}
 
 	void RenderScheme::SetSMAAEnabled(bool b)
@@ -227,7 +222,7 @@ namespace ma
 			if (m_pDeferredShadingPass)
 				return;
 
-			m_pDeferredShadingPass = new DeferredShadingPass(m_pScene);
+			//m_pDeferredShadingPass = new DeferredShadingPass(m_pScene);
 
 			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "1");
 		}
@@ -260,7 +255,7 @@ namespace ma
 			if (m_pDeferredShadowPass)
 				return;
 
-			m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
+			//m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
 
 			GetRenderSystem()->AddShaderGlobaMacro("USING_DEFERREDSHADOW", "1");
 		}

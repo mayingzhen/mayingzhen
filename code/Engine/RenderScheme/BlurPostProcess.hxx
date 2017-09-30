@@ -60,11 +60,11 @@ namespace ma
 
 		/// x
 		{
-			FrameBuffer fb;
-			fb.AttachColor(0,m_pBureTempTex.get());
-			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
-			GetRenderSystem()->SetFrameBuffer(&fb);
-			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
+			//FrameBuffer fb;
+			//fb.AttachColor(0,m_pBureTempTex.get());
+			//fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+			//GetRenderSystem()->SetFrameBuffer(&fb);
+			//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
 			//ShaderProgram* pShader = m_pBlurXTech->GetShaderProgram();
 			m_pBlurXTech->SetValue(m_pBlurXTech->GetUniform("color_weight"),(Vector4*)(&m_color_weightX[0]),m_color_weightX.size() / 4 );
@@ -75,11 +75,11 @@ namespace ma
 
 		/// y
 		{
-			FrameBuffer fb;
-			fb.AttachColor(0,m_pOutputTex.get());
-			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
-			GetRenderSystem()->SetFrameBuffer(&fb);
-			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
+// 			FrameBuffer fb;
+// 			fb.AttachColor(0,m_pOutputTex.get());
+// 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+// 			GetRenderSystem()->SetFrameBuffer(&fb);
+// 			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
 			ShaderProgram* pShader = m_pBlurYTech->GetShaderProgram();
 			m_pBlurYTech->SetValue(m_pBlurYTech->GetUniform("color_weight"),(Vector4*)(&m_color_weightY[0]),m_color_weightY.size() / 4 );

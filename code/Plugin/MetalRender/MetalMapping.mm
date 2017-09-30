@@ -18,12 +18,11 @@ DXGI_FORMAT MetalMapping::GetD3DIndexType(INDEX_TYPE eType)
     
 PixelFormat MetalMapping::_getClosestSupportedPF(PixelFormat ogrePF)
 {
-    return ogrePF;
-    /*
-	if (_getPF(ogrePF) != DXGI_FORMAT_UNKNOWN)
+	if (_getPF(ogrePF) != MTLPixelFormatInvalid)
 	{
 		return ogrePF;
 	}
+    
 	switch(ogrePF)
 	{
 	case PF_FLOAT16_RGB:
@@ -32,9 +31,8 @@ PixelFormat MetalMapping::_getClosestSupportedPF(PixelFormat ogrePF)
 		return PF_FLOAT32_RGBA;
 	case PF_UNKNOWN:
 	default:
-		return PF_A8B8G8R8;
+		return PF_A8R8G8B8;
 	}
-     */
 }
 
 
@@ -42,36 +40,8 @@ MTLPixelFormat MetalMapping::_getPF(PixelFormat ogrePF)
 {
 	switch(ogrePF)
 	{
-	//case PF_L8:
-	//	return MTLPixelFormatR8Uint;
-	//case PF_L16:
-	//	return MTLPixelFormatR16Uint;
-	//case PF_A8:
-	//	return MTLPixelFormatA8Unorm;
-	//case PF_A4L4:
-	//	return DXGI_FORMAT_UNKNOWN;
-	//case PF_BYTE_LA:
-	//	return DXGI_FORMAT_UNKNOWN;
-	case PF_R3G3B2:
-		return MTLPixelFormatRGBA32Float;
-	//case PF_A1R5G5B5:
-	//	return DXGI_FORMAT_UNKNOWN;
-	//case PF_R5G6B5:
-	//	return DXGI_FORMAT_UNKNOWN;
-	//case PF_A4R4G4B4:
-	//	return DXGI_FORMAT_UNKNOWN;
-	case PF_R8G8B8:
-        return MTLPixelFormatRGBA8Unorm;
 	case PF_A8R8G8B8:
-		return MTLPixelFormatRGBA8Unorm;
-	case PF_A8B8G8R8:
 		return MTLPixelFormatBGRA8Unorm;
-	//case PF_X8R8G8B8:
-	//	return MTLPixelFormatRGBA8Unorm;
-	//case PF_X8B8G8R8:
-	//	return DXGI_FORMAT_UNKNOWN;
-	//case PF_A2B10G10R10:
-	//	return MTLPixelFormatRGB10A2Unorm;
 	case PF_A2R10G10B10:
 		return MTLPixelFormatRGB10A2Unorm;
 	case PF_FLOAT16_R:
@@ -82,23 +52,14 @@ MTLPixelFormat MetalMapping::_getPF(PixelFormat ogrePF)
 		return MTLPixelFormatR32Float;
 	case PF_FLOAT32_RGBA:
 		return MTLPixelFormatRGBA32Float;
-	//case PF_SHORT_RGBA:
-	//	return MTLPixelFormatRGBA16Uint;
-	//case PF_DXT1:
-	//	return MTLPixelFormatBC1_RGBA;
-	//case PF_DXT2:
-	//	return DXGI_FORMAT_BC2_UNORM;
-	//case PF_DXT3:
-	//	return DXGI_FORMAT_BC2_UNORM;
-	//case PF_DXT4:
-	//	return DXGI_FORMAT_BC3_UNORM;
-	//case PF_DXT5:
-	//	return DXGI_FORMAT_BC3_UNORM;
+    case PF_PVRTC2_2BPP:
+        return MTLPixelFormatPVRTC_RGB_2BPP;
+    case PF_PVRTC2_4BPP:
+        return MTLPixelFormatPVRTC_RGB_4BPP;
 	case PF_D24S8:
 		return MTLPixelFormatDepth32Float_Stencil8;
 	case PF_UNKNOWN:
 	default:
-        ASSERT(false);
 		return MTLPixelFormatInvalid;
 	}
 }

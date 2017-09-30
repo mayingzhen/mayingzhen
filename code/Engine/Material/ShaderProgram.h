@@ -42,8 +42,6 @@ namespace ma
 		Uniform*			GetSamplerByIndex(UINT nIndex);
 
 	protected:
-		virtual	void		RT_SetShader() = 0;
-
 		virtual void		RT_StreamComplete() = 0;
 
 	private:

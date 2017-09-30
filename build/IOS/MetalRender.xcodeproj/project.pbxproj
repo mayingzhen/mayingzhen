@@ -19,6 +19,9 @@
 		6B39C5A71ED6886E0044DC77 /* MetalVertexDeclaration.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5991ED6886E0044DC77 /* MetalVertexDeclaration.mm */; };
 		6B39C5A81ED6886E0044DC77 /* Module.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C59A1ED6886E0044DC77 /* Module.mm */; };
 		6B39C5A91ED6886E0044DC77 /* stdafx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C59C1ED6886E0044DC77 /* stdafx.mm */; };
+		6BBF97C91F7E8CAB00EC8F88 /* MetalRenderCommand.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B8B2BA41F7D4F5700BF757C /* MetalRenderCommand.mm */; };
+		6BBF97CF1F7E8DCA00EC8F88 /* MetalTechniqueh.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF97CE1F7E8DCA00EC8F88 /* MetalTechniqueh.mm */; };
+		6BBF97D01F7E8DEC00EC8F88 /* MetalRenderPass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B2435121F77634D006C8284 /* MetalRenderPass.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +37,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6B2435111F77634D006C8284 /* MetalRenderPass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalRenderPass.h; sourceTree = "<group>"; };
+		6B2435121F77634D006C8284 /* MetalRenderPass.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderPass.mm; sourceTree = "<group>"; };
 		6B38673F1EE01BEE000B6D7A /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
 		6B39C5861ED6886E0044DC77 /* MetalConstantBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalConstantBuffer.h; sourceTree = "<group>"; };
 		6B39C5871ED6886E0044DC77 /* MetalConstantBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalConstantBuffer.mm; sourceTree = "<group>"; };
@@ -59,6 +64,10 @@
 		6B39C59B1ED6886E0044DC77 /* Module.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = Module.h; sourceTree = "<group>"; };
 		6B39C59C1ED6886E0044DC77 /* stdafx.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = stdafx.mm; sourceTree = "<group>"; };
 		6B39C59D1ED6886E0044DC77 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6B8B2BA31F7D4F5700BF757C /* MetalRenderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalRenderCommand.h; sourceTree = "<group>"; };
+		6B8B2BA41F7D4F5700BF757C /* MetalRenderCommand.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderCommand.mm; sourceTree = "<group>"; };
+		6B8B2BA71F7D4F5700BF757C /* MetalTechniqueh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalTechniqueh.h; sourceTree = "<group>"; };
+		6BBF97CE1F7E8DCA00EC8F88 /* MetalTechniqueh.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalTechniqueh.mm; sourceTree = "<group>"; };
 		6FA78E5A179430A1005B3CD6 /* libMetalRender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMetalRender.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,8 +90,14 @@
 				6B39C5871ED6886E0044DC77 /* MetalConstantBuffer.mm */,
 				6B39C5881ED6886E0044DC77 /* MetalIndexBuffer.h */,
 				6B39C5891ED6886E0044DC77 /* MetalIndexBuffer.mm */,
+				6B8B2BA31F7D4F5700BF757C /* MetalRenderCommand.h */,
+				6B8B2BA41F7D4F5700BF757C /* MetalRenderCommand.mm */,
+				6BBF97CE1F7E8DCA00EC8F88 /* MetalTechniqueh.mm */,
+				6B8B2BA71F7D4F5700BF757C /* MetalTechniqueh.h */,
 				6B39C58A1ED6886E0044DC77 /* MetalMapping.h */,
 				6B39C58B1ED6886E0044DC77 /* MetalMapping.mm */,
+				6B2435111F77634D006C8284 /* MetalRenderPass.h */,
+				6B2435121F77634D006C8284 /* MetalRenderPass.mm */,
 				6B39C58C1ED6886E0044DC77 /* MetalRenderDevice.h */,
 				6B39C58D1ED6886E0044DC77 /* MetalRenderDevice.mm */,
 				6B39C58E1ED6886E0044DC77 /* MetalRenderState.h */,
@@ -173,6 +188,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BBF97D01F7E8DEC00EC8F88 /* MetalRenderPass.mm in Sources */,
+				6BBF97C91F7E8CAB00EC8F88 /* MetalRenderCommand.mm in Sources */,
 				6B39C5A71ED6886E0044DC77 /* MetalVertexDeclaration.mm in Sources */,
 				6B39C59F1ED6886E0044DC77 /* MetalIndexBuffer.mm in Sources */,
 				6B39C59E1ED6886E0044DC77 /* MetalConstantBuffer.mm in Sources */,
@@ -185,6 +202,7 @@
 				6B39C5A91ED6886E0044DC77 /* stdafx.mm in Sources */,
 				6B39C5A31ED6886E0044DC77 /* MetalSamplerState.mm in Sources */,
 				6B39C5A21ED6886E0044DC77 /* MetalRenderState.mm in Sources */,
+				6BBF97CF1F7E8DCA00EC8F88 /* MetalTechniqueh.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

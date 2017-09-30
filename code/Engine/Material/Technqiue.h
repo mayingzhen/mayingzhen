@@ -21,7 +21,7 @@ namespace ma
 
 		virtual void		UnBind();
 
-		virtual void		CommitChanges();
+		virtual void		CommitChanges(RenderCommand* pCmd);
 
 		const char*			GetTechName() const;
 		void				SetTechName(const char* pName);
@@ -78,10 +78,8 @@ namespace ma
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
-		void				SetRenderPass(FrameBuffer* pRenderPass) { m_pRenderPass = pRenderPass; }
-		FrameBuffer*		GetRenderPass() { return m_pRenderPass; }
-
-		void				SetCommamd(void* p) { m_pCommand = p; }
+		void				SetRenderPass(RenderPass* pRenderPass) { m_pRenderPass = pRenderPass; }
+		RenderPass*			GetRenderPass() { return m_pRenderPass; }
 
 	protected:
 		void				BindUniform();
@@ -105,7 +103,7 @@ namespace ma
 
 		std::vector<Parameter*>			m_arrParameters; 
 
-		FrameBuffer*					m_pRenderPass = NULL;
+		RenderPass*						m_pRenderPass = NULL;
 
 		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
 		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
@@ -114,8 +112,6 @@ namespace ma
 
 	protected:
 		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];
-
-		void*							m_pCommand = NULL;
 	};
 	
 	RefPtr<Technique> CreateTechnique();

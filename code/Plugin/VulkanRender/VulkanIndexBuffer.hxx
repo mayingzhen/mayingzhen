@@ -6,49 +6,22 @@ namespace ma
 
 VulkanIndexBuffer::VulkanIndexBuffer()
 {
-	//mVulkanIndexBuffer = NULL;
 }
 
 VulkanIndexBuffer::~VulkanIndexBuffer()
 {
-   // SAFE_RELEASE(mVulkanIndexBuffer);
+	indexBuffer.destroy();
 }
 
 
 void* VulkanIndexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
 	return NULL;
-// 	Vulkan_MAP D3DLock;
-// 
-// 	if (LockFlag & LOCK_WRITE)
-// 		D3DLock = Vulkan_MAP_WRITE;
-// 
-// 	if (LockFlag & LOCK_READONLY)
-// 		D3DLock = Vulkan_MAP_READ;
-// 
-// 	if ((LockFlag & LOCK_DISCARD) && (m_Usage & USAGE_DYNAMIC))
-// 		D3DLock = Vulkan_MAP_WRITE_DISCARD;
-// 
-// 	if (LockFlag & LOCK_NOOVERWRITE)
-// 		D3DLock = Vulkan_MAP_WRITE_NO_OVERWRITE;
-// 
-// 
-// 	Vulkan_MAPPED_SUBRESOURCE mappedData;
-// 	mappedData.pData = 0;
-// 
-// 	GetVulkanDxDeviveContext()->Map(mVulkanIndexBuffer, 0, D3DLock, 0,&mappedData);
-// 	ASSERT(mappedData.pData);
-// 	if (mappedData.pData == NULL)
-// 	{
-// 		LogError("Failed to map vertex buffer");
-// 	}
-// 
-// 	return mappedData.pData;
 }
 
 void VulkanIndexBuffer::UnlockImpl()
 {
-	//GetVulkanDxDeviveContext()->Unmap(mVulkanIndexBuffer, 0);
+
 }
 
 void VulkanIndexBuffer::RT_StreamComplete()

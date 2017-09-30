@@ -12,11 +12,11 @@
 
 + (Class) layerClass
 {
-    if (ma::Game::GetInstance().GetSetting().bForceGLES)
-    {
-        return [CAEAGLLayer class];
-    }
-    else
+    //if (ma::Game::GetInstance().GetSetting().eRenderType == R)
+    //{
+    //    return [CAEAGLLayer class];
+    //}
+    //else
     {
         return [CAMetalLayer class];
     }

@@ -2,6 +2,7 @@
 #include "MetalConstantBuffer.h"
 #include "MetalRenderDevice.h"
 #include "MetalVertexDeclaration.h"
+#include "../../Engine/Material/PrePareShaderSource.h"
 
 namespace ma
 {
@@ -21,8 +22,6 @@ namespace ma
 
 	void MetalShaderProgram::Destory()
 	{
-        m_vecVSConstantBuffers.clear();
-        m_vecPSConstantBuffers.clear();
 	}
 
 	void MetalShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
@@ -141,12 +140,8 @@ namespace ma
 		return;
 	}
 
-
 	void MetalShaderProgram::ParseUniform()
 	{
-        ASSERT(m_vecVSConstantBuffers.empty());
-        ASSERT(m_vecPSConstantBuffers.empty());
-        
         for (MTLArgument *arg in m_pReflection.vertexArguments)
         {
             if (arg.type == MTLArgumentTypeBuffer)
@@ -154,20 +149,34 @@ namespace ma
                 if (arg.bufferStructType == nil)
                     continue;
                 
-                RefPtr<ConstantBuffer> pConBuffer =  CreateConstantBuffer(arg.name.UTF8String, arg.index, arg.bufferDataSize);
-                m_vecVSConstantBuffers.push_back(pConBuffer);
+                RefPtr<MetalConstantBuffer> pConstantBuffer = new MetalConstantBuffer();
+                pConstantBuffer->SetName(arg.name.UTF8String);
+                pConstantBuffer->SetBound(arg.index);
+                pConstantBuffer->SetSize(arg.bufferDataSize);
+                this->AddConstBuffer(VS, pConstantBuffer.get());
+                Uniform* pPreUniform = NULL;
                 for (MTLStructMember* mem in arg.bufferStructType.members)
                 {
-                    ASSERT(mem.name);
-                    Uniform* pUniform = this->AddUniform(mem.name.UTF8String);
-                    //pUniform->m_location = 0;
-                    pUniform->m_type = mem.dataType;
-                    pUniform->m_vshShder = true;
-                    //pUniform->m_index = 0;
-                    pUniform->m_nCount = 0;
-                    pUniform->m_pD3D11CBPtr = pConBuffer.get();
-                    pUniform->m_nCBOffset = mem.offset;
-                    pUniform->m_nCBSize = arg.bufferDataSize;
+                    Uniform* pUniform = pConstantBuffer->AddUniform(mem.name.UTF8String);
+    
+                    pUniform->SetOffset(mem.offset);
+
+                    // ToDo :getSize mem.dataType
+                    if (pPreUniform)
+                    {
+                        pPreUniform->SetSize(pUniform->GetOffset() - pPreUniform->GetOffset());
+                    }
+                    else
+                    {
+                        pUniform->SetSize(pUniform->GetOffset());
+                    }
+                    
+                    pPreUniform = pUniform;
+                }
+                
+                if (pPreUniform)
+                {
+                    pPreUniform->SetSize(arg.bufferDataSize - pPreUniform->GetOffset());
                 }
             }
         }
@@ -176,27 +185,43 @@ namespace ma
         {
             if (arg.type == MTLArgumentTypeBuffer)
             {
-                RefPtr<ConstantBuffer> pConBuffer =  CreateConstantBuffer(arg.name.UTF8String, arg.index, arg.bufferDataSize);
-                m_vecPSConstantBuffers.push_back(pConBuffer);
+                RefPtr<MetalConstantBuffer> pConstantBuffer = new MetalConstantBuffer();
+                pConstantBuffer->SetName(arg.name.UTF8String);
+                pConstantBuffer->SetBound(arg.index);
+                pConstantBuffer->SetSize(arg.bufferDataSize);
+                this->AddConstBuffer(PS, pConstantBuffer.get());
+                
+                Uniform* pPreUniform = NULL;
                 for (MTLStructMember* mem in arg.bufferStructType.members)
                 {
-                    Uniform* pUniform = this->AddUniform(mem.name.UTF8String);
-                    //pUniform->m_location = 0;
-                    pUniform->m_type = mem.dataType;
-                    pUniform->m_vshShder = false;
-                    //pUniform->m_index = 0;
-                    pUniform->m_nCount = 0;
-                    pUniform->m_pD3D11CBPtr = pConBuffer.get();
-                    pUniform->m_nCBOffset = mem.offset;
-                    pUniform->m_nCBSize = arg.bufferDataSize;
+                    Uniform* pUniform = pConstantBuffer->AddUniform(mem.name.UTF8String);
+                    
+                    pUniform->SetOffset(mem.offset);
+                    
+                    // ToDo :getSize mem.dataType
+                    if (pPreUniform)
+                    {
+                        pPreUniform->SetSize(pUniform->GetOffset() - pPreUniform->GetOffset());
+                    }
+                    else
+                    {
+                        pUniform->SetSize(pUniform->GetOffset());
+                    }
+                    
+                    pPreUniform = pUniform;
+                }
+                
+                if (pPreUniform)
+                {
+                    pPreUniform->SetSize(arg.bufferDataSize - pPreUniform->GetOffset());
                 }
             }
             else if (arg.type == MTLArgumentTypeTexture)
             {
-                Uniform* pUniform = this->AddUniform(arg.name.UTF8String);
+                RefPtr<Uniform> pUniform = CreateUniform(arg.name.UTF8String);
+                pUniform->SetIndex(arg.index);
                 
-                pUniform->m_type = arg.textureDataType;
-                pUniform->m_index = arg.index;
+                this->AddSampler(pUniform.get());
             }
         }
 	}
@@ -207,33 +232,26 @@ namespace ma
 
 
 	}
-
-	void MetalShaderProgram::RT_SetShader()
-	{
-
-	}
-
-	void MetalShaderProgram::CommitChanges(/*id<MTLRenderCommandEncoder> renderEncoder*/)
-	{
-        MetalRenderDevice* pMetalRender = (MetalRenderDevice*)GetRenderDevice();
-        id<MTLRenderCommandEncoder> renderEncoder = pMetalRender->GetRenderCommandEncoder();
-        [renderEncoder setRenderPipelineState:m_pipelineState];
-
-		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
-		{
-			if (m_vecVSConstantBuffers[i])
-			{
-				m_vecVSConstantBuffers[i]->Apply(renderEncoder,false);
-			}
-		}
+    
+    void MetalShaderProgram::RT_StreamComplete()
+    {
+        ASSERT(GetResState() == ResLoaded);
         
-        for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
-        {
-            if (m_vecPSConstantBuffers[i])
-            {
-                m_vecPSConstantBuffers[i]->Apply(renderEncoder,true);
-            }
-        }
-	}
+        std::string strPath = GetRenderSystem()->GetShaderPath();
+        
+        std::string strPathVS = strPath + GetVSFile() + ".vert";
+        std::string strPathFS = strPath + GetPSFile() + ".frag";
+        
+        std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), GetShaderMacro());
+        std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), GetShaderMacro());
+        
+        CreateFromSource(strVshSource.c_str(), strVshSource.length(),
+                         strFshSource.c_str(), strFshSource.length());
+        
+        ParseUniform();
+        
+        SetResState(ResInited);
+    }
+    
 }
 

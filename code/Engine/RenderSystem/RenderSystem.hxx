@@ -211,11 +211,11 @@ namespace ma
 
 		InitParticleVideoMemory();
 
-		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
-		{
-			m_pRenderTarget[i] = GetRenderDevice()->GetDefaultRenderTarget(i);
-		}
-		m_pDepthStencil = GetRenderDevice()->GetDefaultDepthStencil();
+// 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
+// 		{
+// 			m_pRenderTarget[i] = GetRenderDevice()->GetDefaultRenderTarget(i);
+// 		}
+// 		m_pDepthStencil = GetRenderDevice()->GetDefaultDepthStencil();
 		m_curViewport = GetRenderDevice()->GetViewport();
 	
 		LineRender::Init();
@@ -266,37 +266,37 @@ namespace ma
 		}
 	}
 
-	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
-	{
-		m_pRenderThread->RC_DrawRenderable(pRenderable,pTechnique);
-	}
+// 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
+// 	{
+// 		m_pRenderThread->RC_DrawRenderable(pRenderable,pTechnique);
+// 	}
 
-	void RenderSystem::RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
-	{
-		if (pRenderable == NULL)
-			return;
-
-		RefPtr<SubMeshData>& pSubMesh = pRenderable->m_pSubMeshData;
-		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
-			return;
-
-		//if (m_pCurVB != pRenderable->m_pVertexBuffer)
-		{
-			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get(),pRenderable->m_pCommand);
-
-			m_pCurVB = pRenderable->m_pVertexBuffer.get();
-		}
-
-		//if (m_pCurIB != pRenderable->m_pIndexBuffer)
-		{
-			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get(), pRenderable->m_pCommand);
-
-			m_pCurIB = pRenderable->m_pIndexBuffer.get();
-		}
-
-		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
-
-	}
+// 	void RenderSystem::RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
+// 	{
+// 		if (pRenderable == NULL)
+// 			return;
+// 
+// 		RefPtr<SubMeshData>& pSubMesh = pRenderable->m_pSubMeshData;
+// 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
+// 			return;
+// 
+// 		//if (m_pCurVB != pRenderable->m_pVertexBuffer)
+// 		{
+// 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get(),pRenderable->m_pCommand);
+// 
+// 			m_pCurVB = pRenderable->m_pVertexBuffer.get();
+// 		}
+// 
+// 		//if (m_pCurIB != pRenderable->m_pIndexBuffer)
+// 		{
+// 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get(), pRenderable->m_pCommand);
+// 
+// 			m_pCurIB = pRenderable->m_pIndexBuffer.get();
+// 		}
+// 
+// 		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
+// 
+// 	}
 
 	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
@@ -323,31 +323,31 @@ namespace ma
 		return pTarget;
 	}
 
-	void RenderSystem::BeginRenderPass(FrameBuffer* pFB)
-	{
-		m_pRenderThread->RC_BeginRenderPass(pFB);
-	}
+// 	void RenderSystem::BeginRenderPass(FrameBuffer* pFB)
+// 	{
+// 		m_pRenderThread->RC_BeginRenderPass(pFB);
+// 	}
+// 
+// 	void RenderSystem::EndRenderPass(FrameBuffer* pFB)
+// 	{
+// 		m_pRenderThread->RC_EndRenderPass(pFB);
+// 	}
+// 
+// 	void RenderSystem::SetFrameBuffer(FrameBuffer* pFB)
+// 	{
+// 		m_pRenderThread->RC_SetFrameBuffer(pFB);
+// 	}
 
-	void RenderSystem::EndRenderPass(FrameBuffer* pFB)
-	{
-		m_pRenderThread->RC_EndRenderPass(pFB);
-	}
-
-	void RenderSystem::SetFrameBuffer(FrameBuffer* pFB)
-	{
-		m_pRenderThread->RC_SetFrameBuffer(pFB);
-	}
-
-	RefPtr<Texture> RenderSystem::SetRenderTarget(int index,Texture* pTexture, int level, int array_index, int face)
-	{
-		RefPtr<Texture> pPreTarget = m_pRenderTarget[index];
-		
-		m_pRenderThread->RC_SetRenderTarget(index,pTexture,level,array_index,face);
-		
-		m_pRenderTarget[index] = pTexture;
-
-		return pPreTarget;
-	}
+// 	RefPtr<Texture> RenderSystem::SetRenderTarget(int index,Texture* pTexture, int level, int array_index, int face)
+// 	{
+// 		RefPtr<Texture> pPreTarget = m_pRenderTarget[index];
+// 		
+// 		m_pRenderThread->RC_SetRenderTarget(index,pTexture,level,array_index,face);
+// 		
+// 		m_pRenderTarget[index] = pTexture;
+// 
+// 		return pPreTarget;
+// 	}
 
 
 	RefPtr<Texture> RenderSystem::GetRenderTarget(int index)
@@ -355,76 +355,76 @@ namespace ma
 		return m_pRenderTarget[index];
 	}
 
-	RefPtr<Texture> RenderSystem::GetDefaultRenderTarget()
+// 	RefPtr<Texture> RenderSystem::GetDefaultRenderTarget()
+// 	{
+// 		return GetRenderDevice()->GetDefaultRenderTarget();
+// 	}
+// 
+// 	RefPtr<Texture> RenderSystem::GetDefaultDepthStencil()
+// 	{
+// 		return GetRenderDevice()->GetDefaultDepthStencil();
+// 	}
+
+// 	RefPtr<Texture> RenderSystem::SetDepthStencil(RefPtr<Texture> pTexture)
+// 	{
+// 		RefPtr<Texture> pPreDepth = m_pDepthStencil;
+// 		
+// 		m_pRenderThread->RC_SetDepthStencil(pTexture.get());
+// 
+// 		m_pDepthStencil = pTexture.get();
+// 
+// 		return pPreDepth;
+// 	}
+
+// 	Rectangle RenderSystem::SetViewPort(const Rectangle& viewPort)
+// 	{
+// 		Rectangle preViewPort = m_curViewport;
+// 
+// 		m_pRenderThread->RC_SetViewPort(viewPort);
+// 
+// 		m_curViewport = viewPort;
+// 
+// 		return preViewPort;
+// 	}
+
+	RenderPass* RenderSystem::GetDefaultRenderPass()
 	{
-		return GetRenderDevice()->GetDefaultRenderTarget();
-	}
-
-	RefPtr<Texture> RenderSystem::GetDefaultDepthStencil()
-	{
-		return GetRenderDevice()->GetDefaultDepthStencil();
-	}
-
-	RefPtr<Texture> RenderSystem::SetDepthStencil(RefPtr<Texture> pTexture)
-	{
-		RefPtr<Texture> pPreDepth = m_pDepthStencil;
-		
-		m_pRenderThread->RC_SetDepthStencil(pTexture.get());
-
-		m_pDepthStencil = pTexture.get();
-
-		return pPreDepth;
-	}
-
-	Rectangle RenderSystem::SetViewPort(const Rectangle& viewPort)
-	{
-		Rectangle preViewPort = m_curViewport;
-
-		m_pRenderThread->RC_SetViewPort(viewPort);
-
-		m_curViewport = viewPort;
-
-		return preViewPort;
-	}
-
-	FrameBuffer* RenderSystem::GetDefaultFrameBuffer()
-	{
-		return GetRenderDevice()->GetDefaultFrameBuffer();
+		return GetRenderDevice()->GetDefaultRenderPass();
 	}
 	
-	void RenderSystem::SetShaderProgram(ShaderProgram* pShader)
-	{
-		if (m_pCurShader != pShader)
-		{
-			m_pCurShader = pShader;
-			m_pRenderThread->RC_SetShaderProgram(pShader);
-		}
-	}
-
-	void RenderSystem::SetBlendState(const BlendState* pBlendState)
-	{
-		m_pRenderThread->RC_SetBlendState(pBlendState);
-	}
-
-	void RenderSystem::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
-	{
-		m_pRenderThread->RC_SetDepthStencilState(pDSState, nStencilRef);
-	}
-
-	void RenderSystem::SetVertexDeclaration(const VertexDeclaration* pVertexDecl)
-	{
-		m_pRenderThread->RC_SetVertexDeclation(pVertexDecl);
-	}
-
-	void RenderSystem::SetRasterizerState(const RasterizerState* pRSState)
-	{
-		m_pRenderThread->RC_SetRasterizerState(pRSState);
-	}
-
-	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
-	{
-		m_pRenderThread->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
-	}
+// 	void RenderSystem::SetShaderProgram(ShaderProgram* pShader)
+// 	{
+// 		if (m_pCurShader != pShader)
+// 		{
+// 			m_pCurShader = pShader;
+// 			m_pRenderThread->RC_SetShaderProgram(pShader);
+// 		}
+// 	}
+// 
+// 	void RenderSystem::SetBlendState(const BlendState* pBlendState)
+// 	{
+// 		m_pRenderThread->RC_SetBlendState(pBlendState);
+// 	}
+// 
+// 	void RenderSystem::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
+// 	{
+// 		m_pRenderThread->RC_SetDepthStencilState(pDSState, nStencilRef);
+// 	}
+// 
+// 	void RenderSystem::SetVertexDeclaration(const VertexDeclaration* pVertexDecl)
+// 	{
+// 		m_pRenderThread->RC_SetVertexDeclation(pVertexDecl);
+// 	}
+// 
+// 	void RenderSystem::SetRasterizerState(const RasterizerState* pRSState)
+// 	{
+// 		m_pRenderThread->RC_SetRasterizerState(pRSState);
+// 	}
+// 
+// 	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
+// 	{
+// 		m_pRenderThread->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
+// 	}
 
 	void RenderSystem::TechniqueStreamComplete(Technique* pTech)
 	{
@@ -601,11 +601,7 @@ namespace ma
 	const char*	RenderSystem::GetShaderPath()
 	{
 		RenderDeviceType type = GetRenderDevice()->GetRenderDeviceType();
-		if ( type == RenderDevice_D3D11 )
-		{
-			return "shader/hlsl/";
-		}
-		else if (type == RenderDevice_METAL)
+		if (type == RenderDevice_METAL)
         {
             return "shader/metal/";
         }

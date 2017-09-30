@@ -16,7 +16,7 @@ namespace ma
 
 		virtual void					PreRender(Technique* pTech);
 
-		virtual void					Render(Technique* pTech);
+		//virtual void					Render(Technique* pTech);
 
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;

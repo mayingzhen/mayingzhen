@@ -75,45 +75,43 @@ namespace ma
 		uint32 m_nNodeCount;
 		UINT m_nIndex;
 		RenderPassType eRPType;
-		void* pCommand;
+		RenderCommand* pCommand;
 
 		void Do(MT::FiberContext&)
 		{
+			pCommand->Begin();
+
 			Renderable** ppNodeStart = m_pNodeStart;
 			UINT32 nIndexCount = m_nNodeCount;
 
-			Rectangle viewPort = GetRenderSystem()->GetViewPort();
-
-			GetRenderDevice()->BegineThreadCommand(pCommand);
-
-			GetRenderDevice()->SetViewport(viewPort, pCommand);
-
 			for (uint32 i = 0; i <= nIndexCount; ++i)
 			{
-				Renderable* pRenderObj = ppNodeStart[i];
+				Renderable* pRenderable = ppNodeStart[i];
 
-				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
+				Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
 				if (eRPType == RP_ShadowDepth)
 				{
-					pTech = pRenderObj->m_pSubMaterial->GetShadowDepthTechnqiue();
+					pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
 				}
 
-				pRenderObj->m_pCommand = pCommand;
+				pTech->CommitChanges(pCommand);
 
-				pTech->SetCommamd(pCommand);
+				pCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
 
-				pRenderObj->Render(pTech);
+				pCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
+
+				pCommand->DrawRenderable(pRenderable, pTech);
 			}
 
-			GetRenderDevice()->EndThreadCommand(pCommand);
+			pCommand->End();
 		}
 	};
 
-	void BatchRenderable::Render(RenderPassType eRPType, RenderListType eRLType)
+	void BatchRenderable::Render(RenderPass* pPass, RenderPassType eRPType, RenderListType eRLType)
 	{
 		uint32 nNumJob = MT::g_pTaskScheduler ? MT::g_pTaskScheduler->GetWorkersCount() : 0;
 
-		if (MT::g_pTaskScheduler && m_arrRenderList.size() > nNumJob)
+		if (/*MT::g_pTaskScheduler && m_arrRenderList.size() > nNumJob*/0)
 		{
 			//BEGIN_TIME(g_pTaskScheduler);
 
@@ -144,56 +142,36 @@ namespace ma
 
 				vecJobData[iJob].eRPType = eRPType;
 
-				vecJobData[iJob].pCommand = GetRenderDevice()->GetThreadCommand(iJob, eRPType, eRLType);
+				vecJobData[iJob].pCommand = pPass->GetThreadCommand(iJob, eRPType, eRLType);
 			}
 
 			MT::g_pTaskScheduler->RunAsync(MT::TaskGroup::Default(), &vecJobData[0], vecJobData.size());
 			MT::g_pTaskScheduler->WaitGroup(MT::TaskGroup::Default(), -1);
-
-			for (; iJob < nNumJob; ++iJob)
-			{
-				 void* pCommand = GetRenderDevice()->GetThreadCommand(iJob, eRPType, eRLType);
-
-				 GetRenderDevice()->BegineThreadCommand(pCommand);
-			
-				 GetRenderDevice()->EndThreadCommand(pCommand);
-			}
 		}
 		else
 		{
-			void* pCommand = GetRenderDevice()->GetThreadCommand(0,eRPType,eRLType);
-
-			Rectangle viewPort = GetRenderSystem()->GetViewPort();
-
-			GetRenderDevice()->BegineThreadCommand(pCommand);
-
-			GetRenderDevice()->SetViewport(viewPort, pCommand);
+			RenderCommand* pCommand = pPass->GetThreadCommand(0,eRPType,eRLType);
+		
+			pCommand->Begin();
 
 			for (UINT i = 0; i < m_arrRenderList.size(); ++i)
 			{
-				Renderable* pRenderObj = m_arrRenderList[i];
-				if (pRenderObj == NULL)
+				Renderable* pRenderable = m_arrRenderList[i];
+				if (pRenderable == NULL)
 					continue;
 
-				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
+				Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
 
-				pRenderObj->m_pCommand = pCommand;
+				pCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
 
-				pTech->SetCommamd(pCommand);
+				pCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
 
-				pRenderObj->Render(pTech);
+				pTech->CommitChanges(pCommand);
+
+				pCommand->DrawRenderable(pRenderable, pTech);
 			}
 
-			GetRenderDevice()->EndThreadCommand(pCommand);
-
-			for (UINT iJob = 1; iJob < nNumJob; ++iJob)
-			{
-				void* pCommand = GetRenderDevice()->GetThreadCommand(iJob, eRPType, eRLType);
-
-				GetRenderDevice()->BegineThreadCommand(pCommand);
-
-				GetRenderDevice()->EndThreadCommand(pCommand);
-			}
+			pCommand->End();
 		}
 	}
 

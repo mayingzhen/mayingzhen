@@ -190,17 +190,17 @@ namespace ma
 	{
 		if (m_pBlendState)
 		{
-			GetRenderSystem()->SetBlendState(m_pBlendState.get());
+			//GetRenderSystem()->SetBlendState(m_pBlendState.get());
 		}
 	
 		if (m_pDSState)
 		{
-			GetRenderSystem()->SetDepthStencilState(m_pDSState.get(), m_nStencilRef);
+			//GetRenderSystem()->SetDepthStencilState(m_pDSState.get(), m_nStencilRef);
 		}
 		
 		if (m_pRSState)
 		{
-			GetRenderSystem()->SetRasterizerState(m_pRSState.get());
+			//GetRenderSystem()->SetRasterizerState(m_pRSState.get());
 		}
 		
 		BindUniform();
@@ -208,7 +208,7 @@ namespace ma
 
 	void Technique::BindUniform()
 	{
-		GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
+		//GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
 
 		for (UINT i = 0; i < ShaderType_Number; ++i)
 		{
@@ -309,13 +309,8 @@ namespace ma
 		
 	}
 
-	void Technique::CommitChanges()
+	void Technique::CommitChanges(RenderCommand* pCmd)
 	{
-// 		ASSERT(m_pShaderProgram);
-// 		if (m_pShaderProgram)
-// 		{
-// 			m_pShaderProgram->CommitChanges();
-// 		}
 	}
 
 	void Technique::SetParameter(const char* pszName,const Any& value)	

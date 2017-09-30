@@ -67,22 +67,11 @@ namespace ma
         
 
 #if PLATFORM_WIN == 1
-		if (m_setting.eRenderType == RenderDevice_D3D11)
-		{
-			//D3D11RenderModuleInit();
-		}
-		else if (m_setting.eRenderType == RenderDevice_VULKAN)
-		{
-			VulkanRenderModuleInit();
-		}
-		else if (m_setting.eRenderType == RenderDevice_GLES2)
-		{
-			//GLESRenderModuleInit();
-		}
+        VulkanRenderModuleInit();
 #elif PLAFTORM_IOS == 1
         MetalRenderModuleInit();
 #elif PLATFORM_ANDROID == 1
-        GLESRenderModuleInit();
+        VulkanRenderModuleInit();
 #endif
       
 #if PLATFORM_WIN == 1
@@ -98,22 +87,11 @@ namespace ma
 		BtPhysicsModuleShutdown();
         
 #if PLATFORM_WIN == 1
-		if (m_setting.eRenderType == RenderDevice_D3D11)
-		{
-			//D3D11RenderModuleShutdown();
-		}
-		else if (m_setting.eRenderType == RenderDevice_VULKAN)
-		{
-			VulkanRenderModuleShutdown();
-		}
-		else if (m_setting.eRenderType == RenderDevice_GLES2)
-		{
-			//GLESRenderModuleShutdown();
-		}	
+        VulkanRenderModuleShutdown();
 #elif PLAFTORM_IOS == 1
         MetalRenderModuleShutdown();
 #elif PLATFORM_ANDROID == 1
-        GLESRenderModuleShutdown();
+        VulkanRenderModuleShutdown();
 #endif
        
 #if PLATFORM_WIN == 1

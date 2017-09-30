@@ -12,12 +12,12 @@ enum StencilBitUse
 
 namespace ma
 {
-	DeferredShadowPass::DeferredShadowPass(Scene* pScene)
-		:RenderPass(pScene)
+	DeferredShadowPass::DeferredShadowPass(/*Scene* pScene*/)
+		//:RenderPass(pScene)
 	{
 		m_pRenderable = new Renderable;
 	
-		m_ShadowLight = pScene->GetDirLight();
+		//m_ShadowLight = pScene->GetDirLight();
 	}
 
 	void DeferredShadowPass::CreateSimpleLightFrustumMesh()
@@ -122,11 +122,11 @@ namespace ma
 
 		RefPtr<Texture> pPreTarget = GetRenderSystem()->GetRenderTarget(0);
 
-		FrameBuffer fb;
-		fb.AttachColor(0,m_pShadowTex.get());
-		GetRenderSystem()->SetFrameBuffer(&fb);
+// 		FrameBuffer fb;
+// 		fb.AttachColor(0,m_pShadowTex.get());
+// 		GetRenderSystem()->SetFrameBuffer(&fb);
 
-		GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::White,1,0);
+		//GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::White,1,0);
 		
 		m_pFrustumVolume->Bind();
 
@@ -151,7 +151,7 @@ namespace ma
 				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
 				m_pFrustumVolume->SetValue(m_pFrustumVolume->GetUniform("matFrustum"), matFrum );
 
-				GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
+				//GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 			}
 
 			// This frustum, not including blend region
@@ -167,7 +167,7 @@ namespace ma
 				matFrum = matFrum * matBlend;
 				m_pFrustumVolume->SetValue(m_pFrustumVolume->GetUniform("matFrustum"), matFrum );
 
-				GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
+				//GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 			}
 
 		}
@@ -236,18 +236,18 @@ namespace ma
 			ScreenQuad::Render(m_pDefferedShadow.get());
 		}
 
-		if (!m_pScene->GetRenderScheme()->GetDeferredShadingEnabled())
-		{
-			FrameBuffer fb;
-			fb.AttachColor(0,pPreTarget.get());
-			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
-			GetRenderSystem()->SetFrameBuffer(&fb);
+// 		if (!m_pScene->GetRenderScheme()->GetDeferredShadingEnabled())
+// 		{
+// 			FrameBuffer fb;
+// 			fb.AttachColor(0,pPreTarget.get());
+// 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+// 			GetRenderSystem()->SetFrameBuffer(&fb);
 
 			//ShaderProgram* pShader = m_pScreen->GetShaderProgram();
-			m_pScreen->SetValue(m_pScreen->GetUniform("tSrcColor"),m_pShadowTex.get());
+			//m_pScreen->SetValue(m_pScreen->GetUniform("tSrcColor"),m_pShadowTex.get());
 
-			ScreenQuad::Render(m_pScreen.get());	
-		}
+			//ScreenQuad::Render(m_pScreen.get());	
+		//}
 	}
 
 	void DeferredShadowPass::Shoutdown()

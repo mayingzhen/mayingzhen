@@ -7,8 +7,6 @@ namespace ma
 {
 	VulkanConstantBuffer::VulkanConstantBuffer() 
 	{
-		//m_pVulkanBuffer = NULL;
-		m_bDirty = false;
 	}
 
 	VulkanConstantBuffer::~VulkanConstantBuffer()
@@ -18,26 +16,16 @@ namespace ma
 
 	void VulkanConstantBuffer::Release()
 	{
-// 		if (m_pVulkanBuffer)
-// 		{
-// 			SAFE_RELEASE(m_pVulkanBuffer);
-// 		}
-
-		//m_shadowData.clear();
+// 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
+// 		vkDestroyBuffer(vulkanDevice->logicalDevice, m_buf, nullptr);
+// 
+// 		vkFreeMemory(vulkanDevice->logicalDevice, m_mem, nullptr);
 	}
 
 
 	bool VulkanConstantBuffer::Create()
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
-
-		// Round up to next 16 bytes
-// 		size += 15;
-// 		size &= 0xfffffff0;
-
-		//m_nSize = size;
-
-		m_bDirty = false;
 
 		/* VULKAN_KEY_START */
 		VkBufferCreateInfo buf_info = {};
@@ -74,8 +62,6 @@ namespace ma
 
 		memset(m_mapped, 0, this->GetSize());
 
-		//vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
-
 		m_descriptor.offset = 0;
 		m_descriptor.buffer = m_buf;
 		m_descriptor.range = this->GetSize();
@@ -88,12 +74,6 @@ namespace ma
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
 		memcpy(m_mapped + offset, data, size);
-
-		m_bDirty = true;
-	}
-
-	void VulkanConstantBuffer::Apply()
-	{
 	}
 
 	void VulkanConstantBuffer::Clear()

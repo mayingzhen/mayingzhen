@@ -12,7 +12,7 @@ namespace ma
 
 		gpSphere->SetWorldMatrix(matTras);
 		
-		gpSphere->Render(pTech);
+		//gpSphere->Render(pTech);
 	}
 
 	void SphereTessR(Vector3& v0, Vector3& v1, Vector3& v2, int depth, vector<uint16>& indBuff, vector<Vector3>& vertBuff)

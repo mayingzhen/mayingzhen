@@ -3,58 +3,50 @@
 
 namespace ma
 {
-    std::map<std::string, RefPtr<ConstantBuffer> > g_mapConstantBufferPool;
+    std::vector< MetalConstantBuffer* > g_mapConstantBufferPool;
 
-	ConstantBuffer::ConstantBuffer() 
+	MetalConstantBuffer::MetalConstantBuffer()
 	{
 		m_bDirty = false;
-        m_nIndex = 0;
         m_nCurFrame = 0;
+        
+        g_mapConstantBufferPool.push_back(this);
 	}
 
-	ConstantBuffer::~ConstantBuffer()
-	{
-		Release();
-	}
-
-	void ConstantBuffer::Release()
-	{
-	}
-
-	bool ConstantBuffer::SetSize(UINT size,UINT nIndex)
+	MetalConstantBuffer::~MetalConstantBuffer()
 	{
 		Release();
         
-        m_nIndex = nIndex;
+        auto it = std::find(g_mapConstantBufferPool.begin(),g_mapConstantBufferPool.end(),this);
+        g_mapConstantBufferPool.erase(it);
+	}
 
-		if (!size)
-		{
-			LogError("Can not create zero-sized constant buffer");
-			return false;
-		}
+	void MetalConstantBuffer::Release()
+	{
+	}
+
+	bool MetalConstantBuffer::Create()
+	{
+		Release();
 
 		// Round up to next 16 bytes
-		size += 15;
-		size &= 0xfffffff0;
+		UINT nSize = GetSize() + 15;
+		nSize &= 0xfffffff0;
 
 		m_bDirty = false;
-		//m_shadowData.resize(size);// = new unsigned char[size_];
-		//memset(&m_shadowData[0], 0, size);
 
         for (uint i = 0; i < 3; ++i)
         {
-            m_pMetalBuffer[i] = [GetMetalDevive() newBufferWithLength:size options:0];
-            m_pMetalBuffer[i].label = [NSString stringWithFormat:@"ConstantBuffer %d_frmae%d",nIndex,i];
+            m_pMetalBuffer[i] = [GetMetalDevive() newBufferWithLength:nSize options:0];
+            m_pMetalBuffer[i].label = [NSString stringWithFormat:@"ConstantBuffer %d_frmae%d",GetBound(),i];
         }
-
-        m_nSize = size;
 
 		return true;
 	}
 
-	void ConstantBuffer::SetParameter(unsigned offset, unsigned size, const void* data)
+	void MetalConstantBuffer::SetParameter(unsigned offset, unsigned size, const void* data)
 	{
-		if (offset + size > m_nSize)
+		if (offset + size > GetSize())
 			return; // Would overflow the buffer
 
         void* shadowData = [m_pMetalBuffer[m_nCurFrame] contents];
@@ -63,43 +55,44 @@ namespace ma
 		m_bDirty = true;
 	}
 
-	void ConstantBuffer::Apply(id<MTLRenderCommandEncoder> renderEncoder,bool ps)
+	void MetalConstantBuffer::Apply(id<MTLRenderCommandEncoder> renderEncoder,bool ps)
 	{
 		if (m_bDirty && m_pMetalBuffer)
 		{
             if (ps)
             {
-                [renderEncoder setFragmentBuffer:m_pMetalBuffer[m_nCurFrame] offset:0 atIndex:m_nIndex];
+                [renderEncoder setFragmentBuffer:m_pMetalBuffer[m_nCurFrame] offset:0 atIndex:GetBound()];
             }
             else
             {
-                [renderEncoder setVertexBuffer:m_pMetalBuffer[m_nCurFrame] offset:0 atIndex:m_nIndex];
+                [renderEncoder setVertexBuffer:m_pMetalBuffer[m_nCurFrame] offset:0 atIndex:GetBound()];
             }
             
 			m_bDirty = false;
 		}
 	}
     
-    void ConstantBuffer::UpdateFrame()
+    void MetalConstantBuffer::UpdateFrame()
     {
          m_nCurFrame = (m_nCurFrame + 1) % 3;
+        m_nCurFrame = 0;
     }
 
-    void ConstantBuffer::OnEndFrame()
+    void MetalConstantBuffer::OnEndFrame()
     {
         auto it  = g_mapConstantBufferPool.begin();
         for (; it != g_mapConstantBufferPool.end(); ++it)
         {
-            it->second->UpdateFrame();
+            (*it)->UpdateFrame();
         }
     }
     
-	void ConstantBuffer::Clear()
+	void MetalConstantBuffer::Clear()
 	{
 		g_mapConstantBufferPool.clear();
 	}
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(const char* pszName, UINT nIndex, UINT size)
+	RefPtr<MetalConstantBuffer> CreateConstantBuffer(const char* pszName, UINT nIndex, UINT size)
 	{
 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 		//unsigned key = type | (index << 1) | (size << 4);
@@ -110,9 +103,10 @@ namespace ma
 		//}
 		//else
 		{
-			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
-			newConstantBuffer->SetSize(size,nIndex);
-			g_mapConstantBufferPool[pszName] = newConstantBuffer;
+			RefPtr<MetalConstantBuffer> newConstantBuffer(new MetalConstantBuffer());
+            newConstantBuffer->SetSize(size);
+            newConstantBuffer->SetBound(nIndex);
+            newConstantBuffer->Create();
 			return newConstantBuffer;
 		}
 	}

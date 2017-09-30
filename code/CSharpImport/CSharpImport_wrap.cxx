@@ -9809,6 +9809,30 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Rectangle__SWIG_1(float jarg1, float ja
 }
 
 
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_offsetX(void * jarg1) {
+  float jresult ;
+  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
+  float result;
+  
+  arg1 = (ma::Rectangle *)jarg1; 
+  result = (float)((ma::Rectangle const *)arg1)->offsetX();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_offsetY(void * jarg1) {
+  float jresult ;
+  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
+  float result;
+  
+  arg1 = (ma::Rectangle *)jarg1; 
+  result = (float)((ma::Rectangle const *)arg1)->offsetY();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_width(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;

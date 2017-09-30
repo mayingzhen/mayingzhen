@@ -1,5 +1,5 @@
 #include "RenderThread.h"
-#include "FrameBuffer.h"
+#include "RenderCommand.h"
 
 namespace ma
 {
@@ -248,7 +248,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			GetRenderSystem()->RT_DrawRenderable(pRenderable,pTechnique);
+			//GetRenderSystem()->RT_DrawRenderable(pRenderable,pTechnique);
 			return;
 		}
 
@@ -302,160 +302,160 @@ namespace ma
 		AddPointer(pRenderTarget);
 	}
 
-	void RenderThread::RC_SetShaderProgram(ShaderProgram* pShader)
-	{
-		if (IsRenderThread())
-		{
-			pShader->RT_SetShader();	
- 
-			return;
-		}
+// 	void RenderThread::RC_SetShaderProgram(ShaderProgram* pShader)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			pShader->RT_SetShader();	
+//  
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetShader);
+// 		AddPointer(pShader);
+// 	}
+// 
+// 	void RenderThread::RC_BeginRenderPass(FrameBuffer* pFB)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->BeginRenderPass(pFB);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_BeginRenderPass);
+// 		AddPointer(pFB);
+// 	}
+// 
+// 	void RenderThread::RC_EndRenderPass(FrameBuffer* pFB)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->EndRenderPass(pFB);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_EndRenderPass);
+// 		AddPointer(pFB);
+// 	}
+// 
+// 	void RenderThread::RC_SetFrameBuffer(FrameBuffer* pFB)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetFrameBuffer(pFB);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetFrameBuffer);
+// 		AddPointer(pFB);
+// 	}
+// 
+// 	void RenderThread::RC_SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetRenderTarget(index,pTexture,level,array_index,face);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetRenderTarget);
+// 		AddInt(index);
+// 		AddPointer(pTexture);
+// 		AddInt(level);
+// 		AddInt(array_index);
+// 		AddInt(face);
+// 	}
+// 
+// 	void RenderThread::RC_SetDepthStencil(Texture* pTexture)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetDepthStencil(pTexture);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetDepthStencil);
+// 		AddPointer(pTexture);
+// 	}
+// 
+// 	void RenderThread::RC_SetViewPort(const Rectangle& viewPort)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetViewport(viewPort,NULL);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetViewPort);
+// 		AddData(&viewPort,sizeof(Rectangle));
+// 	}
 
-		AddCommand(eRC_SetShader);
-		AddPointer(pShader);
-	}
+// 	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_ClearBuffer);
+// 		AddBool(bColor);
+// 		AddBool(bDepth);
+// 		AddBool(bStencil);
+// 		AddColor(c);
+// 		AddFloat(z);
+// 		AddInt(s);
+// 	}
 
-	void RenderThread::RC_BeginRenderPass(FrameBuffer* pFB)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->BeginRenderPass(pFB);
-			return;
-		}
-
-		AddCommand(eRC_BeginRenderPass);
-		AddPointer(pFB);
-	}
-
-	void RenderThread::RC_EndRenderPass(FrameBuffer* pFB)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->EndRenderPass(pFB);
-			return;
-		}
-
-		AddCommand(eRC_EndRenderPass);
-		AddPointer(pFB);
-	}
-
-	void RenderThread::RC_SetFrameBuffer(FrameBuffer* pFB)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetFrameBuffer(pFB);
-			return;
-		}
-
-		AddCommand(eRC_SetFrameBuffer);
-		AddPointer(pFB);
-	}
-
-	void RenderThread::RC_SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetRenderTarget(index,pTexture,level,array_index,face);
-			return;
-		}
-
-		AddCommand(eRC_SetRenderTarget);
-		AddInt(index);
-		AddPointer(pTexture);
-		AddInt(level);
-		AddInt(array_index);
-		AddInt(face);
-	}
-
-	void RenderThread::RC_SetDepthStencil(Texture* pTexture)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetDepthStencil(pTexture);
-			return;
-		}
-
-		AddCommand(eRC_SetDepthStencil);
-		AddPointer(pTexture);
-	}
-
-	void RenderThread::RC_SetViewPort(const Rectangle& viewPort)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetViewport(viewPort,NULL);
-			return;
-		}
-
-		AddCommand(eRC_SetViewPort);
-		AddData(&viewPort,sizeof(Rectangle));
-	}
-
-	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
-			return;
-		}
-
-		AddCommand(eRC_ClearBuffer);
-		AddBool(bColor);
-		AddBool(bDepth);
-		AddBool(bStencil);
-		AddColor(c);
-		AddFloat(z);
-		AddInt(s);
-	}
-
-	void RenderThread::RC_SetBlendState(const BlendState* pBlendState)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetBlendState(pBlendState);
-			return;
-		}
-
-		AddCommand(eRC_SetBlendState);
-		AddPointer(pBlendState);
-	}
-
-	void RenderThread::RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetDepthStencilState(pDSState,nStencilRef);
-			return;
-		}
-
-		AddCommand(eRC_SetDepthStencilState);
-		AddPointer(pDSState);
-		AddDWORD(nStencilRef);
-	}
-
-	void RenderThread::RC_SetRasterizerState(const RasterizerState* pRSState)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetRasterizerState(pRSState);
-			return;
-		}
-
-		AddCommand(eRC_SetRasterizerState);
-		AddPointer(pRSState);
-	}
-
-	void RenderThread::RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
-			return;
-		}
-
-		AddCommand(eRC_SetVertexDeclation);
-		AddPointer(pVertexDecl);
-	}
+// 	void RenderThread::RC_SetBlendState(const BlendState* pBlendState)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetBlendState(pBlendState);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetBlendState);
+// 		AddPointer(pBlendState);
+// 	}
+// 
+// 	void RenderThread::RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetDepthStencilState(pDSState,nStencilRef);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetDepthStencilState);
+// 		AddPointer(pDSState);
+// 		AddDWORD(nStencilRef);
+// 	}
+// 
+// 	void RenderThread::RC_SetRasterizerState(const RasterizerState* pRSState)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetRasterizerState(pRSState);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetRasterizerState);
+// 		AddPointer(pRSState);
+// 	}
+// 
+// 	void RenderThread::RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetVertexDeclation);
+// 		AddPointer(pVertexDecl);
+// 	}
 
 // 	void RenderThread::RC_SetInt(Uniform* uniform, int value)
 // 	{
@@ -665,7 +665,7 @@ namespace ma
 				{
 					Renderable* pRenderable = ReadCommand<Renderable*>(n);
 					Technique* pTech = ReadCommand<Technique*>(n);
-					GetRenderSystem()->RT_DrawRenderable(pRenderable,pTech);
+					//GetRenderSystem()->RT_DrawRenderable(pRenderable,pTech);
 				}
 				break;
 			case  eRC_TechniqueStreamComplete:
@@ -717,89 +717,89 @@ namespace ma
 					}
 				}
 				break;
-			case  eRC_SetShader:
-				{
-					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
-					pShader->RT_SetShader();
-				}
-				break;
-			case eRC_BeginRenderPass:
-				{
-					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
-					GetRenderDevice()->BeginRenderPass(pFB);
-				}
-				break;
-			case eRC_EndRenderPass:
-				{
-					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
-					GetRenderDevice()->EndRenderPass(pFB);
-				}
-				break;
-			case eRC_SetFrameBuffer:
-				{
-					FrameBuffer* pFB= ReadCommand<FrameBuffer*>(n);
-					GetRenderDevice()->SetFrameBuffer(pFB);
-				}
-				break;
-			case eRC_SetRenderTarget:
-				{
-					int index = ReadCommand<int>(n);
-					Texture* pTarget = ReadCommand<Texture*>(n);
-					int level = ReadCommand<int>(n);
-					int array_index = ReadCommand<int>(n);
-					int face = ReadCommand<int>(n);
-					GetRenderDevice()->SetRenderTarget(index,pTarget,level,array_index,face);
-				}
-				break;
-			case  eRC_SetDepthStencil:
-				{
-					Texture* pTarget = ReadCommand<Texture*>(n);
-					GetRenderDevice()->SetDepthStencil(pTarget);
-				}
-				break;
-			case  eRC_SetViewPort:
-				{
-					Rectangle viewPort;
-					ReadData(n,viewPort);
-					GetRenderDevice()->SetViewport(viewPort,NULL);
-				}
-				break;
-			case  eRC_ClearBuffer:
-				{
-					bool bColor = ReadCommand<bool>(n);
-					bool bDepth = ReadCommand<bool>(n);
-					bool bStencil = ReadCommand<bool>(n);
-					ColourValue c = ReadCommand<ColourValue>(n);
-					float z = ReadCommand<float>(n);
-					int s = ReadCommand<int>(n);
-					GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
-				}
-				break;
-			case eRC_SetBlendState:
-				{
-					BlendState* pBlendState = ReadCommand<BlendState*>(n);
-					GetRenderDevice()->SetBlendState(pBlendState);
-				}
-				break;
-			case eRC_SetDepthStencilState:
-				{
-					DepthStencilState* pDSState = ReadCommand<DepthStencilState*>(n);
-					UINT nRef = ReadCommand<UINT>(n);
-					GetRenderDevice()->SetDepthStencilState(pDSState, nRef);
-				}
-				break;
-			case eRC_SetRasterizerState:
-				{
-					RasterizerState* pRSState = ReadCommand<RasterizerState*>(n);
-					GetRenderDevice()->SetRasterizerState(pRSState);
-				}
-				break;
-			case eRC_SetVertexDeclation:
-				{
-					VertexDeclaration* pVertexDecl = ReadCommand<VertexDeclaration*>(n);
-					GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
-				}
-			break;
+// 			case  eRC_SetShader:
+// 				{
+// 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
+// 					pShader->RT_SetShader();
+// 				}
+// 				break;
+// 			case eRC_BeginRenderPass:
+// 				{
+// 					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
+// 					GetRenderDevice()->BeginRenderPass(pFB);
+// 				}
+// 				break;
+// 			case eRC_EndRenderPass:
+// 				{
+// 					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
+// 					GetRenderDevice()->EndRenderPass(pFB);
+// 				}
+// 				break;
+// 			case eRC_SetFrameBuffer:
+// 				{
+// 					FrameBuffer* pFB= ReadCommand<FrameBuffer*>(n);
+// 					GetRenderDevice()->SetFrameBuffer(pFB);
+// 				}
+// 				break;
+// 			case eRC_SetRenderTarget:
+// 				{
+// 					int index = ReadCommand<int>(n);
+// 					Texture* pTarget = ReadCommand<Texture*>(n);
+// 					int level = ReadCommand<int>(n);
+// 					int array_index = ReadCommand<int>(n);
+// 					int face = ReadCommand<int>(n);
+// 					GetRenderDevice()->SetRenderTarget(index,pTarget,level,array_index,face);
+// 				}
+// 				break;
+// 			case  eRC_SetDepthStencil:
+// 				{
+// 					Texture* pTarget = ReadCommand<Texture*>(n);
+// 					GetRenderDevice()->SetDepthStencil(pTarget);
+// 				}
+// 				break;
+// 			case  eRC_SetViewPort:
+// 				{
+// 					Rectangle viewPort;
+// 					ReadData(n,viewPort);
+// 					GetRenderDevice()->SetViewport(viewPort,NULL);
+// 				}
+// 				break;
+// 			case  eRC_ClearBuffer:
+// 				{
+// 					bool bColor = ReadCommand<bool>(n);
+// 					bool bDepth = ReadCommand<bool>(n);
+// 					bool bStencil = ReadCommand<bool>(n);
+// 					ColourValue c = ReadCommand<ColourValue>(n);
+// 					float z = ReadCommand<float>(n);
+// 					int s = ReadCommand<int>(n);
+// 					GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
+// 				}
+// 				break;
+// 			case eRC_SetBlendState:
+// 				{
+// 					BlendState* pBlendState = ReadCommand<BlendState*>(n);
+// 					GetRenderDevice()->SetBlendState(pBlendState);
+// 				}
+// 				break;
+// 			case eRC_SetDepthStencilState:
+// 				{
+// 					DepthStencilState* pDSState = ReadCommand<DepthStencilState*>(n);
+// 					UINT nRef = ReadCommand<UINT>(n);
+// 					GetRenderDevice()->SetDepthStencilState(pDSState, nRef);
+// 				}
+// 				break;
+// 			case eRC_SetRasterizerState:
+// 				{
+// 					RasterizerState* pRSState = ReadCommand<RasterizerState*>(n);
+// 					GetRenderDevice()->SetRasterizerState(pRSState);
+// 				}
+// 				break;
+// 			case eRC_SetVertexDeclation:
+// 				{
+// 					VertexDeclaration* pVertexDecl = ReadCommand<VertexDeclaration*>(n);
+// 					GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
+// 				}
+// 			break;
 // 			case eRC_SetInt:
 // 				{
 // 					Uniform* pUnform = ReadCommand<Uniform*>(n);

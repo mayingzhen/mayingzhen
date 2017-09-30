@@ -1,5 +1,6 @@
 #include "VulkanRenderPass.h"
 #include "VulkanTexture.h"
+#include "VulkanRenderCommand.h"
 
 namespace ma
 {
@@ -16,9 +17,20 @@ namespace ma
 
 	}
 
-	void VulkanRenderPass::Begine(VkCommandBuffer commandBuffer)
+	RenderCommand* VulkanRenderPass::GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType)
 	{
-		m_curCommand = commandBuffer;
+		VulkanRenderDevice* pVulkanRender = (VulkanRenderDevice*)(GetRenderDevice());
+		RenderCommand* pRenderCmd = pVulkanRender->GetThreadCommand(nIndex, eRPType, eRLType);
+		VulkanRenderCommand* pVKCmd = (VulkanRenderCommand*)pRenderCmd;
+		pVKCmd->m_pRenderPass = this;
+		m_vecCmd.push_back(pVKCmd->m_vkCmdBuffer);
+		return pRenderCmd;
+	}
+
+	void VulkanRenderPass::Begine()
+	{
+		VulkanRenderDevice* pRenderDevice = (VulkanRenderDevice*)GetRenderDevice();
+		VkCommandBuffer vkMainCmd = pRenderDevice->m_drawCmdBuffers;
 
 		Create();
 
@@ -27,19 +39,26 @@ namespace ma
 		rp_begin.pNext = NULL;
 		rp_begin.renderPass = m_impl;
 		rp_begin.framebuffer = m_frameBuffer;
-		rp_begin.renderArea.offset.x = 0;
-		rp_begin.renderArea.offset.y = 0;
-		rp_begin.renderArea.extent.width = m_width;
-		rp_begin.renderArea.extent.height = m_height;
+		rp_begin.renderArea.offset.x = (int)m_viewPort.offsetX();
+		rp_begin.renderArea.offset.y = (int)m_viewPort.offsetY();
+		rp_begin.renderArea.extent.width = (UINT)m_viewPort.width();
+		rp_begin.renderArea.extent.height = (UINT)m_viewPort.height();
 		rp_begin.clearValueCount = m_vecClearValues.size();
 		rp_begin.pClearValues = m_vecClearValues.data();
 
-		vkCmdBeginRenderPass(commandBuffer, &rp_begin, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS/*VK_SUBPASS_CONTENTS_INLINE*/);
+		vkCmdBeginRenderPass(vkMainCmd, &rp_begin, VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS/*VK_SUBPASS_CONTENTS_INLINE*/);
 	}
 
 	void VulkanRenderPass::End()
 	{
-		vkCmdEndRenderPass(m_curCommand);
+		VulkanRenderDevice* pRenderDevice = (VulkanRenderDevice*)GetRenderDevice();
+		VkCommandBuffer vkMainCmd = pRenderDevice->m_drawCmdBuffers;
+
+		vkCmdExecuteCommands(vkMainCmd, m_vecCmd.size(), m_vecCmd.data());
+
+		vkCmdEndRenderPass(vkMainCmd);
+
+		m_vecCmd.clear();
 	}
 
 	void VulkanRenderPass::Create()
@@ -158,21 +177,24 @@ namespace ma
 
 		Texture* pRT = m_arrColor[0] ? m_arrColor[0].get() : m_pDepthStencil.get();
 		ASSERT(pRT);
-		m_width = pRT->GetWidth();
-		m_height = pRT->GetHeight();
 
 		// Create frame buffer
 		VkFramebufferCreateInfo fbufCreateInfo = vks::initializers::framebufferCreateInfo();
 		fbufCreateInfo.renderPass = m_impl;
 		fbufCreateInfo.attachmentCount = vecImagView.size();
 		fbufCreateInfo.pAttachments = vecImagView.data();
-		fbufCreateInfo.width = m_width;
-		fbufCreateInfo.height = m_height;
+		fbufCreateInfo.width = pRT->GetWidth();
+		fbufCreateInfo.height = pRT->GetHeight();
 		fbufCreateInfo.layers = 1;
 
 		VK_CHECK_RESULT(vkCreateFramebuffer(device->logicalDevice, &fbufCreateInfo, nullptr, &m_frameBuffer));
 
+		if (m_viewPort.width() == 0 || m_viewPort.height() == 0)
+		{
+			m_viewPort = Rectangle(0, 0, (float)pRT->GetWidth(), (float)pRT->GetHeight());
+		}
 	}
 
 }
+
 

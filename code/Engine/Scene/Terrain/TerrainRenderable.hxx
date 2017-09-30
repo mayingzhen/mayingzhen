@@ -61,9 +61,9 @@ namespace ma
 
 	void TerrainRenderable::Render(Technique* pTech)
 	{
-		pTech->CommitChanges();
+		//pTech->CommitChanges();
 
-		GetRenderSystem()->DrawRenderable(this,pTech);
+		//GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 }
 

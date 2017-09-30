@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class VulkanRenderPass : public FrameBuffer
+	class VulkanRenderPass : public RenderPass
 	{
 	public:
 		VulkanRenderPass();
@@ -12,24 +12,22 @@ namespace ma
 		~VulkanRenderPass();
 
 	public:
+		virtual void Begine();
 
-		void Begine(VkCommandBuffer commandBuffer);
-
-		void End();
+		virtual void End();
 
 		virtual void Create();
 
-	public:
+		virtual RenderCommand* GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType);
 
+	public:
 		VkRenderPass m_impl = 0;
 
-		VkCommandBuffer m_curCommand = 0;
-
 		VkFramebuffer m_frameBuffer = 0;
-		int m_width = 0;
-		int m_height = 0;
 
 		std::vector<VkClearValue> m_vecClearValues;
+
+		std::vector<VkCommandBuffer> m_vecCmd;
 	};
 
 } 

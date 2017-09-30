@@ -8,6 +8,9 @@
 #include "MetalIndexBuffer.h"
 #include "MetalShaderProgram.h"
 #include "MetalMapping.h"
+#include "MetalRenderPass.h"
+#include "MetalTechniqueh.h"
+#include "MetalRenderCommand.h"
 
 #import <UIKit/UIkit.h>
 #import <UIKit/UIDevice.h>
@@ -23,48 +26,9 @@ namespace ma
 		return pRender->GetMetalDevive();
 	}
 
-	//IMetalDeviceContext* GetMetalDxDeviveContext()
-	//{
-	//	MetalRenderDevice* pRender = (MetalRenderDevice*)GetRenderDevice();
-	//	ASSERT(pRender);
-	//	return pRender->GetDXDeviveContext();
-	//}
-
 	MetalRenderDevice::MetalRenderDevice()
 	{
-		//m_pD3DDevice = NULL;
-		//m_pDeviceContext = NULL;
-		//m_pSwapChain = NULL;
-
 		ClearAllStates();
-
-		//m_bRenderTargetsDirty = true;
-
-		//m_nFirstDirtyVB = 0;
-		//m_nLastDirtyVB = 0;
-		//memset(m_arrVertexBuffers,0,sizeof(m_arrVertexBuffers));
-		//memset(m_arrVertexSize,0,sizeof(m_arrVertexSize));
-		//memset(m_arrVertexOffset,0,sizeof(m_arrVertexOffset));
-
-	 	//memset(m_arrTexture,0,sizeof(m_arrTexture));
-		//memset(m_arrShaderResourceView,0,sizeof(m_arrShaderResourceView));
-		//m_nFirstDirtyTexture = M_MAX_UNSIGNED;
-		//m_nLastDirtyTexture = M_MAX_UNSIGNED;
-		//m_bTexturesDirty = true;
-
-		//memset(m_arrMetalSampler,0,sizeof(m_arrMetalSampler));
-		//m_nFirstDirtySamplerState = M_MAX_UNSIGNED;
-		//m_nLastDirtySamplerState = M_MAX_UNSIGNED;
-		//m_bSamplerStatesDirty = true;
-
-		//m_pDepthStencil = NULL;
-		//memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
-
-		//m_pCurInput = NULL;
-		//m_pCurDSState = NULL;
-		//m_nStencilRef = 0;
-		//m_pCurBlendState = NULL;
-		//m_pCurRSState = NULL;
 	}
 
 	MetalRenderDevice::~MetalRenderDevice()
@@ -109,6 +73,13 @@ namespace ma
 	{
 		return new MetalShaderProgram();
 	}
+    
+    ConstantBuffer*	MetalRenderDevice::CreateConstantBuffer(UINT nSize)
+    {
+        MetalConstantBuffer* pConstBuffer = new MetalConstantBuffer();
+        pConstBuffer->SetSize(nSize);
+        return pConstBuffer;
+    }
 
 	BlendState*	MetalRenderDevice::CreateBlendState()
 	{
@@ -129,6 +100,21 @@ namespace ma
 	{
 		return new MetalSamplerStateObject();
 	}
+    
+    Technique* MetalRenderDevice::CreateTechnique()
+    {
+        return new MetalTechnique();
+    }
+    
+    RenderPass*	MetalRenderDevice::CreateRenderPass()
+    {
+        return new MetalRenderPass();
+    }
+    
+    RenderCommand* MetalRenderDevice::CreateRenderCommand()
+    {
+        return new MetalRenderCommand();
+    }
 
 	void MetalRenderDevice::Shoutdown()
 	{
@@ -139,7 +125,7 @@ namespace ma
 		MetalBlendStateObject::Clear();
 		MetalVertexDeclaration::Clear();
 		MetalSamplerStateObject::Clear();
-		ConstantBuffer::Clear();
+		MetalConstantBuffer::Clear();
 
 	}
 
@@ -189,13 +175,11 @@ namespace ma
         //m_render_pass->SetBoundSwapChain(this);
         m_drawable = [[m_layer nextDrawable] retain];
         
-        m_pass_desc = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
-        m_pipe_desc = [[MTLRenderPipelineDescriptor alloc] init];
+        MTLRenderPassDescriptor* pass_desc = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
  
         id<MTLTexture> colorTex = m_drawable.texture;
-        m_pass_desc.colorAttachments[0].texture = colorTex;
-        m_pass_desc.colorAttachments[0].storeAction = MTLStoreActionStore;
-        m_pipe_desc.colorAttachments[0].pixelFormat = colorTex.pixelFormat;
+        pass_desc.colorAttachments[0].texture = colorTex;
+        pass_desc.colorAttachments[0].storeAction = MTLStoreActionStore;
         
         CGSize screen_size = [[UIScreen mainScreen] bounds].size;
         CGFloat scale = [UIScreen mainScreen].scale;
@@ -209,10 +193,9 @@ namespace ma
             MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:pixelFormat width:width height:height mipmapped: NO];
             desc.textureType = MTLTextureType2D;
             desc.sampleCount = 1;
-            m_pass_desc.depthAttachment.texture = [[m_device newTextureWithDescriptor:desc] autorelease];
+            pass_desc.depthAttachment.texture = [[m_device newTextureWithDescriptor:desc] autorelease];
             
-            m_pass_desc.depthAttachment.storeAction = MTLStoreActionDontCare;
-            m_pipe_desc.depthAttachmentPixelFormat = m_pass_desc.depthAttachment.texture.pixelFormat;
+            pass_desc.depthAttachment.storeAction = MTLStoreActionDontCare;
         }
         
         {
@@ -220,13 +203,13 @@ namespace ma
             MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:pixelFormat width:width height:height mipmapped: NO];
             desc.textureType = MTLTextureType2D;
             desc.sampleCount = 1;
-            m_pass_desc.stencilAttachment.texture = [[m_device newTextureWithDescriptor:desc] autorelease];
+            pass_desc.stencilAttachment.texture = [[m_device newTextureWithDescriptor:desc] autorelease];
             
-            m_pass_desc.stencilAttachment.storeAction = MTLStoreActionDontCare;
-            m_pipe_desc.stencilAttachmentPixelFormat = m_pass_desc.stencilAttachment.texture.pixelFormat;
+            pass_desc.stencilAttachment.storeAction = MTLStoreActionDontCare;
         }
         
-
+        m_pDefaultRenderPass = new MetalRenderPass();
+        m_pDefaultRenderPass->m_pass_desc = pass_desc;
         
 		//UpdateSwapChain(width,height);
 
@@ -298,10 +281,6 @@ namespace ma
 		return true;
 	}
 	
-	bool MetalRenderDevice::TestDeviceLost()
-	{
-		return false;
-	}
 
 	bool MetalRenderDevice::Rest()
 	{
@@ -316,16 +295,19 @@ namespace ma
         
         m_drawable = [m_layer nextDrawable];
         
-        MTLRenderPassColorAttachmentDescriptor* colorAttachment = m_pass_desc.colorAttachments[0];
-        colorAttachment.texture = m_drawable.texture;
+        m_pDefaultRenderPass->m_pass_desc.colorAttachments[0].texture = m_drawable.texture;
         
+        //m_encoder = [m_command_buffer renderCommandEncoderWithDescriptor: m_pass_desc];
         
-        m_encoder = [m_command_buffer renderCommandEncoderWithDescriptor: m_pass_desc];
+        // create and initialize render pass descriptor
+        // create a parallel render command encoder
+        //id <MTLParallelRenderCommandEncoder> parallelRCE =
+        //[m_command_buffer parallelRenderCommandEncoderWithDescriptor:renderPassDesc];
 	}
 
 	void MetalRenderDevice::EndRender()
 	{
-        [m_encoder endEncoding];
+        //[m_encoder endEncoding];
         
         // call the view's completion handler which is required by the view since it will signal its semaphore and set up the next buffer
         __block dispatch_semaphore_t block_sema = _inflight_semaphore;
@@ -345,82 +327,10 @@ namespace ma
         [m_command_buffer commit];
         
         
-        ConstantBuffer::OnEndFrame();
+        MetalConstantBuffer::OnEndFrame();
 
 	}
-
-	void MetalRenderDevice::SetFrameBuffer(FrameBuffer* pFB)
-	{
-		for (uint32 i = 0; i < MAX_RENDERTARGETS; ++i)
-		{
-            MetalTexture* pMetalTexture = (MetalTexture*)(pFB->m_arrColor[i].get());
-            
-            if (pMetalTexture)
-            {
-                m_pass_desc.colorAttachments[i].texture = pMetalTexture->m_native;
-                m_pass_desc.colorAttachments[i].resolveTexture = nil;
-                m_pass_desc.colorAttachments[i].storeAction = MTLStoreActionStore;
-                m_pipe_desc.colorAttachments[i].pixelFormat = pMetalTexture->m_descFormat;
-                m_pass_desc.colorAttachments[i].loadAction = MTLLoadActionLoad;
-            }
-            else
-            {
-                m_pass_desc.colorAttachments[i].storeAction = MTLStoreActionStore;
-                m_pass_desc.colorAttachments[i].loadAction = MTLLoadActionClear;
-            }
-		}
-        
-        if (pFB->m_pDepthStencil)
-        {
-            MetalTexture* pMetalTexture = (MetalTexture*)(pFB->m_pDepthStencil.get());
-            
-            m_pass_desc.depthAttachment.texture = pMetalTexture->GetNative();
-            m_pass_desc.depthAttachment.storeAction = MTLStoreActionStore;
-            m_pipe_desc.depthAttachmentPixelFormat = pMetalTexture->m_descFormat;
-            
-            m_pass_desc.depthAttachment.loadAction = MTLLoadActionLoad;
-            m_pass_desc.stencilAttachment.loadAction = MTLLoadActionDontCare;
-        }
-	}
-
-	void MetalRenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
-	{
-        
-	}
-
-
-	void MetalRenderDevice::SetDepthStencil(Texture* pTexture)
-	{
-
-	}
-
     
-	Texture* MetalRenderDevice::GetDefaultRenderTarget(int index)
-	{
-        return NULL;//m_pDefaultRenderTargetTexture.get();
-	}
-
-	Texture* MetalRenderDevice::GetDefaultDepthStencil()
-	{
-        return NULL;//m_pDefaultDepthStencilTexture.get();
-	}
-     
-
-	void MetalRenderDevice::SetViewport(const Rectangle& rect)
-	{
-        /*
-		Metal_VIEWPORT vp;
-		vp.TopLeftX = rect.left;
-		vp.TopLeftY = rect.top;
-		vp.Width = rect.width();
-		vp.Height = rect.height();
-		vp.MinDepth = 0.0f;
-		vp.MaxDepth = 1.0f;
-
-		m_pDeviceContext->RSSetViewports(1,&vp);
-         */
-	}
-
 	Rectangle MetalRenderDevice::GetViewport()
 	{
 		Rectangle rect;
@@ -450,156 +360,12 @@ namespace ma
 
 		return rect;
 	}
-
-	void MetalRenderDevice::SetBlendState(const BlendState* pBlendState/*,const ColourValue& blend_factor, UINT32 sample_mask*/)
-	{
-	}
-
-	void MetalRenderDevice::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
-	{
-		MetalDepthStencilStateObject* pMetalDSState = (MetalDepthStencilStateObject*)pDSState;
-        //if (pMetalDSState && pMetalDSState->m_pMetalDSState != m_pDSState)
-        {
-            m_pDSState = pMetalDSState->m_pMetalDSState;
-            
-            [m_encoder setDepthStencilState:m_pDSState];
-        }
-	}
-	
-	void MetalRenderDevice::SetRasterizerState(const RasterizerState* pRSState)
-	{
-        MTLCullMode eCull = MetalMapping::get(pRSState->m_eCullMode);
-        [m_encoder setCullMode:MTLCullModeNone];
-	}
-
-	void MetalRenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
-	{
-        if (pTexture)
-        {
-            MetalTexture* pMetalTexure = (MetalTexture*)pTexture;
-        
-            [m_encoder setFragmentTexture:pMetalTexure->GetNative() atIndex:index];
-        }
-	}
-
-	void MetalRenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
-	{
-		SetTexture(uniform->m_index,pTexture,TRUE);
-	}
-
-	void MetalRenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
-	{
-        SetTexture(uniform, pSampler->GetTexture());
-        
-        MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pSampler;
-        if (pMetalSampler->m_pImpl == nil)
-        {
-            pMetalSampler->RT_StreamComplete();
-        }
-        
-        [m_encoder setFragmentSamplerState:pMetalSampler->m_pImpl atIndex:uniform->m_index];
-	}
-
-	void MetalRenderDevice::CommitChanges()
-	{
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
-
-		ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pD3D11CBPtr);
-
-		ASSERT(nSize <= uniform->m_nCBSize);
-		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, int value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(int));
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, float value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(float));
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(Vector2));
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, const Vector3& value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(Vector3));
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
-	{
-		SetValue(uniform,(const float*)values,sizeof(Vector4) * count);
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
-	{
-		SetValue(uniform,(const float*)values,sizeof(Matrix4) * count);
-	}
-
-	void MetalRenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
-	{
-		SetValue(uniform,(const float*)&value,12);
-	}
-
-	void MetalRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
-	{
-        
-	}
-
-	void MetalRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
-	{
-
-	}
-
-	void MetalRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
-	{
-        MetalVertexBuffer* pMetalVertexBuffer = (MetalVertexBuffer*)(pVB);
-        id<MTLBuffer> vb = pMetalVertexBuffer->GetMetalVertexBuffer();
-        
-        [m_encoder setVertexBuffer:vb offset:0 atIndex:0];
-        
-	}
-
-	void MetalRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
-	{
-		if (pRenderable == NULL)
-			return;
-        
-		CommitChanges();	
-
-		MTLPrimitiveType ePrimitiveType = MetalMapping::GetPrimitiveType(pRenderable->m_ePrimitiveType);
-
-		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
-
-		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
-		//UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
-		
-		//UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
-		//UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
-        
-        MetalIndexBuffer* pMetalIndexBuffer = (MetalIndexBuffer*)(pRenderable->m_pIndexBuffer.get());
-        id<MTLBuffer> ib = pMetalIndexBuffer->GetMetalIndexBuffer();
-        
-        MTLIndexType ibType = pRenderable->m_pIndexBuffer->GetIndexType() == INDEX_TYPE_U16 ? MTLIndexTypeUInt16 : MTLIndexTypeUInt32;
-        
-        [m_encoder drawIndexedPrimitives:ePrimitiveType indexCount:nIndexCount indexType:ibType indexBuffer:ib indexBufferOffset:0];
     
-	}
-
-	void MetalRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
-	{
-        
-	}
-
+    RenderPass* MetalRenderDevice::GetDefaultRenderPass()
+    {
+        return m_pDefaultRenderPass.get();
+    }
+    
 	Matrix4 MetalRenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
 		float yScale = 1.0f / Math::Tan(fovy * 0.5f); 
