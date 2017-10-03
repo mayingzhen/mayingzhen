@@ -206,8 +206,6 @@
 		6BDDCF031ED0461D00C3553A /* BatchTerrainRenderable.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BatchTerrainRenderable.hxx; sourceTree = "<group>"; };
 		6BDDCF041ED0461D00C3553A /* DeviceCapabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceCapabilities.h; sourceTree = "<group>"; };
 		6BDDCF051ED0461D00C3553A /* DeviceCapabilities.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceCapabilities.hxx; sourceTree = "<group>"; };
-		6BDDCF061ED0461D00C3553A /* FrameBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameBuffer.h; sourceTree = "<group>"; };
-		6BDDCF071ED0461D00C3553A /* FrameBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hxx; sourceTree = "<group>"; };
 		6BDDCF091ED0461D00C3553A /* HardwareBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardwareBuffer.h; sourceTree = "<group>"; };
 		6BDDCF0A1ED0461D00C3553A /* HardwareBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HardwareBuffer.hxx; sourceTree = "<group>"; };
 		6BDDCF0B1ED0461D00C3553A /* IndexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexBuffer.h; sourceTree = "<group>"; };
@@ -725,8 +723,6 @@
 				6BDDCF031ED0461D00C3553A /* BatchTerrainRenderable.hxx */,
 				6BDDCF041ED0461D00C3553A /* DeviceCapabilities.h */,
 				6BDDCF051ED0461D00C3553A /* DeviceCapabilities.hxx */,
-				6BDDCF061ED0461D00C3553A /* FrameBuffer.h */,
-				6BDDCF071ED0461D00C3553A /* FrameBuffer.hxx */,
 				6BDDCF081ED0461D00C3553A /* IRenderDevice */,
 				6BDDCF161ED0461D00C3553A /* PrefilterCube.h */,
 				6BDDCF171ED0461D00C3553A /* PrefilterCube.hxx */,

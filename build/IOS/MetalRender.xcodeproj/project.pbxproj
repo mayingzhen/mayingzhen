@@ -19,10 +19,30 @@
 		6B39C5A71ED6886E0044DC77 /* MetalVertexDeclaration.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5991ED6886E0044DC77 /* MetalVertexDeclaration.mm */; };
 		6B39C5A81ED6886E0044DC77 /* Module.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C59A1ED6886E0044DC77 /* Module.mm */; };
 		6B39C5A91ED6886E0044DC77 /* stdafx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C59C1ED6886E0044DC77 /* stdafx.mm */; };
+		6B57AEBF1F838C25002AB8E0 /* MetalPipeline.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B57AEBE1F838C25002AB8E0 /* MetalPipeline.mm */; };
+		6B8595301F7FD1EE00848510 /* libglslang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B85952F1F7FD1BD00848510 /* libglslang.a */; };
+		6B8595861F7FDB2700848510 /* libspirv-cross.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8595851F7FDB1600848510 /* libspirv-cross.a */; };
 		6BBF97C91F7E8CAB00EC8F88 /* MetalRenderCommand.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B8B2BA41F7D4F5700BF757C /* MetalRenderCommand.mm */; };
 		6BBF97CF1F7E8DCA00EC8F88 /* MetalTechniqueh.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF97CE1F7E8DCA00EC8F88 /* MetalTechniqueh.mm */; };
 		6BBF97D01F7E8DEC00EC8F88 /* MetalRenderPass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B2435121F77634D006C8284 /* MetalRenderPass.mm */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6B85952E1F7FD1BD00848510 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B85952A1F7FD1BD00848510 /* glslang.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F3804AC17953529005195B3;
+			remoteInfo = glslang;
+		};
+		6B8595841F7FDB1600848510 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B8595801F7FDB1600848510 /* spirv-cross.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F3804AC17953529005195B3;
+			remoteInfo = "spirv-cross";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6FA78E58179430A1005B3CD6 /* CopyFiles */ = {
@@ -64,6 +84,12 @@
 		6B39C59B1ED6886E0044DC77 /* Module.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = Module.h; sourceTree = "<group>"; };
 		6B39C59C1ED6886E0044DC77 /* stdafx.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = stdafx.mm; sourceTree = "<group>"; };
 		6B39C59D1ED6886E0044DC77 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6B57AEBD1F838C25002AB8E0 /* MetalPipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalPipeline.h; sourceTree = "<group>"; };
+		6B57AEBE1F838C25002AB8E0 /* MetalPipeline.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalPipeline.mm; sourceTree = "<group>"; };
+		6B8595271F7FCF6700848510 /* libglslang.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglslang.a; path = "../../IOSBuildLibs/Debug-iphoneos/libglslang.a"; sourceTree = "<group>"; };
+		6B8595281F7FCF9400848510 /* libglslang.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglslang.a; path = "../../IOSBuildLibs/Debug-iphoneos/libglslang.a"; sourceTree = "<group>"; };
+		6B85952A1F7FD1BD00848510 /* glslang.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = glslang.xcodeproj; path = ../../extern/glslang/glslang/glslang.xcodeproj; sourceTree = "<group>"; };
+		6B8595801F7FDB1600848510 /* spirv-cross.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "spirv-cross.xcodeproj"; path = "../../extern/SPIRV-Cross/spirv-cross.xcodeproj"; sourceTree = "<group>"; };
 		6B8B2BA31F7D4F5700BF757C /* MetalRenderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalRenderCommand.h; sourceTree = "<group>"; };
 		6B8B2BA41F7D4F5700BF757C /* MetalRenderCommand.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderCommand.mm; sourceTree = "<group>"; };
 		6B8B2BA71F7D4F5700BF757C /* MetalTechniqueh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalTechniqueh.h; sourceTree = "<group>"; };
@@ -76,6 +102,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B8595861F7FDB2700848510 /* libspirv-cross.a in Frameworks */,
+				6B8595301F7FD1EE00848510 /* libglslang.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +113,8 @@
 		6B39C5851ED6886E0044DC77 /* MetalRender */ = {
 			isa = PBXGroup;
 			children = (
+				6B57AEBD1F838C25002AB8E0 /* MetalPipeline.h */,
+				6B57AEBE1F838C25002AB8E0 /* MetalPipeline.mm */,
 				6B38673F1EE01BEE000B6D7A /* Export.h */,
 				6B39C5861ED6886E0044DC77 /* MetalConstantBuffer.h */,
 				6B39C5871ED6886E0044DC77 /* MetalConstantBuffer.mm */,
@@ -121,11 +151,39 @@
 			path = ../../code/Plugin/MetalRender;
 			sourceTree = "<group>";
 		};
+		6B8595261F7FCF3B00848510 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6B8595281F7FCF9400848510 /* libglslang.a */,
+				6B8595271F7FCF6700848510 /* libglslang.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6B85952B1F7FD1BD00848510 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B85952F1F7FD1BD00848510 /* libglslang.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B8595811F7FDB1600848510 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B8595851F7FDB1600848510 /* libspirv-cross.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6FA78E51179430A1005B3CD6 = {
 			isa = PBXGroup;
 			children = (
+				6B8595801F7FDB1600848510 /* spirv-cross.xcodeproj */,
+				6B85952A1F7FD1BD00848510 /* glslang.xcodeproj */,
 				6B39C5851ED6886E0044DC77 /* MetalRender */,
 				6FA78E5B179430A1005B3CD6 /* Products */,
+				6B8595261F7FCF3B00848510 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +234,16 @@
 			mainGroup = 6FA78E51179430A1005B3CD6;
 			productRefGroup = 6FA78E5B179430A1005B3CD6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6B85952B1F7FD1BD00848510 /* Products */;
+					ProjectRef = 6B85952A1F7FD1BD00848510 /* glslang.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B8595811F7FDB1600848510 /* Products */;
+					ProjectRef = 6B8595801F7FDB1600848510 /* spirv-cross.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6FA78E59179430A1005B3CD6 /* MetalRender */,
@@ -183,12 +251,30 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		6B85952F1F7FD1BD00848510 /* libglslang.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libglslang.a;
+			remoteRef = 6B85952E1F7FD1BD00848510 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B8595851F7FDB1600848510 /* libspirv-cross.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libspirv-cross.a";
+			remoteRef = 6B8595841F7FDB1600848510 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6FA78E56179430A1005B3CD6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				6BBF97D01F7E8DEC00EC8F88 /* MetalRenderPass.mm in Sources */,
+				6B57AEBF1F838C25002AB8E0 /* MetalPipeline.mm in Sources */,
 				6BBF97C91F7E8CAB00EC8F88 /* MetalRenderCommand.mm in Sources */,
 				6B39C5A71ED6886E0044DC77 /* MetalVertexDeclaration.mm in Sources */,
 				6B39C59F1ED6886E0044DC77 /* MetalIndexBuffer.mm in Sources */,
@@ -274,6 +360,7 @@
 					../../code/plugin/,
 					../../extern/DevIL/include/,
 					../../extern/oisinput/include/,
+					../../extern/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -303,6 +390,7 @@
 					../../code/plugin/,
 					../../extern/DevIL/include/,
 					../../extern/oisinput/include/,
+					../../extern/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (

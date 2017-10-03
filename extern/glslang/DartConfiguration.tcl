@@ -4,17 +4,17 @@
 
 
 # Configuration directories and files
-SourceDirectory: D:/VulkanSDK/1.0.49.0/glslang
-BuildDirectory: D:/VulkanSDK/1.0.49.0/glslang
+SourceDirectory: /Volumes/mydemon_git/mayingzhen/extern/glslang
+BuildDirectory: /Volumes/mydemon_git/mayingzhen/extern/glslang
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: HIH-D-5428
+Site: myzdeMac-mini.local
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Win32-MSBuild
+BuildName: Darwin-clang++
 
 # Submission information
 IsCDash: 
@@ -27,14 +27,14 @@ DropSitePassword:
 DropSiteMode: 
 DropMethod: http
 TriggerSite: 
-ScpCommand: SCPCOMMAND-NOTFOUND
+ScpCommand: /usr/bin/scp
 
 # Dashboard start time
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "D:/Program Files/CMake/bin/cmake.exe" "D:/VulkanSDK/1.0.49.0/glslang"
-MakeCommand: "D:\Program Files\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
+ConfigureCommand: "/Applications/CMake.app/Contents/bin/cmake" "/Volumes/mydemon_git/mayingzhen/extern/glslang"
+MakeCommand: /Applications/CMake.app/Contents/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -46,12 +46,12 @@ CVSCommand: CVSCOMMAND-NOTFOUND
 CVSUpdateOptions: -d -A -P
 
 # Subversion options
-SVNCommand: SVNCOMMAND-NOTFOUND
+SVNCommand: /usr/bin/svn
 SVNOptions: 
 SVNUpdateOptions: 
 
 # Git options
-GITCommand: GITCOMMAND-NOTFOUND
+GITCommand: /usr/bin/git
 GITInitSubmodules: 
 GITUpdateOptions: 
 GITUpdateCustom: 
@@ -69,8 +69,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: F:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe
-CompilerVersion: 19.0.24215.1
+Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+CompilerVersion: 8.1.0.8020042
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
@@ -83,7 +83,7 @@ MemoryCheckCommandOptions:
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: COVERAGE_COMMAND-NOTFOUND
+CoverageCommand: /usr/bin/gcov
 CoverageExtraFlags: -l
 
 # Cluster commands
