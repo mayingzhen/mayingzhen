@@ -61,10 +61,10 @@ namespace ma
             m_pass_desc.depthAttachment.storeAction = MTLStoreActionStore;
             m_pass_desc.depthAttachment.clearDepth = 1.0;
 
-            m_pass_desc.stencilAttachment.texture = pMlTexture->GetNative();
-            m_pass_desc.stencilAttachment.loadAction = MTLLoadActionClear;
-            m_pass_desc.stencilAttachment.storeAction = MTLStoreActionStore;
-            m_pass_desc.stencilAttachment.clearStencil = 0;
+            //m_pass_desc.stencilAttachment.texture = pMlTexture->GetNative();
+            //m_pass_desc.stencilAttachment.loadAction = MTLLoadActionClear;
+            //m_pass_desc.stencilAttachment.storeAction = MTLStoreActionStore;
+            //m_pass_desc.stencilAttachment.clearStencil = 0;
         }
 	}
     

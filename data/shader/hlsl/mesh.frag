@@ -52,7 +52,7 @@ out DRMRTOut mrtOut
 	float3 vNormal = normalize(In.worldNormal.xyz);
 	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
 	
-		// ÒõÓ°
+		// ï¿½ï¿½Ó°
 	float fShadowMapShadow = 1.0;
 #if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
 	#ifdef RECEIVESHADOW

@@ -228,13 +228,15 @@ namespace ma
 		PF_R4G4B4A4 = 95,
 		
 		PF_D24S8 = 96,
+        
+        PF_D16F = 97,
 
-		PF_NULL = 97, // (D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L');
+		PF_NULL = 98, // (D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L');
 
-		PF_INTZ = 98, // ((D3DFORMAT)(MAKEFOURCC(¡®I¡¯,¡¯N¡¯,¡¯T¡¯,¡¯Z¡¯))); 
+		PF_INTZ = 99, // ((D3DFORMAT)(MAKEFOURCC(¡®I¡¯,¡¯N¡¯,¡¯T¡¯,¡¯Z¡¯)));
 
 		// Number of pixel formats currently defined
-        PF_COUNT = 99
+        PF_COUNT = 100
 	};
 
 	/**

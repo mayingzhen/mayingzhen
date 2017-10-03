@@ -19,7 +19,7 @@ namespace ma
 		RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
 		//pRenderScheme->SetDeferredShadingEnabled(true);
 
-		if (1)
+		if (0)
 		{
 			RefPtr<Terrain> pTerrain = CreateTerrain();
 

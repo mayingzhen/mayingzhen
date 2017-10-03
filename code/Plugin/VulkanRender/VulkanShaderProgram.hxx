@@ -122,25 +122,27 @@ namespace ma
 		Resources.limits.generalConstantMatrixVectorIndexing = 1;
 	}
 
-	EShLanguage FindLanguage(const VkShaderStageFlagBits shader_type) {
-		switch (shader_type) {
-		case VK_SHADER_STAGE_VERTEX_BIT:
+	EShLanguage FindLanguage(ShaderType eType) 
+	{
+		switch (eType) 
+		{
+		case VS:
 			return EShLangVertex;
 
-		case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:
-			return EShLangTessControl;
+// 		case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:
+// 			return EShLangTessControl;
+// 
+// 		case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
+// 			return EShLangTessEvaluation;
+// 
+// 		case VK_SHADER_STAGE_GEOMETRY_BIT:
+// 			return EShLangGeometry;
 
-		case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
-			return EShLangTessEvaluation;
-
-		case VK_SHADER_STAGE_GEOMETRY_BIT:
-			return EShLangGeometry;
-
-		case VK_SHADER_STAGE_FRAGMENT_BIT:
+		case PS:
 			return EShLangFragment;
 
-		case VK_SHADER_STAGE_COMPUTE_BIT:
-			return EShLangCompute;
+// 		case VK_SHADER_STAGE_COMPUTE_BIT:
+// 			return EShLangCompute;
 
 		default:
 			return EShLangVertex;
@@ -150,10 +152,8 @@ namespace ma
 
 	void VulkanShaderProgram::HlslToSpirv(const char* vshSource, UINT vshSize, ShaderType eType, std::vector<UINT>& vtx_spv)
 	{
-		VkShaderStageFlagBits shaderStage = eType == VS ? VK_SHADER_STAGE_VERTEX_BIT : VK_SHADER_STAGE_FRAGMENT_BIT;
-
 		//VS
-		EShLanguage stage = FindLanguage(shaderStage);
+		EShLanguage stage = FindLanguage(eType);
 		glslang::TShader shader(stage);
 		glslang::TProgram program;
 		const char *shaderStrings[1];
@@ -220,7 +220,7 @@ namespace ma
 			// Compile to GLSL, ready to give to GL driver.
 			std::string source = glsl.compile();
 
-			EShLanguage stage = FindLanguage(shaderStage);
+			EShLanguage stage = FindLanguage(eType);
 			glslang::TShader shader(stage);
 			glslang::TProgram program;
 			const char *shaderStrings[1];

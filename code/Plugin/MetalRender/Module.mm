@@ -3,24 +3,16 @@
 
 #include "MetalRender/MetalRenderDevice.h"
 
-/*
-#include "MetalRender/MetalTexture.hxx"
-#include "MetalRender/MetalVertexBuffer.hxx"
-#include "MetalRender/MetalIndexBuffer.hxx"
-#include "MetalRender/MetalMapping.hxx"
-#include "MetalRender/MetalVertexDeclaration.hxx"
-#include "MetalRender/MetalShaderProgram.hxx"
-#include "MetalRender/MetalRenderDevice.hxx"
-#include "MetalRender/MetalConstantBuffer.hxx"
-#include "MetalRender/MetalRenderState.hxx"
-#include "MetalRender/MetalSamplerState.hxx"
-*/
+#include "glslang/SPIRV/GlslangToSpv.h"
+
 
 using namespace ma;
 
 
 void MetalRenderModuleInit()
 {
+    glslang::InitializeProcess();
+    
 	MetalRenderDevice* pMetalRenderDevice = new MetalRenderDevice();
 	SetRenderDevice(pMetalRenderDevice);
 }
@@ -31,6 +23,8 @@ void MetalRenderModuleShutdown()
 	MetalRenderDevice* pMetalRenderDevice = (MetalRenderDevice*)GetRenderDevice();
 	SAFE_DELETE(pMetalRenderDevice);
 	SetRenderDevice(NULL);
+    
+    glslang::FinalizeProcess();
 }
 
 

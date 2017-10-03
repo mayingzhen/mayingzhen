@@ -6,6 +6,7 @@
 #include "MetalSamplerState.h"
 #include "MetalMapping.h"
 #include "MetalTexture.h"
+#include "MetalPipeline.h"
 
 #include "../../Engine/Material/ParameterManager.h"
 
@@ -46,7 +47,23 @@ namespace ma
 
 	void MetalTechnique::RT_StreamComplete()
 	{
+        /*
+        MetalRasterizerStateObject* rs = (MetalRasterizerStateObject*)this->GetRasterizerState();
+
+        MetalBlendStateObject* bs = (MetalBlendStateObject*)this->GetBlendState();
+        
+        MetalDepthStencilStateObject* ds = (MetalDepthStencilStateObject*)this->GetDepthStencilState();
+        
+        rs->RT_StreamComplete();
+        
+        bs->RT_StreamComplete();
+        
+        ds->RT_StreamComplete();
+         */
+        
         MetalShaderProgram* pShader = (MetalShaderProgram*)this->GetShaderProgram();
+        
+        m_pPipline = CreateMetalPipeline(this);
 
 		for (UINT i = 0; i < ShaderType_Number; ++i)
 		{
@@ -89,20 +106,21 @@ namespace ma
 
 	void MetalTechnique::CommitChanges(RenderCommand* pCmd)
 	{
-        MetalShaderProgram* pMetalShader = (MetalShaderProgram*)this->GetShaderProgram();
-
 		MetalRenderCommand* pMlCmd = (MetalRenderCommand*)pCmd;
         
         MetalDepthStencilStateObject* pDSState = (MetalDepthStencilStateObject*)this->GetDepthStencilState();
+        if (pDSState->m_pMetalDSState == nil)
+        {
+            pDSState->RT_StreamComplete();
+        }
         [pMlCmd->m_encoder setDepthStencilState:pDSState->m_pMetalDSState];
 
         MetalRasterizerStateObject* pRSState = (MetalRasterizerStateObject*)this->GetRasterizerState();
         MTLCullMode eCull = MetalMapping::get(pRSState->m_eCullMode);
         [pMlCmd->m_encoder setCullMode:eCull];
+        [pMlCmd->m_encoder setFrontFacingWinding:MTLWindingCounterClockwise];
   
-        [pMlCmd->m_encoder setRenderPipelineState:pMetalShader->m_pipelineState];
-        
-        BindUniform();
+        [pMlCmd->m_encoder setRenderPipelineState:m_pPipline->m_pipelineState];
         
         for (UINT i = 0; i < ShaderType_Number; ++i)
         {

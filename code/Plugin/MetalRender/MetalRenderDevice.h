@@ -117,18 +117,10 @@ namespace ma
         id<MTLDevice>               m_device;
         id<MTLCommandQueue>         m_command_queue;
         dispatch_semaphore_t        _inflight_semaphore;
-        //MetalCommandBuffer          m_command_buffer;
         id<MTLCommandBuffer>           m_command_buffer;
         
         RefPtr<MetalRenderPass>     m_pDefaultRenderPass;
         
-        //MTLRenderPassDescriptor*    m_pass_desc;
-        //id<MTLRenderCommandEncoder> m_encoder;
-  
-        
-        MetalBlendStateObject*      m_pCurBlendState;
-        MetalRasterizerStateObject* m_pCurRSState;
-        id<MTLDepthStencilState>    m_pDSState;
 
         CAMetalLayer*               m_layer;
         id<CAMetalDrawable>         m_drawable;

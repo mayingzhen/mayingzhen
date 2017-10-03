@@ -160,7 +160,11 @@ namespace ma
 				if (pRenderable == NULL)
 					continue;
 
-				Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
+                Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
+                if (eRPType == RP_ShadowDepth)
+                {
+                    pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
+                }
 
 				pCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
 

@@ -66,6 +66,8 @@ VkFormat VulkanMapping::_getPF(PixelFormat ogrePF)
 		return VK_FORMAT_BC3_UNORM_BLOCK;
 	case PF_D24S8:
 		return VK_FORMAT_D24_UNORM_S8_UINT;
+	case PF_D16F:
+		return VK_FORMAT_D16_UNORM;
 	case PF_UNKNOWN:
 	default:
 		return VK_FORMAT_UNDEFINED;

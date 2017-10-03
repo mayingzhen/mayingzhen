@@ -1,16 +1,20 @@
 
-
+#ifdef IBL
 TextureCube tEnv : register(t4);
 SamplerState sEnv : register(s4);
 
 Texture2D tBRDF : register(t5);
 SamplerState sBRDF: register(s5);
+#endif
 
+#if defined(METAMAP) || defined(GLOSSINESSMAP)
 Texture2D tSpecularRM;
 SamplerState sSpecularRM;
-
-Texture2D tSpecularRM1;
-SamplerState sSpecularRM1;
+	#if LAYER==2
+		Texture2D tSpecularRM1;
+		SamplerState sSpecularRM1;
+	#endif
+#endif
 
 
 cbuffer ObjectLightPS : register(b2)
@@ -26,11 +30,12 @@ cbuffer ObjectLightPS : register(b2)
 
 void GetMetalnessGlossiness(float2 iUV, out float metalness, out float glossiness,float2 iUV1,float blendWeight)
 {
+#if defined(METAMAP) || defined(GLOSSINESSMAP)
 	float2 specularRM = tSpecularRM.Sample(sSpecularRM,iUV.xy).rg;
-
-#if LAYER==2
-	float2 specularRM1 = tSpecularRM1.Sample(sSpecularRM1,iUV1.xy).rg;
-	specularRM = lerp( specularRM, specularRM1, blendWeight );
+	#if LAYER==2
+		float2 specularRM1 = tSpecularRM1.Sample(sSpecularRM1,iUV1.xy).rg;
+		specularRM = lerp( specularRM, specularRM1, blendWeight );
+	#endif
 #endif
 
 	metalness = u_metalness;

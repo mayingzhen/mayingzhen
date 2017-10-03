@@ -603,7 +603,7 @@ namespace ma
 		RenderDeviceType type = GetRenderDevice()->GetRenderDeviceType();
 		if (type == RenderDevice_METAL)
         {
-            return "shader/metal/";
+            return "shader/hlsl/";
         }
 		else if (type == RenderDevice_VULKAN)
 		{

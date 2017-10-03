@@ -14,7 +14,9 @@ namespace ma
 
 	void MetalSamplerStateObject::RT_StreamComplete()
 	{
-		ASSERT(m_pImpl == nil);
+		//ASSERT(m_pImpl == nil);
+        if (m_pImpl != nil)
+            return;
 
 		auto it = g_samplerStatesPool.find(*this);
 		if (it != g_samplerStatesPool.end())

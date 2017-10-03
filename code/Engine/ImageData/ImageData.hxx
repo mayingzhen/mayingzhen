@@ -1,5 +1,5 @@
 #include "ImageData.h"
-
+#include "ImageCodec.h"
 
 namespace ma
 {
@@ -11,21 +11,9 @@ namespace ma
 
 	void ImageData::bulkPixelConversion(PixelFormat toFormat)
 	{
-		uint32 nMemSize = 0;
-
-		uint32 nNumFace = m_nFlags & IF_CUBEMAP ? 6 : 1;
-
-		for (uint32 iFace = 0; iFace < nNumFace; ++iFace)
-		{
-			for (uint32 mip = 0; mip <= m_nNumMipmaps; ++mip)
-			{
-				uint32 nWidth = m_nWidth >> mip;
-				uint32 nHeight = m_nHeight >> mip;
-				uint32 nDepth = m_nDepth >> mip;
-				nMemSize += PixelUtil::getMemorySize(nWidth, nHeight, nDepth, toFormat);
-			}
-		}
-
+        uint32 nNumFace = getNumFaces();
+        uint32 nMemSize = CImageCodec::calculateSize(m_nNumMipmaps, nNumFace, m_nWidth,
+                                                     m_nHeight, m_nDepth, toFormat);
 		RefPtr<MemoryStream> toMemory = CreateMemoryStream(nMemSize, false);
 		uint32 nMemOffset = 0;
 
@@ -36,7 +24,7 @@ namespace ma
 				PixelBox src = GetPixelBox(iFace, mip);
 				PixelBox dst = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), toFormat, toMemory->GetPtr() + nMemOffset);
 				PixelUtil::bulkPixelConversion(src, dst);
-				nMemOffset = PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), src.getDepth(), toFormat);
+				nMemOffset += PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), src.getDepth(), toFormat);
 			}
 		}
 

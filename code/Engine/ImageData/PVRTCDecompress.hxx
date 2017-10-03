@@ -1307,12 +1307,14 @@ void DXTDecompress( IN OUT ImageData& imgData )
 	{
 		faces = 1;
 	}
+    
+    PixelFormat toFormat = PF_A8B8G8R8;
 
 	int nwidth = imgData.m_nWidth, nheight = imgData.m_nHeight, ndepth = imgData.m_nDepth;
 	int fullFaceSize = 0;
 	for(size_t mip=0; mip <= imgData.m_nNumMipmaps; ++mip)
 	{
-		fullFaceSize += PixelUtil::getMemorySize(nwidth, nheight, ndepth, PF_A8B8G8R8);
+		fullFaceSize += PixelUtil::getMemorySize(nwidth, nheight, ndepth, toFormat);
 
 		/// Half size in each dimension
 		if(nwidth!=1) nwidth /= 2;
@@ -1331,14 +1333,14 @@ void DXTDecompress( IN OUT ImageData& imgData )
 			ASSERT(nwidth == src.getWidth() && nheight == src.getHeight());
 			DecompressImageDXT(output->GetPtr() + nOffset, src.data, nwidth, nheight, 1, imgData.m_eFormat);
 
-			nOffset += PixelUtil::getMemorySize(nwidth, nheight, ndepth, PF_A8B8G8R8);
+			nOffset += PixelUtil::getMemorySize(nwidth, nheight, ndepth, toFormat);
 			if(nwidth!=1) nwidth /= 2;
 			if(nheight!=1) nheight /= 2;
 			if(ndepth!=1) ndepth /= 2;
 		}
 	}
 
-	imgData.m_eFormat = PF_A8B8G8R8;
+	imgData.m_eFormat = toFormat;
 	imgData.m_pMemory = output;
 }
 

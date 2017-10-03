@@ -160,7 +160,7 @@ namespace ma
         //m_pixel_format = PixelFormat::A8R8G8B8();
         //m_depth_pixel_format = PixelFormat::D24S8();
         m_layer.device = m_device;
-        m_layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+        m_layer.pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
         //m_layer.drawableSize = CGSizeMake(param.Width, param.Height);
         m_layer.framebufferOnly = YES;
         m_layer.presentsWithTransaction = NO;
@@ -198,6 +198,7 @@ namespace ma
             pass_desc.depthAttachment.storeAction = MTLStoreActionDontCare;
         }
         
+        if (0)
         {
             MTLPixelFormat pixelFormat = MTLPixelFormatStencil8;
             MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:pixelFormat width:width height:height mipmapped: NO];
@@ -209,6 +210,17 @@ namespace ma
         }
         
         m_pDefaultRenderPass = new MetalRenderPass();
+        
+        MetalTexture* pCo = new MetalTexture();
+        pCo->m_descFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+        pCo->m_native = pass_desc.colorAttachments[0].texture;
+        m_pDefaultRenderPass->m_arrColor[0] = pCo;
+        
+        MetalTexture* pDs = new MetalTexture();
+        pDs->m_descFormat = MTLPixelFormatDepth32Float;
+        pDs->m_native = pass_desc.depthAttachment.texture;
+        m_pDefaultRenderPass->m_pDepthStencil = pDs;
+        
         m_pDefaultRenderPass->m_pass_desc = pass_desc;
         
 		//UpdateSwapChain(width,height);
@@ -448,7 +460,8 @@ namespace ma
 	bool MetalRenderDevice::BuildDeviceCapabilities()
 	{
 		GetDeviceCapabilities()->SetShadowMapColorFormat(PF_A8R8G8B8);
-		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D24S8);
+		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D16F);
+        GetDeviceCapabilities()->SetTextureDXTSupported(false);
 	
 		GetDeviceCapabilities()->log();
 		return true;

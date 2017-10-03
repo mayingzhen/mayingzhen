@@ -11,9 +11,9 @@ namespace ma
 	{
 		//GetInput()->AddKeyListener(this);
 
-		Vector3 vEyePos = Vector3(0, -60, 60);
-		Vector3 VAtPos = Vector3(0, 0, 0);
-		GetCamera()->LookAt(vEyePos, VAtPos);
+        Vector3 lookAtPos(100,0,0);
+        Vector3 eyePos = Vector3(100,-60,360);
+        GetCamera()->LookAt(eyePos,lookAtPos);
 
 		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
 		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
@@ -25,7 +25,7 @@ namespace ma
 		m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
 		
 		UINT nCount = 50;
-		for (uint32 i = 0; i < nCount; ++i)
+		for (uint32 i = 0; i < 0; ++i)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -34,8 +34,8 @@ namespace ma
 			pCharMagic->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
 			SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 			pMeshComp->SetShadowCaster(true);
-			AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
-			pAnimComp->SetAnimation(100);
+			//AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
+			//pAnimComp->SetAnimation(100);
 		}
 
 		for (uint32 i = 0; i < nCount; ++i)

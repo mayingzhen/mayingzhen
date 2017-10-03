@@ -58,6 +58,8 @@ MTLPixelFormat MetalMapping::_getPF(PixelFormat ogrePF)
         return MTLPixelFormatPVRTC_RGB_4BPP;
 	case PF_D24S8:
 		return MTLPixelFormatDepth32Float_Stencil8;
+    case PF_D16F:
+        return MTLPixelFormatDepth32Float;
 	case PF_UNKNOWN:
 	default:
 		return MTLPixelFormatInvalid;

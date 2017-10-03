@@ -3,6 +3,8 @@
 
 namespace ma
 {
+    class MetalPipeline;
+    
     class MetalTechnique : public Technique
 	{
 	public:
@@ -16,9 +18,8 @@ namespace ma
 		void				RT_StreamComplete();
 
 	private:
-	
+        RefPtr<MetalPipeline> m_pPipline;
 	};
-
 
 }
 

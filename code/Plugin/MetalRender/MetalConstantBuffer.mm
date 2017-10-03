@@ -7,7 +7,6 @@ namespace ma
 
 	MetalConstantBuffer::MetalConstantBuffer()
 	{
-		m_bDirty = false;
         m_nCurFrame = 0;
         
         g_mapConstantBufferPool.push_back(this);
@@ -33,8 +32,6 @@ namespace ma
 		UINT nSize = GetSize() + 15;
 		nSize &= 0xfffffff0;
 
-		m_bDirty = false;
-
         for (uint i = 0; i < 3; ++i)
         {
             m_pMetalBuffer[i] = [GetMetalDevive() newBufferWithLength:nSize options:0];
@@ -48,16 +45,30 @@ namespace ma
 	{
 		if (offset + size > GetSize())
 			return; // Would overflow the buffer
-
-        void* shadowData = [m_pMetalBuffer[m_nCurFrame] contents];
-        BYTE* dest = (BYTE*)shadowData;
-		memcpy(dest + offset, data, size);
-		m_bDirty = true;
+        
+        if (!m_bApply)
+        {
+            for (UINT i = 0; i < 3; ++i)
+            {
+                void* shadowData = [m_pMetalBuffer[i] contents];
+                BYTE* dest = (BYTE*)shadowData;
+                memcpy(dest + offset, data, size);
+            }
+        }
+        else
+        {
+            void* shadowData = [m_pMetalBuffer[m_nCurFrame] contents];
+            BYTE* dest = (BYTE*)shadowData;
+            memcpy(dest + offset, data, size);
+        }
+        
 	}
 
 	void MetalConstantBuffer::Apply(id<MTLRenderCommandEncoder> renderEncoder,bool ps)
 	{
-		if (m_bDirty && m_pMetalBuffer)
+        m_bApply = true;
+        
+		if (m_pMetalBuffer)
 		{
             if (ps)
             {
@@ -68,14 +79,12 @@ namespace ma
                 [renderEncoder setVertexBuffer:m_pMetalBuffer[m_nCurFrame] offset:0 atIndex:GetBound()];
             }
             
-			m_bDirty = false;
 		}
 	}
     
     void MetalConstantBuffer::UpdateFrame()
     {
-         m_nCurFrame = (m_nCurFrame + 1) % 3;
-        m_nCurFrame = 0;
+        m_nCurFrame = (m_nCurFrame + 1) % 3;
     }
 
     void MetalConstantBuffer::OnEndFrame()
