@@ -72,31 +72,6 @@ namespace ma
 		return NULL;
 	}
 
-	struct ParallelUpdateTask
-	{
-		MT_DECLARE_TASK(ParallelUpdateTask, MT::StackRequirements::STANDARD, MT::TaskPriority::NORMAL, MT::Color::Blue);
-
-		Component* m_pComponent;
-
-		void Do(MT::FiberContext&)
-		{
-			m_pComponent->ParallelUpdate();
-		}
-	};
-
-	struct ParallelShowTask
-	{
-		MT_DECLARE_TASK(ParallelShowTask, MT::StackRequirements::STANDARD, MT::TaskPriority::NORMAL, MT::Color::Blue);
-
-		Component* m_pComponent;
-		Camera* m_pCamera;
-
-		void Do(MT::FiberContext&)
-		{
-			m_pComponent->ParallelShow(m_pCamera);
-		}
-	};
-
 	void* ParallelShow(void* rawData,void* rawData1)
 	{
 		Component* pComponent = reinterpret_cast<Component*>(rawData);
@@ -134,7 +109,6 @@ namespace ma
 
 		m_pRootNode->Update();
 		
-		/*
 		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelUpdate.size());
@@ -150,19 +124,7 @@ namespace ma
 			}
 			m_vecParallelUpdate.clear();
 		}
-		*/
-		if (!m_vecParallelUpdate.empty())
-		{
-			static vector<ParallelUpdateTask> vecJobData;
-			vecJobData.resize(m_vecParallelUpdate.size());
-			for (UINT32 iJob = 0; iJob < m_vecParallelUpdate.size(); ++iJob)
-			{
-				vecJobData[iJob].m_pComponent = m_vecParallelUpdate[iJob].get();
-			}
-			MT::g_pTaskScheduler->RunAsync(MT::TaskGroup::Default(), &vecJobData[0], vecJobData.size());
-			MT::g_pTaskScheduler->WaitGroup(MT::TaskGroup::Default(), -1);
-		}
-
+		
 		m_arrRenderComp.clear();
 
 		typedef vector<RenderComponent*> VEC_OBJ;
@@ -185,29 +147,16 @@ namespace ma
 			m_arrRenderComp[i]->Show(m_pCamera.get());
 		}
 
-// 		if (GetJobScheduler()->GetNumThreads() > 0)
-// 		{
-// 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelShow.size());
-// 			for (UINT32 i = 0; i < m_vecParallelShow.size(); ++i)
-// 			{
-// 				GetJobScheduler()->SubmitJob(jobGroup,ParallelShow,m_vecParallelShow[i].get(),m_pCamera.get(),NULL);
-// 			}
-// 			GetJobScheduler()->WaitForGroup(jobGroup);
-// 			m_vecParallelShow.clear();
-// 		}
-		if (!m_vecParallelShow.empty())
+		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
-			static vector<ParallelShowTask> vecJobData;
-			vecJobData.resize(m_vecParallelShow.size());
-			for (UINT32 iJob = 0; iJob < m_vecParallelShow.size(); ++iJob)
+			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelShow.size());
+			for (UINT32 i = 0; i < m_vecParallelShow.size(); ++i)
 			{
-				vecJobData[iJob].m_pCamera = m_pCamera.get();
-				vecJobData[iJob].m_pComponent = m_vecParallelShow[iJob].get();
+				GetJobScheduler()->SubmitJob(jobGroup,ParallelShow,m_vecParallelShow[i].get(),m_pCamera.get(),NULL);
 			}
-			MT::g_pTaskScheduler->RunAsync(MT::TaskGroup::Default(), &vecJobData[0], vecJobData.size());
-			MT::g_pTaskScheduler->WaitGroup(MT::TaskGroup::Default(), -1);
+			GetJobScheduler()->WaitForGroup(jobGroup);
+			m_vecParallelShow.clear();
 		}
-
 
 		if (m_pCallback)
 		{

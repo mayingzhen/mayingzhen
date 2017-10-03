@@ -64,10 +64,4 @@ private:
 
 extern JobScheduler* g_pJobScheduler;
 JobScheduler* GetJobScheduler();
-
-/// Return the number of physical CPU cores.
-uint32 GetNumPhysicalCPUs();
-/// Return the number of logical CPUs (different from physical if hyperthreading is used.)
-uint32 GetNumLogicalCPUs();
-
 }

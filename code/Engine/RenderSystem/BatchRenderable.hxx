@@ -67,61 +67,64 @@ namespace ma
 		}
 	}
 
-	struct RenderTask
+	struct RenderJobData
 	{
-		MT_DECLARE_TASK(RenderTask, MT::StackRequirements::STANDARD, MT::TaskPriority::NORMAL, MT::Color::Blue);
-
-		Renderable** m_pNodeStart;
-		uint32 m_nNodeCount;
-		UINT m_nIndex;
+		Renderable** m_pNodeStart = NULL;
+		uint32 m_nNodeCount = 0;
+		UINT m_nIndex = 0;
 		RenderPassType eRPType;
-		RenderCommand* pCommand;
-
-		void Do(MT::FiberContext&)
-		{
-			pCommand->Begin();
-
-			Renderable** ppNodeStart = m_pNodeStart;
-			UINT32 nIndexCount = m_nNodeCount;
-
-			for (uint32 i = 0; i <= nIndexCount; ++i)
-			{
-				Renderable* pRenderable = ppNodeStart[i];
-
-				Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
-				if (eRPType == RP_ShadowDepth)
-				{
-					pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
-				}
-
-				pTech->CommitChanges(pCommand);
-
-				pCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
-
-				pCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
-
-				pCommand->DrawRenderable(pRenderable, pTech);
-			}
-
-			pCommand->End();
-		}
+		RenderCommand* pCommand = NULL;
 	};
 
+	void* ParallelRender(void* rawData, void* rawData1)
+	{
+		RenderJobData* pJobData = reinterpret_cast<RenderJobData*>(rawData);
+
+		pJobData->pCommand->Begin();
+
+		Renderable** ppNodeStart = pJobData->m_pNodeStart;
+		UINT32 nIndexCount = pJobData->m_nNodeCount;
+
+		for (uint32 i = 0; i <= nIndexCount; ++i)
+		{
+			Renderable* pRenderable = ppNodeStart[i];
+
+			Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
+			if (pJobData->eRPType == RP_ShadowDepth)
+			{
+				pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
+			}
+
+			pTech->CommitChanges(pJobData->pCommand);
+
+			pJobData->pCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
+
+			pJobData->pCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
+
+			pJobData->pCommand->DrawRenderable(pRenderable, pTech);
+		}
+
+		pJobData->pCommand->End();
+
+		return NULL;
+	}
+	
 	void BatchRenderable::Render(RenderPass* pPass, RenderPassType eRPType, RenderListType eRLType)
 	{
-		uint32 nNumJob = MT::g_pTaskScheduler ? MT::g_pTaskScheduler->GetWorkersCount() : 0;
+		uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 
-		if (/*MT::g_pTaskScheduler && m_arrRenderList.size() > nNumJob*/0)
+		if (nNumJob > 1 && m_arrRenderList.size() > nNumJob)
 		{
 			//BEGIN_TIME(g_pTaskScheduler);
 
-			static std::vector<RenderTask> vecJobData;
+			static vector<RenderJobData> vecJobData;
 			vecJobData.resize(nNumJob);
 
 			uint32 nCountPerJob = m_arrRenderList.size() / nNumJob;
 
-			UINT32 iJob = 0;
-			for (; iJob < nNumJob; ++iJob)
+			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(nNumJob);
+
+			for (UINT32 iJob = 0; iJob < nNumJob; ++iJob)
 			{
 				uint32 nStartIndex = iJob * nCountPerJob;
 				uint32 nEndIndex = nStartIndex + nCountPerJob - 1;
@@ -143,10 +146,12 @@ namespace ma
 				vecJobData[iJob].eRPType = eRPType;
 
 				vecJobData[iJob].pCommand = pPass->GetThreadCommand(iJob, eRPType, eRLType);
+
+				void* data = &vecJobData[iJob];
+				GetJobScheduler()->SubmitJob(jobGroup, ParallelRender, data, NULL, NULL);
 			}
 
-			MT::g_pTaskScheduler->RunAsync(MT::TaskGroup::Default(), &vecJobData[0], vecJobData.size());
-			MT::g_pTaskScheduler->WaitGroup(MT::TaskGroup::Default(), -1);
+			GetJobScheduler()->WaitForGroup(jobGroup);
 		}
 		else
 		{

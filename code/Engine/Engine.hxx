@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <thread>
 
 namespace ma
 {
@@ -31,17 +32,15 @@ namespace ma
 		g_pDeviceCapabilities = new DeviceCapabilitie();
 		g_pRenderSystem = new RenderSystem();
 
-		//g_pJobScheduler = new JobScheduler();
+		g_pJobScheduler = new JobScheduler();
 
-		MT::g_pTaskScheduler = new MT::TaskScheduler();
-		//FiberTaskingLib::g_pTaskScheduler = new FiberTaskingLib::TaskScheduler();
+		//MT::g_pTaskScheduler = new MT::TaskScheduler();
 	}
 
 	Engine::~Engine()
 	{
-		//SAFE_DELETE(FiberTaskingLib::g_pTaskScheduler );
-		SAFE_DELETE(MT::g_pTaskScheduler);
-		//SAFE_DELETE(g_pJobScheduler);
+		//SAFE_DELETE(MT::g_pTaskScheduler);
+		SAFE_DELETE(g_pJobScheduler);
 
 		SAFE_DELETE(g_pRenderSystem);
 		SAFE_DELETE(g_pDeviceCapabilities);
@@ -75,10 +74,10 @@ namespace ma
 			g_pDataThread->Start();
 		}
 
-// 		if (bJobScheduler)
-// 		{
-// 			GetJobScheduler()->CreateThreads(GetNumLogicalCPUs() - 1,16);
-// 		}
+		if (bJobScheduler)
+		{
+			GetJobScheduler()->CreateThreads(std::thread::hardware_concurrency() - 1,16);
+		}
 	}
 
 	void Engine::Reset(uint32 nWidth, uint32 nHeight)

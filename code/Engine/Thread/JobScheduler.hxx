@@ -1,5 +1,4 @@
 #include "JobScheduler.h"
-#include "libcpuid.h"
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 #include <mach/mach_host.h>
@@ -30,7 +29,7 @@ struct JobGroup
 	volatile int activeThreads;
 	volatile int nextJob;
 	volatile int jobsAdded;
-	vector<JobInfo> jobQueue;
+	std::vector<JobInfo> jobQueue;
 	Semaphore doneSemaphore;
 };
 
@@ -361,93 +360,5 @@ JobScheduler* GetJobScheduler()
 	return g_pJobScheduler;
 }
 
-#if defined(__ANDROID__) || defined(RPI)
-static uint32 GetArmCPUCount()
-{
-	FILE* fp;
-	int res, i = -1, j = -1;
-
-	fp = fopen("/sys/devices/system/cpu/present", "r");
-	// If failed, return at least 1
-	if (fp == 0)
-		return 1;
-
-	res = fscanf(fp, "%d-%d", &i, &j);
-	fclose(fp);
-
-	if (res == 1 && i == 0)
-		return 1;
-	else if (res == 2 && i == 0)
-		return j + 1;
-
-	// If failed, return at least 1
-	return 1;
-}
-#endif
-
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-static void GetCPUData(host_basic_info_data_t* data)
-{
-	mach_msg_type_number_t infoCount;
-	infoCount = HOST_BASIC_INFO_COUNT;
-	host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)data, &infoCount);
-}
-#elif !defined(__ANDROID__) && !defined(RPI) && !defined(EMSCRIPTEN)
-static void GetCPUData(struct cpu_id_t* data)
-{
-	if (cpu_identify(0, data) < 0)
-	{
-		data->num_logical_cpus = 1;
-		data->num_cores = 1;
-	}
-}
-#endif
-
-/// Return the number of physical CPU cores.
-uint32 GetNumPhysicalCPUs()
-{
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-	host_basic_info_data_t data;
-	GetCPUData(&data);
-#if defined(TARGET_IPHONE_SIMULATOR)
-	// Hardcoded to dual-core on simulator mode even if the host has more
-	return min(2, data.physical_cpu);
-#else
-	return data.physical_cpu;
-#endif
-#elif defined(__ANDROID__) || defined(RPI)
-	return GetArmCPUCount();
-#elif !defined(EMSCRIPTEN)
-	struct cpu_id_t data;
-	GetCPUData(&data);
-	return data.num_cores;
-#else
-	/// \todo Implement properly
-	return 1;
-#endif
 }
 
-/// Return the number of logical CPUs (different from physical if hyperthreading is used.)
-uint32 GetNumLogicalCPUs()
-{
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-	host_basic_info_data_t data;
-	GetCPUData(&data);
-#if defined(TARGET_IPHONE_SIMULATOR)
-	return min(2, data.logical_cpu);
-#else
-	return data.logical_cpu;
-#endif
-#elif defined(__ANDROID__) || defined (RPI)
-	return GetArmCPUCount();
-#elif !defined(EMSCRIPTEN)
-	struct cpu_id_t data;
-	GetCPUData(&data);
-	return data.num_logical_cpus;
-#else
-	/// \todo Implement properly
-	return 1;
-#endif
-}
-
-}

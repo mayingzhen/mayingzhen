@@ -152,155 +152,16 @@ namespace ma
 		return NULL;
 	}
 
-	/*
-	void ParallelJobCullFrustum(FiberTaskingLib::TaskScheduler *taskScheduler, void *arg)
-	{
-		CullJobData* pCullJobData = reinterpret_cast<CullJobData*>(arg);
-		const Frustum* pFrustum = pCullJobData->m_pFrustum;
-		RenderComponent** ppNodeStart = pCullJobData->m_pNodeStart;
-		int* ppViewStart = pCullJobData->m_pVisStart;
-		ParallelCull::NodeBound* ppNodeBound = pCullJobData->m_pNodeBoundStart;
-		UINT32 nIndexCount = pCullJobData->m_nNodeCount;
-
-		for (uint32 i = 0; i <= nIndexCount; ++i)
-		{
-			RenderComponent* pNode = ppNodeStart[i];
-			int& pView = ppViewStart[i];
-			ParallelCull::NodeBound& bound = ppNodeBound[i];
-			if (bound.m_bInfinite || pFrustum->IntersectSIMD(bound.m_vCenter, bound.m_vExtern) != Frustum::Visibility_NONE)
-			{
-				pView = 1;
-			}
-			else
-			{
-				pView = 0;
-			}
-		}
-	}
-	*/
-
-	/*
-	struct CullTask
-	{
-		MT_DECLARE_TASK(CullTask, MT::StackRequirements::STANDARD, MT::TaskPriority::NORMAL, MT::Color::Blue);
-		//CullTask() { m_pFrustum = NULL; m_bInView = NULL;}
-		//~CullTask(){}
-
-		Frustum* m_pFrustum;
-		ParallelCull::NodeBound m_bound;
-
-		int* m_bInView;
-
-		void Do(MT::FiberContext&)
-		{
-			if (m_bound.m_bInfinite || m_pFrustum->IntersectSIMD(m_bound.m_vCenter, m_bound.m_vExtern) != Frustum::Visibility_NONE)
-			{
-				*m_bInView = 1;
-			}
-			else
-			{
-				*m_bInView = 0;
-			}
-		}
-	};
-	*/
-
-
-	struct CullTask
-	{
-		MT_DECLARE_TASK(CullTask, MT::StackRequirements::STANDARD, MT::TaskPriority::NORMAL, MT::Color::Blue);
-		//CullTask() { m_pFrustum = NULL; m_bInView = NULL;}
-		//~CullTask(){}
-
-		RenderComponent** m_pNodeStart;
-		int* m_pVisStart;
-		ParallelCull::NodeBound* m_pNodeBoundStart;
-		uint32 m_nNodeCount;
-		uint32 m_nMask;
-		Frustum* m_pFrustum;
-
-		void Do(MT::FiberContext&)
-		{
-			const Frustum* pFrustum = m_pFrustum;
-			RenderComponent** ppNodeStart = m_pNodeStart;
-			int* ppViewStart = m_pVisStart;
-			ParallelCull::NodeBound* ppNodeBound = m_pNodeBoundStart;
-			UINT32 nIndexCount = m_nNodeCount;
-
-			for (uint32 i = 0; i <= nIndexCount; ++i)
-			{
-				RenderComponent* pNode = ppNodeStart[i];
-				int& pView = ppViewStart[i];
-				ParallelCull::NodeBound& bound = ppNodeBound[i];
-				if (bound.m_bInfinite || pFrustum->IntersectSIMD(bound.m_vCenter, bound.m_vExtern) != Frustum::Visibility_NONE)
-				{
-					pView = 1;
-				}
-				else
-				{
-					pView = 0;
-				}
-			}
-		}
-	};
 
 	void ParallelCull::FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) 
 	{
 		ASSERT(vecObj.empty());
 
-        uint32 nNumJob = MT::g_pTaskScheduler ? MT::g_pTaskScheduler->GetWorkersCount() : 0;//GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
-		
-		if (/*MT::g_pTaskScheduler && m_vecNode.size() > nNumJob*/0)
-		{
-			//BEGIN_TIME(g_pTaskScheduler);
-
-			static vector<int> vecVis;
-			vecVis.resize(m_vecNode.size(), false);
-
-			static vector<CullTask> vecJobData;
-			vecJobData.resize(nNumJob);
-
-			uint32 nCountPerJob = m_vecNode.size() / nNumJob;
-
-			for (UINT32 iJob = 0; iJob < nNumJob; ++iJob)
-			{
-				uint32 nStartIndex = iJob * nCountPerJob;
-				uint32 nEndIndex = nStartIndex + nCountPerJob - 1;
-				if (iJob == nNumJob - 1)
-					nEndIndex = m_vecNode.size() - 1;
-
-				ASSERT(nEndIndex >= nStartIndex);
-				if (nEndIndex < nStartIndex)
-					continue;
-
-				uint32 nCount = nEndIndex - nStartIndex;
-				vecJobData[iJob].m_pFrustum = (Frustum*)pFrustum;
-				vecJobData[iJob].m_pNodeStart = &(m_vecNode[nStartIndex]);
-				vecJobData[iJob].m_pVisStart = &(vecVis[nStartIndex]);
-				vecJobData[iJob].m_pNodeBoundStart = &(m_vecNodeBound[nStartIndex]);
-				vecJobData[iJob].m_nNodeCount = nCount;
-			}
-
-			MT::g_pTaskScheduler->RunAsync(MT::TaskGroup::Default(), &vecJobData[0], vecJobData.size());
-			MT::g_pTaskScheduler->WaitGroup(MT::TaskGroup::Default(), -1);
-
-			vecObj.resize(vecVis.size());
-			for (UINT32 i = 0; i < vecVis.size(); ++i)
-			{
-				if (vecVis[i])
-				{
-					vecObj.push_back(m_vecNode[i]);
-				}
-			}
-
-			//END_TIME(g_pTaskScheduler);
-		}
-		
-		
-		/*
+        uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
+	
 		if (nNumJob > 1 && m_vecNode.size() > nNumJob)
 		{
-			BEGIN_TIME(g_pJobScheduler);
+			//BEGIN_TIME(g_pJobScheduler);
 
 			static vector<int> vecVis;
 			vecVis.resize(m_vecNode.size(),false);
@@ -343,11 +204,9 @@ namespace ma
 				}
 			}
 
-			END_TIME(g_pJobScheduler);
+			//END_TIME(g_pJobScheduler);
 		}
-		*/
-
-		//else
+		else
 		{
 			//BEGIN_TIME(ParallelCull);
 	

@@ -3,12 +3,14 @@
 #include "MetalRenderDevice.h"
 #include "MetalRenderCommand.h"
 
+#include <thread>
+
 namespace ma
 {
 
 	MetalRenderPass::MetalRenderPass()
 	{
-        UINT numThreads = 3;
+        UINT numThreads = std::thread::hardware_concurrency();
         m_arrRenderCommand.resize(numThreads * RL_Count);
         for (UINT i = 0; i < m_arrRenderCommand.size(); ++i)
         {

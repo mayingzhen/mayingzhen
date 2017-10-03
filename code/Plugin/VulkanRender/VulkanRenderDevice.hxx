@@ -244,7 +244,7 @@ namespace ma
 
 		VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, &m_drawCmdBuffers));
 
-		UINT numThreads = std::thread::hardware_concurrency() - 1;
+		UINT numThreads = std::thread::hardware_concurrency();
 
 		//m_threadcommandPool.resize(numThreads * RL_Count * RP_Count);
 		m_threadCmdBuffers.resize(numThreads * RL_Count * RP_Count);
