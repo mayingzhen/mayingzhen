@@ -451,19 +451,14 @@ namespace ma
 		m_pRenderThread->RC_HardwareBufferStreamComplete(pHB);
 	}
 
-	void RenderSystem::BlendStateStreamComplete(BlendState* pBSState)
+	void RenderSystem::RenderPassStreamComplete(RenderPass* pRenderPass)
 	{
-		m_pRenderThread->RC_BlendStateStreamComplete(pBSState);
+		m_pRenderThread->RC_RenderPassStreamComplete(pRenderPass);
 	}
 
-	void RenderSystem::DepthStencilStateStreamComplete(DepthStencilState* pDSState)
+	void RenderSystem::SetUniformValue(Uniform* pUniform, const void* data, UINT nSize)
 	{
-		m_pRenderThread->RC_DepthStencilStateStreamComplete(pDSState);
-	}
-
-	void RenderSystem::RasterizerStateStreamComplete(RasterizerState* pRSState)
-	{
-		m_pRenderThread->RC_RasterizerStateStreamComplete(pRSState);
+		m_pRenderThread->RC_SetUniformValue(pUniform,data,nSize);
 	}
 
 	void RenderSystem::BeginProfile(const char* pszLale)

@@ -1,15 +1,15 @@
 #include "VulkanTechniqueh.h"
 #include "VulkanConstantBuffer.h"
 #include "VulkanPipeline.h"
-#include "..\glslang\glslang\Include\ResourceLimits.h"
-#include "..\glslang\glslang\Public\ShaderLang.h"
-#include "..\glslang\SPIRV\GlslangToSpv.h"
+#include "glslang/glslang/Include\ResourceLimits.h"
+#include "glslang/glslang/Public/ShaderLang.h"
+#include "glslang/SPIRV/GlslangToSpv.h"
 
-#include "..\SPIRV-Cross\spirv_glsl.hpp"
-#include "..\..\..\SPIRV-Cross\spirv_hlsl.hpp"
-#include "..\..\..\SPIRV-Cross\spirv_msl.hpp"
+#include "SPIRV-Cross/spirv_glsl.hpp"
+#include "SPIRV-Cross/spirv_hlsl.hpp"
+#include "SPIRV-Cross/spirv_msl.hpp"
 #include "VulkanRenderState.h"
-#include "Engine\Material\ParameterManager.h"
+#include "Engine/Material/ParameterManager.h"
 
 namespace ma
 {
@@ -45,6 +45,15 @@ namespace ma
 
 	void VulkanTechnique::RT_StreamComplete()
 	{
+		VulkanBlendStateObject* pVulkanBS = (VulkanBlendStateObject*)(this->GetBlendState());
+		pVulkanBS->RT_StreamComplete();
+
+		VulkanDepthStencilStateObject* pVulkanDS = (VulkanDepthStencilStateObject*)(this->GetDepthStencilState());
+		pVulkanDS->RT_StreamComplete();
+
+		VulkanRasterizerStateObject* pVulkanRS = (VulkanRasterizerStateObject*)(this->GetRasterizerState());
+		pVulkanRS->RT_StreamComplete();
+
 		vks::VulkanDevice* device = GetVulkanDevice();
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 

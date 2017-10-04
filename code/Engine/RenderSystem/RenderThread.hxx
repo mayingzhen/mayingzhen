@@ -198,48 +198,18 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_BlendStateStreamComplete(BlendState* pBSState)
+	void RenderThread::RC_RenderPassStreamComplete(RenderPass* pRenderPass)
 	{
-		if (IsRenderThread())
-		{
-			pBSState->RT_StreamComplete();
-			return;
-		}
-
-		AddCommand(eRC_BlendStateStreamComplete);
-		AddPointer(pBSState);
-
-		FlushAndWait();
-	}
-
-	void RenderThread::RC_DepthStencilStateStreamComplete(DepthStencilState* pDSState)
-	{
-		ASSERT(pDSState);
+		ASSERT(pRenderPass);
 
 		if (IsRenderThread())
 		{
-			pDSState->RT_StreamComplete();
+			pRenderPass->Create();
 			return;
 		}
 
-		AddCommand(eRC_DepthStencilStreamComplete);
-		AddPointer(pDSState);
-
-		FlushAndWait();
-	}
-
-	void RenderThread::RC_RasterizerStateStreamComplete(RasterizerState* pRSState)
-	{
-		ASSERT(pRSState);
-
-		if (IsRenderThread())
-		{
-			pRSState->RT_StreamComplete();
-			return;
-		}
-
-		AddCommand(eRC_RasterizerStateStreamComplete);
-		AddPointer(pRSState);
+		AddCommand(eRC_RenderPassStreamComplete);
+		AddPointer(pRenderPass);
 
 		FlushAndWait();
 	}
@@ -302,281 +272,19 @@ namespace ma
 		AddPointer(pRenderTarget);
 	}
 
-// 	void RenderThread::RC_SetShaderProgram(ShaderProgram* pShader)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			pShader->RT_SetShader();	
-//  
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetShader);
-// 		AddPointer(pShader);
-// 	}
-// 
-// 	void RenderThread::RC_BeginRenderPass(FrameBuffer* pFB)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->BeginRenderPass(pFB);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_BeginRenderPass);
-// 		AddPointer(pFB);
-// 	}
-// 
-// 	void RenderThread::RC_EndRenderPass(FrameBuffer* pFB)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->EndRenderPass(pFB);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_EndRenderPass);
-// 		AddPointer(pFB);
-// 	}
-// 
-// 	void RenderThread::RC_SetFrameBuffer(FrameBuffer* pFB)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetFrameBuffer(pFB);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetFrameBuffer);
-// 		AddPointer(pFB);
-// 	}
-// 
-// 	void RenderThread::RC_SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetRenderTarget(index,pTexture,level,array_index,face);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetRenderTarget);
-// 		AddInt(index);
-// 		AddPointer(pTexture);
-// 		AddInt(level);
-// 		AddInt(array_index);
-// 		AddInt(face);
-// 	}
-// 
-// 	void RenderThread::RC_SetDepthStencil(Texture* pTexture)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetDepthStencil(pTexture);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetDepthStencil);
-// 		AddPointer(pTexture);
-// 	}
-// 
-// 	void RenderThread::RC_SetViewPort(const Rectangle& viewPort)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetViewport(viewPort,NULL);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetViewPort);
-// 		AddData(&viewPort,sizeof(Rectangle));
-// 	}
+	void RenderThread::RC_SetUniformValue(Uniform* pUniform, const void* data, UINT nSize)
+	{
+		if (IsRenderThread())
+		{
+			ASSERT(nSize <= pUniform->GetSize());
+			pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), data);
+			return;
+		}
 
-// 	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_ClearBuffer);
-// 		AddBool(bColor);
-// 		AddBool(bDepth);
-// 		AddBool(bStencil);
-// 		AddColor(c);
-// 		AddFloat(z);
-// 		AddInt(s);
-// 	}
-
-// 	void RenderThread::RC_SetBlendState(const BlendState* pBlendState)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetBlendState(pBlendState);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetBlendState);
-// 		AddPointer(pBlendState);
-// 	}
-// 
-// 	void RenderThread::RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetDepthStencilState(pDSState,nStencilRef);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetDepthStencilState);
-// 		AddPointer(pDSState);
-// 		AddDWORD(nStencilRef);
-// 	}
-// 
-// 	void RenderThread::RC_SetRasterizerState(const RasterizerState* pRSState)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetRasterizerState(pRSState);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetRasterizerState);
-// 		AddPointer(pRSState);
-// 	}
-// 
-// 	void RenderThread::RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetVertexDeclation);
-// 		AddPointer(pVertexDecl);
-// 	}
-
-// 	void RenderThread::RC_SetInt(Uniform* uniform, int value)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,value);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetInt);
-// 		AddPointer(uniform);
-// 		AddInt(value);
-// 	}
-// 
-// 	void RenderThread::RC_SetFloat(Uniform* uniform, float value)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,value);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetFloat);
-// 		AddPointer(uniform);
-// 		AddFloat(value);
-// 	}
-// 
-// 	void RenderThread::RC_SetVector2(Uniform* uniform, const Vector2& value)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,value);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetVector2);
-// 		AddPointer(uniform);
-// 		AddVec2(value);
-// 	}
-// 
-// 	void RenderThread::RC_SetVector3(Uniform* uniform, const Vector3& value)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,value);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetVector3);
-// 		AddPointer(uniform);
-// 		AddVec3(value);
-// 	}
-// 
-// 
-// 	void RenderThread::RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,values,count);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetVector4);
-// 		AddPointer(uniform);
-// 		AddDWORD(count);
-// 		AddData(values,sizeof(Vector4) * count);
-// 	}
-// 
-// 	void RenderThread::RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,values,count);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetMatrix4);
-// 		AddPointer(uniform);
-// 		AddDWORD(count);
-// 		AddData(values,sizeof(Matrix4) * count);
-// 	}
-// 
-// 	void RenderThread::RC_SetColourValue(Uniform* uniform, const ColourValue& value)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,value);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetColourValue);
-// 		AddPointer(uniform);
-// 		AddColor(value);
-// 	}
-// 
-// 	void RenderThread::RC_SetTexture(Uniform* uniform, const Texture* sampler)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetTexture(uniform,(Texture*)sampler);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetTexture);
-// 		AddPointer(uniform);
-// 		AddPointer(sampler);
-// 	}
-// 
-// 	void RenderThread::RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetSamplerState(uniform,(SamplerState*)sampler);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetSamplerState);
-// 		AddPointer(uniform);
-// 		AddPointer(sampler);
-// 	}
-
+		AddCommand(eRC_SetUniformValue);
+		AddPointer(pUniform);
+		AddData(data, nSize);
+	}
 
 	void RenderThread::RC_SetPoolId(uint32 poolId)
 	{
@@ -661,13 +369,6 @@ namespace ma
 					GetRenderSystem()->RT_Render();
 				}
 				break;
-			case  eRC_DrawRenderable:
-				{
-					Renderable* pRenderable = ReadCommand<Renderable*>(n);
-					Technique* pTech = ReadCommand<Technique*>(n);
-					//GetRenderSystem()->RT_DrawRenderable(pRenderable,pTech);
-				}
-				break;
 			case  eRC_TechniqueStreamComplete:
 				{
 					Technique* pTech = ReadCommand<Technique*>(n);
@@ -698,6 +399,12 @@ namespace ma
 					pHB->RT_StreamComplete();
 				}
 				break;
+			case eRC_RenderPassStreamComplete:
+				{
+					RenderPass* pRenderPass = ReadCommand<RenderPass*>(n);
+					pRenderPass->Create();
+				}
+				break;
 			case  eRC_CreateShader:
 				{
 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
@@ -717,154 +424,17 @@ namespace ma
 					}
 				}
 				break;
-// 			case  eRC_SetShader:
-// 				{
-// 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
-// 					pShader->RT_SetShader();
-// 				}
-// 				break;
-// 			case eRC_BeginRenderPass:
-// 				{
-// 					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
-// 					GetRenderDevice()->BeginRenderPass(pFB);
-// 				}
-// 				break;
-// 			case eRC_EndRenderPass:
-// 				{
-// 					FrameBuffer* pFB = ReadCommand<FrameBuffer*>(n);
-// 					GetRenderDevice()->EndRenderPass(pFB);
-// 				}
-// 				break;
-// 			case eRC_SetFrameBuffer:
-// 				{
-// 					FrameBuffer* pFB= ReadCommand<FrameBuffer*>(n);
-// 					GetRenderDevice()->SetFrameBuffer(pFB);
-// 				}
-// 				break;
-// 			case eRC_SetRenderTarget:
-// 				{
-// 					int index = ReadCommand<int>(n);
-// 					Texture* pTarget = ReadCommand<Texture*>(n);
-// 					int level = ReadCommand<int>(n);
-// 					int array_index = ReadCommand<int>(n);
-// 					int face = ReadCommand<int>(n);
-// 					GetRenderDevice()->SetRenderTarget(index,pTarget,level,array_index,face);
-// 				}
-// 				break;
-// 			case  eRC_SetDepthStencil:
-// 				{
-// 					Texture* pTarget = ReadCommand<Texture*>(n);
-// 					GetRenderDevice()->SetDepthStencil(pTarget);
-// 				}
-// 				break;
-// 			case  eRC_SetViewPort:
-// 				{
-// 					Rectangle viewPort;
-// 					ReadData(n,viewPort);
-// 					GetRenderDevice()->SetViewport(viewPort,NULL);
-// 				}
-// 				break;
-// 			case  eRC_ClearBuffer:
-// 				{
-// 					bool bColor = ReadCommand<bool>(n);
-// 					bool bDepth = ReadCommand<bool>(n);
-// 					bool bStencil = ReadCommand<bool>(n);
-// 					ColourValue c = ReadCommand<ColourValue>(n);
-// 					float z = ReadCommand<float>(n);
-// 					int s = ReadCommand<int>(n);
-// 					GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
-// 				}
-// 				break;
-// 			case eRC_SetBlendState:
-// 				{
-// 					BlendState* pBlendState = ReadCommand<BlendState*>(n);
-// 					GetRenderDevice()->SetBlendState(pBlendState);
-// 				}
-// 				break;
-// 			case eRC_SetDepthStencilState:
-// 				{
-// 					DepthStencilState* pDSState = ReadCommand<DepthStencilState*>(n);
-// 					UINT nRef = ReadCommand<UINT>(n);
-// 					GetRenderDevice()->SetDepthStencilState(pDSState, nRef);
-// 				}
-// 				break;
-// 			case eRC_SetRasterizerState:
-// 				{
-// 					RasterizerState* pRSState = ReadCommand<RasterizerState*>(n);
-// 					GetRenderDevice()->SetRasterizerState(pRSState);
-// 				}
-// 				break;
-// 			case eRC_SetVertexDeclation:
-// 				{
-// 					VertexDeclaration* pVertexDecl = ReadCommand<VertexDeclaration*>(n);
-// 					GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
-// 				}
-// 			break;
-// 			case eRC_SetInt:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					int nValue = ReadCommand<int>(n);
-// 					GetRenderDevice()->SetValue(pUnform,nValue);
-// 				}
-// 				break;
-// 			case eRC_SetFloat:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					float fValue = ReadCommand<float>(n);
-// 					GetRenderDevice()->SetValue(pUnform,fValue);
-// 				}
-// 				break;
-// 			case eRC_SetVector2:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					Vector2 value = ReadCommand<Vector2>(n);
-// 					GetRenderDevice()->SetValue(pUnform,value);
-// 				}
-// 				break;
-// 			case eRC_SetVector3:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					Vector3 value = ReadCommand<Vector3>(n);
-// 					GetRenderDevice()->SetValue(pUnform,value);
-// 				}
-// 				break;
-// 			case eRC_SetVector4:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					UINT nCount = ReadCommand<UINT>(n);
-// 					Vector4* nValue = ReadDataPtr<Vector4*>(n,nCount * sizeof(Vector4));
-// 					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
-// 				}
-// 				break;
-// 			case eRC_SetMatrix4:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					UINT nCount = ReadCommand<UINT>(n);
-// 					Matrix4* nValue = ReadDataPtr<Matrix4*>(n,nCount * sizeof(Matrix4));
-// 					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
-// 				}
-// 				break;
-// 			case eRC_SetColourValue:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					ColourValue cValue = ReadCommand<ColourValue>(n);
-// 					GetRenderDevice()->SetValue(pUnform,cValue);
-// 				}
-// 				break;
-// 			case eRC_SetTexture:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					Texture* pTexture = ReadCommand<Texture*>(n);
-// 					GetRenderDevice()->SetTexture(pUnform,pTexture);
-// 				}
-// 				break;
-// 			case eRC_SetSamplerState:
-// 				{
-// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-// 					SamplerState* pTexture = ReadCommand<SamplerState*>(n);
-// 					GetRenderDevice()->SetSamplerState(pUnform,pTexture);
-// 				}
-// 				break;
+			case eRC_SetUniformValue:
+				{
+					Uniform* pUniform = ReadCommand<Uniform*>(n);
+					void* data = NULL;
+					UINT nSize = 0;
+					ReadData(n, data, nSize);
+
+					ASSERT(nSize <= pUniform->GetSize());
+					pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), data);
+				}
+				break;
 			case  eRC_SetPoolId:
 				{
 					UINT nId = ReadCommand<UINT>(n);

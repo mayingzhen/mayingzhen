@@ -40,32 +40,11 @@ namespace ma
 		void				EndRender();
 		void				Render();
 		
-//		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
-		
-// 		void				BeginRenderPass(FrameBuffer* pFB);
-// 		void				EndRenderPass(FrameBuffer* pFB);
-// 		void				SetFrameBuffer(FrameBuffer* pFB);
-// 		RefPtr<Texture>		SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		RefPtr<Texture>		GetRenderTarget(int index = 0);
-// 		RefPtr<Texture>		GetDefaultRenderTarget();
-// 		RefPtr<Texture>		GetDefaultDepthStencil();
-// 		RefPtr<Texture>		SetDepthStencil(RefPtr<Texture>	pTexture);	
-// 		Rectangle			SetViewPort(const Rectangle& viewPort);
 		Rectangle			GetViewPort() {return m_curViewport;}
 		RenderPass*			GetDefaultRenderPass();
 		
-		//void				SetShaderProgram(ShaderProgram* pShader);
-		
-		// RenderState
-// 		void				SetBlendState(const BlendState* pBlendState);
-// 		void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef);
-// 		void				SetRasterizerState(const RasterizerState* pRSState);
-
-//		void				SetVertexDeclaration(const VertexDeclaration* pVertexDecl);
-		
 		HWND				GetMainWnd() {return m_hWnd;}
-		
-//		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 		
 		// Create	
 		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,UINT32 nMipMap = 1, PixelFormat format = PF_A8R8G8B8,bool bSRGB = true,TEXTURE_TYPE eType = TEXTYPE_2D);
@@ -79,9 +58,9 @@ namespace ma
 		void				ShaderStreamComplete(ShaderProgram* pShader);
 		void				VertexDeclaComplete(VertexDeclaration* pDec);
 		void				HardwareBufferStreamComplete(HardwareBuffer* pHB);
-		void				BlendStateStreamComplete(BlendState* pBSState);
-		void				DepthStencilStateStreamComplete(DepthStencilState* pDSState);
-		void				RasterizerStateStreamComplete(RasterizerState* pRSState);
+		void				RenderPassStreamComplete(RenderPass* pRenderPass);
+
+		void				SetUniformValue(Uniform* pUniform, const void* data, UINT nSize);
 
 		void				BeginProfile(const char* pszLale);
 		void				EndProfile();

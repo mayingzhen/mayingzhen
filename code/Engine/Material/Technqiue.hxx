@@ -443,8 +443,7 @@ namespace ma
 
 		ASSERT(values);
 
-		ASSERT(nSize <= pUniform->GetSize());
-		pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), values);
+		GetRenderSystem()->SetUniformValue(pUniform, values, nSize);
 	}
 
 	void Technique::SetValue(Uniform* pUniform, Texture* pTexture)
@@ -528,11 +527,11 @@ namespace ma
 
     void Technique::StreamComplete()
     {
-        GetRenderSystem()->BlendStateStreamComplete(m_pBlendState.get());
-        
-        GetRenderSystem()->DepthStencilStateStreamComplete(m_pDSState.get());
-        
-        GetRenderSystem()->RasterizerStateStreamComplete(m_pRSState.get());
+//         GetRenderSystem()->BlendStateStreamComplete(m_pBlendState.get());
+//         
+//         GetRenderSystem()->DepthStencilStateStreamComplete(m_pDSState.get());
+//         
+//         GetRenderSystem()->RasterizerStateStreamComplete(m_pRSState.get());
 
 		GetRenderSystem()->TechniqueStreamComplete(this);
     }

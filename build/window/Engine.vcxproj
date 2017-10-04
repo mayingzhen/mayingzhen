@@ -209,7 +209,6 @@
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.hxx" />
-    <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderContext.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderContext.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderProfile.h" />

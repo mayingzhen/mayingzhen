@@ -19,7 +19,7 @@
 #include "VulkanRender/VulkanRenderPass.hxx"
 #include "VulkanRender/VulkanRenderCommand.hxx"
 
-#include "SPIRV/GlslangToSpv.h"
+#include "glslang/SPIRV/GlslangToSpv.h"
 
 using namespace ma;
 

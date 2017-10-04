@@ -24,7 +24,7 @@ namespace ma
 
 		void				Init();
 		void				Update();
-		void				Update(Camera* pCamera);
+		void				Show(Camera* pCamera);
 		void				RenderShadowMap(Camera* pCamera);
 		void				Clear(Camera* pCamera);
 

@@ -209,83 +209,29 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/VulkanSDK/1.0.49.0/glslang -BD:/VulkanSDK/1.0.49.0/glslang --check-stamp-file D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/VulkanSDK/1.0.49.0/glslang/hlsl/CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\VulkanSDK\1.0.49.0\glslang\hlsl\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslAttributes.h" />
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslParseHelper.h" />
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslTokens.h" />
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslScanContext.h" />
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslOpMap.h" />
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslTokenStream.h" />
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslGrammar.h" />
-    <ClInclude Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslParseables.h" />
-    <ClCompile Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslAttributes.cpp" />
-    <ClCompile Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslParseHelper.cpp" />
-    <ClCompile Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslScanContext.cpp" />
-    <ClCompile Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslOpMap.cpp" />
-    <ClCompile Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslTokenStream.cpp" />
-    <ClCompile Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslGrammar.cpp" />
-    <ClCompile Include="D:\VulkanSDK\1.0.49.0\glslang\hlsl\hlslParseables.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="D:\VulkanSDK\1.0.49.0\glslang\ZERO_CHECK.vcxproj">
       <Project>D3BCD2DB-9892-369A-9740-32A63E766CB6</Project>
       <Name>ZERO_CHECK</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="hlslAttributes.cpp" />
+    <ClCompile Include="hlslGrammar.cpp" />
+    <ClCompile Include="hlslOpMap.cpp" />
+    <ClCompile Include="hlslParseables.cpp" />
+    <ClCompile Include="hlslParseHelper.cpp" />
+    <ClCompile Include="hlslScanContext.cpp" />
+    <ClCompile Include="hlslTokenStream.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hlslAttributes.h" />
+    <ClInclude Include="hlslGrammar.h" />
+    <ClInclude Include="hlslOpMap.h" />
+    <ClInclude Include="hlslParseables.h" />
+    <ClInclude Include="hlslParseHelper.h" />
+    <ClInclude Include="hlslScanContext.h" />
+    <ClInclude Include="hlslTokens.h" />
+    <ClInclude Include="hlslTokenStream.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

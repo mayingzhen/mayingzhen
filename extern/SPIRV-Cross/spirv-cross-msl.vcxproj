@@ -209,66 +209,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="E:\work\SPIRV-Cross\CMakeLists.txt">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule E:/work/SPIRV-Cross/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HE:/work/SPIRV-Cross -BE:/work/SPIRV-Cross --check-stamp-file E:/work/SPIRV-Cross/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:/work/SPIRV-Cross/CMakeLists.txt;E:\work\SPIRV-Cross\CMakeLists.txt;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\work\SPIRV-Cross\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\work\SPIRV-Cross\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule E:/work/SPIRV-Cross/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HE:/work/SPIRV-Cross -BE:/work/SPIRV-Cross --check-stamp-file E:/work/SPIRV-Cross/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:/work/SPIRV-Cross/CMakeLists.txt;E:\work\SPIRV-Cross\CMakeLists.txt;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\work\SPIRV-Cross\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:\work\SPIRV-Cross\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule E:/work/SPIRV-Cross/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HE:/work/SPIRV-Cross -BE:/work/SPIRV-Cross --check-stamp-file E:/work/SPIRV-Cross/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:/work/SPIRV-Cross/CMakeLists.txt;E:\work\SPIRV-Cross\CMakeLists.txt;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\work\SPIRV-Cross\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:\work\SPIRV-Cross\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule E:/work/SPIRV-Cross/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HE:/work/SPIRV-Cross -BE:/work/SPIRV-Cross --check-stamp-file E:/work/SPIRV-Cross/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:/work/SPIRV-Cross/CMakeLists.txt;E:\work\SPIRV-Cross\CMakeLists.txt;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCCompiler.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\work\SPIRV-Cross\CMakeFiles\3.8.0-rc2\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPythonInterp.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\work\SPIRV-Cross\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:\work\SPIRV-Cross\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="E:\work\SPIRV-Cross\spirv_msl.hpp" />
-    <ClCompile Include="E:\work\SPIRV-Cross\spirv_msl.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="E:\work\SPIRV-Cross\ZERO_CHECK.vcxproj">
       <Project>10F6D86B-9480-39E8-B20D-6F38FF95D4E0</Project>
       <Name>ZERO_CHECK</Name>
@@ -281,6 +221,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>0BD90DD4-F1FA-3B2E-85FA-B730617CB64F</Project>
       <Name>spirv-cross-glsl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="spirv_msl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="spirv_msl.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

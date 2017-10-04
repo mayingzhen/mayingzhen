@@ -53,7 +53,7 @@ namespace ma
 		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat,true);
 		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
 		m_pShadowMapFB->SetViewPort(m_viewport);
-		m_pShadowMapFB->Create();
+		GetRenderSystem()->RenderPassStreamComplete(m_pShadowMapFB.get());
 
 		m_matTexAdjust = CalculateTexAdjustMatrix(m_pShdowMapDepth.get(),m_viewport);
 

@@ -1,12 +1,5 @@
 #include "VulkanPipeline.h"
 #include "VulkanConstantBuffer.h"
-#include "..\glslang\glslang\Include\ResourceLimits.h"
-#include "..\glslang\glslang\Public\ShaderLang.h"
-#include "..\glslang\SPIRV\GlslangToSpv.h"
-
-#include "..\SPIRV-Cross\spirv_glsl.hpp"
-#include "..\..\..\SPIRV-Cross\spirv_hlsl.hpp"
-#include "..\..\..\SPIRV-Cross\spirv_msl.hpp"
 #include "VulkanRenderState.h"
 
 namespace ma

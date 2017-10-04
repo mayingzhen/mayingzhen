@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bullet", "Bullet", "{E202A9B0-4DFD-40CC-A9FF-DC5FE8BE33C3}"
 EndProject
@@ -35,8 +35,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletCollision", "Bullet-2.82\build\vs2008\BulletCollision.vcxproj", "{2927548C-8324-C641-8774-85EFF7723925}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletDynamics", "Bullet-2.82\build\vs2008\BulletDynamics.vcxproj", "{F58CFF62-3F20-0E4A-B27C-3BC77736AB2C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibCpuId", "LibCpuId\LibCpuId.vcxproj", "{E874D8C6-F880-4E46-BE07-054EFC7F8E79}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SPIRV_CROSS", "SPIRV_CROSS", "{52A91F7A-D1D6-4330-8B12-EE471EF28BF7}"
 EndProject
@@ -319,16 +317,6 @@ Global
 		{F58CFF62-3F20-0E4A-B27C-3BC77736AB2C}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{F58CFF62-3F20-0E4A-B27C-3BC77736AB2C}.RelWithDebInfo|x64.ActiveCfg = Release|x64
 		{F58CFF62-3F20-0E4A-B27C-3BC77736AB2C}.RelWithDebInfo|x64.Build.0 = Release|x64
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.Debug|Win32.Build.0 = Debug|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.Debug|x64.ActiveCfg = Debug|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.MinSizeRel|Win32.ActiveCfg = Release|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.MinSizeRel|x64.ActiveCfg = Release|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.Release|Win32.ActiveCfg = Release|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.Release|Win32.Build.0 = Release|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.Release|x64.ActiveCfg = Release|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
-		{E874D8C6-F880-4E46-BE07-054EFC7F8E79}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
 		{F6274B3E-4FCD-387A-B8FC-F46BBC7CB3BF}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F6274B3E-4FCD-387A-B8FC-F46BBC7CB3BF}.Debug|Win32.Build.0 = Debug|Win32
 		{F6274B3E-4FCD-387A-B8FC-F46BBC7CB3BF}.Debug|x64.ActiveCfg = Debug|Win32

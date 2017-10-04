@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes;../../extern/vld/include;../../extern/vulkan;../../extern/glslang;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes;../../extern/vld/include;../../extern/vulkan;../../extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VK_USE_PLATFORM_WIN32_KHR;VULKANRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -67,7 +67,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>vulkan-1.lib;../../extern\glslang\glslang\Debug\glslangd.lib;../../extern\glslang\SPIRV\Debug\SPIRVd.lib;../../extern\glslang\OGLCompilersDLL\Debug\OGLCompilerd.lib;../../extern\glslang\hlsl\Debug\HLSLd.lib;../../extern\glslang\glslang\OSDependent\Windows\Debug\OSDependentd.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-core.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-glsl.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-hlsl.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-msl.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../extern/vld/lib;../../extern/DXSDK/lib;../../extern/vulkan/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../extern/vld/lib;../../extern;../../extern/vulkan/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>

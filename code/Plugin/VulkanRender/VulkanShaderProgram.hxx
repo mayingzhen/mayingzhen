@@ -1,14 +1,14 @@
 #include "VulkanShaderProgram.h"
 #include "VulkanConstantBuffer.h"
-#include "..\glslang\glslang\Include\ResourceLimits.h"
-#include "..\glslang\glslang\Public\ShaderLang.h"
-#include "..\glslang\SPIRV\GlslangToSpv.h"
+#include "glslang/glslang/Include/ResourceLimits.h"
+#include "glslang/glslang/Public/ShaderLang.h"
+#include "glslang/SPIRV/GlslangToSpv.h"
 
-#include "..\SPIRV-Cross\spirv_glsl.hpp"
-#include "..\..\..\SPIRV-Cross\spirv_hlsl.hpp"
-#include "..\..\..\SPIRV-Cross\spirv_msl.hpp"
+#include "SPIRV-Cross/spirv_glsl.hpp"
+#include "SPIRV-Cross/spirv_hlsl.hpp"
+#include "SPIRV-Cross/spirv_msl.hpp"
 #include "VulkanRenderState.h"
-#include "Engine\Material\PrePareShaderSource.h"
+#include "Engine/Material/PrePareShaderSource.h"
 
 namespace ma
 {

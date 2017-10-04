@@ -5,9 +5,7 @@
 namespace ma
 {
 	class Uniform;
-	class BlendState;
-	class DepthStencilState;
-	class RasterizerState;
+	class RenderPass;
 	
 	enum ERenderCommand
 	{
@@ -16,47 +14,23 @@ namespace ma
 		eRC_Init,
 		eRC_Reset,
 		eRC_ShutDown,
+
 		eRC_TechniqueStreamComplete,
 		eRC_TexStreamComplete,
 		eRC_ShaderStreamComplete,
 		eRC_VertexDeclaComplete,
 		eRC_HBStreamComplete,
-		eRC_BlendStateStreamComplete,
-		eRC_DepthStencilStreamComplete,
-		eRC_RasterizerStateStreamComplete,
+		eRC_RenderPassStreamComplete,
+
 		eRC_BeginRender,
 		eRC_EndRender,
 		eRC_Render,
 		eRC_DrawRenderable,
 		eRC_CreateShader,
 		eRC_CreateTexture,
- 		//eRC_ClearBuffer,
-		//eRC_SetFrameBuffer,
-// 		eRC_BeginRenderPass,
-// 		eRC_EndRenderPass,
-//  		eRC_SetRenderTarget,
-// 		eRC_SetDepthStencil,
-//  		eRC_SetViewPort,
-// 		eRC_SetShader,
 
-		// RenderState
-// 		eRC_SetBlendState,
-// 		eRC_SetDepthStencilState,
-// 		eRC_SetRasterizerState,
-// 
-// 		eRC_SetVertexDeclation,
-
-		// Unfiform
-// 		eRC_SetInt,
-// 		eRC_SetFloat,
-// 		eRC_SetVector2,
-// 		eRC_SetVector3,
-// 		eRC_SetVector4,
-// 		eRC_SetMatrix4,
-// 		eRC_SetColourValue,
-//  		eRC_SetTexture,
-// 		eRC_SetSamplerState,
-
+		eRC_SetUniformValue,
+		
 		eRC_SetPoolId,
 
 		eRC_BeginProfile,
@@ -95,7 +69,7 @@ namespace ma
 		void	AddData(const void *pData, int nLen);
 
 		template<class T>
-		void	ReadData(int &nIndex,T& data);
+		void	ReadData(int &nIndex,T& data, UINT& nSize);
 		
 		template<class T>
 		T		ReadDataPtr(int &nIndex,int nLen);
@@ -130,37 +104,13 @@ namespace ma
 		void	RC_ShaderStreamComplete(ShaderProgram* pShader);
 		void	RC_VertexDeclaComplete(VertexDeclaration* pDecl);
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
-		void	RC_BlendStateStreamComplete(BlendState* pBSState);
-		void	RC_DepthStencilStateStreamComplete(DepthStencilState* pDSState);
-		void	RC_RasterizerStateStreamComplete(RasterizerState* pRSState);
+		void	RC_RenderPassStreamComplete(RenderPass* pRenderPass);
 		void	RC_Render();
 		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
-// 		void	RC_SetShaderProgram(ShaderProgram* pShader);
-// 		void	RC_BeginRenderPass(FrameBuffer* pFB);
-// 		void	RC_EndRenderPass(FrameBuffer* pFB);
-// 		void	RC_SetFrameBuffer(FrameBuffer* pFB);
-// 		void	RC_SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
-// 		void	RC_SetDepthStencil(Texture* pTexture);
-// 		void	RC_SetViewPort(const Rectangle& viewPort);
-// 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
-// 
-// 		void	RC_SetBlendState(const BlendState* pBlendState);
-// 		void	RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef);
-// 		void	RC_SetRasterizerState(const RasterizerState* pRSState);
-// 
-// 		void	RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl);
-
-// 		void	RC_SetInt(Uniform* uniform, int value);
-// 		void	RC_SetFloat(Uniform* uniform, float value);
-// 		void	RC_SetVector2(Uniform* uniform, const Vector2& value);
-// 		void	RC_SetVector3(Uniform* uniform, const Vector3& value);
-// 		void	RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count);
-// 		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
-// 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
-//  		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
-// 		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
+		
+		void	RC_SetUniformValue(Uniform* pUniform, const void* data, UINT nSize);
 
 		void	RC_SetPoolId(uint32 poolId);
 
@@ -266,12 +216,14 @@ namespace ma
 	}
     
 	template<class T>
-	inline void	RenderThread::ReadData(int &nIndex,T& data)
+	inline void	RenderThread::ReadData(int &nIndex,T& data,UINT& nSize)
 	{
 		UINT nLen = ReadCommand<UINT>(nIndex);
-		ASSERT(nLen == sizeof(T));
+		//ASSERT(nLen == sizeof(T));
 		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
-		memcpy(&data,pSrc,nLen);
+		//memcpy(&data,pSrc,nLen);
+		data = (T)pSrc;
+		nSize = nLen;
 		nIndex += nLen;
 	}
 

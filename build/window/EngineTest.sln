@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{1017C780-2273-47B4-B4ED-BFC8DDF86F04}"
 EndProject
@@ -34,6 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scripttest", "..\..\data\sc
 	ProjectSection(ProjectDependencies) = postProject
 		{B409639E-14C1-4A05-A3F5-192F4F365582} = {B409639E-14C1-4A05-A3F5-192F4F365582}
 		{EAEB1EBB-991E-4344-B998-C216A391A5C2} = {EAEB1EBB-991E-4344-B998-C216A391A5C2}
+		{ACC514DD-BCFD-4042-B293-DDD2D297D772} = {ACC514DD-BCFD-4042-B293-DDD2D297D772}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine.vcxproj", "{B409639E-14C1-4A05-A3F5-192F4F365582}"

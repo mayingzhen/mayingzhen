@@ -31,6 +31,10 @@ namespace ma
 		m_fShadowFarDist = 0;
 
         m_eShadowBleurLevel = BLUR_NO;
+
+		AABB aabb;
+		aabb.setInfinite();
+		SetAABB(aabb);
 	}
 
 	DirectonalLight::~DirectonalLight()
@@ -102,7 +106,7 @@ namespace ma
 		m_pSceneNode->GetScene()->AddRenderLight(this);
 	}
 
-	void DirectonalLight::Update(Camera* pCamera)
+	void DirectonalLight::Show(Camera* pCamera)
 	{
 		if (!m_bShadowEnable)
 			return;
@@ -111,13 +115,13 @@ namespace ma
 		m_curSplitPos[GetRenderSystem()->CurThreadFill()] = m_SplitPosParam;
 
 		// Simple Shadow
-// 		if (m_nMaxSplitCount == 1)
-// 		{
-// 			m_nCurSplitCount = 1;
-// 			m_curSplitPos[GetRenderSystem()->CurThreadFill()].x = pCamera->GetFarClip(); // For Depth bias
-// 			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
-// 			return;
-// 		}
+		// 		if (m_nMaxSplitCount == 1)
+		// 		{
+		// 			m_nCurSplitCount = 1;
+		// 			m_curSplitPos[GetRenderSystem()->CurThreadFill()].x = pCamera->GetFarClip(); // For Depth bias
+		// 			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
+		// 			return;
+		// 		}
 
 		UpdateViewMinMaxZ(pCamera);
 
@@ -138,8 +142,8 @@ namespace ma
 
 			// Setup the shadow camera for the split
 			m_curSplitPos[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] = fFarSplit;
- 
-			m_SpitFrustum[m_nCurSplitCount].Update(pCamera,fNearSplit,fFarSplit);
+
+			m_SpitFrustum[m_nCurSplitCount].Update(pCamera, fNearSplit, fFarSplit);
 
 			fNearSplit = fFarSplit;
 			++m_nCurSplitCount;
@@ -151,16 +155,15 @@ namespace ma
 		float fadeEnd = shadowRange;
 		float fadeRange = fadeEnd - fadeStart;
 
-		m_vShadowDepthFade[GetRenderSystem()->CurThreadFill()] = Vector4(0,0,fadeStart,1.0f / fadeRange);
+		m_vShadowDepthFade[GetRenderSystem()->CurThreadFill()] = Vector4(0, 0, fadeStart, 1.0f / fadeRange);
 	}
-
 
 	void DirectonalLight::RenderShadowMap(Camera* pCamera)
 	{
 		if (!m_bShadowEnable)
 			return;	
 
-		Update(pCamera);
+		//Update(pCamera);
 		
 		for (int i = 0; i < m_nCurSplitCount; ++i)
 		{
