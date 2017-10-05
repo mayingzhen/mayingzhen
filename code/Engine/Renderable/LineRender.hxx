@@ -38,8 +38,8 @@ namespace ma
 		gpLinTech->SetDepthStencilState(pDSSate.get());
         
 		gpLinTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
-        gpLinTech->StreamComplete();
-        
+
+		GetRenderSystem()->TechniqueStreamComplete(gpLinTech.get());
 
 		gpMeshBatch = new MeshBatch(pVertexDec->GetStreanmStride(),PRIM_LINELIST, true, 1024);
 	}

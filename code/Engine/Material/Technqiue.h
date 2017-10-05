@@ -21,7 +21,7 @@ namespace ma
 
 		virtual void		UnBind();
 
-		virtual void		CommitChanges(RenderCommand* pCmd);
+		virtual void        RT_StreamComplete() = 0;
 
 		const char*			GetTechName() const;
 		void				SetTechName(const char* pName);
@@ -71,10 +71,6 @@ namespace ma
 		UINT				GetSamplerCount();
 		Uniform*			GetSamplerByIndex(UINT nIndex);
 
-        void                StreamComplete();
-
-		virtual void        RT_StreamComplete() = 0;
-
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
@@ -110,7 +106,7 @@ namespace ma
 
 		std::vector< RefPtr<Uniform> > m_vecPSSamplers;
 
-	protected:
+	public:
 		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];
 	};
 	

@@ -45,7 +45,7 @@ namespace ma
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
 			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 
-			m_pShadowDepthTech->StreamComplete();
+			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
 		}
 
 		return m_pShadowDepthTech.get();
@@ -91,7 +91,8 @@ namespace ma
 		if (m_pShadingTech)
 		{
 			m_pShadingTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
-			m_pShadingTech->StreamComplete();
+
+			GetRenderSystem()->TechniqueStreamComplete(m_pShadingTech.get());
 		}
 
 		if (m_pShadowDepthTech)
@@ -99,7 +100,8 @@ namespace ma
 			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
 			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
-			m_pShadowDepthTech->StreamComplete();
+
+			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
 		}
 	}
 

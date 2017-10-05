@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
     
     Setting set;
-	set.bRenderThread = false;
+	set.bRenderThread = true;
 	set.bDataThread = false;
 	set.bJobScheduler = true;
 

@@ -10,6 +10,14 @@ namespace ma
 		m_vecClearValues.resize(2);
 		m_vecClearValues[0].color = { { 0.025f, 0.025f, 0.025f, 1.0f } };
 		m_vecClearValues[1].depthStencil = { 1.0f, 0 };
+
+		UINT numThreads = std::thread::hardware_concurrency();
+		m_arrRenderCommand.resize(numThreads * RL_Count);
+		for (UINT i = 0; i < m_arrRenderCommand.size(); ++i)
+		{
+			m_arrRenderCommand[i] = new VulkanRenderCommand();
+			m_arrRenderCommand[i]->m_pRenderPass = this;
+		}
 	}
 
 	VulkanRenderPass::~VulkanRenderPass()
@@ -17,13 +25,18 @@ namespace ma
 
 	}
 
-	RenderCommand* VulkanRenderPass::GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType)
+	RenderCommand* VulkanRenderPass::GetThreadCommand(UINT nIndex, RenderListType eRLType)
 	{
-		VulkanRenderDevice* pVulkanRender = (VulkanRenderDevice*)(GetRenderDevice());
-		RenderCommand* pRenderCmd = pVulkanRender->GetThreadCommand(nIndex, eRPType, eRLType);
-		VulkanRenderCommand* pVKCmd = (VulkanRenderCommand*)pRenderCmd;
-		pVKCmd->m_pRenderPass = this;
-		m_vecCmd.push_back(pVKCmd->m_vkCmdBuffer);
+		UINT numThreads = std::thread::hardware_concurrency();
+
+		UINT nAt = eRLType * numThreads + nIndex;
+		ASSERT(nAt < m_arrRenderCommand.size());
+		if (nAt >= m_arrRenderCommand.size())
+			return NULL;
+
+		VulkanRenderCommand* pRenderCmd = m_arrRenderCommand[nAt].get();
+		ASSERT(pRenderCmd->m_pRenderPass);
+		m_vecActiceCmd.push_back(pRenderCmd->m_vkCmdBuffer);
 		return pRenderCmd;
 	}
 
@@ -54,17 +67,17 @@ namespace ma
 		VulkanRenderDevice* pRenderDevice = (VulkanRenderDevice*)GetRenderDevice();
 		VkCommandBuffer vkMainCmd = pRenderDevice->m_drawCmdBuffers;
 
-		vkCmdExecuteCommands(vkMainCmd, m_vecCmd.size(), m_vecCmd.data());
+		vkCmdExecuteCommands(vkMainCmd, m_vecActiceCmd.size(), m_vecActiceCmd.data());
 
 		vkCmdEndRenderPass(vkMainCmd);
 
-		m_vecCmd.clear();
+		m_vecActiceCmd.clear();
 	}
 
 	void VulkanRenderPass::Create()
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
-
+		
 		if (m_impl != 0)
 			return;
 
@@ -193,8 +206,22 @@ namespace ma
 		{
 			m_viewPort = Rectangle(0, 0, (float)pRT->GetWidth(), (float)pRT->GetHeight());
 		}
+
+		InitRenderCommamd();
 	}
 
+	void VulkanRenderPass::InitRenderCommamd()
+	{
+		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
+
+		for (UINT i = 0; i < m_arrRenderCommand.size(); ++i)
+		{
+			VulkanRenderCommand* pRenderCommad = m_arrRenderCommand[i].get();
+			pRenderCommad->Create(pRender->m_swapChain.queueNodeIndex);
+		}
+	}
 }
+
+
 
 

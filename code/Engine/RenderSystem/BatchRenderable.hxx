@@ -67,6 +67,28 @@ namespace ma
 		}
 	}
 
+	void RenderRenderable(RenderCommand* pRenderCommand, Renderable* pRenderable, RenderPassType eRPType)
+	{
+		Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
+		if (eRPType == RP_ShadowDepth)
+		{
+			pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
+		}
+
+		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
+
+		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
+		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+
+		pRenderCommand->SetTechnique(pTech);
+
+		pRenderCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
+
+		pRenderCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
+
+		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, pRenderable->m_ePrimitiveType);
+	}
+
 	struct RenderJobData
 	{
 		Renderable** m_pNodeStart = NULL;
@@ -89,26 +111,14 @@ namespace ma
 		{
 			Renderable* pRenderable = ppNodeStart[i];
 
-			Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
-			if (pJobData->eRPType == RP_ShadowDepth)
-			{
-				pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
-			}
-
-			pTech->CommitChanges(pJobData->pCommand);
-
-			pJobData->pCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
-
-			pJobData->pCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
-
-			pJobData->pCommand->DrawRenderable(pRenderable, pTech);
+			RenderRenderable(pJobData->pCommand, pRenderable, pJobData->eRPType);
 		}
 
 		pJobData->pCommand->End();
 
 		return NULL;
 	}
-	
+
 	void BatchRenderable::Render(RenderPass* pPass, RenderPassType eRPType, RenderListType eRLType)
 	{
 		uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
@@ -145,7 +155,7 @@ namespace ma
 
 				vecJobData[iJob].eRPType = eRPType;
 
-				vecJobData[iJob].pCommand = pPass->GetThreadCommand(iJob, eRPType, eRLType);
+				vecJobData[iJob].pCommand = pPass->GetThreadCommand(iJob, eRLType);
 
 				void* data = &vecJobData[iJob];
 				GetJobScheduler()->SubmitJob(jobGroup, ParallelRender, data, NULL, NULL);
@@ -155,7 +165,7 @@ namespace ma
 		}
 		else
 		{
-			RenderCommand* pCommand = pPass->GetThreadCommand(0,eRPType,eRLType);
+			RenderCommand* pCommand = pPass->GetThreadCommand(0,eRLType);
 		
 			pCommand->Begin();
 
@@ -165,19 +175,7 @@ namespace ma
 				if (pRenderable == NULL)
 					continue;
 
-                Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
-                if (eRPType == RP_ShadowDepth)
-                {
-                    pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
-                }
-
-				pCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
-
-				pCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
-
-				pTech->CommitChanges(pCommand);
-
-				pCommand->DrawRenderable(pRenderable, pTech);
+				RenderRenderable(pCommand, pRenderable, eRPType);
 			}
 
 			pCommand->End();

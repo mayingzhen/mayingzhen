@@ -13,9 +13,6 @@ namespace ma
 	class AlchemyAo;
 	class FrameBuffer;
 	class Scene;
-	class ShadowDepthPass;
-	class PreZPass;
-	class ForwardShadingPass;
 
 	class RenderScheme : public Referenced
 	{
@@ -50,12 +47,6 @@ namespace ma
 		bool GetSSAOEnabled() const;
 		
 	private:
-		RefPtr<ShadowDepthPass> m_pShadowDepthPass;
-		RefPtr<PreZPass> m_pPreZPass;
-		RefPtr<ForwardShadingPass> m_pShadingPass;
-		
-		//RefPtr<FrameBuffer>		m_pLinearDepthPass;
-
 		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
 		RefPtr<DeferredShadingPass>	m_pDeferredShadingPass;
 

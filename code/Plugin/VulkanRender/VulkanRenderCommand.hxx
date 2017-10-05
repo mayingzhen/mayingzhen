@@ -59,23 +59,35 @@ namespace ma
 
 		VkRect2D scissor = vks::initializers::rect2D((int)rect.width(), (int)rect.height(), 0, 0);
 		vkCmdSetScissor(m_vkCmdBuffer, 0, 1, &scissor);
+
+		m_pPreIB = NULL;
+		m_pPreVB = NULL;
+		m_pPrePipeline = NULL;
 	}
 
 	void VulkanRenderCommand::End()
 	{
 		VK_CHECK_RESULT(vkEndCommandBuffer(m_vkCmdBuffer));
-
-		m_pRenderPass = NULL;
 	}
 
 	void VulkanRenderCommand::SetIndexBuffer(IndexBuffer* pIB)
 	{
+		if (m_pPreIB == pIB)
+			return;
+
+		m_pPreIB = pIB;
+
 		VulkanIndexBuffer* pIml = (VulkanIndexBuffer*)pIB;
 		vkCmdBindIndexBuffer(m_vkCmdBuffer, pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 	}
 
 	void VulkanRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB)
 	{
+		if (m_pPreVB == pVB)
+			return;
+
+		m_pPreVB = pVB;
+
 		VulkanVertexBuffer* pIml = (VulkanVertexBuffer*)pVB;
 
 		const VkDeviceSize offsets[1] = { 0 };
@@ -83,16 +95,29 @@ namespace ma
 		vkCmdBindVertexBuffers(m_vkCmdBuffer, 0, 1, &pIml->vertexBuffer.buffer, offsets);
 	}
 
-	void VulkanRenderCommand::DrawRenderable(const Renderable* pRenderable, Technique* pTech)
+	void VulkanRenderCommand::SetTechnique(Technique* pTech)
 	{
-		if (pRenderable == NULL)
-			return;
+		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
 
-		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
+		if (m_pPrePipeline != pVulkanTech->m_pPipline.get())
+		{
+			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanTech->m_pPipline->m_pipeline);
+		
+			m_pPrePipeline = pVulkanTech->m_pPipline.get();
+		}
+		
+		VkDescriptorSet descriptorSets[4];
+		descriptorSets[0] = pVulkanTech->m_descriptorSets[0];
+		descriptorSets[1] = pVulkanTech->m_descriptorSets[1];
+		descriptorSets[2] = pVulkanTech->m_descriptorSets_sampler[0];
+		descriptorSets[3] = pVulkanTech->m_descriptorSets_sampler[1];
 
-		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
-		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanTech->m_pPipline->m_pipelineLayout, 0,
+			4, descriptorSets, 0, NULL);
+	}
 
+	void VulkanRenderCommand::DrawIndex(UINT nIndexStart,UINT nIndexCount, PRIMITIVE_TYPE ePrType)
+	{
 		vkCmdDrawIndexed(m_vkCmdBuffer, nIndexCount, 1, 0, nIndexStart, 0);
 	}
 

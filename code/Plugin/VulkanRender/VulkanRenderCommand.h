@@ -20,13 +20,19 @@ namespace ma
 		virtual void SetIndexBuffer(IndexBuffer* pIB);
 		virtual	void SetVertexBuffer(int index, VertexBuffer* pVB);
 
-		virtual void DrawRenderable(const Renderable* pRenderable, Technique* pTech);
+		virtual void SetTechnique(Technique* pTech);
+
+		virtual void DrawIndex(UINT nIndexStart, UINT nIndexCount, PRIMITIVE_TYPE ePrType);
 
 	public:
 		VkCommandBuffer m_vkCmdBuffer;
 		VkCommandPool m_vkCmdPool;
 
-		VulkanRenderPass* m_pRenderPass;
+		VulkanRenderPass* m_pRenderPass = NULL;
+	
+		IndexBuffer* m_pPreIB = NULL;
+		VertexBuffer* m_pPreVB = NULL;
+		VulkanPipeline* m_pPrePipeline = NULL;
 	};
 
 

@@ -309,10 +309,6 @@ namespace ma
 		
 	}
 
-	void Technique::CommitChanges(RenderCommand* pCmd)
-	{
-	}
-
 	void Technique::SetParameter(const char* pszName,const Any& value)	
 	{
 		Parameter* pParame = GetParameter(pszName);
@@ -525,17 +521,6 @@ namespace ma
 
 		return NULL;
 	}
-
-    void Technique::StreamComplete()
-    {
-//         GetRenderSystem()->BlendStateStreamComplete(m_pBlendState.get());
-//         
-//         GetRenderSystem()->DepthStencilStateStreamComplete(m_pDSState.get());
-//         
-//         GetRenderSystem()->RasterizerStateStreamComplete(m_pRSState.get());
-
-		GetRenderSystem()->TechniqueStreamComplete(this);
-    }
 
 	bool Technique::Import(rapidxml::xml_node<>* pXmlElem)
 	{

@@ -244,16 +244,6 @@ namespace ma
 
 		VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, &m_drawCmdBuffers));
 
-		UINT numThreads = std::thread::hardware_concurrency();
-
-		//m_threadcommandPool.resize(numThreads * RL_Count * RP_Count);
-		m_threadCmdBuffers.resize(numThreads * RL_Count * RP_Count);
-		for (UINT i = 0; i < m_threadCmdBuffers.size(); ++i)
-		{
-			m_threadCmdBuffers[i] = new VulkanRenderCommand();
-			m_threadCmdBuffers[i]->Create(m_swapChain.queueNodeIndex);
-		}
-
 		vks::debugmarker::setup(vulkanDevice->logicalDevice);
 
 		m_depthFormat = VK_FORMAT_D24_UNORM_S8_UINT;
@@ -390,6 +380,7 @@ namespace ma
 		m_pDefaultPass = new VulkanRenderPass();
 		m_pDefaultPass->m_impl = renderPass;
 		m_pDefaultPass->m_viewPort = Rectangle(0, 0, (float)m_width, (float)m_height);
+		m_pDefaultPass->InitRenderCommamd();
 	}
 
 	void VulkanRenderDevice::CreatePipelineCache()
@@ -492,70 +483,11 @@ namespace ma
 		VK_CHECK_RESULT(vkQueueWaitIdle(m_queue));
 	}
 
-// 	void VulkanRenderDevice::BeginRenderPass(FrameBuffer* pFB)
-// 	{
-// 		VulkanRenderPass* pRenderPass = (VulkanRenderPass*)pFB;
-// 		pRenderPass->Begine(m_drawCmdBuffers);
-// 
-// 		m_pCurRenderPass = pRenderPass;
-// 	}
-// 
-// 	void VulkanRenderDevice::EndRenderPass(FrameBuffer* pFB)
-// 	{
-// 		VulkanRenderPass* pRenderPass = (VulkanRenderPass*)pFB;
-// 		bool bShadowDepthPass = pRenderPass->m_arrColor[0] == NULL  && pRenderPass->m_pDepthStencil != NULL;
-// 		RenderPassType eRPType = bShadowDepthPass ? RP_ShadowDepth : RP_Shading;
-// 		UINT nCount = bShadowDepthPass ? 1 * 3 : 2 * 3;
-// 		UINT nOffset = eRPType * 3 * RL_Count;
-// 
-// 		vkCmdExecuteCommands(m_drawCmdBuffers, nCount, m_threadCmdBuffers.data() + nOffset);
-// 
-// 		pRenderPass->End();
-// 	}
-
-// 	void VulkanRenderDevice::SetFrameBuffer(FrameBuffer* pFB)
-// 	{
-// 
-// 	}
-// 
-// 	void VulkanRenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
-// 	{
-// 	}
-// 
-// 
-// 	void VulkanRenderDevice::SetDepthStencil(Texture* pTexture)
-// 	{
-// 	}
-// 
-// 	Texture* VulkanRenderDevice::GetDefaultRenderTarget(int index)
-// 	{
-// 		return NULL;
-// 	}
-// 
-// 	Texture* VulkanRenderDevice::GetDefaultDepthStencil()
-// 	{
-// 		return NULL;
-// 	}
 
 	RenderPass* VulkanRenderDevice::GetDefaultRenderPass()
 	{
 		return m_pDefaultPass.get();
 	}
-
-// 	void VulkanRenderDevice::SetViewport(const Rectangle& rect, void* pCommand)
-// 	{
-// 		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
-// 		if (pCommand)
-// 		{
-// 			cmdBuffer = *(VkCommandBuffer*)pCommand;
-// 		}
-// 
-// 		VkViewport viewport = vks::initializers::viewport((float)rect.width(), (float)rect.height(), 0.0f, 1.0f);
-// 		vkCmdSetViewport(cmdBuffer, 0, 1, &viewport);
-// 
-// 		VkRect2D scissor = vks::initializers::rect2D((int)rect.width(), (int)rect.height(), 0, 0);
-// 		vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
-// 	}
 
 	Rectangle VulkanRenderDevice::GetViewport()
 	{
@@ -564,146 +496,6 @@ namespace ma
 		rect.bottom = (float)m_height;
 		return rect;
 	}
-
-// 	void VulkanRenderDevice::SetBlendState(const BlendState* pBlendState/*,const ColourValue& blend_factor, UINT32 sample_mask*/)
-// 	{
-// 
-// 	}
-// 
-// 	void VulkanRenderDevice::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
-// 	{
-// 
-// 	}
-// 	
-// 	void VulkanRenderDevice::SetRasterizerState(const RasterizerState* pRSState)
-// 	{
-// 
-// 	}
-
-	void VulkanRenderDevice::CommitChanges()
-	{
-	}
-
-// 	void VulkanRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
-// 	{
-// 	}
-
-// 	void VulkanRenderDevice::SetIndexBuffer(IndexBuffer* pIB,void* pCommand)
-// 	{
-// 		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
-// 		if (pCommand)
-// 		{
-// 			cmdBuffer = *(VkCommandBuffer*)pCommand;
-// 		}
-// 
-// 		VulkanIndexBuffer* pIml = (VulkanIndexBuffer*)pIB;
-// 		vkCmdBindIndexBuffer(cmdBuffer, pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
-// 	}
-
-// 	void VulkanRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB, void* pCommand)
-// 	{
-//  		VulkanVertexBuffer* pIml = (VulkanVertexBuffer*)pVB;
-// 
-// 		const VkDeviceSize offsets[1] = { 0 };
-// 
-// 		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
-// 		if (pCommand)
-// 		{
-// 			cmdBuffer = *(VkCommandBuffer*)pCommand;
-// 		}
-// 
-// 		vkCmdBindVertexBuffers(cmdBuffer, 0, 1, &pIml->vertexBuffer.buffer, offsets);
-// 	}
-
-// 	void VulkanRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
-// 	{
-// 		if (pRenderable == NULL)
-//  			return;
-// 
-// 		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
-// 
-// 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
-// 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
-// 
-// 		VkCommandBuffer cmdBuffer = m_drawCmdBuffers;
-// 		if (pRenderable->m_pCommand)
-// 		{
-// 			cmdBuffer = *(VkCommandBuffer*)pRenderable->m_pCommand;
-// 		}
-// 
-// 		vkCmdDrawIndexed(cmdBuffer, nIndexCount, 1, 0, nIndexStart, 0);
-// 	}
-
-	RenderCommand* VulkanRenderDevice::GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType)
-	{
-		UINT nAt = (3 * RL_Count) * eRPType + eRLType * 3 + nIndex;
-		return m_threadCmdBuffers[nAt].get();
-	}
-
-// 	void VulkanRenderDevice::BegineThreadCommand(void* pCmmand)
-// 	{
-// 		VkCommandBuffer cmdBuffer = *(VkCommandBuffer*)pCmmand;
-// 
-// 		// Inheritance info for the secondary command buffers
-// 		VkCommandBufferInheritanceInfo inheritanceInfo = vks::initializers::commandBufferInheritanceInfo();
-// 		inheritanceInfo.renderPass = m_pCurRenderPass->m_impl;
-// 		// Secondary command buffer also use the currently active framebuffer
-// 		inheritanceInfo.framebuffer = m_pCurRenderPass->m_frameBuffer;
-// 
-// 		VkCommandBufferBeginInfo commandBufferBeginInfo = vks::initializers::commandBufferBeginInfo();
-// 		commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT;
-// 		commandBufferBeginInfo.pInheritanceInfo = &inheritanceInfo;
-// 
-// 		VK_CHECK_RESULT(vkBeginCommandBuffer(cmdBuffer, &commandBufferBeginInfo));
-// 
-// // 		VkViewport viewport = vks::initializers::viewport((float)rect.width(), (float)rect.height(), 0.0f, 1.0f);
-// // 		vkCmdSetViewport(cmdBuffer, 0, 1, &viewport);
-// // 
-// // 		VkRect2D scissor = vks::initializers::rect2D((int)rect.width(), (int)rect.height(), 0, 0);
-// // 		vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
-// 
-// 	}
-
-// 	void VulkanRenderDevice::EndThreadCommand(void* pCmmand)
-// 	{
-// 		VkCommandBuffer cmdBuffer = *(VkCommandBuffer*)pCmmand;
-// 
-// 		VK_CHECK_RESULT(vkEndCommandBuffer(cmdBuffer));
-// 	}
-
-// 	void VulkanRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
-// 	{
-// 		HRESULT hr = S_OK;
-//  
-// 		float ColorRGBA[4];
-// 		ColorRGBA[0] = c.r;
-// 		ColorRGBA[1] = c.g;
-// 		ColorRGBA[2] = c.b;
-// 		ColorRGBA[3] = c.a;
-// 		
-// 		if (bColor)
-// 		{
-// 			for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
-// 			{
-// 				if (m_pRenderTarget[i])
-// 				{
-// 					m_pDeviceContext->ClearRenderTargetView(m_pRenderTarget[i], ColorRGBA);
-// 				}
-// 			}
-// 		}
-// 
-// 		if (bDepth || bStencil)
-// 		{
-// 			unsigned depthClearFlags = 0;
-// 			if (bDepth)
-// 				depthClearFlags |= Vulkan_CLEAR_DEPTH;
-// 			if (bStencil)
-// 				depthClearFlags |= Vulkan_CLEAR_STENCIL;
-// 			m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (uint8)s);
-// 		}
-// 
-// 		ASSERT(hr == S_OK && "Clear buffer failed.");
-// 	}
 
 	Matrix4 VulkanRenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{

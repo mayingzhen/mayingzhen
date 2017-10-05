@@ -13,15 +13,11 @@ namespace ma
 
 		~VulkanTechnique();
 
-		//virtual void		Bind();
-
-		virtual void		CommitChanges(RenderCommand* pCmd);
-
 		void				RT_StreamComplete();
 
 		void				UpdateSamplerDescriptorSets();
 
-	private:
+	public:
 		VkDescriptorSet m_descriptorSets[2];
 
 		VkDescriptorSet m_descriptorSets_sampler[2];

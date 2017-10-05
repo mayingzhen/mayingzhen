@@ -18,7 +18,9 @@ namespace ma
 
 		virtual void Create();
 
-		virtual RenderCommand* GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType);
+		virtual RenderCommand* GetThreadCommand(UINT nIndex, RenderListType eRLType);
+
+		void InitRenderCommamd();
 
 	public:
 		VkRenderPass m_impl = 0;
@@ -27,7 +29,9 @@ namespace ma
 
 		std::vector<VkClearValue> m_vecClearValues;
 
-		std::vector<VkCommandBuffer> m_vecCmd;
+		std::vector<VkCommandBuffer> m_vecActiceCmd;
+
+		std::vector< RefPtr<VulkanRenderCommand> > m_arrRenderCommand;
 	};
 
 } 

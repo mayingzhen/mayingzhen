@@ -70,9 +70,10 @@ namespace ma
         }
 	}
     
-    RenderCommand* MetalRenderPass::GetThreadCommand(UINT nIndex, RenderPassType eRPType, RenderListType eRLType)
+    RenderCommand* MetalRenderPass::GetThreadCommand(UINT nIndex, RenderListType eRLType)
     {
-        UINT nAt = eRLType * 3 + nIndex;
+		UINT numThreads = std::thread::hardware_concurrency();
+        UINT nAt = eRLType * numThreads + nIndex;
         return m_arrRenderCommand[nAt].get();
     }
 }

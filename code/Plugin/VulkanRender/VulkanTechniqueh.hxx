@@ -242,29 +242,8 @@ namespace ma
 		m_bSamperDirty = false;
 	}
 
-	void VulkanTechnique::CommitChanges(RenderCommand* pCmd)
-	{
-		vks::VulkanDevice* device = GetVulkanDevice();
-
-		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
-
-		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
-
-		VulkanRenderCommand* pVkCmd = (VulkanRenderCommand*)pCmd;
-		VkCommandBuffer cmdBuffer = pVkCmd->m_vkCmdBuffer;
-
-		VkDescriptorSet descriptorSets[4];
-		descriptorSets[0] = m_descriptorSets[0];
-		descriptorSets[1] = m_descriptorSets[1];
-		descriptorSets[2] = m_descriptorSets_sampler[0];
-		descriptorSets[3] = m_descriptorSets_sampler[1];
-
-		vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pPipline->m_pipeline);
-		vkCmdBindDescriptorSets(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pPipline->m_pipelineLayout, 0,
-			4, descriptorSets, 0, NULL);
-
-	}
 }
+
 
 
 

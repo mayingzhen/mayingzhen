@@ -13,11 +13,9 @@ namespace ma
 
 		~MetalTechnique();
 
-		virtual void		CommitChanges(RenderCommand* pCmd);
-
 		void				RT_StreamComplete();
 
-	private:
+	public:
         RefPtr<MetalPipeline> m_pPipline;
 	};
 
