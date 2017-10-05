@@ -16,8 +16,6 @@ namespace ma
 
 		virtual void					PreRender(Technique* pTech);
 
-		//virtual void					Render(Technique* pTech);
-
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;
 
@@ -30,7 +28,7 @@ namespace ma
 		RefPtr<SubMeshData>				m_pSubMeshData;
 		RefPtr<SubMaterial>				m_pSubMaterial;
 
-		void*							m_pCommand = NULL;
+		bool							m_bCanInstance = false;
 	
 	private:
 		Matrix4							m_matWorld[2];

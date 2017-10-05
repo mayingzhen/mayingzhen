@@ -43,8 +43,6 @@ namespace ma
 		m_eResState = ResLoaded;
         
         GetRenderSystem()->ShaderStreamComplete(this);
-
-        pVertexDecl->SetShaderProgram(this);
         
         GetRenderSystem()->VertexDeclaComplete(pVertexDecl);
 	}

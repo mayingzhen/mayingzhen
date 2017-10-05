@@ -163,7 +163,7 @@ namespace ma
 		element[2] = VertexElement(0,12,DT_UBYTE4N,DU_TANGENT,0);
 		m_pVertexDecl = GetRenderSystem()->CreateVertexDeclaration(element,3);
 
-		ASSERT(sizeof(TERRAIN_VERTEX) == m_pVertexDecl->GetStreanmStride());
+		ASSERT(sizeof(TERRAIN_VERTEX) == m_pVertexDecl->GetStreanmStride(0));
 	}
 
 

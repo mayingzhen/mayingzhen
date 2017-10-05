@@ -7,10 +7,6 @@ namespace ma
 {
 	class ShaderProgram;
 
-#define MAX_ELEMENT             16
-
-#define DECL_UNUSED             255
-
 	struct  VertexElement : public Object
 	{
 	public:
@@ -44,20 +40,15 @@ namespace ma
 			
 		virtual void			RT_StreamComplete() = 0;
 
-		void					AddElement(short number, short Offset, DECL_TYPE DeclType, DECL_USAGE DeclUsage, unsigned char index);
-		
 		void					AddElement(const VertexElement& element);
 
-		int						GetStreanmStride() const {return m_nStreamStride;} 
+		UINT					GetStreanmStride(UINT nStream) const {return m_arrStreamStride[nStream];}
 		
-		int						GetElementCount() { return m_ElementCount; }
+		UINT					GetElementCount(UINT nStream) { return m_arrStreamElement[nStream].size(); }
 		
-		const VertexElement&	GetElement(int index) { ASSERT (index < m_ElementCount); return m_Elements[index]; }
+		const VertexElement&	GetElement(UINT nStream, UINT index) { return m_arrStreamElement[nStream][index]; }
 		
 		uint64					GetHash();
-
-		void					SetShaderProgram(ShaderProgram* pShader) { m_pShader = pShader; }
-
 
 		bool					Import(rapidxml::xml_node<>* pXmlElem);
 		bool					Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
@@ -66,13 +57,10 @@ namespace ma
 		int						GetDeclTypeSize(DECL_TYPE type);
 
 	protected:
-		VertexElement			m_Elements[MAX_ELEMENT];
-
-		int						m_ElementCount;
+		typedef std::vector<VertexElement> StreamElement;
+		std::vector<StreamElement> 	m_arrStreamElement;
 		
-		int						m_nStreamStride;
-
-		RefPtr<ShaderProgram>	m_pShader;
+		std::vector<UINT>			m_arrStreamStride;
 	};
 
 	RefPtr<VertexDeclaration> CreateVertexDeclaration();

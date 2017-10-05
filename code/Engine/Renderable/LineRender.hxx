@@ -41,7 +41,7 @@ namespace ma
 
 		GetRenderSystem()->TechniqueStreamComplete(gpLinTech.get());
 
-		gpMeshBatch = new MeshBatch(pVertexDec->GetStreanmStride(),PRIM_LINELIST, true, 1024);
+		gpMeshBatch = new MeshBatch(pVertexDec->GetStreanmStride(0),PRIM_LINELIST, true, 1024);
 	}
 
 	void LineRender::Shoutdown()

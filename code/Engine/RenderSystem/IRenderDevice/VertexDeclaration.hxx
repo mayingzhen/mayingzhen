@@ -4,7 +4,7 @@ namespace ma
 {
 
 	VertexElement::VertexElement()
-		: Stream(DECL_UNUSED),
+		: Stream(-1),
 		Offset(0),
 		Type(DT_UNKNOWN),
 		Usage(DU_UNKNOWN),
@@ -70,39 +70,22 @@ namespace ma
 
 	VertexDeclaration::VertexDeclaration()
 	{
-		m_ElementCount = 0;
-		m_nStreamStride = 0;
 	}
 
 	VertexDeclaration::~VertexDeclaration()
 	{
 	}
 
-	void VertexDeclaration::AddElement(short StreamNumber, short Offset,
-		DECL_TYPE DeclType, DECL_USAGE DeclUsage, unsigned char UsageIndex)
-	{
-		ASSERT(StreamNumber < MAX_ELEMENT);
-
-		int index = m_ElementCount;
-		m_ElementCount++;
-
-		m_Elements[index].Stream = StreamNumber;
-		m_Elements[index].Offset = Offset;
-		m_Elements[index].Type = DeclType;
-		m_Elements[index].Usage = DeclUsage;
-		m_Elements[index].UsageIndex = UsageIndex;
-
-		m_nStreamStride = Offset + GetDeclTypeSize(DeclType);
-	}
-
 	void VertexDeclaration::AddElement(const VertexElement& element)
 	{
-		int index = m_ElementCount;
-		m_ElementCount++;
+		UINT nStream = element.Stream;
 
-		m_Elements[index] = element;
+		m_arrStreamElement.resize(nStream + 1);
+		m_arrStreamStride.resize(nStream + 1);
 
-		m_nStreamStride = element.Offset + GetDeclTypeSize(element.Type);
+		m_arrStreamElement[nStream].push_back(element);
+
+		m_arrStreamStride[nStream] = element.Offset + GetDeclTypeSize(element.Type);
 	}
 
 	int VertexDeclaration::GetDeclTypeSize(DECL_TYPE type)
@@ -130,26 +113,28 @@ namespace ma
 	uint64 VertexDeclaration::GetHash()
 	{
 		uint64 nNum = 0;
-		for (int i = 0; i < m_ElementCount; ++i)
+		for (UINT i = 0; i < m_arrStreamElement.size(); ++i)
 		{
-			VertexElement& e = m_Elements[i];
-			e.BuildHash();
-			nNum += e.GetHash();
+			for (UINT j = 0; j < m_arrStreamElement[i].size(); ++j)
+			{
+				VertexElement& e = m_arrStreamElement[i][j];
+				e.BuildHash();
+				nNum += e.GetHash();
+			}
 		}
+
 		return nNum;
 	}
 
 	bool VertexDeclaration::Import(rapidxml::xml_node<>* pXmlVD)
 	{
-		m_ElementCount = 0;
 		rapidxml::xml_node<>* pXmlEment = pXmlVD->first_node("Element");
 		while (pXmlEment)
 		{
-			m_Elements[m_ElementCount].Import(pXmlEment);
+			VertexElement element;
+			element.Import(pXmlEment);
 
-			m_nStreamStride = m_Elements[m_ElementCount].Offset + GetDeclTypeSize(m_Elements[m_ElementCount].Type);
-
-			++m_ElementCount;
+			AddElement(element);
 
 			pXmlEment = pXmlEment->next_sibling("Element");
 		}
@@ -159,12 +144,16 @@ namespace ma
 
 	bool VertexDeclaration::Export(rapidxml::xml_node<>* pXmlVD, rapidxml::xml_document<>& doc)
 	{
-		for (int i = 0; i < m_ElementCount; ++i)
+		for (UINT i = 0; i < m_arrStreamElement.size(); ++i)
 		{
-			rapidxml::xml_node<>* pXmlElement = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Element"));
-			pXmlVD->append_node(pXmlElement);
+			for (UINT j = 0; j < m_arrStreamElement[i].size(); ++j)
+			{
+				rapidxml::xml_node<>* pXmlElement = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Element"));
+				pXmlVD->append_node(pXmlElement);
 
-			m_Elements[i].Export(pXmlElement, doc);
+				VertexElement& ele = m_arrStreamElement[i][j];
+				ele.Export(pXmlElement, doc);
+			}
 		}
 
 		return true;
