@@ -438,6 +438,7 @@ namespace ma
 
 	void Technique::SetValue(Uniform* pUniform, const float* values, UINT nSize)
 	{
+		ASSERT(pUniform);
 		if (pUniform == NULL)
 			return;
 

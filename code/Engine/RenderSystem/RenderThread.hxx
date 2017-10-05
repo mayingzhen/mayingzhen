@@ -136,6 +136,8 @@ namespace ma
 
 		AddCommand(eRC_TechniqueStreamComplete);
 		AddPointer(pTech);
+
+		FlushAndWait();
 	}
 
 	void RenderThread::RC_TexStreamComplete(Texture* pTexture)
