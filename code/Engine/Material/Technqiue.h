@@ -71,6 +71,11 @@ namespace ma
 		UINT				GetSamplerCount();
 		Uniform*			GetSamplerByIndex(UINT nIndex);
 
+		SamplerState*		GetActiveSampler(UINT nIndex) { return m_arrSampler[nIndex]; }
+
+		void				SetInstTech(Technique* pTech) { m_pInstTech = pTech; }
+		Technique*			GetInstTech() { return m_pInstTech.get(); }
+
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
@@ -104,10 +109,11 @@ namespace ma
 		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
 		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
 
-		std::vector< RefPtr<Uniform> > m_vecPSSamplers;
+		std::vector< RefPtr<Uniform> >  m_vecPSSamplers;
 
-	public:
 		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];
+
+		RefPtr<Technique>				m_pInstTech;
 	};
 	
 	RefPtr<Technique> CreateTechnique();

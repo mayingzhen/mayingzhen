@@ -22,14 +22,6 @@ namespace ma
 		}
 	}
 
-	void SubMaterial::SetShadingTechnqiue(const char* pShaderName, const char* pDefine)
-	{
-		m_strShaderName = pShaderName ? pShaderName : "";
-		m_strShaderMacro = pDefine ? pDefine : "";
-
-		SetShadingTechnqiue( CreateTechnique("Shading", pShaderName, pShaderName, pDefine, NULL).get() );
-	}
-
 	Technique* SubMaterial::GetShadowDepthTechnqiue()
 	{
 		if (m_pShadowDepthTech == NULL)

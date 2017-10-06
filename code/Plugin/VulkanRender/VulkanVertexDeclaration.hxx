@@ -13,24 +13,50 @@ namespace ma
 
 	}
 
+	#define VERTEX_BUFFER_BIND_ID 0
+	#define INSTANCE_BUFFER_BIND_ID 1
+
 	void VulkanVertexDeclaration::RT_StreamComplete()
 	{
-		m_bindingDescriptions.resize(1);
+		VkVertexInputBindingDescription bindingDesc;
+		bindingDesc.binding = VERTEX_BUFFER_BIND_ID;
+		bindingDesc.stride = this->GetStreanmStride(VERTEX_BUFFER_BIND_ID);
+		bindingDesc.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+		m_bindingDescriptions.push_back(bindingDesc);
 
-		//VkVertexInputBindingDescription bindingDesc;
-		m_bindingDescriptions[0].binding = 0/*VERTEX_BUFFER_BIND_ID*/;
-		m_bindingDescriptions[0].stride = this->GetStreanmStride(0);
-		m_bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-		m_attributeDescriptions.resize(this->GetElementCount(0));
-
-		for (UINT i = 0; i < this->GetElementCount(0); ++i)
+		for (UINT i = 0; i < this->GetElementCount(VERTEX_BUFFER_BIND_ID); ++i)
 		{
-			const VertexElement& element = this->GetElement(0,i);
-			m_attributeDescriptions[i].location = i/*VulkanMapping::GetD3DDeclUsage(element.Usage)*/;
-			m_attributeDescriptions[i].binding = 0/*element.UsageIndex*/;
-			m_attributeDescriptions[i].format = VulkanMapping::GetDeclType(element.Type);
-			m_attributeDescriptions[i].offset = element.Offset;
+			const VertexElement& element = this->GetElement(VERTEX_BUFFER_BIND_ID,i);
+
+			VkVertexInputAttributeDescription arrtDesc;
+			arrtDesc.location = i;
+			arrtDesc.binding = VERTEX_BUFFER_BIND_ID;
+			arrtDesc.format = VulkanMapping::GetDeclType(element.Type);
+			arrtDesc.offset = element.Offset;
+
+			m_attributeDescriptions.push_back(arrtDesc);
+		}
+
+		if (m_arrStreamElement.size() > 1)
+		{
+			VkVertexInputBindingDescription bindingDesc;
+			bindingDesc.binding = INSTANCE_BUFFER_BIND_ID;
+			bindingDesc.stride = this->GetStreanmStride(INSTANCE_BUFFER_BIND_ID);
+			bindingDesc.inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
+			m_bindingDescriptions.push_back(bindingDesc);
+
+			for (UINT i = 0; i < this->GetElementCount(INSTANCE_BUFFER_BIND_ID); ++i)
+			{
+				const VertexElement& element = this->GetElement(INSTANCE_BUFFER_BIND_ID, i);
+
+				VkVertexInputAttributeDescription arrtDesc;
+				arrtDesc.location = i + this->GetElementCount(VERTEX_BUFFER_BIND_ID);
+				arrtDesc.binding = INSTANCE_BUFFER_BIND_ID;
+				arrtDesc.format = VulkanMapping::GetDeclType(element.Type);
+				arrtDesc.offset = element.Offset;
+
+				m_attributeDescriptions.push_back(arrtDesc);
+			}
 		}
 
 		m_inputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;

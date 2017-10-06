@@ -22,6 +22,48 @@
 				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
 				<Attribute Name="UsageIndex" Type="short" Value="0"/>
 			</Element>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="1"/>
+				<Attribute Name="Offset" Type="short" Value="0"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT4"/>
+				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
+				<Attribute Name="UsageIndex" Type="short" Value="1"/>
+			</Element>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="1"/>
+				<Attribute Name="Offset" Type="short" Value="16"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT4"/>
+				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
+				<Attribute Name="UsageIndex" Type="short" Value="2"/>
+			</Element>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="1"/>
+				<Attribute Name="Offset" Type="short" Value="32"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT4"/>
+				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
+				<Attribute Name="UsageIndex" Type="short" Value="3"/>
+			</Element>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="1"/>
+				<Attribute Name="Offset" Type="short" Value="48"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT3"/>
+				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
+				<Attribute Name="UsageIndex" Type="short" Value="4"/>
+			</Element>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="1"/>
+				<Attribute Name="Offset" Type="short" Value="60"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT3"/>
+				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
+				<Attribute Name="UsageIndex" Type="short" Value="5"/>
+			</Element>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="1"/>
+				<Attribute Name="Offset" Type="short" Value="72"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT4"/>
+				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
+				<Attribute Name="UsageIndex" Type="short" Value="6"/>
+			</Element>
 		</VertexDeclaration>
 	</Shader>
 	<RenderState>
@@ -44,6 +86,5 @@
 			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
 		</RasterizerState>
 	</RenderState>
-	<InstanceTech TechName="shader/meshinstance.tech" TechMarco="DIFFUSECOLOR;INSTANCE"/>
 </Technique>
 

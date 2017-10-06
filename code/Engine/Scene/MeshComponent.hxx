@@ -119,33 +119,22 @@ namespace ma
 		return m_arrLodRenderable[nLod][index].get();
 	}
 
+	UINT MeshComponent::GetShadowRenderableCount(uint32 nLod) const
+	{
+		return m_arrLodShadowRenderable[nLod].size();
+	}
+
+	Renderable* MeshComponent::GetShadowRenderableByIndex(uint32 nLod, UINT index) const
+	{
+		return m_arrLodShadowRenderable[nLod][index].get();
+	}
+
 	void MeshComponent::SetShadowCaster(bool b)
 	{
 		RenderComponent::SetShadowCaster(b);
 		if (b)
 		{
-			for (UINT i = 0; i < m_arrLodRenderable.size(); ++i)
-			{
-				VEC_RENDERABLE& vecRenderable = m_arrLodRenderable[i];
-				MeshData* pMesData = m_vecMesData[i].get();
-
-				for (UINT j = 0; j < vecRenderable.size(); ++j)
-				{
-					MeshRenderable* pMesh = vecRenderable[j].get();
-					SubMaterial* pMaterial = pMesh->GetMaterial();
-					Technique* pTech = pMaterial->GetShadowDepthTechnqiue();
-
-					Vector3 pos_extent = pMesData->GetBoundingAABB().getHalfSize();
-					Vector3 pos_center = pMesData->GetBoundingAABB().getCenter();
-					Vector2 tc_extent = pMesData->GetUVBoundingAABB().getHalfSize();
-					Vector2	tc_center = pMesData->GetUVBoundingAABB().getCenter();
-					Vector4 tc_extent_center = Vector4(tc_extent.x, tc_extent.y, tc_center.x, tc_center.y);
-
-					pTech->SetValue(pTech->GetUniform("pos_extent"), pos_extent);
-					pTech->SetValue(pTech->GetUniform("pos_center"), pos_center);
-					pTech->SetValue(pTech->GetUniform("tc_extent_center"), tc_extent_center);
-				}
-			}
+			CreateRenderable(m_arrLodShadowRenderable, RP_ShadowDepth);
 		}
 	}
 
@@ -156,7 +145,7 @@ namespace ma
 
 	SubMaterial* MeshComponent::GetSubMaterial(uint32 nLod,UINT index)
 	{
-		return m_arrLodRenderable[index][index]->GetMaterial();
+		return m_pMaterial->GetLodSubByIndex(nLod,index);
 	}
 
 	void MeshComponent::Update()
@@ -166,13 +155,18 @@ namespace ma
 		RenderComponent::Update();
 	}
 
-	void MeshComponent::CreateRenderable()
+	RefPtr<MeshRenderable> MeshComponent::CreateMeshRenderable()
+	{
+		return new MeshRenderable();
+	}
+
+	void MeshComponent::CreateRenderable(VEC_LOD_RENDERABLE& arrLodRenderable, RenderPassType ePassType)
 	{
 		ASSERT(m_pMaterial && !m_vecMesData.empty());
 		if (m_pMaterial == NULL || m_vecMesData.empty())
 			return;
 		
-		m_arrLodRenderable.clear();
+		arrLodRenderable.clear();
 		for (uint32 iLod = 0; iLod < m_vecMesData.size(); ++iLod)
 		{
 			MeshData* pMesData = m_vecMesData[iLod].get();
@@ -180,7 +174,7 @@ namespace ma
 			VEC_RENDERABLE arrRenderable;
 			for (UINT iSub = 0; iSub < pMesData->GetSubMeshNumber(); ++iSub)
 			{
-				MeshRenderable* pRenderable = new MeshRenderable();
+				RefPtr<MeshRenderable> pRenderable = CreateMeshRenderable();
 
 				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
 				pRenderable->m_pVertexBuffer = pMesData->GetVertexBuffer(); 
@@ -188,9 +182,14 @@ namespace ma
 				pRenderable->m_pSubMeshData = pMesData->GetSubMeshByIndex(iSub);
 
 				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
-				pRenderable->m_pSubMaterial = pSubMaterial;
 
 				Technique* pTech = pSubMaterial->GetShadingTechnqiue();
+				if (ePassType == RP_ShadowDepth)
+				{
+					pTech = pSubMaterial->GetShadowDepthTechnqiue();
+				}
+
+				pRenderable->m_Technique = pTech;
 
 				Vector3 pos_extent = pMesData->GetBoundingAABB().getHalfSize();
 				Vector3 pos_center = pMesData->GetBoundingAABB().getCenter();
@@ -202,12 +201,14 @@ namespace ma
 				pTech->SetValue( pTech->GetUniform("pos_center"), pos_center );
 				pTech->SetValue( pTech->GetUniform("tc_extent_center"), tc_extent_center );
 
+				pRenderable->m_pos_center = pos_center;
+				pRenderable->m_pos_extent = pos_center;
+				pRenderable->m_tc_extent_center = tc_extent_center;
+
 				arrRenderable.push_back(pRenderable);
 			}
-			m_arrLodRenderable.push_back(arrRenderable);
+			arrLodRenderable.push_back(arrRenderable);
 		}
-
-		SetAABB(m_vecMesData[0]->GetBoundingAABB());
 	}
 
 	bool MeshComponent::IsReady()
@@ -221,7 +222,9 @@ namespace ma
 		if (m_pMaterial == NULL || !m_pMaterial->IsReady())
 			return false;
 
-		CreateRenderable();
+		CreateRenderable(m_arrLodRenderable,RP_Shading);
+
+		SetAABB(m_vecMesData[0]->GetBoundingAABB());
 
 		m_bOnLoadOver = true;
 		

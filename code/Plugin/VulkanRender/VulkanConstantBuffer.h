@@ -19,8 +19,6 @@ namespace ma
 
 		bool Create();
 
-		static void Clear();
-
 	public:
 		VkBuffer m_buf;
 		VkDeviceMemory m_mem;
@@ -29,6 +27,5 @@ namespace ma
 		BYTE* m_mapped = nullptr;
 	};
 
-	RefPtr<VulkanConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
-
 }
+

@@ -22,7 +22,7 @@ namespace ma
 
 		virtual void SetTechnique(Technique* pTech);
 
-		virtual void DrawIndex(UINT nIndexStart, UINT nIndexCount, PRIMITIVE_TYPE ePrType);
+		virtual void DrawIndex(UINT nIndexStart, UINT nIndexCount, UINT nInstanceCount, PRIMITIVE_TYPE ePrType);
 
 	public:
 		VkCommandBuffer m_vkCmdBuffer;

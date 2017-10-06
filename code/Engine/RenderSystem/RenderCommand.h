@@ -16,7 +16,7 @@ namespace ma
 
 		virtual void SetTechnique(Technique* pTech) = 0;
 
-		virtual void DrawIndex(UINT nIndexStart, UINT nIndexCount, PRIMITIVE_TYPE ePrType) = 0;
+		virtual void DrawIndex(UINT nIndexStart, UINT nIndexCount, UINT nInstanceCount, PRIMITIVE_TYPE ePrType) = 0;
 	};
 }
 

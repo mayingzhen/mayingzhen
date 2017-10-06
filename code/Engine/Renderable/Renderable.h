@@ -21,6 +21,8 @@ namespace ma
 
 		SubMaterial*					GetMaterial() const {return m_pSubMaterial.get();}
 
+		Technique*						GetTechnique() const { return m_Technique.get(); }
+
 	public:
 		PRIMITIVE_TYPE					m_ePrimitiveType;
 		RefPtr<VertexBuffer>			m_pVertexBuffer;	
@@ -28,7 +30,9 @@ namespace ma
 		RefPtr<SubMeshData>				m_pSubMeshData;
 		RefPtr<SubMaterial>				m_pSubMaterial;
 
-		bool							m_bCanInstance = false;
+		RefPtr<VertexBuffer>			m_pInstBuffer;
+
+		RefPtr<Technique>				m_Technique;
 	
 	private:
 		Matrix4							m_matWorld[2];

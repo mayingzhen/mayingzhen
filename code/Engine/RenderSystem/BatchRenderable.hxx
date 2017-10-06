@@ -11,19 +11,13 @@ namespace ma
 
 		bool operator()(const Renderable* a, const Renderable* b) const
 		{
-			long i = long(a->GetMaterial()->GetShadingTechnqiue()->GetShaderProgram()) - long(b->GetMaterial()->GetShadingTechnqiue()->GetShaderProgram());
+			long i = long(a->GetTechnique()->GetShaderProgram()) - long(b->GetTechnique()->GetShaderProgram());
 			if (i<0)
 				return true;
 			else if(i>0)
 				return false;
 
-			i = long(a->GetMaterial()->GetShadingTechnqiue()) - long(b->GetMaterial()->GetShadingTechnqiue());
-			if (i<0)
-				return true;
-			else if(i>0)
-				return false;
-
-			i = int(a->GetMaterial()) - int(b->GetMaterial());
+			i = long(a->GetTechnique()) - long(b->GetTechnique());
 			if (i<0)
 				return true;
 			else if(i>0)
@@ -33,41 +27,38 @@ namespace ma
 		}
 	};
 
+	void InstanceRenderable::PreRender(Technique* pTech)
+	{
+		GetRenderContext()->SetCurRenderObj(this);
+
+		pTech->Bind();
+	}
+
 	void InstanceRenderable::AddRenderable(Renderable* pRenderObj)
 	{
 		m_arrRenderList.push_back(pRenderObj);
 
+		MeshRenderable* pMeshRenderable = (MeshRenderable*)(pRenderObj);
+
 		InstaceData data;
 		data.m_world = pRenderObj->GetWorldMatrix();
+		data.m_pos_center = pMeshRenderable->m_pos_center;
+		data.m_pos_extent = pMeshRenderable->m_pos_extent;
+		data.m_tc_extent_center = pMeshRenderable->m_tc_extent_center;
+
 		m_arrInstanceData.push_back(data);
 	}
 
-	void InstanceRenderable::PreRender(Technique* pTech)
+	void InstanceRenderable::Create(Technique* pTech)
 	{
 		if (m_arrInstanceData.empty())
 			return;
 
-		ShaderProgram* pShader = pTech->GetShaderProgram();
-		VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
-
-		std::vector<VertexElement> vecElement;
-		for (UINT i = 0 ; i < pVertexDecl->GetElementCount(0); ++i)
-		{
-			vecElement.push_back(pVertexDecl->GetElement(0, i));
-		}
-		vecElement.push_back( VertexElement(1, 0, DT_FLOAT4, DU_TEXCOORD, 0) );
-		vecElement.push_back( VertexElement(1, 12, DT_FLOAT4, DU_TEXCOORD, 1) );
-		vecElement.push_back( VertexElement(1, 24, DT_FLOAT4, DU_TEXCOORD, 2) );
-
-		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
-
-		std::string strShaderMacro = pShader->GetShaderMacro();
-		strShaderMacro += ";INSTANCE";
-		RefPtr<Technique> pInstanceTech = CreateTechnique("Instace", pShader->GetVSFile(),pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
+		m_Technique = pTech->GetInstTech();
 
 		uint8* pData = (uint8*)m_arrInstanceData.data();
 		UINT nSize = m_arrInstanceData.size() * sizeof(InstaceData);
-		m_pInstacneBuffer = GetRenderSystem()->CreateVertexBuffer(pData, nSize, sizeof(InstaceData));
+		m_pInstBuffer = GetRenderSystem()->CreateVertexBuffer(pData, nSize, sizeof(InstaceData));
 	}
 
 	BatchRenderable::BatchRenderable()
@@ -92,12 +83,15 @@ namespace ma
 			return;
 		}
 
-		InstanceRenderable* pInstanceRenderable = NULL;
+		InstanceRenderable* pInstanceRenderable = new InstanceRenderable();
 
+		Technique* pBaseTech = batch[0]->GetTechnique();
+
+		Renderable* pRenderable = NULL;
 		for (UINT i = 0; i < batch.size(); ++i)
 		{
-			Renderable* pRenderable = batch[i];
-			if (!pRenderable->m_bCanInstance)
+			pRenderable = batch[i];
+			if (!pBaseTech->GetInstTech())
 			{
 				m_arrNoInsRenderList.push_back(pRenderable);
 				continue;
@@ -106,39 +100,46 @@ namespace ma
 			pInstanceRenderable->AddRenderable(pRenderable);
 		}
 
-		pInstanceRenderable->PreRender(pTech);
+		pInstanceRenderable->m_ePrimitiveType = pRenderable->m_ePrimitiveType;
+		pInstanceRenderable->m_pVertexBuffer = pRenderable->m_pVertexBuffer;
+		pInstanceRenderable->m_pIndexBuffer = pRenderable->m_pIndexBuffer;
+		pInstanceRenderable->m_pSubMeshData = pRenderable->m_pSubMeshData;
+		pInstanceRenderable->m_pSubMaterial = pRenderable->m_pSubMaterial;
+
+		pInstanceRenderable->Create(pBaseTech);
+
+		m_arrInsRenderList.push_back(pInstanceRenderable);
 	}
 
 	void BatchRenderable::PrepareInstance(RenderPassType eRPType)
 	{
+		if (m_arrRenderList.empty())
+			return;
+
 		m_batchTemp.clear();
 
-		Technique* pPreMaterial = NULL;
+		//Technique* pPreMaterial = NULL;
 		ShaderProgram* pPreShader = NULL;
 
 		for (auto iter = m_arrRenderList.begin(); iter != m_arrRenderList.end(); ++iter)
 		{
 			Renderable* info = *iter;
 
-			Technique* pTech = info->m_pSubMaterial->GetShadingTechnqiue();
-			if (eRPType == RP_ShadowDepth)
-			{
-				pTech = info->m_pSubMaterial->GetShadowDepthTechnqiue();
-			}
+			ShaderProgram* pShader = info->GetTechnique()->GetShaderProgram();
 
-			if (pPreMaterial && (pTech != pPreMaterial))
+			if (pPreShader && (pShader != pPreShader))
 			{
-				this->PrepareInstance(m_batchTemp, pPreMaterial);
+				this->PrepareInstance(m_batchTemp, NULL);
 
 				m_batchTemp.clear();
 			}
 
 			m_batchTemp.push_back(info);
 
-			pPreMaterial = pTech;
+			pPreShader = pShader;
 		}
 
-		this->PrepareInstance(m_batchTemp, pPreMaterial);
+		this->PrepareInstance(m_batchTemp, NULL);
 
 		m_batchTemp.clear();
 	}
@@ -149,22 +150,23 @@ namespace ma
 
 		PrepareInstance(eRPType);
 
-		for (UINT i = 0; i < m_arrRenderList.size(); ++i)
+		for (UINT i = 0; i < m_arrInsRenderList.size(); ++i)
 		{
-			Renderable* pRenderObj = m_arrRenderList[i];
+			m_arrPrePareRenderList.push_back(m_arrInsRenderList[i].get());
+		}
+
+		for (UINT i = 0; i < m_arrNoInsRenderList.size(); ++i)
+		{
+			m_arrPrePareRenderList.push_back(m_arrRenderList[i]);
+		}
+
+		for (UINT i = 0; i < m_arrPrePareRenderList.size(); ++i)
+		{
+			Renderable* pRenderObj = m_arrPrePareRenderList[i];
 			if (pRenderObj == NULL)
 				continue;
 
-			Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
-			if (eRPType == RP_ShadowDepth)
-			{
-				pTech = pRenderObj->m_pSubMaterial->GetShadowDepthTechnqiue();
-
-				Uniform* pUniform = pTech->GetUniform("matLightViewProj");
-				DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
-				ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
-				pTech->SetValue(pUniform, shadowMap.GetLightViewProjMatrix());
-			}
+			Technique* pTech = pRenderObj->GetTechnique();
 
 			pRenderObj->PreRender(pTech);
 		}
@@ -172,11 +174,7 @@ namespace ma
 
 	void RenderRenderable(RenderCommand* pRenderCommand, Renderable* pRenderable, RenderPassType eRPType)
 	{
-		Technique* pTech = pRenderable->m_pSubMaterial->GetShadingTechnqiue();
-		if (eRPType == RP_ShadowDepth)
-		{
-			pTech = pRenderable->m_pSubMaterial->GetShadowDepthTechnqiue();
-		}
+		Technique* pTech = pRenderable->GetTechnique();
 
 		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
 
@@ -189,7 +187,15 @@ namespace ma
 
 		pRenderCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
 
-		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, pRenderable->m_ePrimitiveType);
+		UINT nInstancCount = 1;
+		if (pRenderable->m_pInstBuffer)
+		{
+			pRenderCommand->SetVertexBuffer(1, pRenderable->m_pInstBuffer.get());
+
+			nInstancCount = pRenderable->m_pInstBuffer->GetNumber();
+		}
+
+		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nInstancCount, pRenderable->m_ePrimitiveType);
 	}
 
 	struct RenderJobData
@@ -226,14 +232,14 @@ namespace ma
 	{
 		uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 
-		if (nNumJob > 1 && m_arrRenderList.size() > nNumJob)
+		if (nNumJob > 1 && m_arrPrePareRenderList.size() > nNumJob)
 		{
 			//BEGIN_TIME(g_pTaskScheduler);
 
 			static vector<RenderJobData> vecJobData;
 			vecJobData.resize(nNumJob);
 
-			uint32 nCountPerJob = m_arrRenderList.size() / nNumJob;
+			uint32 nCountPerJob = m_arrPrePareRenderList.size() / nNumJob;
 
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(nNumJob);
 
@@ -242,7 +248,7 @@ namespace ma
 				uint32 nStartIndex = iJob * nCountPerJob;
 				uint32 nEndIndex = nStartIndex + nCountPerJob - 1;
 				if (iJob == nNumJob - 1)
-					nEndIndex = m_arrRenderList.size() - 1;
+					nEndIndex = m_arrPrePareRenderList.size() - 1;
 
 				ASSERT(nEndIndex >= nStartIndex);
 				if (nEndIndex < nStartIndex)
@@ -250,7 +256,7 @@ namespace ma
 
 				uint32 nCount = nEndIndex - nStartIndex;
 
-				vecJobData[iJob].m_pNodeStart = &(m_arrRenderList[nStartIndex]);
+				vecJobData[iJob].m_pNodeStart = &(m_arrPrePareRenderList[nStartIndex]);
 
 				vecJobData[iJob].m_nNodeCount = nCount;
 
@@ -272,9 +278,9 @@ namespace ma
 		
 			pCommand->Begin();
 
-			for (UINT i = 0; i < m_arrRenderList.size(); ++i)
+			for (UINT i = 0; i < m_arrPrePareRenderList.size(); ++i)
 			{
-				Renderable* pRenderable = m_arrRenderList[i];
+				Renderable* pRenderable = m_arrPrePareRenderList[i];
 				if (pRenderable == NULL)
 					continue;
 
@@ -288,6 +294,11 @@ namespace ma
 	void BatchRenderable::Clear()
 	{
 		m_arrRenderList.clear();
+
+		m_arrInsRenderList.clear();
+		m_arrNoInsRenderList.clear();
+
+		m_arrPrePareRenderList.clear();
 	}
 
 }

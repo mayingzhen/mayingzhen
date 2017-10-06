@@ -14,8 +14,6 @@ namespace ma
 
 		~ParameterManager();
 
-		void SetParameterAutoBinding(Uniform* pParam/*,AutoBinding autoBinding*/);
-
 		void UseDefaultBing(Uniform* pParam);
 
 	private:
@@ -41,12 +39,11 @@ namespace ma
 		SamplerState*		autoBindingTextureLightShadow() const;
 		SamplerState*		autoBindingDeviceDepthMap() const;
 		SamplerState*		autoBindingShadowMap() const;
-		Vector4				autoBindingSpitPos() const;
-		UINT				autoBindingSplitCount() const;
 		const Matrix4&		autoBindingShadowMatrix() const;
 		Vector4				autoBindingShadowMapTexSize() const;
 		Vector4				autoBindingShadowDepthFade() const;
 		float				autoBindingShadowExt() const;
+		const Matrix4&		autoBindingLightViewProj() const;
 
 	private:	
 		std::map<std::string, MethodBinding*> m_autoDefaultBings;

@@ -115,7 +115,6 @@ EXPORTS
 ?Clone@SceneNode@ma@@QAE?AV?$RefPtr@VSceneNode@ma@@@2@PBD@Z
 ?SetShadingTechnqiue@SubMaterial@ma@@QAEXPAVTechnique@2@@Z
 ?CreateMaterial@ma@@YA?AV?$RefPtr@VMaterial@ma@@@1@XZ
-?SetShadingTechnqiue@SubMaterial@ma@@QAEXPBD0@Z
 ?SetSkinMatrix@SkinMeshComponent@ma@@QAEXPBVMatrix3x4@2@I@Z
 ?GetName@SceneNode@ma@@QBEPBDXZ
 ?LoadFromXML@Serializable@ma@@QAEXPBD@Z

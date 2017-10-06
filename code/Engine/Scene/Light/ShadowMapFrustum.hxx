@@ -120,7 +120,6 @@ namespace ma
 
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadFill()];
 		pRenderQueue->Clear();
-		//m_arrRenderable[GetRenderSystem()->CurThreadFill()].clear();
 
 		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
 		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
@@ -136,9 +135,9 @@ namespace ma
 				continue;
 				
 			uint32 nLod = pRenderComp->GetLodIndex();
-			for (UINT i = 0; i < pRenderComp->GetRenderableCount(nLod); ++i)
+			for (UINT i = 0; i < pRenderComp->GetShadowRenderableCount(nLod); ++i)
 			{
-				pRenderQueue->AddRenderObj(RL_Mesh,pRenderComp->GetRenderableByIndex(nLod,i));
+				pRenderQueue->AddRenderObj(RL_Mesh,pRenderComp->GetShadowRenderableByIndex(nLod,i));
 			}
 		}
 	}

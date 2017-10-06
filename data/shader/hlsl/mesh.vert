@@ -40,6 +40,15 @@ struct VS_IN
    uint4   a_blendIndices :BLENDINDICES;
    float4 a_blendWeights :BLENDWEIGHT;     
 #endif
+
+#ifdef INSTANCE
+	float4 a_texCoord1 : TEXCOORD1;
+	float4 a_texCoord2 : TEXCOORD2;
+	float4 a_texCoord3 : TEXCOORD3;
+	float3 a_pos_extent : TEXCOORD4;
+	float3 a_pos_center : TEXCOORD5;
+	float4 a_tc_extent_center : TEXCOORD6;
+#endif
    
 	//float3 a_tangent  : TANGENT;
 
@@ -75,23 +84,41 @@ struct VS_OUT
 VS_OUT main(VS_IN In)
 {
     VS_OUT Out = (VS_OUT)0;
-    
+  
+#ifdef INSTANCE 
+	float3 iPos = In.a_position * In.a_pos_extent + In.a_pos_center;	
+	float2 iUV  = In.a_texCoord0 * In.a_tc_extent_center.xy + In.a_tc_extent_center.zw;
+#else 
 	float3 iPos = In.a_position * pos_extent + pos_center;	
 	float2 iUV  = In.a_texCoord0 * tc_extent_center.xy + tc_extent_center.zw;
+#endif	
 	float3 iNormal = In.a_normal.xyz * 2.0 - 1.0;
 
 #ifdef SKIN
 	SkinPosNormal(iPos,iNormal,In.a_blendIndices,In.a_blendWeights,iPos,iNormal);
 #endif
 
-	float3 WorldPos = mul(float4(iPos,1.0),g_matWorld).xyz;
+	float4x4 matWorld = g_matWorld;
+
+#ifdef INSTANCE
+	//matWorld = float4x4(float4(In.a_texCoord1.x, In.a_texCoord2.x, In.a_texCoord3.x, 0.0),
+	//					float4(In.a_texCoord1.y, In.a_texCoord2.y, In.a_texCoord3.y, 0.0),
+	//					float4(In.a_texCoord1.z, In.a_texCoord2.z, In.a_texCoord3.z, 0.0),
+	//					float4(In.a_texCoord1.w, In.a_texCoord2.w, In.a_texCoord3.w, 1.0));
+	matWorld = float4x4(In.a_texCoord1,
+						In.a_texCoord2,
+						In.a_texCoord3,
+						float4(0.0, 0.0, 0.0, 1.0));
+#endif
+
+	float3 WorldPos = mul(float4(iPos,1.0),matWorld).xyz;
 
 	Out.v_position = mul(float4(WorldPos.xyz,1.0),g_matViewProj);
    
    Out.WorldPos.xyz = WorldPos;
    Out.WorldPos.w = Out.v_position.w;
    
-   Out.worldNormal.xyz = mul(iNormal, (float3x3)g_matWorld);
+   Out.worldNormal.xyz = mul(iNormal, (float3x3)matWorld);
    Out.worldNormal.w = 0;
 	 	
    Out.v_texCoord = iUV;
@@ -102,7 +129,7 @@ VS_OUT main(VS_IN In)
 #endif
 
 #ifdef DEFERREDSHADING 
-	Out.viewNormal.xyz = mul(iNormal, (float3x3)g_matWorldView); 
+	Out.viewNormal.xyz = mul(Out.worldNormal.xyz, (float3x3)g_matView); 
 #endif
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0

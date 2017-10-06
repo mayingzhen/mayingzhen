@@ -14,7 +14,7 @@ namespace ma
 		Vector3 VAtPos = Vector3(0, 0, 0);
 		GetCamera()->LookAt(vEyePos, VAtPos);
 
-		if (0)
+		if (1)
 		{
 			CreateMeshMaterial("FBX/Box.tga", "FBX/Box.mtl");
 
@@ -23,14 +23,14 @@ namespace ma
 		
 		if (1)
 		{
-			for (uint32 i = 0; i < 1; ++i)
+			for (uint32 i = 2; i < 4; ++i)
 			{
 				SceneNode* pBox = m_pScene->CreateSceneNode();
 				MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
-				pBoxMesh->SetShadowCaster(true);
 				pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
-                float x = 0;//Math::RangeRandom(0, 150);
-                float y = 0;//Math::RangeRandom(0, 150);
+				//pBoxMesh->SetShadowCaster(true);
+                float x = (float)i;//Math::RangeRandom(0, 150);
+                float y = (float)i;//Math::RangeRandom(0, 150);
 				pBox->SetPos(Vector3(x, y,0));
 			}
 		}
@@ -42,7 +42,7 @@ namespace ma
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
-		if (1)
+		if (0)
 		{
 			RefPtr<SceneNode> pCharMagic = m_pScene->CreateSceneNode();
 			pCharMagic->SetScale(Vector3(0.01f));

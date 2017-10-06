@@ -24,8 +24,11 @@ namespace ma
 
 	RefPtr<VulkanConstantBuffer> CloneConstBuffer(ConstantBuffer* src)
 	{
-		RefPtr<VulkanConstantBuffer> pConstantBuffer = CreateConstantBuffer(VS, src->GetBound(), src->GetSize());
+		RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
+		pConstantBuffer->SetBound(src->GetBound());
+		pConstantBuffer->SetSize(src->GetSize()); 
 		pConstantBuffer->SetName(src->GetName());
+		pConstantBuffer->Create();
 
 		uint32 nUniformCount = src->GetUniformCount();
 		for (UINT i = 0; i < nUniformCount; ++i)
@@ -53,6 +56,12 @@ namespace ma
 
 		VulkanRasterizerStateObject* pVulkanRS = (VulkanRasterizerStateObject*)(this->GetRasterizerState());
 		pVulkanRS->RT_StreamComplete();
+
+		if (GetInstTech())
+		{
+			GetInstTech()->SetRenderPass(this->GetRenderPass());
+			GetInstTech()->RT_StreamComplete();
+		}
 
 		vks::VulkanDevice* device = GetVulkanDevice();
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
@@ -180,7 +189,7 @@ namespace ma
 			for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
 			{
 				uint32 nIndex = this->GetSamplerByIndex(i)->GetIndex();
-				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)m_arrSampler[nIndex];
+				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)GetActiveSampler(nIndex);
 				if (pSampler == NULL)
 					continue;
 
@@ -217,7 +226,7 @@ namespace ma
 			for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
 			{
 				uint32 nIndex = this->GetSamplerByIndex(i)->GetIndex();
-				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)m_arrSampler[nIndex];
+				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)this->GetActiveSampler(nIndex);
 				if (pSampler == NULL)
 					continue;
 
@@ -233,7 +242,6 @@ namespace ma
 				write.dstArrayElement = 0;
 				write.dstBinding = nIndex;
 				vec_write.push_back(write);
-
 			}
 
 			vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);

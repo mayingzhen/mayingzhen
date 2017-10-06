@@ -121,5 +121,15 @@ namespace ma
 		return NULL;
 	}
 
+	UINT RenderComponent::GetShadowRenderableCount(uint32 nLod) const
+	{
+		return 0;
+	}
+
+	Renderable*	RenderComponent::GetShadowRenderableByIndex(uint32 nLod, UINT index) const
+	{
+		return NULL;
+	}
+
 }
 

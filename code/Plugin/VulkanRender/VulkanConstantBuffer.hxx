@@ -76,29 +76,6 @@ namespace ma
 		memcpy(m_mapped + offset, data, size);
 	}
 
-	void VulkanConstantBuffer::Clear()
-	{
-		//g_mapConstantBufferPool.clear();
-	}
-
-	RefPtr<VulkanConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
-	{
-// 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
-// 		unsigned key = type | (index << 1) | (size << 4);
-// 		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = g_mapConstantBufferPool.find(key);
-// 		if (i != g_mapConstantBufferPool.end())
-// 		{
-// 			return i->second.get();
-// 		}
-// 		else
-// 		{
-			RefPtr<VulkanConstantBuffer> newConstantBuffer(new VulkanConstantBuffer());
-			newConstantBuffer->SetSize(size);
-			newConstantBuffer->SetBound(index);
-			newConstantBuffer->Create();
-			return newConstantBuffer;
-// 		}
-		return NULL;
-	}
-
 }
+
+

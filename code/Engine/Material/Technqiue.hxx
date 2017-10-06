@@ -324,11 +324,10 @@ namespace ma
 			m_arrParameters.push_back(pParame);
 		}
 
-// 		Uniform* pUniform = this->GetUniform(pszName);
-// 		if (pUniform == NULL)
-// 			return;
-// 
-// 		BindParametersUniform(this->GetUniform(pszName), value);
+		if (m_pInstTech)
+		{
+			m_pInstTech->SetParameter(pszName, value);
+		}
 	}
 
 	Parameter* Technique::GetParameter(const char* pszName)
@@ -574,6 +573,20 @@ namespace ma
 				this->SetRasterizerState(pRSState.get());
 			}
 		}
+
+		rapidxml::xml_node<>* pXmlInstTech = pXmlElem->first_node("InstanceTech");
+		if (pXmlInstTech)
+		{
+			const char* pszTechName = pXmlInstTech->findAttribute("TechName");
+			const char* pszTechMacro = pXmlInstTech->findAttribute("TechMarco");
+
+			m_pInstTech = CreateTechnique(pszTechName, pszTechMacro);
+
+			for (UINT i = 0; i < m_arrParameters.size(); ++i)
+			{
+				m_pInstTech->SetParameter(m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue());
+			}
+		}
 	
 		return true;
 	}
@@ -623,6 +636,18 @@ namespace ma
 			pXmlRenderState->append_node(pXmlRSState);
 
 			m_pRSState->Export(pXmlRSState, doc);
+		}
+
+		if (m_pInstTech)
+		{
+			rapidxml::xml_node<>* pXmlInstTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("InstanceTech"));
+			pXmlElem->append_node(pXmlInstTech);
+
+			const char* pszName = m_pInstTech->GetTechName();
+			const char* pszMacro = m_pInstTech->GetShaderDefine();
+
+			rapidxml::append_attribute(pXmlInstTech, doc, "TechName", pszName);
+			rapidxml::append_attribute(pXmlInstTech, doc, "TechMarco", pszMacro);
 		}
 
 		return true;

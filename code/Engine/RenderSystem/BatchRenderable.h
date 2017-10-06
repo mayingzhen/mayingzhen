@@ -5,10 +5,11 @@ namespace ma
 	class InstanceRenderable : public Renderable
 	{
 	public:
-
 		virtual void	PreRender(Technique* pTech);
 
 		void			AddRenderable(Renderable* pRenderObj);
+
+		virtual void	Create(Technique* pTech);
 
 	public:
 		typedef std::vector<Renderable*> VEC_RENDERABLE;
@@ -16,12 +17,15 @@ namespace ma
 
 		struct InstaceData
 		{
+			// worldMatrix
 			Matrix3x4 m_world;
+
+			Vector3 m_pos_extent;
+			Vector3 m_pos_center;
+			Vector4 m_tc_extent_center;
 		};
 
 		std::vector<InstaceData> m_arrInstanceData;
-
-		RefPtr<VertexBuffer> m_pInstacneBuffer;
 	};
 
 	class BatchRenderable
@@ -46,10 +50,12 @@ namespace ma
 		typedef std::vector<Renderable*> VEC_RENDERABLE;
 		VEC_RENDERABLE		m_arrRenderList;
 
-		typedef std::vector<InstanceRenderable*> VEC_INSRENDERABLE;
+		typedef std::vector< RefPtr<InstanceRenderable> > VEC_INSRENDERABLE;
 		VEC_INSRENDERABLE	m_arrInsRenderList;
 
 		VEC_RENDERABLE		m_arrNoInsRenderList;
+
+		VEC_RENDERABLE		m_arrPrePareRenderList;
 
 		VEC_RENDERABLE		m_batchTemp;
 	};

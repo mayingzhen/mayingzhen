@@ -92,7 +92,7 @@ namespace ma
 
 		const VkDeviceSize offsets[1] = { 0 };
 
-		vkCmdBindVertexBuffers(m_vkCmdBuffer, 0, 1, &pIml->vertexBuffer.buffer, offsets);
+		vkCmdBindVertexBuffers(m_vkCmdBuffer, index, 1, &pIml->vertexBuffer.buffer, offsets);
 	}
 
 	void VulkanRenderCommand::SetTechnique(Technique* pTech)
@@ -116,9 +116,9 @@ namespace ma
 			4, descriptorSets, 0, NULL);
 	}
 
-	void VulkanRenderCommand::DrawIndex(UINT nIndexStart,UINT nIndexCount, PRIMITIVE_TYPE ePrType)
+	void VulkanRenderCommand::DrawIndex(UINT nIndexStart,UINT nIndexCount, UINT nInstanceCount, PRIMITIVE_TYPE ePrType)
 	{
-		vkCmdDrawIndexed(m_vkCmdBuffer, nIndexCount, 1, 0, nIndexStart, 0);
+		vkCmdDrawIndexed(m_vkCmdBuffer, nIndexCount, nInstanceCount, nIndexStart, 0, 0);
 	}
 
 }

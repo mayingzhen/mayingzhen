@@ -66,15 +66,42 @@ namespace ma
 		}
 		else
 		{
-            VertexElement element[3];
-            element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
-            element[1] = VertexElement(0, 8, DT_UBYTE4N, DU_NORMAL, 0);
-            element[2] = VertexElement(0, 12, DT_SHORT2N, DU_TEXCOORD, 0);
-            RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
+            std::vector<VertexElement> vec_element;
+			vec_element.push_back( VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0) );
+			vec_element.push_back(VertexElement(0, 8, DT_UBYTE4N, DU_NORMAL, 0) );
+			vec_element.push_back(VertexElement(0, 12, DT_SHORT2N, DU_TEXCOORD, 0) );
+            RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vec_element.data(), vec_element.size());
             
 			pShadingTech = CreateTechnique("shader/mesh.tech", "mesh", "mesh", strMacro.c_str(), pDeclaration.get());
-            
-			//pShadingTech->SetVertexDeclaration(pDeclaration.get());
+           
+			// Instance Shader
+			{
+			
+				ShaderProgram* pShader = pShadingTech->GetShaderProgram();
+				VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
+
+				std::vector<VertexElement> vecElement;
+				for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
+				{
+					vecElement.push_back(pVertexDecl->GetElement(0, i));
+				}
+				vecElement.push_back(VertexElement(1, 0, DT_FLOAT4, DU_TEXCOORD, 1));
+				vecElement.push_back(VertexElement(1, 16, DT_FLOAT4, DU_TEXCOORD, 2));
+				vecElement.push_back(VertexElement(1, 32, DT_FLOAT4, DU_TEXCOORD, 3));
+				vecElement.push_back(VertexElement(1, 48, DT_FLOAT3, DU_TEXCOORD, 4));
+				vecElement.push_back(VertexElement(1, 60, DT_FLOAT3, DU_TEXCOORD, 5));
+				vecElement.push_back(VertexElement(1, 72, DT_FLOAT4, DU_TEXCOORD, 6));
+
+				RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
+
+				std::string strShaderMacro = pShader->GetShaderMacro();
+				strShaderMacro += ";INSTANCE";
+				RefPtr<Technique> pInstanceTech = CreateTechnique("shader/meshinstance.tech", pShader->GetVSFile(), pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
+			
+				pInstanceTech->SaveToXML("shader/meshinstance.tech");
+
+				pShadingTech->SetInstTech(pInstanceTech.get());
+			}
 
 			pShadingTech->SaveToXML("shader/mesh.tech");
 		}

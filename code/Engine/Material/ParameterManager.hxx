@@ -91,6 +91,10 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMatrix);
 		}
+		else if (strcmp(pszName, "matLightViewProj") == 0)
+		{
+			pParam->BindMethod(this, &ParameterManager::autoBindingLightViewProj);
+		}
 		else if ( strcmp(pszName,"g_shadowMapTexelSize") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMapTexSize);
@@ -179,6 +183,15 @@ namespace ma
 
 		return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 	}	
+
+	const Matrix4& ParameterManager::autoBindingLightViewProj() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return Matrix4::IDENTITY;
+
+		return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetLightViewProjMatrix();
+	}
 
 	Vector4	ParameterManager::autoBindingShadowMapTexSize() const
 	{
