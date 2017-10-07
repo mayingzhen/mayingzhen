@@ -9,7 +9,7 @@ namespace ma
 
 		void			AddRenderable(Renderable* pRenderObj);
 
-		virtual void	Create(Technique* pTech);
+		virtual void	Create();
 
 	public:
 		typedef std::vector<Renderable*> VEC_RENDERABLE;
@@ -19,10 +19,6 @@ namespace ma
 		{
 			// worldMatrix
 			Matrix3x4 m_world;
-
-			Vector3 m_pos_extent;
-			Vector3 m_pos_center;
-			Vector4 m_tc_extent_center;
 		};
 
 		std::vector<InstaceData> m_arrInstanceData;

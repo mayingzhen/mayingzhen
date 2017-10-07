@@ -22,6 +22,13 @@ struct VS_IN
    uint4   a_blendIndices :BLENDINDICES;
    float4 a_blendWeights :BLENDWEIGHT;     
 #endif
+
+#ifdef INSTANCE
+	float4 a_texCoord1 : TEXCOORD1;
+	float4 a_texCoord2 : TEXCOORD2;
+	float4 a_texCoord3 : TEXCOORD3;
+#endif
+
 };
 
 struct VS_OUT
@@ -50,11 +57,24 @@ VS_OUT main( VS_IN In)
 #else
 	float3 finalPos = iPos;		
 #endif
+
+#ifdef INSTANCE
+	float4x4 matWorld = float4x4(float4(In.a_texCoord1.x, In.a_texCoord2.x, In.a_texCoord3.x, 0.0),
+						float4(In.a_texCoord1.y, In.a_texCoord2.y, In.a_texCoord3.y, 0.0),
+						float4(In.a_texCoord1.z, In.a_texCoord2.z, In.a_texCoord3.z, 0.0),
+						float4(In.a_texCoord1.w, In.a_texCoord2.w, In.a_texCoord3.w, 1.0));
+	//float4x4 matWorld = float4x4(In.a_texCoord1,
+	//							 In.a_texCoord2,
+	//							 In.a_texCoord3,
+	//							 float4(0.0, 0.0, 0.0, 1.0));
+#else
+	float4x4 matWorld = g_matWorld;
+#endif
 	
-	float4 worldPos = mul(float4(finalPos,1.0f), g_matWorld);
+	float4 worldPos = mul(float4(finalPos,1.0f), matWorld);
 		
 #ifdef WINDVERTEX	
-	WindVertex(g_matWorld, worldPos, In.a_position, In.a_normal);
+	WindVertex(matWorld, worldPos, In.a_position, In.a_normal);
 #endif
 
 	Out.oPos = mul(worldPos, matLightViewProj);

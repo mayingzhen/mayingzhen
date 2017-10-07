@@ -14,7 +14,7 @@ namespace ma
 		Vector3 VAtPos = Vector3(0, 0, 0);
 		GetCamera()->LookAt(vEyePos, VAtPos);
 
-		if (1)
+		if (0)
 		{
 			CreateMeshMaterial("FBX/Box.tga", "FBX/Box.mtl");
 
@@ -29,8 +29,8 @@ namespace ma
 				MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
 				pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
 				//pBoxMesh->SetShadowCaster(true);
-                float x = (float)i;//Math::RangeRandom(0, 150);
-                float y = (float)i;//Math::RangeRandom(0, 150);
+                float x = (float)i + 2.0f;//Math::RangeRandom(0, 150);
+                float y = (float)i + 2.0f;//Math::RangeRandom(0, 150);
 				pBox->SetPos(Vector3(x, y,0));
 			}
 		}
@@ -42,7 +42,7 @@ namespace ma
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
-		if (0)
+		if (1)
 		{
 			RefPtr<SceneNode> pCharMagic = m_pScene->CreateSceneNode();
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -51,9 +51,10 @@ namespace ma
 
 			AnimationComponent* pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
 			pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
+			pAnimtionObjectB->SetAnimation("100");
 		}
 
-		if (1)
+		if (0)
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
@@ -84,34 +85,39 @@ namespace ma
 
 		}
 
-		if (0)
+		if (1)
 		{
-			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
-			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
-			pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mtl");
+			for (UINT i = 0; i < 4; ++i)
+			{
+				RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
+				RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
+				pShpereMesh->Load("Fbx/shpere.skn", "Fbx/Box.mtl");
 
-			RefPtr<Material> pMaterial = CreateMaterial("Fbx/Box.mtl");
-			RefPtr<Material> pClone = pMaterial->Clone();
-			pShpereMesh->SetMaterial(pClone.get());
+				RefPtr<Material> pMaterial = CreateMaterial("Fbx/Box.mtl");
+				RefPtr<Material> pClone = pMaterial->Clone();
+				pShpereMesh->SetMaterial(pClone.get());
 
-			SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT",true);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC",true);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("BRDF",true);
+				if (0)
+				{
+					SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0, 0);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT", true);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC", true);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("BRDF", true);
 
-			//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
-			
-			RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
-			pUniform->AddKeyFrame(0,Any(float(1.0f)));
-			pUniform->AddKeyFrame(50,Any(float(20.0f)));
-			pUniform->BuildFrames();
-			//float fSpecPower = 20.0f;
-			
-			pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(1,1,1,1) ) );
-			pSubMaterial->SetParameter("u_roughness",Any(pUniform));
+					//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
 
-			pShpere->Translate(Vector3(2,0,0));
+					RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
+					pUniform->AddKeyFrame(0, Any(float(1.0f)));
+					pUniform->AddKeyFrame(50, Any(float(20.0f)));
+					pUniform->BuildFrames();
+					//float fSpecPower = 20.0f;
 
+					pSubMaterial->SetParameter("u_cSpecColor", Any(Vector4(1, 1, 1, 1)));
+					pSubMaterial->SetParameter("u_roughness", Any(pUniform));
+				}
+
+				pShpere->Translate(Vector3(0, i, i));
+			}
 		}
 		
 		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(10,0,10),Vector3(0,0,0));

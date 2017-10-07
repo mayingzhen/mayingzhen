@@ -27,8 +27,17 @@ namespace ma
 		if (m_pShadowDepthTech == NULL)
 		{
 			VertexDeclaration* pVertexDecl = m_pShadingTech->GetShaderProgram()->GetVertexDeclaration();
+
+			std::vector<VertexElement> vecElement;
+			for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
+			{
+				vecElement.push_back(pVertexDecl->GetElement(0, i));
+			}
+
+			RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
+
 			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-            m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str(), pVertexDecl);
+            m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str(), pDeclaration.get());
 			RefPtr<BlendState> pBlendSate = CreateBlendState();
 			pBlendSate->m_bColorWrite = false;
 			m_pShadowDepthTech->SetBlendState(pBlendSate.get());
@@ -38,6 +47,37 @@ namespace ma
 			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
+
+
+			// Instance Shader
+			if (m_pShadingTech->GetInstTech())
+			{
+				ShaderProgram* pShader = m_pShadowDepthTech->GetShaderProgram();
+				VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
+
+				std::vector<VertexElement> vecElement;
+				for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
+				{
+					vecElement.push_back(pVertexDecl->GetElement(0, i));
+				}
+				vecElement.push_back(VertexElement(1, 0, DT_FLOAT4, DU_TEXCOORD, 1));
+				vecElement.push_back(VertexElement(1, 16, DT_FLOAT4, DU_TEXCOORD, 2));
+				vecElement.push_back(VertexElement(1, 32, DT_FLOAT4, DU_TEXCOORD, 3));
+
+				RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
+
+				std::string strShaderMacro = pShader->GetShaderMacro();
+				strShaderMacro += ";INSTANCE";
+				RefPtr<Technique> pInstanceTech = CreateTechnique("shader/ShadowDepthinstance.tech", pShader->GetVSFile(), pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
+
+				pInstanceTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
+				GetRenderSystem()->TechniqueStreamComplete(pInstanceTech.get());
+
+				//pInstanceTech->SaveToXML("shader/ShadowDepthinstance.tech");
+
+				m_pShadowDepthTech->SetInstTech(pInstanceTech.get());
+			}
+
 		}
 
 		return m_pShadowDepthTech.get();

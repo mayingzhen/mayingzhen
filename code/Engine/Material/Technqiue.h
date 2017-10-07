@@ -39,6 +39,8 @@ namespace ma
 
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
+		UINT				GetParameterCount();
+		Parameter*			GetParameterByIndex(UINT nIndex);
 
 		void				SetBlendState(BlendState* pBlendState);
 		const BlendState*	GetBlendState() { return m_pBlendState.get(); }
@@ -78,6 +80,8 @@ namespace ma
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
+
+		RefPtr<Technique>   Clone();
 
 		void				SetRenderPass(RenderPass* pRenderPass) { m_pRenderPass = pRenderPass; }
 		RenderPass*			GetRenderPass() { return m_pRenderPass; }

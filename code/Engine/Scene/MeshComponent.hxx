@@ -201,9 +201,13 @@ namespace ma
 				pTech->SetValue( pTech->GetUniform("pos_center"), pos_center );
 				pTech->SetValue( pTech->GetUniform("tc_extent_center"), tc_extent_center );
 
-				pRenderable->m_pos_center = pos_center;
-				pRenderable->m_pos_extent = pos_center;
-				pRenderable->m_tc_extent_center = tc_extent_center;
+				Technique* pInstTech = pTech->GetInstTech();
+				if (pInstTech)
+				{
+					pInstTech->SetValue(pInstTech->GetUniform("pos_extent"), pos_extent);
+					pInstTech->SetValue(pInstTech->GetUniform("pos_center"), pos_center);
+					pInstTech->SetValue(pInstTech->GetUniform("tc_extent_center"), tc_extent_center);
+				}
 
 				arrRenderable.push_back(pRenderable);
 			}
@@ -243,6 +247,14 @@ namespace ma
 			 m_arrLodRenderable[m_nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
 			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Mesh, m_arrLodRenderable[m_nLod][i].get());
+		}
+
+		if (m_nLod < m_arrLodShadowRenderable.size())
+		{
+			for (UINT i = 0; i < m_arrLodShadowRenderable[m_nLod].size(); ++i)
+			{
+				m_arrLodShadowRenderable[m_nLod][i]->SetWorldMatrix(m_pSceneNode->GetMatrixWS());
+			}
 		}
 	}
 

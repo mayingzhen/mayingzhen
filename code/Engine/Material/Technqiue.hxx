@@ -347,6 +347,20 @@ namespace ma
 		return NULL;
 	}
 
+	UINT Technique::GetParameterCount()
+	{
+		return m_arrParameters.size();
+	}
+
+	Parameter*	Technique::GetParameterByIndex(UINT nIndex)
+	{
+		ASSERT(nIndex < m_arrParameters.size());
+		if (nIndex >= m_arrParameters.size())
+			return NULL;
+
+		return m_arrParameters[nIndex];
+	}
+
 	const char*	Technique::GetTechName() const
 	{
 		return m_stName.c_str();
@@ -651,6 +665,24 @@ namespace ma
 		}
 
 		return true;
+	}
+
+	RefPtr<Technique> Technique::Clone()
+	{
+		Technique* pClonTechnique = GetRenderDevice()->CreateTechnique();
+
+		rapidxml::xml_document<> doc;
+		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Technique"));
+		this->Export(pRoot, doc);
+
+		pClonTechnique->Import(pRoot);
+
+		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		{
+			pClonTechnique->SetParameter(m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue());
+		}
+
+		return pClonTechnique;
 	}
 
 	RefPtr<Technique> CreateTechnique()

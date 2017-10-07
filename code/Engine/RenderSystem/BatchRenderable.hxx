@@ -17,6 +17,18 @@ namespace ma
 			else if(i>0)
 				return false;
 
+			i = long(a->m_pVertexBuffer.get()) - long(b->m_pVertexBuffer.get());
+			if (i < 0)
+				return true;
+			else if (i > 0)
+				return false;
+
+			i = long(a->m_pIndexBuffer.get()) - long(b->m_pIndexBuffer.get());
+			if (i < 0)
+				return true;
+			else if (i > 0)
+				return false;
+
 			i = long(a->GetTechnique()) - long(b->GetTechnique());
 			if (i<0)
 				return true;
@@ -38,27 +50,29 @@ namespace ma
 	{
 		m_arrRenderList.push_back(pRenderObj);
 
-		MeshRenderable* pMeshRenderable = (MeshRenderable*)(pRenderObj);
-
 		InstaceData data;
 		data.m_world = pRenderObj->GetWorldMatrix();
-		data.m_pos_center = pMeshRenderable->m_pos_center;
-		data.m_pos_extent = pMeshRenderable->m_pos_extent;
-		data.m_tc_extent_center = pMeshRenderable->m_tc_extent_center;
 
 		m_arrInstanceData.push_back(data);
 	}
 
-	void InstanceRenderable::Create(Technique* pTech)
+	void InstanceRenderable::Create()
 	{
 		if (m_arrInstanceData.empty())
 			return;
 
-		m_Technique = pTech->GetInstTech();
+		Renderable* pRenderable = m_arrRenderList[0];
+		m_ePrimitiveType = pRenderable->m_ePrimitiveType;
+		m_pVertexBuffer = pRenderable->m_pVertexBuffer;
+		m_pIndexBuffer = pRenderable->m_pIndexBuffer;
+		m_pSubMeshData = pRenderable->m_pSubMeshData;
+		m_pSubMaterial = pRenderable->m_pSubMaterial;
 
 		uint8* pData = (uint8*)m_arrInstanceData.data();
 		UINT nSize = m_arrInstanceData.size() * sizeof(InstaceData);
 		m_pInstBuffer = GetRenderSystem()->CreateVertexBuffer(pData, nSize, sizeof(InstaceData));
+
+		m_Technique = pRenderable->GetTechnique()->GetInstTech();
 	}
 
 	BatchRenderable::BatchRenderable()
@@ -83,30 +97,28 @@ namespace ma
 			return;
 		}
 
-		InstanceRenderable* pInstanceRenderable = new InstanceRenderable();
+		RefPtr<InstanceRenderable> pInstanceRenderable;
 
-		Technique* pBaseTech = batch[0]->GetTechnique();
-
-		Renderable* pRenderable = NULL;
 		for (UINT i = 0; i < batch.size(); ++i)
 		{
-			pRenderable = batch[i];
-			if (!pBaseTech->GetInstTech())
+			if (!batch[i]->GetTechnique()->GetInstTech())
 			{
-				m_arrNoInsRenderList.push_back(pRenderable);
+				m_arrNoInsRenderList.push_back(batch[i]);
 				continue;
 			}
 
-			pInstanceRenderable->AddRenderable(pRenderable);
+			if (pInstanceRenderable == NULL)
+			{
+				pInstanceRenderable = new InstanceRenderable();
+			}
+
+			pInstanceRenderable->AddRenderable(batch[i]);
 		}
 
-		pInstanceRenderable->m_ePrimitiveType = pRenderable->m_ePrimitiveType;
-		pInstanceRenderable->m_pVertexBuffer = pRenderable->m_pVertexBuffer;
-		pInstanceRenderable->m_pIndexBuffer = pRenderable->m_pIndexBuffer;
-		pInstanceRenderable->m_pSubMeshData = pRenderable->m_pSubMeshData;
-		pInstanceRenderable->m_pSubMaterial = pRenderable->m_pSubMaterial;
+		if (pInstanceRenderable == NULL)
+			return;
 
-		pInstanceRenderable->Create(pBaseTech);
+		pInstanceRenderable->Create();
 
 		m_arrInsRenderList.push_back(pInstanceRenderable);
 	}
@@ -120,23 +132,27 @@ namespace ma
 
 		//Technique* pPreMaterial = NULL;
 		ShaderProgram* pPreShader = NULL;
+		VertexBuffer* pPreVB = NULL;
 
 		for (auto iter = m_arrRenderList.begin(); iter != m_arrRenderList.end(); ++iter)
 		{
-			Renderable* info = *iter;
+			Renderable* pRenderable = *iter;
 
-			ShaderProgram* pShader = info->GetTechnique()->GetShaderProgram();
+			ShaderProgram* pShader = pRenderable->GetTechnique()->GetShaderProgram();
+			VertexBuffer* pVB = pRenderable->m_pVertexBuffer.get();
 
-			if (pPreShader && (pShader != pPreShader))
+			if (pPreShader && (pShader != pPreShader) ||
+				pPreVB && pPreVB != pVB)
 			{
 				this->PrepareInstance(m_batchTemp, NULL);
 
 				m_batchTemp.clear();
 			}
 
-			m_batchTemp.push_back(info);
+			m_batchTemp.push_back(pRenderable);
 
 			pPreShader = pShader;
+			pPreVB = pVB;
 		}
 
 		this->PrepareInstance(m_batchTemp, NULL);
@@ -157,7 +173,7 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrNoInsRenderList.size(); ++i)
 		{
-			m_arrPrePareRenderList.push_back(m_arrRenderList[i]);
+			m_arrPrePareRenderList.push_back(m_arrNoInsRenderList[i]);
 		}
 
 		for (UINT i = 0; i < m_arrPrePareRenderList.size(); ++i)

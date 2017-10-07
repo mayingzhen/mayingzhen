@@ -1,5 +1,5 @@
 <Technique>
-	<Shader VSFile="mesh" PSFile="mesh">
+	<Shader VSFile="ShadowDepth" PSFile="ShadowDepth">
 		<VertexDeclaration>
 			<Element ClassName="VertexElement">
 				<Attribute Name="Stream" Type="short" Value="0"/>

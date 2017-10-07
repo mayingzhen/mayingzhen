@@ -88,9 +88,6 @@ namespace ma
 				vecElement.push_back(VertexElement(1, 0, DT_FLOAT4, DU_TEXCOORD, 1));
 				vecElement.push_back(VertexElement(1, 16, DT_FLOAT4, DU_TEXCOORD, 2));
 				vecElement.push_back(VertexElement(1, 32, DT_FLOAT4, DU_TEXCOORD, 3));
-				vecElement.push_back(VertexElement(1, 48, DT_FLOAT3, DU_TEXCOORD, 4));
-				vecElement.push_back(VertexElement(1, 60, DT_FLOAT3, DU_TEXCOORD, 5));
-				vecElement.push_back(VertexElement(1, 72, DT_FLOAT4, DU_TEXCOORD, 6));
 
 				RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
 
