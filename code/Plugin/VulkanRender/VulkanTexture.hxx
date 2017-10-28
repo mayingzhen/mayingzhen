@@ -8,36 +8,21 @@ namespace ma
 	VulkanTexture::VulkanTexture()
 		:Texture()
 	{
-// 		m_pVulkanTex2D = NULL;
-// 		m_pVulkanShaderResourceView = NULL;
-// 		m_pVulkanShaderResourceViewSRGBNotEqual = NULL;
-// 		m_pDepthStencilView = NULL;
-// 		memset(m_pRenderTargetView,0,sizeof(m_pRenderTargetView));
+
 	}
 
 	VulkanTexture::VulkanTexture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
 		:Texture(nWidth,nHeight,nMipMap,format,bTypeLess,bSRGB,eUsage,eType)
 	{
-// 		m_pVulkanTex2D = NULL;
-// 		m_pVulkanShaderResourceView = NULL;
-// 		m_pVulkanShaderResourceViewSRGBNotEqual = NULL;
-// 		m_pDepthStencilView = NULL;
-// 		memset(m_pRenderTargetView,0,sizeof(m_pRenderTargetView));
 	}
 
 	VulkanTexture::~VulkanTexture()
 	{
-// 		SAFE_RELEASE(m_pVulkanTex2D);
-// 		SAFE_RELEASE(m_pVulkanShaderResourceView);
-// 		SAFE_RELEASE(m_pVulkanShaderResourceViewSRGBNotEqual);
-// 		SAFE_RELEASE(m_pDepthStencilView);
-// 		for (uint32 i = 0; i < MAX_MIP; ++i)
-// 		{
-// 			for (uint32 j = 0; j < 6; ++j)
-// 			{
-// 				SAFE_RELEASE(m_pRenderTargetView[i][j]);
-// 			}
-// 		}
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		vkDestroyImageView(device->logicalDevice, m_view, nullptr);
+		vkDestroyImage(device->logicalDevice, m_image, nullptr);
+		vkFreeMemory(device->logicalDevice, m_deviceMemory, nullptr);
 	}
 
 	bool VulkanTexture::GenerateMipmaps()
@@ -45,31 +30,6 @@ namespace ma
 		return true;
 	}
 
-// 	DXGI_FORMAT GetSRVFormat(DXGI_FORMAT format)
-// 	{
-// 		if (format == DXGI_FORMAT_R24G8_TYPELESS)
-// 			return DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-// 		else if (format == DXGI_FORMAT_R16_TYPELESS)
-// 			return DXGI_FORMAT_R16_UNORM;
-// 		else if (format == DXGI_FORMAT_R32_TYPELESS)
-// 			return DXGI_FORMAT_R32_FLOAT;
-// 		else if (format == DXGI_FORMAT_R8G8B8A8_TYPELESS)
-// 			return DXGI_FORMAT_R8G8B8A8_UNORM;
-// 		else
-// 			return format;
-// 	}
-
-// 	DXGI_FORMAT GetDSVFormat(DXGI_FORMAT format)
-// 	{
-// 		if (format == DXGI_FORMAT_R24G8_TYPELESS)
-// 			return DXGI_FORMAT_D24_UNORM_S8_UINT;
-// 		else if (format == DXGI_FORMAT_R16_TYPELESS)
-// 			return DXGI_FORMAT_D16_UNORM;
-// 		else if (format == DXGI_FORMAT_R32_TYPELESS)
-// 			return DXGI_FORMAT_D32_FLOAT;
-// 		else
-// 			return format;
-// 	}
 
 	VkFormat GetSRGBFormat(VkFormat format)
 	{
@@ -85,72 +45,76 @@ namespace ma
 			return format;
 	}
 
-// 	bool IsCompressed(DXGI_FORMAT format)
-// 	{
-// 		return format == DXGI_FORMAT_BC1_UNORM || format == DXGI_FORMAT_BC2_UNORM || format == DXGI_FORMAT_BC3_UNORM;
-// 	}
-
 	bool VulkanTexture::RT_CreateCubeTexture()
 	{
-// 		m_eFormat = VulkanMapping::_getClosestSupportedPF(m_eFormat);
-// 		m_descFormat = VulkanMapping::_getPF(m_eFormat);
-// 		if (m_bSRGB)
-// 		{
-// 			m_descFormat = GetSRGBFormat(m_descFormat);
-// 		}
-// 		if (m_bTypeLess)
-// 		{
-// 			m_descFormat = GetTypelessFormat(m_descFormat);
-// 		}
-// 
-// 		Vulkan_TEXTURE2D_DESC textureDesc;
-// 		memset(&textureDesc, 0, sizeof textureDesc);
-// 		textureDesc.Width = (UINT)m_nWidth;
-// 		textureDesc.Height = (UINT)m_nHeight;
-// 		textureDesc.MipLevels = m_nMipLevels;
-// 		textureDesc.ArraySize = 6;
-// 		textureDesc.Format = m_descFormat;
-// 		textureDesc.SampleDesc.Count = 1;
-// 		textureDesc.SampleDesc.Quality = 0;
-// 		textureDesc.Usage = m_eUsage == USAGE_DYNAMIC ? Vulkan_USAGE_DYNAMIC : Vulkan_USAGE_DEFAULT;
-// 		textureDesc.BindFlags = Vulkan_BIND_SHADER_RESOURCE;
-// 		if (m_eUsage == USAGE_RENDERTARGET)
-// 			textureDesc.BindFlags |= Vulkan_BIND_RENDER_TARGET;
-// 		else if (m_eUsage == USAGE_DEPTHSTENCIL)
-// 			textureDesc.BindFlags |= Vulkan_BIND_DEPTH_STENCIL;
-// 		textureDesc.CPUAccessFlags = m_eUsage == USAGE_DYNAMIC ? Vulkan_CPU_ACCESS_WRITE : 0;
-// 		textureDesc.MiscFlags |= Vulkan_RESOURCE_MISC_TEXTURECUBE;
-// 
-// 		GetVulkanDxDevive()->CreateTexture2D(&textureDesc, 0, (IVulkanTexture2D**)&m_pVulkanTex2D);
-// 		ASSERT(m_pVulkanTex2D);
-// 		if (m_pVulkanTex2D == NULL)
-// 		{
-// 			LogError("Failed to create DepthStencile");
-// 			return false;
-// 		}
-// 
-// 		DXGI_FORMAT srvFormat = VulkanMapping::_getPF(m_eFormat);
-// 		if (m_bSRGB)
-// 		{
-// 			srvFormat = GetSRGBFormat(srvFormat);
-// 		}
-// 		if (m_bTypeLess)
-// 		{
-// 			srvFormat = GetSRVFormat(m_descFormat);
-// 		}
-// 
-// 		Vulkan_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-// 		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
-// 		resourceViewDesc.Format = srvFormat;
-// 		resourceViewDesc.ViewDimension = D3D10_SRV_DIMENSION_TEXTURECUBE;
-// 		resourceViewDesc.TextureCube.MipLevels = m_nMipLevels;
-// 
-// 		GetVulkanDxDevive()->CreateShaderResourceView(m_pVulkanTex2D, &resourceViewDesc,&m_pVulkanShaderResourceView);
-// 		if (!m_pVulkanShaderResourceView)
-// 		{
-// 			LogError("Failed to create shader resource view for texture");
-// 			return false;
-// 		}
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		m_eFormat = VulkanMapping::_getClosestSupportedPF(m_eFormat);
+		m_vkformat = VulkanMapping::_getPF(m_eFormat);
+		if (m_bSRGB)
+		{
+			m_vkformat = GetSRGBFormat(m_vkformat);
+		}
+
+		// For shadow mapping we only need a depth attachment
+		VkImageCreateInfo image = vks::initializers::imageCreateInfo();
+		image.imageType = VK_IMAGE_TYPE_2D;
+		image.extent.width = m_nWidth;
+		image.extent.height = m_nHeight;
+		image.extent.depth = 1;
+		image.mipLevels = m_nMipLevels;
+		image.arrayLayers = 6;
+		image.samples = VK_SAMPLE_COUNT_1_BIT;
+		image.tiling = VK_IMAGE_TILING_OPTIMAL;
+		image.format = m_vkformat;
+		image.usage = VK_IMAGE_USAGE_SAMPLED_BIT;
+		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		{
+			image.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+
+			m_imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+		}
+		else if (m_eUsage == USAGE_RENDERTARGET)
+		{
+			image.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+		}
+		VK_CHECK_RESULT(vkCreateImage(device->logicalDevice, &image, nullptr, &m_image));
+
+		VkMemoryAllocateInfo memAlloc = vks::initializers::memoryAllocateInfo();
+		VkMemoryRequirements memReqs;
+		vkGetImageMemoryRequirements(device->logicalDevice, m_image, &memReqs);
+		memAlloc.allocationSize = memReqs.size;
+		memAlloc.memoryTypeIndex = device->getMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		VK_CHECK_RESULT(vkAllocateMemory(device->logicalDevice, &memAlloc, nullptr, &m_deviceMemory));
+		VK_CHECK_RESULT(vkBindImageMemory(device->logicalDevice, m_image, m_deviceMemory, 0));
+
+		// Create image view
+		// Textures are not directly accessed by the shaders and
+		// are abstracted by image views containing additional
+		// information and sub resource ranges
+		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
+		view.viewType = VK_IMAGE_VIEW_TYPE_CUBE;
+		view.format = m_vkformat;
+		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		{
+			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+		}
+		else
+		{
+			view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
+			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		}
+		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
+		// It's possible to create multiple image views for a single image referring to different (and/or overlapping) ranges of the image
+		view.subresourceRange.baseMipLevel = 0;
+		view.subresourceRange.baseArrayLayer = 0;
+		view.subresourceRange.layerCount = 6;
+		// Linear tiling usually won't support mip maps
+		// Only set mip map count if optimal tiling is used
+		view.subresourceRange.levelCount = m_nMipLevels;
+		// The view will be based on the texture's image
+		view.image = m_image;
+		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_view));
 
 		return true;
 	}
@@ -172,7 +136,7 @@ namespace ma
 		image.extent.width = m_nWidth;
 		image.extent.height = m_nHeight;
 		image.extent.depth = 1;
-		image.mipLevels = 1;
+		image.mipLevels = m_nMipLevels;
 		image.arrayLayers = 1;
 		image.samples = VK_SAMPLE_COUNT_1_BIT;
 		image.tiling = VK_IMAGE_TILING_OPTIMAL;
@@ -226,184 +190,6 @@ namespace ma
 		view.image = m_image;
 		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_view));
 
-		return true;
-	}
-
-// 	IVulkanShaderResourceView* VulkanTexture::GetShaderResourceViewSRGBNotEqual()
-// 	{
-// 		if (m_pVulkanShaderResourceViewSRGBNotEqual)
-// 			return m_pVulkanShaderResourceViewSRGBNotEqual;
-// 
-// 		ASSERT(m_bSRGB);
-// 
-// 		DXGI_FORMAT srvFormat = VulkanMapping::_getPF(m_eFormat);
-// 
-// 		Vulkan_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-// 		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
-// 		resourceViewDesc.Format = srvFormat;
-// 		resourceViewDesc.ViewDimension = Vulkan_SRV_DIMENSION_TEXTURE2D;
-// 		resourceViewDesc.Texture2D.MipLevels = m_nMipLevels;
-// 
-// 		GetVulkanDxDevive()->CreateShaderResourceView(m_pVulkanTex2D, &resourceViewDesc,&m_pVulkanShaderResourceViewSRGBNotEqual);
-// 		if (!m_pVulkanShaderResourceView)
-// 		{
-// 			LogError("Failed to create shader resource view for texture");
-// 			return NULL;
-// 		}
-// 
-// 		return m_pVulkanShaderResourceViewSRGBNotEqual;
-// 	}
-
-// 	VkImageView VulkanTexture::GetDepthStencilView()
-// 	{
-// 		vks::VulkanDevice* device = GetVulkanDevice();
-// 
-// 		if (m_pDepthStencilView != 0)
-// 			return m_pDepthStencilView;
-// 
-// 		VkImageViewCreateInfo depthStencilView = vks::initializers::imageViewCreateInfo();
-// 		depthStencilView.viewType = VK_IMAGE_VIEW_TYPE_2D;
-// 		depthStencilView.format = m_vkformat;
-// 		depthStencilView.subresourceRange = {};
-// 		depthStencilView.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
-// 		depthStencilView.subresourceRange.baseMipLevel = 0;
-// 		depthStencilView.subresourceRange.levelCount = 1;
-// 		depthStencilView.subresourceRange.baseArrayLayer = 0;
-// 		depthStencilView.subresourceRange.layerCount = 1;
-// 		depthStencilView.image = m_image;
-// 		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &depthStencilView, nullptr, &m_pDepthStencilView));
-// 
-// 		return m_pDepthStencilView;
-// 	}
-
-// 	IVulkanRenderTargetView* VulkanTexture::GetRenderTargetView(int level, int array_index, int face)
-// 	{
-// 		ASSERT(array_index == 0 && level < MAX_MIP);
-// 		if (array_index != 0 || level >= MAX_MIP)
-// 			return NULL;
-// 
-// 		if (m_pRenderTargetView[level][face])
-// 			return m_pRenderTargetView[level][face];
-// 
-// 		m_eFormat = VulkanMapping::_getClosestSupportedPF(m_eFormat);
-// 		m_descFormat = VulkanMapping::_getPF(m_eFormat);
-// 		if (m_bSRGB)
-// 		{
-// 			m_descFormat = GetSRGBFormat(m_descFormat);
-// 		}
-// 
-// 		Vulkan_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-// 		memset(&renderTargetViewDesc, 0, sizeof renderTargetViewDesc);
-// 		renderTargetViewDesc.Format = m_descFormat;
-// 		if (m_eType == TEXTYPE_2D)
-// 		{
-// 			renderTargetViewDesc.ViewDimension = Vulkan_RTV_DIMENSION_TEXTURE2D;
-// 		}
-// 		else if (m_eType == TEXTYPE_CUBE)
-// 		{
-// 			renderTargetViewDesc.ViewDimension = Vulkan_RTV_DIMENSION_TEXTURE2DARRAY;
-// 			renderTargetViewDesc.Texture2DArray.MipSlice = level;
-// 			renderTargetViewDesc.Texture2DArray.FirstArraySlice = array_index * 6 + face;
-// 			renderTargetViewDesc.Texture2DArray.ArraySize = 1;
-// 		}
-// 
-// 		IVulkanRenderTargetView*	pRenderTargetView = NULL;
-// 		GetVulkanDxDevive()->CreateRenderTargetView((IVulkanResource*)m_pVulkanTex2D, &renderTargetViewDesc,&pRenderTargetView);
-// 		if (!pRenderTargetView)
-// 		{
-// 			LogError("Failed to create renderTarget view for texture");
-// 			return NULL;
-// 		}
-// 	
-// 		m_pRenderTargetView[level][face] = pRenderTargetView;
-// 
-// 		return pRenderTargetView;
-// 	}
-
-// 	void VulkanTexture::SetRenderTargetView(IVulkanRenderTargetView* pView,int level, int array_index, int face)
-// 	{
-// 		ASSERT(array_index == 0 && level < MAX_MIP);
-// 		if (array_index != 0 || level >= MAX_MIP)
-// 			return;
-// 
-// 		m_pRenderTargetView[level][face] = pView;
-// 	}
-
-
-// 	Vulkan_BOX OgreImageBoxToDx11Box(const Box &inBox)
-// 	{
-// 		Vulkan_BOX res;
-// 		res.left	= static_cast<UINT>(inBox.left);
-// 		res.top		= static_cast<UINT>(inBox.top);
-// 		res.front	= static_cast<UINT>(inBox.front);
-// 		res.right	= static_cast<UINT>(inBox.right);
-// 		res.bottom	= static_cast<UINT>(inBox.bottom);
-// 		res.back	= static_cast<UINT>(inBox.back);
-// 
-// 		return res;
-// 	}
-
-	bool VulkanTexture::SetLevelData(int nLevel, int nFace, const PixelBox& src)
-	{
-		// for scoped deletion of conversion buffer
-// 		RefPtr<MemoryStream> buf;
-// 		PixelBox converted = src;
-// 		
-// 		int width = m_nWidth >> nLevel;
-// 		int height = m_nHeight >> nLevel;
-// 
-// 		if (PixelUtil::isCompressed(converted.format))
-// 		{
-// 			width += 3;
-// 			width &= 0xfffffffc;
-// 			height += 3;
-// 			height &= 0xfffffffc;
-// 		}
-// 
-// 		Box dstBox(0,0,width,height);
-// 
-// 		Vulkan_BOX dstBoxDx11 = OgreImageBoxToDx11Box(dstBox);
-// 		dstBoxDx11.front = 0;
-// 		dstBoxDx11.back = converted.getDepth();
-// 
-// 		// convert to pixelbuffer's native format if necessary
-// 		if (VulkanMapping::_getPF(src.format) == DXGI_FORMAT_UNKNOWN)
-// 		{
-// 			buf = CreateMemoryStream(PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), src.getDepth(),m_eFormat), false);
-// 			converted = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), m_eFormat, buf->GetPtr());
-// 			PixelUtil::bulkPixelConversion(src, converted);
-// 		}
-// 
-// 		uint32 rowWidth;
-// 		if (PixelUtil::isCompressed(converted.format))
-// 		{
-// 			// D3D wants the width of one row of cells in bytes
-// 			if (converted.format == PF_DXT1)
-// 			{
-// 				// 64 bits (8 bytes) per 4x4 block
-// 				rowWidth = (converted.rowPitch / 4) * 8;
-// 			}
-// 			else
-// 			{
-// 				// 128 bits (16 bytes) per 4x4 block
-// 				rowWidth = (converted.rowPitch / 4) * 16;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			rowWidth = converted.rowPitch * PixelUtil::getNumElemBytes(converted.format);
-// 		}
-// 
-// 		unsigned subResource = VulkanCalcSubresource(nLevel, nFace, m_nMipLevels);
-// 
-// 		GetVulkanDxDeviveContext()->UpdateSubresource( 
-// 			m_pVulkanTex2D, 
-// 			subResource,
-// 			&dstBoxDx11,
-// 			converted.data,
-// 			rowWidth,
-// 			0 );
-		
 		return true;
 	}
 
@@ -477,26 +263,31 @@ namespace ma
 		std::vector<VkBufferImageCopy> bufferCopyRegions;
 		uint32_t offset = 0;
 
-		for (uint32_t i = 0; i < m_nMipLevels/*imageData.num_mipmaps*/; i++)
+		uint32_t nFace = imageData.getNumFaces();
+		
+		for (uint32_t face = 0; face < nFace; face++)
 		{
-			int width = m_nWidth >> i;
-			int height = m_nHeight >> i;
+			for (uint32_t level = 0; level < m_nMipLevels; level++)
+			{
+				int width = m_nWidth >> level;
+				int height = m_nHeight >> level;
 
-			UINT size = PixelUtil::getMemorySize(width, height, 1, m_eFormat);
+				UINT size =  PixelUtil::getMemorySize(width, height, 1, m_eFormat);
 
-			VkBufferImageCopy bufferCopyRegion = {};
-			bufferCopyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			bufferCopyRegion.imageSubresource.mipLevel = i;
-			bufferCopyRegion.imageSubresource.baseArrayLayer = 0;
-			bufferCopyRegion.imageSubresource.layerCount = 1;
-			bufferCopyRegion.imageExtent.width = static_cast<uint32_t>(width);
-			bufferCopyRegion.imageExtent.height = static_cast<uint32_t>(height);
-			bufferCopyRegion.imageExtent.depth = 1;
-			bufferCopyRegion.bufferOffset = offset;
+				VkBufferImageCopy bufferCopyRegion = {};
+				bufferCopyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+				bufferCopyRegion.imageSubresource.mipLevel = level;
+				bufferCopyRegion.imageSubresource.baseArrayLayer = face;
+				bufferCopyRegion.imageSubresource.layerCount = 1;
+				bufferCopyRegion.imageExtent.width = static_cast<uint32_t>(width);
+				bufferCopyRegion.imageExtent.height = static_cast<uint32_t>(height);
+				bufferCopyRegion.imageExtent.depth = 1;
+				bufferCopyRegion.bufferOffset = offset;
 
-			bufferCopyRegions.push_back(bufferCopyRegion);
+				bufferCopyRegions.push_back(bufferCopyRegion);
 
-			offset += static_cast<uint32_t>(size);
+				offset += static_cast<uint32_t>(size);
+			}
 		}
 
 		// Create optimal tiled target image
@@ -504,7 +295,7 @@ namespace ma
 		imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
 		imageCreateInfo.format = m_vkformat;
 		imageCreateInfo.mipLevels = m_nMipLevels;
-		imageCreateInfo.arrayLayers = 1;
+		imageCreateInfo.arrayLayers = imageData.getNumFaces();
 		imageCreateInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 		imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 		imageCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
@@ -530,7 +321,7 @@ namespace ma
 		subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		subresourceRange.baseMipLevel = 0;
 		subresourceRange.levelCount = m_nMipLevels;
-		subresourceRange.layerCount = 1;
+		subresourceRange.layerCount = imageData.getNumFaces();
 
 		// Image barrier for optimal image (target)
 		// Optimal image will be used as destination for the copy
@@ -573,7 +364,7 @@ namespace ma
 		// are abstracted by image views containing additional
 		// information and sub resource ranges
 		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
-		view.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		view.viewType = imageData.getNumFaces() == 1 ? VK_IMAGE_VIEW_TYPE_2D : VK_IMAGE_VIEW_TYPE_CUBE;
 		view.format = m_vkformat;
 		view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
 		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
@@ -581,7 +372,7 @@ namespace ma
 		view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		view.subresourceRange.baseMipLevel = 0;
 		view.subresourceRange.baseArrayLayer = 0;
-		view.subresourceRange.layerCount = 1;
+		view.subresourceRange.layerCount = imageData.getNumFaces();
 		// Linear tiling usually won't support mip maps
 		// Only set mip map count if optimal tiling is used
 		view.subresourceRange.levelCount = m_nMipLevels/* (useStaging) ? texture.mipLevels : 1*/;

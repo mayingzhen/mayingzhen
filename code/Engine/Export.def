@@ -228,7 +228,6 @@ EXPORTS
 ?SetShaderMacroBool@Technique@ma@@QAEXPBD_N@Z
 ?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBD0@Z
 ?GetShaderMacroBool@Technique@ma@@QAE_NPBD@Z
-?LoadFromImagData@Texture@ma@@MAE_NABVImageData@2@@Z
 ??0Technique@ma@@QAE@XZ
 ??1Technique@ma@@UAE@XZ
 ?Bind@Technique@ma@@UAEXXZ
@@ -264,3 +263,6 @@ EXPORTS
 ?AddSampler@Technique@ma@@QAEXPAVUniform@2@@Z
 ?GetSamplerCount@Technique@ma@@QAEIXZ
 ?GetSamplerByIndex@Technique@ma@@QAEPAVUniform@2@I@Z
+?TechniqueStreamComplete@RenderSystem@ma@@QAEXPAVTechnique@2@@Z
+?ClearConstBuffer@Technique@ma@@QAEXW4ShaderType@2@@Z
+?getNumFaces@ImageData@ma@@QBEIXZ

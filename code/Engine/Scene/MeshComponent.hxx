@@ -138,6 +138,29 @@ namespace ma
 		}
 	}
 
+	void MeshComponent::SetSuportInstance(bool b)
+	{
+		m_bSuportInstance = b;
+
+		for (uint32 iLod = 0; iLod < m_arrLodRenderable.size(); ++iLod)
+		{
+			VEC_RENDERABLE arrRenderable = m_arrLodRenderable[iLod];
+			for (UINT iSub = 0; iSub < arrRenderable.size(); ++iSub)
+			{
+				arrRenderable[iSub]->m_bSuportInstace = b;
+			}
+		}
+
+		for (uint32 iLod = 0; iLod < m_arrLodShadowRenderable.size(); ++iLod)
+		{
+			VEC_RENDERABLE arrRenderable = m_arrLodShadowRenderable[iLod];
+			for (UINT iSub = 0; iSub < arrRenderable.size(); ++iSub)
+			{
+				arrRenderable[iSub]->m_bSuportInstace = b;
+			}
+		}
+	}
+
 	UINT32 MeshComponent::GetSubMaterialCount(uint32 nLod)
 	{
 		return m_arrLodRenderable[nLod].size();

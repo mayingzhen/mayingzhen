@@ -131,7 +131,7 @@ out DRMRTOut mrtOut
 	GetMetalnessGlossiness(In.DetailUV.xy,metalness,glossiness,In.DetailUV.zw,cBlend.a);
 
 #if DEFERREDSHADING == 0
-	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow);
+	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow,1.0);
 #else
 	FinalMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
 #endif

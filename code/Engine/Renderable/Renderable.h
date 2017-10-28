@@ -16,6 +16,8 @@ namespace ma
 
 		virtual void					PreRender(Technique* pTech);
 
+		virtual void					Render(Technique* pTechnique, RenderCommand* pRenderCommand);
+
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;
 
@@ -30,9 +32,9 @@ namespace ma
 		RefPtr<SubMeshData>				m_pSubMeshData;
 		RefPtr<SubMaterial>				m_pSubMaterial;
 
-		RefPtr<VertexBuffer>			m_pInstBuffer;
-
 		RefPtr<Technique>				m_Technique;
+
+		bool							m_bSuportInstace = false;
 	
 	private:
 		Matrix4							m_matWorld[2];

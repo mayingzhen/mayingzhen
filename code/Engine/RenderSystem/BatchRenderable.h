@@ -7,6 +7,8 @@ namespace ma
 	public:
 		virtual void	PreRender(Technique* pTech);
 
+		virtual	void	Render(RenderCommand* pRenderCommand);
+
 		void			AddRenderable(Renderable* pRenderObj);
 
 		virtual void	Create();
@@ -22,6 +24,8 @@ namespace ma
 		};
 
 		std::vector<InstaceData> m_arrInstanceData;
+
+		SubAllocVB m_subVB;
 	};
 
 	class BatchRenderable

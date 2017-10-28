@@ -1,3 +1,4 @@
+#define IBL
 
 #ifdef IBL
 TextureCube tEnv : register(t4);
@@ -49,52 +50,117 @@ void GetMetalnessGlossiness(float2 iUV, out float metalness, out float glossines
 #endif
 }
 
-
+// s2014_pbs_frostbite_slides.pptx
+float SmoothToRoughness(float glossiness)
+{
+	return (1.0 - glossiness) * (1.0 - glossiness) /* (1.0 - glossiness)*/;
+}
 
 // GGX Distribution
 // NdotH        = the dot product of the normal and the half vector
 // roughness    = the roughness of the pixel
 float GGXDistribution(float ndoth, float roughness)
 {
+	const float PI = 3.1415926f;
+
 	float rough2 = roughness * roughness;
 	float tmp =  (ndoth * rough2 - ndoth) * ndoth + 1;
-	return rough2 / (tmp * tmp);
+	return rough2 / (PI * tmp * tmp);
+}
+
+// Blinn Distribution
+// NdotH        = the dot product of the normal and the half vector
+// roughness    = the roughness of the pixel
+float BlinnPhongDistribution(float ndoth,float glossiness)
+{
+	float specPower = exp2(13.0f * glossiness);//pow(8192,glossiness);
+	float Dpl = (specPower + 2) * 0.125 * pow(ndoth,specPower); // Blinn-Phong
+	return Dpl;
+}
+
+float3 SchlichFresnel(float3 specColor,float ldoth)
+{
+	return specColor + (1.0 - specColor) * pow(1.0 - ldoth, 5.0);
+}
+
+
+//s2013_pbs_black_ops_2_slides_v2.pdf
+float VisFun(float ndotl, float ndotv, float vdoth,float glossiness)
+{
+	float k = min(1.0,glossiness + 0.545);
+	float Vlvh = 1.0 / ( k * vdoth * vdoth + 1.0 - k);
+	return Vlvh;
+
+	// Schlick-Smith Visibility Term
+// 	float k = (0.8 + roughness * 0.5) * (0.8 + roughness * 0.5) / 2;
+// 	float Gv = ndotv * (1 - k) + k;
+// 	float Gl = ndotl * (1 - k) + k;
+// 	return 1.0 / 4.0 * max( Gv * Gl, 1e-6 );
+
+// 	float a = roughness * roughness;
+// 	float Vis_SmithV = ndotl * ( ndotv * ( 1 - a ) + a );
+// 	float Vis_SmithL = ndotv * ( ndotl * ( 1 - a ) + a );
+// 	// Note: will generate NaNs with Roughness = 0.  MinRoughness is used to prevent this
+// 	return 0.5 / ( Vis_SmithV + Vis_SmithL );
 }
 
 float3 LightBRDF(float glossiness,
-				 float3 LightColor, float3 LightDir,
-				 float3 vWorldNormal,float3 vView,
-				 float3 diffColor,float3 specColor,
-				 float fShadowMapShadow)
+						 float3 LightColor, float3 LightDir,
+						 float3 vWorldNormal,float3 vView,
+						 float3 diffColor,float3 specColor,
+						 float fShadowMapShadow,float ao)
 {
-	float3 finalLight;
+	float3 finalLight = float3(0,0,0);
 
 	float3 vlight = LightDir;
 	float3 vHalf = normalize(vView + vlight);
-
+	
 	float ndoth = max(0,dot(vWorldNormal,vHalf));
 	float ldoth = max(0,dot(vlight,vHalf));
 	float ndotl = max(0,dot(vlight,vWorldNormal));
 	float ndotv = max(0,dot(vWorldNormal, vView)); 
 	float vdoth = max(0,dot(vView, vHalf)); 
 
-	finalLight = diffColor * ndotl * LightColor.rgb * fShadowMapShadow;
+	finalLight = diffColor * ndotl * LightColor.rgb * fShadowMapShadow * ao;
 	
-#ifdef SPEC	
-	float roughness = (1.0 - glossiness) * (1.0 - glossiness); 
+//#ifdef SPEC	
+	float roughness = SmoothToRoughness(glossiness);
 	float Dis = GGXDistribution(ndoth,roughness);
-	float3 Flh = specColor + (1.0 - specColor) * pow(1.0 - ldoth, 5.0); //Schlich-Fresnel
-	float k = min(1.0,roughness + 0.545);
-	float Vlvh = 1.0 / ( k * vdoth * vdoth + 1.0 - k);
+	float3 Flh = SchlichFresnel(specColor,ldoth); 
+	float Vlvh = VisFun(ndotl,ndotv,vdoth,glossiness);
 	float3 specLight =  (Dis * Flh * Vlvh) * ndotl * LightColor.rgb * fShadowMapShadow;
 	finalLight += specLight;
-#endif  
+//#endif  
 
 	return finalLight;
 }
 
+#ifdef IBL
+float3 GlobalIBL(float glossiness, float3 diffColor,float3 specColor,float3 vWorldNormal,float3 vView)
+{
+    float ndotv = max(0,dot(vWorldNormal, vView)); 
+	float3 vRelfDir = -reflect(vView, vWorldNormal);
+
+	float roughness = (1.0 - glossiness) /* (1.0 - glossiness)*/;
+
+	float3 diffuseIBL = tEnv.SampleLevel(sEnv, vWorldNormal, u_diff_spec_mip.x).rgb;
+
+	float mip = roughness * u_diff_spec_mip.y;
+
+	float3 specColorIBL = tEnv.SampleLevel(sEnv, vRelfDir,mip).rgb;
+
+	float3 envDiffuse = diffColor.rgb * diffuseIBL.rgb;
+
+	float2 brdf = tBRDF.Sample(sBRDF,float2(ndotv,roughness)).xy;
+
+	float3 envSpec = specColorIBL * (specColor * brdf.x + brdf.y);
+
+	return (envDiffuse + envSpec)/*g_fIBLScale*/;	    
+}
+#endif
+
 float3 ForwardPixelLighting(float metalness,float glossiness,float3 vWorldNormal,
-							float3 vView,float3 albedo,float fShadowMapShadow)
+							float3 vView,float3 albedo,float fShadowMapShadow,float ao)
 {
 	float3 finalLight = float3(0.0,0.0,0.0);
 
@@ -107,33 +173,22 @@ float3 ForwardPixelLighting(float metalness,float glossiness,float3 vWorldNormal
 	float3 specColor = lerp(0.04, albedo.rgb, metalness); 
 
 	float3 MainLight = LightBRDF(glossiness,mianDirLightColor,mianDirLightDir,
-		vWorldNormal,vView,diffColor,specColor,fShadowMapShadow);
+		vWorldNormal,vView,diffColor,specColor,fShadowMapShadow,ao);
 
 	finalLight = MainLight;
 
 #ifndef IBL 
-	finalLight += skyLightColor * albedo;
+	finalLight += skyLightColor * albedo * ao;
 #endif
 
+// 第二盏方向光（只计算漫反射）
+#ifdef DIRLIGHTING1
+	float ndotl1 = clamp(dot(vWorldNormal, normalize(-vDirLight1)), 0, 1);
+	finalLight += albedo * ndotl1 * cDirLight1.rgb*cDirLight1.a * ao;
+#endif
+	
 #ifdef IBL
-	float ndotv = max(0,dot(vWorldNormal, vView)); 
-	float3 vRelfDir = reflect(vView, vWorldNormal);	
-
-	float roughness = (1.0 - glossiness) /* (1.0 - glossiness)*/;
-
-	float3 diffuseIBL = tEnv.SampleLevel(sEnv, vWorldNormal,u_diff_spec_mip.x).rgb;
-
-	float mip = roughness * u_diff_spec_mip.y;
-
-	float3 specColorIBL = tEnv.SampleLevel(sEnv, vRelfDir,mip).rgb;
-
-	float3 envDiffuse = diffColor.rgb * diffuseIBL.rgb;
-
-	float2 brdf = tBRDF.Sample(sBRDF,float2(ndotv,roughness)).xy;
-
-	float3 envSpec = specColorIBL * (specColor * brdf.x + brdf.y);
-
-	finalLight += envDiffuse + envSpec;	
+    finalLight += GlobalIBL(glossiness, diffColor,specColor,vWorldNormal,vView);
 #endif
 
 	return finalLight;

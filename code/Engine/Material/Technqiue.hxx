@@ -484,6 +484,11 @@ namespace ma
 		return m_vecConstBuffer[eType][nIndex].get();
 	}
 
+	void Technique::ClearConstBuffer(ShaderType eType)
+	{
+		return m_vecConstBuffer[eType].clear();
+	}
+
 	void Technique::AddSampler(Uniform* pUniform)
 	{
 		m_vecPSSamplers.push_back(pUniform);

@@ -192,7 +192,7 @@ namespace ma
 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
-			ScreenQuad::Render(m_pDefferedShadow.get());
+			//ScreenQuad::Render(m_pDefferedShadow.get());
 		}
 
 		//ShaderProgram* pBlendShader = m_pBlendMaterial->GetShaderProgram();
@@ -233,7 +233,7 @@ namespace ma
 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
-			ScreenQuad::Render(m_pDefferedShadow.get());
+			//ScreenQuad::Render(m_pDefferedShadow.get());
 		}
 
 // 		if (!m_pScene->GetRenderScheme()->GetDeferredShadingEnabled())

@@ -15,8 +15,6 @@ namespace ma
 	
 		virtual void	CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel);
 
-		//VkImageView		GetDepthStencilView();
-
 		virtual bool	SaveToFile(const char* pszPath);
 
 		void			SetImageView(VkImageView view) { m_view = view; }
@@ -27,8 +25,6 @@ namespace ma
 		virtual	bool			RT_CreateTexture();			
 
 		virtual bool			LoadFromImagData(const ImageData& imageData);
-
-		virtual	bool			SetLevelData(int level, int face,const PixelBox& src);
 
 		virtual bool			GenerateMipmaps();
 		

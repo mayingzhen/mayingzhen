@@ -22,6 +22,9 @@ namespace ma
 
 		void InitRenderCommamd();
 
+	private:
+		void InitFrameBuffer();
+
 	public:
 		VkRenderPass m_impl = 0;
 

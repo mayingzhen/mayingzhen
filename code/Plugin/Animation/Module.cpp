@@ -24,6 +24,20 @@
 #include "Animation/PoseModifier/LookAtModifier.hxx"
 
 
+// AnimationNodes
+// #include "Animation/AnimationNodes/Animcontrol.hxx"
+// #include "Animation/AnimationNodes/AnimationNode.hxx"
+// #include "Animation/AnimationNodes/BlendNode.hxx"
+// #include "Animation/AnimationNodes/DummyNode.hxx"
+// #include "Animation/AnimationNodes/LayerNode.hxx"
+// #include "Animation/AnimationNodes/ParameterHandler.hxx"
+// #include "Animation/AnimationNodes/ParameterNode.hxx"
+// #include "Animation/AnimationNodes/SourceNode.hxx"
+// #include "Animation/AnimationNodes/StateMachineNode.hxx"
+// #include "Animation/AnimationNodes/TwistModifier.hxx"
+// #include "Animation/AnimationNodes/TwistNode.hxx"
+
+
 
 using namespace ma;
 

@@ -11,8 +11,6 @@ namespace ma
 
 		~VulkanVertexBuffer();
 
-		//IVulkanBuffer* GetD3DVertexBuffer();
-
 	private:
 
 		virtual void*	LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlags);
@@ -22,7 +20,7 @@ namespace ma
 		virtual void	RT_StreamComplete();
 
 	public:
-		vks::Buffer vertexBuffer;
+		vks::Buffer		m_vertexBuffer;
 	};
 
 }

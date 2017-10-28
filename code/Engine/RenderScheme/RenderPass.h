@@ -8,7 +8,7 @@ namespace ma
 	{
 	public:
 
-		void AttachColor(int index, Texture* pColor) { m_arrColor[index] = pColor; }
+		void AttachColor(int index, Texture* pColor, int level, int array_index, int face) { m_arrColor[index] = pColor; }
 		void AttachDepthStencil(Texture* pDepthStencil) { m_pDepthStencil = pDepthStencil; }
 
 		void SetViewPort(const Rectangle& viewPort) { m_viewPort = viewPort; }

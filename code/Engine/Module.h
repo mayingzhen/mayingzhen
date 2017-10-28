@@ -30,6 +30,7 @@
 #include "Engine/Thread/AtomicOps.h"
 #include "Engine/Thread/MSemaphore.h"
 #include "Engine/Thread/JobScheduler.h"
+#include "Engine/Thread/tsd.h"
 
 // TaskScheduler
 //#include "Engine/TaskScheduler/MTScheduler.h"

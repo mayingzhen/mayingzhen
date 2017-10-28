@@ -61,7 +61,8 @@ namespace ma
 		vkCmdSetScissor(m_vkCmdBuffer, 0, 1, &scissor);
 
 		m_pPreIB = NULL;
-		m_pPreVB = NULL;
+		memset(m_pPreVB, 0, sizeof(m_pPreVB));
+		memset(m_preVBOffset, 0, sizeof(m_preVBOffset));
 		m_pPrePipeline = NULL;
 	}
 
@@ -81,18 +82,19 @@ namespace ma
 		vkCmdBindIndexBuffer(m_vkCmdBuffer, pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 	}
 
-	void VulkanRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB)
+	void VulkanRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB, UINT nOffSet)
 	{
-		if (m_pPreVB == pVB)
+		if (m_pPreVB[index] == pVB && m_preVBOffset[index] == nOffSet)
 			return;
 
-		m_pPreVB = pVB;
+		m_pPreVB[index] = pVB;
+		m_preVBOffset[index] = nOffSet;
 
 		VulkanVertexBuffer* pIml = (VulkanVertexBuffer*)pVB;
 
-		const VkDeviceSize offsets[1] = { 0 };
+		const VkDeviceSize offsets[1] = { nOffSet };
 
-		vkCmdBindVertexBuffers(m_vkCmdBuffer, index, 1, &pIml->vertexBuffer.buffer, offsets);
+		vkCmdBindVertexBuffers(m_vkCmdBuffer, index, 1, &pIml->m_vertexBuffer.buffer, offsets);
 	}
 
 	void VulkanRenderCommand::SetTechnique(Technique* pTech)

@@ -20,7 +20,7 @@ namespace ma
 	public:
 		VulkanDepthStencilStateObject();
 
-		virtual void	RT_StreamComplete(/*UINT32 front_stencil_ref, UINT32 back_stencil_ref*/);
+		virtual void	RT_StreamComplete();
 
 
 		static void		Clear();
@@ -34,7 +34,7 @@ namespace ma
 	public:
 		VulkanBlendStateObject();
 
-		virtual void	RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/);
+		virtual void	RT_StreamComplete();
 
 		static void		Clear();
 

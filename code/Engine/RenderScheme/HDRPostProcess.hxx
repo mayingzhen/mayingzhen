@@ -135,7 +135,7 @@ namespace ma
 // 
 // 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
-		ScreenQuad::Render(m_SumLogTech.get());
+		//ScreenQuad::Render(m_SumLogTech.get());
 
 		for (int i = 1; i < NUM_SUM_LUM; ++i)
 		{
@@ -143,14 +143,14 @@ namespace ma
 
 			//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
-			ScreenQuad::Render(m_SumLumIterativeTech[i].get());
+			//ScreenQuad::Render(m_SumLumIterativeTech[i].get());
 		}
 
 		//GetRenderSystem()->SetRenderTarget(0,m_lumTexs[NUM_SUM_LUM].get());
 		
 		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
-		ScreenQuad::Render(m_SumLumFinal.get());
+		//ScreenQuad::Render(m_SumLumFinal.get());
 	}
 
 	void HDRPostProcess::AdaptedLum()
@@ -166,7 +166,7 @@ namespace ma
 
 		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
-		ScreenQuad::Render(m_AdaptedLumTech.get());
+		//ScreenQuad::Render(m_AdaptedLumTech.get());
 
 	}
 
@@ -178,7 +178,7 @@ namespace ma
 
 		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
-		ScreenQuad::Render(m_BrightPassTech.get());
+		//ScreenQuad::Render(m_BrightPassTech.get());
 
 		for (int i = 0; i < NUM_DownSamplers; ++i)
 		{
@@ -186,7 +186,7 @@ namespace ma
 
 			//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
-			ScreenQuad::Render(m_DownSamplersTech[i].get());
+			//ScreenQuad::Render(m_DownSamplersTech[i].get());
 		}
 	}
 
@@ -208,7 +208,7 @@ namespace ma
 // 		if (m_pOutputTex)
 // 			GetRenderSystem()->SetRenderTarget(0,m_pOutputTex.get());
 
-		ScreenQuad::Render(m_ToneMappingTech.get());
+		//ScreenQuad::Render(m_ToneMappingTech.get());
 	}
 
 	void HDRPostProcess::GetSampleOffsets2x2(int width, int height, std::vector<Vector4>& texCoordOffSet)

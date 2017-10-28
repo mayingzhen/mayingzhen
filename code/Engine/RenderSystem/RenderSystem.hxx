@@ -7,7 +7,7 @@
 #include "../Renderable/UnitSphere.h"
 #include "../Material/ShaderProgram.h"
 #include "../Material/ShaderManager.h"
-
+#include "BatchRenderable.h"
 
 
 
@@ -167,6 +167,12 @@ namespace ma
 				m_pParticleBuffer[i]->UnLockVideoMemory();
 				m_pParticleBuffer[i] = NULL;
 			}
+
+			if (m_pInstanceBuffer[i])
+			{
+				m_pInstanceBuffer[i]->UnLockVideoMemory();
+				m_pInstanceBuffer[i] = NULL;
+			}
 		}
 
 		GetRenderDevice()->Shoutdown();
@@ -265,38 +271,6 @@ namespace ma
 			m_arrScene[i]->Render();
 		}
 	}
-
-// 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
-// 	{
-// 		m_pRenderThread->RC_DrawRenderable(pRenderable,pTechnique);
-// 	}
-
-// 	void RenderSystem::RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
-// 	{
-// 		if (pRenderable == NULL)
-// 			return;
-// 
-// 		RefPtr<SubMeshData>& pSubMesh = pRenderable->m_pSubMeshData;
-// 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
-// 			return;
-// 
-// 		//if (m_pCurVB != pRenderable->m_pVertexBuffer)
-// 		{
-// 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get(),pRenderable->m_pCommand);
-// 
-// 			m_pCurVB = pRenderable->m_pVertexBuffer.get();
-// 		}
-// 
-// 		//if (m_pCurIB != pRenderable->m_pIndexBuffer)
-// 		{
-// 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get(), pRenderable->m_pCommand);
-// 
-// 			m_pCurIB = pRenderable->m_pIndexBuffer.get();
-// 		}
-// 
-// 		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
-// 
-// 	}
 
 	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
@@ -667,6 +641,9 @@ namespace ma
 		{
 			//m_pParticleBuffer[i] = new ParallHardWareBuffer(sizeof(ParticleSystemRenderable::VERTEX), 7680 * 4, 7680 * 6);
 			//m_pParticleBuffer[i]->LockVideoMemory(); 
+
+			m_pInstanceBuffer[i] = new ParallHardWareBuffer(sizeof(InstanceRenderable::InstaceData), 1024, 0);
+			m_pInstanceBuffer[i]->LockVideoMemory();
 		}
 	}
 
@@ -682,6 +659,18 @@ namespace ma
 		return m_pParticleBuffer[nIndex].get();
 	}
 
+	ParallHardWareBuffer* RenderSystem::GetInstanceBuffer()
+	{
+		uint32 nIndex = m_nPoolIndex % nNumParticleBuffer;
+		return m_pInstanceBuffer[nIndex].get();
+	}
+
+	ParallHardWareBuffer* RenderSystem::GetRTInstaneBuffer()
+	{
+		uint32 nIndex = m_nPoolIndexRT % nNumParticleBuffer;
+		return m_pInstanceBuffer[nIndex].get();
+	}
+
 	void RenderSystem::LockParticleVideoMemory(uint32 nId)
 	{
 		profile_code();
@@ -694,6 +683,11 @@ namespace ma
 		{
 			m_pParticleBuffer[nId]->LockVideoMemory();
 		}
+
+		if (m_pInstanceBuffer[nId])
+		{
+			m_pInstanceBuffer[nId]->LockVideoMemory();
+		}
 	}
 
 	void RenderSystem::UnLockParticleVideoMemory(uint32 nId)
@@ -701,6 +695,11 @@ namespace ma
 		if(m_pParticleBuffer[nId])
 		{
 			m_pParticleBuffer[nId]->UnLockVideoMemory();
+		}
+
+		if (m_pInstanceBuffer[nId])
+		{
+			m_pInstanceBuffer[nId]->UnLockVideoMemory();
 		}
 	}
 
@@ -724,35 +723,6 @@ namespace ma
 		return m_nPoolIndexRT;
 	}
 
-	bool RenderSystem::ResizeInstancingBuffer(unsigned numInstances)
-	{
-		//if (!instancingBuffer_ || !dynamicInstancing_)
-		//	return false;
-
-		unsigned oldSize = instancingBuffer_->GetSize() / instancingBuffer_->GetStride();
-		if (numInstances <= oldSize)
-			return true;
-
-		static const int INSTANCING_BUFFER_DEFAULT_SIZE = 1024;
-
-		unsigned newSize = INSTANCING_BUFFER_DEFAULT_SIZE;
-		while (newSize < numInstances)
-			newSize <<= 1;
-
-// 		const PODVector<VertexElement> instancingBufferElements = CreateInstancingBufferElements(numExtraInstancingBufferElements_);
-// 		if (!instancingBuffer_->SetSize(newSize, instancingBufferElements, true))
-// 		{
-// 			URHO3D_LOGERROR("Failed to resize instancing buffer to " + String(newSize));
-// 			// If failed, try to restore the old size
-// 			instancingBuffer_->SetSize(oldSize, instancingBufferElements, true);
-// 			return false;
-// 		}
-
-		instancingBuffer_ = GetRenderSystem()->CreateVertexBuffer(NULL, newSize, sizeof(Matrix3x4));
-
-
-		return true;
-	}
-
 }
+
 

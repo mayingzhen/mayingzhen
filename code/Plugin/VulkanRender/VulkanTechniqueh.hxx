@@ -72,11 +72,14 @@ namespace ma
 
 		for (UINT i = 0; i < ShaderType_Number; ++i)
 		{
+			this->ClearConstBuffer((ShaderType)i);
+
 			for (UINT j = 0; j < pShader->GetConstBufferCount((ShaderType)i); ++j)
 			{
 				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex((ShaderType)i,j);
 				RefPtr<VulkanConstantBuffer> pConstantBuffer = CloneConstBuffer(pShaderCS);
 				pConstantBuffer->SetParent(this);
+
 				this->AddConstBuffer((ShaderType)i,pConstantBuffer.get());
 			}
 		}

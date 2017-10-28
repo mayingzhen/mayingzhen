@@ -92,13 +92,13 @@ namespace ma
 		ParallHardWareBuffer*GetParticleBuffer();
 		ParallHardWareBuffer*GetRTParticleBuffer();
 
+		ParallHardWareBuffer*GetInstanceBuffer();
+		ParallHardWareBuffer*GetRTInstaneBuffer();
+
 		
 		void				UpdatePoolId();
 		int					GetPoolId();
 		int					GetPooIdRT();	
-
-		bool				ResizeInstancingBuffer(unsigned numInstances);
-		VertexBuffer*		GetInstanceBuffer() { return instancingBuffer_.get(); }
 
 	protected: 
 		void				RT_Init(HWND wndhandle);
@@ -143,6 +143,8 @@ namespace ma
 
 		RefPtr<ParallHardWareBuffer> m_pParticleBuffer[nNumParticleBuffer];
 
+		RefPtr<ParallHardWareBuffer> m_pInstanceBuffer[nNumParticleBuffer];
+
 		// these ids can be used for tripple (or more) buffered structures
 		// they are incremented in RenderWorld on the mainthread
 		// use m_nPoolIndex from the mainthread (or jobs which are synced before Renderworld)
@@ -150,8 +152,6 @@ namespace ma
 		// right now the particle are using this id
 		uint32				m_nPoolIndex;
 		uint32				m_nPoolIndexRT;
-
-		RefPtr<VertexBuffer> instancingBuffer_;
 
 		bool				m_bThread;
 		ColourValue			m_cClearClor;

@@ -2,16 +2,20 @@
 
 namespace ma
 {
-	//std::map<SamplerState, IVulkanSamplerState*> g_samplerStatesPool;
-
 	VulkanSamplerStateObject::VulkanSamplerStateObject()
 	{
-		//m_pImpl = NULL;
+
+	}
+
+	VulkanSamplerStateObject::~VulkanSamplerStateObject()
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		vkDestroySampler(device->logicalDevice, m_sampler, nullptr);
 	}
 
 	void VulkanSamplerStateObject::RT_StreamComplete()
 	{
-		//ASSERT(m_pImpl == NULL);
 		vks::VulkanDevice* device = GetVulkanDevice();
 
 		VulkanTexture* pTex = (VulkanTexture*)this->GetTexture();
@@ -45,14 +49,4 @@ namespace ma
 		m_descriptor.imageView = pTex->m_view;
 		m_descriptor.imageLayout = pTex->m_imageLayout;
 	}
-
-	void VulkanSamplerStateObject::Clear()
-	{
-// 		for (auto it = g_samplerStatesPool.begin(); it != g_samplerStatesPool.end(); ++it)
-// 		{
-// 			SAFE_RELEASE(it->second);
-// 		}
-// 		g_samplerStatesPool.clear();
-	}
-
 }

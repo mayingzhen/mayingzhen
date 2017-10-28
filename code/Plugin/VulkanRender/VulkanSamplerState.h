@@ -7,11 +7,11 @@ namespace ma
 	public:
 		VulkanSamplerStateObject();
 
+		~VulkanSamplerStateObject();
+
 	public:
 
 		virtual void RT_StreamComplete();
-
-		static void Clear();
 
 	public:
 		VkSampler m_sampler;

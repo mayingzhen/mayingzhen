@@ -84,7 +84,6 @@ namespace ma
 		m_vecClearValues.clear();
 
 		std::vector<VkAttachmentDescription> vecAttachments;
-		std::vector<VkImageView> vecImagView;
 
 		std::vector<VkAttachmentReference> vecColorReference;
 		for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
@@ -111,9 +110,6 @@ namespace ma
 
 			vecColorReference.push_back(colorReference);
 
-			VulkanTexture* pVkTexture = (VulkanTexture*)m_arrColor[i].get();
-			vecImagView.push_back(pVkTexture->m_view);
-
 			VkClearValue clearValues;
 			clearValues.color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
 			m_vecClearValues.push_back(clearValues);
@@ -134,9 +130,6 @@ namespace ma
 
 			vecAttachments.push_back(ds);
 			
-			VulkanTexture* pVkTexture = (VulkanTexture*)m_pDepthStencil.get();
-			vecImagView.push_back(pVkTexture->m_view);
-
 			VkClearValue clearValues;
 			clearValues.depthStencil = { 1.0f, 0 };
 
@@ -188,6 +181,33 @@ namespace ma
 
 		VK_CHECK_RESULT(vkCreateRenderPass(device->logicalDevice, &renderPassInfo, nullptr, &m_impl));
 
+		InitFrameBuffer();
+
+		InitRenderCommamd();
+	}
+
+	void VulkanRenderPass::InitFrameBuffer()
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		std::vector<VkImageView> vecImagView;
+
+		std::vector<VkAttachmentReference> vecColorReference;
+		for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
+		{
+			if (m_arrColor[i] == NULL)
+				continue;
+
+			VulkanTexture* pVkTexture = (VulkanTexture*)m_arrColor[i].get();
+			vecImagView.push_back(pVkTexture->m_view);
+		}
+
+		if (m_pDepthStencil)
+		{
+			VulkanTexture* pVkTexture = (VulkanTexture*)m_pDepthStencil.get();
+			vecImagView.push_back(pVkTexture->m_view);
+		}
+
 		Texture* pRT = m_arrColor[0] ? m_arrColor[0].get() : m_pDepthStencil.get();
 		ASSERT(pRT);
 
@@ -206,8 +226,6 @@ namespace ma
 		{
 			m_viewPort = Rectangle(0, 0, (float)pRT->GetWidth(), (float)pRT->GetHeight());
 		}
-
-		InitRenderCommamd();
 	}
 
 	void VulkanRenderPass::InitRenderCommamd()

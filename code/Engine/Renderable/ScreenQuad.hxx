@@ -70,10 +70,9 @@ namespace ma
 		SAFE_DELETE(gpScrenQuad);
 	}
 
-	void ScreenQuad::Render(Technique* pTechnique)
+	void ScreenQuad::Render(Technique* pTechnique, RenderCommand* pCommand)
 	{
-		//pTechnique->SetVertexDeclaration(pVertexDec.get());
-		//gpScrenQuad->Render(pTechnique);
+		gpScrenQuad->Render(pTechnique, pCommand);
 	}
 }
 

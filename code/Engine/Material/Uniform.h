@@ -79,11 +79,7 @@ namespace ma
 
 	private:
 		std::string		m_name;
-		//int				m_location = 0;
-		//int				m_type = 0;
-		//bool			m_vshShder = true;
 		UINT			m_index = 0;
-		//UINT			m_nCount = 0;
 
 		ConstantBuffer* m_pCBPtr = NULL;
 		UINT			m_nOffSetInCB = 0;

@@ -46,6 +46,8 @@ namespace ma
 
 		virtual void				SetShadowCaster(bool b);
 
+		virtual void				SetSuportInstance(bool b);
+
 		virtual bool				Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool				Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
@@ -62,7 +64,7 @@ namespace ma
 
 	protected:
 
-		uint32						m_nLod;
+		uint32						m_nLod = 0;
 
 		RefPtr<Material>			m_pMaterial;
 
@@ -72,7 +74,9 @@ namespace ma
 
 		VEC_LOD_RENDERABLE			m_arrLodShadowRenderable;
 
-		bool						m_bOnLoadOver;
+		bool						m_bSuportInstance = false;
+
+		bool						m_bOnLoadOver = false;
 	};
 
 	RefPtr<MeshComponent> CreateMeshComponent();

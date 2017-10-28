@@ -42,7 +42,7 @@ namespace ma
 		// AmbientLight
 		Vector3 cAmbientColor;//= m_pScene->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color",Any(cAmbientColor));
-		ScreenQuad::Render(m_pAmbientLight.get());	
+		//ScreenQuad::Render(m_pAmbientLight.get());	
 
 		Matrix4 matView = GetRenderContext()->GetViewMatrix();
 
@@ -68,7 +68,7 @@ namespace ma
 				m_pDirLight->SetValue(pUniformDirES,vDirES);
 				m_pDirLight->SetValue(pUniformColor,pLight->GetLightColor());
 
-				ScreenQuad::Render(m_pDirLight.get());		
+				//ScreenQuad::Render(m_pDirLight.get());		
 			}
 			else if (pLight->GetLightType() == LIGHT_POINT)
 			{

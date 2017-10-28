@@ -1,4 +1,5 @@
 #include "BatchRenderable.h"
+#include "RenderSystem.h"
 
 
 namespace ma
@@ -46,6 +47,30 @@ namespace ma
 		pTech->Bind();
 	}
 
+	void InstanceRenderable::Render(RenderCommand* pRenderCommand)
+	{
+		Technique* pTech = this->GetTechnique();
+
+		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
+
+		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
+		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+
+		pRenderCommand->SetTechnique(pTech);
+
+		pRenderCommand->SetVertexBuffer(0, this->m_pVertexBuffer.get(),0);
+
+		pRenderCommand->SetIndexBuffer(this->m_pIndexBuffer.get());
+
+		VertexBuffer* pInstanceBuffer = GetRenderSystem()->GetRTInstaneBuffer()->GetVertexBuffer();
+		UINT nOffset = m_subVB.m_nFirstVertex * sizeof(InstaceData);
+		pRenderCommand->SetVertexBuffer(1, pInstanceBuffer, nOffset);
+
+		UINT nInstancCount = m_arrRenderList.size();
+
+		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nInstancCount, this->m_ePrimitiveType);
+	}
+
 	void InstanceRenderable::AddRenderable(Renderable* pRenderObj)
 	{
 		m_arrRenderList.push_back(pRenderObj);
@@ -58,7 +83,7 @@ namespace ma
 
 	void InstanceRenderable::Create()
 	{
-		if (m_arrInstanceData.empty())
+		if (m_arrRenderList.empty())
 			return;
 
 		Renderable* pRenderable = m_arrRenderList[0];
@@ -68,9 +93,8 @@ namespace ma
 		m_pSubMeshData = pRenderable->m_pSubMeshData;
 		m_pSubMaterial = pRenderable->m_pSubMaterial;
 
-		uint8* pData = (uint8*)m_arrInstanceData.data();
-		UINT nSize = m_arrInstanceData.size() * sizeof(InstaceData);
-		m_pInstBuffer = GetRenderSystem()->CreateVertexBuffer(pData, nSize, sizeof(InstaceData));
+		m_subVB = GetRenderSystem()->GetInstanceBuffer()->AllocVertexBuffer(m_arrInstanceData.size());
+		memcpy(m_subVB.m_pVertices, m_arrInstanceData.data(), m_arrInstanceData.size() * sizeof(InstaceData));
 
 		m_Technique = pRenderable->GetTechnique()->GetInstTech();
 	}
@@ -87,7 +111,7 @@ namespace ma
 
 	void BatchRenderable::PrepareInstance(const std::vector<Renderable*>& batch,Technique* pTech)
 	{
-		ASSERT(!batch.empty());
+		//ASSERT(!batch.empty());
 		if (batch.empty())
 			return;
 
@@ -101,7 +125,7 @@ namespace ma
 
 		for (UINT i = 0; i < batch.size(); ++i)
 		{
-			if (!batch[i]->GetTechnique()->GetInstTech())
+			if (!batch[i]->GetTechnique()->GetInstTech() || !batch[i]->m_bSuportInstace)
 			{
 				m_arrNoInsRenderList.push_back(batch[i]);
 				continue;
@@ -141,8 +165,7 @@ namespace ma
 			ShaderProgram* pShader = pRenderable->GetTechnique()->GetShaderProgram();
 			VertexBuffer* pVB = pRenderable->m_pVertexBuffer.get();
 
-			if (pPreShader && (pShader != pPreShader) ||
-				pPreVB && pPreVB != pVB)
+			if (pPreShader && pShader != pPreShader || pPreVB && pPreVB != pVB)
 			{
 				this->PrepareInstance(m_batchTemp, NULL);
 
@@ -188,32 +211,6 @@ namespace ma
 		}
 	}
 
-	void RenderRenderable(RenderCommand* pRenderCommand, Renderable* pRenderable, RenderPassType eRPType)
-	{
-		Technique* pTech = pRenderable->GetTechnique();
-
-		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
-
-		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
-		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
-
-		pRenderCommand->SetTechnique(pTech);
-
-		pRenderCommand->SetVertexBuffer(0, pRenderable->m_pVertexBuffer.get());
-
-		pRenderCommand->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
-
-		UINT nInstancCount = 1;
-		if (pRenderable->m_pInstBuffer)
-		{
-			pRenderCommand->SetVertexBuffer(1, pRenderable->m_pInstBuffer.get());
-
-			nInstancCount = pRenderable->m_pInstBuffer->GetNumber();
-		}
-
-		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nInstancCount, pRenderable->m_ePrimitiveType);
-	}
-
 	struct RenderJobData
 	{
 		Renderable** m_pNodeStart = NULL;
@@ -236,7 +233,7 @@ namespace ma
 		{
 			Renderable* pRenderable = ppNodeStart[i];
 
-			RenderRenderable(pJobData->pCommand, pRenderable, pJobData->eRPType);
+			pRenderable->Render(pRenderable->GetTechnique(),pJobData->pCommand);
 		}
 
 		pJobData->pCommand->End();
@@ -300,7 +297,7 @@ namespace ma
 				if (pRenderable == NULL)
 					continue;
 
-				RenderRenderable(pCommand, pRenderable, eRPType);
+				pRenderable->Render(pRenderable->GetTechnique(), pCommand);
 			}
 
 			pCommand->End();

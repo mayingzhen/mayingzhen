@@ -52,7 +52,7 @@ namespace ma
 		ds.front = ds.back;
 	}
 
-	void VulkanDepthStencilStateObject::RT_StreamComplete(/*UINT32 front_stencil_ref, UINT32 back_stencil_ref*/)
+	void VulkanDepthStencilStateObject::RT_StreamComplete()
 	{
 // 		ASSERT(m_pVulkanDSState == NULL);
 // 
@@ -127,7 +127,7 @@ namespace ma
 // 		cb.blendConstants[3] = 1.0f;
 	}
 
-	void VulkanBlendStateObject::RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/)
+	void VulkanBlendStateObject::RT_StreamComplete()
 	{
 		cb = {};
 		cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -154,53 +154,9 @@ namespace ma
 		cb.blendConstants[2] = 1.0f;
 		cb.blendConstants[3] = 1.0f;
 
-// 		ASSERT(m_pVulkanBlendState == NULL);
-// 
-// 		Vulkan_BLEND_DESC stateDesc;
-// 		memset(&stateDesc, 0, sizeof stateDesc);
-// 		stateDesc.AlphaToCoverageEnable = false;
-// 		stateDesc.IndependentBlendEnable = false;
-// 
-// 		VulkanMapping::GetD3DBlend(m_eBlendMode,
-// 			stateDesc.RenderTarget[0].BlendEnable,
-// 			stateDesc.RenderTarget[0].SrcBlend,
-// 			stateDesc.RenderTarget[0].DestBlend,
-// 			stateDesc.RenderTarget[0].BlendOp);
-// 
-// 		VulkanMapping::GetD3DBlendAlpha(m_eBlendMode,
-// 			stateDesc.RenderTarget[0].BlendEnable,
-// 			stateDesc.RenderTarget[0].SrcBlendAlpha,
-// 			stateDesc.RenderTarget[0].DestBlendAlpha,
-// 			stateDesc.RenderTarget[0].BlendOpAlpha);
-// 
-// 		stateDesc.RenderTarget[0].RenderTargetWriteMask = m_bColorWrite ? Vulkan_COLOR_WRITE_ENABLE_ALL : 0x0;
-// 
-// 		auto it = g_blendStatePool.find(stateDesc);
-// 		if (it != g_blendStatePool.end())
-// 		{
-// 			m_pVulkanBlendState = it->second;
-// 		}
-// 		else
-// 		{
-// 			IVulkanBlendState* newBlendState = 0;
-// 			HRESULT hr = GetVulkanDxDevive()->CreateBlendState(&stateDesc, &newBlendState);
-// 			if (!newBlendState)
-// 			{
-// 				LogError("Failed to create blend state");
-// 			}
-// 
-// 			g_blendStatePool.insert(std::make_pair(stateDesc, newBlendState));
-// 
-// 			m_pVulkanBlendState = newBlendState;
-// 		}
 	}
 
 	void VulkanBlendStateObject::Clear()
 	{
-// 		for (auto it = g_blendStatePool.begin(); it != g_blendStatePool.end(); ++it)
-// 		{
-// 			SAFE_RELEASE(it->second);
-// 		}
-// 		g_blendStatePool.clear();
 	}
 }

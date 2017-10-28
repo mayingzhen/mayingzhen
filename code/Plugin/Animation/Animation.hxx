@@ -216,7 +216,7 @@ namespace ma
 		if (nVersion == 2)
 		{
 			uint32 nParentIDNum = m_pDataStream->ReadUInt();
-			vector<uint16> arrParentIndice;
+			vector<BoneIndex> arrParentIndice;
 			arrParentIndice.resize(nParentIDNum);
 			for (uint32 i = 0; i < nParentIDNum; ++i)
 			{

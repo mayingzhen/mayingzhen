@@ -70,7 +70,7 @@ namespace ma
 			m_pBlurXTech->SetValue(m_pBlurXTech->GetUniform("color_weight"),(Vector4*)(&m_color_weightX[0]),m_color_weightX.size() / 4 );
 			m_pBlurXTech->SetValue(m_pBlurXTech->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetX[0]),m_tex_coord_offsetX.size() / 4 );
 
-			ScreenQuad::Render(m_pBlurXTech.get());
+			//ScreenQuad::Render(m_pBlurXTech.get());
 		}
 
 		/// y
@@ -85,7 +85,7 @@ namespace ma
 			m_pBlurYTech->SetValue(m_pBlurYTech->GetUniform("color_weight"),(Vector4*)(&m_color_weightY[0]),m_color_weightY.size() / 4 );
 			m_pBlurYTech->SetValue(m_pBlurYTech->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetY[0]),m_tex_coord_offsetY.size() / 4 );
 
-			ScreenQuad::Render(m_pBlurYTech.get());
+			//ScreenQuad::Render(m_pBlurYTech.get());
 		}
 
 	}

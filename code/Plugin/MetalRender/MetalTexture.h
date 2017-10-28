@@ -14,17 +14,7 @@ namespace ma
 
 		~MetalTexture();
 		
-		//IMetalShaderResourceView* GetShaderResourceView() {return m_pMetalShaderResourceView;}
-		//IMetalShaderResourceView* GetShaderResourceViewSRGBNotEqual();
-
-		//IMetalDepthStencilView* GetDepthStencilView();
-		//void SetDepthStencilView(IMetalDepthStencilView* pView) {m_pDepthStencilView = pView;}
-
-		//IMetalRenderTargetView* GetRenderTargetView(int level = 0, int array_index = 0, int face = 0);
-		//void SetRenderTargetView(IMetalRenderTargetView* pView,int level = 0, int array_index = 0, int face = 0);
-		
 		id<MTLTexture>  GetNative() {return m_native;}
-		//void SetTexture2D(IMetalTexture2D* pTex) {m_pMetalTex2D = pTex;}
 
 		virtual void	CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel);
 

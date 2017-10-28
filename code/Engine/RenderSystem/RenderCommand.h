@@ -12,7 +12,7 @@ namespace ma
 
 		virtual void SetIndexBuffer(IndexBuffer* pIB) = 0;
 
-		virtual	void SetVertexBuffer(int index, VertexBuffer* pVB) = 0;
+		virtual	void SetVertexBuffer(int index, VertexBuffer* pVB, UINT nOffSet) = 0;
 
 		virtual void SetTechnique(Technique* pTech) = 0;
 

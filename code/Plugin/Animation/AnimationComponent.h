@@ -9,6 +9,29 @@ namespace ma
 	class AnimationSet;
 	class BoneSet;
 
+	enum TriggerType
+	{
+		NONE = 0,
+		EXECUTE = 1,
+		STOP = 2,
+		CHANGE = 3,
+	};
+
+	struct AnimTriggerInfo
+	{
+		AnimTriggerInfo()
+		{
+			anim_idx = 0;
+			sk_idx = 0;
+			type = TriggerType::NONE;
+		}
+		UINT anim_idx;
+		UINT sk_idx;
+		Vector2 key;
+		TriggerType type;
+	};
+
+
 	class AnimationComponent : public Component
 	{
 		
@@ -89,6 +112,13 @@ namespace ma
 		Matrix3x4*					m_arrSkinMatrix;
 
 		bool						m_bLoadOver;	
+
+
+// 		std::vector<AnimTriggerInfo> m_trigger_key;
+// 		std::vector<AnimTrigger*> m_trigger_vec;       // 模型动作事件触发列表
+// 		std::vector<AnimatorCallback *> m_callback_vec;
+// 		std::vector<ActiveCallback *> m_active_allback_vec;
+
 
 		CriticalSection				m_csParallelUpdate;	
 	};

@@ -68,6 +68,7 @@ namespace ma
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
 		UINT				GetConstBufferCount(ShaderType eType);
 		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, UINT nIndex);
+		void				ClearConstBuffer(ShaderType eType);
 
 		void				AddSampler(Uniform* pUniform);
 		UINT				GetSamplerCount();

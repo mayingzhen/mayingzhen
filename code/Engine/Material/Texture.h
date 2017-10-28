@@ -42,15 +42,13 @@ namespace ma
 	
 	protected:
 
-		virtual bool	LoadFromImagData(const ImageData& imageData);
+		virtual bool	LoadFromImagData(const ImageData& imageData) = 0;
 		
 		bool			RT_StreamComplete();  
 
 		virtual	bool	RT_CreateCubeTexture() = 0;
 
 		virtual	bool	RT_CreateTexture() = 0;	
-
-		virtual	bool	SetLevelData(int level, int face,const PixelBox& src) = 0;
 
 		virtual bool	GenerateMipmaps() = 0;
 

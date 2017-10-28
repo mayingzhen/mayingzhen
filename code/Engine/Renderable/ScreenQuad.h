@@ -11,7 +11,7 @@ namespace ma
 		
 		static void Shoutdown();
 
-		static void Render(Technique* pTechnique);
+		static void Render(Technique* pTechnique, RenderCommand* pCommand);
 	};
 
 }

@@ -7,7 +7,7 @@ cbuffer ObjectVS : register(b5)
 };
 
 
-textureCUBE skybox_cube_tex : register(t1);
+TextureCube skybox_cube_tex : register(t1);
 SamplerState skybox_sampler : register(s1);
 
 float3 ToDir(int face, float2 xy)

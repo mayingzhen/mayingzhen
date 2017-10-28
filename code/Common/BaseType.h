@@ -13,13 +13,13 @@
 #include <fstream>
 #include <iostream>
 #include <stdarg.h>
-#include <memory.h>
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <memory.h>
 #include <assert.h>
 #include <limits>
+#include <memory>
+
 
 using namespace std;
 

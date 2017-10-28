@@ -1,4 +1,5 @@
 #pragma once
+
 #include "CullTree.h"
 
 namespace ma

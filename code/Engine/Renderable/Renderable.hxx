@@ -29,6 +29,22 @@ namespace ma
  		pTech->Bind();
 	}
 
+	void Renderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)
+	{
+		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
+
+		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
+		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+
+		pRenderCommand->SetTechnique(pTechnique);
+
+		pRenderCommand->SetVertexBuffer(0, this->m_pVertexBuffer.get(), 0);
+
+		pRenderCommand->SetIndexBuffer(this->m_pIndexBuffer.get());
+
+		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, 1, this->m_ePrimitiveType);
+	}
+
 }
 
 
