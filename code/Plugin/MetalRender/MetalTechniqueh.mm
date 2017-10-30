@@ -59,6 +59,12 @@ namespace ma
         
         ds->RT_StreamComplete();
         
+        if (GetInstTech())
+        {
+            GetInstTech()->SetRenderPass(this->GetRenderPass());
+            GetInstTech()->RT_StreamComplete();
+        }
+        
         MetalShaderProgram* pShader = (MetalShaderProgram*)this->GetShaderProgram();
         
         m_pPipline = CreateMetalPipeline(this);
@@ -92,7 +98,7 @@ namespace ma
         for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
         {
             uint32 nIndex = this->GetSamplerByIndex(i)->GetIndex();
-            MetalSamplerStateObject* pSampler = (MetalSamplerStateObject*)m_arrSampler[nIndex];
+            MetalSamplerStateObject* pSampler = (MetalSamplerStateObject*)this->GetActiveSampler(nIndex);
             if (pSampler == NULL)
                 continue;
             

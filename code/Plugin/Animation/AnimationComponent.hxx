@@ -162,8 +162,8 @@ namespace ma
 	}
 
 	void AnimationComponent::PlayAnimation(AnimTreeNode* pAnimation,uint32 nLayerID)
-	{	
-		AutoLock lock(m_csParallelUpdate);
+	{
+        //std::lock_guard<std::mutex> lock(m_csParallelUpdate);
 
 		if (m_arrLayerInfo[nLayerID].m_pPreAnimation == NULL)
 		{
@@ -260,7 +260,7 @@ namespace ma
 
 	bool AnimationComponent::SetAnimation(AnimTreeNode* pAnim,uint32 nLayerID)
 	{
-		AutoLock lock(m_csParallelUpdate);
+		std::lock_guard<std::mutex> lock(m_csParallelUpdate);
 
 		if (m_arrLayerInfo.size() <= nLayerID)
 		{
@@ -284,7 +284,7 @@ namespace ma
 
 	bool AnimationComponent::SetAnimation(uint32 nAnimID,uint32 nLayerID,const char* pszName)
 	{
-		AutoLock lock(m_csParallelUpdate);
+		std::lock_guard<std::mutex> lock(m_csParallelUpdate);
 
 		ASSERT(nAnimID != -1);
 		if (nAnimID == -1)

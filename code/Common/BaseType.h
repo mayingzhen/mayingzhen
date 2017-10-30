@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <limits>
 #include <memory>
+#include <mutex>
 
 
 using namespace std;

@@ -75,6 +75,31 @@ namespace ma
 	VertexDeclaration::~VertexDeclaration()
 	{
 	}
+    
+    UINT VertexDeclaration::GetStreanmStride(UINT nStream) const
+    {
+        if (nStream >= m_arrStreamStride.size())
+            return 0;
+        
+        return m_arrStreamStride[nStream];
+    }
+    
+    UINT VertexDeclaration::GetElementCount(UINT nStream)
+    {
+        if (nStream >= m_arrStreamElement.size())
+            return 0;
+        
+        return (UINT)m_arrStreamElement[nStream].size();
+    }
+    
+    const VertexElement& VertexDeclaration::GetElement(UINT nStream, UINT index)
+    {
+        static VertexElement ve;
+        if (nStream >= m_arrStreamElement.size())
+            return ve;
+        
+        return m_arrStreamElement[nStream][index];
+    }
 
 	void VertexDeclaration::AddElement(const VertexElement& element)
 	{

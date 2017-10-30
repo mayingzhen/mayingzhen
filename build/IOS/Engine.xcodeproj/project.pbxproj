@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B35BB4A1EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S in Sources */ = {isa = PBXBuildFile; fileRef = 6B35BB481EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S */; };
-		6B35BB4B1EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S in Sources */ = {isa = PBXBuildFile; fileRef = 6B35BB491EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S */; };
 		6B3C17D218F2E5CC006AE3BB /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C17B718F2E597006AE3BB /* stdAfx.cpp */; };
 		6B3C17D318F2E5D3006AE3BB /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C175D18F2E596006AE3BB /* Module.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6B19BB411FA6D27E000D2A85 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B19BB3D1FA6D27E000D2A85 /* ZZiplib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C7393ED915CA7C9C00205F7C;
+			remoteInfo = ZZiplib;
+		};
 		6BCB9E951EE1A7AA009FD526 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6BCB9E911EE1A7A4009FD526 /* FreeImage.xcodeproj */;
@@ -36,19 +41,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6B19BB3D1FA6D27E000D2A85 /* ZZiplib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZZiplib.xcodeproj; path = "../../extern/zziplib-0.13.57/ios/ZZiplib.xcodeproj"; sourceTree = "<group>"; };
 		6B2FE2001EE5648700A9CAAB /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		6B2FE2011EE5648700A9CAAB /* Engine.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Engine.hxx; sourceTree = "<group>"; };
 		6B2FE2021EE5648700A9CAAB /* Export.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Export.def; sourceTree = "<group>"; };
-		6B35BB0D1EE50F9C00C8B936 /* fcontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fcontext.h; sourceTree = "<group>"; };
-		6B35BB3E1EE5139B00C8B936 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		6B35BB3F1EE5139B00C8B936 /* fiber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fiber.h; sourceTree = "<group>"; };
-		6B35BB481EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = jump_arm_aapcs_macho_gas.S; sourceTree = "<group>"; };
-		6B35BB491EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = make_arm_aapcs_macho_gas.S; sourceTree = "<group>"; };
-		6B3C175818F2E596006AE3BB /* AndroidInputInjector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AndroidInputInjector.h; sourceTree = "<group>"; };
-		6B3C175918F2E596006AE3BB /* AndroidInputInjector.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AndroidInputInjector.hxx; sourceTree = "<group>"; };
-		6B3C175A18F2E596006AE3BB /* Gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gesture.h; sourceTree = "<group>"; };
-		6B3C175B18F2E596006AE3BB /* Input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
-		6B3C175C18F2E596006AE3BB /* Input.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Input.hxx; sourceTree = "<group>"; };
 		6B3C175D18F2E596006AE3BB /* Module.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
 		6B3C175E18F2E596006AE3BB /* Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
 		6B3C176F18F2E597006AE3BB /* CodeTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeTimer.h; sourceTree = "<group>"; };
@@ -311,56 +307,6 @@
 		6BDDCF751ED0461D00C3553A /* TerrainRenderable.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TerrainRenderable.hxx; sourceTree = "<group>"; };
 		6BDDCF761ED0461D00C3553A /* TerrainTrunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainTrunk.h; sourceTree = "<group>"; };
 		6BDDCF771ED0461D00C3553A /* TerrainTrunk.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TerrainTrunk.hxx; sourceTree = "<group>"; };
-		6BDDCF791ED0461D00C3553A /* MTAppInterop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAppInterop.h; sourceTree = "<group>"; };
-		6BDDCF7A1ED0461D00C3553A /* MTArrayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTArrayView.h; sourceTree = "<group>"; };
-		6BDDCF7B1ED0461D00C3553A /* MTAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAtomic.h; sourceTree = "<group>"; };
-		6BDDCF7C1ED0461D00C3553A /* MTColorTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTColorTable.h; sourceTree = "<group>"; };
-		6BDDCF7D1ED0461D00C3553A /* MTConcurrentRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTConcurrentRingBuffer.h; sourceTree = "<group>"; };
-		6BDDCF7E1ED0461D00C3553A /* MTConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTConfig.h; sourceTree = "<group>"; };
-		6BDDCF7F1ED0461D00C3553A /* MTDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTDebug.h; sourceTree = "<group>"; };
-		6BDDCF801ED0461D00C3553A /* MTDefaultAppInterop.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MTDefaultAppInterop.hxx; sourceTree = "<group>"; };
-		6BDDCF811ED0461D00C3553A /* MTFiberContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFiberContext.h; sourceTree = "<group>"; };
-		6BDDCF821ED0461D00C3553A /* MTFiberContext.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MTFiberContext.hxx; sourceTree = "<group>"; };
-		6BDDCF831ED0461D00C3553A /* MTFiberContext.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MTFiberContext.inl; sourceTree = "<group>"; };
-		6BDDCF841ED0461D00C3553A /* MTGroupedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTGroupedTask.h; sourceTree = "<group>"; };
-		6BDDCF851ED0461D00C3553A /* MTPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPlatform.h; sourceTree = "<group>"; };
-		6BDDCF861ED0461D00C3553A /* MTProfilerEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTProfilerEventListener.h; sourceTree = "<group>"; };
-		6BDDCF871ED0461D00C3553A /* MTQueueMPMC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTQueueMPMC.h; sourceTree = "<group>"; };
-		6BDDCF881ED0461D00C3553A /* MTScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTScheduler.h; sourceTree = "<group>"; };
-		6BDDCF891ED0461D00C3553A /* MTScheduler.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MTScheduler.hxx; sourceTree = "<group>"; };
-		6BDDCF8A1ED0461D00C3553A /* MTScheduler.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MTScheduler.inl; sourceTree = "<group>"; };
-		6BDDCF8B1ED0461D00C3553A /* MTScopes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTScopes.h; sourceTree = "<group>"; };
-		6BDDCF8C1ED0461D00C3553A /* MTStackRequirements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStackRequirements.h; sourceTree = "<group>"; };
-		6BDDCF8D1ED0461D00C3553A /* MTStaticVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStaticVector.h; sourceTree = "<group>"; };
-		6BDDCF8E1ED0461D00C3553A /* MTTaskBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTaskBucket.h; sourceTree = "<group>"; };
-		6BDDCF8F1ED0461D00C3553A /* MTTaskDesc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTaskDesc.h; sourceTree = "<group>"; };
-		6BDDCF901ED0461D00C3553A /* MTTaskGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTaskGroup.h; sourceTree = "<group>"; };
-		6BDDCF911ED0461D00C3553A /* MTTaskPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTaskPool.h; sourceTree = "<group>"; };
-		6BDDCF921ED0461D00C3553A /* MTTaskQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTaskQueue.h; sourceTree = "<group>"; };
-		6BDDCF931ED0461D00C3553A /* MTThreadContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTThreadContext.h; sourceTree = "<group>"; };
-		6BDDCF941ED0461D00C3553A /* MTThreadContext.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MTThreadContext.hxx; sourceTree = "<group>"; };
-		6BDDCF951ED0461D00C3553A /* MTTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTools.h; sourceTree = "<group>"; };
-		6BDDCF961ED0461D00C3553A /* MTTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTypes.h; sourceTree = "<group>"; };
-		6BDDCF991ED0461D00C3553A /* MTAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAtomic.h; sourceTree = "<group>"; };
-		6BDDCF9A1ED0461D00C3553A /* MTSpinWait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTSpinWait.h; sourceTree = "<group>"; };
-		6BDDCF9B1ED0461D00C3553A /* MTThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTThread.h; sourceTree = "<group>"; };
-		6BDDCF9D1ED0461D00C3553A /* MTAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAtomic.h; sourceTree = "<group>"; };
-		6BDDCF9E1ED0461D00C3553A /* MTCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCommon.h; sourceTree = "<group>"; };
-		6BDDCF9F1ED0461D00C3553A /* MTEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTEvent.h; sourceTree = "<group>"; };
-		6BDDCFA11ED0461D00C3553A /* MTMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMemory.h; sourceTree = "<group>"; };
-		6BDDCFA21ED0461D00C3553A /* MTMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMutex.h; sourceTree = "<group>"; };
-		6BDDCFA31ED0461D00C3553A /* MTThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTThread.h; sourceTree = "<group>"; };
-		6BDDCFA41ED0461D00C3553A /* MTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUtils.h; sourceTree = "<group>"; };
-		6BDDCFA61ED0461D00C3553A /* MicroWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicroWindows.h; sourceTree = "<group>"; };
-		6BDDCFA71ED0461D00C3553A /* MicroWindows.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MicroWindows.hxx; sourceTree = "<group>"; };
-		6BDDCFA81ED0461D00C3553A /* MTAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAtomic.h; sourceTree = "<group>"; };
-		6BDDCFA91ED0461D00C3553A /* MTCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCommon.h; sourceTree = "<group>"; };
-		6BDDCFAA1ED0461D00C3553A /* MTEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTEvent.h; sourceTree = "<group>"; };
-		6BDDCFAE1ED0461D00C3553A /* MTMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMemory.h; sourceTree = "<group>"; };
-		6BDDCFAF1ED0461D00C3553A /* MTMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMutex.h; sourceTree = "<group>"; };
-		6BDDCFB01ED0461D00C3553A /* MTThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTThread.h; sourceTree = "<group>"; };
-		6BDDCFB11ED0461D00C3553A /* MTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUtils.h; sourceTree = "<group>"; };
-		6BDDCFB31ED0461D00C3553A /* MTScopes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTScopes.h; sourceTree = "<group>"; };
 		6BDDCFB51ED0461D00C3553A /* AtomicOps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomicOps.h; sourceTree = "<group>"; };
 		6BDDCFB61ED0461D00C3553A /* AutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLock.h; sourceTree = "<group>"; };
 		6BDDCFB71ED0461D00C3553A /* JobScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobScheduler.h; sourceTree = "<group>"; };
@@ -395,22 +341,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6B35BADA1EE50F9C00C8B936 /* boost_context */ = {
+		6B19BB3E1FA6D27E000D2A85 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B35BADB1EE50F9C00C8B936 /* asm */,
-				6B35BB0D1EE50F9C00C8B936 /* fcontext.h */,
+				6B19BB421FA6D27E000D2A85 /* libZZiplib.a */,
 			);
-			path = boost_context;
-			sourceTree = "<group>";
-		};
-		6B35BADB1EE50F9C00C8B936 /* asm */ = {
-			isa = PBXGroup;
-			children = (
-				6B35BB481EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S */,
-				6B35BB491EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S */,
-			);
-			path = asm;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		6B3C173718F2E596006AE3BB /* Engine */ = {
@@ -427,11 +363,9 @@
 				6BDDCF221ED0461D00C3553A /* Resource */,
 				6BDDCF411ED0461D00C3553A /* RTTI */,
 				6BDDCF4C1ED0461D00C3553A /* Scene */,
-				6BDDCF781ED0461D00C3553A /* TaskScheduler */,
 				6BDDCFB41ED0461D00C3553A /* Thread */,
 				6BDDCFC71ED0461D00C3553A /* Time */,
 				6BDDCEAE1ED045EB00C3553A /* ImageData */,
-				6B3C175718F2E596006AE3BB /* Input */,
 				6B3C175D18F2E596006AE3BB /* Module.cpp */,
 				6B3C175E18F2E596006AE3BB /* Module.h */,
 				6B3C176E18F2E596006AE3BB /* Profile */,
@@ -447,18 +381,6 @@
 			);
 			name = Engine;
 			path = ../../code/Engine;
-			sourceTree = "<group>";
-		};
-		6B3C175718F2E596006AE3BB /* Input */ = {
-			isa = PBXGroup;
-			children = (
-				6B3C175818F2E596006AE3BB /* AndroidInputInjector.h */,
-				6B3C175918F2E596006AE3BB /* AndroidInputInjector.hxx */,
-				6B3C175A18F2E596006AE3BB /* Gesture.h */,
-				6B3C175B18F2E596006AE3BB /* Input.h */,
-				6B3C175C18F2E596006AE3BB /* Input.hxx */,
-			);
-			path = Input;
 			sourceTree = "<group>";
 		};
 		6B3C176E18F2E596006AE3BB /* Profile */ = {
@@ -877,106 +799,6 @@
 			path = Terrain;
 			sourceTree = "<group>";
 		};
-		6BDDCF781ED0461D00C3553A /* TaskScheduler */ = {
-			isa = PBXGroup;
-			children = (
-				6B35BB3E1EE5139B00C8B936 /* config.h */,
-				6B35BB3F1EE5139B00C8B936 /* fiber.h */,
-				6B35BADA1EE50F9C00C8B936 /* boost_context */,
-				6BDDCF791ED0461D00C3553A /* MTAppInterop.h */,
-				6BDDCF7A1ED0461D00C3553A /* MTArrayView.h */,
-				6BDDCF7B1ED0461D00C3553A /* MTAtomic.h */,
-				6BDDCF7C1ED0461D00C3553A /* MTColorTable.h */,
-				6BDDCF7D1ED0461D00C3553A /* MTConcurrentRingBuffer.h */,
-				6BDDCF7E1ED0461D00C3553A /* MTConfig.h */,
-				6BDDCF7F1ED0461D00C3553A /* MTDebug.h */,
-				6BDDCF801ED0461D00C3553A /* MTDefaultAppInterop.hxx */,
-				6BDDCF811ED0461D00C3553A /* MTFiberContext.h */,
-				6BDDCF821ED0461D00C3553A /* MTFiberContext.hxx */,
-				6BDDCF831ED0461D00C3553A /* MTFiberContext.inl */,
-				6BDDCF841ED0461D00C3553A /* MTGroupedTask.h */,
-				6BDDCF851ED0461D00C3553A /* MTPlatform.h */,
-				6BDDCF861ED0461D00C3553A /* MTProfilerEventListener.h */,
-				6BDDCF871ED0461D00C3553A /* MTQueueMPMC.h */,
-				6BDDCF881ED0461D00C3553A /* MTScheduler.h */,
-				6BDDCF891ED0461D00C3553A /* MTScheduler.hxx */,
-				6BDDCF8A1ED0461D00C3553A /* MTScheduler.inl */,
-				6BDDCF8B1ED0461D00C3553A /* MTScopes.h */,
-				6BDDCF8C1ED0461D00C3553A /* MTStackRequirements.h */,
-				6BDDCF8D1ED0461D00C3553A /* MTStaticVector.h */,
-				6BDDCF8E1ED0461D00C3553A /* MTTaskBucket.h */,
-				6BDDCF8F1ED0461D00C3553A /* MTTaskDesc.h */,
-				6BDDCF901ED0461D00C3553A /* MTTaskGroup.h */,
-				6BDDCF911ED0461D00C3553A /* MTTaskPool.h */,
-				6BDDCF921ED0461D00C3553A /* MTTaskQueue.h */,
-				6BDDCF931ED0461D00C3553A /* MTThreadContext.h */,
-				6BDDCF941ED0461D00C3553A /* MTThreadContext.hxx */,
-				6BDDCF951ED0461D00C3553A /* MTTools.h */,
-				6BDDCF961ED0461D00C3553A /* MTTypes.h */,
-				6BDDCF971ED0461D00C3553A /* Platform */,
-				6BDDCFB21ED0461D00C3553A /* Scopes */,
-			);
-			path = TaskScheduler;
-			sourceTree = "<group>";
-		};
-		6BDDCF971ED0461D00C3553A /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				6BDDCF981ED0461D00C3553A /* Common */,
-				6BDDCF9C1ED0461D00C3553A /* Posix */,
-				6BDDCFA51ED0461D00C3553A /* Windows */,
-			);
-			path = Platform;
-			sourceTree = "<group>";
-		};
-		6BDDCF981ED0461D00C3553A /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				6BDDCF991ED0461D00C3553A /* MTAtomic.h */,
-				6BDDCF9A1ED0461D00C3553A /* MTSpinWait.h */,
-				6BDDCF9B1ED0461D00C3553A /* MTThread.h */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		6BDDCF9C1ED0461D00C3553A /* Posix */ = {
-			isa = PBXGroup;
-			children = (
-				6BDDCF9D1ED0461D00C3553A /* MTAtomic.h */,
-				6BDDCF9E1ED0461D00C3553A /* MTCommon.h */,
-				6BDDCF9F1ED0461D00C3553A /* MTEvent.h */,
-				6BDDCFA11ED0461D00C3553A /* MTMemory.h */,
-				6BDDCFA21ED0461D00C3553A /* MTMutex.h */,
-				6BDDCFA31ED0461D00C3553A /* MTThread.h */,
-				6BDDCFA41ED0461D00C3553A /* MTUtils.h */,
-			);
-			path = Posix;
-			sourceTree = "<group>";
-		};
-		6BDDCFA51ED0461D00C3553A /* Windows */ = {
-			isa = PBXGroup;
-			children = (
-				6BDDCFA61ED0461D00C3553A /* MicroWindows.h */,
-				6BDDCFA71ED0461D00C3553A /* MicroWindows.hxx */,
-				6BDDCFA81ED0461D00C3553A /* MTAtomic.h */,
-				6BDDCFA91ED0461D00C3553A /* MTCommon.h */,
-				6BDDCFAA1ED0461D00C3553A /* MTEvent.h */,
-				6BDDCFAE1ED0461D00C3553A /* MTMemory.h */,
-				6BDDCFAF1ED0461D00C3553A /* MTMutex.h */,
-				6BDDCFB01ED0461D00C3553A /* MTThread.h */,
-				6BDDCFB11ED0461D00C3553A /* MTUtils.h */,
-			);
-			path = Windows;
-			sourceTree = "<group>";
-		};
-		6BDDCFB21ED0461D00C3553A /* Scopes */ = {
-			isa = PBXGroup;
-			children = (
-				6BDDCFB31ED0461D00C3553A /* MTScopes.h */,
-			);
-			path = Scopes;
-			sourceTree = "<group>";
-		};
 		6BDDCFB41ED0461D00C3553A /* Thread */ = {
 			isa = PBXGroup;
 			children = (
@@ -1030,6 +852,7 @@
 		6FA78D5717943026005B3CD6 = {
 			isa = PBXGroup;
 			children = (
+				6B19BB3D1FA6D27E000D2A85 /* ZZiplib.xcodeproj */,
 				6BCB9E911EE1A7A4009FD526 /* FreeImage.xcodeproj */,
 				6B3C173718F2E596006AE3BB /* Engine */,
 				6FA78D6117943026005B3CD6 /* Products */,
@@ -1088,6 +911,10 @@
 					ProductGroup = 6BCB9E921EE1A7A4009FD526 /* Products */;
 					ProjectRef = 6BCB9E911EE1A7A4009FD526 /* FreeImage.xcodeproj */;
 				},
+				{
+					ProductGroup = 6B19BB3E1FA6D27E000D2A85 /* Products */;
+					ProjectRef = 6B19BB3D1FA6D27E000D2A85 /* ZZiplib.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1097,6 +924,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		6B19BB421FA6D27E000D2A85 /* libZZiplib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libZZiplib.a;
+			remoteRef = 6B19BB411FA6D27E000D2A85 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		6BCB9E961EE1A7AA009FD526 /* libFreeImage.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1111,8 +945,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B35BB4B1EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S in Sources */,
-				6B35BB4A1EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S in Sources */,
 				6B3C17D318F2E5D3006AE3BB /* Module.cpp in Sources */,
 				6B3C17D218F2E5CC006AE3BB /* stdAfx.cpp in Sources */,
 			);
@@ -1180,6 +1012,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/Engine.dst;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/Engine/stdAfx.h;
 				HEADER_SEARCH_PATHS = (
@@ -1190,13 +1023,13 @@
 					"../../extern/FreeImage-3.13.1/Source",
 					../../code/Engine/TaskScheduler,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 ";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -1207,6 +1040,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/Engine.dst;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/Engine/stdAfx.h;
 				HEADER_SEARCH_PATHS = (
@@ -1217,13 +1051,13 @@
 					"../../extern/FreeImage-3.13.1/Source",
 					../../code/Engine/TaskScheduler,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 ";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};

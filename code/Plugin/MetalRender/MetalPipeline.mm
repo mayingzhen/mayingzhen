@@ -35,7 +35,7 @@ namespace ma
         
         MetalRenderPass* pRenderPass = (MetalRenderPass*)pTech->GetRenderPass();
         
-        MetalBlendStateObject* pBlendState = (MetalBlendStateObject*)pTech->GetBlendState();
+        //MetalBlendStateObject* pBlendState = (MetalBlendStateObject*)pTech->GetBlendState();
         
         //  create a reusable pipeline state
         MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];

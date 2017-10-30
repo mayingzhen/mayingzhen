@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void	ThreadLoop() = 0;
 
-		UINT			GetThreadId();
+		size_t			GetThreadId();
 
 	private:
 		void			SetName(const char* pszName);
@@ -31,9 +31,9 @@ namespace ma
 	};
 
 
-	inline UINT GetCurrentThreadId()
+	inline size_t GetCurrentThreadId()
 	{
-		return UINT(pthread_self());
+		return size_t(pthread_self());
 	}
 }
 

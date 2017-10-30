@@ -202,7 +202,7 @@ namespace ma
 		}
 
 		//
-		bool bFindChildVisible = (visiblity == Frustum::Visibility_FULL);
+		//bool bFindChildVisible = (visiblity == Frustum::Visibility_FULL);
 		OctreeNode* pChild = NULL;
 		if ((pChild = pNode->m_rgChildren[0][0][0]) != NULL)
 		{

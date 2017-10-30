@@ -353,6 +353,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/MetalRender.dst;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/plugin/MetalRender/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -362,17 +363,17 @@
 					../../extern/oisinput/include/,
 					../../extern/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
 					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -383,6 +384,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/MetalRender.dst;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/plugin/MetalRender/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -392,17 +394,17 @@
 					../../extern/oisinput/include/,
 					../../extern/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
 					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};

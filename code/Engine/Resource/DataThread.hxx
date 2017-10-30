@@ -27,36 +27,36 @@ namespace ma
 
 			while (true)
 			{
-				m_csRequestQueue.Lock();
+				m_csRequestQueue.lock();
 				if ( m_queUnloaded.empty() )
 				{
-					m_csRequestQueue.Unlock();
+					m_csRequestQueue.unlock();
 					break;
 				}
 				RefPtr<Resource> resData = m_queUnloaded.front();
 				m_queUnloaded.pop_front();
-				m_csRequestQueue.Unlock();
+				m_csRequestQueue.unlock();
 
 				resData->LoadFileToMemeory();
 
 				LogInfo("resData->LoadFileToMemeory %s", resData->GetResPath());
 
-				m_csLoadedQueue.Lock();
+				m_csLoadedQueue.lock();
 				m_queLoaded.push_back(resData);
-				m_csLoadedQueue.Unlock();
+				m_csLoadedQueue.unlock();
 			}
 		}
 	}
 
 	void DataThread::Process()
 	{	
-		UINT dTime = StaticFunc::GetTime();
+		//UINT dTime = StaticFunc::GetTime();
 		while (true)
 		{
-			m_csLoadedQueue.Lock();
+			m_csLoadedQueue.lock();
 			if (m_queLoaded.empty())
 			{
-				m_csLoadedQueue.Unlock();
+				m_csLoadedQueue.unlock();
 				break;
 			}
 
@@ -66,15 +66,15 @@ namespace ma
 			{
 				m_queLoaded.pop_front();
 			}
-			m_csLoadedQueue.Unlock();	
+			m_csLoadedQueue.unlock();	
 		}
 	}
 
 	void DataThread::PushBackDataObj(Resource* pObj)
 	{
-		m_csRequestQueue.Lock();
+		m_csRequestQueue.lock();
 		m_queUnloaded.push_back(pObj);
-		m_csRequestQueue.Unlock();
+		m_csRequestQueue.unlock();
 
 		m_readEvent.Signal();
 	}

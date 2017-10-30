@@ -42,11 +42,11 @@ namespace ma
 
 		void					AddElement(const VertexElement& element);
 
-		UINT					GetStreanmStride(UINT nStream) const {return m_arrStreamStride[nStream];}
+        UINT					GetStreanmStride(UINT nStream) const;
 		
-		UINT					GetElementCount(UINT nStream) { return m_arrStreamElement[nStream].size(); }
+        UINT					GetElementCount(UINT nStream);
 		
-		const VertexElement&	GetElement(UINT nStream, UINT index) { return m_arrStreamElement[nStream][index]; }
+        const VertexElement&	GetElement(UINT nStream, UINT index);
 		
 		uint64					GetHash();
 

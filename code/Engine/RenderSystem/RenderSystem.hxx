@@ -366,40 +366,6 @@ namespace ma
 		return GetRenderDevice()->GetDefaultRenderPass();
 	}
 	
-// 	void RenderSystem::SetShaderProgram(ShaderProgram* pShader)
-// 	{
-// 		if (m_pCurShader != pShader)
-// 		{
-// 			m_pCurShader = pShader;
-// 			m_pRenderThread->RC_SetShaderProgram(pShader);
-// 		}
-// 	}
-// 
-// 	void RenderSystem::SetBlendState(const BlendState* pBlendState)
-// 	{
-// 		m_pRenderThread->RC_SetBlendState(pBlendState);
-// 	}
-// 
-// 	void RenderSystem::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
-// 	{
-// 		m_pRenderThread->RC_SetDepthStencilState(pDSState, nStencilRef);
-// 	}
-// 
-// 	void RenderSystem::SetVertexDeclaration(const VertexDeclaration* pVertexDecl)
-// 	{
-// 		m_pRenderThread->RC_SetVertexDeclation(pVertexDecl);
-// 	}
-// 
-// 	void RenderSystem::SetRasterizerState(const RasterizerState* pRSState)
-// 	{
-// 		m_pRenderThread->RC_SetRasterizerState(pRSState);
-// 	}
-// 
-// 	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
-// 	{
-// 		m_pRenderThread->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
-// 	}
-
 	void RenderSystem::TechniqueStreamComplete(Technique* pTech)
 	{
 		m_pRenderThread->RC_TechniqueStreamComplete(pTech);

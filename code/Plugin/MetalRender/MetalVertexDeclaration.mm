@@ -18,6 +18,9 @@ namespace ma
         m_descriptor = nil;
 	}
 
+#define VERTEX_BUFFER_BIND_ID 0
+#define INSTANCE_BUFFER_BIND_ID 1
+    
 	void MetalVertexDeclaration::RT_StreamComplete()
 	{
         if (m_descriptor != nil)
@@ -25,20 +28,34 @@ namespace ma
         
         m_descriptor = [[MTLVertexDescriptor alloc] init];
         
-        for (int i = 0; i < this->GetElementCount(); ++i)
+        for (int i = 0; i < this->GetElementCount(VERTEX_BUFFER_BIND_ID); ++i)
         {
-            const VertexElement& element = this->GetElement(i);
+            const VertexElement& element = this->GetElement(VERTEX_BUFFER_BIND_ID,i);
             
             MTLVertexAttributeDescriptor* attr = m_descriptor.attributes[i];
             attr.offset = element.Offset;
-            attr.bufferIndex = 0;
+            attr.bufferIndex = VERTEX_BUFFER_BIND_ID;
             attr.format = MetalMapping::GetDeclType(element.Type);
-            
         }
         
-        m_descriptor.layouts[0].stride = this->GetStreanmStride();
-        m_descriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
+        m_descriptor.layouts[VERTEX_BUFFER_BIND_ID].stride = this->GetStreanmStride(VERTEX_BUFFER_BIND_ID);
+        m_descriptor.layouts[VERTEX_BUFFER_BIND_ID].stepFunction = MTLVertexStepFunctionPerVertex;
         
+        if (this->GetElementCount(INSTANCE_BUFFER_BIND_ID) > 0)
+        {
+            for (UINT i = 0; i < this->GetElementCount(INSTANCE_BUFFER_BIND_ID); ++i)
+            {
+                const VertexElement& element = this->GetElement(INSTANCE_BUFFER_BIND_ID,i);
+                
+                MTLVertexAttributeDescriptor* attr = m_descriptor.attributes[i + this->GetElementCount(VERTEX_BUFFER_BIND_ID)];
+                attr.offset = element.Offset;
+                attr.bufferIndex = INSTANCE_BUFFER_BIND_ID;
+                attr.format = MetalMapping::GetDeclType(element.Type);
+            }
+        
+            m_descriptor.layouts[INSTANCE_BUFFER_BIND_ID].stride = this->GetStreanmStride(INSTANCE_BUFFER_BIND_ID);
+            m_descriptor.layouts[INSTANCE_BUFFER_BIND_ID].stepFunction = MTLVertexStepFunctionPerInstance;
+        }
 	}
 
 	void MetalVertexDeclaration::Clear()

@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B19BB431FA6D2AF000D2A85 /* libZZiplib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B19BB441FA6D2AF000D2A85 /* libZZiplib.a */; };
 		6B3C172B18F2E2C6006AE3BB /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3C172A18F2E2C6006AE3BB /* libEngine.a */; };
 		6B9A333B1EEE8FF600C11B43 /* libMetalRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B38673D1EE01900000B6D7A /* libMetalRender.a */; };
 		6BBDAEF518E3F2440041D433 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF418E3F2440041D433 /* libAnimation.a */; };
 		6BBDAEF718E3F24A0041D433 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF618E3F24A0041D433 /* libApplication.a */; };
 		6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFA18E3F2590041D433 /* libCommon.a */; };
 		6BBDAEFD18E3F2640041D433 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */; };
-		6BBDAF0118E3F2760041D433 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAF0018E3F2760041D433 /* libGLESRender.a */; };
 		6BCB9E981EE1AA2E009FD526 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCB9E971EE1AA2E009FD526 /* Metal.framework */; };
 		6BDDD7461ED1816400C3553A /* libFreeImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7441ED1816400C3553A /* libFreeImage.a */; };
-		6BDDD7471ED1816400C3553A /* libZZiplib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7451ED1816400C3553A /* libZZiplib.a */; };
 		6BDDD74B1ED1818D00C3553A /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7481ED1818D00C3553A /* libBulletCollision.a */; };
 		6BDDD74C1ED1818D00C3553A /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7491ED1818D00C3553A /* libBulletDynamics.a */; };
 		6BDDD74D1ED1818D00C3553A /* libLinerMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD74A1ED1818D00C3553A /* libLinerMath.a */; };
@@ -33,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B19BB441FA6D2AF000D2A85 /* libZZiplib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libZZiplib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B2FE1F91EE5601300A9CAAB /* SampleIBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleIBL.h; sourceTree = "<group>"; };
 		6B2FE1FA1EE5601300A9CAAB /* SampleIBL.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleIBL.hxx; sourceTree = "<group>"; };
 		6B2FE1FB1EE5601300A9CAAB /* SampleMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMaterial.h; sourceTree = "<group>"; };
@@ -90,15 +90,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B19BB431FA6D2AF000D2A85 /* libZZiplib.a in Frameworks */,
 				6B9A333B1EEE8FF600C11B43 /* libMetalRender.a in Frameworks */,
 				6BCB9E981EE1AA2E009FD526 /* Metal.framework in Frameworks */,
 				6BDDD74B1ED1818D00C3553A /* libBulletCollision.a in Frameworks */,
 				6BDDD74C1ED1818D00C3553A /* libBulletDynamics.a in Frameworks */,
 				6BDDD74D1ED1818D00C3553A /* libLinerMath.a in Frameworks */,
 				6BDDD7461ED1816400C3553A /* libFreeImage.a in Frameworks */,
-				6BDDD7471ED1816400C3553A /* libZZiplib.a in Frameworks */,
 				6B3C172B18F2E2C6006AE3BB /* libEngine.a in Frameworks */,
-				6BBDAF0118E3F2760041D433 /* libGLESRender.a in Frameworks */,
 				6BBDAEFD18E3F2640041D433 /* libBulletPhysics.a in Frameworks */,
 				6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */,
 				6BBDAEF718E3F24A0041D433 /* libApplication.a in Frameworks */,
@@ -144,6 +143,7 @@
 		6FDF1A7717951DA5005C7E62 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B19BB441FA6D2AF000D2A85 /* libZZiplib.a */,
 				6BCB9E971EE1AA2E009FD526 /* Metal.framework */,
 				6B38673D1EE01900000B6D7A /* libMetalRender.a */,
 				6BDDD7481ED1818D00C3553A /* libBulletCollision.a */,
@@ -182,7 +182,6 @@
 				6FDF1AA317951DF3005C7E62 /* Render */,
 				6FDF1AAC17951DF3005C7E62 /* Script */,
 				6FDF1AB017951DF3005C7E62 /* Serialize */,
-				6FDF1AB717951DF3005C7E62 /* UI */,
 			);
 			name = Samples;
 			path = ../../../code/Samples;
@@ -243,13 +242,6 @@
 				6FDF1AB417951DF3005C7E62 /* SampleSceneSerialize.hxx */,
 			);
 			path = Serialize;
-			sourceTree = "<group>";
-		};
-		6FDF1AB717951DF3005C7E62 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -392,6 +384,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = FP5W969CE8;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -402,19 +395,19 @@
 					"../../../extern/Bullet-2.82/src",
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = (
 					"../../../extern/IOSBuildLibs/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					../lib/,
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ma.SampleBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 2;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -427,6 +420,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = FP5W969CE8;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -437,19 +431,19 @@
 					"../../../extern/Bullet-2.82/src",
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = (
 					"../../../extern/IOSBuildLibs/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					../lib/,
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ma.SampleBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 2;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

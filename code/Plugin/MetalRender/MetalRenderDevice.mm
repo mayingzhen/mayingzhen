@@ -191,6 +191,7 @@ namespace ma
         {
             MTLPixelFormat pixelFormat = MTLPixelFormatDepth32Float;
             MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:pixelFormat width:width height:height mipmapped: NO];
+            desc.usage = MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget;
             desc.textureType = MTLTextureType2D;
             desc.sampleCount = 1;
             pass_desc.depthAttachment.texture = [[m_device newTextureWithDescriptor:desc] autorelease];
@@ -230,66 +231,6 @@ namespace ma
 
 	bool MetalRenderDevice::UpdateSwapChain(int width, int height)
 	{
-        /*
-		IMetalRenderTargetView* defaultRenderTargetView;
-
-		IMetalTexture2D* defaultDepthTexture;
-		IMetalDepthStencilView* defaultDepthStencilView;
-
-		m_pSwapChain->ResizeBuffers(1, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-
-		// Create default rendertarget view representing the backbuffer
-		IMetalTexture2D* backbufferTexture;
-		m_pSwapChain->GetBuffer(0, IID_IMetalTexture2D, (void**)&backbufferTexture);
-		if (backbufferTexture)
-		{
-			m_pD3DDevice->CreateRenderTargetView(backbufferTexture, 0, &defaultRenderTargetView);
-			backbufferTexture->Release();
-		}
-		else
-		{
-			LogError("Failed to get backbuffer texture");
-			return false;
-		}
-
-		// Create default depth-stencil texture and view
-		Metal_TEXTURE2D_DESC depthDesc;
-		memset(&depthDesc, 0, sizeof depthDesc);
-		depthDesc.Width = (UINT)width;
-		depthDesc.Height = (UINT)height;
-		depthDesc.MipLevels = 1;
-		depthDesc.ArraySize = 1;
-		depthDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		//depthDesc.SampleDesc.Count = (UINT)1/*multiSample_;
-		//depthDesc.SampleDesc.Quality = 1/*multiSample_ > 1 ? 0xffffffff : 0;
-		depthDesc.Usage = Metal_USAGE_DEFAULT;
-		depthDesc.BindFlags = Metal_BIND_DEPTH_STENCIL;
-		depthDesc.CPUAccessFlags = 0;
-		depthDesc.MiscFlags = 0;
-		m_pD3DDevice->CreateTexture2D(&depthDesc, 0, &defaultDepthTexture);
-		if (defaultDepthTexture)
-		{
-			m_pD3DDevice->CreateDepthStencilView(defaultDepthTexture, 0, &defaultDepthStencilView);
-		}
-		else
-		{
-			LogError("Failed to create backbuffer depth-stencil texture");
-			return false;
-		}
-
-		m_pDepthStencil = defaultDepthStencilView;
-		m_pRenderTarget[0] = defaultRenderTargetView;
-
-		m_pDefaultRenderTargetTexture = new MetalTexture();
-		m_pDefaultRenderTargetTexture->SetRenderTargetView(defaultRenderTargetView);
-	
-		m_pDefaultDepthStencilTexture = new MetalTexture();
-		m_pDefaultDepthStencilTexture->SetDepthStencilView(defaultDepthStencilView);
-		m_pDefaultDepthStencilTexture->SetTexture2D(defaultDepthTexture);	
-
-		SetViewport(Rectangle(0, 0, (float)width, (float)height));
-        */
-
 		return true;
 	}
 	

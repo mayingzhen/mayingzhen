@@ -9,7 +9,7 @@ namespace ma
 		~UniformAnimation();
 
 		void AddKeyFrame(int nKeyFrame, const Any& any);
-		int GetNumKeyFrames() const{return m_mapKeyFrame.size();}
+		UINT GetNumKeyFrames() const{return (UINT)m_mapKeyFrame.size();}
 		std::pair<int, const Any*> GetKeyFrameByIndex(int n) const;
 
 		void BuildFrames();

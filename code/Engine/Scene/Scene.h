@@ -59,7 +59,7 @@ namespace ma
 
 		RenderScheme*			GetRenderScheme() const { return m_pRenderScheme.get(); }
 
-		UINT					GetVisibleNodeNum() const {return m_arrRenderComp.size();}
+		UINT					GetVisibleNodeNum() const {return (UINT)m_arrRenderComp.size();}
 		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index].get();}
 
 		RenderQueue*			GetRenderQueue();
@@ -76,7 +76,7 @@ namespace ma
 		void					AddParallelUpdate(Component* pComponent);
 		void					AddParallelShow(Component* pComponent);
 
-		UINT					GetVisibleLightNum() const {return m_vecRenderLight.size();}
+		UINT					GetVisibleLightNum() const {return (UINT)m_vecRenderLight.size();}
 		Light*					GetVisibleLightByIndex(UINT index) {return m_vecRenderLight[index].get();}
 
 		const Vector3&			GetAmbientColor() const{return m_cAmbientColor;}

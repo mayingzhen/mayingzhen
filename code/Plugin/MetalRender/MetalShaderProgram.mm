@@ -62,6 +62,7 @@ namespace ma
             m_pVertexShader = [library newFunctionWithName:@"main0"];
             ASSERT(m_pVertexShader);
         
+            /*
             if (m_pVertexShader.vertexAttributes != nil)
             {
                 for(MTLVertexAttribute * mtlAttr in m_pVertexShader.vertexAttributes)
@@ -76,6 +77,7 @@ namespace ma
                     }
                 }
             }
+             */
         }
 
 
@@ -112,8 +114,8 @@ namespace ma
                 
                 RefPtr<MetalConstantBuffer> pConstantBuffer = new MetalConstantBuffer();
                 pConstantBuffer->SetName(arg.name.UTF8String);
-                pConstantBuffer->SetBound(arg.index);
-                pConstantBuffer->SetSize(arg.bufferDataSize);
+                pConstantBuffer->SetBound((UINT)arg.index);
+                pConstantBuffer->SetSize((UINT)arg.bufferDataSize);
                 this->AddConstBuffer(VS, pConstantBuffer.get());
                 Uniform* pPreUniform = NULL;
                 for (MTLStructMember* mem in arg.bufferStructType.members)

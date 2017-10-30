@@ -241,13 +241,12 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
+        /*
 		Matrix4 matVP = m_matLightProj* m_matLightView;
 
 		Frustum vpFurstum = m_frustum;
 		vpFurstum.Transformed(matVP);
 		AABB splitBB = vpFurstum.GetAABB();
-		//AABB splitBB = m_frustum.GetAABB();
-		//splitBB.transform(matVP);
 
 		AABB castersBB = m_casterAABB;
 		castersBB.transform(matVP);
@@ -272,6 +271,7 @@ namespace ma
 
 		float fScaleZ = 1.0f / (vMax.z - vMin.z);
 		float fOffsetZ = -vMin.z * fScaleZ;
+         */
 
 		m_matCrop = Matrix4::IDENTITY;
 		//m_matCrop.setScale(Vector3(fScaleX,fScaleY,fScaleZ));
@@ -372,8 +372,8 @@ namespace ma
 
 		m_pShadowMapFB->Begine();
 
-		float fConstantBias = m_fConstantBias[GetRenderSystem()->CurThreadProcess()];
-		float fSlopeScaleBias = m_fSlopeScaleBias[GetRenderSystem()->CurThreadProcess()];
+		//float fConstantBias = m_fConstantBias[GetRenderSystem()->CurThreadProcess()];
+		//float fSlopeScaleBias = m_fSlopeScaleBias[GetRenderSystem()->CurThreadProcess()];
 		//GetRenderSystem()->SetDepthBias(fConstantBias,fSlopeScaleBias);
 
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];

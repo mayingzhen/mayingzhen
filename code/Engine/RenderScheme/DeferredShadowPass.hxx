@@ -132,7 +132,7 @@ namespace ma
 
 		float fBlendValue = 0.8f;
 		
-		UINT32 stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
+		//UINT32 stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
 
 	//	GetRenderSystem()->SetStencilCheckEnabled(true);
 		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i) // ´ÓºóÍùÇ°

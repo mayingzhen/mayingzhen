@@ -95,6 +95,7 @@ namespace ma
 			return false;
 
 		bool bInit = InitRes();
+        ASSERT(bInit);
 
 		this->SetResState(ResInited);
 				

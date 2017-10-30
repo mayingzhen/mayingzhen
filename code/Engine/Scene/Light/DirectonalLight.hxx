@@ -125,7 +125,7 @@ namespace ma
 
 		UpdateViewMinMaxZ(pCamera);
 
-		float fViewMinZ = pCamera->GetScene()->GetViewMinZ();
+		//float fViewMinZ = pCamera->GetScene()->GetViewMinZ();
 		float fViewMaxZ = pCamera->GetScene()->GetViewMaxZ();
 
 		float fNearSplit = pCamera->GetNearClip();

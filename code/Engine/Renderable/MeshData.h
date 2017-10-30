@@ -106,7 +106,7 @@ namespace ma
 
 		~MeshData();
 		
-		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
+		UINT					GetSubMeshNumber() {return (UINT)m_arrSubMesh.size();}
 		SubMeshData*			GetSubMeshByIndex(UINT index) const {return m_arrSubMesh[index].get();} 
 		void					AddSubMeshData(SubMeshData* pSubMeshData);
 

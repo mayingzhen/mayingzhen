@@ -93,7 +93,7 @@ namespace ma
 		// Component
 		template<class T>
 		T*					CreateComponent();
-		UINT				GetComponentNumber() {return m_arrComp.size();}
+		UINT				GetComponentNumber() {return (UINT)m_arrComp.size();}
 		Component*			GetComponentByIndex(UINT index) {return m_arrComp[index].get();}
 		template<class T>
 		void				GetTypeComponent(std::vector<T*>& arrTyeComp);

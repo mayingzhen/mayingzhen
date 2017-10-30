@@ -32,7 +32,8 @@ namespace ma
         m_encoder = [m_pRenderPass->m_parallelRCE renderCommandEncoder];
 	
         m_pCurIB = NULL;
-        m_pPreVB = NULL;
+        memset(m_pPreVB,0,sizeof(m_pPreVB));
+        memset(m_nPreVBOffset,0,sizeof(m_nPreVBOffset));
         m_preDS = 0;
         m_prePipeline = 0;
         for(UINT i = 0; i < 16; ++i)
@@ -52,17 +53,18 @@ namespace ma
         m_pCurIB = pIB;
 	}
 
-	void MetalRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB)
+	void MetalRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB, UINT nOffSet)
 	{
-        if (m_pPreVB == pVB)
+        if (m_pPreVB[index] == pVB && m_nPreVBOffset[index] == nOffSet)
             return;
         
-        m_pPreVB = pVB;
+        m_pPreVB[index] = pVB;
+        m_nPreVBOffset[index] = nOffSet;
         
         MetalVertexBuffer* pMetalVertexBuffer = (MetalVertexBuffer*)(pVB);
         id<MTLBuffer> vb = pMetalVertexBuffer->GetMetalVertexBuffer();
         
-        [m_encoder setVertexBuffer:vb offset:0 atIndex:0];
+        [m_encoder setVertexBuffer:vb offset:nOffSet atIndex:index];
 	}
     
     void MetalRenderCommand::SetTechnique(Technique* pTech)
@@ -107,7 +109,7 @@ namespace ma
         for (uint32 i = 0; i < pTech->GetSamplerCount(); ++i)
         {
             uint32 nIndex = pTech->GetSamplerByIndex(i)->GetIndex();
-            MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pTech->m_arrSampler[nIndex];
+            MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pTech->GetActiveSampler(nIndex);
             if (pMetalSampler == NULL)
             {
                 continue;
@@ -131,7 +133,7 @@ namespace ma
         }
     }
     
-    void MetalRenderCommand::DrawIndex(UINT nIndexStart, UINT nIndexCount, PRIMITIVE_TYPE ePrType)
+    void MetalRenderCommand::DrawIndex(UINT nIndexStart, UINT nIndexCount, UINT nInstanceCount,PRIMITIVE_TYPE ePrType)
     {
         MTLPrimitiveType ePrimitiveType = MetalMapping::GetPrimitiveType(ePrType);
         
@@ -139,8 +141,8 @@ namespace ma
         id<MTLBuffer> ib = pMetalIndexBuffer->GetMetalIndexBuffer();
         
         MTLIndexType ibType = pMetalIndexBuffer->GetIndexType() == INDEX_TYPE_U16 ? MTLIndexTypeUInt16 : MTLIndexTypeUInt32;
-        
-        [m_encoder drawIndexedPrimitives:ePrimitiveType indexCount:nIndexCount indexType:ibType indexBuffer:ib indexBufferOffset:nIndexStart];
+    
+        [m_encoder drawIndexedPrimitives:ePrimitiveType indexCount:nIndexCount indexType:ibType indexBuffer:ib indexBufferOffset:nIndexStart instanceCount:nInstanceCount];
     }
 }
 

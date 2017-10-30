@@ -34,9 +34,9 @@ namespace ma
 
 	}
 
-	UINT Thread::GetThreadId()
+	size_t Thread::GetThreadId()
 	{
-		return UINT(m_hThread);
+		return size_t(m_hThread);
 	}
 
 }

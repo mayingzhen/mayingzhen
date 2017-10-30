@@ -158,7 +158,7 @@ JobInfo* JobScheduler::FetchNextJob( int& activeGroup )
 	}
 
 	// We need a lock to change groups!
-	AutoLock autoLock(m_csQueueMutex);
+	std::lock_guard<std::mutex> autoLock(m_csQueueMutex);
 
 	if( activeGroup != -1 )
 		m_Groups[activeGroup]->activeThreads--;
@@ -243,7 +243,7 @@ JobScheduler::JobGroupID JobScheduler::BeginGroup( int maxJobs )
 JobScheduler::JobGroupID JobScheduler::BeginGroupInternal( int maxJobs, bool isBlocking )
 {
 	// Find unused group. We need a lock for that.
-	m_csQueueMutex.Lock();
+	m_csQueueMutex.lock();
 	for( uint32 i = 0; i < m_Groups.size(); ++i )
 	{
 		JobGroup& group = *m_Groups[i];
@@ -258,8 +258,8 @@ JobScheduler::JobGroupID JobScheduler::BeginGroupInternal( int maxJobs, bool isB
 			// Do this *after* we've marked it used (case 492417)
 			while( group.activeThreads != 0 )
 			{
-				m_csQueueMutex.Unlock();
-				m_csQueueMutex.Lock();
+				m_csQueueMutex.unlock();
+				m_csQueueMutex.lock();
 			}
 			group.jobsAdded = 0;
 			group.nextJob = 0;
@@ -267,11 +267,11 @@ JobScheduler::JobGroupID JobScheduler::BeginGroupInternal( int maxJobs, bool isB
 			int roundedSize = (maxJobs + rounding - 1) / rounding * rounding;
 			group.jobQueue.reserve(roundedSize);
 			group.jobQueue.resize(maxJobs);
-			m_csQueueMutex.Unlock();
+			m_csQueueMutex.unlock();
 			return i;
 		}
 	}
-	m_csQueueMutex.Unlock();
+	m_csQueueMutex.lock();
 	return -1;
 }
 

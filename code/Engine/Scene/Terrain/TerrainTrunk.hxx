@@ -149,7 +149,7 @@ namespace ma
 
 		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
 		{
-			TERRAIN_LOD& lod = m_vecLodRenderable[m];
+			//TERRAIN_LOD& lod = m_vecLodRenderable[m];
 
 			int nXCellsAmount = m_pTerrain->GetTrunkSize() >> m;
 			int nYCellsAmount = m_pTerrain->GetTrunkSize() >> m;

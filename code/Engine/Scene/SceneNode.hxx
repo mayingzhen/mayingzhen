@@ -104,7 +104,7 @@ namespace ma
 		rapidxml::xml_node<>* pXmlChildNode = pXmlElem->first_node("ChildNode");
 		while(pXmlChildNode)
 		{
-			const char* pszType = pXmlChildNode->findAttribute("ClassName");
+			//const char* pszType = pXmlChildNode->findAttribute("ClassName");
 
 			RefPtr<SceneNode> pChildNode = CreateSceneNode();
 			this->AddChild(pChildNode.get());

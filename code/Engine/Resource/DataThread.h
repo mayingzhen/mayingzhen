@@ -31,8 +31,8 @@ namespace ma
 		
 		CMyEvent			m_readEvent;
 
-		CriticalSection		m_csRequestQueue;
-		CriticalSection		m_csLoadedQueue;
+		std::mutex			m_csRequestQueue;
+		std::mutex			m_csLoadedQueue;
 	};
 
 	extern DataThread* g_pDataThread;

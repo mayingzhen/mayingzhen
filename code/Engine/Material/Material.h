@@ -53,7 +53,7 @@ namespace ma
 
 		DECL_OBJECT(Material);
 	
-		UINT				GetLodNumber() const {return m_arrLodSubMaterial.size();}
+		UINT				GetLodNumber() const {return (UINT)m_arrLodSubMaterial.size();}
 		UINT				GetLodSubNumber(UINT nLod) const;
 		SubMaterial*		GetLodSubByIndex(UINT nLod,uint32 index) const;
 

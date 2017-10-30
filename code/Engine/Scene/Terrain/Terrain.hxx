@@ -336,7 +336,6 @@ namespace ma
 		PixelBox src = imageData.GetPixelBox(0, 0);
 		nWidth = imageData.m_nWidth;
 		nHeight = imageData.m_nHeight; 
-		PixelFormat format = src.format;
 		ASSERT( PixelUtil::getNumElemBytes(src.format) == sizeof(T) );
 		if (PixelUtil::getNumElemBytes(src.format) != sizeof(T))
 			return;

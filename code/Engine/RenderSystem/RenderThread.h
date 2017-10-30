@@ -127,7 +127,7 @@ namespace ma
 
 		volatile int	m_nFlush;
 
-		UINT			m_nMainThread;
+		size_t			m_nMainThread;
 		HRESULT			m_hResult;
 		TArray<BYTE>	m_Commands[2]; // m_nCurThreadFill shows which commands are filled by main thread
 

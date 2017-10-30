@@ -27,7 +27,7 @@ public:
  
     /// Create worker threads. Can only be called once.
     void		CreateThreads(int numThreads,int maxGroups);
-	unsigned	GetNumThreads() const { return m_vecThread.size(); }   
+	UINT	    GetNumThreads() const { return (UINT)m_vecThread.size(); }
 	void		ClearThreads();
 
 	JobGroupID	BeginGroup( int maxJobs ); 
@@ -50,7 +50,7 @@ private:
 	vector<JobGroup*> m_Groups;
 
 	/// Worker queue mutex.
-    CriticalSection m_csQueueMutex;
+	std::mutex	m_csQueueMutex;
     
 	/// Shutting down flag.
     volatile bool m_bShutDown;

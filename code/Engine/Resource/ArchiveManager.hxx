@@ -28,31 +28,9 @@ namespace ma
 		return m_saveDir.c_str();
 	}
 
-// 	RefPtr<Stream> ArchiveManager::Open(const char* pszFile, bool readOnly)
-// 	{
-// 		AutoLock autoLock(m_csOpen);
-// 
-// 		ASSERT(pszFile);
-// 		if (pszFile == NULL)
-// 			return NULL;
-// 
-// 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
-// 		{
-// 			RefPtr<Stream> data = (*iter)->open(pszFile,readOnly);
-// 			if (data != NULL)
-// 			{
-// 				return data;
-// 			}
-// 		}
-// 
-// 		//ASSERT(false);
-// 		//LogError("Open file :%s", pszFile);
-// 		return NULL;
-// 	}
-
 	Stream* ArchiveManager::Open(const char* pszFile, bool readOnly)
 	{
-		AutoLock autoLock(m_csOpen);
+		std::lock_guard<std::mutex> autoLock(m_csOpen);
 
 		ASSERT(pszFile);
 		if (pszFile == NULL)
@@ -89,7 +67,7 @@ namespace ma
 
 	void ArchiveManager::AddArchive(Archive* pArchive)
 	{
-		AutoLock autoLock(m_csOpen);
+		std::lock_guard<std::mutex> autoLock(m_csOpen);
 
 		m_vecArchive.insert(m_vecArchive.begin(), pArchive);
 	}

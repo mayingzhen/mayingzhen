@@ -208,7 +208,7 @@ namespace ma
 	{
 		const char* chars = value.c_str();
 		// Count length to the first zero, because ReadString() does the same
-		unsigned length = value.length();
+		size_t length = value.length();
 		return Write(chars, length + 1) == length + 1;
 	}
 

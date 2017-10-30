@@ -34,7 +34,7 @@ namespace ma
 
 		std::string		m_saveDir;
 
-		CriticalSection	m_csOpen;
+		std::mutex		m_csOpen;
 	};
 
 

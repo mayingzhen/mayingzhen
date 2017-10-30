@@ -1,4 +1,4 @@
-#define IBL
+
 
 #ifdef IBL
 TextureCube tEnv : register(t4);

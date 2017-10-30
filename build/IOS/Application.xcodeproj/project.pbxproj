@@ -253,6 +253,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/Application.dst;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/Application/stdAfx.h;
 				HEADER_SEARCH_PATHS = (
@@ -260,12 +261,12 @@
 					../../code/plugin/,
 					../../extern/oisinput/include/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -276,6 +277,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/Application.dst;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/Application/stdAfx.h;
 				HEADER_SEARCH_PATHS = (
@@ -283,12 +285,12 @@
 					../../code/plugin/,
 					../../extern/oisinput/include/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};

@@ -266,3 +266,6 @@ EXPORTS
 ?TechniqueStreamComplete@RenderSystem@ma@@QAEXPAVTechnique@2@@Z
 ?ClearConstBuffer@Technique@ma@@QAEXW4ShaderType@2@@Z
 ?getNumFaces@ImageData@ma@@QBEIXZ
+?GetStreanmStride@VertexDeclaration@ma@@QBEII@Z
+?GetElementCount@VertexDeclaration@ma@@QAEII@Z
+?GetElement@VertexDeclaration@ma@@QAEABUVertexElement@2@II@Z

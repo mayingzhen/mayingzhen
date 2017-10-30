@@ -113,14 +113,7 @@ namespace ma
 
 		bool						m_bLoadOver;	
 
-
-// 		std::vector<AnimTriggerInfo> m_trigger_key;
-// 		std::vector<AnimTrigger*> m_trigger_vec;       // 模型动作事件触发列表
-// 		std::vector<AnimatorCallback *> m_callback_vec;
-// 		std::vector<ActiveCallback *> m_active_allback_vec;
-
-
-		CriticalSection				m_csParallelUpdate;	
+        std::mutex                  m_csParallelUpdate;
 	};
 
 	RefPtr<AnimationComponent> CreateAnimationComponent();
