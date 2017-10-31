@@ -14,7 +14,7 @@ namespace ma
 		Vector3 VAtPos = Vector3(0, 0, 0);
 		GetCamera()->LookAt(vEyePos, VAtPos);
 
-		if (0)
+		if (1)
 		{
 			CreateMeshMaterial("FBX/Box.tga", "FBX/Box.mtl");
 
@@ -27,6 +27,7 @@ namespace ma
 			{
 				SceneNode* pBox = m_pScene->CreateSceneNode();
 				MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
+				//pBoxMesh->SetSuportInstance(true);
 				pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
 				//pBoxMesh->SetShadowCaster(true);
                 float x = (float)i + 2.0f;//Math::RangeRandom(0, 150);

@@ -204,6 +204,8 @@ namespace ma
 				pRenderable->m_pIndexBuffer = pMesData->GetIndexBuffer();
 				pRenderable->m_pSubMeshData = pMesData->GetSubMeshByIndex(iSub);
 
+				pRenderable->m_bSuportInstace = m_bSuportInstance;
+
 				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
 
 				Technique* pTech = pSubMaterial->GetShadingTechnqiue();

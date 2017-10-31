@@ -11,7 +11,7 @@ namespace ma
 	{
 		GetCamera()->LookAt(Vector3(5, -5, 3), Vector3(0, 0, 0));
 
-		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
+		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl", "IBL");
 
 		if (0)
 		{
@@ -38,8 +38,8 @@ namespace ma
 
 				SubMaterial* pSubMaterial = pMaterial->GetLodSubByIndex(0,0);
 
-				pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC", true);
-				pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("IBL", true);
+				//pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC", true);
+				//pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("IBL", true);
 
 				RefPtr<SamplerState> pBRDFTerm = CreateSamplerState("BRDFTest.dds", CLAMP, TFO_BILINEAR, false);
 				pSubMaterial->SetParameter("tBRDF", Any(pBRDFTerm));

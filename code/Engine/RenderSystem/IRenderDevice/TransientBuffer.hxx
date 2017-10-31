@@ -85,15 +85,15 @@ SubAllocVB ParallHardWareBuffer::AllocVertexBuffer(int nAllocVerts)
 	//if (nAllocInds > 0)
 		nAllocVerts = min(nAllocVerts, (1<<16));
 
-	int nVerticesOffset;
+	uint32 nVerticesOffset;
 	do {
-		nVerticesOffset = *(volatile int*)&m_nVertexOffset;
+		nVerticesOffset = m_nVertexOffset.load();
 		if (nAllocVerts * nVertexStride > nAvailableVertexMemory)
 		{
 			ASSERT(false);
 			nAllocVerts = nAvailableVertexMemory / nVertexStride;
 		}
-	} while ( !AtomicCompareExchange( (volatile int*)&m_nVertexOffset, nVerticesOffset + nAllocVerts * nVertexStride, nVerticesOffset) );
+	} while ( !std::atomic_compare_exchange_strong( &m_nVertexOffset, &nVerticesOffset, nVerticesOffset + nAllocVerts * nVertexStride) );
 
 	subAlloc.m_pVertices = pVertices + nVerticesOffset; 
 	subAlloc.m_nAllocVerts = nAllocVerts;
@@ -118,15 +118,16 @@ SubAllocIB ParallHardWareBuffer::AllocIndexBuffer(int nAllocInds)
 	BYTE* pIndices							= m_pIndexVideoMemoryBase;
 	uint32 nAvailableIndexMemory			= m_nIndexBufferAvailableMemory;
 
-	int nIndicesOffset;
+	uint32 nIndicesOffset;
 	do {
-		nIndicesOffset = *(volatile int*)&m_nIndexOffset;
+		nIndicesOffset = m_nIndexOffset.load();
 		if (nAllocInds * sizeof(uint16) > nAvailableIndexMemory)
 		{
 			ASSERT(false);
 			nAllocInds = nAvailableIndexMemory / sizeof(uint16);
 		}
-	} while ( !AtomicCompareExchange( (volatile int*)&m_nIndexOffset, nIndicesOffset + nAllocInds * sizeof(uint16), nIndicesOffset ) );
+	}
+	while ( !std::atomic_compare_exchange_strong( &m_nIndexOffset, &nIndicesOffset, nIndicesOffset + nAllocInds * sizeof(uint16) ) );
 
 	subAlloc.m_pIndices = (uint16*)(pIndices + nIndicesOffset);
 	subAlloc.m_nAllocInds = nAllocInds;

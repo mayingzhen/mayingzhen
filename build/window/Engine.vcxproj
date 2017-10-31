@@ -299,7 +299,6 @@
     <ClInclude Include="..\..\code\Engine\Scene\Terrain\TerrainTrunk.hxx" />
     <ClInclude Include="..\..\Code\Engine\stdAfx.h" />
     <ClInclude Include="..\..\code\Engine\Thread\AtomicOps.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\AutoLock.h" />
     <ClInclude Include="..\..\code\Engine\Thread\JobScheduler.h" />
     <ClInclude Include="..\..\code\Engine\Thread\JobScheduler.hxx" />
     <ClInclude Include="..\..\code\Engine\Thread\MSemaphore.h" />

@@ -22,24 +22,25 @@ struct JobGroup
 		kSizeIncrement = 256,
 		kTaskCountUnused = -1
 	};
-	JobGroup(const char* pSemaphoreName) : taskCount(kTaskCountUnused), activeThreads(0), nextJob(0),
-    jobsAdded(0),doneSemaphore(pSemaphoreName) {}
+	JobGroup(const char* pSemaphoreName) : m_nTaskCount(kTaskCountUnused), m_nActiveThreads(0), m_nNextJob(0),
+    m_nJobsAdded(0),m_doneSemaphore(pSemaphoreName) {}
 
-	volatile int taskCount;
-	volatile int activeThreads;
-	volatile int nextJob;
-	volatile int jobsAdded;
-	std::vector<JobInfo> jobQueue;
-	Semaphore doneSemaphore;
+	std::atomic<int> m_nTaskCount;
+	std::atomic<int> m_nActiveThreads;
+	std::atomic<int> m_nNextJob;
+	std::atomic<int> m_nJobsAdded;
+
+	std::vector<JobInfo> m_vecJobQueue;
+
+	Semaphore m_doneSemaphore;
 };
 
 /// Worker thread managed by the work queue.
-class WorkerThread : public Thread, public Referenced
+class WorkerThread
 {
 public:
     /// Construct.
     WorkerThread(JobScheduler* owner, unsigned index) 
-		: Thread("WorkerThread")
     {
 		m_pOwner = owner;
 		m_uIndex=  index;
@@ -50,10 +51,10 @@ public:
 	}
     
     /// Process work items until stopped.
-    virtual void ThreadLoop()
+    void operator() () const
     {
 		int activeGroup = -1;
-		while( !m_bExit && !m_pOwner->m_bShutDown )
+		while( !m_pOwner->m_bShutDown )
 		{
 			JobInfo* job = m_pOwner->FetchNextJob(activeGroup);
 			if( job )
@@ -62,7 +63,7 @@ public:
 			}
 			else
 			{
-				AtomicIncrement(&m_pOwner->m_ThreadsIdle);
+				--m_pOwner->m_ThreadsIdle;
 				m_pOwner->m_AwakeSemaphore.WaitForSignal();
 			}
 		}
@@ -103,7 +104,7 @@ void JobScheduler::ClearThreads()
 {
 	m_bShutDown = true;
 
-	UnityMemoryBarrier();
+	//UnityMemoryBarrier();
 
 	for( uint32 i = 0; i < m_vecThread.size(); ++i )
 	{
@@ -112,7 +113,7 @@ void JobScheduler::ClearThreads()
 
 	for (uint32 i = 0; i < m_vecThread.size(); ++i)
 	{
-		m_vecThread[i]->Stop();
+		m_vecThread[i].join();
 	}
 
 	m_vecThread.clear();
@@ -139,9 +140,8 @@ void JobScheduler::CreateThreads(int numThreads,int maxGroups)
 	m_bShutDown = false;
     for (int i = 0; i < numThreads; ++i)
     {
-        RefPtr<WorkerThread> pThread(new WorkerThread(this, i + 1));
-        pThread->Start();
-        m_vecThread.push_back(pThread);
+		WorkerThread worker(this, i + 1);
+		m_vecThread.push_back(std::thread(worker));
     }
 
 	LogInfo("Created %u worker thread%s", numThreads, numThreads > 1 ? "s" : "");
@@ -161,14 +161,14 @@ JobInfo* JobScheduler::FetchNextJob( int& activeGroup )
 	std::lock_guard<std::mutex> autoLock(m_csQueueMutex);
 
 	if( activeGroup != -1 )
-		m_Groups[activeGroup]->activeThreads--;
+		m_Groups[activeGroup]->m_nActiveThreads--;
 	int group = m_PriorityGroup;
 	for( uint32 i = 0; i < m_Groups.size(); i++ )
 	{
 		JobInfo* job = FetchJobInGroup(group);
 		if( job )
 		{
-			m_Groups[group]->activeThreads++;
+			m_Groups[group]->m_nActiveThreads++;
 			// Set priority group to one that is actually available
 			// Less work for other threads to find a good group
 			m_PriorityGroup = group;
@@ -185,13 +185,13 @@ JobInfo* JobScheduler::FetchNextJob( int& activeGroup )
 JobInfo* JobScheduler::FetchJobInGroup( int group )
 {
 	JobGroup& jg = *m_Groups[group];
-	int curJob = jg.nextJob;
-	while( curJob < jg.jobsAdded )
+	int curJob = jg.m_nNextJob;
+	while( curJob < jg.m_nJobsAdded )
 	{
-		if( AtomicCompareExchange(&jg.nextJob, curJob + 1, curJob) )
-			return &jg.jobQueue[curJob];
+		if( std::atomic_compare_exchange_strong(&jg.m_nNextJob, &curJob, curJob + 1) )
+			return &jg.m_vecJobQueue[curJob];
 
-		curJob = jg.nextJob;
+		curJob = jg.m_nNextJob;
 	}
 	return NULL;
 }
@@ -202,23 +202,25 @@ void JobScheduler::ProcessJob( JobInfo& job, int group )
 	void* ret = job.func(job.userData,job.userData1);
 	if( job.returnCode )
 	{
-		UnityMemoryBarrier();
+		//UnityMemoryBarrier();
 		*job.returnCode = ret;
 	}
 
 	// Signal if we are the last to finish
 	JobGroup& jg = *m_Groups[group];
-	if( AtomicDecrement(&jg.taskCount) == 0 )
-		jg.doneSemaphore.Signal();
+	if (--jg.m_nTaskCount == 0)
+	{
+		jg.m_doneSemaphore.Signal();
+	}
 }
 
 void JobScheduler::AwakeIdleWorkerThreads( int count )
 {
 	for( int i = 0; i < count && m_ThreadsIdle > 0; i++ )
 	{
-		if( AtomicDecrement(&m_ThreadsIdle) < 0 )
+		if( --m_ThreadsIdle < 0 )
 		{
-			AtomicIncrement(&m_ThreadsIdle);
+			++m_ThreadsIdle;
 			break;
 		}
 		m_AwakeSemaphore.Signal();
@@ -247,26 +249,26 @@ JobScheduler::JobGroupID JobScheduler::BeginGroupInternal( int maxJobs, bool isB
 	for( uint32 i = 0; i < m_Groups.size(); ++i )
 	{
 		JobGroup& group = *m_Groups[i];
-		if( group.taskCount == JobGroup::kTaskCountUnused 
-			&& ( isBlocking || group.activeThreads == 0 ) )
+		if( group.m_nTaskCount == JobGroup::kTaskCountUnused 
+			&& ( isBlocking || group.m_nActiveThreads == 0 ) )
 		{
 			// We consider finishing group a pending task
 			// Keeps job group alive until everything is done
-			group.taskCount = 1;
+			group.m_nTaskCount = 1;
 
 			// Spin while worker threads are using our group
 			// Do this *after* we've marked it used (case 492417)
-			while( group.activeThreads != 0 )
+			while( group.m_nActiveThreads != 0 )
 			{
 				m_csQueueMutex.unlock();
 				m_csQueueMutex.lock();
 			}
-			group.jobsAdded = 0;
-			group.nextJob = 0;
+			group.m_nJobsAdded = 0;
+			group.m_nNextJob = 0;
 			const int rounding = JobGroup::kSizeIncrement;
 			int roundedSize = (maxJobs + rounding - 1) / rounding * rounding;
-			group.jobQueue.reserve(roundedSize);
-			group.jobQueue.resize(maxJobs);
+			group.m_vecJobQueue.reserve(roundedSize);
+			group.m_vecJobQueue.resize(maxJobs);
 			m_csQueueMutex.unlock();
 			return i;
 		}
@@ -279,7 +281,7 @@ bool JobScheduler::IsGroupFinished( JobGroupID group )
 {
 	const JobGroup& jg = *m_Groups[group];
 	// Last reference is kept until WaitForGroup()
-	return jg.taskCount == 1;
+	return jg.m_nTaskCount == 1;
 }
 
 
@@ -295,7 +297,7 @@ void JobScheduler::WaitForGroup( JobGroupID group )
 
 	// Release our reference to job group
 	// Pending jobs (if any) also have refs
-	if( AtomicDecrement(&jg.taskCount) != 0 )
+	if( --jg.m_nTaskCount != 0 )
 	{
 		// Set our group as having priority so other threads fetch from it
 		m_PriorityGroup = group;
@@ -305,16 +307,17 @@ void JobScheduler::WaitForGroup( JobGroupID group )
 			JobInfo* job = FetchJobInGroup(group);
 			if( !job )
 				break;
+
 			ProcessJob(*job, group);
 		}
 
-		jg.doneSemaphore.WaitForSignal();		
-		ASSERT(jg.nextJob == jg.jobsAdded);
-		ASSERT(jg.taskCount == 0);
+		jg.m_doneSemaphore.WaitForSignal();		
+		ASSERT(jg.m_nNextJob == jg.m_nJobsAdded);
+		ASSERT(jg.m_nTaskCount == 0);
 	}
 
 	// Set count to kTaskCountUnused (-1)
-	AtomicDecrement(&jg.taskCount);
+	--jg.m_nTaskCount;
 }
 
 
@@ -337,17 +340,17 @@ bool JobScheduler::SubmitJob( JobGroupID group, JobFunction func, void *data, vo
 	}
 
 	JobGroup& jg = *m_Groups[group];
-	AtomicIncrement(&jg.taskCount);
-	int jobIndex = jg.jobsAdded;
-	JobInfo& job = jg.jobQueue[jobIndex];
+	++jg.m_nTaskCount;
+	int jobIndex = jg.m_nJobsAdded;
+	JobInfo& job = jg.m_vecJobQueue[jobIndex];
 	job.func = func;
 	job.userData = data;
 	job.userData1 = data1;
 	job.returnCode = returnCode;
-	int nextIndex = AtomicIncrement(&jg.jobsAdded);
+	int nextIndex = ++jg.m_nJobsAdded;
 	// This may fail if you add jobs from multiple threads to the same group
 	ASSERT(nextIndex == jobIndex + 1);
-	AwakeIdleWorkerThreads(nextIndex - jg.nextJob);
+	AwakeIdleWorkerThreads(nextIndex - jg.m_nNextJob);
 	return true;
 }
 

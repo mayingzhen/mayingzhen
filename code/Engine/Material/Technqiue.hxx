@@ -188,28 +188,11 @@ namespace ma
 
 	void Technique::Bind()
 	{
-		if (m_pBlendState)
-		{
-			//GetRenderSystem()->SetBlendState(m_pBlendState.get());
-		}
-	
-		if (m_pDSState)
-		{
-			//GetRenderSystem()->SetDepthStencilState(m_pDSState.get(), m_nStencilRef);
-		}
-		
-		if (m_pRSState)
-		{
-			//GetRenderSystem()->SetRasterizerState(m_pRSState.get());
-		}
-		
 		BindUniform();
 	}
 
 	void Technique::BindUniform()
 	{
-		//GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
-
 		for (UINT i = 0; i < ShaderType_Number; ++i)
 		{
 			for (UINT iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)

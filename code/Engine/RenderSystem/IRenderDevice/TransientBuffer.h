@@ -69,8 +69,8 @@ private:
 	BYTE* m_pVertexVideoMemoryBase;
 	BYTE* m_pIndexVideoMemoryBase;
 
-	uint32 m_nVertexOffset;			
-	uint32 m_nIndexOffset;
+	std::atomic<uint32> m_nVertexOffset;
+	std::atomic<uint32> m_nIndexOffset;
 
 	// total amount of allocated memory for vertex/index buffers
 	uint32 m_nVertexBufferAvailableMemory;

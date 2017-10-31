@@ -45,18 +45,18 @@ private:
     
 private: 
     /// Worker threads.
-    vector< RefPtr<WorkerThread> > m_vecThread;
+    std::vector< std::thread > m_vecThread;
 
-	vector<JobGroup*> m_Groups;
+	std::vector<JobGroup*> m_Groups;
 
 	/// Worker queue mutex.
 	std::mutex	m_csQueueMutex;
     
 	/// Shutting down flag.
-    volatile bool m_bShutDown;
+	std::atomic<bool> m_bShutDown;
     
-	volatile int m_ThreadsIdle;
-	volatile int m_PriorityGroup;
+	std::atomic<int>  m_ThreadsIdle;
+	std::atomic<int> m_PriorityGroup;
 
 	Semaphore m_AwakeSemaphore;
 };
