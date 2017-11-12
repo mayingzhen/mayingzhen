@@ -14,7 +14,7 @@ namespace ma
 		virtual void RT_StreamComplete();
 
 	public:
-		VkSampler m_sampler;
+		VkSampler m_sampler = VK_NULL_HANDLE;
 
 		VkDescriptorImageInfo m_descriptor;
 	};

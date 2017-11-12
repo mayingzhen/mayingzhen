@@ -5,9 +5,7 @@ namespace ma
 {
 	void SkinMeshRenderable::PreRender(Technique* pTech)
 	{
- 		GetRenderContext()->SetCurRenderObj(this);
- 
- 		pTech->Bind();
+ 		pTech->Bind(this);
 
 		if (pTech->GetUniform("boneDQ"))
 		{
@@ -22,14 +20,6 @@ namespace ma
 			pTech->SetValue(pTech->GetUniform("boneMatrix"), (const Vector4*)pMatrix, nNumMatrix * 3 );
 		}
 	}
-
-	void SkinMeshRenderable::Render(Technique* pTech)
-	{
-		//pTech->CommitChanges();
-
-		//GetRenderSystem()->DrawRenderable(this,pTech);
-	}
-
 
 	const DualQuaternion* SkinMeshRenderable::GetSkinDQ()
 	{

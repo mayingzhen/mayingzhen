@@ -1,6 +1,6 @@
 #include "BatchRenderable.h"
 #include "RenderSystem.h"
-
+#include "InstanceRenderable.h"
 
 namespace ma
 {
@@ -39,65 +39,6 @@ namespace ma
 			return false;
 		}
 	};
-
-	void InstanceRenderable::PreRender(Technique* pTech)
-	{
-		GetRenderContext()->SetCurRenderObj(this);
-
-		pTech->Bind();
-	}
-
-	void InstanceRenderable::Render(RenderCommand* pRenderCommand)
-	{
-		Technique* pTech = this->GetTechnique();
-
-		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
-
-		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
-		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
-
-		pRenderCommand->SetTechnique(pTech);
-
-		pRenderCommand->SetVertexBuffer(0, this->m_pVertexBuffer.get(),0);
-
-		pRenderCommand->SetIndexBuffer(this->m_pIndexBuffer.get());
-
-		VertexBuffer* pInstanceBuffer = GetRenderSystem()->GetRTInstaneBuffer()->GetVertexBuffer();
-		UINT nOffset = m_subVB.m_nFirstVertex * sizeof(InstaceData);
-		pRenderCommand->SetVertexBuffer(1, pInstanceBuffer, nOffset);
-
-		UINT nInstancCount = m_arrRenderList.size();
-
-		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nInstancCount, this->m_ePrimitiveType);
-	}
-
-	void InstanceRenderable::AddRenderable(Renderable* pRenderObj)
-	{
-		m_arrRenderList.push_back(pRenderObj);
-
-		InstaceData data;
-		data.m_world = pRenderObj->GetWorldMatrix();
-
-		m_arrInstanceData.push_back(data);
-	}
-
-	void InstanceRenderable::Create()
-	{
-		if (m_arrRenderList.empty())
-			return;
-
-		Renderable* pRenderable = m_arrRenderList[0];
-		m_ePrimitiveType = pRenderable->m_ePrimitiveType;
-		m_pVertexBuffer = pRenderable->m_pVertexBuffer;
-		m_pIndexBuffer = pRenderable->m_pIndexBuffer;
-		m_pSubMeshData = pRenderable->m_pSubMeshData;
-		m_pSubMaterial = pRenderable->m_pSubMaterial;
-
-		m_subVB = GetRenderSystem()->GetInstanceBuffer()->AllocVertexBuffer(m_arrInstanceData.size());
-		memcpy(m_subVB.m_pVertices, m_arrInstanceData.data(), m_arrInstanceData.size() * sizeof(InstaceData));
-
-		m_Technique = pRenderable->GetTechnique()->GetInstTech();
-	}
 
 	BatchRenderable::BatchRenderable()
 	{
@@ -199,16 +140,16 @@ namespace ma
 			m_arrPrePareRenderList.push_back(m_arrNoInsRenderList[i]);
 		}
 
-		for (UINT i = 0; i < m_arrPrePareRenderList.size(); ++i)
-		{
-			Renderable* pRenderObj = m_arrPrePareRenderList[i];
-			if (pRenderObj == NULL)
-				continue;
-
-			Technique* pTech = pRenderObj->GetTechnique();
-
-			pRenderObj->PreRender(pTech);
-		}
+// 		for (UINT i = 0; i < m_arrPrePareRenderList.size(); ++i)
+// 		{
+// 			Renderable* pRenderObj = m_arrPrePareRenderList[i];
+// 			if (pRenderObj == NULL)
+// 				continue;
+// 
+// 			Technique* pTech = pRenderObj->GetTechnique();
+// 
+// 			pRenderObj->PreRender(pTech);
+// 		}
 	}
 
 	struct RenderJobData
@@ -232,6 +173,8 @@ namespace ma
 		for (uint32 i = 0; i <= nIndexCount; ++i)
 		{
 			Renderable* pRenderable = ppNodeStart[i];
+
+			pRenderable->PreRender(pRenderable->GetTechnique());
 
 			pRenderable->Render(pRenderable->GetTechnique(),pJobData->pCommand);
 		}
@@ -296,6 +239,8 @@ namespace ma
 				Renderable* pRenderable = m_arrPrePareRenderList[i];
 				if (pRenderable == NULL)
 					continue;
+
+				pRenderable->PreRender(pRenderable->GetTechnique());
 
 				pRenderable->Render(pRenderable->GetTechnique(), pCommand);
 			}

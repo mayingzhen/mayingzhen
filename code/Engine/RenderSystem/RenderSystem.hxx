@@ -7,7 +7,7 @@
 #include "../Renderable/UnitSphere.h"
 #include "../Material/ShaderProgram.h"
 #include "../Material/ShaderManager.h"
-#include "BatchRenderable.h"
+#include "InstanceRenderable.h"
 
 
 

@@ -46,9 +46,7 @@ namespace ma
 			m_pIndexBuffer->Unlock();
 		}
 
-		GetRenderContext()->SetCurRenderObj(this);
-
-		pTech->Bind();
+		pTech->Bind(this);
 
 		//GetRenderSystem()->DrawRenderable(this,pTech);
 	}

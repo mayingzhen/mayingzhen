@@ -97,7 +97,7 @@ namespace ma
 			GetParameterManager()->UseDefaultBing(pUniformCopy.get());
 		}
 
-		BindUniform();
+		BindUniform(NULL);
 
 		VkResult res;
 

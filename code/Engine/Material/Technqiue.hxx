@@ -186,12 +186,12 @@ namespace ma
 		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strFinal.c_str(),pVertexDecl);
 	}
 
-	void Technique::Bind()
+	void Technique::Bind(Renderable* pRenderable)
 	{
-		BindUniform();
+		BindUniform(pRenderable);
 	}
 
-	void Technique::BindUniform()
+	void Technique::BindUniform(Renderable* pRenderable)
 	{
 		for (UINT i = 0; i < ShaderType_Number; ++i)
 		{
@@ -202,7 +202,7 @@ namespace ma
 				{
 					Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
 
-					pUniform->Bind();
+					pUniform->Bind(pRenderable);
 
 					Parameter* pMatParam = GetParameter(pUniform->GetName());
 					if (pMatParam == NULL)
@@ -217,7 +217,7 @@ namespace ma
 		{
 			Uniform* pUniform = this->GetSamplerByIndex(i);
 			
-			pUniform->Bind();
+			pUniform->Bind(pRenderable);
 
 			Parameter* pMatParam = GetParameter(pUniform->GetName());
 			if (pMatParam == NULL)

@@ -230,7 +230,6 @@ EXPORTS
 ?GetShaderMacroBool@Technique@ma@@QAE_NPBD@Z
 ??0Technique@ma@@QAE@XZ
 ??1Technique@ma@@UAE@XZ
-?Bind@Technique@ma@@UAEXXZ
 ?UnBind@Technique@ma@@UAEXXZ
 ?Import@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
 ?Export@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z
@@ -257,7 +256,6 @@ EXPORTS
 ?AddSampler@ShaderProgram@ma@@QAEXPAVUniform@2@@Z
 ?GetSamplerCount@ShaderProgram@ma@@QAEIXZ
 ?GetSamplerByIndex@ShaderProgram@ma@@QAEPAVUniform@2@I@Z
-?BindUniform@Technique@ma@@IAEXXZ
 ?SetName@ConstantBuffer@ma@@QAEXPBD@Z
 ?GetName@ConstantBuffer@ma@@QAEPBDXZ
 ?AddSampler@Technique@ma@@QAEXPAVUniform@2@@Z
@@ -269,3 +267,5 @@ EXPORTS
 ?GetStreanmStride@VertexDeclaration@ma@@QBEII@Z
 ?GetElementCount@VertexDeclaration@ma@@QAEII@Z
 ?GetElement@VertexDeclaration@ma@@QAEABUVertexElement@2@II@Z
+?Bind@Technique@ma@@UAEXPAVRenderable@2@@Z
+?BindUniform@Technique@ma@@IAEXPAVRenderable@2@@Z

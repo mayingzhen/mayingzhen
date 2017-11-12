@@ -9,9 +9,6 @@ namespace ma
 	public:
 		RenderContext();
 
-		void					SetCurRenderObj(Renderable* pRenderObj) {m_pCurObject = pRenderObj;}
-		Renderable*				GetCurRenderObj() {return m_pCurObject;}
-
 		void					SetCurLight(Light* pLight) {m_pCurLight = pLight;}
 		Light*					GetCurLight() {return m_pCurLight;}
 
@@ -41,8 +38,6 @@ namespace ma
 		float					m_fNear[2];
 		float					m_fFar[2];
 		Vector3					m_vEyeWordPos[2];
-
-		Renderable*				m_pCurObject;
 
 		Scene*					m_pCurScene;
 

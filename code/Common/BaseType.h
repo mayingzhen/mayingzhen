@@ -21,6 +21,7 @@
 #include <memory>
 #include <mutex>
 #include <atomic>
+#include <thread>
 
 
 using namespace std;

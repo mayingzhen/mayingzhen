@@ -24,9 +24,7 @@ namespace ma
 
 	void Renderable::PreRender(Technique* pTech)
 	{
- 		GetRenderContext()->SetCurRenderObj(this);
- 
- 		pTech->Bind();
+ 		pTech->Bind(this);
 	}
 
 	void Renderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)

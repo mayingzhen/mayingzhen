@@ -20,8 +20,8 @@ namespace ma
 		bool Create();
 
 	public:
-		VkBuffer m_buf;
-		VkDeviceMemory m_mem;
+		VkBuffer m_buf = VK_NULL_HANDLE;
+		VkDeviceMemory m_mem = VK_NULL_HANDLE;
 		VkDescriptorBufferInfo m_descriptor;
 
 		BYTE* m_mapped = nullptr;

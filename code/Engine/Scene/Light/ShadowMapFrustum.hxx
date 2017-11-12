@@ -364,12 +364,6 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		//Rectangle rPreViewport = GetRenderSystem()->SetViewPort(m_viewport);
-
-		//GetRenderSystem()->BeginRenderPass(m_pShadowMapFB.get());
-		
-		//GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.f, 0);
-
 		m_pShadowMapFB->Begine();
 
 		//float fConstantBias = m_fConstantBias[GetRenderSystem()->CurThreadProcess()];

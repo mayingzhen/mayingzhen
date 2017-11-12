@@ -18,14 +18,14 @@ namespace ma
 
 	private:
 		// Internal auto binding handler methods.
-		const Matrix4&		autoBindingGetWorldMatrix() const;
+		const Matrix4&		autoBindingGetWorldMatrix(Renderable* pRenderable) const;
 		const Matrix4&		autoBindingGetViewMatrix() const;
 		const Matrix4&		autoBindingGetProjectionMatrix() const;
-		Matrix4				autoBindingGetWorldViewMatrix() const;
+		Matrix4				autoBindingGetWorldViewMatrix(Renderable* pRenderable) const;
 		Matrix4				autoBindingGetViewProjectionMatrix() const;
-		Matrix4				autoBindingGetWorldViewProjectionMatrix() const;
-		const Matrix4&		autoBindingGetInverseTransposeWorldMatrix() const;
-		const Matrix4&		autoBindingGetInverseTransposeWorldViewMatrix() const;
+		Matrix4				autoBindingGetWorldViewProjectionMatrix(Renderable* pRenderable) const;
+		const Matrix4&		autoBindingGetInverseTransposeWorldMatrix(Renderable* pRenderable) const;
+		const Matrix4&		autoBindingGetInverseTransposeWorldViewMatrix(Renderable* pRenderable) const;
 		Matrix4				autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;

@@ -222,9 +222,8 @@ namespace ma
 		return 0;//pCurScene->GetSunShaow()->GetShadowDepthFade();
 	}
 
-	const Matrix4& ParameterManager::autoBindingGetWorldMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetWorldMatrix(Renderable* pRenderable) const
 	{
-		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
 			return Matrix4::IDENTITY;
 
@@ -241,9 +240,8 @@ namespace ma
 		return GetRenderContext()->GetProjMatrix();;
 	}
 
-	Matrix4 ParameterManager::autoBindingGetWorldViewMatrix() const
+	Matrix4 ParameterManager::autoBindingGetWorldViewMatrix(Renderable* pRenderable) const
 	{
-		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
 			return Matrix4::IDENTITY;
 
@@ -255,21 +253,20 @@ namespace ma
 		return GetRenderContext()->GetViewProjMatrix();
 	}
 
-	Matrix4 ParameterManager::autoBindingGetWorldViewProjectionMatrix() const
+	Matrix4 ParameterManager::autoBindingGetWorldViewProjectionMatrix(Renderable* pRenderable) const
 	{
-		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
 			return Matrix4::IDENTITY;
 
 		return GetRenderContext()->GetViewProjMatrix() * pRenderable->GetWorldMatrix();
 	}
 
-	const Matrix4& ParameterManager::autoBindingGetInverseTransposeWorldMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetInverseTransposeWorldMatrix(Renderable* pRenderable) const
 	{
 		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldMatrix() :*/ Matrix4::IDENTITY;
 	}
 
-	const Matrix4& ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix(Renderable* pRenderable) const
 	{
 		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldViewMatrix() :*/ Matrix4::IDENTITY;
 	}

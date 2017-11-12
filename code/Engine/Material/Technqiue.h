@@ -5,6 +5,7 @@ namespace ma
 	class BlendState;
 	class DepthStencilState;
 	class RasterizerState;
+	class Renderable;
 
 	class Technique : public Serializable
 	{
@@ -17,7 +18,7 @@ namespace ma
 
 		static void			RegisterAttribute();
 
-		virtual void		Bind();
+		virtual void		Bind(Renderable* pRenderable);
 
 		virtual void		UnBind();
 
@@ -88,7 +89,7 @@ namespace ma
 		RenderPass*			GetRenderPass() { return m_pRenderPass; }
 
 	protected:
-		void				BindUniform();
+		void				BindUniform(Renderable* pRenderable);
 
 		void				BindParametersUniform(Uniform* pUniform,const Any& anyValue);
 

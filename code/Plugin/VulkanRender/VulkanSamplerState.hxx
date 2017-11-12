@@ -9,9 +9,11 @@ namespace ma
 
 	VulkanSamplerStateObject::~VulkanSamplerStateObject()
 	{
-		vks::VulkanDevice* device = GetVulkanDevice();
-
-		vkDestroySampler(device->logicalDevice, m_sampler, nullptr);
+		if (m_sampler != VK_NULL_HANDLE)
+		{
+			vks::VulkanDevice* device = GetVulkanDevice();
+			vkDestroySampler(device->logicalDevice, m_sampler, nullptr);
+		}
 	}
 
 	void VulkanSamplerStateObject::RT_StreamComplete()

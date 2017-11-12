@@ -192,6 +192,8 @@
     <ClInclude Include="..\..\code\Engine\RenderSystem\BatchTerrainRenderable.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\DeviceCapabilities.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\DeviceCapabilities.hxx" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\InstanceRenderable.h" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\InstanceRenderable.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\HardwareBuffer.h" />

@@ -17,8 +17,6 @@ namespace ma
 
 		void PreRender(Technique* pTech);
 
-		void Render(Technique* pTech);
-
 		void UpdateUniform(TerrainTrunk* pParent);
 
 	public:

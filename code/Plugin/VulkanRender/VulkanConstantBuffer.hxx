@@ -16,10 +16,16 @@ namespace ma
 
 	void VulkanConstantBuffer::Release()
 	{
-// 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
-// 		vkDestroyBuffer(vulkanDevice->logicalDevice, m_buf, nullptr);
-// 
-// 		vkFreeMemory(vulkanDevice->logicalDevice, m_mem, nullptr);
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
+		if (m_buf != VK_NULL_HANDLE)
+		{
+			vkDestroyBuffer(vulkanDevice->logicalDevice, m_buf, nullptr);
+		}
+		
+		if (m_mem != VK_NULL_HANDLE)
+		{
+			vkFreeMemory(vulkanDevice->logicalDevice, m_mem, nullptr);
+		}
 	}
 
 

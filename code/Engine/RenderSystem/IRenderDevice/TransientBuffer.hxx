@@ -93,7 +93,7 @@ SubAllocVB ParallHardWareBuffer::AllocVertexBuffer(int nAllocVerts)
 			ASSERT(false);
 			nAllocVerts = nAvailableVertexMemory / nVertexStride;
 		}
-	} while ( !std::atomic_compare_exchange_strong( &m_nVertexOffset, &nVerticesOffset, nVerticesOffset + nAllocVerts * nVertexStride) );
+	} while ( !m_nVertexOffset.compare_exchange_strong(nVerticesOffset, nVerticesOffset + nAllocVerts * nVertexStride) );
 
 	subAlloc.m_pVertices = pVertices + nVerticesOffset; 
 	subAlloc.m_nAllocVerts = nAllocVerts;
@@ -127,7 +127,7 @@ SubAllocIB ParallHardWareBuffer::AllocIndexBuffer(int nAllocInds)
 			nAllocInds = nAvailableIndexMemory / sizeof(uint16);
 		}
 	}
-	while ( !std::atomic_compare_exchange_strong( &m_nIndexOffset, &nIndicesOffset, nIndicesOffset + nAllocInds * sizeof(uint16) ) );
+	while ( !m_nIndexOffset.compare_exchange_strong(nIndicesOffset, nIndicesOffset + nAllocInds * sizeof(uint16) ) );
 
 	subAlloc.m_pIndices = (uint16*)(pIndices + nIndicesOffset);
 	subAlloc.m_nAllocInds = nAllocInds;

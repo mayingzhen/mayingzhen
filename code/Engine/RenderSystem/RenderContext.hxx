@@ -21,7 +21,6 @@ namespace ma
 		m_fFar[0] = 0;
 		m_fFar[1] = 0;
 
-		m_pCurObject = NULL;
 		m_pCurScene = NULL;
 		m_pCurLight = NULL;
 	}

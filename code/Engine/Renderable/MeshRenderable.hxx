@@ -10,9 +10,7 @@ namespace ma
 
 	void MeshRenderable::PreRender(Technique* pTech)
 	{
-		GetRenderContext()->SetCurRenderObj(this);
- 
- 		pTech->Bind();
+ 		pTech->Bind(this);
 	}
 
 }

@@ -54,16 +54,8 @@ namespace ma
 
 	void TerrainRenderable::PreRender(Technique* pTech)
 	{
-		GetRenderContext()->SetCurRenderObj(this);
-
-		pTech->Bind();
+		pTech->Bind(this);
 	}
 
-	void TerrainRenderable::Render(Technique* pTech)
-	{
-		//pTech->CommitChanges();
-
-		//GetRenderSystem()->DrawRenderable(this,pTech);
-	}
 }
 

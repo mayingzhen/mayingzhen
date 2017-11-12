@@ -63,7 +63,7 @@ public:
 			}
 			else
 			{
-				--m_pOwner->m_ThreadsIdle;
+				++m_pOwner->m_ThreadsIdle;
 				m_pOwner->m_AwakeSemaphore.WaitForSignal();
 			}
 		}

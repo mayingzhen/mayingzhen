@@ -58,10 +58,10 @@ namespace ma
 		SAFE_DELETE(m_pMethod);
 	}
 
-	void Uniform::Bind()
+	void Uniform::Bind(Renderable* pRenderable)
 	{
 		if (m_pMethod) 
-			m_pMethod->SetValue();
+			m_pMethod->SetValue(pRenderable);
 	}
 
 	const char* Uniform::GetName() const

@@ -19,24 +19,41 @@ namespace ma
 		{
 
 		}
-		virtual void SetValue() = 0;
+		virtual void SetValue(Renderable* pRenderable) = 0;
 
 	protected:
 		Uniform*	m_pParameter;
 	};
 
-
 	// Defines a method parameter binding for a single value.
-	template <class ClassType, class ParameterType>
+	template <class ClassType, class ReturnType>
 	class MethodValueBinding : public MethodBinding
 	{
-		typedef ParameterType (ClassType::*ValueMethod)() const;
-		
+		typedef ReturnType(ClassType::*ValueMethod)() const;
+
 	public:
 
 		MethodValueBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod);
+
+		void SetValue(Renderable* pRenderable);
+
+	private:
+		ClassType*		m_pInstance;
+
+		ValueMethod		m_pValueMethod;
+	};
+
+	// Defines a method parameter binding for a single value.
+	template <class ClassType, class ReturnType, class ParameterType>
+	class MethodValueParameterBinding : public MethodBinding
+	{
+		typedef ReturnType(ClassType::*ValueMethod)(ParameterType) const;
 		
-		void SetValue();
+	public:
+
+		MethodValueParameterBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod);
+		
+		void SetValue(Renderable* pRenderable);
 	
 	private:
 		ClassType*		m_pInstance;
@@ -46,17 +63,17 @@ namespace ma
 
 
     // Defines a method parameter binding for an array of values.
-    template <class ClassType, class ParameterType>
+    template <class ClassType, class ReturnType, class ParameterType>
     class MethodArrayBinding : public MethodBinding
     {
-        typedef ParameterType (ClassType::*ValueMethod)() const;
-        typedef UINT (ClassType::*CountMethod)() const;
+        typedef ReturnType(ClassType::*ValueMethod)(ParameterType) const;
+        typedef UINT (ClassType::*CountMethod)(ParameterType) const;
         
     public:
         
         MethodArrayBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
         
-        void SetValue();
+        void SetValue(Renderable* pRenderable);
         
     private:
         ClassType*		m_pInstance;

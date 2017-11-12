@@ -128,7 +128,7 @@ namespace ma
 
 		//GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::White,1,0);
 		
-		m_pFrustumVolume->Bind();
+		m_pFrustumVolume->Bind(NULL);
 
 		float fBlendValue = 0.8f;
 		
