@@ -212,6 +212,7 @@ namespace ma
 				if (ePassType == RP_ShadowDepth)
 				{
 					pTech = pSubMaterial->GetShadowDepthTechnqiue();
+					pRenderable->m_bSuportInstace = true;
 				}
 
 				pRenderable->m_Technique = pTech;
