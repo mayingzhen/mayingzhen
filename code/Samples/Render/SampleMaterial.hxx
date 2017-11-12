@@ -23,11 +23,11 @@ namespace ma
 		
 		if (1)
 		{
-			for (uint32 i = 2; i < 4; ++i)
+			for (uint32 i = 1; i < 4; ++i)
 			{
 				SceneNode* pBox = m_pScene->CreateSceneNode();
 				MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
-				//pBoxMesh->SetSuportInstance(true);
+				pBoxMesh->SetSuportInstance(true);
 				pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
 				//pBoxMesh->SetShadowCaster(true);
                 float x = (float)i + 2.0f;//Math::RangeRandom(0, 150);
@@ -88,7 +88,7 @@ namespace ma
 
 		if (1)
 		{
-			for (UINT i = 0; i < 4; ++i)
+			for (UINT i = 0; i < 40; ++i)
 			{
 				RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 				RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();

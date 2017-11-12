@@ -94,7 +94,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zziplib.lib;FreeImage.lib;libcpuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zziplib.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../extern/zziplib-0.13.57/msvc8;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Release;../../extern/vld/lib;../../extern/LibCpuId/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>../../code/Engine/Export.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>

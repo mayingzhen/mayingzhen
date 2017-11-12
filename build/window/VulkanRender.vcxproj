@@ -77,22 +77,23 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/oisInput/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes;../../extern/vld/include;../../extern/vulkan;../../extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VK_USE_PLATFORM_WIN32_KHR;VULKANRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>D3D11Render/StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>VulkanRender/StdAfx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D3D11.lib;dxguid.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;../../extern\glslang\glslang\Release\glslang.lib;../../extern\glslang\SPIRV\Release\SPIRV.lib;../../extern\glslang\OGLCompilersDLL\Release\OGLCompiler.lib;../../extern\glslang\hlsl\Release\HLSL.lib;../../extern\glslang\glslang\OSDependent\Windows\Release\OSDependent.lib;../../extern\SPIRV-Cross\Release\spirv-cross-core.lib;../../extern\SPIRV-Cross\Release\spirv-cross-glsl.lib;../../extern\SPIRV-Cross\Release\spirv-cross-hlsl.lib;../../extern\SPIRV-Cross\Release\spirv-cross-msl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>../../extern/vld/lib;../../extern;../../extern/vulkan/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -109,6 +110,7 @@
     <ClCompile Include="..\..\code\Plugin\VulkanRender\Module.cpp" />
     <ClCompile Include="..\..\code\Plugin\VulkanRender\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
