@@ -311,7 +311,8 @@
     <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixThread.hxx" />
     <ClInclude Include="..\..\code\Engine\Thread\Thread.h" />
     <ClInclude Include="..\..\code\Engine\Thread\Thread.hxx" />
-    <ClInclude Include="..\..\code\Engine\Thread\tsd.h" />
+    <ClInclude Include="..\..\code\Engine\Thread\ThreadPool.h" />
+    <ClInclude Include="..\..\code\Engine\Thread\ThreadPool.hxx" />
     <ClInclude Include="..\..\code\Engine\Thread\winThread\WinCriticalSection.h" />
     <ClInclude Include="..\..\code\Engine\Thread\winThread\WinEvent.h" />
     <ClInclude Include="..\..\code\Engine\Thread\winThread\WinThread.h" />

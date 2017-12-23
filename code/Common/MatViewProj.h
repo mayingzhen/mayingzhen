@@ -1,7 +1,7 @@
 #ifndef  _MatViewProj__H__
 #define  _MatViewProj__H__
 
-#include "Common/Math/Matrix4.h"
+#include "Math/Matrix4.h"
 
 namespace ma
 {

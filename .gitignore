@@ -133,3 +133,9 @@ ShaderCach
 /Bin/Release/SampleBrowser.exe
 /build/window/My Amplifier XE Results - SampleBrowser
 /build/window/My Inspector XE Results - SampleBrowser
+/extern/SPIRV-Cross/Release
+/extern/glslang/SPIRV/Release
+/extern/glslang/hlsl/Release
+/extern/glslang/glslang/Release
+/extern/glslang/glslang/OSDependent/Windows/Release
+/extern/glslang/OGLCompilersDLL/Release

@@ -232,7 +232,7 @@ namespace ma
 
 		//setupSwapChain
 		m_swapChain.connect(instance, physicalDevice, vulkanDevice->logicalDevice);
-		m_swapChain.initSurface(NULL, wndhandle);
+		m_swapChain.initSurface(wndhandle);
 		m_swapChain.create(&m_width, &m_height, false);
 
 		// createCommandBuffers

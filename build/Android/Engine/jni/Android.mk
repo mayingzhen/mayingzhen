@@ -15,7 +15,8 @@ LOCAL_SRC_FILES := \
 
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../../../../code \
-	$(LOCAL_PATH)/../../../../extern/oisInput/Include \
+	$(LOCAL_PATH)/../../../../extern \
+	$(LOCAL_PATH)/../../../../extern/FreeImage-3.13.1/Source \
 	$(LOCAL_PATH)/../../../../extern/zziplib-0.13.57
 
 

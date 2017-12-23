@@ -23,7 +23,7 @@
 #else
 #endif
 
-//#include <vulkan/vulkan.h>
+#include <vulkan.h>
 //#include "VulkanTools.h"
 
 #ifdef __ANDROID__
@@ -102,10 +102,11 @@ public:
 	*/
 	void initSurface(
 #ifdef _WIN32
-		void* platformHandle, void* platformWindow
+		 void* platformWindow, void* platformHandle = NULL
 #else
 #ifdef __ANDROID__
-		ANativeWindow* window
+		//ANativeWindow* window
+		void* window
 #else
 #ifdef _DIRECT2DISPLAY
 	uint32_t width, uint32_t height
@@ -133,7 +134,7 @@ public:
 #ifdef __ANDROID__
 		VkAndroidSurfaceCreateInfoKHR surfaceCreateInfo = {};
 		surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
-		surfaceCreateInfo.window = window;
+		surfaceCreateInfo.window = (ANativeWindow*)window;
 		err = vkCreateAndroidSurfaceKHR(instance, &surfaceCreateInfo, NULL, &surface);
 #else
 #if defined(_DIRECT2DISPLAY)

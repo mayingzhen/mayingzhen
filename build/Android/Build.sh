@@ -34,25 +34,17 @@ echo "2.开始编译libEngine"
 ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Engine
 echo "================================================================"
 
-echo "3.开始编译Render"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Render
-echo "================================================================"
-
 echo "4.开始编译libAnimation"
 ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Animation
 echo "================================================================"
 
-echo "5.开始编译libGLESRender"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C GLESRender
+echo "5.开始编译libVulkanRender"
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C VulkanRender
 echo "================================================================"
 
-echo "6.开始编译libBulletPhysics"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C BulletPhysics
-echo "================================================================"
-
-echo "7.开始编译libUI"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C UI
-echo "================================================================"
+#echo "6.开始编译libBulletPhysics"
+#ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C BulletPhysics
+#echo "================================================================"
 
 echo "8.开始编译Application"
 ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Application
@@ -64,34 +56,34 @@ cp Common/obj/local/armeabi/libCommon.a lib/
 cp Engine/obj/local/armeabi/libEngine.a lib/
 cp Render/obj/local/armeabi/libRender.a lib/
 cp Animation/obj/local/armeabi/libAnimation.a lib/
-cp GLESRender/obj/local/armeabi/libGLESRender.a lib/
-cp BulletPhysics/obj/local/armeabi/libBulletPhysics.a lib/
-cp UI/obj/local/armeabi/libUI.a lib/
+cp VulkanRender/obj/local/armeabi/libVulkanRender.a lib/
+#cp BulletPhysics/obj/local/armeabi/libBulletPhysics.a lib/
+#cp UI/obj/local/armeabi/libUI.a lib/
 cp Application/obj/local/armeabi/libApplication.a lib/
 
 echo "9.复制Externlib"
-cp ../../extern/Bullet-2.81/build/ndk/libPhyxBullet.a lib/
-cp ../../extern/DevIL/lib/Android/libDevIL.a lib/
-cp ../../extern/DevIL/lib/Android/libjpeg.a lib/
-cp ../../extern/DevIL/lib/Android/libPNG.a lib/
-cp ../../extern/DevIL/lib/Android/libzlib.a lib/
-cp ../../extern/oisInput/Lib/Android/libOIS.a lib/
-cp ../../extern/zziplib-0.13.57/Android/libzzip.a lib/
+#cp ../../extern/Bullet-2.81/build/ndk/libPhyxBullet.a lib/
+#cp ../../extern/DevIL/lib/Android/libDevIL.a lib/
+#cp ../../extern/DevIL/lib/Android/libjpeg.a lib/
+#cp ../../extern/DevIL/lib/Android/libPNG.a lib/
+#cp ../../extern/DevIL/lib/Android/libzlib.a lib/
+#cp ../../extern/oisInput/Lib/Android/libOIS.a lib/
+#cp ../../extern/zziplib-0.13.57/Android/libzzip.a lib/
 echo "================================================================"
 
 
-cd lib
-echo "10.开始合并libBulletPhysics.a libPhyxBullet.a"
-ar -x libBulletPhysics.a
-ar -x libPhyxBullet.a
-ar cru libBulletPhysics2.a *.o
-rm *.o
-rm libPhyxBullet.a
-mv libBulletPhysics2.a libBulletPhysics.a
-ranlib libBulletPhysics.a
+#cd lib
+#echo "10.开始合并libBulletPhysics.a libPhyxBullet.a"
+#ar -x libBulletPhysics.a
+#ar -x libPhyxBullet.a
+#ar cru libBulletPhysics2.a *.o
+#rm *.o
+#rm libPhyxBullet.a
+#mv libBulletPhysics2.a libBulletPhysics.a
+#ranlib libBulletPhysics.a
 
-echo "11.开始合并libGLESRender.a libDevIL.a"
-ar -x libGLESRender.a
+echo "11.开始合并libVulkanRender.a libDevIL.a"
+ar -x libVulkanRender.a
 ar -x libDevIL.a
 ar -x libjpeg.a
 ar -x libPNG.a

@@ -280,71 +280,71 @@ VkStencilOp VulkanMapping::get(StencilOperation op, bool invert)
 	}
 }
 
-void VulkanMapping::GetBlend(BLEND_MODE mode, BOOL& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op)
+void VulkanMapping::GetBlend(BLEND_MODE mode, bool& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op)
 {
 	switch (mode)
 	{
 	case BM_OPATICY:
-		bEnbale = FALSE;
+		bEnbale = false;
 		break;
 
 	case BM_TRANSPARENT:
-		bEnbale = TRUE;
+		bEnbale = true;
 		src = VK_BLEND_FACTOR_SRC_ALPHA;
 		dest = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_ADD:
-		bEnbale = TRUE;
+		bEnbale = true;
 		src = VK_BLEND_FACTOR_ONE;
 		dest = VK_BLEND_FACTOR_ONE;
 		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_MULTIPLY:
-		bEnbale = TRUE;
+		bEnbale = true;
 		src = VK_BLEND_FACTOR_ZERO;
 		dest = VK_BLEND_FACTOR_SRC_COLOR;
 		op = VK_BLEND_OP_ADD;
 		break;
 	default:
 		ASSERT(false);
-		bEnbale = FALSE;
+		bEnbale = false;
 	}
 }
 
-void VulkanMapping::GetBlendAlpha(BLEND_MODE mode, BOOL& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op)
+void VulkanMapping::GetBlendAlpha(BLEND_MODE mode, bool& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op)
 {
 	switch (mode)
 	{
 	case BM_OPATICY:
-		bEnbale = FALSE;
+		bEnbale = false;
 		break;
 
 	case BM_TRANSPARENT:
-		bEnbale = TRUE;
+		bEnbale = true;
 		src = VK_BLEND_FACTOR_SRC_ALPHA;
 		dest = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_ADD:
-		bEnbale = TRUE;
+		bEnbale = true;
 		src = VK_BLEND_FACTOR_ONE;
 		dest = VK_BLEND_FACTOR_ONE;
 		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_MULTIPLY:
-		bEnbale = TRUE;
+		bEnbale = true;
 		src = VK_BLEND_FACTOR_ZERO;
 		dest = VK_BLEND_FACTOR_SRC_ALPHA;
 		op = VK_BLEND_OP_ADD;
 		break;
 	default:
 		ASSERT(false);
-		bEnbale = FALSE;
+		bEnbale = false;
 	}
 }
 
@@ -364,7 +364,7 @@ VkPolygonMode VulkanMapping::get(FillMode mode)
 	}
 	else
 	{
-		ASSERT(FALSE);
+		ASSERT(false);
 		return VK_POLYGON_MODE_FILL;
 	}
 }
@@ -386,7 +386,7 @@ VkCullModeFlagBits VulkanMapping::get(CULL_MODE mode)
 	}
 	else
 	{
-		ASSERT(FALSE);
+		ASSERT(false);
 		return VK_CULL_MODE_BACK_BIT;
 	}
 }

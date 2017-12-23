@@ -24,7 +24,7 @@ namespace ma
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
 		
-		UINT nCount = 50;
+		UINT nCount = 150;
 		for (uint32 i = 0; i < 0; ++i)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");

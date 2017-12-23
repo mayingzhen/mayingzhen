@@ -188,22 +188,22 @@ namespace ma
 #else
 		// Temporary disabling dynamic viewport on Android because some of drivers doesn't
 		// support the feature.
-		VkViewport viewports;
-		viewports.minDepth = 0.0f;
-		viewports.maxDepth = 1.0f;
-		viewports.x = 0;
-		viewports.y = 0;
-		viewports.width = info.width;
-		viewports.height = info.height;
-		VkRect2D scissor;
-		scissor.extent.width = info.width;
-		scissor.extent.height = info.height;
-		scissor.offset.x = 0;
-		scissor.offset.y = 0;
-		vp.viewportCount = NUM_VIEWPORTS;
-		vp.scissorCount = NUM_SCISSORS;
-		vp.pScissors = &scissor;
-		vp.pViewports = &viewports;
+		//VkViewport viewports;
+		//viewports.minDepth = 0.0f;
+		//viewports.maxDepth = 1.0f;
+		//viewports.x = 0;
+		//viewports.y = 0;
+		//viewports.width = info.width;
+		//viewports.height = info.height;
+		//VkRect2D scissor;
+		//scissor.extent.width = info.width;
+		//scissor.extent.height = info.height;
+		//scissor.offset.x = 0;
+		//scissor.offset.y = 0;
+		vp.viewportCount = 1/*NUM_VIEWPORTS*/;
+		vp.scissorCount = 1/*NUM_SCISSORS*/;
+		vp.pScissors = NULL;//&scissor;
+		vp.pViewports = NULL;// &viewports;
 #endif
 
 		VkPipelineMultisampleStateCreateInfo ms;

@@ -1,7 +1,10 @@
 #ifndef __RenderThread_H__
 #define __RenderThread_H__
 
-
+#ifdef WIN32
+#else
+#include <unistd.h>
+#endif
 namespace ma
 {
 	class Uniform;

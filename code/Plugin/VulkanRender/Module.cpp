@@ -3,6 +3,7 @@
 
 #include "VulkanRender/VulkanTools.hxx"
 #include "VulkanRender/VulkanDebug.hxx"
+#include "VulkanRender/VulkanAndroid.hxx"
 
 #include "VulkanRender/VulkanTexture.hxx"
 #include "VulkanRender/VulkanVertexBuffer.hxx"

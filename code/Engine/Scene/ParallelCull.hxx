@@ -157,11 +157,71 @@ namespace ma
 	{
 		ASSERT(vecObj.empty());
 
+		/*
+		if (0)
+		{
+			BEGIN_TIME(thread_pool);
+
+			thread_pool& pool = thread_pool::Instance();
+
+			uint32 nNumJob = 4;
+
+			static vector<int> vecVis;
+			vecVis.resize(m_vecNode.size(), false);
+
+			static vector<CullJobData> vecJobData;
+			vecJobData.resize(nNumJob);
+
+			static vector< std::future<void*> > vecRes;
+			vecRes.resize(nNumJob);
+
+			uint32 nCountPerJob = m_vecNode.size() / nNumJob;
+
+			for (UINT32 iJob = 0; iJob < nNumJob; ++iJob)
+			{
+				uint32 nStartIndex = iJob * nCountPerJob;
+				uint32 nEndIndex = nStartIndex + nCountPerJob - 1;
+				if (iJob == nNumJob - 1)
+					nEndIndex = m_vecNode.size() - 1;
+
+				ASSERT(nEndIndex >= nStartIndex);
+				if (nEndIndex < nStartIndex)
+					continue;
+
+				uint32 nCount = nEndIndex - nStartIndex;
+				void* data = (Frustum*)pFrustum;
+				vecJobData[iJob].m_pNodeStart = &(m_vecNode[nStartIndex]);
+				vecJobData[iJob].m_pVisStart = &(vecVis[nStartIndex]);
+				vecJobData[iJob].m_pNodeBoundStart = &(m_vecNodeBound[nStartIndex]);
+				vecJobData[iJob].m_nNodeCount = nCount;
+				void* data1 = &vecJobData[iJob];
+				//GetJobScheduler()->SubmitJob(jobGroup, ParallelCullFrustum, data, data1, NULL);
+				vecRes[iJob] = pool.submit(std::bind(ParallelCullFrustum,data,data1));
+			}
+
+			for (UINT32 i = 0; i < vecRes.size(); ++i)
+			{
+				vecRes[i].wait();
+			}
+
+			vecObj.clear();
+			for (UINT32 i = 0; i < vecVis.size(); ++i)
+			{
+				if (vecVis[i])
+				{
+					vecObj.push_back(m_vecNode[i]);
+				}
+			}
+
+			END_TIME(thread_pool);
+		}
+		*/
+
         uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 	
 		if (nNumJob > 1 && m_vecNode.size() > nNumJob)
 		{
-			//BEGIN_TIME(g_pJobScheduler);
+			BEGIN_TIME(g_pJobScheduler);
 
 			static vector<int> vecVis;
 			vecVis.resize(m_vecNode.size(),false);
@@ -204,7 +264,7 @@ namespace ma
 				}
 			}
 
-			//END_TIME(g_pJobScheduler);
+			END_TIME(g_pJobScheduler);
 		}
 		else
 		{
@@ -226,3 +286,4 @@ namespace ma
 		}
 	}
 }
+

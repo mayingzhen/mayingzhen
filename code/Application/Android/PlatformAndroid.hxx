@@ -1,6 +1,6 @@
 #include "../Platform.h"
 #include "Plugin/GLESRender/GLESBase.h"
-#include "Application/Input/AndroidInputInjector.h"
+//#include "Application/Input/AndroidInputInjector.h"
 #include "Application/Input/Gesture.h"
 #include "android_native_app_glue.hxx"
 
@@ -83,9 +83,9 @@ namespace ma
 		if (GetInput() == NULL)
 			return 0;
 
-		AndroidInputInjector* pInputInjector = GetInput()->GetAndroidInputInjector();
-		if (pInputInjector == NULL)
-			return 0;
+		//AndroidInputInjector* pInputInjector = GetInput()->GetAndroidInputInjector();
+		//if (pInputInjector == NULL)
+		//	return 0;
 
 		int32_t nEventType = AInputEvent_getType(event);
 		if (nEventType == AINPUT_EVENT_TYPE_MOTION)
@@ -96,12 +96,12 @@ namespace ma
 			if (nMotinAction == AMOTION_EVENT_ACTION_DOWN)
 			{
 
-				pInputInjector->injectTouchEvent(nMotinAction,posx,posy,0);
+				//pInputInjector->injectTouchEvent(nMotinAction,posx,posy,0);
 
 			}
 			else if (nMotinAction == AMOTION_EVENT_ACTION_UP)
 			{
-				pInputInjector->injectTouchEvent(nMotinAction,posx,posy,0);
+				//pInputInjector->injectTouchEvent(nMotinAction,posx,posy,0);
 			}
 		}
 

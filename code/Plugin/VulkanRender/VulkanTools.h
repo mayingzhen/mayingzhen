@@ -28,7 +28,6 @@
 #include <io.h>
 #elif defined(__ANDROID__)
 #include "VulkanAndroid.h"
-#include <android/asset_manager.h>
 #endif
 
 // Custom define for better code readability
@@ -109,22 +108,5 @@ namespace vks
 			VkPipelineStageFlags srcStageMask,
 			VkPipelineStageFlags dstStageMask,
 			VkImageSubresourceRange subresourceRange);
-
-		// Display error message and exit on fatal error
-		void exitFatal(std::string message, std::string caption);
-
-		// Load a SPIR-V shader (binary) 
-#if defined(__ANDROID__)
-		VkShaderModule loadShader(AAssetManager* assetManager, const char *fileName, VkDevice device);
-#else
-		VkShaderModule loadShader(const char *fileName, VkDevice device);
-#endif
-
-		// Load a GLSL shader (text)
-		// Note: GLSL support requires vendor-specific extensions to be enabled and is not a core-feature of Vulkan
-		VkShaderModule loadShaderGLSL(const char *fileName, VkDevice device, VkShaderStageFlagBits stage);
-
-		/** @brief Checks if a file exists */
-		bool fileExists(const std::string &filename);
 	}
 }

@@ -23,8 +23,8 @@ LOCAL_C_INCLUDES := \
 
 LOCAL_LDLIBS := -lGLESv2 -llog -ldl -landroid -lEGL
 
-LOCAL_STATIC_LIBRARIES := Common Engine Render GLESRender BulletPhysics Animation UI Application
-  
+LOCAL_STATIC_LIBRARIES := Common Engine Render VulkanRender Animation Application
+LOCAL_STATIC_LIBRARIES += libfreeimage
 
 include $(BUILD_SHARED_LIBRARY)
 
@@ -68,3 +68,8 @@ LOCAL_MODULE := Application
 LOCAL_SRC_FILES := ../../lib/libApplication.a
 include $(PREBUILT_STATIC_LIBRARY)
 
+# libfreeimage
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libfreeimage
+LOCAL_SRC_FILES := E:/work/mydemon_git/mayingzhen/extern/AndroidBuildLibs/libfreeimage.a
+include $(PREBUILT_STATIC_LIBRARY)
