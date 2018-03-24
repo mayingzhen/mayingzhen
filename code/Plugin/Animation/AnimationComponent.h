@@ -8,28 +8,10 @@ namespace ma
 	class SkelAnimtion;
 	class AnimationSet;
 	class BoneSet;
-
-	enum TriggerType
-	{
-		NONE = 0,
-		EXECUTE = 1,
-		STOP = 2,
-		CHANGE = 3,
-	};
-
-	struct AnimTriggerInfo
-	{
-		AnimTriggerInfo()
-		{
-			anim_idx = 0;
-			sk_idx = 0;
-			type = TriggerType::NONE;
-		}
-		UINT anim_idx;
-		UINT sk_idx;
-		Vector2 key;
-		TriggerType type;
-	};
+	class BaseParameter;
+	class AnimationNodeOutputPool;
+	struct AnimationNodeOutput;
+	class ParameterNode;
 
 
 	class AnimationComponent : public Component
@@ -50,9 +32,7 @@ namespace ma
 
 		void					Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
-		bool					SetAnimation(const char* pszName,uint32 nLayerID = 0);
-		bool					SetAnimation(uint32 nAnimID,uint32 nLayerID = 0,const char* pszName = NULL);
-		bool					SetAnimation(AnimTreeNode* pAnim,uint32 nLayerID = 0);
+		bool					SetAnimationTree(AnimTreeNode* rootNode, bool activateTree);
 
 		void					DebugRender(bool bDrawBoneName = false);
 
@@ -68,52 +48,35 @@ namespace ma
 		const char*				GetAnimSetPath() const;
 		void					SetAnimSetPath(const char* pAniSetPath);
 
-		void					SetLayerName(uint32 nLayer,const char* pszName);
-		
-		void					SetGoalWorldSpace(Vector3 vGoalWS);
-
 		bool					IsReady();
+
+
+		AnimationNodeOutputPool* GetAnimationNodeOutputPool() { return m_animation_node_out_pool; }
+
+		ParameterNode*			GetParameterNode() { return m_prameNode; }
 
 	protected:
 		void					EvaluateAnimation();
 
-		void					PlayAnimation(AnimTreeNode* pAnim,uint32 nLayerID);
-	
 	private:
 		RefPtr<Skeleton>			m_pSkeleton;		
 		RefPtr<SkeletonPose>		m_pose;
 
 		RefPtr<AnimationSet>		m_pAnimSet;
-   
-		struct LayerInfo
-		{
-			RefPtr<AnimTreeNode> m_pAnimation;
-			uint32 m_nAnimID;// 异步加载结束解析成m_pAnimation
-			string m_strAnimName; // Debug
 
-			RefPtr<AnimTreeNode> m_pPreAnimation;
-			float m_fCurFadeTime;
+		RefPtr<AnimTreeNode>		m_rootNode;
 
-			float m_fFadeFactor;
-
-			string m_strLayerName;
-			RefPtr<BoneSet> m_pBoneSet;
-
-			LayerInfo()
-			{
-				m_nAnimID = -1;
-				m_fCurFadeTime = 0;
-				m_fFadeFactor = 0;
-			}
-		};
-
-		vector<LayerInfo> m_arrLayerInfo;
+		ParameterNode*				m_prameNode;
 
 		Matrix3x4*					m_arrSkinMatrix;
 
 		bool						m_bLoadOver;	
 
         std::mutex                  m_csParallelUpdate;
+
+		AnimationNodeOutputPool*	m_animation_node_out_pool = NULL;
+
+		AnimationNodeOutput*		m_treeOutput = NULL;
 	};
 
 	RefPtr<AnimationComponent> CreateAnimationComponent();

@@ -14,8 +14,6 @@ namespace ma
 
 	void AnimBlendNode::AdvanceTime(float fTimeElapsed)
 	{
-		AnimTreeNode::AdvanceTime(fTimeElapsed);
-
 		if (m_pSrcAnimNode)
 			m_pSrcAnimNode->AdvanceTime(fTimeElapsed);
 
@@ -23,47 +21,32 @@ namespace ma
 			m_pDestAnimNode->AdvanceTime(fTimeElapsed);
 	}
 
-	void AnimBlendNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, BoneSet* pBoneSet)
+	void AnimBlendNode::EvaluateAnimation(AnimationNodeOutput &output, float fWeight)
 	{
 		float fSrcWeight = fWeight * ( 1.0f - m_fWeight) ;
 		float fDestWeight = fWeight * m_fWeight;
 		if (m_pSrcAnimNode)
 		{
-			m_pSrcAnimNode->EvaluateAnimation(pEvalContext,fSrcWeight,pBoneSet);
+			m_pSrcAnimNode->EvaluateAnimation(output,fSrcWeight);
 		}
 
 		if (m_pDestAnimNode)
 		{
-			m_pDestAnimNode->EvaluateAnimation(pEvalContext,fDestWeight,pBoneSet);
+			m_pDestAnimNode->EvaluateAnimation(output,fDestWeight);
 		}
 	}
 
-	void AnimBlendNode::SetFrame(float fFrame)
+	void AnimBlendNode::Activate()
 	{
 		if (m_pSrcAnimNode)
 		{
-			m_pSrcAnimNode->SetFrame(fFrame);
+			m_pSrcAnimNode->Activate();
 		}
 
 		if (m_pDestAnimNode)
 		{
-			m_pDestAnimNode->SetFrame(fFrame);
+			m_pDestAnimNode->Activate();
 		}
-	}
-
-	bool AnimBlendNode::Instantiate(Skeleton* pSkeletion)
-	{
-		if (m_pSrcAnimNode)
-		{
-			m_pSrcAnimNode->Instantiate(pSkeletion);
-		}
-
-		if (m_pDestAnimNode)
-		{
-			m_pDestAnimNode->Instantiate(pSkeletion);
-		}
-
-		return true;
 	}
 
 	bool AnimBlendNode::IsReady()
@@ -77,23 +60,8 @@ namespace ma
 		return true;
 	}
 
-	uint32 AnimBlendNode::GetFrameCount()
-	{
-		UINT nSrcFrameCount = 0;
-		if (m_pDestAnimNode)
-		{
-			nSrcFrameCount = m_pDestAnimNode->GetFrameCount();
-		}
-
-		UINT nDestFrameCount = 0;
-		if (m_pSrcAnimNode)
-		{
-			nDestFrameCount = m_pSrcAnimNode->GetFrameCount();
-		}
-
-		return max(nSrcFrameCount,nDestFrameCount);
-	}
-
 }
+
+
 
 

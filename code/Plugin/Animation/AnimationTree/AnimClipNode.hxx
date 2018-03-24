@@ -32,17 +32,17 @@ namespace ma
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "EndFrame", GetEndFrame, SetEndFrame, uint32, 0, AM_DEFAULT);
 	}
 
-	void AnimClipNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, BoneSet* pBoneSet)
+	void AnimClipNode::EvaluateAnimation(AnimationNodeOutput &output, float fWeight)
 	{
 		profile_code();
 
-		if (m_pAnimation == NULL || pEvalContext == NULL)
+		if (m_pAnimation == NULL)
 			return;
 
-		UINT uBoneNumber = pBoneSet ? pBoneSet->GetBoneNumber() : pEvalContext->m_arrTSFPS.size();
+		UINT uBoneNumber = m_pBoneSet ? m_pBoneSet->GetBoneNumber() : GetBoneCount();
 		for (UINT i = 0; i < uBoneNumber; ++i)
 		{
-			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
+			BoneIndex uBoneId = m_pBoneSet ? m_pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_NodeLink.MapNode(uBoneId);
 
 			if ( !Math::IsValidID<BoneIndex>(nTrackInd) )
@@ -53,33 +53,16 @@ namespace ma
 			Transform source;
 			m_pAnimation->SampleSingleTrackByFrame(&source,nTrackInd,m_fSkaFrame);
 
-			Transform& dest = pEvalContext->m_arrTSFPS[uBoneId];
-
-			if (fWeight < 1.0f - 0.00001f)
-			{
-				if (pEvalContext->m_arrFirst[uBoneId])
-				{
-					TransformMul(dest, source, fWeight);
-				}
-				else
-				{
-					TransformMad(dest, source, fWeight, dest);
-				}
-			}
-			else
-			{
-				dest = source;
-			}
-
-			pEvalContext->m_arrFirst[uBoneId] = false;
+			output.boneTrans[uBoneId] = source;
+			output.boneMask[uBoneId] = true;
 		}
 	}
 
 	void AnimClipNode::SetFrame(float fFrame)
 	{
-		AnimTreeNode::SetFrame(fFrame);
+		m_player.SetFrame(fFrame);
 
-		m_fSkaFrame = (float)m_nStartFrame + m_fLocalFrame;
+		m_fSkaFrame = (float)m_nStartFrame + m_player.GetFrame();
 	}
 
 	void AnimClipNode::SetAnimationClip(const char* pszSkaPath)
@@ -102,22 +85,49 @@ namespace ma
 		return nFrameCount;
 	}
 
-	bool AnimClipNode::Instantiate(Skeleton* pSkeleton)
+	void AnimClipNode::Activate()
 	{
+		ASSERT(m_animator);
+
+		AnimTreeNode::Activate();
+
+		m_player.Play();
+
 		if (m_pAnimation)
-			return true;
+			return;
 
 		ASSERT(!m_strSkaName.empty());
 		if (m_strSkaName.empty())
-			return false;
-	
+			return;
+
+		Skeleton* pSkeleton = m_animator->GetSkeleton();
+
 		ASSERT(pSkeleton && pSkeleton->IsReady());
 		m_pSkeleton = pSkeleton;
 
-		m_pAnimation = CreateAnimation( m_strSkaName.c_str(), pSkeleton->GetResPath() ); 
+		m_pAnimation = CreateAnimation(m_strSkaName.c_str(), pSkeleton->GetResPath());
 
 		m_bLoadOver = false;
-		return IsReady();
+		IsReady();
+	}
+
+	void AnimClipNode::AdvanceTime(float fTimeElepse)
+	{
+		if (!this->IsReady())
+			return;
+
+		if (!m_player.IsPlaying())
+			return;
+
+		float fLocalFrame = m_player.Process();
+		m_fSkaFrame = (float)m_nStartFrame + fLocalFrame;
+
+		if (m_player.IsStopped() && m_pCallBack)
+		{
+			m_pCallBack->OnStop(this);
+		}
+
+		//ProcessFrameEvent(fLastFrame, m_fLocalFrame);
 	}
 
 	bool AnimClipNode::IsReady()
@@ -149,11 +159,16 @@ namespace ma
 			m_nEndFrame = min( m_pAnimation->GetFrameNumber() - 1, m_nEndFrame );
 		}
 
-		Animatable::SetFrameCount(this->GetFrameCount());
+		m_player.SetFrameCount(this->GetFrameCount());
 
 		m_bLoadOver = true;
 
 		return true;
+	}
+
+	void AnimClipNode::AddFrameEvent(FrameEvent* pFrameEvent)
+	{
+		m_vecFrameEvent.push_back(pFrameEvent);
 	}
 
 	RefPtr<AnimClipNode>  CreateClipNode(const char* skaName,const char* pszName)

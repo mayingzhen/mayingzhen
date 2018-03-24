@@ -37,7 +37,7 @@ namespace ma
 	
 		m_pAnimComp->SetAnimationSet(pAnimSet.get());
 		
-		m_pAnimComp->SetAnimation(102);
+		//m_pAnimComp->SetAnimation(102);
 		//m_pAnimComp->PlayAnimation(pClipNode.get());
 
 	}
@@ -59,11 +59,11 @@ namespace ma
 
 		if (key == Keyboard::KEY_ONE)
 		{
-			m_pAnimComp->SetAnimation(100);
+			//m_pAnimComp->SetAnimation(100);
 		}
 		else if (key ==Keyboard::KEY_TWO)
 		{
-			m_pAnimComp->SetAnimation(102);
+			//m_pAnimComp->SetAnimation(102);
 		}
 		else if (key == Keyboard::KEY_A)
 		{
@@ -78,7 +78,7 @@ namespace ma
 		if (pInput == NULL)
 			return;
 		
-		m_pAnimComp->SetGoalWorldSpace(m_pCamera->GetEyeNode()->GetPosWS());
+		//m_pAnimComp->SetGoalWorldSpace(m_pCamera->GetEyeNode()->GetPosWS());
 	}
 
 }

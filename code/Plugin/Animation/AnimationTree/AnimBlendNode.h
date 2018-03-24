@@ -24,15 +24,11 @@ namespace ma
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 
-		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, BoneSet* pBoneSet);
+		virtual void	EvaluateAnimation(AnimationNodeOutput &output, float fWeight);
 
-		virtual	void	SetFrame(float fFrame);
-
-		virtual bool	Instantiate(Skeleton* pSkeletion);
+		virtual void	Activate();
 
 		virtual bool	IsReady();
-
-		virtual uint32	GetFrameCount();
 
 	private:
 		RefPtr<AnimTreeNode>	m_pSrcAnimNode;

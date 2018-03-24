@@ -13,6 +13,7 @@
 #include "Animation/AnimationComponent.h"
 #include "Animation/PoseModifier/LookAtModifier.h"
 
+#include "Animation/AnimationTree/StateMachineNode.h"
 
 void AnimationModuleInit();
 

@@ -32,13 +32,17 @@ namespace ma
 
 		virtual uint32	GetFrameCount();
 
-		virtual bool	Instantiate(Skeleton* pSkeleton);
+		virtual void	Activate();
 
-		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, BoneSet* pBoneSet);
+		virtual void	AdvanceTime(float fTimeElepse);
+
+		virtual void	EvaluateAnimation(AnimationNodeOutput &output, float fWeight);
 
 		virtual	void	SetFrame(float fFrame);
 
 		virtual bool	IsReady();
+
+		void			AddFrameEvent(FrameEvent* pFrameEvent);
 
 	private:
 		string					m_strSkaName;
@@ -53,7 +57,14 @@ namespace ma
 
 		RefPtr<Skeleton>		m_pSkeleton;
 
+		RefPtr<BoneSet>			m_pBoneSet;
+
 		bool					m_bLoadOver;
+
+		Animatable				m_player;
+
+		typedef vector< RefPtr<FrameEvent> > VEC_FRAMEEVENT;
+		VEC_FRAMEEVENT			m_vecFrameEvent;
 	};
 
 	RefPtr<AnimClipNode> CreateClipNode(const char* skaName, const char* pszName = NULL);

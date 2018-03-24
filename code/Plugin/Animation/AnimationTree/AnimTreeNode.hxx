@@ -8,7 +8,6 @@ namespace ma
 	AnimTreeNode::AnimTreeNode()
 	{
 		m_fFadeTime = 0.3f;
-		m_fLocalFrame = 0;
 		m_pCallBack = NULL;
 		m_nAnimID = -1;
 	}
@@ -21,8 +20,6 @@ namespace ma
 	void AnimTreeNode::RegisterAttribute()
 	{
 		ACCESSOR_ATTRIBUTE(AnimTreeNode, "Name", GetName, SetName, const char*, NULL, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(AnimTreeNode, "Loop", GetLoop, SetLoop, uint32, -1, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(AnimTreeNode, "PlaySpeed", GetPlaySpeed, SetPlaySpeed, float, 1.0, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimTreeNode, "FadeTime", GetFadeTime, SetFadeTime, float, 0.3f, AM_DEFAULT);
 	}
 
@@ -55,62 +52,9 @@ namespace ma
 		m_nAnimID = AnimNameToID(m_strName.c_str());
 	}
 
-	void AnimTreeNode::AdvanceTime(float fTimeElepse)
-	{
-		if (!this->IsReady())
-			return;
-
-		if (!this->IsPlaying())
-			return;
-
-		float fLastFrame = m_fLocalFrame;
-		m_fLocalFrame = Animatable::Process();
-
-		if (Animatable::IsStopped() && m_pCallBack)
-		{
-			m_pCallBack->OnStop(this);
-		}
-
-		ProcessFrameEvent(fLastFrame,m_fLocalFrame);
-	}
-
-	void AnimTreeNode::ProcessFrameEvent(float fFrameFrome,float fFrameTo)
-	{
-		if ( m_vecFrameEvent.empty() )
-			return;
-
-		float fFrameCount = (float)this->GetFrameCount();
-
-		for (UINT i = 0; i < m_vecFrameEvent.size(); ++i)
-		{
-			FrameEvent* pFrameEvent = m_vecFrameEvent[i].get();
-
-			float eventTriggerFrame = pFrameEvent->GetFrame();
-
-			if ( (eventTriggerFrame >= fFrameFrome && eventTriggerFrame < fFrameTo) ||
-				(fFrameTo < fFrameFrome && eventTriggerFrame + fFrameCount >= fFrameFrome && eventTriggerFrame < fFrameTo) ) // 防止一个循环以后跳过第0帧事件
-			{
-				pFrameEvent->DoEvent(this);
-			}
-		}
-	}
-
 	void AnimTreeNode::AddPoseModifier(PoseModifier* pPoseModifier)
 	{
 		m_vecPoseModifier.push_back(pPoseModifier);
-	}
-
-	void AnimTreeNode::SetGoalObjectSpace(const Vector3& vGolaOS)
-	{
-		for (uint32 i = 0; i < m_vecPoseModifier.size(); ++i)
-		{
-			m_vecPoseModifier[i]->SetGoalObjectSpace(vGolaOS);
-		}
-	}
-
-	void AnimTreeNode::AddFrameEvent(FrameEvent* pFrameEvent)
-	{
-		m_vecFrameEvent.push_back(pFrameEvent);
 	}
 
 	void AnimTreeNode::ProcessPoseModifier(SkeletonPose* pNodePose, Skeleton* pSkeleton, float fWeight)
@@ -119,6 +63,32 @@ namespace ma
 		{
 			m_vecPoseModifier[i]->UpdatePose(pNodePose,pSkeleton,fWeight);
 		}
+	}
+
+	BoneIndex AnimTreeNode::GetBoneIndex(const char *boneName) const
+	{
+		if (m_animator->GetSkeleton() == NULL)
+			return -1;
+
+		return m_animator->GetSkeleton()->GetBoneIdByName(boneName);
+	}
+
+	UINT AnimTreeNode::GetBoneCount() const
+	{
+		if (m_animator->GetSkeleton() == NULL)
+			return 0;
+
+		return m_animator->GetSkeleton()->GetBoneNumer();
+	}
+
+	void AnimTreeNode::Init(AnimationComponent* pAnimator)
+	{
+		m_animator = pAnimator;
+	}
+
+	void AnimTreeNode::Activate() 
+	{
+		m_active = true; 
 	}
 
 	bool AnimTreeNode::Import(rapidxml::xml_node<>* xmlNode)
@@ -131,7 +101,7 @@ namespace ma
 			const char* pszType = xmlFrameEvent->findAttribute("ClassName");
 		
 			RefPtr<FrameEvent> pFrameEvent = CreateObject<FrameEvent>(pszType); 
-			m_vecFrameEvent.push_back(pFrameEvent);
+			//m_vecFrameEvent.push_back(pFrameEvent);
 			
 			pFrameEvent->Import(xmlFrameEvent);
 
@@ -158,15 +128,15 @@ namespace ma
 	{
 		Serializable::Export(xmlNode,doc);
 		
-		for (uint32 i = 0; i < m_vecFrameEvent.size(); ++i)
-		{
-			rapidxml::xml_node<>* xmlFrameEvent = doc.allocate_node(rapidxml::node_element, doc.allocate_string("FrameEvent"));
-			xmlNode->append_node(xmlFrameEvent);	
-
-			FrameEvent* pFrameEvent = m_vecFrameEvent[i].get();
-
-			pFrameEvent->Export(xmlFrameEvent,doc);
-		}
+// 		for (uint32 i = 0; i < m_vecFrameEvent.size(); ++i)
+// 		{
+// 			rapidxml::xml_node<>* xmlFrameEvent = doc.allocate_node(rapidxml::node_element, doc.allocate_string("FrameEvent"));
+// 			xmlNode->append_node(xmlFrameEvent);	
+// 
+// 			FrameEvent* pFrameEvent = m_vecFrameEvent[i].get();
+// 
+// 			pFrameEvent->Export(xmlFrameEvent,doc);
+// 		}
 
 		for (uint32 i = 0; i < m_vecPoseModifier.size(); ++i)
 		{

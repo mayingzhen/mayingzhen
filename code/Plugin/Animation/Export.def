@@ -22,7 +22,6 @@ EXPORTS
 ?SaveToFile@Skeleton@ma@@UAE_NPBD@Z
 ?AddPoseModifier@AnimTreeNode@ma@@QAEXPAVPoseModifier@2@@Z
 ?CreateLookAtModifier@ma@@YA?AV?$RefPtr@VLookAtModifier@ma@@@1@XZ
-?SetGoalWorldSpace@AnimationComponent@ma@@QAEXVVector3@2@@Z
 ?SetAnimationSet@AnimationComponent@ma@@QAEXPAVAnimationSet@2@@Z
 ?CreateSkeleton@ma@@YA?AV?$RefPtr@VSkeleton@ma@@@1@XZ
 ?Pushback@QuaternionTrack@ma@@QAEXIABVQuaternion@2@@Z
@@ -31,7 +30,12 @@ EXPORTS
 ?CreateVector3Track@ma@@YA?AV?$RefPtr@VVector3Track@ma@@@1@XZ
 ?AddTrack@Animation@ma@@QAEXPBDPBVVector3Track@2@PBVQuaternionTrack@2@1@Z
 ?CreateClipNode@ma@@YA?AV?$RefPtr@VAnimClipNode@ma@@@1@PBD0@Z
-?SetAnimation@AnimationComponent@ma@@QAE_NPAVAnimTreeNode@2@I@Z
-?SetAnimation@AnimationComponent@ma@@QAE_NIIPBD@Z
-?SetAnimation@AnimationComponent@ma@@QAE_NPBDI@Z
 ?Load@Animation@ma@@QAE_NPBD0@Z
+?SetAnimationTree@AnimationComponent@ma@@QAE_NPAVAnimTreeNode@2@_N@Z
+?CreateStateMachineNode@ma@@YA?AV?$RefPtr@VStateMachineNode@ma@@@1@XZ
+?AddParameter@ParameterNode@ma@@QAEPAVBaseParameter@2@PBDM@Z
+?SetParameterValue@ParameterNode@ma@@QAE_NPBDM@Z
+?AddTransition@MachineState@ma@@QAEPAVMachineTransition@2@PBDMM_N@Z
+?AddState@StateMachineNode@ma@@QAEPAVMachineState@2@PBD@Z
+?SetStartStateId@StateMachineNode@ma@@QAE_NPBD@Z
+?AddfloatCondition@MachineTransition@ma@@QAE_NW4Condition@2@PBDM@Z

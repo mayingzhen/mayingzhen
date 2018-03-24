@@ -15,13 +15,17 @@ include_directories(
 )
 
 link_directories(
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/zziplib-0.13.57/msvc8"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern_vs/Win32/Debug"
 )
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+if (WIN32)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+else (WIN32)
+	add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
+endif()
+
 
 target_link_libraries(${PROJECT_NAME} common engine)
 

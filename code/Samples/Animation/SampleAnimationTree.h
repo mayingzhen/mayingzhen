@@ -20,6 +20,8 @@ namespace ma
 
 		RefPtr<AnimClipNode>		m_pClip602;
 		RefPtr<AnimClipNode>		m_pClip120;
+
+		AnimationComponent* m_pAnimator;
 	};
 }
 

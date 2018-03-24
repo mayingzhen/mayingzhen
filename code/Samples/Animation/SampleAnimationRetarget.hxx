@@ -160,23 +160,23 @@ namespace ma
 
 		if (key == Keyboard::KEY_ONE)
 		{
-			m_pAnimtionObjectA->SetAnimation("100");
-			m_pAnimtionObjectB->SetAnimation("100");
+			//m_pAnimtionObjectA->SetAnimation("100");
+			//m_pAnimtionObjectB->SetAnimation("100");
 		}
 		else if (key == Keyboard::KEY_TWO)
 		{
-			m_pAnimtionObjectA->SetAnimation("200");
-			m_pAnimtionObjectB->SetAnimation("200");
+			//m_pAnimtionObjectA->SetAnimation("200");
+			//m_pAnimtionObjectB->SetAnimation("200");
 		}
 		else if (key == Keyboard::KEY_THREE)
 		{
-			m_pAnimtionObjectA->SetAnimation("300");
-			m_pAnimtionObjectB->SetAnimation("300");
+			//m_pAnimtionObjectA->SetAnimation("300");
+			//m_pAnimtionObjectB->SetAnimation("300");
 		}
 		else if (key == Keyboard::KEY_FOUR)
 		{
-			m_pAnimtionObjectA->SetAnimation("400");
-			m_pAnimtionObjectB->SetAnimation("400");
+			//m_pAnimtionObjectA->SetAnimation("400");
+			//m_pAnimtionObjectB->SetAnimation("400");
 		}
 
 	}
