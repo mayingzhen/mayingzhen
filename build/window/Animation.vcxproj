@@ -104,6 +104,7 @@
     <ClInclude Include="..\..\Code\Plugin\Animation\AnimationDataCover.hxx" />
     <ClInclude Include="..\..\code\Plugin\Animation\AnimationSet.h" />
     <ClInclude Include="..\..\code\Plugin\Animation\AnimationSet.hxx" />
+    <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\AnimationNodeOutput.h" />
     <ClInclude Include="..\..\Code\Plugin\Animation\AnimationTree\AnimBlendNode.h" />
     <ClInclude Include="..\..\Code\Plugin\Animation\AnimationTree\AnimBlendNode.hxx" />
     <ClInclude Include="..\..\Code\Plugin\Animation\AnimationTree\AnimClipNode.h" />
@@ -112,6 +113,12 @@
     <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\AnimTreeNode.hxx" />
     <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\FrameEvent.h" />
     <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\FrameEvent.hxx" />
+    <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\ParameterHandler.h" />
+    <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\ParameterHandler.hxx" />
+    <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\ParameterNode.h" />
+    <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\ParameterNode.hxx" />
+    <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\StateMachineNode.h" />
+    <ClInclude Include="..\..\code\Plugin\Animation\AnimationTree\StateMachineNode.hxx" />
     <ClInclude Include="..\..\code\Plugin\Animation\AnimDataManager.h" />
     <ClInclude Include="..\..\code\Plugin\Animation\AnimDataManager.hxx" />
     <ClInclude Include="..\..\Code\Plugin\Animation\BoneMap.h" />

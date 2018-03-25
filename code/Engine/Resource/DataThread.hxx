@@ -3,7 +3,7 @@
 namespace ma
 {
 
-	DataThread::DataThread():Thread("DataThread")
+	DataThread::DataThread()
 	{
 	}
 
@@ -11,72 +11,70 @@ namespace ma
 	{
 	}
 
+	void DataThread::Start()
+	{
+		m_thread = std::thread(&DataThread::ThreadLoop,this);
+	}
+
 	void DataThread::Stop()
 	{
 		m_bExit = true;
-		m_readEvent.Signal();
+		m_readEvent.notify_all();
 		
-		Thread::Stop();
+		m_thread.join();
 	}
 
 	void DataThread::ThreadLoop()
 	{
 		while(!m_bExit)
 		{
-			m_readEvent.Wait();
-
-			while (true)
+			DataObjQueue queUnloaded;
 			{
-				m_csRequestQueue.lock();
-				if ( m_queUnloaded.empty() )
-				{
-					m_csRequestQueue.unlock();
-					break;
-				}
-				RefPtr<Resource> resData = m_queUnloaded.front();
-				m_queUnloaded.pop_front();
-				m_csRequestQueue.unlock();
+				std::lock_guard<std::mutex> locker(m_csRequestQueue);
+				std::swap(queUnloaded, m_queUnloaded);
+			}
 
+			for (auto resData : queUnloaded)
+			{
 				resData->LoadFileToMemeory();
 
 				LogInfo("resData->LoadFileToMemeory %s", resData->GetResPath());
 
-				m_csLoadedQueue.lock();
+				std::lock_guard<std::mutex> locker(m_csLoadedQueue);
 				m_queLoaded.push_back(resData);
-				m_csLoadedQueue.unlock();
 			}
+
+			std::unique_lock<std::mutex> lock(m_csRequestQueue);
+			m_readEvent.wait(lock);
 		}
 	}
 
 	void DataThread::Process()
 	{	
-		//UINT dTime = StaticFunc::GetTime();
-		while (true)
+		DataObjQueue queloaded;
 		{
-			m_csLoadedQueue.lock();
-			if (m_queLoaded.empty())
-			{
-				m_csLoadedQueue.unlock();
-				break;
-			}
+			std::lock_guard<std::mutex> locker(m_csLoadedQueue);
+			std::swap(queloaded, m_queLoaded);
+		}
 
-			RefPtr<Resource> resData = m_queLoaded.front();
+		while (!queloaded.empty())
+		{
+			RefPtr<Resource> resData = queloaded.front();
 			resData->IsReady();
 			if (resData->GetResState() == ResReady || resData->GetResState() == ResLoadError)
 			{
-				m_queLoaded.pop_front();
+				queloaded.pop_front();
 			}
-			m_csLoadedQueue.unlock();	
 		}
 	}
 
 	void DataThread::PushBackDataObj(Resource* pObj)
 	{
-		m_csRequestQueue.lock();
-		m_queUnloaded.push_back(pObj);
-		m_csRequestQueue.unlock();
+		std::unique_lock<std::mutex> lock(m_csRequestQueue);
 
-		m_readEvent.Signal();
+		m_queUnloaded.push_back(pObj);
+
+		m_readEvent.notify_one();
 	}
 
 	DataThread* g_pDataThread = NULL;

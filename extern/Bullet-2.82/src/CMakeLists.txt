@@ -1,32 +1,21 @@
-SUBDIRS(  BulletSoftBody BulletCollision BulletDynamics LinearMath )
+project(Bullet)
 
-IF(BUILD_MULTITHREADING)
-	SUBDIRS(MiniCL BulletMultiThreaded)
-ENDIF()
+file(GLOB_RECURSE BulletCollision ${CMAKE_CURRENT_SOURCE_DIR}/BulletCollision/*.cpp)
+source_group("BulletCollision" FILES ${BulletCollision})
 
-IF(INSTALL_LIBS)
-	#INSTALL of other files requires CMake 2.6
-	IF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
-		IF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-			# Don't actually need to install any common files, the frameworks include everything
-		ELSE (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-			INSTALL(FILES btBulletCollisionCommon.h btBulletDynamicsCommon.h Bullet-C-Api.h DESTINATION ${INCLUDE_INSTALL_DIR})
-			INSTALL(FILES vectormath/vmInclude.h DESTINATION ${INCLUDE_INSTALL_DIR}/vectormath)
-			INSTALL(FILES vectormath/scalar/boolInVec.h 
-					vectormath/scalar/floatInVec.h 
-					vectormath/scalar/mat_aos.h 
-					vectormath/scalar/quat_aos.h 
-					vectormath/scalar/vec_aos.h 
-					vectormath/scalar/vectormath_aos.h
-				DESTINATION ${INCLUDE_INSTALL_DIR}/vectormath/scalar)
-			INSTALL(FILES vectormath/sse/boolInVec.h 
-					vectormath/sse/floatInVec.h 
-					vectormath/sse/mat_aos.h 
-					vectormath/sse/quat_aos.h 
-					vectormath/sse/vec_aos.h 
-					vectormath/sse/vecidx_aos.h
-					vectormath/sse/vectormath_aos.h
-				DESTINATION ${INCLUDE_INSTALL_DIR}/vectormath/sse)
-		ENDIF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-	ENDIF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
-ENDIF(INSTALL_LIBS)
+file(GLOB_RECURSE BulletDynamics ${CMAKE_CURRENT_SOURCE_DIR}/BulletDynamics/*.cpp)
+source_group("BulletDynamics" FILES ${BulletDynamics})
+
+file(GLOB_RECURSE LinearMath ${CMAKE_CURRENT_SOURCE_DIR}/LinearMath/*.cpp)
+source_group("LinearMath" FILES ${LinearMath})
+
+add_library(${PROJECT_NAME} STATIC ${BulletCollision} ${BulletDynamics} ${LinearMath})
+
+include_directories(
+	"${CMAKE_CURRENT_SOURCE_DIR}/"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../"
+)
+
+if (WIN32)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+endif()

@@ -1,2 +1,2 @@
-#include <Common/Platform/Android/PlatformAndroid.h>
+#include "PlatformAndroid.h"
 #include <android/log.h>

@@ -117,6 +117,8 @@
     <ClInclude Include="..\..\code\Plugin\VulkanRender\Export.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\Module.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\stdafx.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanAndroid.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanAndroid.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanBuffer.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderCommand.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderCommand.hxx" />

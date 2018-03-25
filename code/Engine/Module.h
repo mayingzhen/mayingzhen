@@ -26,8 +26,6 @@
 #include "Engine/Resource/ResourceSystem.h"
 
 // Thread
-#include "Engine/Thread/Thread.h"
-//#include "Engine/Thread/ThreadPool.h"
 #include "Engine/Thread/MSemaphore.h"
 #include "Engine/Thread/JobScheduler.h"
 

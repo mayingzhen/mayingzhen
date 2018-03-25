@@ -15,42 +15,39 @@ include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern"
 	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/include"
 	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/vulkan"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../../../code/Application/Android"
 )
 
 link_directories(
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/zziplib-0.13.57/msvc8"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern_vs/Win32/Debug"
 	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/vulkan/lib"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/glslang/glslang/Debug/"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/glslang/SPIRV/Debug/"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/glslang/OGLCompilersDLL/Debug/"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/glslang/hlsl/Debug/"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/glslang/glslang/OSDependent/Windows/Debug/"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/SPIRV-Cross/Debug/"
 )
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+if(WIN32)
+   	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 
-set(EXTERN_LINK_LIB
-vulkan-1.lib
-glslangd.lib
-SPIRVd.lib
-OGLCompilerd.lib
-HLSLd.lib
-OSDependentd.lib
-spirv-cross-core.lib
-spirv-cross-glsl.lib
-spirv-cross-hlsl.lib
-spirv-cross-msl.lib
-)
+	add_definitions(-DWIN32)
+	add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
+	add_definitions(-DUSRDLL)
+	add_definitions(-DVULKANRENDER_EXPORTS)
 
-target_link_libraries(${PROJECT_NAME} common engine ${EXTERN_LINK_LIB})
+	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+	
+	target_link_libraries(${PROJECT_NAME} engine common glslang SPIRV-Cross vulkan-1.lib)
 
-add_definitions(-DWIN32)
-add_definitions(-DUSRDLL)
-add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
-add_definitions(-DVULKANRENDER_EXPORTS)
+else(WIN32)
+	add_definitions(-D__STDC_LIMIT_MACROS)
+	add_definitions(-DVK_NO_PROTOTYPES)
+	add_definitions(-DVK_USE_PLATFORM_ANDROID_KHR)
+
+	add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
+
+	target_link_libraries(${PROJECT_NAME} engine common glslang SPIRV-Cross)
+
+endif(WIN32)
+
+
+
 
 

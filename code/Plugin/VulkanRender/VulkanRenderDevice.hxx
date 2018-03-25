@@ -119,7 +119,7 @@ namespace ma
 	{
 		//m_hWnd = wndhandle;
 
-		bool enableValidation = true;
+		bool enableValidation = false;
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -160,10 +160,17 @@ namespace ma
  			instanceCreateInfo.enabledLayerCount = vks::debug::validationLayerCount;
  			instanceCreateInfo.ppEnabledLayerNames = vks::debug::validationLayerNames;
  		}
-		vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
 
-		VkResult err;
+ 		VkResult err;
+		err = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
 
+#if defined(__ANDROID__)
+        if(instance == NULL)
+        {
+            __android_log_print(ANDROID_LOG_INFO, "vulkanandroid", "vkCreateInstance Erroe...\n");
+        }
+	    vks::android::loadVulkanFunctions(instance);
+#endif
 		// Physical device
 		uint32_t gpuCount = 0;
 		// Get number of available physical devices

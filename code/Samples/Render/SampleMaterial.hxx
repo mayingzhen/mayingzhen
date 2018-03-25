@@ -52,7 +52,7 @@ namespace ma
 
 			AnimationComponent* pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
 			pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
-			pAnimtionObjectB->SetAnimation("100");
+			//pAnimtionObjectB->SetAnimation("100");
 		}
 
 		if (0)

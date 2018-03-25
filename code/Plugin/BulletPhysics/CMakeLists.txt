@@ -16,24 +16,28 @@ include_directories(
 )
 
 link_directories(
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/zziplib-0.13.57/msvc8"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/Bullet-2.82/build/vs2008/Lib"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern_vs/Win32/Debug"
 )
 
-set(EXTERN_LINK_LIB
-BulletCollision_vs2008_debug.lib
-BulletDynamics_vs2008_debug.lib
-LinearMath_vs2008_debug.lib
-)
+#set(EXTERN_LINK_LIB
+#	Bullet.lib
+#)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+if (WIN32)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+	add_definitions(-DWIN32)
 
-target_link_libraries(${PROJECT_NAME} common engine ${EXTERN_LINK_LIB})
+	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+else (WIN32)
+	add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
+endif()
 
-add_definitions(-DWIN32)
+
+
+target_link_libraries(${PROJECT_NAME} common engine Bullet)
+
+
 add_definitions(-DUSRDLL)
 add_definitions(-DBULLETPHYSICS_EXPORTS)
 

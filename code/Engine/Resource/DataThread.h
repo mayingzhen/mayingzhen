@@ -1,38 +1,42 @@
 #ifndef _DataThread_h__
 #define _DataThread_h__
 
-#include "../Thread/Thread.h"
 
 namespace ma
 {
-	class Thread;
-	class CMyEvent;
 	class Resource;
 
-	class DataThread : public Thread
+	class DataThread 
 	{	
 	public:
 		DataThread();
 
 		~DataThread();
 
-		virtual void	Stop();
+		virtual void	Start();
 
-		virtual	void	ThreadLoop();
+		virtual void	Stop();
 
 		void			Process();
 		
 		void			PushBackDataObj(Resource* pRes);
 
+	private:
+		void			ThreadLoop();
+
 	public:
 		typedef std::deque< RefPtr<Resource> > DataObjQueue;
 		DataObjQueue		m_queUnloaded;
 		DataObjQueue		m_queLoaded;
-		
-		CMyEvent			m_readEvent;
+	
+		std::condition_variable	m_readEvent;
 
-		std::mutex			m_csRequestQueue;
-		std::mutex			m_csLoadedQueue;
+		std::mutex	m_csRequestQueue;
+		std::mutex	m_csLoadedQueue;
+
+		std::thread			m_thread;
+
+		bool				m_bExit = false;
 	};
 
 	extern DataThread* g_pDataThread;

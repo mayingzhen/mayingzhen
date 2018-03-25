@@ -64,21 +64,6 @@ namespace ma
 		m_pRootNode->AddChild( pSceneNode.get() );
 		return pSceneNode.get();
 	}
-	
-	void* ParallelUpdate (void* rawData,void* rawData1)
-	{
-		Component* pComponent = reinterpret_cast<Component*>(rawData);
-		pComponent->ParallelUpdate();
-		return NULL;
-	}
-
-	void* ParallelShow(void* rawData,void* rawData1)
-	{
-		Component* pComponent = reinterpret_cast<Component*>(rawData);
-		Camera* pCamera = reinterpret_cast<Camera*>(rawData1);
-		pComponent->ParallelShow(pCamera);
-		return NULL;
-	}
 
 	void Scene::AddParallelUpdate(Component* pComponent)
 	{
@@ -114,7 +99,11 @@ namespace ma
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelUpdate.size());
 			for (UINT32 i = 0; i < m_vecParallelUpdate.size(); ++i)
 			{
-				GetJobScheduler()->SubmitJob(jobGroup,ParallelUpdate,m_vecParallelUpdate[i].get(),NULL,NULL);
+				Component* pComp = m_vecParallelUpdate[i].get();
+
+				GetJobScheduler()->SubmitJob(jobGroup,
+					[pComp]() { pComp->ParallelUpdate(); }
+				);
 			}
 			GetJobScheduler()->WaitForGroup(jobGroup);
 
@@ -152,7 +141,12 @@ namespace ma
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelShow.size());
 			for (UINT32 i = 0; i < m_vecParallelShow.size(); ++i)
 			{
-				GetJobScheduler()->SubmitJob(jobGroup,ParallelShow,m_vecParallelShow[i].get(),m_pCamera.get(),NULL);
+				Component* pComp = m_vecParallelUpdate[i].get();
+				Camera* pCamera = m_pCamera.get();
+
+				GetJobScheduler()->SubmitJob(jobGroup, 
+					[pComp, pCamera]() { pComp->ParallelShow(pCamera); }
+				);
 			}
 			GetJobScheduler()->WaitForGroup(jobGroup);
 			m_vecParallelShow.clear();

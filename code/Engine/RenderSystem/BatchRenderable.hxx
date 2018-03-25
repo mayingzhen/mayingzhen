@@ -161,7 +161,7 @@ namespace ma
 		RenderCommand* pCommand = NULL;
 	};
 
-	void* ParallelRender(void* rawData, void* rawData1)
+	void ParallelRender(void* rawData)
 	{
 		RenderJobData* pJobData = reinterpret_cast<RenderJobData*>(rawData);
 
@@ -180,8 +180,6 @@ namespace ma
 		}
 
 		pJobData->pCommand->End();
-
-		return NULL;
 	}
 
 	void BatchRenderable::Render(RenderPass* pPass, RenderPassType eRPType, RenderListType eRLType)
@@ -223,7 +221,9 @@ namespace ma
 				vecJobData[iJob].pCommand = pPass->GetThreadCommand(iJob, eRLType);
 
 				void* data = &vecJobData[iJob];
-				GetJobScheduler()->SubmitJob(jobGroup, ParallelRender, data, NULL, NULL);
+				GetJobScheduler()->SubmitJob(jobGroup, 	
+					[data] () {ParallelRender(data);} 
+				);
 			}
 
 			GetJobScheduler()->WaitForGroup(jobGroup);

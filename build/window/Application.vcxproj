@@ -131,10 +131,6 @@
       <Project>{e650dd0b-091c-437a-850b-5939d786c6d1}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="BulletPhysics.vcxproj">
-      <Project>{bb53f27e-5e92-4c38-8877-e907c4fecf98}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="Common.vcxproj">
       <Project>{d3bdff80-0e8c-4af3-b8cb-41ce8a513caa}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

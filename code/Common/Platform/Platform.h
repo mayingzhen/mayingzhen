@@ -16,7 +16,7 @@
 #elif PLAFTORM_IOS == 1
 #include "Platform/Ios/PlatformIos.h"
 #elif PLATFORM_ANDROID == 1
-#include "Platform/Android/PlatformAndroid.h"
+#include "Android/PlatformAndroid.h"
 #endif
 
 #define WINDOW_VSYNC        1

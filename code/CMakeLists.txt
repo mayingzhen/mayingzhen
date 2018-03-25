@@ -34,7 +34,10 @@ add_subdirectory(Plugin/VulkanRender)
 
 add_subdirectory(Plugin/BulletPhysics)
 
-add_subdirectory(Plugin/MonoScript)
+if (WIN32)
+	add_subdirectory(Plugin/MonoScript)
+	add_dependencies(MonoScript common engine)
+endif()
 
 add_subdirectory(Application)
 
@@ -48,14 +51,12 @@ add_dependencies(VulkanRender common engine)
 
 add_dependencies(BulletPhysics common engine)
 
-add_dependencies(MonoScript common engine)
-
 add_dependencies(Application common engine)
 
-add_dependencies(Samples Application common engine)
+add_dependencies(SampleBrowser Application common engine)
 
 if (WIN32)
-	set_target_properties(common engine Application MonoScript BulletPhysics VulkanRender Animation Samples
+	set_target_properties(common engine Application MonoScript BulletPhysics VulkanRender Animation SampleBrowser
 		PROPERTIES
 		ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/win32"
 		RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/win32"

@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class PhysicsThread : public Thread
+	class PhysicsThread 
 	{
 	public:
 		PhysicsThread();

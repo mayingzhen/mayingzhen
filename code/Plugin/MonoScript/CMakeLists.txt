@@ -16,21 +16,24 @@ include_directories(
 )
 
 link_directories(
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/zziplib-0.13.57/msvc8"
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern_vs/Win32/Debug"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/vulkan/lib"
 )
 
 set(EXTERN_LINK_LIB
 ${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/mono/lib/mono-2.0.lib
 )
 
-#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+if (WIN32)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+
+	add_definitions(-DWIN32)
+endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} common engine ${EXTERN_LINK_LIB})
 
-add_definitions(-DWIN32)
+
 add_definitions(-DUSRDLL)
 add_definitions(-DMONOSCRIPT_EXPORTS)

@@ -67,9 +67,9 @@ namespace ma
 
 		case APP_CMD_PAUSE:
 			{	
-				// Note: µ±ÊÕµ½APP_CMD_LOST_FOCUS/APP_CMD_TERM_WINDOWÏûÏ¢Ê±,
-				// ´°ÌåÒÑ¾­±»Ö÷Ïß³ÌÏú»Ù,¶øäÖÈ¾Ïß³Ì»¹²»ÖªµÀ,´Ó¶øÒýÆðC3ÄÚ²¿±ÀÀ£,
-				// ËùÒÔ±ØÐëÔÚAPP_CMD_PAUSEÊ±¾ÍÍ£Ö¹äÖÈ¾.
+				// Note: ï¿½ï¿½ï¿½Õµï¿½APP_CMD_LOST_FOCUS/APP_CMD_TERM_WINDOWï¿½ï¿½Ï¢Ê±,
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½È¾ï¿½ß³Ì»ï¿½ï¿½ï¿½Öªï¿½ï¿½,ï¿½Ó¶ï¿½ï¿½ï¿½ï¿½ï¿½C3ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½,
+				// ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½APP_CMD_PAUSEÊ±ï¿½ï¿½Í£Ö¹ï¿½ï¿½È¾.
 				//pApplication->StopFrame();
 				_bRunning = false;
 			}
@@ -195,7 +195,7 @@ namespace ma
 		DebugSleep(6);
 			
 
-		Game::GetInstance().Init();
+		//Game::GetInstance().Init();
 
 	}
 
@@ -241,6 +241,13 @@ namespace ma
 				{
 					return;
 				}
+			}
+
+			if (!m_bInit)
+			{
+				Game::GetInstance().Init();
+
+				m_bInit = true;
 			}
 
 			//Update();

@@ -34,8 +34,8 @@ namespace ma
 		if (asset)
 		{
 			//LogInfo("@@@open file:%s,%d", full_path.c_str(), AAsset_getLength(asset));
-			RefPtr<AAssetStream> pAssettream = new AAssetStream(asset);
-			return pAssettream.get();
+			AAssetStream* pAssettream = new AAssetStream(asset);
+			return pAssettream;
 		}
 		else
 		{

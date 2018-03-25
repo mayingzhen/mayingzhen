@@ -10,14 +10,14 @@ namespace ma
 	}
 #endif
 	
-	RenderThread::RenderThread():Thread("RenderThread")
+	RenderThread::RenderThread()
 	{
 		m_nCurThreadFill = 0;
 		m_nCurThreadProcess = 0;
 		
 		m_nFlush = 0; 
 		
-		m_nMainThread = GetCurrentThreadId();
+		m_nMainThread = std::this_thread::get_id();
 		
 		m_bSuccessful = true;
 
@@ -31,7 +31,7 @@ namespace ma
 
 	void RenderThread::Start()
 	{
-		Thread::Start();
+		m_thread = std::thread(&RenderThread::ThreadLoop, this);
 
 		m_bMultithread = true;
 		m_nCurThreadProcess = 1;
@@ -41,7 +41,7 @@ namespace ma
 	{
 		SignalFlushFinishedCond();
 
-		Thread::Stop();
+		m_thread.join();
 	}
 
 	void RenderThread::ThreadLoop()
@@ -325,7 +325,7 @@ namespace ma
 
 	void RenderThread::ProcessCommands()
 	{
-		ASSERT(GetCurrentThreadId() == GetThreadId());
+		ASSERT(std::this_thread::get_id() == m_thread.get_id());
 
 		if (!CheckFlushCond())
 			return;

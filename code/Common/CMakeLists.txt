@@ -7,6 +7,8 @@ set(SOURCE_FILES
 		Module.cpp
 		)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+if (WIN32)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+endif()
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})

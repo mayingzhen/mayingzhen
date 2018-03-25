@@ -115,7 +115,13 @@ inline std::string merge(const std::vector<std::string> &list)
 template <typename T>
 inline std::string convert_to_string(T &&t)
 {
+#ifdef __ANDROID__
+	std::ostringstream os;
+	os << std::forward<T>(t);
+	return os.str();
+#else
 	return std::to_string(std::forward<T>(t));
+#endif
 }
 
 // Allow implementations to set a convenient standard precision

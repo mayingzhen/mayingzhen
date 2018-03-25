@@ -2,13 +2,12 @@
 #include "SampleBrowser.h"
 
 #include "Animation/Module.h"
-#include "GLESRender/Module.h"
+#include "VulkanRender/Module.h"
 #include "BulletPhysics/Module.h"
 
 #if PLATFORM_WIN == 1
 #include "MonoScript/Module.h"
 #include "D3D11Render/Module.h"
-#include "VulkanRender/Module.h"
 #endif
 
 #if defined(__APPLE__)
@@ -27,10 +26,10 @@
 #include "Samples/Render/SampleMaterial.hxx"
 #include "Samples/Render/SampleIBL.hxx"
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
-#include "Samples/Physics/SampleRigidBody.hxx"
-#include "Samples/Physics/SampleCharaControl.hxx"
-#include "Samples/Physics/SampleJoint.hxx"
-#include "Samples/Physics/SampleRagdoll.hxx"
+// #include "Samples/Physics/SampleRigidBody.hxx"
+// #include "Samples/Physics/SampleCharaControl.hxx"
+// #include "Samples/Physics/SampleJoint.hxx"
+// #include "Samples/Physics/SampleRagdoll.hxx"
 #include "Samples/Render/SampleTerrain.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
@@ -63,7 +62,7 @@ namespace ma
 	void SampleBrowser::ModuleInit()
 	{
 		AnimationModuleInit();
-		BtPhysicsModuleInit();
+		//BtPhysicsModuleInit();
         
 
 #if PLATFORM_WIN == 1
@@ -84,7 +83,7 @@ namespace ma
 	void SampleBrowser::ModuleShutdown()
 	{
 		AnimationModuleShutdown();
-		BtPhysicsModuleShutdown();
+		//BtPhysicsModuleShutdown();
         
 #if PLATFORM_WIN == 1
         VulkanRenderModuleShutdown();
@@ -104,6 +103,8 @@ namespace ma
 	{
 #if PLATFORM_WIN == 1
 		char pszPath[MAX_PATH] = {0};
+
+		//GetArchiveMananger()->AddArchive(CreateZipArchive("data.zip").get());
 		
  		GetFullPathName("../../data/",MAX_PATH,pszPath,NULL);
  		GetArchiveMananger()->AddArchive( CreateFileArchive(pszPath).get() );
@@ -129,20 +130,20 @@ namespace ma
 		if (m_pCurSample)
 		{
 			m_pCurSample->UnLoad();
-			if (GetPhysicsSystem())
-				GetPhysicsSystem()->Stop();
-
-#if PLATFORM_WIN == 1
-			if (GetScriptSystem())
-				GetScriptSystem()->Stop();
-#endif
+// 			if (GetPhysicsSystem())
+// 				GetPhysicsSystem()->Stop();
+// 
+// #if PLATFORM_WIN == 1
+// 			if (GetScriptSystem())
+// 				GetScriptSystem()->Stop();
+// #endif
 		}
 		m_pCurSample = NULL;
 
 		SAFE_DELETE(m_pCameraControl);
 		
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->Shoutdown();
+// 		if (GetPhysicsSystem())
+// 			GetPhysicsSystem()->Shoutdown();
         
 #if PLATFORM_WIN == 1
 		if (GetScriptSystem())
@@ -162,8 +163,8 @@ namespace ma
 
 		Game::Init();
 	
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->Init();
+// 		if (GetPhysicsSystem())
+// 			GetPhysicsSystem()->Init();
         
 #if PLATFORM_WIN == 1
 		if (GetScriptSystem())
@@ -179,8 +180,8 @@ namespace ma
 
 		RunSample(m_strSample.c_str());
 
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->Start();
+// 		if (GetPhysicsSystem())
+// 			GetPhysicsSystem()->Start();
 	}
 
 	void SampleBrowser::RunSample(const char* pSample)
@@ -221,22 +222,22 @@ namespace ma
 		{
 			m_pCurSample = new SampleSceneSerialize();
 		}
-		else if(strcmp(pSample,"SampleRigidBody") == 0)
-		{
-			m_pCurSample = new SampleRigidBody();
-		}
-		else if(strcmp(pSample,"SampleCharaControl") == 0)
-		{
-			m_pCurSample = new SampleCharaControl();
-		}
-		else if(strcmp(pSample,"SampleJoint") == 0)
-		{
-			m_pCurSample = new SampleJoint();
-		}
-		else if(strcmp(pSample,"SampleRagdoll") == 0)
-		{
-			m_pCurSample = new SampleRagdoll();
-		}
+// 		else if(strcmp(pSample,"SampleRigidBody") == 0)
+// 		{
+// 			m_pCurSample = new SampleRigidBody();
+// 		}
+// 		else if(strcmp(pSample,"SampleCharaControl") == 0)
+// 		{
+// 			m_pCurSample = new SampleCharaControl();
+// 		}
+// 		else if(strcmp(pSample,"SampleJoint") == 0)
+// 		{
+// 			m_pCurSample = new SampleJoint();
+// 		}
+// 		else if(strcmp(pSample,"SampleRagdoll") == 0)
+// 		{
+// 			m_pCurSample = new SampleRagdoll();
+// 		}
 		else if(strcmp(pSample,"SampleAnimationRetarget") == 0)
 		{
 			m_pCurSample = new SampleAnimationRetarget();
@@ -288,14 +289,14 @@ namespace ma
 
 	void SampleBrowser::OnPreUpdate(Scene* pScene)
 	{
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->BeginUpdate();
+// 		if (GetPhysicsSystem())
+// 			GetPhysicsSystem()->BeginUpdate();
 	}
 
 	void SampleBrowser::OnPostUpdate(Scene* pScene)
 	{
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->EndUpdate();
+// 		if (GetPhysicsSystem())
+// 			GetPhysicsSystem()->EndUpdate();
 	}
 
 	void SampleBrowser::OnPreRender(Scene* pScene)
@@ -308,8 +309,8 @@ namespace ma
 
 	void SampleBrowser::OnPosRender(Scene* pScene)
 	{
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->DebugRender();
+// 		if (GetPhysicsSystem())
+// 			GetPhysicsSystem()->DebugRender();
 	}
 }
 

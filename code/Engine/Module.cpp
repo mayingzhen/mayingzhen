@@ -12,17 +12,11 @@
 #include "Engine/Time/Timer.hxx"
 #include "Engine/Time/Animatable.hxx"
 
-#include "Engine/Thread/Thread.hxx"
-//#include "Engine/Thread/ThreadPool.hxx"
+
 #include "Engine/Thread/MSemaphore.hxx"
 #include "Engine/Thread/JobScheduler.hxx"
 
-// TaskScheduler
-// #include "TaskScheduler/MTDefaultAppInterop.hxx"
-// #include "TaskScheduler/MTFiberContext.hxx"
-// #include "TaskScheduler/MTScheduler.hxx"
-// #include "TaskScheduler/MTThreadContext.hxx"
-// #include "TaskScheduler/Platform/Windows/MicroWindows.hxx"
+
 
 // Resource
 #include "Engine/Resource/Stream.hxx"

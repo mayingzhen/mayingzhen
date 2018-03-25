@@ -36,7 +36,7 @@ namespace ma
 
 		std::string		m_strAppPath;
 
-		bool			m_bInit;
+		bool			m_bInit = false;
 	};
 }
 

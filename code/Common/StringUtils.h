@@ -117,7 +117,7 @@ namespace ma
         static const std::string BLANK;
 
 		template<class EnumType>
-		EnumType StringToEnum(std::string strEnum, const char** pEnumNames)
+		static EnumType StringToEnum(std::string strEnum, const char** pEnumNames)
 		{
 			EnumType type;
 			bool enumFound = false;
@@ -135,7 +135,7 @@ namespace ma
 
 			if (enumFound)
 			{
-				type = (EnumType)enumValue;
+				type = static_cast<EnumType>(enumValue);
 			}
 			else
 			{

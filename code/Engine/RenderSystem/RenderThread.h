@@ -41,7 +41,7 @@ namespace ma
 	};
 
 
-	class RenderThread : public Thread
+	class RenderThread 
 	{
 	public:
 		RenderThread();
@@ -130,10 +130,13 @@ namespace ma
 
 		volatile int	m_nFlush;
 
-		size_t			m_nMainThread;
+		std::thread::id	m_nMainThread;
 		HRESULT			m_hResult;
 		TArray<BYTE>	m_Commands[2]; // m_nCurThreadFill shows which commands are filled by main thread
 
+		std::thread		m_thread;
+
+		bool			m_bExit = false;
 	};
     
     
@@ -306,17 +309,17 @@ namespace ma
 
 	inline int RenderThread::GetThreadList()
 	{
-		return GetCurrentThreadId() == GetThreadId() ? m_nCurThreadProcess : m_nCurThreadFill;
+		return std::this_thread::get_id() == m_thread.get_id() ? m_nCurThreadProcess : m_nCurThreadFill;
 	}
 
 	inline bool RenderThread::IsRenderThread()
 	{
-		return !m_bMultithread || GetCurrentThreadId() == GetThreadId();
+		return !m_bMultithread || std::this_thread::get_id()== m_thread.get_id();
 	}
 
 	inline bool RenderThread::IsMainThread()
 	{
-		return !m_bMultithread || GetCurrentThreadId() == m_nMainThread;
+		return !m_bMultithread || std::this_thread::get_id() == m_nMainThread;
 	}
 
 	inline int RenderThread::CurThreadFill() const

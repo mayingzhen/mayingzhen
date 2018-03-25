@@ -56,7 +56,7 @@ namespace ma
 		m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 
-		if (m_nSize > srcStream->GetSize())
+		if (m_nSize >= srcStream->GetSize())
 		{
 			UINT uReadSize = srcStream->Read(m_pData, srcStream->GetSize());
 			memset(m_pData + uReadSize, 0, m_nSize-uReadSize);

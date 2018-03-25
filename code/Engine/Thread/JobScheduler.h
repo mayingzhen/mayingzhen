@@ -17,8 +17,6 @@ class JobScheduler
     
 public:
 
-	typedef void* (*JobFunction)(void*,void*);
-	typedef void* volatile ReturnCode;
 	typedef int JobGroupID;
 
     JobScheduler();
@@ -34,7 +32,7 @@ public:
 	bool		IsGroupFinished( JobGroupID group );
 	void		WaitForGroup( JobGroupID group );
 	
-	bool		SubmitJob( JobGroupID group, JobFunction func, void *data, void* data1,ReturnCode *returnCode );
+	bool		SubmitJob(JobGroupID group, const std::function<void()>& func);
  
 private:
 	JobGroupID	BeginGroupInternal( int maxJobs, bool isBlocking ); 

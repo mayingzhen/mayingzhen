@@ -3,7 +3,6 @@
 
 #include "VulkanRender/VulkanTools.hxx"
 #include "VulkanRender/VulkanDebug.hxx"
-#include "VulkanRender/VulkanAndroid.hxx"
 
 #include "VulkanRender/VulkanTexture.hxx"
 #include "VulkanRender/VulkanVertexBuffer.hxx"
@@ -20,6 +19,10 @@
 #include "VulkanRender/VulkanRenderPass.hxx"
 #include "VulkanRender/VulkanRenderCommand.hxx"
 
+#if defined(__ANDROID__)
+#include "VulkanRender/VulkanAndroid.hxx"
+#endif
+
 #include "glslang/SPIRV/GlslangToSpv.h"
 
 using namespace ma;
@@ -28,6 +31,12 @@ using namespace ma;
 void VulkanRenderModuleInit()
 {
 	glslang::InitializeProcess();
+
+#if defined(__ANDROID__)
+	// Vulkan library is loaded dynamically on Android
+	bool libLoaded = vks::android::loadVulkanLibrary();
+	assert(libLoaded);
+#endif
 
 	VulkanRenderDevice* pDxRenderDevice = new VulkanRenderDevice();
 	SetRenderDevice(pDxRenderDevice);

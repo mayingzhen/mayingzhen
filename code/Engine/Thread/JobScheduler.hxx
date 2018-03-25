@@ -9,11 +9,9 @@ namespace ma
 
 struct JobInfo
 {
-	JobScheduler::JobFunction func;
-	void* userData;
-	void* userData1;
-	JobScheduler::ReturnCode* returnCode;
+	std::function<void()>   mFunc;
 };
+
 
 struct JobGroup
 {
@@ -188,7 +186,7 @@ JobInfo* JobScheduler::FetchJobInGroup( int group )
 	int curJob = jg.m_nNextJob;
 	while( curJob < jg.m_nJobsAdded )
 	{
-		if( std::atomic_compare_exchange_strong(&jg.m_nNextJob, &curJob, curJob + 1) )
+		if( std::atomic_compare_exchange_weak(&jg.m_nNextJob, &curJob, curJob + 1) )
 			return &jg.m_vecJobQueue[curJob];
 
 		curJob = jg.m_nNextJob;
@@ -198,13 +196,7 @@ JobInfo* JobScheduler::FetchJobInGroup( int group )
 
 void JobScheduler::ProcessJob( JobInfo& job, int group )
 {
-	ASSERT(job.func);
-	void* ret = job.func(job.userData,job.userData1);
-	if( job.returnCode )
-	{
-		//UnityMemoryBarrier();
-		*job.returnCode = ret;
-	}
+	job.mFunc();
 
 	// Signal if we are the last to finish
 	JobGroup& jg = *m_Groups[group];
@@ -273,7 +265,7 @@ JobScheduler::JobGroupID JobScheduler::BeginGroupInternal( int maxJobs, bool isB
 			return i;
 		}
 	}
-	m_csQueueMutex.lock();
+	m_csQueueMutex.unlock();
 	return -1;
 }
 
@@ -321,15 +313,14 @@ void JobScheduler::WaitForGroup( JobGroupID group )
 }
 
 
-bool JobScheduler::SubmitJob( JobGroupID group, JobFunction func, void *data, void* data1,ReturnCode *returnCode )
+bool JobScheduler::SubmitJob(JobGroupID group, const std::function<void()>& func)
 {
 	ASSERT(func != NULL);
 	if( m_vecThread.size() <= 0 )
 	{
 		// not multi-threaded: execute job right now
-		void* z = func( data,data1 );
-		if( returnCode )
-			*returnCode = z;
+		func();
+
 		return true;
 	}
 
@@ -343,10 +334,7 @@ bool JobScheduler::SubmitJob( JobGroupID group, JobFunction func, void *data, vo
 	++jg.m_nTaskCount;
 	int jobIndex = jg.m_nJobsAdded;
 	JobInfo& job = jg.m_vecJobQueue[jobIndex];
-	job.func = func;
-	job.userData = data;
-	job.userData1 = data1;
-	job.returnCode = returnCode;
+	job.mFunc = std::move(func);
 	int nextIndex = ++jg.m_nJobsAdded;
 	// This may fail if you add jobs from multiple threads to the same group
 	ASSERT(nextIndex == jobIndex + 1);

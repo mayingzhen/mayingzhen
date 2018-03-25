@@ -22,7 +22,7 @@
 #include <mutex>
 #include <atomic>
 #include <thread>
-
+#include <string.h>
 
 using namespace std;
 

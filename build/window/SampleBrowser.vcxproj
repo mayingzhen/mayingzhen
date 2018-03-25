@@ -103,16 +103,6 @@
     <ClInclude Include="..\..\Code\Samples\Animation\SampleAnimationTree.hxx" />
     <ClInclude Include="..\..\code\Samples\CameraController.h" />
     <ClInclude Include="..\..\code\Samples\CameraController.hxx" />
-    <ClInclude Include="..\..\code\Samples\Physics\Ragdoll.h" />
-    <ClInclude Include="..\..\code\Samples\Physics\Ragdoll.hxx" />
-    <ClInclude Include="..\..\Code\Samples\Physics\SampleCharaControl.h" />
-    <ClInclude Include="..\..\Code\Samples\Physics\SampleCharaControl.hxx" />
-    <ClInclude Include="..\..\code\Samples\Physics\SampleJoint.h" />
-    <ClInclude Include="..\..\code\Samples\Physics\SampleJoint.hxx" />
-    <ClInclude Include="..\..\code\Samples\Physics\SampleRagdoll.h" />
-    <ClInclude Include="..\..\code\Samples\Physics\SampleRagdoll.hxx" />
-    <ClInclude Include="..\..\Code\Samples\Physics\SampleRigidBody.h" />
-    <ClInclude Include="..\..\Code\Samples\Physics\SampleRigidBody.hxx" />
     <ClInclude Include="..\..\code\Samples\Render\SampleIBL.h" />
     <ClInclude Include="..\..\code\Samples\Render\SampleIBL.hxx" />
     <ClInclude Include="..\..\Code\Samples\Render\SampleLighting.h" />
@@ -149,10 +139,6 @@
     </ProjectReference>
     <ProjectReference Include="Application.vcxproj">
       <Project>{95598e55-ba9b-496c-84a3-3673834b2d47}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="BulletPhysics.vcxproj">
-      <Project>{bb53f27e-5e92-4c38-8877-e907c4fecf98}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="Common.vcxproj">
