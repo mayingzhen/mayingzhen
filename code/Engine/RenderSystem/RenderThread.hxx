@@ -276,7 +276,8 @@ namespace ma
 
 	void RenderThread::RC_SetUniformValue(Uniform* pUniform, const void* data, UINT nSize)
 	{
-		if (IsRenderThread())
+		// job 线程也会调用到这边
+		if (!IsMainThread())
 		{
 			ASSERT(nSize <= pUniform->GetSize());
 			pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), data);
@@ -495,7 +496,7 @@ namespace ma
 		uint64 nTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
 		uint64 nTimeWaitForRender = GetTimer()->GetMillisceonds() - nTime;
-		LogInfo("fTimeWaitForRender = %d",nTimeWaitForRender);
+		//LogInfo("fTimeWaitForRender = %d",nTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
 		m_nCurThreadProcess = m_nCurThreadFill;
