@@ -9,6 +9,7 @@ namespace ma
 		Uniform* pUnifrom = new Uniform();
 		pUnifrom->SetName(pName);
 		pUnifrom->SetParent(this);
+		pUnifrom->SetMethodBinding(g_pParameterManager->GetMethodBinding(pName));
 		m_vecUniform.push_back(pUnifrom);
 		return pUnifrom;
 	}
@@ -40,11 +41,7 @@ namespace ma
 
 	Uniform::Uniform()
 	{
-		//m_location = -1;
 		m_index = 0;
-		//m_type = 0;
-		//m_vshShder = false;
-		//m_nCount = 0;
 
 		m_pMethod = NULL;
 
@@ -60,8 +57,15 @@ namespace ma
 
 	void Uniform::Bind(Renderable* pRenderable)
 	{
-		if (m_pMethod) 
-			m_pMethod->SetValue(pRenderable);
+		Technique* pTech = m_pTech ? m_pTech : m_pCBPtr->GetParent();
+		ASSERT(pTech);
+		if (pTech == NULL)
+			return;
+
+		if (m_pMethod)
+		{
+			m_pMethod->SetValue(pRenderable, pTech, this);
+		}
 	}
 
 	const char* Uniform::GetName() const

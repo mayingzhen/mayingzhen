@@ -1,5 +1,4 @@
-#ifndef  _Engine_Engine__H__
-#define  _Engine_Engine__H__
+#pragma once
 
 namespace ma
 {
@@ -25,6 +24,3 @@ namespace ma
 	void SetEngine(Engine* pEngine);
 	Engine* GetEngine();
 }
-
-
-#endif

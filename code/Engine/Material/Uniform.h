@@ -1,10 +1,9 @@
-#ifndef __Uniform_H_
-#define __Uniform_H_
-
-#include "MethodBinding.h"
+#pragma once
 
 namespace ma
 {
+	class MethodBinding;
+
 	class ConstantBuffer : public Referenced
 	{
 	public:
@@ -47,21 +46,10 @@ namespace ma
 		Uniform();
 
 		~Uniform();
-
-		template <class ClassType, class ReTurnType>
-		void		BindMethod(ClassType* classInstance, ReTurnType(ClassType::*valueMethod)() const);
-
-		template <class ClassType, class ReTurnType, class ParameterType>
-		void		BindMethod(ClassType* classInstance, ReTurnType(ClassType::*valueMethod)(ParameterType) const);
-
-		template <class ClassType, class ReTurnType, class ParameterType>
-		void		BindMethod(ClassType* classInstance, ReTurnType(ClassType::*valueMethod)(ParameterType) const, 
-			UINT (ClassType::*countMethod)(ParameterType) const);
 		
 		void		Bind(Renderable* pRenderable);
 
 		const char*	GetName() const;
-
 		void		SetName(const char* pszName);
 
 		uint32		GetIndex() {return m_index;}
@@ -79,6 +67,9 @@ namespace ma
 		UINT		GetSize() { return m_nSizeInCB; }
 		void		SetSize(UINT nSize) { m_nSizeInCB = nSize; }
 
+		void		SetMethodBinding(MethodBinding* pMethod) { m_pMethod = pMethod; }
+		MethodBinding* GetMethodBinding() { return m_pMethod; }
+
 	private:
 		std::string		m_name;
 		UINT			m_index = 0;
@@ -92,87 +83,7 @@ namespace ma
 	};
 
 	RefPtr<Uniform> CreateUniform(const char* pszName);
-    
-	template <class ClassType, class ReTurnType>
-	void Uniform::BindMethod(ClassType* classInstance,
-		ReTurnType(ClassType::*valueMethod)() const)
-	{
-		SAFE_DELETE(m_pMethod);
-		m_pMethod = new MethodValueBinding<ClassType, ReTurnType>(this, classInstance, valueMethod);
-	}
- 
-	template <class ClassType, class ReTurnType, class ParameterType>
-	void Uniform::BindMethod(ClassType* classInstance, 
-		ReTurnType(ClassType::*valueMethod)(ParameterType) const)
-	{
-		SAFE_DELETE(m_pMethod);
-		m_pMethod = new MethodValueParameterBinding<ClassType, ReTurnType, ParameterType>(this, classInstance, valueMethod);
-	}
-
-	template <class ClassType, class ReTurnType, class ParameterType>
-	void Uniform::BindMethod(ClassType* classInstance, 
-		ReTurnType(ClassType::*valueMethod)(ParameterType) const, 
-		UINT (ClassType::*countMethod)(ParameterType) const)
-	{
-		SAFE_DELETE(m_pMethod);
-		m_pMethod = new MethodArrayBinding<ClassType, ReTurnType, ParameterType>(this, classInstance, valueMethod, countMethod);
-	}
-    
-	   
-    template <class ClassType, class ReTurnType>
-    MethodValueBinding<ClassType, ReTurnType>::MethodValueBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod) :
-    MethodBinding(param), m_pInstance(instance), m_pValueMethod(valueMethod)
-    {
-    }
-    
-    template <class ClassType, class ReTurnType>
-    void MethodValueBinding<ClassType, ReTurnType>::SetValue(Renderable* pRenderable)
-    {
-        Technique* pTech = m_pParameter->GetTechnique() ? m_pParameter->GetTechnique() : m_pParameter->GetParent()->GetParent();
-        ASSERT(pTech);
-        if (pTech == NULL)
-            return;
-        
-        pTech->SetValue(m_pParameter, (m_pInstance->*m_pValueMethod)() );
-    }
-
-	template <class ClassType, class ReTurnType, class ParameterType>
-	MethodValueParameterBinding<ClassType, ReTurnType, ParameterType>::MethodValueParameterBinding(Uniform* param,
-		ClassType* instance, ValueMethod valueMethod) :
-		MethodBinding(param), m_pInstance(instance), m_pValueMethod(valueMethod)
-	{
-	}
-
-	template <class ClassType, class ReTurnType,  class ParameterType>
-	void MethodValueParameterBinding<ClassType, ReTurnType, ParameterType>::SetValue(Renderable* pRenderable)
-	{
-		Technique* pTech = m_pParameter->GetTechnique() ? m_pParameter->GetTechnique() : m_pParameter->GetParent()->GetParent();
-		ASSERT(pTech);
-		if (pTech == NULL)
-			return;
-
-		pTech->SetValue(m_pParameter, (m_pInstance->*m_pValueMethod)(pRenderable));
-	}
-    
-    template <class ClassType, class ReTurnType, class ParameterType>
-    MethodArrayBinding<ClassType, ReTurnType, ParameterType>::MethodArrayBinding(Uniform* param, ClassType* instance,
-		ValueMethod valueMethod, CountMethod countMethod) :
-    MethodBinding(param), m_pInstance(instance), m_pValueMethod(valueMethod), m_nCountMethod(countMethod)
-    {
-    }
-    
-    template <class ClassType, class ReTurnType, class ParameterType>
-    void MethodArrayBinding<ClassType, ReTurnType, ParameterType>::SetValue(Renderable* pRenderable)
-    {
-        Technique* pTech = m_pParameter->GetTechnique() ? m_pParameter->GetTechnique() : m_pParameter->GetParent()->GetParent();
-        ASSERT(pTech);
-        if (pTech == NULL)
-            return;
-        
-        pTech->SetValue(m_pParameter,  (m_pInstance->*m_pValueMethod)(pRenderable), (m_pInstance->*m_nCountMethod)(pRenderable) );
-    }
-
+   
 }
 
-#endif
 

@@ -14,36 +14,15 @@ namespace ma
 
 		~ParameterManager();
 
-		void UseDefaultBing(Uniform* pParam);
+		void AddMethodBinding(const char* pszName, MethodBinding* pMethod);
+		MethodBinding* GetMethodBinding(const char* pszName);
 
-	private:
-		// Internal auto binding handler methods.
-		const Matrix4&		autoBindingGetWorldMatrix(Renderable* pRenderable) const;
-		const Matrix4&		autoBindingGetViewMatrix() const;
-		const Matrix4&		autoBindingGetProjectionMatrix() const;
-		Matrix4				autoBindingGetWorldViewMatrix(Renderable* pRenderable) const;
-		Matrix4				autoBindingGetViewProjectionMatrix() const;
-		Matrix4				autoBindingGetWorldViewProjectionMatrix(Renderable* pRenderable) const;
-		const Matrix4&		autoBindingGetInverseTransposeWorldMatrix(Renderable* pRenderable) const;
-		const Matrix4&		autoBindingGetInverseTransposeWorldViewMatrix(Renderable* pRenderable) const;
-		Matrix4				autoBindingGetInverseProjectionMatrix() const;
-		Vector3				autoBindingGetCameraWorldPosition() const;
-		Vector3				autoBindingGetCameraViewPosition() const;
-		Vector4				autoBindingGetCameraNearFar() const;
-		const ColourValue&	autoBindingGetLightColor() const;
-		Vector3				autoBindingGetLightDirection() const;
-		Vector4				autoBingingDepthNearFarInvfar() const;
-		SamplerState*		autoBingingSceneDiffuse() const;
-		SamplerState*		autoBingingSceneDetph() const;
-		SamplerState*		autoBindingSceneNormal() const;
-		SamplerState*		autoBindingTextureLightShadow() const;
-		SamplerState*		autoBindingDeviceDepthMap() const;
-		SamplerState*		autoBindingShadowMap() const;
-		const Matrix4&		autoBindingShadowMatrix() const;
-		Vector4				autoBindingShadowMapTexSize() const;
-		Vector4				autoBindingShadowDepthFade() const;
-		float				autoBindingShadowExt() const;
-		const Matrix4&		autoBindingLightViewProj() const;
+		template<class ReturnType>
+		void AddFunMethodBinding(const char* pszName, const std::function<ReturnType(Renderable*)>& fun)
+		{
+			MethodBinding* pMethod = new MethodFunBinding<ReturnType>(fun);
+			AddMethodBinding(pszName, pMethod);
+		}
 
 	private:	
 		std::map<std::string, MethodBinding*> m_autoDefaultBings;

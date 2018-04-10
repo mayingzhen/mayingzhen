@@ -18,7 +18,7 @@ namespace ma
 
 		for (uint32 i = 0; i < m_arrParameters.size(); ++i)
 		{
-			m_pShadingTech->SetParameter(m_arrParameters[i].GetName(),m_arrParameters[i].GetValue());
+			m_pShadingTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 		}
 	}
 

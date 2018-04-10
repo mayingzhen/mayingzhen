@@ -39,8 +39,7 @@ namespace ma
 			pUniformCopy->SetIndex(pUniform->GetIndex());
 			pUniformCopy->SetSize(pUniform->GetSize());
 			pUniformCopy->SetOffset(pUniform->GetOffset());
-
-			GetParameterManager()->UseDefaultBing(pUniformCopy.get());
+			pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 		}
 
 		return pConstantBuffer;
@@ -91,10 +90,9 @@ namespace ma
 			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
 			pUniformCopy->SetTechnique(this);
 			pUniformCopy->SetIndex(pUniform->GetIndex());
+			pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 
 			this->AddSampler(pUniformCopy.get());
-
-			GetParameterManager()->UseDefaultBing(pUniformCopy.get());
 		}
 
 		BindUniform(NULL);

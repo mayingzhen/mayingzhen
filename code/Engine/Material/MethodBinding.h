@@ -1,5 +1,4 @@
-#ifndef _MethodBinding_H_
-#define _MethodBinding_H_
+#pragma once
 
 
 namespace ma
@@ -10,55 +9,36 @@ namespace ma
 	class MethodBinding 
 	{
 	public:
-		MethodBinding(Uniform* param)
+		MethodBinding()
 		{
-			m_pParameter = param;
 		}
 
 		virtual ~MethodBinding() 
 		{
-
 		}
-		virtual void SetValue(Renderable* pRenderable) = 0;
-
-	protected:
-		Uniform*	m_pParameter;
+		virtual void SetValue(Renderable* pRenderable, Technique* pTech, Uniform* pParmeter) = 0;
 	};
 
 	// Defines a method parameter binding for a single value.
-	template <class ClassType, class ReturnType>
-	class MethodValueBinding : public MethodBinding
+	template <class ReturnType>
+	class MethodFunBinding : public MethodBinding
 	{
-		typedef ReturnType(ClassType::*ValueMethod)() const;
+		typedef std::function<ReturnType(Renderable*)> FUNTYPE;
 
 	public:
 
-		MethodValueBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod);
+		MethodFunBinding(const FUNTYPE& func)
+		{
+			mFunc = std::move(func);
+		}
 
-		void SetValue(Renderable* pRenderable);
+		void SetValue(Renderable* pRenderable, Technique* pTech, Uniform* pParmeter)
+		{
+			pTech->SetValue(pParmeter, mFunc(pRenderable));
+		}
 
 	private:
-		ClassType*		m_pInstance;
-
-		ValueMethod		m_pValueMethod;
-	};
-
-	// Defines a method parameter binding for a single value.
-	template <class ClassType, class ReturnType, class ParameterType>
-	class MethodValueParameterBinding : public MethodBinding
-	{
-		typedef ReturnType(ClassType::*ValueMethod)(ParameterType) const;
-		
-	public:
-
-		MethodValueParameterBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod);
-		
-		void SetValue(Renderable* pRenderable);
-	
-	private:
-		ClassType*		m_pInstance;
-		
-		ValueMethod		m_pValueMethod;
+		FUNTYPE mFunc;
 	};
 
 
@@ -71,9 +51,17 @@ namespace ma
         
     public:
         
-        MethodArrayBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
+		MethodArrayBinding(ClassType* instance, ValueMethod valueMethod, CountMethod countMethod)
+		{
+			m_pInstance = instance;
+			m_pValueMethod = valueMethod;
+			m_nCountMethod = countMethod;
+		}
         
-        void SetValue(Renderable* pRenderable);
+		void SetValue(Renderable* pRenderable, Technique* pTech, Uniform* pParmeter)
+		{
+			pTech->SetValue(pParmeter, (m_pInstance->*m_pValueMethod)(pRenderable), (m_pInstance->*m_nCountMethod)(pRenderable));
+		}
         
     private:
         ClassType*		m_pInstance;
@@ -83,8 +71,5 @@ namespace ma
         CountMethod		m_nCountMethod;
     };
 
-
-
 }
 
-#endif

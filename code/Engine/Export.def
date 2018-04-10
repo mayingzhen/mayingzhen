@@ -241,7 +241,6 @@ EXPORTS
 ?GetUniformCount@ConstantBuffer@ma@@QAEIXZ
 ?GetUniformByIndex@ConstantBuffer@ma@@QAEPAVUniform@2@I@Z
 ?GetName@Uniform@ma@@QBEPBDXZ
-?UseDefaultBing@ParameterManager@ma@@QAEXPAVUniform@2@@Z
 ?GetParameterManager@ma@@YAPAVParameterManager@1@XZ
 ?AddConstBuffer@ShaderProgram@ma@@QAEXW4ShaderType@2@PAVConstantBuffer@2@@Z
 ?GetConstBufferCount@ShaderProgram@ma@@QAEIW4ShaderType@2@@Z
