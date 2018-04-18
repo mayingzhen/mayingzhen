@@ -5,8 +5,6 @@
 
 namespace ma
 {
-
-	class Animator;
 	class BaseParameter;
 	class StateMachineNode;
 	class MachineState;
@@ -22,6 +20,7 @@ namespace ma
 
 		void HandleEvent(void);
 		bool Check(void);
+
 	public:
 		CondValue m_threshold;
 		BaseConditionHandler *m_handler = nullptr;
@@ -31,38 +30,43 @@ namespace ma
 	};
 
 	// 状态机中的边
-	class MachineTransition : public Referenced
+	class MachineTransition : public Serializable
 	{
 	public:
 
 		MachineTransition(MachineState* state);
 		~MachineTransition(void);
 
-		bool AddfloatCondition(Condition mode, const char* pParam, float value);
+		DECL_OBJECT(MachineTransition)
+
+		static void			RegisterAttribute();
+
+		bool				AddCondition(Condition mode, const char* pParam, float value);
 	
-		void Initial(StateMachineNode *node);
-		void HandleEvent(void);
-		void UpdateFrame(float oldPhase, float newPhase);
-		bool Check(bool arriveExitTime = false);
-		void RestartExitTimer(void);
-		MachineState* GetTransState(void);
+		void				Initial(StateMachineNode *node);
+		void				HandleEvent();
+		bool				Check();
+	
+		float				GetBlendTime() const { return m_fBlendTime; }
+		void				SetBlendTime(float fBlendTime) { m_fBlendTime = fBlendTime; }
+
+		MachineState*		GetEndState();
+		const char*			GetEndState() const;
+		void				SetEndState(const char* pszDstState);
 
 		virtual bool		Import(rapidxml::xml_node<>* xmlNode);
 		virtual bool		Export(rapidxml::xml_node<>* xmlNode, rapidxml::xml_document<>& doc);
 
-	public:
-		float m_duration;
-		std::string m_dstStateId;
-		bool m_absoluteTransitDuration;
-
 	private:
 		friend class MachineState;
 
-		float m_exitTime;
-		float m_remainingExitTime;
+		MachineState*	m_pStartState;
+	
+		std::string		m_strEndState;
+		MachineState*	m_pEndState;
 
-		MachineState* m_startState;
-		MachineState* m_endState;
+		float			m_fBlendTime;
+
 		typedef std::vector< RefPtr<MachineCondition> > CondVec;
 		CondVec m_conds;
 	};
@@ -75,12 +79,12 @@ namespace ma
 		MachineState(const char* pszAnimNodeName);
 		virtual ~MachineState(void);
 
-		MachineTransition* AddTransition(const char* dstStateId, float duration, float exitTime, bool absoluteTransitDuration);
+		MachineTransition*	AddTransition();
 
-		void Initial(StateMachineNode *node);
+		void				Initial(StateMachineNode *node);
 
-		void Enter(void);
-		void Leave(void);
+		void				Enter();
+		void				Leave();
 
 		virtual bool		Import(rapidxml::xml_node<>* xmlNode);
 		virtual bool		Export(rapidxml::xml_node<>* xmlNode, rapidxml::xml_document<>& doc);
@@ -106,26 +110,25 @@ namespace ma
 
 		DECL_OBJECT(StateMachineNode)
 
-		static void		RegisterAttribute();
+		static void			RegisterAttribute();
 
-		virtual void  Init(AnimationComponent* pAnimator);
+		virtual void		Init(AnimationComponent* pAnimator);
 
-		MachineState* AddState(const char* pszName);
-
-		MachineState* GetState(const char* pszName);
+		virtual void		Activate();
 
 		virtual void		AdvanceTime(float fTimeElepse);
 
 		virtual void		EvaluateAnimation(AnimationNodeOutput &output, float fWeight);
 
-		void HandleEvent(MachineTransition *trans);
-		void TransitTo(MachineState* state, float duration);
+		void				HandleEvent(MachineTransition *trans);
 
-		bool SetStartStateId(const char* pszName);
+		void				TransitTo(MachineState* state, float duration);
 
-		virtual std::string GetNodePrint(void);
-		//virtual void Reset(void);
-		virtual void Activate();
+		bool				SetStartStateId(const char* pszName);
+
+		MachineState*		AddState(const char* pszName);
+
+		MachineState*		GetState(const char* pszName);
 
 		virtual bool		IsReady() { return true; }
 
@@ -140,8 +143,6 @@ namespace ma
 		std::vector< RefPtr<MachineState> > m_vecState;
 
 		std::string m_startStateId;
-
-		bool m_resetOnActive = false;
 
 		friend class MachineTransition;	// 用于在Transition中访问m_animator
 	};

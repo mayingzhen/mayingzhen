@@ -44,6 +44,5 @@
 			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
 		</RasterizerState>
 	</RenderState>
-	<InstanceTech TechName="shader/meshinstance.tech" TechMarco="DIFFUSECOLOR;INSTANCE"/>
 </Technique>
 

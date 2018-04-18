@@ -77,8 +77,7 @@ namespace ma
 
 		SamplerState*		GetActiveSampler(UINT nIndex) { return m_arrSampler[nIndex]; }
 
-		void				SetInstTech(Technique* pTech) { m_pInstTech = pTech; }
-		Technique*			GetInstTech() { return m_pInstTech.get(); }
+		RefPtr<Technique>	CreateInstTech();
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
@@ -118,8 +117,6 @@ namespace ma
 		std::vector< RefPtr<Uniform> >  m_vecPSSamplers;
 
 		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];
-
-		RefPtr<Technique>				m_pInstTech;
 	};
 	
 	RefPtr<Technique> CreateTechnique();

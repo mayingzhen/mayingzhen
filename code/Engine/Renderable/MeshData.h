@@ -25,6 +25,8 @@ namespace ma
 	UINT32 CompressQuaternion(const Vector3& tangent,Vector3 const& normal); 
 	SHORTV4 CompressPos(const Vector3& vPos, const Vector3& vCenter, const Vector3& vExtent);
 	SHORTV2 CompressUV(const Vector2& vUV,const Vector2& vCenter, const Vector2& vExtent);
+
+	Vector3 DecompressPos(SHORTV4 vPos, const Vector3& vCenter, const Vector3& vExtent);
 	
 
 	struct SkinVertexV0

@@ -56,12 +56,6 @@ namespace ma
 		VulkanRasterizerStateObject* pVulkanRS = (VulkanRasterizerStateObject*)(this->GetRasterizerState());
 		pVulkanRS->RT_StreamComplete();
 
-		if (GetInstTech())
-		{
-			GetInstTech()->SetRenderPass(this->GetRenderPass());
-			GetInstTech()->RT_StreamComplete();
-		}
-
 		vks::VulkanDevice* device = GetVulkanDevice();
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
@@ -250,8 +244,8 @@ namespace ma
 
 		m_bSamperDirty = false;
 	}
-
 }
+
 
 
 

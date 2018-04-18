@@ -163,6 +163,17 @@ namespace ma
 		return vSkinPos;
 	}
 
+	Vector3 DecompressPos(SHORTV4 vPos,const Vector3& vCenter, const Vector3& vExtent)
+	{
+		Vector3 vDePos;
+
+		vDePos.x = vPos.x / 32767.5f * vExtent.x + vCenter.x;
+		vDePos.y = vPos.y / 32767.5f * vExtent.y + vCenter.y;
+		vDePos.z = vPos.z / 32767.5f * vExtent.z + vCenter.z;
+
+		return vDePos;
+	}
+
 	SHORTV2 CompressUV(const Vector2& vUV,const Vector2& vCenter, const Vector2& vExtent)
 	{
 		SHORTV2 vSkinUV;

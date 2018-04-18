@@ -52,7 +52,7 @@ namespace ma
 			WaitFlushCond();
 			uint64 nTimeAfterWait = GetTimer()->GetMillisceonds();
 			uint64 nTimeWaitForMain = nTimeAfterWait - nTime;
-			LogInfo("fTimeWaitForMain = %d",nTimeWaitForMain);
+			//LogInfo("fTimeWaitForMain = %d",nTimeWaitForMain);
 			//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
 			ProcessCommands();
 			uint64 nTimeAfterProcess = GetTimer()->GetMillisceonds();

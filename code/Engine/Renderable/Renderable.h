@@ -23,16 +23,12 @@ namespace ma
 
 		SubMaterial*					GetMaterial() const {return m_pSubMaterial.get();}
 
-		Technique*						GetTechnique() const { return m_Technique.get(); }
-
 	public:
 		PRIMITIVE_TYPE					m_ePrimitiveType;
 		RefPtr<VertexBuffer>			m_pVertexBuffer;	
 		RefPtr<IndexBuffer>				m_pIndexBuffer;
 		RefPtr<SubMeshData>				m_pSubMeshData;
 		RefPtr<SubMaterial>				m_pSubMaterial;
-
-		RefPtr<Technique>				m_Technique;
 
 		bool							m_bSuportInstace = false;
 	

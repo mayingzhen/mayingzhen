@@ -73,32 +73,6 @@ namespace ma
             RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vec_element.data(), vec_element.size());
             
 			pShadingTech = CreateTechnique("shader/mesh.tech", "mesh", "mesh", strMacro.c_str(), pDeclaration.get());
-           
-			// Instance Shader
-			{
-			
-				ShaderProgram* pShader = pShadingTech->GetShaderProgram();
-				VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
-
-				std::vector<VertexElement> vecElement;
-				for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
-				{
-					vecElement.push_back(pVertexDecl->GetElement(0, i));
-				}
-				vecElement.push_back(VertexElement(1, 0, DT_FLOAT4, DU_TEXCOORD, 1));
-				vecElement.push_back(VertexElement(1, 16, DT_FLOAT4, DU_TEXCOORD, 2));
-				vecElement.push_back(VertexElement(1, 32, DT_FLOAT4, DU_TEXCOORD, 3));
-
-				RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
-
-				std::string strShaderMacro = pShader->GetShaderMacro();
-				strShaderMacro += ";INSTANCE";
-				RefPtr<Technique> pInstanceTech = CreateTechnique("shader/meshinstance.tech", pShader->GetVSFile(), pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
-			
-				pInstanceTech->SaveToXML("shader/meshinstance.tech");
-
-				pShadingTech->SetInstTech(pInstanceTech.get());
-			}
 
 			pShadingTech->SaveToXML("shader/mesh.tech");
 		}

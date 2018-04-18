@@ -20,7 +20,7 @@ namespace ma
 	private:
 		void			PrepareInstance(RenderPassType eRPType);
 
-		void			PrepareInstance(const std::vector<Renderable*>& batch,Technique* pTech);
+		void			PrepareInstance(const std::vector<Renderable*>& batch, RenderPassType eRPType);
 
 	protected:
 		typedef std::vector<Renderable*> VEC_RENDERABLE;

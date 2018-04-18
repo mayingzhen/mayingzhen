@@ -36,7 +36,7 @@ namespace ma
 	/* ×´Ì¬»ú×´Ì¬×ª»»µÄ±ß */
 
 	MachineTransition::MachineTransition(MachineState* state) :
-		m_startState(state)
+		m_pStartState(state)
 	{
 	}
 
@@ -44,8 +44,14 @@ namespace ma
 	{
 	}
 
+	void MachineTransition::RegisterAttribute()
+	{
+		ACCESSOR_ATTRIBUTE(MachineTransition, "dstState", GetEndState, SetEndState, const char*, NULL, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(MachineTransition, "blendTime", GetBlendTime, SetBlendTime, float, NULL, AM_DEFAULT);
+	}
 
-	bool MachineTransition::AddfloatCondition(Condition mode, const char* pParam, float value)
+
+	bool MachineTransition::AddCondition(Condition mode, const char* pParam, float value)
 	{
 		MachineCondition* cond = new MachineCondition(this);
 		m_conds.push_back(cond);
@@ -59,43 +65,32 @@ namespace ma
 
 	void MachineTransition::HandleEvent(void)
 	{
-		if (m_startState == m_startState->m_node->m_curState)
+		if (m_pStartState == m_pStartState->m_node->m_curState)
 		{
-			m_startState->m_node->HandleEvent(this);
+			m_pStartState->m_node->HandleEvent(this);
 		}
 	}
 
-	void MachineTransition::UpdateFrame(float oldPhase, float newPhase)
+	MachineState* MachineTransition::GetEndState(void)
 	{
-		if ((oldPhase < newPhase && oldPhase < m_exitTime && m_exitTime <= newPhase) ||
-			(oldPhase > newPhase && (oldPhase < m_exitTime || m_exitTime <= newPhase))) {
-			if (m_remainingExitTime > 1.0f)
-			{
-				m_remainingExitTime -= 1.0f;
-				return;
-			}
-
-			if (m_startState == m_startState->m_node->m_curState && Check(true))
-			{
-				m_startState->m_node->TransitTo(m_endState, m_duration);
-			}
-		}
+		return m_pEndState;
 	}
 
-	void MachineTransition::RestartExitTimer(void)
+	const char* MachineTransition::GetEndState() const
 	{
-		m_remainingExitTime = m_exitTime;
+		return m_strEndState.c_str();
 	}
 
-	MachineState* MachineTransition::GetTransState(void)
+	void MachineTransition::SetEndState(const char* pszDstState)
 	{
-		return m_endState;
+		ASSERT(pszDstState);
+		m_strEndState = pszDstState ? pszDstState : "";
 	}
 
 	void MachineTransition::Initial(StateMachineNode *node)
 	{
-		m_endState = node->GetState(m_dstStateId.c_str());
-		ASSERT(m_endState);
+		m_pEndState = node->GetState(m_strEndState.c_str());
+		ASSERT(m_pEndState);
 
 		ParameterNode* pParmater = node->GetAnimator()->GetParameterNode();
 
@@ -111,7 +106,7 @@ namespace ma
 		return;
 	}
 
-	bool MachineTransition::Check(bool arriveExitTime)
+	bool MachineTransition::Check()
 	{
 		for (auto it = m_conds.begin(); it != m_conds.end(); ++it)
 		{
@@ -120,21 +115,13 @@ namespace ma
 				return false;
 			}
 		}
-		if (m_exitTime >= 0)
-		{
-			return arriveExitTime;
-		}
-		else
-		{
-			return (m_conds.size() > 0);
-		}
+
+		return (m_conds.size() > 0);
 	}
 
 	bool MachineTransition::Import(rapidxml::xml_node<>* xmlNode)
 	{
-		const char* pszDstate = xmlNode->findAttribute("dstState");
-		ASSERT(pszDstate);
-		m_dstStateId = pszDstate ? pszDstate : "";
+		Serializable::Import(xmlNode);
 
 		rapidxml::xml_node<>* pXmlCondition = xmlNode->first_node("Condition");
 		while (pXmlCondition)
@@ -159,7 +146,7 @@ namespace ma
 
 	bool MachineTransition::Export(rapidxml::xml_node<>* xmlNode, rapidxml::xml_document<>& doc)
 	{
-		rapidxml::append_attribute(xmlNode, doc, "dstState", m_dstStateId.c_str());
+		Serializable::Export(xmlNode,doc);
 
 		for (uint32 i = 0; i < m_conds.size(); ++i)
 		{
@@ -191,27 +178,22 @@ namespace ma
 
 	}
 
-	MachineTransition* MachineState::AddTransition(const char* dstStateId, float duration, float exitTime, bool absoluteTransitDuration)
+	MachineTransition* MachineState::AddTransition()
 	{
 		MachineTransition* tran = new MachineTransition(this);
-		tran->m_dstStateId = dstStateId;
-		tran->m_duration = duration;
-		tran->m_exitTime = exitTime;
-		tran->m_absoluteTransitDuration = absoluteTransitDuration;
 		m_trans.push_back(tran);
 
 		return tran;
 	}
 
-	void MachineState::Enter(void)
+	void MachineState::Enter()
 	{
 		m_pAnimNode->Activate();
 	}
 
-	void MachineState::Leave(void)
+	void MachineState::Leave()
 	{
-		//if (m_state_leave_callback)
-		//	m_node->GetAnimator()->m_callback_vec.push_back(m_state_leave_callback);
+		m_pAnimNode->Deactivate();
 	}
 
 	void MachineState::Initial(StateMachineNode *node)
@@ -308,11 +290,6 @@ namespace ma
 
 	void StateMachineNode::Activate()
 	{
-		if (m_resetOnActive)
-		{
-			//Reset();
-		}
-
 		AnimTreeNode::Activate();
 
 		m_curState->Enter();
@@ -381,7 +358,7 @@ namespace ma
 	{
 		if (trans->Check())
 		{
-			TransitTo(trans->GetTransState(), trans->m_duration);
+			TransitTo(trans->GetEndState(), 0/*trans->m_duration*/);
 		}
 	}
 
@@ -403,25 +380,9 @@ namespace ma
 	{
 		m_startStateId = pszName;
 
-		m_curState = this->GetState(pszName);
-		ASSERT(m_curState);
-
 		return true;
 	}
 
-	std::string StateMachineNode::GetNodePrint(void)
-	{
-		return std::string("[StateMachineNode]");
-	}
-
-// 	void StateMachineNode::Reset(void)
-// 	{
-// 		m_curState->Leave();
-// 		m_curState = m_stateMap[m_startStateId];
-// 		m_curState->Enter();
-// 		BlendNode::Reset();
-// 	}
-	
 	bool StateMachineNode::Import(rapidxml::xml_node<>* xmlNode)
 	{
 		AnimTreeNode::Import(xmlNode);

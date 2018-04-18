@@ -4,7 +4,7 @@ namespace ma
 {
 	class Scene;
 
-	class RenderPass : public Object
+	class RenderPass : public Referenced
 	{
 	public:
 

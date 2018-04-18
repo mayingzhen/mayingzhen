@@ -30,6 +30,7 @@ namespace ma
 
 		const char*					GetMeshFile(uint32 nLod) const;
 		void						SetMeshFile(const char* pFile,uint32 nLod);
+		MeshData*					GetMeshData(uint32 nLod);
 
 		const char*					GetMaterialFile() const;
 		void						SetMaterialFile(const char* pFile);
@@ -40,9 +41,6 @@ namespace ma
 
 		virtual UINT				GetRenderableCount(uint32 nLod) const;
 		virtual	Renderable*			GetRenderableByIndex(uint32 nLod,UINT index) const;
-
-		virtual UINT				GetShadowRenderableCount(uint32 nLod) const;
-		virtual	Renderable*			GetShadowRenderableByIndex(uint32 nLod, UINT index) const;
 
 		virtual void				SetShadowCaster(bool b);
 
@@ -60,7 +58,7 @@ namespace ma
 	
 		virtual RefPtr<MeshRenderable> CreateMeshRenderable();
 
-		void						CreateRenderable(VEC_LOD_RENDERABLE& arrLodRenderable,RenderPassType ePassType);
+		void						CreateRenderable(VEC_LOD_RENDERABLE& arrLodRenderable);
 
 	protected:
 
@@ -71,8 +69,6 @@ namespace ma
 		LODMESHDATA					m_vecMesData;
 
 		VEC_LOD_RENDERABLE			m_arrLodRenderable;
-
-		VEC_LOD_RENDERABLE			m_arrLodShadowRenderable;
 
 		bool						m_bSuportInstance = false;
 

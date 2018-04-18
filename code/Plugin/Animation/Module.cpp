@@ -43,6 +43,7 @@ void AnimationModuleInit()
 	AnimTreeNode::RegisterAttribute();
 	AnimClipNode::RegisterAttribute();
 	StateMachineNode::RegisterAttribute();
+	MachineTransition::RegisterAttribute();
 }
 
 void AnimationModuleShutdown()

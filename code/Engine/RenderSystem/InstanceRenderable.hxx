@@ -56,7 +56,6 @@ namespace ma
 		m_subVB = GetRenderSystem()->GetInstanceBuffer()->AllocVertexBuffer(m_arrInstanceData.size());
 		memcpy(m_subVB.m_pVertices, m_arrInstanceData.data(), m_arrInstanceData.size() * sizeof(InstaceData));
 
-		m_Technique = pRenderable->GetTechnique()->GetInstTech();
 	}
 
 }

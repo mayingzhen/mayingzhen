@@ -35,7 +35,8 @@ EXPORTS
 ?CreateStateMachineNode@ma@@YA?AV?$RefPtr@VStateMachineNode@ma@@@1@XZ
 ?AddParameter@ParameterNode@ma@@QAEPAVBaseParameter@2@PBDM@Z
 ?SetParameterValue@ParameterNode@ma@@QAE_NPBDM@Z
-?AddTransition@MachineState@ma@@QAEPAVMachineTransition@2@PBDMM_N@Z
 ?AddState@StateMachineNode@ma@@QAEPAVMachineState@2@PBD@Z
 ?SetStartStateId@StateMachineNode@ma@@QAE_NPBD@Z
-?AddfloatCondition@MachineTransition@ma@@QAE_NW4Condition@2@PBDM@Z
+?AddCondition@MachineTransition@ma@@QAE_NW4Condition@2@PBDM@Z
+?AddTransition@MachineState@ma@@QAEPAVMachineTransition@2@XZ
+?SetEndState@MachineTransition@ma@@QAEXPBD@Z

@@ -19,13 +19,14 @@ namespace ma
 
 		struct InstaceData
 		{
-			// worldMatrix
 			Matrix3x4 m_world;
 		};
 
 		std::vector<InstaceData> m_arrInstanceData;
 
 		SubAllocVB m_subVB;
+
+		RefPtr<Technique> m_pInstTech;
 	};
 }
 

@@ -307,10 +307,10 @@ namespace ma
 			m_arrParameters.push_back(pParame);
 		}
 
-		if (m_pInstTech)
-		{
-			m_pInstTech->SetParameter(pszName, value);
-		}
+// 		if (m_pInstTech)
+// 		{
+// 			m_pInstTech->SetParameter(pszName, value);
+// 		}
 	}
 
 	Parameter* Technique::GetParameter(const char* pszName)
@@ -575,20 +575,6 @@ namespace ma
 				this->SetRasterizerState(pRSState.get());
 			}
 		}
-
-		rapidxml::xml_node<>* pXmlInstTech = pXmlElem->first_node("InstanceTech");
-		if (pXmlInstTech)
-		{
-			const char* pszTechName = pXmlInstTech->findAttribute("TechName");
-			const char* pszTechMacro = pXmlInstTech->findAttribute("TechMarco");
-
-			m_pInstTech = CreateTechnique(pszTechName, pszTechMacro);
-
-			for (UINT i = 0; i < m_arrParameters.size(); ++i)
-			{
-				m_pInstTech->SetParameter(m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue());
-			}
-		}
 	
 		return true;
 	}
@@ -640,19 +626,42 @@ namespace ma
 			m_pRSState->Export(pXmlRSState, doc);
 		}
 
-		if (m_pInstTech)
+		return true;
+	}
+
+	RefPtr<Technique> Technique::CreateInstTech()
+	{
+		ShaderProgram* pShader = this->GetShaderProgram();
+		ASSERT(pShader);
+		if (pShader == NULL)
+			return NULL;
+
+		VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
+
+		std::vector<VertexElement> vecElement;
+		for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
 		{
-			rapidxml::xml_node<>* pXmlInstTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("InstanceTech"));
-			pXmlElem->append_node(pXmlInstTech);
+			vecElement.push_back(pVertexDecl->GetElement(0, i));
+		}
+		vecElement.push_back(VertexElement(1, 0, DT_FLOAT4, DU_TEXCOORD, 1));
+		vecElement.push_back(VertexElement(1, 16, DT_FLOAT4, DU_TEXCOORD, 2));
+		vecElement.push_back(VertexElement(1, 32, DT_FLOAT4, DU_TEXCOORD, 3));
 
-			const char* pszName = m_pInstTech->GetTechName();
-			const char* pszMacro = m_pInstTech->GetShaderDefine();
+		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
 
-			rapidxml::append_attribute(pXmlInstTech, doc, "TechName", pszName);
-			rapidxml::append_attribute(pXmlInstTech, doc, "TechMarco", pszMacro);
+		std::string strShaderMacro = pShader->GetShaderMacro();
+		strShaderMacro += ";INSTANCE";
+		RefPtr<Technique> pInstTech = CreateTechnique("instance.tech", pShader->GetVSFile(), pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
+
+		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		{
+			pInstTech->SetParameter(m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue());
 		}
 
-		return true;
+		pInstTech->SetRenderPass(this->GetRenderPass());
+		GetRenderSystem()->TechniqueStreamComplete(pInstTech.get());
+
+		return pInstTech;
 	}
 
 	RefPtr<Technique> Technique::Clone()

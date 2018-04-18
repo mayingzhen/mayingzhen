@@ -39,33 +39,6 @@ namespace ma
 		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip602.get());
 		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip120.get());
 
-// 		RefPtr<Parameter> pParam = CreateParameter();
-// 		pParam->SetName("TestAnim");
-// 		pParam->SetValue(Any(0.0));
-// 		pAnimComp->AddParameter(pParam.get());
-// 
-// 		RefPtr<StateMachineNode> pStateMachineNode = CreateStateMachineNode();
-// 		pStateMachineNode->SetEntryState(pClip120.get());
-// 
-// 		RefPtr<StateTransition> pStateTrans = CreateStateTransition();
-// 		pStateTrans->SetSourceNode(pClip602.get());
-// 		pStateTrans->SetTargetNode(pClip120.get());
-// 
-// 		RefPtr<ParameterCondition> pParamCont = CreateParameterCondition();
-// 		pParamCont->SetFunction(FUNCTION_GREATER);
-// 		pParamCont->SetParamIndex(0);
-// 		pParamCont->SetTestValue(0.0);
-// 		pStateTrans->AddCondition(pParamCont.get());
-// 
-// 		pStateMachineNode->AddTransition(pStateTrans.get());
-// 
-// 		//pAnimComp->SetAnimation("100");
-// 		pAnimComp->SetAnimation(pStateMachineNode.get());
-
-// 		RefPtr<SourceNode> pSourceNode = CreateSourceNode();
-// 		pSourceNode->Set
-// 		pAnimComp->SetAnimationTree(pSourceNode);
-
 	
 		RefPtr<StateMachineNode> pStateMachineNode = CreateStateMachineNode();
 		MachineState* pState602 = pStateMachineNode->AddState("602");
@@ -73,11 +46,15 @@ namespace ma
 	
 		BaseParameter* pParm120 = m_pAnimator->GetParameterNode()->AddParameter("To120", 1.0f);
 
-		MachineTransition* pTrans120 = pState602->AddTransition("120", 0.0, -1.0, 0.0);
-		pTrans120->AddfloatCondition(Condition::Greater, "To120", 1.0f);
+		MachineTransition* pTrans120 = pState602->AddTransition();
+		pTrans120->SetEndState("120");
+		pTrans120->SetBlendTime(0.3f);
+		pTrans120->AddCondition(Condition::Greater, "To120", 1.0f);
 
-		MachineTransition* pTrans602 = pState120->AddTransition("602", 0.0, -1.0, 0.0);
-		pTrans602->AddfloatCondition(Condition::Less, "To120", 1.0f);
+		MachineTransition* pTrans602 = pState120->AddTransition();
+		pTrans120->SetEndState("602");
+		pTrans120->SetBlendTime(0.0f);
+		pTrans602->AddCondition(Condition::Less, "To120", 1.0f);
 
 		pStateMachineNode->SetStartStateId("120");
 

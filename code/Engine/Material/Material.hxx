@@ -47,37 +47,6 @@ namespace ma
 			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
-
-
-			// Instance Shader
-			if (m_pShadingTech->GetInstTech())
-			{
-				ShaderProgram* pShader = m_pShadowDepthTech->GetShaderProgram();
-				VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
-
-				std::vector<VertexElement> vecElement;
-				for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
-				{
-					vecElement.push_back(pVertexDecl->GetElement(0, i));
-				}
-				vecElement.push_back(VertexElement(1, 0, DT_FLOAT4, DU_TEXCOORD, 1));
-				vecElement.push_back(VertexElement(1, 16, DT_FLOAT4, DU_TEXCOORD, 2));
-				vecElement.push_back(VertexElement(1, 32, DT_FLOAT4, DU_TEXCOORD, 3));
-
-				RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
-
-				std::string strShaderMacro = pShader->GetShaderMacro();
-				strShaderMacro += ";INSTANCE";
-				RefPtr<Technique> pInstanceTech = CreateTechnique("shader/ShadowDepthinstance.tech", pShader->GetVSFile(), pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
-
-				pInstanceTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
-				GetRenderSystem()->TechniqueStreamComplete(pInstanceTech.get());
-
-				//pInstanceTech->SaveToXML("shader/ShadowDepthinstance.tech");
-
-				m_pShadowDepthTech->SetInstTech(pInstanceTech.get());
-			}
-
 		}
 
 		return m_pShadowDepthTech.get();
@@ -86,6 +55,24 @@ namespace ma
 	Technique* SubMaterial::GetShadingTechnqiue()
 	{
 		return m_pShadingTech.get();
+	}
+
+	Technique* SubMaterial::GetShadingInstTechnqiue()
+	{
+		if (m_pShadingInstTech == NULL)
+		{
+			m_pShadingInstTech = m_pShadingTech->CreateInstTech();
+		}
+		return m_pShadingInstTech.get();
+	}
+
+	Technique* SubMaterial::GetShadowDepthInstTechnqiue()
+	{
+		if (m_pShadowDepthInstTech == NULL)
+		{
+			m_pShadowDepthInstTech = m_pShadowDepthTech->CreateInstTech();
+		}
+		return m_pShadowDepthInstTech.get();
 	}
 
 	void SubMaterial::Import(rapidxml::xml_node<>* pXmlElem,Resource* pParent)

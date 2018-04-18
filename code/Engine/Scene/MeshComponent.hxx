@@ -67,6 +67,14 @@ namespace ma
 		return IsReady();
 	}
 
+	MeshData* MeshComponent::GetMeshData(uint32 nLod)
+	{
+		if (nLod < 0 || nLod >= m_vecMesData.size())
+			return NULL;
+
+		return m_vecMesData[nLod].get();
+	}
+
 	const char*	MeshComponent::GetMeshFile(uint32 nLod) const
 	{
 		if (nLod < 0 || nLod >= m_vecMesData.size())
@@ -119,23 +127,9 @@ namespace ma
 		return m_arrLodRenderable[nLod][index].get();
 	}
 
-	UINT MeshComponent::GetShadowRenderableCount(uint32 nLod) const
-	{
-		return m_arrLodShadowRenderable[nLod].size();
-	}
-
-	Renderable* MeshComponent::GetShadowRenderableByIndex(uint32 nLod, UINT index) const
-	{
-		return m_arrLodShadowRenderable[nLod][index].get();
-	}
-
 	void MeshComponent::SetShadowCaster(bool b)
 	{
 		RenderComponent::SetShadowCaster(b);
-		if (b)
-		{
-			CreateRenderable(m_arrLodShadowRenderable, RP_ShadowDepth);
-		}
 	}
 
 	void MeshComponent::SetSuportInstance(bool b)
@@ -145,15 +139,6 @@ namespace ma
 		for (uint32 iLod = 0; iLod < m_arrLodRenderable.size(); ++iLod)
 		{
 			VEC_RENDERABLE arrRenderable = m_arrLodRenderable[iLod];
-			for (UINT iSub = 0; iSub < arrRenderable.size(); ++iSub)
-			{
-				arrRenderable[iSub]->m_bSuportInstace = b;
-			}
-		}
-
-		for (uint32 iLod = 0; iLod < m_arrLodShadowRenderable.size(); ++iLod)
-		{
-			VEC_RENDERABLE arrRenderable = m_arrLodShadowRenderable[iLod];
 			for (UINT iSub = 0; iSub < arrRenderable.size(); ++iSub)
 			{
 				arrRenderable[iSub]->m_bSuportInstace = b;
@@ -183,7 +168,7 @@ namespace ma
 		return new MeshRenderable();
 	}
 
-	void MeshComponent::CreateRenderable(VEC_LOD_RENDERABLE& arrLodRenderable, RenderPassType ePassType)
+	void MeshComponent::CreateRenderable(VEC_LOD_RENDERABLE& arrLodRenderable)
 	{
 		ASSERT(m_pMaterial && !m_vecMesData.empty());
 		if (m_pMaterial == NULL || m_vecMesData.empty())
@@ -207,15 +192,7 @@ namespace ma
 				pRenderable->m_bSuportInstace = m_bSuportInstance;
 
 				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
-
-				Technique* pTech = pSubMaterial->GetShadingTechnqiue();
-				if (ePassType == RP_ShadowDepth)
-				{
-					pTech = pSubMaterial->GetShadowDepthTechnqiue();
-					pRenderable->m_bSuportInstace = true;
-				}
-
-				pRenderable->m_Technique = pTech;
+				pRenderable->m_pSubMaterial = pSubMaterial;
 
 				Vector3 pos_extent = pMesData->GetBoundingAABB().getHalfSize();
 				Vector3 pos_center = pMesData->GetBoundingAABB().getCenter();
@@ -223,17 +200,9 @@ namespace ma
 				Vector2	tc_center = pMesData->GetUVBoundingAABB().getCenter();
 				Vector4 tc_extent_center = Vector4(tc_extent.x,tc_extent.y,tc_center.x,tc_center.y);
 
-				pTech->SetValue( pTech->GetUniform("pos_extent"), pos_extent );
-				pTech->SetValue( pTech->GetUniform("pos_center"), pos_center );
-				pTech->SetValue( pTech->GetUniform("tc_extent_center"), tc_extent_center );
-
-				Technique* pInstTech = pTech->GetInstTech();
-				if (pInstTech)
-				{
-					pInstTech->SetValue(pInstTech->GetUniform("pos_extent"), pos_extent);
-					pInstTech->SetValue(pInstTech->GetUniform("pos_center"), pos_center);
-					pInstTech->SetValue(pInstTech->GetUniform("tc_extent_center"), tc_extent_center);
-				}
+				pSubMaterial->SetParameter( "pos_extent", Any(pos_extent) );
+				pSubMaterial->SetParameter( "pos_center", Any(pos_center) );
+				pSubMaterial->SetParameter( "tc_extent_center", Any(tc_extent_center) );
 
 				arrRenderable.push_back(pRenderable);
 			}
@@ -252,7 +221,7 @@ namespace ma
 		if (m_pMaterial == NULL || !m_pMaterial->IsReady())
 			return false;
 
-		CreateRenderable(m_arrLodRenderable,RP_Shading);
+		CreateRenderable(m_arrLodRenderable);
 
 		SetAABB(m_vecMesData[0]->GetBoundingAABB());
 
@@ -273,14 +242,6 @@ namespace ma
 			 m_arrLodRenderable[m_nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
 			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Mesh, m_arrLodRenderable[m_nLod][i].get());
-		}
-
-		if (m_nLod < m_arrLodShadowRenderable.size())
-		{
-			for (UINT i = 0; i < m_arrLodShadowRenderable[m_nLod].size(); ++i)
-			{
-				m_arrLodShadowRenderable[m_nLod][i]->SetWorldMatrix(m_pSceneNode->GetMatrixWS());
-			}
 		}
 	}
 
