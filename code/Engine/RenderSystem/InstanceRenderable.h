@@ -25,8 +25,6 @@ namespace ma
 		std::vector<InstaceData> m_arrInstanceData;
 
 		SubAllocVB m_subVB;
-
-		RefPtr<Technique> m_pInstTech;
 	};
 }
 

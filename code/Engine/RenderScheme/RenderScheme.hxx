@@ -9,21 +9,20 @@ namespace ma
 	RenderScheme::RenderScheme(Scene* pScene)
 	{
 		m_pScene = pScene;
-		//m_pFrameBuffer = GetRenderDevice()->CreateRenderPass();
 	}
 
 	void RenderScheme::Init()
 	{
 		Shoutdown();
 
-		if (m_pDeferredShadingPass)
+		if (m_pDeferredShading)
 		{
-			m_pDeferredShadingPass->Init();
+			m_pDeferredShading->Init();
 		}
 
-		if (m_pDeferredShadowPass)
+		if (m_pDeferredShadow)
 		{
-			m_pDeferredShadowPass->Init();
+			m_pDeferredShadow->Init();
 		}
 
 		if (m_pSSAO)
@@ -62,7 +61,7 @@ namespace ma
 		//m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
 		//m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
 
-		if (m_pDeferredShadingPass)
+		if (m_pDeferredShading)
 		{
             m_pLinearDepthTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT32_R,false);
             m_pLinearDepthSampler = CreateSamplerState(m_pLinearDepthTex.get(),CLAMP,TFO_POINT,false);
@@ -89,14 +88,14 @@ namespace ma
 			}
 		}
 
-		if (m_pDeferredShadingPass)
+		if (m_pDeferredShading)
 		{
-			m_pDeferredShadingPass->Reset();
+			m_pDeferredShading->Reset();
 		}
 
-		if (m_pDeferredShadowPass)
+		if (m_pDeferredShadow)
 		{
-			m_pDeferredShadowPass->Reset();
+			m_pDeferredShadow->Reset();
 		}
 
 		if (m_pSSAO)
@@ -141,6 +140,8 @@ namespace ma
 			pRenderQueue->RenderObjList(pRenderPass,RL_Terrain,RP_Shading);
 		}
 
+		pRenderPass->End();
+
 // 		if (m_pLinearDepthPass)
 // 		{
 // 			m_pLinearDepthPass->Begine();
@@ -148,10 +149,10 @@ namespace ma
 // 			m_pLinearDepthPass->End();
 // 		}
 
-		if (m_pDeferredShadowPass)
+		if (m_pDeferredShadow)
 		{
-			RENDER_PROFILE(m_pDeferredShadowPass);
-			m_pDeferredShadowPass->Render();
+			RENDER_PROFILE(m_pDeferredShadow);
+			m_pDeferredShadow->Render();
 		}
 
 		if (m_pSSAO)
@@ -169,8 +170,6 @@ namespace ma
 // 			RENDER_PROFILE(m_pDeferredShadingPass);
 // 			m_pDeferredShadingPass->Render();
 // 		}
-
-		pRenderPass->End();
 
 		if (m_pHDR)
 		{
@@ -219,7 +218,7 @@ namespace ma
 
 		if (b)
 		{
-			if (m_pDeferredShadingPass)
+			if (m_pDeferredShading)
 				return;
 
 			//m_pDeferredShadingPass = new DeferredShadingPass(m_pScene);
@@ -228,10 +227,10 @@ namespace ma
 		}
 		else
 		{
-			if (m_pDeferredShadingPass == NULL)
+			if (m_pDeferredShading == NULL)
 				return;
 
-			m_pDeferredShadingPass = NULL;
+			m_pDeferredShading = NULL;
 
 			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "0");
 		}
@@ -242,7 +241,7 @@ namespace ma
 
 	bool RenderScheme::GetDeferredShadingEnabled() const
 	{
-		return m_pDeferredShadingPass != NULL;
+		return m_pDeferredShading != NULL;
 	}
 
 	void RenderScheme::SetDeferredShadowEnabled(bool b)
@@ -252,7 +251,7 @@ namespace ma
 
 		if (b)
 		{
-			if (m_pDeferredShadowPass)
+			if (m_pDeferredShadow)
 				return;
 
 			//m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
@@ -261,10 +260,10 @@ namespace ma
 		}
 		else
 		{
-			if (m_pDeferredShadowPass == NULL)
+			if (m_pDeferredShadow == NULL)
 				return;
 
-			m_pDeferredShadowPass = NULL;
+			m_pDeferredShadow = NULL;
 
 			GetRenderSystem()->AddShaderGlobaMacro("USING_DEFERREDSHADOW", "0");
 		}
@@ -275,7 +274,7 @@ namespace ma
 
 	bool RenderScheme::GetDeferredShadowEnabled() const
 	{
-		return m_pDeferredShadowPass != NULL;
+		return m_pDeferredShadow != NULL;
 	}
 
 	void RenderScheme::SetSSAOEnabled(bool b)
@@ -310,3 +309,4 @@ namespace ma
 		return m_pSSAO != NULL;
 	}
 }
+

@@ -3,13 +3,11 @@
 
 namespace ma
 {	
-	DeferredShadingPass::DeferredShadingPass(/*Scene* pScene*/)
-		//:RenderPass(pScene)
+	DeferredShading::DeferredShading()
 	{
-
 	}
 
-	void DeferredShadingPass::Init()
+	void DeferredShading::Init()
 	{
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
@@ -28,12 +26,12 @@ namespace ma
 		m_pDirLight->SetBlendState(pBlendState.get());
 	}
 
-	void DeferredShadingPass::Reset()
+	void DeferredShading::Reset()
 	{
 
 	}
 
-	void DeferredShadingPass::Render()
+	void DeferredShading::Render()
 	{
 		RENDER_PROFILE(DefferedLighting);
 
@@ -100,7 +98,7 @@ namespace ma
 		}
 	}
 
-	void DeferredShadingPass::Shoutdown()
+	void DeferredShading::Shoutdown()
 	{
 		m_pDirLight = NULL;
 		m_pPointLight = NULL;

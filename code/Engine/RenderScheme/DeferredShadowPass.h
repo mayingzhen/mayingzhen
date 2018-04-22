@@ -1,12 +1,11 @@
-#ifndef  _DeferredShadowPass__H__
-#define  _DeferredShadowPass__H__
+#pragma once
 
 namespace ma
 {
-	class DeferredShadowPass : public RenderPass
+	class DeferredShadow : public Referenced
 	{
 	public:
-		DeferredShadowPass(/*Scene* pScene*/);
+		DeferredShadow();
 
 		void Init();
 	
@@ -43,5 +42,3 @@ namespace ma
 
 }
 
-
-#endif

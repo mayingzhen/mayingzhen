@@ -94,7 +94,7 @@ namespace ma
 
 		if (m_bNeedReloadShader)
 		{
-			g_pShaderManager->ReLoad();
+			g_pMaterialManager->ReLoad();
 			m_bNeedReloadShader = false;
 		}
 
@@ -192,16 +192,6 @@ namespace ma
 
 	void RenderSystem::InitCachState()
 	{
-// 		GetRenderDevice()->SetColorWrite( m_curState.m_bColorWrite );
-// 		GetRenderDevice()->SetDepthWrite( m_curState.m_bDepthWrite );
-// 		GetRenderDevice()->SetCullingMode( m_curState.m_eCullMode );
-// 		GetRenderDevice()->SetDepthCheckMode( m_curState.m_eDepthCheckMode );
-// 		GetRenderDevice()->SetBlendMode( m_curState.m_eBlendMode );
-// 		GetRenderDevice()->SetStencilEnable(m_curState.m_bStencil);
-// 		GetRenderDevice()->SetStencilBufferParams(m_curState.m_eStencilfunc,
-// 			m_curState.m_nStencilRefValue,m_curState.m_nStencilMask,
-// 			m_curState.m_nStencilWriteMask,m_curState.m_eStencilFail,
-// 			m_curState.m_eDepthFailOp,m_curState.m_eStencilPass);
 	}
 
 
@@ -217,11 +207,6 @@ namespace ma
 
 		InitParticleVideoMemory();
 
-// 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
-// 		{
-// 			m_pRenderTarget[i] = GetRenderDevice()->GetDefaultRenderTarget(i);
-// 		}
-// 		m_pDepthStencil = GetRenderDevice()->GetDefaultDepthStencil();
 		m_curViewport = GetRenderDevice()->GetViewport();
 	
 		LineRender::Init();
@@ -231,7 +216,6 @@ namespace ma
 		Scene* pScene = new Scene("defaultScene");
 		pScene->GetRenderScheme()->Init();
 		pScene->GetRenderScheme()->Reset();
-		pScene->SetViewport(m_curViewport);
 		m_arrScene.push_back(pScene);
 	}
 
@@ -244,11 +228,6 @@ namespace ma
 	void RenderSystem::RT_BeginRender()
 	{
         GetRenderDevice()->BeginRender();
-		
-//         for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
-// 		{
-// 			GetRenderDevice()->SetTexture(i,NULL,true);
-// 		}
 	}
 
 	void RenderSystem::RT_EndRender()
@@ -297,69 +276,10 @@ namespace ma
 		return pTarget;
 	}
 
-// 	void RenderSystem::BeginRenderPass(FrameBuffer* pFB)
-// 	{
-// 		m_pRenderThread->RC_BeginRenderPass(pFB);
-// 	}
-// 
-// 	void RenderSystem::EndRenderPass(FrameBuffer* pFB)
-// 	{
-// 		m_pRenderThread->RC_EndRenderPass(pFB);
-// 	}
-// 
-// 	void RenderSystem::SetFrameBuffer(FrameBuffer* pFB)
-// 	{
-// 		m_pRenderThread->RC_SetFrameBuffer(pFB);
-// 	}
-
-// 	RefPtr<Texture> RenderSystem::SetRenderTarget(int index,Texture* pTexture, int level, int array_index, int face)
-// 	{
-// 		RefPtr<Texture> pPreTarget = m_pRenderTarget[index];
-// 		
-// 		m_pRenderThread->RC_SetRenderTarget(index,pTexture,level,array_index,face);
-// 		
-// 		m_pRenderTarget[index] = pTexture;
-// 
-// 		return pPreTarget;
-// 	}
-
-
 	RefPtr<Texture> RenderSystem::GetRenderTarget(int index)
 	{
 		return m_pRenderTarget[index];
 	}
-
-// 	RefPtr<Texture> RenderSystem::GetDefaultRenderTarget()
-// 	{
-// 		return GetRenderDevice()->GetDefaultRenderTarget();
-// 	}
-// 
-// 	RefPtr<Texture> RenderSystem::GetDefaultDepthStencil()
-// 	{
-// 		return GetRenderDevice()->GetDefaultDepthStencil();
-// 	}
-
-// 	RefPtr<Texture> RenderSystem::SetDepthStencil(RefPtr<Texture> pTexture)
-// 	{
-// 		RefPtr<Texture> pPreDepth = m_pDepthStencil;
-// 		
-// 		m_pRenderThread->RC_SetDepthStencil(pTexture.get());
-// 
-// 		m_pDepthStencil = pTexture.get();
-// 
-// 		return pPreDepth;
-// 	}
-
-// 	Rectangle RenderSystem::SetViewPort(const Rectangle& viewPort)
-// 	{
-// 		Rectangle preViewPort = m_curViewport;
-// 
-// 		m_pRenderThread->RC_SetViewPort(viewPort);
-// 
-// 		m_curViewport = viewPort;
-// 
-// 		return preViewPort;
-// 	}
 
 	RenderPass* RenderSystem::GetDefaultRenderPass()
 	{
@@ -401,6 +321,11 @@ namespace ma
 		m_pRenderThread->RC_SetUniformValue(pUniform,data,nSize);
 	}
 
+	void RenderSystem::SetSampler(Uniform* pUniform, SamplerState* pSampler)
+	{
+		m_pRenderThread->RC_SetSampler(pUniform, pSampler);
+	}
+
 	void RenderSystem::BeginProfile(const char* pszLale)
 	{
 		m_pRenderThread->RC_BeginProfile(pszLale);
@@ -440,98 +365,6 @@ namespace ma
 		return pVD;
 	}
 
-// 	void RenderSystem::SetValue(Uniform* uniform, int value)
-// 	{
-// 		if (uniform == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetInt(uniform,value);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, float value)
-// 	{
-// 		if (uniform == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetFloat(uniform,value);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, const Vector2& value)
-// 	{
-// 		if (uniform == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetVector2(uniform,value);
-// 	}	
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, const Vector3& value)
-// 	{
-// 		if (uniform == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetVector3(uniform,value);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, const Vector4& value)
-// 	{
-// 		if (uniform == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetVector4(uniform,&value,1);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, const Matrix4& value)
-// 	{
-// 		m_pRenderThread->RC_SetMatrix4(uniform,&value,1);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
-// 	{
-// 		if (values == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetMatrix4(uniform,values,count);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, const Vector4* values, UINT count)
-// 	{
-// 		if (values == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetVector4(uniform,values,count);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, const ColourValue& value)
-// 	{
-// 		if (uniform == NULL)
-// 			return;
-// 
-// 		m_pRenderThread->RC_SetColourValue(uniform,value);
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, Texture* pTexture)
-// 	{
-// 		ASSERT(uniform);
-// 		//ASSERT(pTexture);
-// 
-// 		//if ( m_arrSampState[uniform->m_index]->GetTexture() != pTexture )
-// 		{
-// 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
-// 		}
-// 	}
-// 
-// 	void RenderSystem::SetValue(Uniform* uniform, SamplerState* pTexture)
-// 	{
-// 		ASSERT(uniform);
-// 		ASSERT(pTexture);
-// 
-// 		//if ( m_arrSampState[uniform->m_index] != pTexture )
-// 		{
-// 			m_pRenderThread->RC_SetSamplerState(uniform,pTexture);
-// 
-// 			m_arrSampState[uniform->GetIndex()] = pTexture; 
-// 		}
-// 	}
 
 	const char*	RenderSystem::GetShaderPath()
 	{
@@ -546,7 +379,7 @@ namespace ma
 		}
         else
 		{
-			return "shader/gles/";
+			return "shader/hlsl/";
 		}
 	}	
 

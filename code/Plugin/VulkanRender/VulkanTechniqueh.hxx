@@ -77,6 +77,8 @@ namespace ma
 			}
 		}
 
+		this->ClearSampler();
+
 		for (uint32 i = 0; i < pShader->GetSamplerCount(); ++i)
 		{
 			Uniform* pUniform = pShader->GetSamplerByIndex(i);
@@ -91,7 +93,22 @@ namespace ma
 
 		BindUniform(NULL);
 
-		VkResult res;
+		UpdateUniformDescriptorSets();
+
+		UpdateSamplerDescriptorSets();
+
+	}
+
+	void VulkanTechnique::RT_SetSampler(Uniform* pUniform, SamplerState* pSampler)
+	{
+		UpdateSamplerDescriptorSets();
+	}
+
+	void VulkanTechnique::UpdateUniformDescriptorSets()
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
 		//init_descriptor_set
 		{
@@ -100,9 +117,9 @@ namespace ma
 			alloc_info[0].pNext = NULL;
 			alloc_info[0].descriptorPool = m_pPipline->m_desc_pool;
 			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout[VS];
+			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout_uniform[VS];
 
-			res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets[VS]);
+			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_uniform[VS]);
 			assert(res == VK_SUCCESS);
 
 			std::vector<VkWriteDescriptorSet> vecVSwrite;
@@ -112,7 +129,7 @@ namespace ma
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
-				write.dstSet = m_descriptorSets[VS];
+				write.dstSet = m_descriptorSets_uniform[VS];
 				write.descriptorCount = 1;
 				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				write.pBufferInfo = &pConstBuffer->m_descriptor;
@@ -131,9 +148,9 @@ namespace ma
 			alloc_info[0].pNext = NULL;
 			alloc_info[0].descriptorPool = m_pPipline->m_desc_pool;
 			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout[PS];
+			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout_uniform[PS];
 
-			res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets[PS]);
+			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_uniform[PS]);
 			assert(res == VK_SUCCESS);
 
 			std::vector<VkWriteDescriptorSet> vecPSwrite;
@@ -143,7 +160,7 @@ namespace ma
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
-				write.dstSet = m_descriptorSets[PS];
+				write.dstSet = m_descriptorSets_uniform[PS];
 				write.descriptorCount = 1;
 				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				write.pBufferInfo = &pConstBuffer->m_descriptor;
@@ -154,17 +171,10 @@ namespace ma
 
 			vkUpdateDescriptorSets(device->logicalDevice, vecPSwrite.size(), vecPSwrite.data(), 0, NULL);
 		}
-
-		UpdateSamplerDescriptorSets();
-
-		return;
 	}
 
 	void VulkanTechnique::UpdateSamplerDescriptorSets()
 	{
-		if (!m_bSamperDirty)
-			return;
-
 		vks::VulkanDevice* device = GetVulkanDevice();
 
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
@@ -241,10 +251,9 @@ namespace ma
 
 			vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 		}
-
-		m_bSamperDirty = false;
 	}
 }
+
 
 
 

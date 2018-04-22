@@ -6,7 +6,7 @@ namespace ma
 	class Uniform;
     
 	// Interface implemented by templated method bindings for simple storage and iteration.
-	class MethodBinding 
+	class MethodBinding : public Referenced
 	{
 	public:
 		MethodBinding()

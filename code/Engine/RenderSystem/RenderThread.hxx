@@ -277,7 +277,7 @@ namespace ma
 	void RenderThread::RC_SetUniformValue(Uniform* pUniform, const void* data, UINT nSize)
 	{
 		// job 线程也会调用到这边
-		if (!IsMainThread())
+		if (IsRenderThread() || !IsMainThread())
 		{
 			ASSERT(nSize <= pUniform->GetSize());
 			pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), data);
@@ -287,6 +287,20 @@ namespace ma
 		AddCommand(eRC_SetUniformValue);
 		AddPointer(pUniform);
 		AddData(data, nSize);
+	}
+
+	void RenderThread::RC_SetSampler(Uniform* pUniform, SamplerState* pSampler)
+	{
+		// job 线程也会调用到这边
+		if (IsRenderThread() || !IsMainThread())
+		{
+			pUniform->GetTechnique()->RT_SetSampler(pUniform, pSampler);
+			return;
+		}
+
+		AddCommand(eRC_SetSampler);
+		AddPointer(pUniform);
+		AddPointer(pSampler);
 	}
 
 	void RenderThread::RC_SetPoolId(uint32 poolId)
@@ -436,6 +450,13 @@ namespace ma
 
 					ASSERT(nSize <= pUniform->GetSize());
 					pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), data);
+				}
+				break;
+			case eRC_SetSampler:
+				{
+					Uniform* pUniform = ReadCommand<Uniform*>(n);
+					SamplerState* pSampler = ReadCommand<SamplerState*>(n);
+					pUniform->GetTechnique()->RT_SetSampler(pUniform, pSampler);
 				}
 				break;
 			case  eRC_SetPoolId:

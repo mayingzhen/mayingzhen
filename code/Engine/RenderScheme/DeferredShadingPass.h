@@ -5,11 +5,11 @@ namespace ma
 	class Texture;
 	class Technique;
 
-	class DeferredShadingPass : public RenderPass
+	class DeferredShading : public Referenced
 	{
 
 	public:
-		DeferredShadingPass(/*Scene* pScene*/);
+		DeferredShading();
 
 		void		Init();
 		
@@ -28,4 +28,5 @@ namespace ma
 	};
 
 }
+
 

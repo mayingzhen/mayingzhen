@@ -12,15 +12,14 @@ enum StencilBitUse
 
 namespace ma
 {
-	DeferredShadowPass::DeferredShadowPass(/*Scene* pScene*/)
-		//:RenderPass(pScene)
+	DeferredShadow::DeferredShadow()
 	{
 		m_pRenderable = new Renderable;
 	
 		//m_ShadowLight = pScene->GetDirLight();
 	}
 
-	void DeferredShadowPass::CreateSimpleLightFrustumMesh()
+	void DeferredShadow::CreateSimpleLightFrustumMesh()
 	{
 		std::vector<Vector3> vertBuff;
 		std::vector<uint16> indBuff;
@@ -90,7 +89,7 @@ namespace ma
 		//m_pRenderable->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1); 
 	}
 
-	void DeferredShadowPass::Init()
+	void DeferredShadow::Init()
 	{
 		m_pFrustumVolume = CreateTechnique("frustumclipvolume","volume","volume","");
 
@@ -109,16 +108,16 @@ namespace ma
 		CreateSimpleLightFrustumMesh();
 	}
 
-	void DeferredShadowPass::Reset()
+	void DeferredShadow::Reset()
 	{
 		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT16_R,false);
 
 		m_pShadowSampler = CreateSamplerState(m_pShadowTex.get(),CLAMP,TFO_POINT,false);
 	}
 
-	void DeferredShadowPass::Render()
+	void DeferredShadow::Render()
 	{
-		RENDER_PROFILE(DeferredShadowPass);
+		RENDER_PROFILE(DeferredShadow);
 
 		RefPtr<Texture> pPreTarget = GetRenderSystem()->GetRenderTarget(0);
 
@@ -250,7 +249,7 @@ namespace ma
 		//}
 	}
 
-	void DeferredShadowPass::Shoutdown()
+	void DeferredShadow::Shoutdown()
 	{
 
 	}

@@ -6,12 +6,10 @@ namespace ma
 
 	Uniform* ConstantBuffer::AddUniform(const char* pName)
 	{
-		Uniform* pUnifrom = new Uniform();
-		pUnifrom->SetName(pName);
+		RefPtr<Uniform> pUnifrom = CreateUniform(pName);
 		pUnifrom->SetParent(this);
-		pUnifrom->SetMethodBinding(g_pParameterManager->GetMethodBinding(pName));
 		m_vecUniform.push_back(pUnifrom);
-		return pUnifrom;
+		return pUnifrom.get();
 	}
 
 	UINT ConstantBuffer::GetUniformCount()
@@ -52,7 +50,6 @@ namespace ma
 
 	Uniform::~Uniform()
 	{
-		SAFE_DELETE(m_pMethod);
 	}
 
 	void Uniform::Bind(Renderable* pRenderable)
@@ -82,6 +79,7 @@ namespace ma
 	{
 		Uniform* pUniform = new Uniform;
 		pUniform->SetName(pszName);
+		pUniform->SetMethodBinding(g_pParameterManager->GetMethodBinding(pszName));
 		return pUniform;
 	}
 

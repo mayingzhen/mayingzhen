@@ -3,6 +3,8 @@
 
 namespace ma
 {
+	class VulkanTechnique;
+	class ShaderProgram;
 
 	class VulkanPipeline : public Referenced
 	{
@@ -18,7 +20,7 @@ namespace ma
 	public:
 		VkDescriptorPool m_desc_pool;
 
-		VkDescriptorSetLayout m_desc_layout[2];
+		VkDescriptorSetLayout m_desc_layout_uniform[2];
 
 		VkDescriptorSetLayout m_desc_layout_sampler[2];
 
@@ -30,6 +32,8 @@ namespace ma
 	};
 
 	RefPtr<VulkanPipeline> CreateVulkanPipeline(VulkanTechnique* pTech);
+
+	void OnRemoveShaderProgram(ShaderProgram* pShader);
 
 }
 

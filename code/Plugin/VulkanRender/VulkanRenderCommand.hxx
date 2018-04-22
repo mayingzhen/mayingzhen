@@ -109,8 +109,8 @@ namespace ma
 		}
 		
 		VkDescriptorSet descriptorSets[4];
-		descriptorSets[0] = pVulkanTech->m_descriptorSets[0];
-		descriptorSets[1] = pVulkanTech->m_descriptorSets[1];
+		descriptorSets[0] = pVulkanTech->m_descriptorSets_uniform[0];
+		descriptorSets[1] = pVulkanTech->m_descriptorSets_uniform[1];
 		descriptorSets[2] = pVulkanTech->m_descriptorSets_sampler[0];
 		descriptorSets[3] = pVulkanTech->m_descriptorSets_sampler[1];
 

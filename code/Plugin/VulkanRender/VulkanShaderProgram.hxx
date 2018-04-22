@@ -10,11 +10,14 @@
 #include "VulkanRenderState.h"
 #include "Engine/Material/PrePareShaderSource.h"
 
+#include "VulkanPipeline.h"
+
 namespace ma
 {
 
 	VulkanShaderProgram::VulkanShaderProgram()
 	{
+
 	}
 
 	VulkanShaderProgram::~VulkanShaderProgram()
@@ -380,6 +383,8 @@ namespace ma
 	void VulkanShaderProgram::RT_StreamComplete()
 	{
 		ASSERT(GetResState() == ResLoaded);
+
+		OnRemoveShaderProgram(this);
 
 		std::string strPath = GetRenderSystem()->GetShaderPath();
 

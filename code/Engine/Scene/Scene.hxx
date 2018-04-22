@@ -1,6 +1,8 @@
 #include "Scene.h"
 #include "Octree.h"
 #include "ParallelCull.h"
+#include "OcclusionCulling/DepthBufferRasterizerSSEST.h"
+#include "OcclusionCulling/AABBoxRasterizerSSEST.h"
 
 namespace ma
 {
@@ -39,8 +41,6 @@ namespace ma
 
 	void Scene::Reset(uint32 nWidth,uint32 nHeight)
 	{
-		m_viewport = Rectangle(0,0,(float)nWidth,(float)nHeight);
-
 		float fAspect = (float)nWidth / (float)nHeight;
 		float fFOV = m_pCamera->GetFov();
 		float fNearClip = m_pCamera->GetNearClip();
@@ -120,6 +120,43 @@ namespace ma
 		static VEC_OBJ vecObj;
 		m_pCullTree->FindObjectsIn(&m_pCamera->GetFrustum(),-1,vecObj);
 
+		//
+		if (0)
+		{
+
+			Vector3 pos = m_pCamera->GetEyeNode()->GetPosWS();
+			Vector3 lookPoint = m_pCamera->GetAtNode()->GetPosWS();
+
+			Vector3 look = (lookPoint - pos).normalisedCopy();
+			Vector3 right = Vector3(0.0f, 1.0f, 0.0f).crossProduct(look).normalisedCopy(); // TODO: simplicy algebraically
+			Vector3 up = look.crossProduct(right);
+			float4x4 cameraWorld = float4x4(
+				right.x, right.y, right.z, 0.0f,
+				up.x, up.y, up.z, 0.0f,
+				look.x, look.y, look.z, 0.0f,
+				pos.x, pos.y, pos.z, 1.0f
+			);
+
+			DepthBufferRasterizerSSEST depthRaster;
+			float4x4 view = inverse(cameraWorld);
+			//float4x4 proj = ToFloat4x4( m_pCamera->GetMatProj() );
+			float4x4 proj = float4x4PerspectiveFovLH(m_pCamera->GetFov(), m_pCamera->GetAspect(), 
+				m_pCamera->GetFarClip(), 1.0/*m_pCamera->GetNearClip()*/);
+
+			depthRaster.SetViewProj(&view, &proj, 0);
+			depthRaster.CreateTransformedModels(&vecObj[vecObj.size() - 2], 1);
+			depthRaster.TransformModelsAndRasterizeToDepthBuffer(m_pCamera.get(), 0);
+
+			AABBoxRasterizerSSEST aabbRaster;
+			aabbRaster.SetViewProjMatrix(&view, &proj, 0);
+			aabbRaster.SetCPURenderTargetPixels(depthRaster.GetCPURenderTargetPixels(0), 0);
+			aabbRaster.SetDepthSummaryBuffer(depthRaster.GetDepthSummaryBuffer(0), 0);
+			aabbRaster.CreateTransformedAABBoxes(&vecObj[0], vecObj.size());
+			aabbRaster.TransformAABBoxAndDepthTest(m_pCamera.get(), 0);
+
+			int i = 3;
+		}
+
 		uint32 nNodeCount = vecObj.size();
 		m_arrRenderComp.resize(nNodeCount);
 		for (uint32 mm = 0;mm< nNodeCount;++mm)
@@ -177,8 +214,6 @@ namespace ma
 		{
 			m_vecRenderLight[i]->RenderShadowMap(m_pCamera.get());
 		}
-
-		//GetRenderSystem()->SetViewPort(m_viewport);
 
 		GetRenderContext()->SetCamera(m_pCamera.get());
 

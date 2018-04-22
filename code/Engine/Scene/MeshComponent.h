@@ -42,6 +42,9 @@ namespace ma
 		virtual UINT				GetRenderableCount(uint32 nLod) const;
 		virtual	Renderable*			GetRenderableByIndex(uint32 nLod,UINT index) const;
 
+		virtual UINT				GetShadowRenderableCount() const;
+		virtual	Renderable*			GetShadowRenderableByIndex(UINT index) const;
+
 		virtual void				SetShadowCaster(bool b);
 
 		virtual void				SetSuportInstance(bool b);

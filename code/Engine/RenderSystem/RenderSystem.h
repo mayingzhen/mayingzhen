@@ -61,6 +61,7 @@ namespace ma
 		void				RenderPassStreamComplete(RenderPass* pRenderPass);
 
 		void				SetUniformValue(Uniform* pUniform, const void* data, UINT nSize);
+		void				SetSampler(Uniform* pUniform, SamplerState* pSampler);
 
 		void				BeginProfile(const char* pszLale);
 		void				EndProfile();
@@ -80,6 +81,7 @@ namespace ma
 		const char*			GetShaderGlobaMacro(const char* pszKey) const;
 		uint32				GetNumShaderGlobaMacro() const;
 		const char*			GetShaderGlobaMacroByIndex(uint32 i, OUT const char*& pszValue) const;
+
 		
 		void				ReloadShader();
 
@@ -107,7 +109,6 @@ namespace ma
  		void				RT_BeginRender();
  		void				RT_EndRender();
 		void				RT_Render();
-//		void				RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void				RT_SetPoolId(uint32 poolId);
 
 		void				InitGlobeMarco();
@@ -126,7 +127,6 @@ namespace ma
 		Texture*			m_pRenderTarget[MAX_RENDER_TARGET];
 		Rectangle			m_curViewport;
 		ShaderProgram*		m_pCurShader;
-		//RenderState			m_curState;
 		SamplerState*		m_arrSampState[MAX_TEXTURE_UNITS];
 		VertexDeclaration*	m_pCurVertexDecla;
 		VertexBuffer*		m_pCurVB;	

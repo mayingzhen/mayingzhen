@@ -12,7 +12,13 @@ namespace ma
 
 	VulkanPipeline::~VulkanPipeline()
 	{
+		vks::VulkanDevice* device = GetVulkanDevice();
 
+		vkDestroyPipeline(device->logicalDevice,m_pipeline, NULL);
+
+		vkDestroyPipelineCache(device->logicalDevice, m_pipelineCache, NULL);
+
+		vkDestroyDescriptorPool(device->logicalDevice, m_desc_pool, NULL);
 	}
 
 	void VulkanPipeline::RT_StreamComplete(VulkanTechnique* pTech)
@@ -45,7 +51,7 @@ namespace ma
 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
 				setLayoutBindings.data(),
 				static_cast<uint32_t>(setLayoutBindings.size()));
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout[VS]));
+			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[VS]));
 		}
 
 		{
@@ -63,7 +69,7 @@ namespace ma
 				setLayoutBindings.data(),
 				static_cast<uint32_t>(setLayoutBindings.size()));
 
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout[PS]));
+			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[PS]));
 		}
 
 		{
@@ -103,8 +109,8 @@ namespace ma
 		}
 
 		VkDescriptorSetLayout SetLayouts[4];
-		SetLayouts[0] = m_desc_layout[0];
-		SetLayouts[1] = m_desc_layout[1];
+		SetLayouts[0] = m_desc_layout_uniform[0];
+		SetLayouts[1] = m_desc_layout_uniform[1];
 		SetLayouts[2] = m_desc_layout_sampler[0];
 		SetLayouts[3] = m_desc_layout_sampler[1];
 
@@ -297,6 +303,23 @@ namespace ma
 			return pPP;
 		}
 	}
+
+	void OnRemoveShaderProgram(ShaderProgram* pShader)
+	{
+		for (auto it = g_mapPiplinePool.begin(); it != g_mapPiplinePool.end();)
+		{
+			const InfoKey& key = it->first;
+			if (key.m_pShader == pShader)
+			{
+				it = g_mapPiplinePool.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
+	}
 }
+
 
 

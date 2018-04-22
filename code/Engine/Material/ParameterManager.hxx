@@ -13,13 +13,13 @@ namespace ma
 
 	ParameterManager::ParameterManager() 
 	{
-		AddFunMethodBinding<const Matrix4&>("g_matView", [](Renderable*) { 
+		AddFunMethodBinding<Matrix4>("g_matView", [](Renderable*) { 
 			return GetRenderContext()->GetViewMatrix(); } );
 
-		AddFunMethodBinding<const Matrix4&>("g_matViewInv", [](Renderable*) {
+		AddFunMethodBinding<Matrix4>("g_matViewInv", [](Renderable*) {
 			return GetRenderContext()->GetViewMatrixInv(); } );
 
-		AddFunMethodBinding<const Matrix4&>("g_matProj", [](Renderable*) {
+		AddFunMethodBinding<Matrix4>("g_matProj", [](Renderable*) {
 			return GetRenderContext()->GetProjMatrix(); } );
 		
 		AddFunMethodBinding<Matrix4>("g_matProjInv", [](Renderable*) {
@@ -28,7 +28,7 @@ namespace ma
 		AddFunMethodBinding<Matrix4>("g_matViewProj", [](Renderable*) {
 			return GetRenderContext()->GetViewProjMatrix(); });
 
-		AddFunMethodBinding<const Matrix4&>("g_matWorld", [](Renderable* pRenderable) {
+		AddFunMethodBinding<Matrix4>("g_matWorld", [](Renderable* pRenderable) {
 			return pRenderable ? pRenderable->GetWorldMatrix() : Matrix4::IDENTITY; } );
 
 		AddFunMethodBinding<Matrix4>("g_matWorldView", [](Renderable* pRenderable) {
@@ -44,7 +44,7 @@ namespace ma
 			return vCameaNearFar; 
 		} );
 
-		AddFunMethodBinding<const Vector3&>("g_vEyeWorldPos", [](Renderable*) {
+		AddFunMethodBinding<Vector3>("g_vEyeWorldPos", [](Renderable*) {
 			return GetRenderContext()->GetEyeWorldPos(); } );
 
 		AddFunMethodBinding<Vector3>("g_cSkyLight", [](Renderable*) {
@@ -70,14 +70,14 @@ namespace ma
 			return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMap(); 
 		});
 
-		AddFunMethodBinding<const Matrix4&>("g_matShadow", [](Renderable*) {
+		AddFunMethodBinding<Matrix4>("g_matShadow", [](Renderable*) {
 			Scene* pCurScene = GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return Matrix4::IDENTITY;
 			return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 		});
 
-		AddFunMethodBinding<const Matrix4&>("matLightViewProj", [](Renderable*) {
+		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*) {
 			Scene* pCurScene = GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return Matrix4::IDENTITY;
@@ -141,11 +141,8 @@ namespace ma
 			return nullptr;
 		}
 
-		return it->second;
+		return it->second.get();
 	}
 
-
-
-
-
 }
+

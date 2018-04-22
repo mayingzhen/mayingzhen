@@ -199,6 +199,14 @@ namespace ma
 		return NULL;
 	}
 
+	void SubMaterial::ReLoad()
+	{
+		m_pShadingInstTech = NULL;
+		m_pShadowDepthInstTech = NULL;
+		m_pShadowDepthTech = NULL;
+
+		m_pShadingTech->ReLoad();
+	}
 
 	RefPtr<SubMaterial> SubMaterial::Clone()
 	{
@@ -302,6 +310,17 @@ namespace ma
 		}
 
 		return true;
+	}
+
+	void Material::ReLoad()
+	{
+		for (UINT iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
+		{
+			for (UINT iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
+			{
+				m_arrLodSubMaterial[iLod][iSub]->ReLoad();
+			}
+		}
 	}
 
 	RefPtr<Material> Material::Clone()

@@ -25,7 +25,7 @@ namespace ma
 		}
 
 	private:	
-		std::map<std::string, MethodBinding*> m_autoDefaultBings;
+		std::map<std::string, RefPtr<MethodBinding> > m_autoDefaultBings;
 	};
 
 	extern ParameterManager* g_pParameterManager;

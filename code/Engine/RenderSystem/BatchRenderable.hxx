@@ -151,17 +151,6 @@ namespace ma
 		{
 			m_arrPrePareRenderList.push_back(m_arrNoInsRenderList[i]);
 		}
-
-// 		for (UINT i = 0; i < m_arrPrePareRenderList.size(); ++i)
-// 		{
-// 			Renderable* pRenderObj = m_arrPrePareRenderList[i];
-// 			if (pRenderObj == NULL)
-// 				continue;
-// 
-// 			Technique* pTech = pRenderObj->GetTechnique();
-// 
-// 			pRenderObj->PreRender(pTech);
-// 		}
 	}
 
 	Technique* GetTechnique(Renderable* pRenderable, RenderPassType eRPType, bool bInstance)

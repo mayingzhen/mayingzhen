@@ -13,18 +13,22 @@ namespace ma
 
 		~VulkanTechnique();
 
-		void				RT_StreamComplete();
+		virtual void		RT_StreamComplete();
+
+		virtual void		RT_SetSampler(Uniform* pUniform, SamplerState* pSampler);
+
+	private:
+		
+		void				UpdateUniformDescriptorSets();
 
 		void				UpdateSamplerDescriptorSets();
 
 	public:
-		VkDescriptorSet m_descriptorSets[2];
+		VkDescriptorSet m_descriptorSets_uniform[2];
 
 		VkDescriptorSet m_descriptorSets_sampler[2];
 
 		RefPtr<VulkanPipeline> m_pPipline;
-
-		bool m_bSamperDirty = true;
 	};
 
 

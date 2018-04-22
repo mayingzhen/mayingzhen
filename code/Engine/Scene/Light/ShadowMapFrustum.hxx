@@ -134,10 +134,9 @@ namespace ma
 			if (!pRenderComp->GetShadowCaster())
 				continue;
 				
-			uint32 nLod = pRenderComp->GetLodIndex();
-			for (UINT i = 0; i < pRenderComp->GetShadowRenderableCount(nLod); ++i)
+			for (UINT i = 0; i < pRenderComp->GetShadowRenderableCount(); ++i)
 			{
-				pRenderQueue->AddRenderObj(RL_Mesh,pRenderComp->GetShadowRenderableByIndex(nLod,i));
+				pRenderQueue->AddRenderObj(RL_Mesh,pRenderComp->GetShadowRenderableByIndex(i));
 			}
 		}
 	}
@@ -366,18 +365,11 @@ namespace ma
 
 		m_pShadowMapFB->Begine();
 
-		//float fConstantBias = m_fConstantBias[GetRenderSystem()->CurThreadProcess()];
-		//float fSlopeScaleBias = m_fSlopeScaleBias[GetRenderSystem()->CurThreadProcess()];
-		//GetRenderSystem()->SetDepthBias(fConstantBias,fSlopeScaleBias);
-
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];
 		pRenderQueue->RenderObjList(m_pShadowMapFB.get(),RL_Mesh,RP_ShadowDepth);
 
 		m_pShadowMapFB->End();
-// 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
-// 		{
-// 			GetRenderSystem()->SetDepthBias(0,0);
-// 		}
+
 	}
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)

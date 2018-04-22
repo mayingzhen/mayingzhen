@@ -97,6 +97,12 @@ namespace ma
 			}
 		}
 
+		// allocate memory on demand
+		if (m_treeOutput == NULL)
+		{
+			m_treeOutput = new AnimationNodeOutput();
+			m_treeOutput->Init(m_pSkeleton->GetBoneNumer());
+		}
 
 		m_bLoadOver = true;
 
@@ -171,13 +177,6 @@ namespace ma
 			{
 				m_rootNode->Activate();
 			}
-
-			// allocate memory on demand
-			if (m_treeOutput == NULL)
-			{
-				m_treeOutput = new AnimationNodeOutput();
-				m_treeOutput->Init(m_pSkeleton->GetBoneNumer());
-			}
 		}
 
 		return true;
@@ -198,12 +197,13 @@ namespace ma
 			m_animation_node_out_pool = &AnimationNodeOutputPool::s_animation_node_output_pool;
 
 			m_rootNode->EvaluateAnimation(*m_treeOutput,1);
-			for (UINT i = 0; i < m_pSkeleton->GetBoneNumer(); i++)
+		}
+
+		for (UINT i = 0; i < m_pSkeleton->GetBoneNumer(); i++)
+		{
+			if (!m_treeOutput->boneMask[i])
 			{
-				if (!m_treeOutput->boneMask[i])
-				{
-					m_treeOutput->boneTrans[i] = pRefPose->GetTransformPS(i);
-				}
+				m_treeOutput->boneTrans[i] = pRefPose->GetTransformPS(i);
 			}
 		}
 

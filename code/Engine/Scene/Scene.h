@@ -54,9 +54,6 @@ namespace ma
 		void					SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 		Camera*					GetCamera() const {return m_pCamera.get();}
 
-		void					SetViewport(const Rectangle& viewPort) {m_viewport = viewPort;}
-		const Rectangle&		GetViewport() const {return m_viewport;}	
-
 		RenderScheme*			GetRenderScheme() const { return m_pRenderScheme.get(); }
 
 		UINT					GetVisibleNodeNum() const {return (UINT)m_arrRenderComp.size();}
@@ -95,8 +92,6 @@ namespace ma
 		RefPtr<RenderScheme>	m_pRenderScheme;
 		
 		RefPtr<Camera>			m_pCamera;
-
-		Rectangle				m_viewport;
 
 		typedef vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;

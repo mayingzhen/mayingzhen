@@ -19,9 +19,9 @@ namespace ma
 			if (pszRelPath == NULL)
 				return NULL;
 
-			typename ResourceMap::iterator itRes = m_resMap.find(pszRelPath);
-			if (itRes != m_resMap.end())
-				return itRes->second;
+			auto it = m_resMap.find(pszRelPath);
+			if (it != m_resMap.end())
+				return it->second;
 
 			RefPtr<T> res = new T;
 			if (!res->Load(pszRelPath))
@@ -38,6 +38,14 @@ namespace ma
 		void Clear()
 		{
 			m_resMap.clear();
+		}
+
+		void ReLoad()
+		{
+			for (auto it = m_resMap.begin(); it != m_resMap.end(); ++it)
+			{
+				it->second->ReLoad();
+			}
 		}
 		
 	private:

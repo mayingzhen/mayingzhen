@@ -446,7 +446,12 @@ namespace ma
 
 	void Technique::SetValue(Uniform* pUniform, SamplerState* sampler)
 	{
-		m_arrSampler[pUniform->GetIndex()] = sampler;
+		if (m_arrSampler[pUniform->GetIndex()] != sampler)
+		{
+			m_arrSampler[pUniform->GetIndex()] = sampler;
+
+			GetRenderSystem()->SetSampler(pUniform, sampler);
+		}
 	}
 
 	void Technique::AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer)
@@ -485,6 +490,11 @@ namespace ma
 	Uniform* Technique::GetSamplerByIndex(UINT nIndex)
 	{
 		return m_vecPSSamplers[nIndex].get();
+	}
+
+	void Technique::ClearSampler()
+	{
+		m_vecPSSamplers.clear();
 	}
 
 	Uniform* Technique::GetUniform(const char* pszName)
@@ -662,6 +672,13 @@ namespace ma
 		GetRenderSystem()->TechniqueStreamComplete(pInstTech.get());
 
 		return pInstTech;
+	}
+
+	void Technique::ReLoad()
+	{
+		m_pShaderProgram->Reload();
+
+		GetRenderSystem()->TechniqueStreamComplete(this);
 	}
 
 	RefPtr<Technique> Technique::Clone()

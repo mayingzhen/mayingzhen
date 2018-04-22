@@ -1,13 +1,10 @@
-#ifndef  _RenderScheme__H__
-#define  _RenderScheme__H__
-
-
+#pragma once
 
 namespace ma
 {
 	class RenderPass;
-	class DeferredShadingPass;
-	class DeferredShadowPass;
+	class DeferredShading;
+	class DeferredShadow;
 	class HDRPostProcess;
 	class SMAAPostProcess;
 	class AlchemyAo;
@@ -27,8 +24,8 @@ namespace ma
 
 		void	Render();
 
-		DeferredShadowPass*	GetDeferredShadowPass() const { return m_pDeferredShadowPass.get(); }
-		DeferredShadingPass* GetDeferredShadingPass() const { return m_pDeferredShadingPass.get(); }
+		DeferredShadow*	GetDeferredShadow() const { return m_pDeferredShadow.get(); }
+		DeferredShading* GetDeferredShading() const { return m_pDeferredShading.get(); }
 		
 		SamplerState* GetSceneDiffuse() const {return m_pDiffTempSampler.get();}
 		SamplerState* GetSceneDepth() const {return m_pDepthSampler.get();}
@@ -47,8 +44,8 @@ namespace ma
 		bool GetSSAOEnabled() const;
 		
 	private:
-		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
-		RefPtr<DeferredShadingPass>	m_pDeferredShadingPass;
+		RefPtr<DeferredShadow>	m_pDeferredShadow;
+		RefPtr<DeferredShading>	m_pDeferredShading;
 
 		RefPtr<HDRPostProcess>	m_pHDR;
 		RefPtr<SMAAPostProcess> m_pSMAA;
@@ -68,13 +65,11 @@ namespace ma
 		RefPtr<SamplerState>	m_pNormalSampler;
 		RefPtr<SamplerState>	m_pDiffTempSampler;
 
-		//RefPtr<FrameBuffer>		m_pFrameBuffer;
-
 		Scene*					m_pScene;
 	};
 
-
 }
 
-#endif
+
+
 

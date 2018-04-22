@@ -14,7 +14,7 @@ namespace ma
 
 	RefPtr<ShaderProgram> ShaderManager::CreateShader(const char* pszVSFile,const char* pszPSFile,const char* pszMarco,VertexDeclaration* pVertexDecl)
 	{
-		string stMarco = pszMarco ? pszMarco : "";
+		std::string stMarco = pszMarco ? pszMarco : "";
         
         Reskey key;
 		key.m_strName = string(pszVSFile) + string("+") + pszPSFile + string("+") + stMarco + ".shader";

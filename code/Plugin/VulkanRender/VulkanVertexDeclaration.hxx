@@ -18,6 +18,9 @@ namespace ma
 
 	void VulkanVertexDeclaration::RT_StreamComplete()
 	{
+		m_bindingDescriptions.clear();
+		m_attributeDescriptions.clear();
+
 		VkVertexInputBindingDescription bindingDesc;
 		bindingDesc.binding = VERTEX_BUFFER_BIND_ID;
 		bindingDesc.stride = this->GetStreanmStride(VERTEX_BUFFER_BIND_ID);

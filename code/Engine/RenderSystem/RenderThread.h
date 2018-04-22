@@ -33,6 +33,7 @@ namespace ma
 		eRC_CreateTexture,
 
 		eRC_SetUniformValue,
+		eRC_SetSampler,
 		
 		eRC_SetPoolId,
 
@@ -114,6 +115,7 @@ namespace ma
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		
 		void	RC_SetUniformValue(Uniform* pUniform, const void* data, UINT nSize);
+		void	RC_SetSampler(Uniform* pUniform, SamplerState* pSampler);
 
 		void	RC_SetPoolId(uint32 poolId);
 

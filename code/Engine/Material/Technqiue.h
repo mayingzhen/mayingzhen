@@ -24,6 +24,8 @@ namespace ma
 
 		virtual void        RT_StreamComplete() = 0;
 
+		virtual void		RT_SetSampler(Uniform* pUniform, SamplerState* pSampler) = 0;
+
 		const char*			GetTechName() const;
 		void				SetTechName(const char* pName);
 
@@ -69,18 +71,19 @@ namespace ma
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
 		UINT				GetConstBufferCount(ShaderType eType);
 		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, UINT nIndex);
-		void				ClearConstBuffer(ShaderType eType);
 
 		void				AddSampler(Uniform* pUniform);
 		UINT				GetSamplerCount();
 		Uniform*			GetSamplerByIndex(UINT nIndex);
-
+		
 		SamplerState*		GetActiveSampler(UINT nIndex) { return m_arrSampler[nIndex]; }
 
 		RefPtr<Technique>	CreateInstTech();
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
+
+		void				ReLoad();
 
 		RefPtr<Technique>   Clone();
 
@@ -93,6 +96,10 @@ namespace ma
 		void				BindParametersUniform(Uniform* pUniform,const Any& anyValue);
 
 		void				SetValue(Uniform* uniform, const float* values, UINT nSize);
+
+		void				ClearConstBuffer(ShaderType eType);
+
+		void				ClearSampler();
 
 	private:
 		std::string						m_stName;

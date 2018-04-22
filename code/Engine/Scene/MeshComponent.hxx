@@ -127,6 +127,18 @@ namespace ma
 		return m_arrLodRenderable[nLod][index].get();
 	}
 
+	UINT MeshComponent::GetShadowRenderableCount() const
+	{
+		UINT nLod = m_arrLodRenderable.size() - 1;
+		return m_arrLodRenderable[nLod].size();
+	}
+
+	Renderable*	MeshComponent::GetShadowRenderableByIndex(UINT index) const
+	{
+		UINT nLod = m_arrLodRenderable.size() - 1;
+		return m_arrLodRenderable[nLod][index].get();
+	}
+
 	void MeshComponent::SetShadowCaster(bool b)
 	{
 		RenderComponent::SetShadowCaster(b);

@@ -8,7 +8,7 @@ namespace ma
 	{
 	public:
 
-		virtual void SetParameter(unsigned offset, unsigned size, const void* data){}
+		virtual void SetParameter(unsigned offset, unsigned size, const void* data) = 0;
 
 		UINT		GetSize() { return m_nSize; }
 		void		SetSize(uint32 nSize) { m_nSize = nSize; }
@@ -26,8 +26,6 @@ namespace ma
 		void		SetName(const char* pszName);
 		const char* GetName();
 
-		RefPtr<ConstantBuffer> Clone();
-		
 	private:
 		std::string m_strName;
 
@@ -68,7 +66,7 @@ namespace ma
 		void		SetSize(UINT nSize) { m_nSizeInCB = nSize; }
 
 		void		SetMethodBinding(MethodBinding* pMethod) { m_pMethod = pMethod; }
-		MethodBinding* GetMethodBinding() { return m_pMethod; }
+		MethodBinding* GetMethodBinding() { return m_pMethod.get(); }
 
 	private:
 		std::string		m_name;
@@ -79,7 +77,7 @@ namespace ma
 		UINT			m_nSizeInCB = 0;
 		Technique*		m_pTech = NULL;
 
-		MethodBinding*  m_pMethod = NULL;
+		RefPtr<MethodBinding>  m_pMethod;
 	};
 
 	RefPtr<Uniform> CreateUniform(const char* pszName);

@@ -45,18 +45,14 @@ namespace ma
 		float GetHeight(int nXVert, int nYVert) const;
 		Vector3 GetPos(int nXVert, int nYVert) const;
 
-		// UV
 		Vector2 GetUV(int nXVert, int nYVert) const;
 
-		// normal
 		Vector3 GetNormal(int nXVert, int nYVert) const;
 		Vector3 GetNormal(float x, float y) const;
 
-		// tangent
 		Vector3 GetTangent(int nXVert, int nYVert) const;
 		Vector3 GetTangent(float x, float y) const;
 
-		// Material
 		uint8 GetMaterialID(int nXVert,int nYVert) const;
 		SubMaterial* GetMaterial(int nXVert,int nYVert) const;
 		SubMaterial* GetMaterialByID(uint8 matID) const;

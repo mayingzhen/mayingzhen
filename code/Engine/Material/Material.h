@@ -27,7 +27,9 @@ namespace ma
 		Parameter*			GetParameter(const char* pszName);
 
 		virtual void		Import(rapidxml::xml_node<>* pXmlElem,Resource* pParent);
-		virtual void		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
+		virtual void		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
+
+		void				ReLoad();
 
 		RefPtr<SubMaterial>	Clone();
 	
@@ -66,6 +68,8 @@ namespace ma
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
+
+		void				ReLoad();
 
 		RefPtr<Material>	Clone();
 
