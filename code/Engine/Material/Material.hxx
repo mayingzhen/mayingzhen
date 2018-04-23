@@ -47,6 +47,11 @@ namespace ma
 			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
+
+			for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+			{
+				m_pShadowDepthTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
+			}
 		}
 
 		return m_pShadowDepthTech.get();
@@ -62,6 +67,11 @@ namespace ma
 		if (m_pShadingInstTech == NULL)
 		{
 			m_pShadingInstTech = m_pShadingTech->CreateInstTech();
+
+			for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+			{
+				m_pShadingInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
+			}
 		}
 		return m_pShadingInstTech.get();
 	}
@@ -71,6 +81,11 @@ namespace ma
 		if (m_pShadowDepthInstTech == NULL)
 		{
 			m_pShadowDepthInstTech = m_pShadowDepthTech->CreateInstTech();
+
+			for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+			{
+				m_pShadingInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
+			}
 		}
 		return m_pShadowDepthInstTech.get();
 	}
@@ -176,10 +191,24 @@ namespace ma
 		}
 
 		if (m_pShadingTech)
-			m_pShadingTech->SetParameter(pszName,value);
+		{
+			m_pShadingTech->SetParameter(pszName, value);
+		}
+
+		if (m_pShadingInstTech)
+		{
+			m_pShadingInstTech->SetParameter(pszName, value);
+		}
 
 		if (m_pShadowDepthTech)
-			m_pShadowDepthTech->SetParameter(pszName,value);
+		{
+			m_pShadowDepthTech->SetParameter(pszName, value);
+		}
+
+		if (m_pShadowDepthInstTech)
+		{
+			m_pShadowDepthInstTech->SetParameter(pszName, value);
+		}
 	}
 
 	Parameter* SubMaterial::GetParameter(const char* pszName)

@@ -10,9 +10,9 @@ int main(int argc, char* argv[])
 {
 	Setting set;
 	set.eRenderType = RenderDevice_VULKAN;
-	set.bRenderThread = false;
+	set.bRenderThread = true;
 	set.bDataThread = false;
-	set.bJobScheduler = false;
+	set.bJobScheduler = true;
 
 	SampleBrowser sampleBrowser("SampleBrowser", set, "SampleShadowMap");
 
