@@ -114,7 +114,7 @@ namespace ma
 				subMaterial->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
 
-			for (uint32 i = 0; i < testMaterial->GetLodSubNumber(0); ++i)
+			for (uint32_t i = 0; i < testMaterial->GetLodSubNumber(0); ++i)
 			{
 				SubMaterial* subMaterial = testMaterial->GetLodSubByIndex(0,i);
 				subMaterial->SetParameter("tBlendingMap", Any(CreateSamplerState("scene/terrain/test_b0.dds", CLAMP, TFO_POINT, false)));

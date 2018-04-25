@@ -22,7 +22,7 @@ namespace ma
 		strFullName = StringUtil::standardiseDir(strFullName);
 
 		rapidxml::xml_document<> doc;
-		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string(this->GetClassName()));
+		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string(this->GetTypeName()));
 		this->Export(pRoot,doc);
 		doc.append_node(pRoot);
 		std::ofstream out(strFullName.c_str(), ios::out|ios::binary);
@@ -44,7 +44,7 @@ namespace ma
 			return false;
 		
 		rapidxml::xml_document<>& doc = m_pXMlFile->GetDoc();
-		rapidxml::xml_node<>* pXmlRoot = doc.first_node(/*this->GetClassName()*/);
+		rapidxml::xml_node<>* pXmlRoot = doc.first_node(/*this->GetTypeName()*/);
 		ASSERT(pXmlRoot);
 		this->Import(pXmlRoot);
 

@@ -14,17 +14,17 @@ namespace ma
 
 		void					ParseMonoClass(MonoClass* pMonoClass);
 
-		UINT					GetClassFieldNumber() {return m_arrFields.size();}
+		uint32_t				GetClassFieldNumber() {return m_arrFields.size();}
 		
-		ClassField*				GetClassFieldByIndex(UINT index) {return m_arrFields[index];}
+		ClassField*				GetClassFieldByIndex(uint32_t index) {return m_arrFields[index];}
 
 		void					SetMonoClass(MonoClass* pMonoClass);
 
-		const char*				GetClassName() {return m_strClassName.c_str();}
+		const char*				GetTypeName() {return m_strClassName.c_str();}
 
-		UINT					GetObjectInsNumber() {return m_arrObjectInstance.size();}
+		uint32_t				GetObjectInsNumber() {return m_arrObjectInstance.size();}
 
-		ScriptObject*			GetObjectInsByIndex(UINT index) {return m_arrObjectInstance[index];}
+		ScriptObject*			GetObjectInsByIndex(uint32_t index) {return m_arrObjectInstance[index];}
 
 	private:
 		std::string					m_strClassName;

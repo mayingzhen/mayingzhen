@@ -16,12 +16,12 @@ namespace ma
 		return new SkinMeshRenderable();
 	}
 
-	void SkinMeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount)
+	void SkinMeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32_t nCount)
 	{
 		profile_code();
 		
-		uint32 nLod = 0;
-		for (UINT i = 0; i < m_arrLodRenderable[nLod].size(); ++i)
+		uint32_t nLod = 0;
+		for (uint32_t i = 0; i < m_arrLodRenderable[nLod].size(); ++i)
 		{
 			SkinMeshRenderable* pSkinRenderable = (SkinMeshRenderable*)m_arrLodRenderable[nLod][i].get();
 			pSkinRenderable->SetSkinMatrix(arrMatrixs,nCount);

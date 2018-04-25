@@ -7,7 +7,7 @@ namespace ma
 	struct LineVertex
 	{
 		Vector3			pos;
-		UINT			col;
+		uint32_t			col;
 	};
 
 	static RefPtr<MeshBatch> gpMeshBatch;
@@ -91,21 +91,21 @@ namespace ma
 			Vector3(-fHalfWidth,fHalfHeight,-fHalfDepth),
 		};
 
-		for (UINT nCnt = 0; nCnt < 8; ++nCnt)
+		for (uint32_t nCnt = 0; nCnt < 8; ++nCnt)
 		{
 			arrVec[nCnt] = wordMat * arrVec[nCnt];
 		}
 
-		for (UINT nCnt = 0; nCnt < 4; ++nCnt)
+		for (uint32_t nCnt = 0; nCnt < 4; ++nCnt)
 		{
-			UINT nID2 = (nCnt + 1) % 4;
+			uint32_t nID2 = (nCnt + 1) % 4;
 			DrawLine(arrVec[nCnt],arrVec[nID2],dwcolor);
 			DrawLine(arrVec[nCnt+4],arrVec[nID2+4],dwcolor);
 			DrawLine(arrVec[nCnt],arrVec[nCnt+4],dwcolor);
 		}
 	}
 
-	void LineRender::DrawCircle(UINT nbSegments, const Matrix4& world, 
+	void LineRender::DrawCircle(uint32_t nbSegments, const Matrix4& world, 
 		ColourValue dwColor, float radius, bool semicircle)
 	{
 		static const float NxTwoPiF32	= 6.28318530717958647692f;
@@ -189,12 +189,12 @@ namespace ma
 		if (arrLineVertex.empty())
 			return;
 
-		for (UINT i = 0; i < arrLineVertex.size(); i += 2)
+		for (uint32_t i = 0; i < arrLineVertex.size(); i += 2)
 		{
 			LineVertex v[2];
 			v[0] = arrLineVertex[i];
 			v[1] = arrLineVertex[i + 1];
-			uint16 index[2] = {0,1};
+			uint16_t index[2] = {0,1};
 
 			gpMeshBatch->Add(v,2,index,2);
 		}

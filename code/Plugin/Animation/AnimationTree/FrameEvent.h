@@ -19,14 +19,14 @@ namespace ma
 		float GetFrame() const {return m_fFrame;}
 		void SetFrame(float fFrame) {m_fFrame = fFrame;}
 		
-		UINT GetEventID() const {return m_nEventID;}
-		void SetEvnetID(uint32 nEnventID) {m_nEventID = nEnventID;} 
+		uint32_t GetEventID() const {return m_nEventID;}
+		void SetEvnetID(uint32_t nEnventID) {m_nEventID = nEnventID;} 
 		
 		virtual void DoEvent(AnimTreeNode* pNode) = 0;
 
 	protected:
 		float	m_fFrame;
-		uint32	m_nEventID;
+		uint32_t	m_nEventID;
 	};
 
 }

@@ -91,7 +91,7 @@ JobScheduler::~JobScheduler()
 {
 	ClearThreads();
 
-    for (uint32 i = 0; i < m_Groups.size(); ++i)
+    for (uint32_t i = 0; i < m_Groups.size(); ++i)
     {
         SAFE_DELETE(m_Groups[i]);
     }
@@ -104,12 +104,12 @@ void JobScheduler::ClearThreads()
 
 	//UnityMemoryBarrier();
 
-	for( uint32 i = 0; i < m_vecThread.size(); ++i )
+	for( uint32_t i = 0; i < m_vecThread.size(); ++i )
 	{
 		m_AwakeSemaphore.Signal();
 	}
 
-	for (uint32 i = 0; i < m_vecThread.size(); ++i)
+	for (uint32_t i = 0; i < m_vecThread.size(); ++i)
 	{
 		m_vecThread[i].join();
 	}
@@ -120,7 +120,7 @@ void JobScheduler::ClearThreads()
 void JobScheduler::CreateThreads(int numThreads,int maxGroups)
 {
     m_Groups.resize(maxGroups);
-    for (uint32 i = 0; i < m_Groups.size(); ++i)
+    for (uint32_t i = 0; i < m_Groups.size(); ++i)
     {
         string strSemName = string("GroupSem") + StringConverter::toString(i);
         m_Groups[i] = new JobGroup(strSemName.c_str());
@@ -161,7 +161,7 @@ JobInfo* JobScheduler::FetchNextJob( int& activeGroup )
 	if( activeGroup != -1 )
 		m_Groups[activeGroup]->m_nActiveThreads--;
 	int group = m_PriorityGroup;
-	for( uint32 i = 0; i < m_Groups.size(); i++ )
+	for( uint32_t i = 0; i < m_Groups.size(); i++ )
 	{
 		JobInfo* job = FetchJobInGroup(group);
 		if( job )
@@ -238,7 +238,7 @@ JobScheduler::JobGroupID JobScheduler::BeginGroupInternal( int maxJobs, bool isB
 {
 	// Find unused group. We need a lock for that.
 	m_csQueueMutex.lock();
-	for( uint32 i = 0; i < m_Groups.size(); ++i )
+	for( uint32_t i = 0; i < m_Groups.size(); ++i )
 	{
 		JobGroup& group = *m_Groups[i];
 		if( group.m_nTaskCount == JobGroup::kTaskCountUnused 

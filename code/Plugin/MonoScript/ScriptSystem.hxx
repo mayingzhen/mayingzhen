@@ -3,6 +3,10 @@
 #include "ScriptObject.h"
 #include "ScriptClass.h"
 
+#ifdef WIN32
+#include "windows.h"
+#endif
+
 namespace ma
 {
 	ScriptSystem* gpScriptSystem = NULL;
@@ -64,20 +68,20 @@ namespace ma
 
 		mono_domain_set(m_pAppDomain,0);
 
-		for (UINT i = 0; i < m_arrDllName.size(); ++i)
+		for (uint32_t i = 0; i < m_arrDllName.size(); ++i)
 		{
 			LoadScriptDll(m_arrDllName[i].c_str());
 		}
 
 
-		for (UINT iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
+		for (uint32_t iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
 		{
 			ScriptClass* pScriptClass = m_arrScriptClass[iClass];
 			if (pScriptClass == NULL)
 				continue;
 			
-			UINT nScrpitObj = pScriptClass->GetObjectInsNumber();
-			for (UINT iObj = 0; iObj < nScrpitObj; ++iObj)
+			uint32_t nScrpitObj = pScriptClass->GetObjectInsNumber();
+			for (uint32_t iObj = 0; iObj < nScrpitObj; ++iObj)
 			{
 				ScriptObject* pScriptObject = pScriptClass->GetObjectInsByIndex(iObj);
 				if (pScriptObject == NULL)
@@ -97,14 +101,14 @@ namespace ma
 
 	void ScriptSystem::Stop()
 	{
-		for (UINT iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
+		for (uint32_t iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
 		{
 			ScriptClass* pScriptClass = m_arrScriptClass[iClass];
 			if (pScriptClass == NULL)
 				continue;
 
-			UINT nScrpitObj = pScriptClass->GetObjectInsNumber();
-			for (UINT iObj = 0; iObj < nScrpitObj; ++iObj)
+			uint32_t nScrpitObj = pScriptClass->GetObjectInsNumber();
+			for (uint32_t iObj = 0; iObj < nScrpitObj; ++iObj)
 			{
 				ScriptObject* pScriptObject = pScriptClass->GetObjectInsByIndex(iObj);
 				if (pScriptObject == NULL)
@@ -117,7 +121,7 @@ namespace ma
 
 		m_arrDllName.clear();
 
-		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		for (uint32_t i = 0; i < m_arrScriptClass.size(); ++i)
 		{
 			SAFE_DELETE(m_arrScriptClass[i]);
 		}
@@ -135,14 +139,14 @@ namespace ma
 
 	void ScriptSystem::Update()
 	{
-		for (UINT iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
+		for (uint32_t iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
 		{
 			ScriptClass* pScriptClass = m_arrScriptClass[iClass];
 			if (pScriptClass == NULL)
 				continue;
 
-			UINT nScrpitObj = pScriptClass->GetObjectInsNumber();
-			for (UINT iObj = 0; iObj < nScrpitObj; ++iObj)
+			uint32_t nScrpitObj = pScriptClass->GetObjectInsNumber();
+			for (uint32_t iObj = 0; iObj < nScrpitObj; ++iObj)
 			{
 				ScriptObject* pScriptObject = pScriptClass->GetObjectInsByIndex(iObj);
 				if (pScriptObject == NULL)
@@ -263,9 +267,9 @@ namespace ma
 		if (pClassName == NULL)
 			return NULL;
 
-		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		for (uint32_t i = 0; i < m_arrScriptClass.size(); ++i)
 		{
-			if ( strcmp( pClassName, m_arrScriptClass[i]->GetClassName() ) == 0 )
+			if ( strcmp( pClassName, m_arrScriptClass[i]->GetTypeName() ) == 0 )
 				return m_arrScriptClass[i];
 		}
 

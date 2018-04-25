@@ -218,7 +218,7 @@ namespace ma
 
 		static inline float Exp (float fValue) { return float(exp(fValue)); }
 	
-		static inline Real Exp2 (Real fValue) { return Real(powf(2.0f,fValue)); }
+		static inline float Exp2 (float fValue) { return float(powf(2.0f,fValue)); }
 
 		static inline float Floor (float fValue) { return float(floor(fValue)); }
 
@@ -533,7 +533,7 @@ namespace ma
 		template <typename T>
 		static T Max(const T& v0, const T& v1) { return v0 > v1 ? v0 : v1;}
 
-		static UINT NextPowerOfTwo(UINT v);
+		static uint32_t NextPowerOfTwo(uint32_t v);
 
 		template<class T>
 		inline static T InvalidID() { return T(-1); }
@@ -563,14 +563,14 @@ namespace ma
 		static Matrix4 MakeLookAtMatrixRH(const Vector3& vEye, const Vector3& vAt, const Vector3& vUp);
 
 		// result = v0 + (v1-v0)*s
-		//static Vector3 Lerp(const Vector3& v0, const Vector3& v1, Real s);
+		//static Vector3 Lerp(const Vector3& v0, const Vector3& v1, float s);
 		// check if sphere contains box
 		static bool Contains(const Sphere& sphere, const AABB& box);
 
 		// 判断ray是否与线段v0、v1相交，若ray与线段的距离小于fMaxDistance则返回true
 		static bool Intersects(const Ray& ray, const Vector3& v0, const Vector3& v1, float fMaxDistance);
 		
-		static uint32 FastHash (const char * data, int len, uint32 hashSoFar = 0);
+		static uint32_t FastHash (const char * data, int len, uint32_t hashSoFar = 0);
 
         static const float POS_INFINITY;
         static const float NEG_INFINITY;
@@ -585,8 +585,8 @@ namespace ma
 
 static const int M_MIN_INT = 0x80000000;
 static const int M_MAX_INT = 0x7fffffff;
-static const UINT M_MIN_UNSIGNED = 0x00000000;
-static const UINT M_MAX_UNSIGNED = 0xffffffff;
+static const uint32_t M_MIN_UNSIGNED = 0x00000000;
+static const uint32_t M_MAX_UNSIGNED = 0xffffffff;
 
 
 // =====================================================
@@ -721,8 +721,8 @@ typedef Vec2<bool> Vec2b;
 typedef Vec2<char> Vec2c;
 typedef Vec2<float> Vec2f;
 typedef Vec2<double> Vec2d;
-typedef Vec2<uint8> Vec2i8;
-typedef Vec2<uint16> Vec2i16;
+typedef Vec2<uint8_t> Vec2i8;
+typedef Vec2<uint16_t> Vec2i16;
 
 
 
@@ -1048,7 +1048,7 @@ public:
 
 	//! generates a pseudo random number
 	static int rand();
-	static Real frand();
+	static float frand();
 private:
 	static const int m = 2147483399;			// a non-Mersenne prime
 	static const int a = 40692;					// another spectral success story

@@ -8,7 +8,7 @@ namespace ma
 	class MeshBatch : public Renderable
 	{
 	public:
-		MeshBatch(UINT nStreanmStride, PRIMITIVE_TYPE primitiveType, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);
+		MeshBatch(uint32_t nStreanmStride, PRIMITIVE_TYPE primitiveType, bool indexed, uint32_t initialCapacity = 1024, uint32_t growSize = 1024);
 
 		~MeshBatch();
 
@@ -17,29 +17,29 @@ namespace ma
 		void			Reset();
 
 		template <class T>
-		void			Add(const T* vertices, UINT vertexCount, const uint16* indices = NULL, UINT indexCount = 0);
+		void			Add(const T* vertices, uint32_t vertexCount, const uint16_t* indices = NULL, uint32_t indexCount = 0);
 
-		void			Add(const float* vertices, UINT vertexCount, const uint16* indices = NULL, UINT indexCount = 0);
+		void			Add(const float* vertices, uint32_t vertexCount, const uint16_t* indices = NULL, uint32_t indexCount = 0);
 
 	protected:
-		void			Add(const void* vertices, size_t size, UINT vertexCount, const uint16* indices, UINT indexCount);
+		void			Add(const void* vertices, size_t size, uint32_t vertexCount, const uint16_t* indices, uint32_t indexCount);
 
-		bool			Resize(UINT capacity);
+		bool			Resize(uint32_t capacity);
 
 	protected:
 		bool			m_bIndexed;
-		UINT			m_nGrowSize;
+		uint32_t			m_nGrowSize;
 
-		UINT			m_nCapacity;
-		UINT			m_nVertexCapacity;
-		UINT			m_nIndexCapacity;
-		UINT			m_nStreanmStride;
+		uint32_t			m_nCapacity;
+		uint32_t			m_nVertexCapacity;
+		uint32_t			m_nIndexCapacity;
+		uint32_t			m_nStreanmStride;
 
-		uint8*			m_pVerticesPtr;
-		uint16*			m_pIndicesPtr;
+		uint8_t*			m_pVerticesPtr;
+		uint16_t*			m_pIndicesPtr;
 
-		uint8*			m_pVerticesPtrBase;
-		uint16*			m_pIndicesPtrBase;
+		uint8_t*			m_pVerticesPtrBase;
+		uint16_t*			m_pIndicesPtrBase;
 	};
 
 	template <class T>

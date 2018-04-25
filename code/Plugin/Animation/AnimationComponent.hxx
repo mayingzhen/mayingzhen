@@ -88,9 +88,9 @@ namespace ma
 		{
 			const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
 			m_pose = pRefPose ? pRefPose->Clone() : NULL;
-			UINT nBone = m_pSkeleton->GetBoneNumer();
+			uint32_t nBone = m_pSkeleton->GetBoneNumer();
 			m_arrSkinMatrix = new Matrix3x4[nBone];
-			for (UINT i = 0; i < nBone; ++i)
+			for (uint32_t i = 0; i < nBone; ++i)
 			{
 				m_arrSkinMatrix[i] = Matrix4::IDENTITY;
 			}
@@ -198,7 +198,7 @@ namespace ma
 			m_rootNode->EvaluateAnimation(*m_treeOutput,1);
 		}
 
-		for (UINT i = 0; i < m_pSkeleton->GetBoneNumer(); i++)
+		for (uint32_t i = 0; i < m_pSkeleton->GetBoneNumer(); i++)
 		{
 			if (!m_treeOutput->boneMask[i])
 			{
@@ -218,8 +218,8 @@ namespace ma
 		if (m_pSkeleton == NULL)
 			return;
 
-		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
-		for (UINT i = 0; i < nBoneNum; ++i)
+		uint32_t nBoneNum = m_pSkeleton->GetBoneNumer();
+		for (uint32_t i = 0; i < nBoneNum; ++i)
 		{
 			Matrix4 matSkin;
 			MatrixFromTransform(&matSkin,& m_pose->GetTransformOS(i));
@@ -229,7 +229,7 @@ namespace ma
 
 		std::vector<SkinMeshComponent*> arrMeshComp;
 		m_pSceneNode->GetTypeComponent<SkinMeshComponent>(arrMeshComp);
-		for (UINT i = 0; i < arrMeshComp.size(); ++i)
+		for (uint32_t i = 0; i < arrMeshComp.size(); ++i)
 		{
 			SkinMeshComponent* pMeshComp = arrMeshComp[i];
 			ASSERT(pMeshComp);

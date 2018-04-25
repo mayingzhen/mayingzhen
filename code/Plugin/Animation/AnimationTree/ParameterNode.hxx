@@ -15,7 +15,7 @@ namespace ma
 		m_handlers.clear();
 	}
 
-	void BaseParameter::AddHandler(AnimationBaseHandler* handler, uint8 index)
+	void BaseParameter::AddHandler(AnimationBaseHandler* handler, uint8_t index)
 	{
 		m_handlers.push_back(std::make_pair(index, handler));
 	}

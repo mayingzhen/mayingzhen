@@ -25,13 +25,13 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_VULKAN;}
 
 		virtual Texture*			CreateTexture();
-		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,UINT nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType);
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType);
 		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual ShaderProgram*		CreateShaderProgram();
-		virtual ConstantBuffer*		CreateConstantBuffer(UINT nSize);
+		virtual ConstantBuffer*		CreateConstantBuffer(uint32_t nSize);
 		virtual BlendState*			CreateBlendState();
 		virtual DepthStencilState*	CreateDepthStencilState();
 		virtual RasterizerState*	CreateRasterizerState();
@@ -43,7 +43,7 @@ namespace ma
 		virtual Rectangle			GetViewport();
 		virtual RenderPass*			GetDefaultRenderPass();
 
-		virtual	void				Init(HWND wndhandle);
+		virtual	void				Init(void* wndhandle);
 		virtual void				Shoutdown();
 		virtual bool				TestDeviceLost();
 		virtual	bool				Rest();

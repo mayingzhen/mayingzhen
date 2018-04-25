@@ -23,7 +23,7 @@ namespace ma
 			arrUpGradSka.push_back("gigi/283_run_jumping/bip01.ska");
 			arrUpGradSka.push_back("gigi/285_run_jump_stop/bip01.ska");
 
-			for (uint32 i = 0; i < arrUpGradSka.size(); ++i)
+			for (uint32_t i = 0; i < arrUpGradSka.size(); ++i)
 			{
 				RefPtr<Animation> pAnim = CreateAnimation();
 				pAnim->Load(arrUpGradSka[i].c_str(),"gigi/gigi/body.ske");
@@ -42,7 +42,7 @@ namespace ma
 			arrUpGradSka.push_back("magician/120/bip01.ska");
 			arrUpGradSka.push_back("magician/602/bip01.ska");
 
-			for (uint32 i = 0; i < arrUpGradSka.size(); ++i)
+			for (uint32_t i = 0; i < arrUpGradSka.size(); ++i)
 			{
 				RefPtr<Animation> pAnim = CreateAnimation();
 				pAnim->Load(arrUpGradSka[i].c_str(),"magician/magician/Body.ske");

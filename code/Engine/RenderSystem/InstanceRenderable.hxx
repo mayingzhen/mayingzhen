@@ -13,8 +13,8 @@ namespace ma
 	{
 		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
 
-		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
-		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+		uint32_t nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
+		uint32_t nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 
 		pRenderCommand->SetTechnique(pTechnique);
 
@@ -23,10 +23,10 @@ namespace ma
 		pRenderCommand->SetVertexBuffer(0, this->m_pVertexBuffer.get(),0);
 
 		VertexBuffer* pInstanceBuffer = GetRenderSystem()->GetRTInstaneBuffer()->GetVertexBuffer();
-		UINT nOffset = m_subVB.m_nFirstVertex * sizeof(InstaceData);
+		uint32_t nOffset = m_subVB.m_nFirstVertex * sizeof(InstaceData);
 		pRenderCommand->SetVertexBuffer(1, pInstanceBuffer, nOffset);
 
-		UINT nInstancCount = m_arrRenderList.size();
+		uint32_t nInstancCount = m_arrRenderList.size();
 
 		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nInstancCount, this->m_ePrimitiveType);
 	}

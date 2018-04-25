@@ -10,15 +10,15 @@ namespace ma
 
 		virtual void SetParameter(unsigned offset, unsigned size, const void* data) = 0;
 
-		UINT		GetSize() { return m_nSize; }
-		void		SetSize(uint32 nSize) { m_nSize = nSize; }
+		uint32_t		GetSize() { return m_nSize; }
+		void		SetSize(uint32_t nSize) { m_nSize = nSize; }
 
-		UINT		GetBound() { return m_nBound; }
-		void		SetBound(UINT nBound) { m_nBound = nBound; }
+		uint32_t		GetBound() { return m_nBound; }
+		void		SetBound(uint32_t nBound) { m_nBound = nBound; }
 
 		Uniform*	AddUniform(const char* pName);
-		UINT		GetUniformCount();
-		Uniform*	GetUniformByIndex(UINT nIndex);
+		uint32_t		GetUniformCount();
+		Uniform*	GetUniformByIndex(uint32_t nIndex);
 
 		Technique*	GetParent() { return m_pTech; }
 		void		SetParent(Technique* pTech) { m_pTech = pTech; }
@@ -29,9 +29,9 @@ namespace ma
 	private:
 		std::string m_strName;
 
-		UINT m_nBound = 0;
+		uint32_t m_nBound = 0;
 
-		UINT m_nSize = 0;
+		uint32_t m_nSize = 0;
 
 		Technique* m_pTech = NULL;
 
@@ -50,8 +50,8 @@ namespace ma
 		const char*	GetName() const;
 		void		SetName(const char* pszName);
 
-		uint32		GetIndex() {return m_index;}
-		void		SetIndex(UINT nIndex) { m_index = nIndex; }
+		uint32_t		GetIndex() {return m_index;}
+		void		SetIndex(uint32_t nIndex) { m_index = nIndex; }
 
 		void		SetParent(ConstantBuffer* pCB) { m_pCBPtr = pCB; }
 		ConstantBuffer* GetParent() { return m_pCBPtr; }
@@ -59,22 +59,22 @@ namespace ma
 		void		SetTechnique(Technique* pTech) { m_pTech = pTech; }
 		Technique*	GetTechnique() { return m_pTech; }
 
-		UINT		GetOffset() { return m_nOffSetInCB; }
-		void		SetOffset(UINT nOffset) { m_nOffSetInCB = nOffset;}
+		uint32_t		GetOffset() { return m_nOffSetInCB; }
+		void		SetOffset(uint32_t nOffset) { m_nOffSetInCB = nOffset;}
 
-		UINT		GetSize() { return m_nSizeInCB; }
-		void		SetSize(UINT nSize) { m_nSizeInCB = nSize; }
+		uint32_t		GetSize() { return m_nSizeInCB; }
+		void		SetSize(uint32_t nSize) { m_nSizeInCB = nSize; }
 
 		void		SetMethodBinding(MethodBinding* pMethod) { m_pMethod = pMethod; }
 		MethodBinding* GetMethodBinding() { return m_pMethod.get(); }
 
 	private:
 		std::string		m_name;
-		UINT			m_index = 0;
+		uint32_t			m_index = 0;
 
 		ConstantBuffer* m_pCBPtr = NULL;
-		UINT			m_nOffSetInCB = 0;
-		UINT			m_nSizeInCB = 0;
+		uint32_t			m_nOffSetInCB = 0;
+		uint32_t			m_nSizeInCB = 0;
 		Technique*		m_pTech = NULL;
 
 		RefPtr<MethodBinding>  m_pMethod;

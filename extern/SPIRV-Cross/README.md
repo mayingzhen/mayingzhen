@@ -3,12 +3,13 @@
 SPIRV-Cross is a tool designed for parsing and converting SPIR-V to other shader languages.
 
 [![Build Status](https://travis-ci.org/KhronosGroup/SPIRV-Cross.svg?branch=master)](https://travis-ci.org/KhronosGroup/SPIRV-Cross)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/KhronosGroup/SPIRV-Cross?svg=true&branch=master)](https://ci.appveyor.com/project/HansKristian-ARM/SPIRV-Cross)
 
 ## Features
 
   - Convert SPIR-V to readable, usable and efficient GLSL
-  - Convert SPIR-V to readable, usable and efficient Metal Shading Language (MSL) [EXPERIMENTAL]
-  - Convert SPIR-V to readable, usable and efficient HLSL [EXPERIMENTAL]
+  - Convert SPIR-V to readable, usable and efficient Metal Shading Language (MSL)
+  - Convert SPIR-V to readable, usable and efficient HLSL
   - Convert SPIR-V to debuggable C++ [EXPERIMENTAL]
   - Reflection API to simplify the creation of Vulkan pipeline layouts
   - Reflection API to modify and tweak OpDecorations
@@ -264,12 +265,37 @@ Contributions to SPIRV-Cross are welcome. See Testing and Licensing sections for
 SPIRV-Cross maintains a test suite of shaders with reference output of how the output looks after going through a roundtrip through
 glslangValidator then back through SPIRV-Cross again. The reference files are stored inside the repository in order to be able to track regressions.
 
-All pull requests should ensure that test output does not change unexpectedly. This can be tested with `./test_shaders.py shaders`.
-However, when improving SPIRV-Cross there are of course legitimate cases where reference output should change.
-In these cases, run `./test_shaders.py shaders --update` to update the reference files and include these changes as part of the pull request.
-Always make sure you are running up to date glslangValidator as well as SPIRV-Tools when updating reference files.
+All pull requests should ensure that test output does not change unexpectedly. This can be tested with:
 
-In short, the master branch should always be able to run `./test_shaders.py shaders` without failure.
+```
+./test_shaders.py shaders
+./test_shaders.py shaders --opt
+./test_shaders.py shaders-hlsl --hlsl
+./test_shaders.py shaders-hlsl --hlsl --opt
+./test_shaders.py shaders-msl --msl
+./test_shaders.py shaders-msl --msl --opt
+```
+
+although there are a couple of convenience script for doing this:
+
+```
+./checkout_glslang_spirv_tools.sh # Checks out glslang and SPIRV-Tools at a fixed revision which matches the reference output.
+./build_glslang_spirv_tools.sh    # Builds glslang and SPIRV-Tools.
+./test_shaders.sh                 # Runs over all changes and makes sure that there are no deltas compared to reference files.
+```
+
+However, when improving SPIRV-Cross there are of course legitimate cases where reference output should change.
+In these cases, run:
+
+```
+./update_test_shaders.sh
+```
+
+to update the reference files and include these changes as part of the pull request.
+Always make sure you are running the correct version of glslangValidator as well as SPIRV-Tools when updating reference files.
+See `checkout_glslang_spirv_tools.sh`.
+
+In short, the master branch should always be able to run `./test_shaders.py shaders` and friends without failure.
 SPIRV-Cross uses Travis CI to test all pull requests, so it is not strictly needed to perform testing yourself if you have problems running it locally.
 A pull request which does not pass testing on Travis will not be accepted however.
 

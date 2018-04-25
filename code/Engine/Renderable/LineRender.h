@@ -20,7 +20,7 @@ namespace ma
 
 		static void DrawCapsule(const Matrix4& wordMat,float fRadius, float Height, ColourValue color);
 
-		static void DrawCircle(UINT nbSegments, const Matrix4& world, ColourValue dwColor, float radius, bool semicircle = false);
+		static void DrawCircle(uint32_t nbSegments, const Matrix4& world, ColourValue dwColor, float radius, bool semicircle = false);
 
 		static void DrawWireSphere(const Matrix4& wordMat,float fRadius, ColourValue color);
 

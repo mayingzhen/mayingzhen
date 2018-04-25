@@ -30,11 +30,11 @@ namespace ma
 		{
 			return Any((short)StringConverter::parseInt(strVarValue));
 		}
-		else if (strVarType == "BYTE")
+		else if (strVarType == "uint8_t")
 		{
 			return Any((unsigned char)StringConverter::parseInt(strVarValue));
 		}
-		else if (strVarType == "UINT")
+		else if (strVarType == "uint32_t")
 		{
 			return Any( StringConverter::parseUnsignedInt(strVarValue) );
 		}
@@ -91,13 +91,13 @@ namespace ma
 		}
 		else if (type == typeid(unsigned char))
 		{
-			strVarType = "BYTE";
+			strVarType = "uint8_t";
 			strVarValue = StringConverter::toString(any_cast<unsigned char>(varValue));
 		}
-		else if (type == typeid(uint32))
+		else if (type == typeid(uint32_t))
 		{
-			strVarType = "UINT";
-			strVarValue = StringConverter::toString( any_cast<uint32>(varValue) ) ;
+			strVarType = "uint32_t";
+			strVarValue = StringConverter::toString( any_cast<uint32_t>(varValue) ) ;
 		}
 		else if (type == typeid(float))
 		{
@@ -134,7 +134,7 @@ namespace ma
 	bool Object::Import(rapidxml::xml_node<>* pXmlObject)
 	{
 		const char* pszClassName = pXmlObject->findAttribute("ClassName");
-		ASSERT(pszClassName && strcmp(pszClassName,this->GetClassName() ) == 0 );
+		ASSERT(pszClassName && strcmp(pszClassName,this->GetTypeName() ) == 0 );
 
 		rapidxml::xml_node<>* pXmlAttribute = pXmlObject->first_node("Attribute");
 		while (pXmlAttribute)
@@ -165,13 +165,13 @@ namespace ma
 
 	bool Object::Export(rapidxml::xml_node<>* pXmlObject,rapidxml::xml_document<>& doc)
 	{
-		pXmlObject->append_attribute(doc.allocate_attribute(doc.allocate_string("ClassName"),doc.allocate_string(this->GetClassName())));
+		pXmlObject->append_attribute(doc.allocate_attribute(doc.allocate_string("ClassName"),doc.allocate_string(this->GetTypeName())));
 
 		const VEC_ATTR* attributes = GetAttributes();
 		if (!attributes || attributes->empty())
 			return false;
 
-		for (UINT i = 0; i < attributes->size(); ++i)
+		for (uint32_t i = 0; i < attributes->size(); ++i)
 		{
 			rapidxml::xml_node<>* pXmlAttribute = doc.allocate_node(rapidxml::node_element,doc.allocate_string("Attribute"));
 			pXmlObject->append_node(pXmlAttribute);
@@ -216,13 +216,13 @@ namespace ma
 
 	const VEC_ATTR* Object::GetAttributes() const
 	{
-		return GetAttributeManager()->GetAttributes( this->GetClassName() );
+		return GetAttributeManager()->GetAttributes( this->GetTypeName() );
 	}
 
 	const AttributeInfo* Object::GetAttributeInfoByName(const char* strName) const
 	{
 		const VEC_ATTR* attributes = GetAttributes();
-		for (UINT i = 0; i < attributes->size(); ++i)
+		for (uint32_t i = 0; i < attributes->size(); ++i)
 		{
 			RefPtr<AttributeInfo> pAtt = attributes->at(i);
 			if (string(pAtt->GetName()) == strName)
@@ -314,7 +314,7 @@ namespace ma
 		return ret;
 	}
 
-	UINT Object::GetNumAttributes() const
+	uint32_t Object::GetNumAttributes() const
 	{
 		const VEC_ATTR* attributes = GetAttributes();
 		return attributes ? attributes->size() : 0;

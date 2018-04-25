@@ -12,20 +12,20 @@ namespace ma
 
 		~Time();
 
-		void	Reset();
+		void		Reset();
 
-		void	UpdateFrame();
+		void		UpdateFrame();
 
-		float	GetFrameDeltaTime()const;
+		float		GetFrameDeltaTime()const;
 
-		UINT	GetFrameCount() const;
+		uint32_t	GetFrameCount() const;
 
-		uint64  GetMillisceonds() const;
+		uint64_t	GetMillisceonds() const;
 		
 	private:
-		UINT	m_nFameCnt;		   //time of update called
-		uint64	m_nFrameTotalTime; //total time since last reset
-		float	m_fFrameDeltaTime; //last frame's delta time in seconds
+		uint32_t	m_nFameCnt;		   //time of update called
+		uint64_t	m_nFrameTotalTime; //total time since last reset
+		float		m_fFrameDeltaTime; //last frame's delta time in seconds
 
 	public:
 		Signal< void(float) > mTimeEvent;

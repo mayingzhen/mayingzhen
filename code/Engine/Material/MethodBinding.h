@@ -47,7 +47,7 @@ namespace ma
     class MethodArrayBinding : public MethodBinding
     {
         typedef ReturnType(ClassType::*ValueMethod)(ParameterType) const;
-        typedef UINT (ClassType::*CountMethod)(ParameterType) const;
+        typedef uint32_t (ClassType::*CountMethod)(ParameterType) const;
         
     public:
         

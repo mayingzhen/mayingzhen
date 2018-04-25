@@ -11,7 +11,7 @@ namespace ma
 	public:
 		Texture(); 
 
-		Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
+		Texture(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat eFormat,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
 		
 		virtual ~Texture();
 
@@ -29,14 +29,14 @@ namespace ma
 
 		void			SetMipMap(bool b) {m_bMipMap = b;}
 		bool			GetMipMap() const {return m_bMipMap;}
-		UINT32			GetMipMapNumber() const {return m_nMipLevels;}
+		uint32_t			GetMipMapNumber() const {return m_nMipLevels;}
 		
 		void			SetSRGB(bool b) {m_bSRGB = b;}
 		bool			GetSRGB() const {return m_bSRGB;}
 
 		virtual void	CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel) = 0;
 
-		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
+		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32_t nNumBytes, OUT ImageData& imageData);
 	
 	protected:
 
@@ -53,7 +53,7 @@ namespace ma
 	protected:
 		int				m_nWidth;
 		int				m_nHeight;
-		UINT			m_nMipLevels;
+		uint32_t			m_nMipLevels;
 		TEXTURE_USAGE	m_eUsage;
 		PixelFormat		m_eFormat;
 		TEXTURE_TYPE	m_eType;

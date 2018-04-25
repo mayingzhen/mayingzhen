@@ -60,7 +60,7 @@ namespace ma
 		SAFE_DELETE(g_pTimer);
 	}
 
-	void Engine::Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler)
+	void Engine::Init(void* hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
 		CImageCodec::Startup();
 
@@ -80,7 +80,7 @@ namespace ma
 		}
 	}
 
-	void Engine::Reset(uint32 nWidth, uint32 nHeight)
+	void Engine::Reset(uint32_t nWidth, uint32_t nHeight)
 	{
 		g_pRenderSystem->Reset(nWidth,nHeight);
 	}

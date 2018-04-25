@@ -6,7 +6,7 @@ namespace ma
 
 // this is an allocator that's allocates 16-byte-aligned blocks,
 // using the normal mem manager. The overhead of allocation is always 16 byte more,
-// to keep the original address in the DWORD before the aligned address
+// to keep the original address in the uint32_t before the aligned address
 // NOTE: since this is like a garbage collector (the items are not guaranteed to be
 // freed immediately), the destructors won't be called
 // for simplicity, constructors won't be called either

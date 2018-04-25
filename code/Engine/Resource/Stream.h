@@ -14,14 +14,14 @@ namespace ma
 
 
 	public:
-		Stream(uint16 eAccessMode = AM_READ)
+		Stream(uint16_t eAccessMode = AM_READ)
 		{
 			m_nSize = 0;
 			m_eAccessMode = eAccessMode;
 			m_strName = "";
 		}
 
-		Stream(const char* pszName, uint16 eAccessMode = AM_READ)
+		Stream(const char* pszName, uint16_t eAccessMode = AM_READ)
 		{
 			m_nSize = 0;
 			m_eAccessMode = eAccessMode;
@@ -36,18 +36,18 @@ namespace ma
 		// Get Attribute
 		// ---------------------------------------------------------------------
 		const char*		GetName() const{return m_strName.c_str();}
-		uint16			GetAccessMode() const{return m_eAccessMode;}
-		UINT			GetSize() const{return m_nSize;}
+		uint16_t		GetAccessMode() const{return m_eAccessMode;}
+		uint32_t		GetSize() const{return m_nSize;}
 
 		bool			IsReadable() const{return (m_eAccessMode&AM_READ) != 0;}
 		bool			IsWritable() const{return (m_eAccessMode&AM_WRITE) != 0;}
 
 
 		// Read the requisite number of bytes from the stream, stopping at the end of the file.
-		virtual UINT	Read(IN OUT void* pBuffer, UINT nCount) = 0;
+		virtual uint32_t	Read(IN OUT void* pBuffer, uint32_t nCount) = 0;
 
 		// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
-		virtual UINT	Write(const void* pBuffer, UINT nCount) = 0;
+		virtual uint32_t	Write(const void* pBuffer, uint32_t nCount) = 0;
 
 		/** Get a single line from the stream.
 		@remarks
@@ -63,17 +63,17 @@ namespace ma
 		@param delim The delimiter to stop at
 		@returns The number of bytes read, excluding the terminating character
 		*/
-		virtual UINT ReadLine(char* buf, UINT maxCount, const std::string& delim = "\n");
+		virtual uint32_t ReadLine(char* buf, uint32_t maxCount, const std::string& delim = "\n");
 
 		/** Skip a defined number of bytes. This can also be a negative value, in which case
 		the file pointer rewinds a defined number of bytes*/
 		virtual void Skip(int nCount) = 0;
 
 		// Repositions the read point to a specified byte.
-		virtual void Seek(UINT nPos) = 0;
+		virtual void Seek(uint32_t nPos) = 0;
 
 		// Returns the current byte offset from beginning
-		virtual UINT Tell() const = 0;
+		virtual uint32_t Tell() const = 0;
 
 		// Returns true if the stream has reached the end.
 		virtual bool Eof() const = 0;
@@ -180,8 +180,8 @@ namespace ma
 		inline bool WriteString(const string& value);
 
 	protected:
-		UINT			m_nSize;
-		uint16			m_eAccessMode;
+		uint32_t			m_nSize;
+		uint16_t			m_eAccessMode;
 		std::string		m_strName;
 
 		#define OGRE_STREAM_TEMP_SIZE 128

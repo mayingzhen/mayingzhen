@@ -9,7 +9,7 @@ namespace ma
 typedef struct
 {
 	/* Uses 64 bits pre block*/
-	uint32 PackedData[2];
+	uint32_t PackedData[2];
 }AMTC_BLOCK_STRUCT;
 
 const unsigned int PVRTEX_MIPMAP                = (1<<8);               // has mip map levels
@@ -106,7 +106,7 @@ int util_number_is_power_2( unsigned input )
 static void Unpack5554Colour(const AMTC_BLOCK_STRUCT *pBlock,
 							 int ABColours[2][4])
 {
-	uint32 RawBits[2];
+	uint32_t RawBits[2];
 
 	int i;
 
@@ -210,7 +210,7 @@ static void UnpackModulations(const AMTC_BLOCK_STRUCT *pBlock,
 							  int StartY)
 {
 	int BlockModMode;
-	uint32 ModulationBits;
+	uint32_t ModulationBits;
 
 	int x, y;
 
@@ -542,15 +542,15 @@ static void GetModulationValue(int x,
 
 static int DisableTwiddlingRoutine = 0;
 
-static uint32 TwiddleUV(uint32 YSize, uint32 XSize, uint32 YPos, uint32 XPos)
+static uint32_t TwiddleUV(uint32_t YSize, uint32_t XSize, uint32_t YPos, uint32_t XPos)
 {
-	uint32 Twiddled;
+	uint32_t Twiddled;
 
-	uint32 MinDimension;
-	uint32 MaxValue;
+	uint32_t MinDimension;
+	uint32_t MaxValue;
 
-	uint32 SrcBitPos;
-	uint32 DstBitPos;
+	uint32_t SrcBitPos;
+	uint32_t DstBitPos;
 
 	int ShiftCount;
 
@@ -799,10 +799,10 @@ void Decompress(AMTC_BLOCK_STRUCT *pCompressedData,
 			// Store the result in the output image
 			*/
 			uPosition = (x+y*XDim)<<2;
-			pResultImage[uPosition+0] = (uint8)Result[0];
-			pResultImage[uPosition+1] = (uint8)Result[1];
-			pResultImage[uPosition+2] = (uint8)Result[2];
-			pResultImage[uPosition+3] = (uint8)Result[3];
+			pResultImage[uPosition+0] = (uint8_t)Result[0];
+			pResultImage[uPosition+1] = (uint8_t)Result[1];
+			pResultImage[uPosition+2] = (uint8_t)Result[2];
+			pResultImage[uPosition+3] = (uint8_t)Result[3];
 
 		}/*end for x*/
 	}/*end for y*/

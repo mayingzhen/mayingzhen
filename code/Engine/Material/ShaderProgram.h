@@ -34,12 +34,12 @@ namespace ma
         VertexDeclaration*  GetVertexDeclaration() {return m_pVertexDecl.get();}
 
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
-		UINT				GetConstBufferCount(ShaderType eType);
-		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType,UINT nIndex);
+		uint32_t				GetConstBufferCount(ShaderType eType);
+		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType,uint32_t nIndex);
 
 		void				AddSampler(Uniform* pUniform);
-		UINT				GetSamplerCount();
-		Uniform*			GetSamplerByIndex(UINT nIndex);
+		uint32_t				GetSamplerCount();
+		Uniform*			GetSamplerByIndex(uint32_t nIndex);
 
 	protected:
 		virtual void		RT_StreamComplete() = 0;

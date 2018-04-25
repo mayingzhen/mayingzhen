@@ -18,20 +18,20 @@ namespace ma
 		virtual ~Object();
 
 		#define DECL_OBJECT(ClassName) \
-		virtual const char*	GetClassName() const {return #ClassName;}\
-		static const char* StaticGetClassName() {return #ClassName;}
+		virtual const char*	GetTypeName() const {return #ClassName;}\
+		static const char* StaticGetTypeName() {return #ClassName;}
 	
 		DECL_OBJECT(Object);
 
 		virtual bool			Import(rapidxml::xml_node<>* pXmlObject);
 		virtual bool			Export(rapidxml::xml_node<>* pXmlObject,rapidxml::xml_document<>& doc);		
 
-		bool					SetAttribute(UINT index, const Any& value);
+		bool					SetAttribute(uint32_t index, const Any& value);
 		bool					SetAttribute(const char* name, const Any& value);
 
 		Any						GetAttribute(unsigned index) const;
 		Any						GetAttribute(const char* name) const;
-		UINT					GetNumAttributes() const;
+		uint32_t				GetNumAttributes() const;
 		const AttributeInfo*	GetAttributeInfoByName(const char* strName) const;
 
 	protected:

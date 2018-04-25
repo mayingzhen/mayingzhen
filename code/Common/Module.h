@@ -8,8 +8,6 @@
 #include "Macro.h"
 #include "Mem.h"
 
-#include "Platform/Platform.h"
-
 #include "Assert.h"
 #include "Log.h"
 

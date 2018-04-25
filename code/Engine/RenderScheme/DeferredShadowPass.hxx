@@ -22,7 +22,7 @@ namespace ma
 	void DeferredShadow::CreateSimpleLightFrustumMesh()
 	{
 		std::vector<Vector3> vertBuff;
-		std::vector<uint16> indBuff;
+		std::vector<uint16_t> indBuff;
 
 		indBuff.clear();
 		indBuff.reserve(36);
@@ -49,13 +49,13 @@ namespace ma
 		vPoint[6] = Vector3(1,-1,farZ);
 		vPoint[7] = Vector3(1,1,farZ);
 
-		for(uint32 i = 0; i < 8; ++i)
+		for(uint32_t i = 0; i < 8; ++i)
 		{
 			vertBuff.push_back(vPoint[i]);
 		}
 
 		//CCW faces
-		static uint16 nFaces[6][4] = {{0,1,2,3},
+		static uint16_t nFaces[6][4] = {{0,1,2,3},
 		{4,7,6,5},
 		{0,3,7,4},
 		{1,5,6,2},
@@ -66,18 +66,18 @@ namespace ma
 		//init indices for triangles drawing
 		for(int i=0; i < 6; i++)
 		{
-			indBuff.push_back( (uint16)  nFaces[i][0] );
-			indBuff.push_back( (uint16)  nFaces[i][1] );
-			indBuff.push_back( (uint16)  nFaces[i][2] );
+			indBuff.push_back( (uint16_t)  nFaces[i][0] );
+			indBuff.push_back( (uint16_t)  nFaces[i][1] );
+			indBuff.push_back( (uint16_t)  nFaces[i][2] );
 
-			indBuff.push_back( (uint16)  nFaces[i][0] );
-			indBuff.push_back( (uint16)  nFaces[i][2] );
-			indBuff.push_back( (uint16)  nFaces[i][3] );
+			indBuff.push_back( (uint16_t)  nFaces[i][0] );
+			indBuff.push_back( (uint16_t)  nFaces[i][2] );
+			indBuff.push_back( (uint16_t)  nFaces[i][3] );
 		}
 
-		m_pRenderable->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)&vertBuff[0], sizeof(Vector3) * vertBuff.size(), sizeof(Vector3));
+		m_pRenderable->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8_t*)&vertBuff[0], sizeof(Vector3) * vertBuff.size(), sizeof(Vector3));
 
-		m_pRenderable->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)&indBuff[0],sizeof(uint16) * indBuff.size(), sizeof(uint16));
+		m_pRenderable->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8_t*)&indBuff[0],sizeof(uint16_t) * indBuff.size(), sizeof(uint16_t));
 
 		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 		m_pRenderable->m_pSubMeshData = CreateSubMeshData();
@@ -131,7 +131,7 @@ namespace ma
 
 		float fBlendValue = 0.8f;
 		
-		//UINT32 stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
+		//uint32_t stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
 
 	//	GetRenderSystem()->SetStencilCheckEnabled(true);
 		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i) // ´ÓºóÍùÇ°
@@ -177,7 +177,7 @@ namespace ma
 			if ( !shadowMapFru.GetDraw() )
 				continue;
 
-// 			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
+// 			uint32_t refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
 // 			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
 // 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
 
@@ -205,7 +205,7 @@ namespace ma
 
 			ShadowMapFrustum& shadowMapNextFru = m_ShadowLight->GetShadowMapFrustum(i + 1);
 
-// 			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
+// 			uint32_t refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
 // 			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
 // 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
 

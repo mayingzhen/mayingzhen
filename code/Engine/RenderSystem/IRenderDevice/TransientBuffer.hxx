@@ -4,7 +4,7 @@
 namespace ma
 {
 
-ParallHardWareBuffer::ParallHardWareBuffer(uint32 nVertexStride,uint32 nNumVertice,uint32 numIndexes)
+ParallHardWareBuffer::ParallHardWareBuffer(uint32_t nVertexStride,uint32_t nNumVertice,uint32_t numIndexes)
 {
 	m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(NULL,nVertexStride * nNumVertice,nVertexStride,HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 	m_pVertexVideoMemoryBase = NULL;
@@ -13,11 +13,11 @@ ParallHardWareBuffer::ParallHardWareBuffer(uint32 nVertexStride,uint32 nNumVerti
 	
 	if (numIndexes > 0)
 	{
-		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(NULL,sizeof(uint16) * numIndexes,sizeof(uint16),HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(NULL,sizeof(uint16_t) * numIndexes,sizeof(uint16_t),HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 	}
 	m_pIndexVideoMemoryBase = NULL;
 	m_nIndexOffset = 0;
-	m_nIndexBufferAvailableMemory = sizeof(uint16) * numIndexes;
+	m_nIndexBufferAvailableMemory = sizeof(uint16_t) * numIndexes;
 
 	m_bLocked = false;
 }
@@ -41,10 +41,10 @@ void ParallHardWareBuffer::LockVideoMemory()
 {
 	// lock video memory vertex/index buffer and expose base pointer and offset
 	if(m_pVertexBuffer)
-		m_pVertexVideoMemoryBase = (BYTE*)m_pVertexBuffer->Lock(LOCK_DISCARD);
+		m_pVertexVideoMemoryBase = (uint8_t*)m_pVertexBuffer->Lock(LOCK_DISCARD);
 
 	if(m_pIndexBuffer)
-		m_pIndexVideoMemoryBase = (BYTE*)m_pIndexBuffer->Lock(LOCK_DISCARD);
+		m_pIndexVideoMemoryBase = (uint8_t*)m_pIndexBuffer->Lock(LOCK_DISCARD);
 
 	m_nVertexOffset = 0;
 	m_nIndexOffset = 0;	
@@ -75,17 +75,17 @@ SubAllocVB ParallHardWareBuffer::AllocVertexBuffer(int nAllocVerts)
 
 	SubAllocVB subAlloc;
 
-	uint32 nVertexStride = m_pVertexBuffer->GetStride();
+	uint32_t nVertexStride = m_pVertexBuffer->GetStride();
 
 	// Reserve vertex memory, thread-safe
-	BYTE* pVertices				  = m_pVertexVideoMemoryBase;
-	uint32 nAvailableVertexMemory = m_nVertexBufferAvailableMemory;
+	uint8_t* pVertices				  = m_pVertexVideoMemoryBase;
+	uint32_t nAvailableVertexMemory = m_nVertexBufferAvailableMemory;
 
 	// Limit vertex count for 16-bit indices.
 	//if (nAllocInds > 0)
 		nAllocVerts = min(nAllocVerts, (1<<16));
 
-	uint32 nVerticesOffset;
+	uint32_t nVerticesOffset;
 	do {
 		nVerticesOffset = m_nVertexOffset.load();
 		if (nAllocVerts * nVertexStride > nAvailableVertexMemory)
@@ -97,7 +97,7 @@ SubAllocVB ParallHardWareBuffer::AllocVertexBuffer(int nAllocVerts)
 
 	subAlloc.m_pVertices = pVertices + nVerticesOffset; 
 	subAlloc.m_nAllocVerts = nAllocVerts;
-	subAlloc.m_nFirstVertex = static_cast<uint16>(nVerticesOffset / nVertexStride);
+	subAlloc.m_nFirstVertex = static_cast<uint16_t>(nVerticesOffset / nVertexStride);
 
 	//ASSERT(subAlloc.m_nFirstVertex < 1000);
 
@@ -115,23 +115,23 @@ SubAllocIB ParallHardWareBuffer::AllocIndexBuffer(int nAllocInds)
 		return subAlloc;
 
 	// Reserve index memory, thread-safe
-	BYTE* pIndices							= m_pIndexVideoMemoryBase;
-	uint32 nAvailableIndexMemory			= m_nIndexBufferAvailableMemory;
+	uint8_t* pIndices							= m_pIndexVideoMemoryBase;
+	uint32_t nAvailableIndexMemory			= m_nIndexBufferAvailableMemory;
 
-	uint32 nIndicesOffset;
+	uint32_t nIndicesOffset;
 	do {
 		nIndicesOffset = m_nIndexOffset.load();
-		if (nAllocInds * sizeof(uint16) > nAvailableIndexMemory)
+		if (nAllocInds * sizeof(uint16_t) > nAvailableIndexMemory)
 		{
 			ASSERT(false);
-			nAllocInds = nAvailableIndexMemory / sizeof(uint16);
+			nAllocInds = nAvailableIndexMemory / sizeof(uint16_t);
 		}
 	}
-	while ( !m_nIndexOffset.compare_exchange_strong(nIndicesOffset, nIndicesOffset + nAllocInds * sizeof(uint16) ) );
+	while ( !m_nIndexOffset.compare_exchange_strong(nIndicesOffset, nIndicesOffset + nAllocInds * sizeof(uint16_t) ) );
 
-	subAlloc.m_pIndices = (uint16*)(pIndices + nIndicesOffset);
+	subAlloc.m_pIndices = (uint16_t*)(pIndices + nIndicesOffset);
 	subAlloc.m_nAllocInds = nAllocInds;
-	subAlloc.m_nFirstIndex = nIndicesOffset / sizeof(uint16);
+	subAlloc.m_nFirstIndex = nIndicesOffset / sizeof(uint16_t);
 
 	return subAlloc;
 }

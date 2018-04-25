@@ -153,7 +153,7 @@ namespace ma
 	}
 
 
-	void VulkanShaderProgram::HlslToSpirv(const char* vshSource, UINT vshSize, ShaderType eType, std::vector<UINT>& vtx_spv)
+	void VulkanShaderProgram::HlslToSpirv(const char* vshSource, uint32_t vshSize, ShaderType eType, std::vector<uint32_t>& vtx_spv)
 	{
 		//VS
 		EShLanguage stage = FindLanguage(eType);
@@ -186,7 +186,7 @@ namespace ma
 			return;
 		}
 
-		std::vector<UINT> vtx_spv_tem;
+		std::vector<uint32_t> vtx_spv_tem;
 
 		glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv_tem);
 
@@ -264,7 +264,7 @@ namespace ma
 		}
 	}
 
-	void VulkanShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
+	void VulkanShaderProgram::CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize)
 	{
 		Destory();
 
@@ -290,7 +290,7 @@ namespace ma
 			moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 			moduleCreateInfo.pNext = NULL;
 			moduleCreateInfo.flags = 0;
-			moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(UINT);
+			moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(uint32_t);
 			moduleCreateInfo.pCode = vtx_spv.data();
 			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[0].module);
 
@@ -328,7 +328,7 @@ namespace ma
 	}
 
 
-	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32>& vtx_spv)
+	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32_t>& vtx_spv)
 	{
 		spirv_cross::CompilerGLSL glsl(vtx_spv.data(),vtx_spv.size());
 
@@ -356,7 +356,7 @@ namespace ma
 			pConstantBuffer->SetBound(binding);
 			pConstantBuffer->SetSize(size_);
 			this->AddConstBuffer(eType, pConstantBuffer.get());
-			for (UINT i = 0; i < spType.member_types.size(); ++i)
+			for (uint32_t i = 0; i < spType.member_types.size(); ++i)
 			{
 				std::string str = glsl.get_member_name(spType.self, i);
 				size_t offset = glsl.type_struct_member_offset(spType, i);

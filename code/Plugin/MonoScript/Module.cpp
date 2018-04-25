@@ -29,7 +29,7 @@ void MonoScriptModuleShutdown()
 	SetScriptSystem(NULL);
 }
 
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 extern "C" bool dllStartPlugin()
 {
 	MonoScriptModuleInit();

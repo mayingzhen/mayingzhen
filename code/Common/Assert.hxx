@@ -50,9 +50,9 @@
 template<int iTitleSize>
 struct SDlgItem
 {
-	// If use my struct instead of DLGTEMPLATE, or else (for some strange reason) it is not DWORD aligned !!
-	DWORD style;
-	DWORD dwExtendedStyle;
+	// If use my struct instead of DLGTEMPLATE, or else (for some strange reason) it is not uint32_t aligned !!
+	uint32_t style;
+	uint32_t dwExtendedStyle;
 	short x;
 	short y;
 	short cx;
@@ -140,7 +140,7 @@ struct SMyAssertInfo
 
 //-----------------------------------------------------------------------------------------------------
 
-static INT_PTR CALLBACK DlgProc(HWND _hDlg, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
+static INT_PTR CALLBACK DlgProc(HWND _hDlg, uint32_t _uiMsg, WPARAM _wParam, LPARAM _lParam)
 {
 	static SMyAssertInfo *pAssertInfo = NULL;
 
@@ -272,7 +272,7 @@ void RegistryReadUInt32(const char* _strSubKey, const char* _strRegName, unsigne
 	DWORD dwType;
 	DWORD dwLength = sizeof(DWORD);
 
-	if (ERROR_SUCCESS != RegQueryValueEx(HKEY_CURRENT_USER, _strRegName, 0, &dwType, (BYTE *)_puiValue, &dwLength))
+	if (ERROR_SUCCESS != RegQueryValueEx(HKEY_CURRENT_USER, _strRegName, 0, &dwType, (uint8_t *)_puiValue, &dwLength))
 	{
 		*_puiValue = _uiDefault;
 	}
@@ -286,7 +286,7 @@ void RegistryWriteUInt32(const char* _strSubKey, const char* _strRegName, unsign
 {
 	HKEY hKey;
 	RegCreateKeyEx(HKEY_CURRENT_USER, _strSubKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, NULL);
-	RegSetValueEx(HKEY_CURRENT_USER, _strRegName, 0, REG_DWORD, (BYTE *)&_uiValue, sizeof(DWORD));
+	RegSetValueEx(HKEY_CURRENT_USER, _strRegName, 0, REG_DWORD, (uint8_t *)&_uiValue, sizeof(uint32_t));
 	RegCloseKey(HKEY_CURRENT_USER);
 }
 

@@ -40,7 +40,7 @@ namespace vks
 		* Map a memory range of this buffer. If successful, mapped points to the specified buffer range.
 		* 
 		* @param size (Optional) Size of the memory range to map. Pass VK_WHOLE_SIZE to map the complete buffer range.
-		* @param offset (Optional) Byte offset from beginning
+		* @param offset (Optional) uint8_t offset from beginning
 		* 
 		* @return VkResult of the buffer mapping call
 		*/
@@ -66,7 +66,7 @@ namespace vks
 		/** 
 		* Attach the allocated memory block to the buffer
 		* 
-		* @param offset (Optional) Byte offset (from the beginning) for the memory region to bind
+		* @param offset (Optional) uint8_t offset (from the beginning) for the memory region to bind
 		* 
 		* @return VkResult of the bindBufferMemory call
 		*/
@@ -79,7 +79,7 @@ namespace vks
 		* Setup the default descriptor for this buffer
 		*
 		* @param size (Optional) Size of the memory range of the descriptor
-		* @param offset (Optional) Byte offset from beginning
+		* @param offset (Optional) uint8_t offset from beginning
 		*
 		*/
 		void setupDescriptor(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0)
@@ -108,7 +108,7 @@ namespace vks
 		* @note Only required for non-coherent memory
 		*
 		* @param size (Optional) Size of the memory range to flush. Pass VK_WHOLE_SIZE to flush the complete buffer range.
-		* @param offset (Optional) Byte offset from beginning
+		* @param offset (Optional) uint8_t offset from beginning
 		*
 		* @return VkResult of the flush call
 		*/
@@ -128,7 +128,7 @@ namespace vks
 		* @note Only required for non-coherent memory
 		*
 		* @param size (Optional) Size of the memory range to invalidate. Pass VK_WHOLE_SIZE to invalidate the complete buffer range.
-		* @param offset (Optional) Byte offset from beginning
+		* @param offset (Optional) uint8_t offset from beginning
 		*
 		* @return VkResult of the invalidate call
 		*/

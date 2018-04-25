@@ -48,11 +48,11 @@ namespace ma
 
 	void Game::Init()
 	{
-		HWND hWnd = Platform::GetInstance().GetWindId();
+		void* hWnd = Platform::GetInstance().GetWindId();
 		GetEngine()->Init(hWnd, m_setting.bRenderThread, m_setting.bDataThread, m_setting.bJobScheduler);
 	}
 
-	void Game::Reset(uint32 nWidth,uint32 nHeight)
+	void Game::Reset(uint32_t nWidth,uint32_t nHeight)
 	{
 		GetEngine()->Reset(nWidth,nHeight);
 	}

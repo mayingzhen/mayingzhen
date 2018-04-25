@@ -64,7 +64,7 @@ namespace ma
 
 		RefPtr<InstanceRenderable> pInstanceRenderable;
 
-		for (UINT i = 0; i < batch.size(); ++i)
+		for (uint32_t i = 0; i < batch.size(); ++i)
 		{
 			SubMaterial* pMaterial = batch[i]->GetMaterial();
 			Technique* pTech = pMaterial->GetShadingInstTechnqiue();
@@ -142,12 +142,12 @@ namespace ma
 
 		PrepareInstance(eRPType);
 
-		for (UINT i = 0; i < m_arrInsRenderList.size(); ++i)
+		for (uint32_t i = 0; i < m_arrInsRenderList.size(); ++i)
 		{
 			m_arrPrePareRenderList.push_back(m_arrInsRenderList[i].get());
 		}
 
-		for (UINT i = 0; i < m_arrNoInsRenderList.size(); ++i)
+		for (uint32_t i = 0; i < m_arrNoInsRenderList.size(); ++i)
 		{
 			m_arrPrePareRenderList.push_back(m_arrNoInsRenderList[i]);
 		}
@@ -179,12 +179,12 @@ namespace ma
 		return pTech;
 	}
 
-	void ParallelRender(RenderCommand* pCommand, Renderable** pNodeStart, uint32 nNodeCount,
-		RenderPassType eRPType, UINT nStartIndex, UINT nIntanceListCount)
+	void ParallelRender(RenderCommand* pCommand, Renderable** pNodeStart, uint32_t nNodeCount,
+		RenderPassType eRPType, uint32_t nStartIndex, uint32_t nIntanceListCount)
 	{
 		pCommand->Begin();
 
-		for (uint32 i = 0; i < nNodeCount; ++i)
+		for (uint32_t i = 0; i < nNodeCount; ++i)
 		{
 			Renderable* pRenderable = pNodeStart[i];
 
@@ -204,20 +204,20 @@ namespace ma
 		if (m_arrPrePareRenderList.empty())
 			return;
 
-		uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
+		uint32_t nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 
 		if (nNumJob > 1 && m_arrPrePareRenderList.size() > nNumJob)
 		{
 			//BEGIN_TIME(g_pTaskScheduler);
 
-			uint32 nCountPerJob = m_arrPrePareRenderList.size() / nNumJob;
+			uint32_t nCountPerJob = m_arrPrePareRenderList.size() / nNumJob;
 
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(nNumJob);
 
-			for (UINT32 iJob = 0; iJob < nNumJob; ++iJob)
+			for (uint32_t iJob = 0; iJob < nNumJob; ++iJob)
 			{
-				uint32 nStartIndex = iJob * nCountPerJob;
-				uint32 nEndIndex = nStartIndex + nCountPerJob - 1;
+				uint32_t nStartIndex = iJob * nCountPerJob;
+				uint32_t nEndIndex = nStartIndex + nCountPerJob - 1;
 				if (iJob == nNumJob - 1)
 					nEndIndex = m_arrPrePareRenderList.size() - 1;
 
@@ -225,7 +225,7 @@ namespace ma
 				if (nEndIndex < nStartIndex)
 					continue;
 
-				uint32 nCount = nEndIndex - nStartIndex + 1;
+				uint32_t nCount = nEndIndex - nStartIndex + 1;
 
 				Renderable** ppNodeStart = &(m_arrPrePareRenderList[nStartIndex]);
 
@@ -242,7 +242,7 @@ namespace ma
 		{
 			RenderCommand* pCommand = pPass->GetThreadCommand(0,eRLType);
 			Renderable** ppNodeStart = &(m_arrPrePareRenderList[0]);
-			uint32 nCount = m_arrPrePareRenderList.size();
+			uint32_t nCount = m_arrPrePareRenderList.size();
 
 			ParallelRender(pCommand, ppNodeStart, nCount, eRPType, 0, m_arrInsRenderList.size());
 		}

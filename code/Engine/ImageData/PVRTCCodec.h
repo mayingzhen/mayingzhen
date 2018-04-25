@@ -61,7 +61,7 @@ namespace ma {
         void codeToFile(MemoryDataStreamPtr& input, const string& outFileName, CodecDataPtr& pData) const;
         /// @copydoc Codec::decode
         DecodeResult decode(DataStreamPtr& input) const;*/
-		bool decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN OUT ImageData& imgData) const;
+		bool decode(const char* pszName, void* pMemory, uint32_t nNumBytes, IN OUT ImageData& imgData) const;
 
 		/// @copydoc Codec::magicNumberToFileExt
 		string magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const;

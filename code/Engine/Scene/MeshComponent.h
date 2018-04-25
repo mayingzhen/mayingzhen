@@ -28,22 +28,22 @@ namespace ma
 
 		bool						Load(const char* pszSknPath,const char* pszMatPath);
 
-		const char*					GetMeshFile(uint32 nLod) const;
-		void						SetMeshFile(const char* pFile,uint32 nLod);
-		MeshData*					GetMeshData(uint32 nLod);
+		const char*					GetMeshFile(uint32_t nLod) const;
+		void						SetMeshFile(const char* pFile,uint32_t nLod);
+		MeshData*					GetMeshData(uint32_t nLod);
 
 		const char*					GetMaterialFile() const;
 		void						SetMaterialFile(const char* pFile);
 		void						SetMaterial(Material* pMaterial);
 
-		UINT32						GetSubMaterialCount(uint32 nLod);
-		SubMaterial*				GetSubMaterial(uint32 nLod,UINT index);
+		uint32_t						GetSubMaterialCount(uint32_t nLod);
+		SubMaterial*				GetSubMaterial(uint32_t nLod,uint32_t index);
 
-		virtual UINT				GetRenderableCount(uint32 nLod) const;
-		virtual	Renderable*			GetRenderableByIndex(uint32 nLod,UINT index) const;
+		virtual uint32_t				GetRenderableCount(uint32_t nLod) const;
+		virtual	Renderable*			GetRenderableByIndex(uint32_t nLod,uint32_t index) const;
 
-		virtual UINT				GetShadowRenderableCount() const;
-		virtual	Renderable*			GetShadowRenderableByIndex(UINT index) const;
+		virtual uint32_t				GetShadowRenderableCount() const;
+		virtual	Renderable*			GetShadowRenderableByIndex(uint32_t index) const;
 
 		virtual void				SetShadowCaster(bool b);
 
@@ -65,7 +65,7 @@ namespace ma
 
 	protected:
 
-		uint32						m_nLod = 0;
+		uint32_t						m_nLod = 0;
 
 		RefPtr<Material>			m_pMaterial;
 

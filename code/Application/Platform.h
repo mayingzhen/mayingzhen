@@ -21,9 +21,9 @@ namespace ma
 
 		void		SetWindowSize(int w, int h);
 
-		HWND		GetWindId() const {return m_windId;}
+		void*		GetWindId() const {return m_windId;}
 
-		void		SetWindId(HWND hWnd) {m_windId = hWnd;} 
+		void		SetWindId(void* hWnd) {m_windId = hWnd;} 
 
 		const char*	GetAppPath() const;
 
@@ -32,7 +32,7 @@ namespace ma
 		static Platform&	GetInstance();
 
 	protected:
-		HWND			m_windId;
+		void*			m_windId;
 
 		std::string		m_strAppPath;
 

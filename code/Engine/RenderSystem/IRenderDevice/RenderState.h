@@ -43,8 +43,8 @@ namespace ma
 		StencilOperation	m_eStencilPass;
 		StencilOperation	m_eStencilFail;
 		StencilOperation	m_eDepthFailOp;
-		uint32              m_nStencilMask;
-		uint32				m_nStencilWriteMask;
+		uint32_t              m_nStencilMask;
+		uint32_t				m_nStencilWriteMask;
 
 		bool				m_bDepthWrite;
 		CompareFunction		m_eDepthCheckMode;

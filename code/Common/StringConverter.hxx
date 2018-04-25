@@ -300,7 +300,7 @@ namespace ma {
     {
 		// Use istringstream for direct correspondence with toString
 // 		stringstream str(val);
-// 		Real ret = defaultValue;
+// 		float ret = defaultValue;
 // 		str >> ret;
 
         return (float)atof(val.c_str());

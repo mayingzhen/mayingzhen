@@ -45,10 +45,10 @@ namespace ma
 		if( vecMacros.empty() )
 			return 0;
 
-		for(uint32 i=0; i< vecMacros.size(); i++)
+		for(uint32_t i=0; i< vecMacros.size(); i++)
 		{
 			const vector<string> keyValue = StringUtil::split(vecMacros[i], "=");
-			uint32 nSize = keyValue.size();
+			uint32_t nSize = keyValue.size();
 			if(nSize != 2)
 				continue;
 
@@ -76,11 +76,11 @@ namespace ma
 		if (vecMacros.empty())
 			return;
 
-		uint32 i = 1;
+		uint32_t i = 1;
 		for (; i < vecMacros.size(); ++i)
 		{
 			vector<string> keyValue = StringUtil::split(vecMacros[i],"=");
-			uint32 nSize = keyValue.size();
+			uint32_t nSize = keyValue.size();
 			if (nSize != 2)
 				continue;
 
@@ -103,7 +103,7 @@ namespace ma
 		std::sort(vecMacros.begin() + 1, vecMacros.end());
 
 		string strFinal = vecMacros[0];
-		for (uint32 i = 1; i < vecMacros.size(); ++i)
+		for (uint32_t i = 1; i < vecMacros.size(); ++i)
 		{
 			strFinal += ";" + vecMacros[i];
 		}
@@ -123,7 +123,7 @@ namespace ma
 		if (vecMacros.empty())
 			return false;
 
-		for (UINT i = 0; i < vecMacros.size(); ++i)
+		for (uint32_t i = 0; i < vecMacros.size(); ++i)
 		{
 			if (vecMacros[i] == string(pszMacro))
 			{
@@ -149,7 +149,7 @@ namespace ma
 		if (vecMacros.empty())
 			return;
 
-		uint32 i = 1;
+		uint32_t i = 1;
 		for (; i < vecMacros.size(); ++i)
 		{
 			if (vecMacros[i] == string(pszMacro))
@@ -172,7 +172,7 @@ namespace ma
 		std::sort(vecMacros.begin() + 1, vecMacros.end());
 
 		string strFinal = vecMacros[0];
-		for (uint32 i = 1; i < vecMacros.size(); ++i)
+		for (uint32_t i = 1; i < vecMacros.size(); ++i)
 		{
 			strFinal += ";" + vecMacros[i];
 		}
@@ -187,12 +187,12 @@ namespace ma
 
 	void Technique::BindUniform(Renderable* pRenderable)
 	{
-		for (UINT i = 0; i < ShaderType_Number; ++i)
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
-			for (UINT iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
+			for (uint32_t iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
 			{
 				RefPtr<ConstantBuffer>& pCB = m_vecConstBuffer[i][iCB];
-				for (UINT iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
+				for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
 				{
 					Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
 
@@ -207,7 +207,7 @@ namespace ma
 			}
 		}
 		
-		for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
+		for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
 		{
 			Uniform* pUniform = this->GetSamplerByIndex(i);
 			
@@ -308,7 +308,7 @@ namespace ma
 		if (pszName == NULL)
 			return NULL;
 
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
 			if (strcmp(m_arrParameters[i].GetName(), pszName) == 0)
 			{
@@ -319,12 +319,12 @@ namespace ma
 		return NULL;
 	}
 
-	UINT Technique::GetParameterCount()
+	uint32_t Technique::GetParameterCount()
 	{
 		return m_arrParameters.size();
 	}
 
-	Parameter*	Technique::GetParameterByIndex(UINT nIndex)
+	Parameter*	Technique::GetParameterByIndex(uint32_t nIndex)
 	{
 		ASSERT(nIndex < m_arrParameters.size());
 		if (nIndex >= m_arrParameters.size())
@@ -402,12 +402,12 @@ namespace ma
 		SetValue(pUniform, (const float*)&value, sizeof(Matrix4));
 	}
 
-	void Technique::SetValue(Uniform* pUniform, const Matrix4* values, UINT count)
+	void Technique::SetValue(Uniform* pUniform, const Matrix4* values, uint32_t count)
 	{
 		SetValue(pUniform, (const float*)values, sizeof(Matrix4) * count);
 	}
 
-	void Technique::SetValue(Uniform* pUniform, const Vector4* values, UINT count)
+	void Technique::SetValue(Uniform* pUniform, const Vector4* values, uint32_t count)
 	{
 		SetValue(pUniform, (const float*)values, sizeof(Vector4) * count);
 	}
@@ -417,7 +417,7 @@ namespace ma
 		SetValue(pUniform, (const float*)&value, sizeof(ColourValue));
 	}
 
-	void Technique::SetValue(Uniform* pUniform, const float* values, UINT nSize)
+	void Technique::SetValue(Uniform* pUniform, const float* values, uint32_t nSize)
 	{
 		ASSERT(pUniform);
 		if (pUniform == NULL)
@@ -448,12 +448,12 @@ namespace ma
 		m_vecConstBuffer[eType].push_back(pConstBuffer);
 	}
 
-	UINT Technique::GetConstBufferCount(ShaderType eType)
+	uint32_t Technique::GetConstBufferCount(ShaderType eType)
 	{
 		return m_vecConstBuffer[eType].size();
 	}
 
-	ConstantBuffer*	Technique::GetConstBufferByIndex(ShaderType eType, UINT nIndex)
+	ConstantBuffer*	Technique::GetConstBufferByIndex(ShaderType eType, uint32_t nIndex)
 	{
 		if (nIndex >= m_vecConstBuffer[eType].size())
 			return NULL;
@@ -471,12 +471,12 @@ namespace ma
 		m_vecPSSamplers.push_back(pUniform);
 	}
 
-	UINT Technique::GetSamplerCount()
+	uint32_t Technique::GetSamplerCount()
 	{
 		return m_vecPSSamplers.size();
 	}
 
-	Uniform* Technique::GetSamplerByIndex(UINT nIndex)
+	Uniform* Technique::GetSamplerByIndex(uint32_t nIndex)
 	{
 		return m_vecPSSamplers[nIndex].get();
 	}
@@ -488,12 +488,12 @@ namespace ma
 
 	Uniform* Technique::GetUniform(const char* pszName)
 	{
-		for (UINT i = 0; i < ShaderType_Number; ++i)
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
-			for (UINT iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
+			for (uint32_t iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
 			{
 				RefPtr<ConstantBuffer>& pCB = m_vecConstBuffer[i][iCB];
-				for (UINT iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
+				for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
 				{
 					Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
 					if (pUniform == NULL)
@@ -507,7 +507,7 @@ namespace ma
 			}
 		}
 
-		for (UINT i = 0; i < m_vecPSSamplers.size(); ++i)
+		for (uint32_t i = 0; i < m_vecPSSamplers.size(); ++i)
 		{
 			Uniform* pUniform = m_vecPSSamplers[i].get();
 			if (pUniform == NULL)
@@ -638,7 +638,7 @@ namespace ma
 		VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
 
 		std::vector<VertexElement> vecElement;
-		for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
+		for (uint32_t i = 0; i < pVertexDecl->GetElementCount(0); ++i)
 		{
 			vecElement.push_back(pVertexDecl->GetElement(0, i));
 		}
@@ -652,7 +652,7 @@ namespace ma
 		strShaderMacro += ";INSTANCE";
 		RefPtr<Technique> pInstTech = CreateTechnique("instance.tech", pShader->GetVSFile(), pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
 
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
 			pInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 		}
@@ -680,7 +680,7 @@ namespace ma
 
 		pClonTechnique->Import(pRoot);
 
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
 			pClonTechnique->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 		}

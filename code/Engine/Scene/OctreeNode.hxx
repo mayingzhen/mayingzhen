@@ -109,12 +109,12 @@ namespace ma
 	}
 
 	// object operation
-	UINT OctreeNode::GetObjectAmount() const
+	uint32_t OctreeNode::GetObjectAmount() const
 	{
 		return m_vecObject.size();
 	}
 
-	RenderComponent* OctreeNode::GetObjectByIndex(UINT nIndex) const
+	RenderComponent* OctreeNode::GetObjectByIndex(uint32_t nIndex) const
 	{
 		return m_vecObject[nIndex];
 	}

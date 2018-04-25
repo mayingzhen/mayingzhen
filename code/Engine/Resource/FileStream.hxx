@@ -7,7 +7,7 @@ namespace ma
 	{
 		// calculate the size
 		mpInStream->seekg(0, std::ios_base::end);
-		m_nSize = (UINT)mpInStream->tellg();
+		m_nSize = (uint32_t)mpInStream->tellg();
 		mpInStream->seekg(0, std::ios_base::beg);
 		this->DetermineAccess();
 	}
@@ -17,19 +17,19 @@ namespace ma
 	{
 		// calculate the size
 		mpInStream->seekg(0, std::ios_base::end);
-		m_nSize = (UINT)mpInStream->tellg();
+		m_nSize = (uint32_t)mpInStream->tellg();
 		mpInStream->seekg(0, std::ios_base::beg);
 		this->DetermineAccess();
 	}
 
-	FileStream::FileStream(std::ifstream* s, UINT nSize, bool freeOnClose)
+	FileStream::FileStream(std::ifstream* s, uint32_t nSize, bool freeOnClose)
 		: Stream(AM_READ), mpInStream(s), mpFStream(NULL), mpFStreamRO(s), m_bFreeOnClose(freeOnClose)
 	{
 		m_nSize = nSize;
 		this->DetermineAccess();
 	}
 
-	FileStream::FileStream(const char* pszName, std::ifstream* s, UINT nSize, bool freeOnClose)
+	FileStream::FileStream(const char* pszName, std::ifstream* s, uint32_t nSize, bool freeOnClose)
 		: Stream(pszName, AM_READ), mpInStream(s), mpFStream(NULL), mpFStreamRO(s), m_bFreeOnClose(freeOnClose)
 	{
 		m_nSize = nSize;
@@ -57,14 +57,14 @@ namespace ma
 		this->DetermineAccess();
 	}
 
-	FileStream::FileStream(std::fstream* s, UINT nSize, bool freeOnClose)
+	FileStream::FileStream(std::fstream* s, uint32_t nSize, bool freeOnClose)
 		: Stream(AM_READ|AM_WRITE), mpInStream(s), mpFStream(s), mpFStreamRO(NULL), m_bFreeOnClose(freeOnClose)
 	{
 		m_nSize = nSize;
 		this->DetermineAccess();
 	}
 
-	FileStream::FileStream(const char* pszName, std::fstream* s, UINT nSize, bool freeOnClose)
+	FileStream::FileStream(const char* pszName, std::fstream* s, uint32_t nSize, bool freeOnClose)
 		: Stream(pszName, AM_READ|AM_WRITE), mpInStream(s), mpFStream(s), mpFStreamRO(NULL), m_bFreeOnClose(freeOnClose)
 	{
 		m_nSize = nSize;
@@ -80,14 +80,14 @@ namespace ma
 	// virtual function
 	// ---------------------------------------------------------------------
 	// Read the requisite number of bytes from the stream, stopping at the end of the file.
-	UINT FileStream::Read(IN OUT void* pBuffer, UINT nCount)
+	uint32_t FileStream::Read(IN OUT void* pBuffer, uint32_t nCount)
 	{
 		mpInStream->read(static_cast<char*>(pBuffer), static_cast<std::streamsize>(nCount));
-		return (UINT)mpInStream->gcount();
+		return (uint32_t)mpInStream->gcount();
 	}
 
 	// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
-	UINT FileStream::Write(const void* pBuffer, UINT nCount)
+	uint32_t FileStream::Write(const void* pBuffer, uint32_t nCount)
 	{
 		size_t written = 0;
 		if (this->IsWritable() && mpFStream)
@@ -98,7 +98,7 @@ namespace ma
 		return written;
 	}
 
-	UINT FileStream::ReadLine( char* buf, UINT maxCount, const std::string& delim /*= "\n"*/ )
+	uint32_t FileStream::ReadLine( char* buf, uint32_t maxCount, const std::string& delim /*= "\n"*/ )
 	{
 		if (delim.empty())
 		{
@@ -170,14 +170,14 @@ namespace ma
 	}
 
 	// Repositions the read point to a specified byte.
-	void FileStream::Seek(UINT nPos)
+	void FileStream::Seek(uint32_t nPos)
 	{
 		mpInStream->clear(); //Clear fail status in case eof was set
 		mpInStream->seekg(static_cast<std::streamoff>(nPos), std::ios::beg);
 	}
 
 	// Returns the current byte offset from beginning
-	UINT FileStream::Tell() const
+	uint32_t FileStream::Tell() const
 	{
 		mpInStream->clear(); //Clear fail status in case eof was set
 		return (size_t)mpInStream->tellg();

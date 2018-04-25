@@ -156,10 +156,6 @@
     <ClInclude Include="..\..\code\Common\Mem.h" />
     <ClInclude Include="..\..\code\Common\Mem.hxx" />
     <ClInclude Include="..\..\Code\Common\Module.h" />
-    <ClInclude Include="..\..\Code\Common\Platform\Android\PlatformAndroid.h" />
-    <ClInclude Include="..\..\Code\Common\Platform\Ios\PlatformIos.h" />
-    <ClInclude Include="..\..\Code\Common\Platform\Platform.h" />
-    <ClInclude Include="..\..\Code\Common\Platform\Win\PlatformWin.h" />
     <ClInclude Include="..\..\code\Common\Referenced.h" />
     <ClInclude Include="..\..\code\Common\RefPtr.h" />
     <ClInclude Include="..\..\code\Common\signals.h" />

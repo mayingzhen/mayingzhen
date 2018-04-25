@@ -267,7 +267,7 @@ namespace ma
     /** Pixel component format */
     enum PixelComponentType
     {
-        PCT_BYTE = 0,    /// Byte per component (8 bit fixed 0.0..1.0)
+        PCT_BYTE = 0,    /// uint8_t per component (8 bit fixed 0.0..1.0)
         PCT_SHORT = 1,   /// Short per component (16 bit fixed 0.0..1.0))
         PCT_FLOAT16 = 2, /// 16 bit float per component
         PCT_FLOAT32 = 3, /// 32 bit float per component
@@ -288,7 +288,7 @@ namespace ma
         /* Pixel format flags, see enum PixelFormatFlags for the bit field
         * definitions
         */
-        uint32 flags;
+        uint32_t flags;
         /** Component type
          */
         PixelComponentType componentType;
@@ -300,7 +300,7 @@ namespace ma
         unsigned char rbits, gbits, bbits, abits; /*, ibits, dbits, ... */
 
         /* Masks and shifts as used by packers/unpackers */
-        uint64 rmask, gmask, bmask, amask;
+        uint64_t rmask, gmask, bmask, amask;
         unsigned char rshift, gshift, bshift, ashift;
     };
 
@@ -453,7 +453,7 @@ namespace ma
                 width*height*depth*PixelUtil::getNumElemBytes(format). In the compressed
                 case, this does serious magic.
         */
-        static size_t getMemorySize(uint32 width, uint32 height, uint32 depth, PixelFormat format);
+        static size_t getMemorySize(uint32_t width, uint32_t height, uint32_t depth, PixelFormat format);
 
         /** Returns the minimum width for block compressed schemes. ie. DXT1 compresses in blocks
             of 4x4 pixels. A texture with a width of 2 is just padded to 4.
@@ -478,10 +478,10 @@ namespace ma
             The width of compression block, in pixels. Can be 0 (see remarks). If format is not
             compressed, returns 1.
         */
-        static uint32 getCompressedBlockWidth( PixelFormat format, bool apiStrict=true );
+        static uint32_t getCompressedBlockWidth( PixelFormat format, bool apiStrict=true );
 
         /// @See getCompressedBlockWidth
-        static uint32 getCompressedBlockHeight( PixelFormat format, bool apiStrict=true );
+        static uint32_t getCompressedBlockHeight( PixelFormat format, bool apiStrict=true );
         
         /** Returns the property flags for this pixel format
           @return
@@ -529,7 +529,7 @@ namespace ma
 		/** Gives the masks for the R, G, B and A component
 		  @note			Only valid for native endian formats
         */
-        static void getBitMasks(PixelFormat format, uint64 rgba[4]);
+        static void getBitMasks(PixelFormat format, uint64_t rgba[4]);
 
 		/** Gives the bit shifts for R, G, B and A component
 		@note			Only valid for native endian formats
@@ -587,7 +587,7 @@ namespace ma
             @returns        The format that similar original format with bit depth according
                             with preferred bit depth, or original format if no convertion occuring.
         */
-        static PixelFormat getFormatForBitDepths(PixelFormat fmt, uint16 integerBits, uint16 floatBits);
+        static PixelFormat getFormatForBitDepths(PixelFormat fmt, uint16_t integerBits, uint16_t floatBits);
 
         /** Pack a colour value to memory
         	@param colour	The colour
@@ -600,7 +600,7 @@ namespace ma
         	@param pf		Pixelformat in which to write the colour
         	@param dest		Destination memory location
         */
-        static void packColour(const uint8 r, const uint8 g, const uint8 b, const uint8 a, const PixelFormat pf,  void* dest);
+        static void packColour(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a, const PixelFormat pf,  void* dest);
          /** Pack a colour value to memory
         	@param r,g,b,a	The four colour components, range 0.0f to 1.0f
         					(an exception to this case exists for floating point pixel
@@ -624,7 +624,7 @@ namespace ma
         		this will lose precision when coming from PF_A2R10G10B10 or floating
         		point formats.  
         */
-        static void unpackColour(uint8 *r, uint8 *g, uint8 *b, uint8 *a, PixelFormat pf,  const void* src);
+        static void unpackColour(uint8_t *r, uint8_t *g, uint8_t *b, uint8_t *a, PixelFormat pf,  const void* src);
         /** Unpack a colour value from memory
         	@param r,g,b,a	The colour is returned here (as float)
         	@param pf		Pixelformat in which to read the colour

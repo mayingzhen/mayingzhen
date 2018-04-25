@@ -30,12 +30,12 @@ namespace ma
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
 		
-		virtual uint32  GetLodIndex() {return 0;}
-		virtual	UINT	GetRenderableCount(uint32 nLod) const;
-		virtual Renderable* GetRenderableByIndex(uint32 nLod,UINT index) const;
+		virtual uint32_t  GetLodIndex() {return 0;}
+		virtual	uint32_t	GetRenderableCount(uint32_t nLod) const;
+		virtual Renderable* GetRenderableByIndex(uint32_t nLod,uint32_t index) const;
 
-		virtual UINT	GetShadowRenderableCount() const;
-		virtual	Renderable*	GetShadowRenderableByIndex(UINT index) const;
+		virtual uint32_t	GetShadowRenderableCount() const;
+		virtual	Renderable*	GetShadowRenderableByIndex(uint32_t index) const;
 
 		virtual void	SetShadowCaster(bool b) {m_bShadowCaster = b;}
 		bool			GetShadowCaster() const {return m_bShadowCaster;}
@@ -56,8 +56,8 @@ namespace ma
 		virtual	void	OnAddToSceneNode(SceneNode* pNode);
 		virtual	void	OnRemoveFromSceneNode(SceneNode* pNode);
 
-		UINT32			GetCullIndex() {return m_nCullIndex;}
-		void			SetCullIndex(uint32 nIndex) {m_nCullIndex = nIndex;} 
+		uint32_t		GetCullIndex() {return m_nCullIndex;}
+		void			SetCullIndex(uint32_t nIndex) {m_nCullIndex = nIndex;} 
 
 	protected:
 		virtual void	UpdateWorldBoundingBox();
@@ -78,7 +78,7 @@ namespace ma
 
 		bool				m_bParallelUpdate;
 
-		UINT32				m_nCullIndex;
+		uint32_t				m_nCullIndex;
 	};
 }
 

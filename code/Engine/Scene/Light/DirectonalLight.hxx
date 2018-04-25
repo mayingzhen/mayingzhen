@@ -197,7 +197,7 @@ namespace ma
 	void DirectonalLight::UpdateViewMinMaxZ(Camera* pCamera)
 	{
 		Scene* pScene = pCamera->GetScene();
-		uint32 nNode = pScene->GetVisibleNodeNum();
+		uint32_t nNode = pScene->GetVisibleNodeNum();
 		if (nNode <= 0)
 			return;
 
@@ -207,7 +207,7 @@ namespace ma
 		float fMinZ = (std::numeric_limits<float>::max)();
 
 		// for each object
-		for(uint32 i = 0; i < nNode; i++)
+		for(uint32_t i = 0; i < nNode; i++)
 		{
 			RenderComponent* pObject = pScene->GetVisibleNodeByIndex(i);
 

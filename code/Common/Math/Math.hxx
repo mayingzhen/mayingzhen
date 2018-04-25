@@ -978,7 +978,7 @@ namespace ma
 	}
 
 	// result = v0 + (v1-v0)*s
-	// Vector3 CMathEx::Lerp(const Vector3& v0, const Vector3& v1, Real s)
+	// Vector3 CMathEx::Lerp(const Vector3& v0, const Vector3& v1, float s)
 	// {
 	// 	return v0 + (v1 - v0)*s;
 	// }
@@ -1052,7 +1052,7 @@ namespace ma
 		return true;
 	}
 
-	UINT Math::NextPowerOfTwo(UINT v)
+	uint32_t Math::NextPowerOfTwo(uint32_t v)
 	{
 		if (!((v & (v - 1)) == 0))
 		{
@@ -1070,12 +1070,12 @@ namespace ma
 		}
 	}
 
-#  define OGRE_GET16BITS(d) (*((const uint8 *) (d)) + (*((const uint8 *) (d+1))<<8))
+#  define OGRE_GET16BITS(d) (*((const uint8_t *) (d)) + (*((const uint8_t *) (d+1))<<8))
 	//#endif
-	uint32 Math::FastHash (const char * data, int len, uint32 hashSoFar)
+	uint32_t Math::FastHash (const char * data, int len, uint32_t hashSoFar)
 	{
-		uint32 hash;
-		uint32 tmp;
+		uint32_t hash;
+		uint32_t tmp;
 		int rem;
 
 		if (hashSoFar)
@@ -1093,7 +1093,7 @@ namespace ma
 			hash  += OGRE_GET16BITS (data);
 			tmp    = (OGRE_GET16BITS (data+2) << 11) ^ hash;
 			hash   = (hash << 16) ^ tmp;
-			data  += 2*sizeof (uint16);
+			data  += 2*sizeof (uint16_t);
 			hash  += hash >> 11;
 		}
 
@@ -1101,7 +1101,7 @@ namespace ma
 		switch (rem) {
 		case 3: hash += OGRE_GET16BITS (data);
 			hash ^= hash << 16;
-			hash ^= data[sizeof (uint16)] << 18;
+			hash ^= data[sizeof (uint16_t)] << 18;
 			hash += hash >> 11;
 			break;
 		case 2: hash += OGRE_GET16BITS (data);
@@ -1143,7 +1143,7 @@ namespace ma
 		return seed;
 	}
 
-	Real Randomizer::frand()
+	float Randomizer::frand()
 	{
 		return rand()*fMax;
 	}

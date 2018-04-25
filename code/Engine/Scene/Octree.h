@@ -24,12 +24,12 @@ namespace ma
 		
 		void UpdateObject(RenderComponent* pobject);
 
-		void FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj);
+		void FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj);
 
 	private:
 		void _AddObject(OctreeNode* pNode, int nDepth, RenderComponent* pObject);
 
-		void _FindObjectsIn(OctreeNode* pNode, bool bFull,const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) const;
+		void _FindObjectsIn(OctreeNode* pNode, bool bFull,const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj) const;
 		
 	private:
 		OctreeNode*		m_pRoot;

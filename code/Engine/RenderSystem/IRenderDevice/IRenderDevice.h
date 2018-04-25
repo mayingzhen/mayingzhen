@@ -43,7 +43,7 @@ namespace ma
 		virtual Rectangle			GetViewport() = 0;
 		virtual RenderPass*			GetDefaultRenderPass() = 0;
 
-		virtual	void				Init(HWND wndhandle) = 0;
+		virtual	void				Init(void* wndhandle) = 0;
 		virtual void				Shoutdown() = 0;
 
 		virtual void				BeginRender() = 0;
@@ -56,13 +56,13 @@ namespace ma
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
 		virtual Texture*			CreateTexture() = 0;
-		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType) = 0;
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType) = 0;
 		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format) = 0;
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;
 		virtual IndexBuffer*		CreateIndexBuffer() = 0;
 		virtual ShaderProgram*		CreateShaderProgram() = 0;
-		virtual ConstantBuffer*		CreateConstantBuffer(UINT nSize) = 0;
+		virtual ConstantBuffer*		CreateConstantBuffer(uint32_t nSize) = 0;
 		virtual BlendState*			CreateBlendState() = 0;
 		virtual DepthStencilState*	CreateDepthStencilState() = 0;
 		virtual RasterizerState*	CreateRasterizerState() = 0;

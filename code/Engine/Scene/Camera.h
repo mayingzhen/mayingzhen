@@ -73,8 +73,8 @@ namespace ma
 		float				m_fFOV;	
 		float				m_fNear;
 		float				m_fFar;
-		uint32				m_nWidth;
-		uint32				m_nHeight;
+		uint32_t				m_nWidth;
+		uint32_t				m_nHeight;
 
 		float				m_fNearMin;		
 

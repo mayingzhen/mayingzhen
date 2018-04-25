@@ -26,7 +26,7 @@ namespace ma
 	public:
 		BaseParameter(const char* pszName);
 		virtual ~BaseParameter();
-		void AddHandler(AnimationBaseHandler* handler, uint8 index);
+		void AddHandler(AnimationBaseHandler* handler, uint8_t index);
 		virtual bool Equal(CondValue value) = 0;
 		virtual bool Greater(CondValue value) = 0;
 		virtual BaseParameter *CopyParam() = 0;
@@ -37,7 +37,7 @@ namespace ma
 		std::string m_name;
 
 	protected:
-		typedef std::vector < std::pair<uint8, AnimationBaseHandler*> > handlerVec;
+		typedef std::vector < std::pair<uint8_t, AnimationBaseHandler*> > handlerVec;
 		handlerVec m_handlers;
 	};
 

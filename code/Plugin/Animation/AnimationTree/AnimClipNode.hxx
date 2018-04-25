@@ -28,8 +28,8 @@ namespace ma
 
 		COPY_BASE_ATTRIBUTES(AnimClipNode,AnimTreeNode);
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "AnimationClip", GetAnimationClip, SetAnimationClip, const char*, NULL, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(AnimClipNode, "StartFrame", GetStartFrame, SetStartFrame, uint32, 0, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(AnimClipNode, "EndFrame", GetEndFrame, SetEndFrame, uint32, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(AnimClipNode, "StartFrame", GetStartFrame, SetStartFrame, uint32_t, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(AnimClipNode, "EndFrame", GetEndFrame, SetEndFrame, uint32_t, 0, AM_DEFAULT);
 	}
 
 	void AnimClipNode::EvaluateAnimation(AnimationNodeOutput &output, float fWeight)
@@ -39,8 +39,8 @@ namespace ma
 		if (m_pAnimation == NULL)
 			return;
 
-		UINT uBoneNumber = m_pBoneSet ? m_pBoneSet->GetBoneNumber() : GetBoneCount();
-		for (UINT i = 0; i < uBoneNumber; ++i)
+		uint32_t uBoneNumber = m_pBoneSet ? m_pBoneSet->GetBoneNumber() : GetBoneCount();
+		for (uint32_t i = 0; i < uBoneNumber; ++i)
 		{
 			BoneIndex uBoneId = m_pBoneSet ? m_pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_NodeLink.MapNode(uBoneId);
@@ -75,9 +75,9 @@ namespace ma
 		return m_strSkaName.c_str();
 	}
 
-	uint32	AnimClipNode::GetFrameCount()
+	uint32_t	AnimClipNode::GetFrameCount()
 	{
-		UINT nFrameCount = m_nEndFrame - m_nStartFrame + 1;
+		uint32_t nFrameCount = m_nEndFrame - m_nStartFrame + 1;
 		ASSERT(nFrameCount != 0);
 		if (nFrameCount == 0)
 			return 1;

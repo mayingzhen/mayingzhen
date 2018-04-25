@@ -20,7 +20,7 @@ namespace ma
 		
 		virtual void UpdateObject(RenderComponent* pobject) = 0;
 
-		virtual void FindObjectsIn(const Frustum* pFrustum, uint32 mask, OUT vector<RenderComponent*>& vecObj) = 0;
+		virtual void FindObjectsIn(const Frustum* pFrustum, uint32_t mask, OUT vector<RenderComponent*>& vecObj) = 0;
 	};
 }
 

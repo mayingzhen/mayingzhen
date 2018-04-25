@@ -24,11 +24,11 @@ namespace ma
 
 		int				GetStride() const {return m_Stride;} 
 
-		UINT			GetNumber() const {return m_Size / m_Stride;}
+		uint32_t		GetNumber() const {return m_Size / m_Stride;}
 
-		BYTE*			GetData() const {return m_pData;}
+		uint8_t*		GetData() const {return m_pData;}
 
-		void			SetData(uint8* pData,UINT nSize,int nStride, HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
+		void			SetData(uint8_t* pData,uint32_t nSize,int nStride, HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 
 		void			FreeData();
 
@@ -39,9 +39,9 @@ namespace ma
 
 	protected:
 		int				m_Stride;
-		UINT            m_Size;
+		uint32_t        m_Size;
 		HBU_USAGE       m_Usage;
-		uint8*			m_pData;
+		uint8_t*		m_pData;
 		bool			m_bShadowData;
 
 		void*			m_pLockedData;	

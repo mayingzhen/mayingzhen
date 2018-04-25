@@ -15,15 +15,15 @@ namespace ma
 
 		if (0)
 		{
-			PrefilterCubeGPU("env.dds","env_filtered.dds");
+			PrefilterCubeGPU("env.dds","env_filtered_.dds");
 
-			GenIntegrateBRDF("BrdfTest.dds");
+			GenIntegrateBRDF("BrdfTest_.dds");
 		}
 
 	
-		for (uint32 iM = 0; iM < 10; ++iM)
+		for (uint32_t iM = 0; iM < 10; ++iM)
 		{
-			for (uint32 iR = 0; iR < 10; ++iR)
+			for (uint32_t iR = 0; iR < 10; ++iR)
 			{
 				RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 
@@ -67,6 +67,17 @@ namespace ma
 
 	void SampleIBL::UnLoad()
 	{
+
+	}
+
+	void SampleIBL::Render()
+	{
+		if (0)
+		{
+			PrefilterCubeGPU("env.dds", "env_filtered_.dds");
+
+			GenIntegrateBRDF("BrdfTest_.dds");
+		}
 	}
 
 	void SampleIBL::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)

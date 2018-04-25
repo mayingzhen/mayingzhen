@@ -18,20 +18,20 @@ namespace ma
 		// virtual function
 		// ---------------------------------------------------------------------
 		// Read the requisite number of bytes from the stream, stopping at the end of the file.
-		virtual UINT Read(IN OUT void* pBuffer, UINT nCount);
+		virtual uint32_t Read(IN OUT void* pBuffer, uint32_t nCount);
 
 		// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
-		virtual UINT Write(const void* pBuffer, UINT nCount);
+		virtual uint32_t Write(const void* pBuffer, uint32_t nCount);
 
 		/** Skip a defined number of bytes. This can also be a negative value, in which case
 		the file pointer rewinds a defined number of bytes*/
 		virtual void Skip(int nCount);
 
 		// Repositions the read point to a specified byte.
-		virtual void Seek(UINT nPos);
+		virtual void Seek(uint32_t nPos);
 
 		// Returns the current byte offset from beginning
-		virtual UINT Tell() const;
+		virtual uint32_t Tell() const;
 
 		// Returns true if the stream has reached the end.
 		virtual bool Eof() const;

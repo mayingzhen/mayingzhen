@@ -13,7 +13,7 @@ public:
 
 	RefPtr<Animation> Open(const char* pszFile, const char* pszSkeleton);
 	void Clear(bool bRemoveAll);
-    //void FreeTick(bool bForceRelease, uint32 nResTime);
+    //void FreeTick(bool bForceRelease, uint32_t nResTime);
 
 private:
 	RefPtr<Animation> CreateRes(const char* pszFile, const char* pszSkeleton)
@@ -48,7 +48,7 @@ private:
     };
 
 	typedef map<RES_INFO, RefPtr<Animation> > MAP_STR_RES;
-	typedef map<uint32, MAP_STR_RES> MAP_HASH_RES;
+	typedef map<uint32_t, MAP_STR_RES> MAP_HASH_RES;
 	MAP_HASH_RES m_mapFactory;
 };
 

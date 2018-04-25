@@ -113,7 +113,7 @@ namespace ma {
             return mPoints[fromIndex + 1];
         }
 
-        // Real interpolation
+        // float interpolation
         // Form a vector of powers of t
         float t2, t3;
         t2 = t * t;

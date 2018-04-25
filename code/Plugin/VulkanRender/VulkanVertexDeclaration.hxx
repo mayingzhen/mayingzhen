@@ -27,7 +27,7 @@ namespace ma
 		bindingDesc.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 		m_bindingDescriptions.push_back(bindingDesc);
 
-		for (UINT i = 0; i < this->GetElementCount(VERTEX_BUFFER_BIND_ID); ++i)
+		for (uint32_t i = 0; i < this->GetElementCount(VERTEX_BUFFER_BIND_ID); ++i)
 		{
 			const VertexElement& element = this->GetElement(VERTEX_BUFFER_BIND_ID,i);
 
@@ -48,7 +48,7 @@ namespace ma
 			bindingDesc.inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
 			m_bindingDescriptions.push_back(bindingDesc);
 
-			for (UINT i = 0; i < this->GetElementCount(INSTANCE_BUFFER_BIND_ID); ++i)
+			for (uint32_t i = 0; i < this->GetElementCount(INSTANCE_BUFFER_BIND_ID); ++i)
 			{
 				const VertexElement& element = this->GetElement(INSTANCE_BUFFER_BIND_ID, i);
 

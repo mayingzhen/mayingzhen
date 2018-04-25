@@ -22,14 +22,14 @@ namespace ma
 
 	}
 
-	uint64 Time::GetMillisceonds() const
+	uint64_t Time::GetMillisceonds() const
 	{
 		return StaticFunc::GetTime();
 	}
 
 	void Time::UpdateFrame()
 	{
-		uint64 curTime = GetMillisceonds();
+		uint64_t curTime = GetMillisceonds();
 		m_fFrameDeltaTime = (curTime - m_nFrameTotalTime) * 0.001f;
 		m_nFrameTotalTime = curTime;
 		++m_nFameCnt;
@@ -37,7 +37,7 @@ namespace ma
 		mTimeEvent.trigger(m_fFrameDeltaTime);
 	}
 
-	UINT Time::GetFrameCount() const
+	uint32_t Time::GetFrameCount() const
 	{
 		return m_nFameCnt;
 	}

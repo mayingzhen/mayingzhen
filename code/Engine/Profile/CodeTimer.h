@@ -56,13 +56,13 @@ namespace ma
 
 	protected:
 		char            munction[_max_func_size];
-		uint64          mStartTime;
-		uint64          mTotalTime;
-		uint64          mCurrentTime;
+		uint64_t          mStartTime;
+		uint64_t          mTotalTime;
+		uint64_t          mCurrentTime;
 		int             mTotalCalls;
-		uint64          mMaxTime;
-		uint64          mMinTime;
-		uint64          mAveTime;
+		uint64_t          mMaxTime;
+		uint64_t          mMinTime;
+		uint64_t          mAveTime;
 		CodeTimer *     mNext;
 	};
 

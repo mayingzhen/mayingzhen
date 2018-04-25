@@ -8,7 +8,7 @@ namespace ma
 	public:
 		BoneSet(const char* pszName = NULL){m_sName = pszName ? pszName : "";}
 	
-		UINT			GetBoneNumber() {return (UINT)m_arrBone.size();}
+		uint32_t			GetBoneNumber() {return (uint32_t)m_arrBone.size();}
 
 		BoneIndex		GetBoneIdByIndex(int index) {return m_arrBone[index];}
 

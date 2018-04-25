@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	IRenderDevice* g_pRenderDevice = NULL;
+	IRenderDevice* g_pRenderDevice = nullptr;
 
 	void SetRenderDevice(IRenderDevice* pRenderDevice)
 	{

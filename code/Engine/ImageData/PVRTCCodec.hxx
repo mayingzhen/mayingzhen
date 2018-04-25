@@ -12,8 +12,8 @@ namespace ma {
 #pragma pack (1)
 #endif
 
-	const uint32 PVR2_MAGIC = FOURCC('P', 'V', 'R', '!'); 
-    const uint32 PVR3_MAGIC = FOURCC('P', 'V', 'R', 3); 
+	const uint32_t PVR2_MAGIC = FOURCC('P', 'V', 'R', '!'); 
+    const uint32_t PVR3_MAGIC = FOURCC('P', 'V', 'R', 3); 
 
 	enum
     {
@@ -44,43 +44,43 @@ namespace ma {
 
 	typedef struct _PVRTCTexHeaderV2
     {
-        uint32 headerLength;
-        uint32 height;
-        uint32 width;
-        uint32 numMipmaps;
-        uint32 flags;
-        uint32 dataLength;
-        uint32 bpp;
-        uint32 bitmaskRed;
-        uint32 bitmaskGreen;
-        uint32 bitmaskBlue;
-        uint32 bitmaskAlpha;
-        uint32 pvrTag;
-        uint32 numSurfs;
+        uint32_t headerLength;
+        uint32_t height;
+        uint32_t width;
+        uint32_t numMipmaps;
+        uint32_t flags;
+        uint32_t dataLength;
+        uint32_t bpp;
+        uint32_t bitmaskRed;
+        uint32_t bitmaskGreen;
+        uint32_t bitmaskBlue;
+        uint32_t bitmaskAlpha;
+        uint32_t pvrTag;
+        uint32_t numSurfs;
     } PVRTCTexHeaderV2;
 
     typedef struct _PVRTCTexHeaderV3
     {
-        uint32  version;         //Version of the file header, used to identify it.
-        uint32  flags;           //Various format flags.
-        uint64  pixelFormat;     //The pixel format, 8cc value storing the 4 channel identifiers and their respective sizes.
-        uint32  colourSpace;     //The Colour Space of the texture, currently either linear RGB or sRGB.
-        uint32  channelType;     //Variable type that the channel is stored in. Supports signed/unsigned int/short/byte or float for now.
-        uint32  height;          //Height of the texture.
-        uint32  width;           //Width of the texture.
-        uint32  depth;           //Depth of the texture. (Z-slices)
-        uint32  numSurfaces;     //Number of members in a Texture Array.
-        uint32  numFaces;        //Number of faces in a Cube Map. Maybe be a value other than 6.
-        uint32  mipMapCount;     //Number of MIP Maps in the texture - NB: Includes top level.
-        uint32  metaDataSize;    //Size of the accompanying meta data.
+        uint32_t  version;         //Version of the file header, used to identify it.
+        uint32_t  flags;           //Various format flags.
+        uint64_t  pixelFormat;     //The pixel format, 8cc value storing the 4 channel identifiers and their respective sizes.
+        uint32_t  colourSpace;     //The Colour Space of the texture, currently either linear RGB or sRGB.
+        uint32_t  channelType;     //Variable type that the channel is stored in. Supports signed/unsigned int/short/byte or float for now.
+        uint32_t  height;          //Height of the texture.
+        uint32_t  width;           //Width of the texture.
+        uint32_t  depth;           //Depth of the texture. (Z-slices)
+        uint32_t  numSurfaces;     //Number of members in a Texture Array.
+        uint32_t  numFaces;        //Number of faces in a Cube Map. Maybe be a value other than 6.
+        uint32_t  mipMapCount;     //Number of MIP Maps in the texture - NB: Includes top level.
+        uint32_t  metaDataSize;    //Size of the accompanying meta data.
     } PVRTCTexHeaderV3;
 
     typedef struct _PVRTCMetaData
     {
-        uint32 DevFOURCC;
-        uint32 u32Key;
-        uint32 u32DataSize;
-        uint8* Data;
+        uint32_t DevFOURCC;
+        uint32_t u32Key;
+        uint32_t u32DataSize;
+        uint8_t* Data;
     } PVRTCMetadata;
 	
 #ifdef WIN32
@@ -111,7 +111,7 @@ namespace ma {
 	}
     //---------------------------------------------------------------------
     Codec::DecodeResult PVRTCCodec::decode(DataStreamPtr& stream) const*/
-	bool CPVRTCCodec::decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN OUT ImageData& imgData) const
+	bool CPVRTCCodec::decode(const char* pszName, void* pMemory, uint32_t nNumBytes, IN OUT ImageData& imgData) const
 	{
 		MemoryStream stream(pszName, pMemory, nNumBytes, true);
 		// Assume its a pvr 2 header
@@ -141,7 +141,7 @@ namespace ma {
 	bool CPVRTCCodec::decodeV2(MemoryStream* stream, IN OUT ImageData& imgData) const
 	{
 		PVRTCTexHeaderV2 header;
-        uint32 flags = 0, formatFlags = 0;
+        uint32_t flags = 0, formatFlags = 0;
         size_t numFaces = 1; // Assume one face until we know otherwise
 
         // Read the PVRTC header
@@ -149,16 +149,16 @@ namespace ma {
 
         // Get format flags
         flags = header.flags;
-        flipEndian((void *)flags, sizeof(uint32));
+        flipEndian((void *)flags, sizeof(uint32_t));
         formatFlags = flags & PVR_TEXTURE_FLAG_TYPE_MASK;
 
-        uint32 bitmaskAlpha = header.bitmaskAlpha;
-        flipEndian((void *)bitmaskAlpha, sizeof(uint32));
+        uint32_t bitmaskAlpha = header.bitmaskAlpha;
+        flipEndian((void *)bitmaskAlpha, sizeof(uint32_t));
 
         imgData.m_nDepth = 1;
         imgData.m_nWidth = header.width;
         imgData.m_nHeight = header.height;
-        imgData.m_nNumMipmaps = static_cast<uint16>(header.numMipmaps);
+        imgData.m_nNumMipmaps = static_cast<uint16_t>(header.numMipmaps);
 
 		switch(formatFlags)
 		{
@@ -220,7 +220,7 @@ namespace ma {
 		// Now deal with the data
 		void *destPtr = output->GetPtr();
         stream->Read(destPtr, imgData.m_nSize);
-        destPtr = static_cast<void*>(static_cast<uint8*>(destPtr));
+        destPtr = static_cast<void*>(static_cast<uint8_t*>(destPtr));
 
 		imgData.m_pMemory = output;
 		return true;
@@ -231,7 +231,7 @@ namespace ma {
 	{
 		PVRTCTexHeaderV3 header;
 		PVRTCMetadata metadata;
-		uint32 flags = 0;
+		uint32_t flags = 0;
 		size_t numFaces = 1; // Assume one face until we know otherwise
 
 		// Read the PVRTC header
@@ -268,13 +268,13 @@ namespace ma {
 
 		// Get format flags
 		flags = header.flags;
-		flipEndian((void *)flags, sizeof(uint32));
+		flipEndian((void *)flags, sizeof(uint32_t));
 
 		imgData.m_nDepth = header.depth;
 		imgData.m_nWidth = header.width;
 		imgData.m_nHeight = header.height;
 		ASSERT(header.mipMapCount >= 1);
-		imgData.m_nNumMipmaps = static_cast<uint16>(header.mipMapCount-1);//v3格式要减去1，v2不需要
+		imgData.m_nNumMipmaps = static_cast<uint16_t>(header.mipMapCount-1);//v3格式要减去1，v2不需要
 
 		// PVRTC is a compressed format
 		imgData.m_nFlags |= IF_COMPRESSED;
@@ -309,7 +309,7 @@ namespace ma {
 					// Load directly
 					size_t pvrSize = PixelUtil::getMemorySize(width, height, depth, imgData.m_eFormat);
 					stream->Read(destPtr, pvrSize);
-					destPtr = static_cast<void*>(static_cast<uint8*>(destPtr) + pvrSize);
+					destPtr = static_cast<void*>(static_cast<uint8_t*>(destPtr) + pvrSize);
 				}
 			}
 
@@ -353,11 +353,11 @@ namespace ma {
 	//---------------------------------------------------------------------
 	string CPVRTCCodec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
 	{
-		if (maxbytes >= sizeof(uint32))
+		if (maxbytes >= sizeof(uint32_t))
 		{
-			uint32 fileType;
-			memcpy(&fileType, magicNumberPtr, sizeof(uint32));
-			flipEndian(&fileType, sizeof(uint32), 1);
+			uint32_t fileType;
+			memcpy(&fileType, magicNumberPtr, sizeof(uint32_t));
+			flipEndian(&fileType, sizeof(uint32_t), 1);
 
 			if (PVR3_MAGIC == fileType || PVR2_MAGIC == fileType)
 			{

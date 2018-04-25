@@ -14,7 +14,7 @@ namespace ma
 
 	RenderQueue::~RenderQueue()
 	{
-		for (UINT i = 0; i < RL_Count; ++i)
+		for (uint32_t i = 0; i < RL_Count; ++i)
 		{
 			SAFE_DELETE(m_arrRenderList[i]);
 		}
@@ -33,7 +33,7 @@ namespace ma
 
 	void RenderQueue::Clear()
 	{
-		for (UINT i = 0; i < RL_Count; ++i)
+		for (uint32_t i = 0; i < RL_Count; ++i)
 		{
 			m_arrRenderList[i]->Clear();
 		}

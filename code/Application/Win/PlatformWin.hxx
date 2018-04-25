@@ -1,6 +1,7 @@
 #include "../Platform.h"
-#include <windowsx.h>
-#include <shellapi.h>
+//#include <windowsx.h>
+//#include <shellapi.h>
+#include "windows.h"
 
 
 namespace ma
@@ -228,7 +229,7 @@ namespace ma
 		}
 	}
 
-	LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK WndProc(HWND hwnd, uint32_t message, WPARAM wParam, LPARAM lParam)
 	{
 		Platform* pCurApp = reinterpret_cast<Platform*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 		
@@ -250,8 +251,8 @@ namespace ma
 				{
 					RECT rect;
 					GetClientRect(hwnd, &rect);
-					uint32 nWidth = rect.right - rect.left;
-					uint32 nHeight = rect.bottom - rect.top;
+					uint32_t nWidth = rect.right - rect.left;
+					uint32_t nHeight = rect.bottom - rect.top;
 					if (Game::GetInstance().m_OnWindowSizedWidth != nWidth || 
 						Game::GetInstance().m_OnWindowSizedHeight != nHeight)
 					{
@@ -263,30 +264,30 @@ namespace ma
 			}
 			break;
 		case WM_LBUTTONDOWN:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_PRESS_LEFT_BUTTON,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_PRESS_LEFT_BUTTON, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_LBUTTONUP:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_RELEASE_LEFT_BUTTON,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_RELEASE_LEFT_BUTTON, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_RBUTTONDOWN:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_PRESS_RIGHT_BUTTON,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_PRESS_RIGHT_BUTTON, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_RBUTTONUP:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_RELEASE_RIGHT_BUTTON,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_RELEASE_RIGHT_BUTTON, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_MBUTTONDOWN:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_PRESS_MIDDLE_BUTTON,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_PRESS_MIDDLE_BUTTON, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_MBUTTONUP:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_RELEASE_MIDDLE_BUTTON,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_RELEASE_MIDDLE_BUTTON, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_MOUSEMOVE:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_MOVE,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_MOVE, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_MOUSEWHEEL:
 			tagPOINT point;
-			point.x = GET_X_LPARAM(lParam);
-			point.y = GET_Y_LPARAM(lParam);
+			point.x = LOWORD(lParam);
+			point.y = HIWORD(lParam);
 			ScreenToClient(hwnd, &point);
 			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_WHEEL,point.x, point.y, GET_WHEEL_DELTA_WPARAM(wParam) / 120);
 			break;
@@ -381,7 +382,7 @@ namespace ma
 			return;
 		}
 
-		DWORD dwWindowStyle = WS_OVERLAPPEDWINDOW;
+		uint32_t dwWindowStyle = WS_OVERLAPPEDWINDOW;
 		RECT rc;
 		SetRect( &rc, 0, 0, 800, 600 );        
 		AdjustWindowRect( &rc, dwWindowStyle, false );
@@ -398,11 +399,11 @@ namespace ma
 			hInstance,                  // program instance handle
 			NULL) ;                     // creation parameters
 
-		SetWindowLongPtr(m_windId, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+		SetWindowLongPtr((HWND)m_windId, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
-		ShowWindow (m_windId, SW_SHOW) ;
+		ShowWindow((HWND)m_windId, SW_SHOW) ;
 
-		SetWindowText(m_windId,Game::GetInstance().GetGameName());
+		SetWindowText((HWND)m_windId,Game::GetInstance().GetGameName());
 	}
 
 	void Platform::Shutdown()
@@ -412,7 +413,7 @@ namespace ma
 	void Platform::GetWindowSize(int& w, int& h) const
 	{
 		RECT rect; 
-		::GetClientRect(m_windId,&rect);
+		::GetClientRect((HWND)m_windId,&rect);
 		w = rect.right - rect.left;
 		h = rect.bottom - rect.top;
 	}
@@ -421,7 +422,7 @@ namespace ma
 	{
 		RECT rect;
 		int ioldW,ioldH,inewW,inewH;
-		GetWindowRect(m_windId,&rect);
+		GetWindowRect((HWND)m_windId,&rect);
 		inewW = rect.right - rect.left;
 		inewH = rect.bottom - rect.top;
 		
@@ -430,7 +431,7 @@ namespace ma
 		inewW += (w - ioldW);
 		inewH += (h - ioldH);
 
-		::MoveWindow(m_windId,rect.left,rect.top,inewW,inewH,true);
+		::MoveWindow((HWND)m_windId,rect.left,rect.top,inewW,inewH,true);
 	}
 
 	void Platform::Run()

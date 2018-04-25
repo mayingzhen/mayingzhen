@@ -79,7 +79,7 @@ namespace ma
 		this->AddObject(pObject);
 	}
 
-	void Octree::FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj)
+	void Octree::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj)
 	{
 		ASSERT(vecObj.empty());
 		this->_FindObjectsIn(m_pRoot, false, pFrustum, mask, vecObj);
@@ -160,7 +160,7 @@ namespace ma
 	}
 
 
-	void Octree::_FindObjectsIn(OctreeNode* pNode, bool bFull, const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) const
+	void Octree::_FindObjectsIn(OctreeNode* pNode, bool bFull, const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj) const
 	{
 		Frustum::Visibility visiblity = Frustum::Visibility_NONE;
 		if (bFull)
@@ -183,10 +183,10 @@ namespace ma
 		// 把对象放进去
 		//const LST_OBJECT& lstObjects = pNode->GetObjects();
 		//for (LST_OBJECT::const_iterator iter = lstObjects.begin();iter != lstObjects.end();++iter)
-		for (uint32 i = 0; i < pNode->GetObjectAmount(); ++i)
+		for (uint32_t i = 0; i < pNode->GetObjectAmount(); ++i)
 		{
 			RenderComponent* pObject = pNode->GetObjectByIndex(i);
-			//uint32 obj_mask = pObject->GetProbeMask();
+			//uint32_t obj_mask = pObject->GetProbeMask();
 			//if ( ProbeMask_All != mask && (mask & obj_mask) == 0)
 			//{
 			//	continue;

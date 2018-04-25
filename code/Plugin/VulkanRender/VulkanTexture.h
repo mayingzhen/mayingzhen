@@ -9,7 +9,7 @@ namespace ma
 	public:
 		VulkanTexture();
 
-		VulkanTexture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
+		VulkanTexture(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
 
 		~VulkanTexture();
 	

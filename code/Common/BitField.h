@@ -37,6 +37,6 @@ public:
 
 };
 
-typedef BitFieldBase<UINT> BitField;
+typedef BitFieldBase<uint32_t> BitField;
 
 #endif //__BitField_H__

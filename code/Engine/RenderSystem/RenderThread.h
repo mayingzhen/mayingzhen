@@ -60,7 +60,7 @@ namespace ma
 
 		// Command
 		void	AddCommand(ERenderCommand eRC);
-		void	AddDWORD(UINT nVal);
+		void	AddDWORD(uint32_t nVal);
 		void	AddInt(int nVal);
 		void	AddBool(bool bVal);
 		void	AddFloat(float fVal);
@@ -73,12 +73,12 @@ namespace ma
 		void	AddData(const void *pData, int nLen);
 
 		template<class T>
-		void	ReadData(int &nIndex,T& data, UINT& nSize);
+		void	ReadData(int &nIndex,T& data, uint32_t& nSize);
 		
 		template<class T>
 		T		ReadDataPtr(int &nIndex,int nLen);
 
-		void	ReadString(int &nIndex,char* pStr,UINT nInLen);
+		void	ReadString(int &nIndex,char* pStr, uint32_t nInLen);
 
 		template<class T> 
 		T		ReadCommand(int& nIndex);
@@ -97,8 +97,8 @@ namespace ma
 		int		CurThreadFill() const;
 		int		CurThreadProcess() const;
 
-		void	RC_Init(HWND wndhandle);
-		void	RC_Reset(uint32 nWidth,uint32 nHeight);
+		void	RC_Init(void* wndhandle);
+		void	RC_Reset(uint32_t nWidth,uint32_t nHeight);
 		void	RC_ShutDown();
 		void	RC_BeginRender();
 		void	RC_EndRender();
@@ -114,10 +114,10 @@ namespace ma
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		
-		void	RC_SetUniformValue(Uniform* pUniform, const void* data, UINT nSize);
+		void	RC_SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);
 		void	RC_SetSampler(Uniform* pUniform, SamplerState* pSampler);
 
-		void	RC_SetPoolId(uint32 poolId);
+		void	RC_SetPoolId(uint32_t poolId);
 
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();
@@ -133,8 +133,7 @@ namespace ma
 		volatile int	m_nFlush;
 
 		std::thread::id	m_nMainThread;
-		HRESULT			m_hResult;
-		TArray<BYTE>	m_Commands[2]; // m_nCurThreadFill shows which commands are filled by main thread
+		TArray<uint8_t>	m_Commands[2]; // m_nCurThreadFill shows which commands are filled by main thread
 
 		std::thread		m_thread;
 
@@ -147,10 +146,10 @@ namespace ma
 		m_Commands[m_nCurThreadFill].AddElem(eRC);
 	}
     
-	inline void RenderThread::AddDWORD(UINT nVal)
+	inline void RenderThread::AddDWORD(uint32_t nVal)
 	{
-        Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(UINT));
-        memcpy(pDest,&nVal,sizeof(UINT));
+		uint8_t* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(uint32_t));
+        memcpy(pDest,&nVal,sizeof(uint32_t));
 	}
    
     
@@ -167,37 +166,37 @@ namespace ma
     
 	inline void RenderThread::AddFloat(float fVal)
 	{
-        Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(float));
+        uint8_t* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(float));
         memcpy(pDest,&fVal,sizeof(float)); // ARM 下不能使用指针强转赋值
 	}
 
 	inline void RenderThread::AddVec2(const Vector2& vVal)
 	{
-		Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Vector2));
+		uint8_t* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Vector2));
 		memcpy(pDest,&vVal,sizeof(Vector2));
 	}
     
 	inline void RenderThread::AddVec3(const Vector3& vVal)
 	{
-        Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Vector3));
+        uint8_t* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Vector3));
         memcpy(pDest,&vVal,sizeof(Vector3));
 	}
 
 	inline void RenderThread::AddVec4(const Vector4& cVal)
 	{
-		Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Vector4));
+		uint8_t* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Vector4));
 		memcpy(pDest,&cVal,sizeof(Vector4));
 	}
     
 	inline void RenderThread::AddColor(const ColourValue& cVal)
 	{
-		Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(ColourValue));
+		uint8_t* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(ColourValue));
         memcpy(pDest,&cVal,sizeof(ColourValue));  
 	}
 
 	inline void RenderThread::AddMatrix4(const Matrix4& cVal)
 	{
-		Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Matrix4));
+		uint8_t* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Matrix4));
 		memcpy(pDest,&cVal,sizeof(Matrix4));  
 	}
     
@@ -209,37 +208,37 @@ namespace ma
 	inline void RenderThread::AddData(const void *pData, int nLen)
 	{
 		AddDWORD(nLen);
-		BYTE *pDst = m_Commands[m_nCurThreadFill].Grow(nLen);
+		uint8_t *pDst = m_Commands[m_nCurThreadFill].Grow(nLen);
 		memcpy(pDst, pData, nLen);
 	}
 
 	template<class T>
 	T RenderThread::ReadDataPtr(int &nIndex,int nLen)
 	{
-		UINT nReadLen = ReadCommand<UINT>(nIndex);
+		uint32_t nReadLen = ReadCommand<uint32_t>(nIndex);
 		ASSERT(nLen == nReadLen);
-		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
+		uint8_t* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		nIndex += nReadLen;
 		return (T)pSrc;
 	}
     
 	template<class T>
-	inline void	RenderThread::ReadData(int &nIndex,T& data,UINT& nSize)
+	inline void	RenderThread::ReadData(int &nIndex,T& data,uint32_t& nSize)
 	{
-		UINT nLen = ReadCommand<UINT>(nIndex);
+		uint32_t nLen = ReadCommand<uint32_t>(nIndex);
 		//ASSERT(nLen == sizeof(T));
-		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
+		uint8_t* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		//memcpy(&data,pSrc,nLen);
 		data = (T)pSrc;
 		nSize = nLen;
 		nIndex += nLen;
 	}
 
-	inline void	RenderThread::ReadString(int &nIndex,char* pStr,UINT nInLen)
+	inline void	RenderThread::ReadString(int &nIndex,char* pStr,uint32_t nInLen)
 	{
-		UINT nLen = ReadCommand<UINT>(nIndex);
+		uint32_t nLen = ReadCommand<uint32_t>(nIndex);
 		ASSERT(nLen <= nInLen);
-		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
+		uint8_t* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		memcpy(pStr,pSrc,nLen);
 		nIndex += nLen;
 	}
@@ -269,31 +268,16 @@ namespace ma
 		{
 			if (m_bExit)
 				break;
-#ifdef WIN32
-			::Sleep(0);
-#endif
+
+			std::this_thread::yield();
 		}
 	}
-
-#ifdef WIN32
-	HWND GetRenderWindowHandle();
-#endif
 
 	inline void RenderThread::WaitFlushFinishedCond() // wait RenderThread
 	{
 		while(*(volatile int*)&m_nFlush)
 		{
-#ifdef WIN32
-//			Sleep(0);
-			MSG msg;		
-			while (PeekMessage(&msg, GetRenderWindowHandle(), 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-#else
-			::usleep(0);
-#endif
+			std::this_thread::yield();
 		}
 	}
 
@@ -301,13 +285,6 @@ namespace ma
 	{
 		return *(int*)&m_nFlush != 0;
 	}
-
-// 	inline int RenderThread::GetCurrentThreadId(bool bAlwaysCheck = false)
-// 	{
-// 		if (!bAlwaysCheck && GetThreadId() == m_nMainThread)
-// 			return GetThreadId();
-// 		return ::GetCurrentThreadId();
-// 	}
 
 	inline int RenderThread::GetThreadList()
 	{

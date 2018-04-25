@@ -18,8 +18,6 @@
 #include "Math/DualQuaternion.hxx"
 #include "Math/Frustum.hxx"
 
-#include "Platform/Platform.hxx"
-
 #include "Assert.hxx"
 #include "Log.hxx"
 #include "Mem.hxx"
@@ -31,6 +29,7 @@
 #include "md5.hxx"
 
 #include "signals.hxx"
+
 
 
 

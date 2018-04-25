@@ -60,11 +60,11 @@ namespace ma
 	extern AttributeManager* g_pAttributeManager;
 	AttributeManager* GetAttributeManager();
 
-	template <class T> void AttributeManager::RegisterAttribute(RefPtr<AttributeInfo> attr) { RegisterAttribute(T::StaticGetClassName(), attr); }
-	template <class T> void AttributeManager::RemoveAttribute(const char* name) { RemoveAttribute(T::StaticGetClassName(), name); }
-	template <class T, class U> void AttributeManager::CopyBaseAttributes() { CopyBaseAttributes(T::StaticGetClassName(), U::StaticGetClassName()); }
-	template <class T> AttributeInfo* AttributeManager::GetAttribute(const char* name) { return GetAttribute(T::StaticGetClassName(), name); }
-	template <class T> void AttributeManager::UpdateAttributeDefaultValue(const char* name, const Any& defaultValue) { UpdateAttributeDefaultValue(T::StaticGetClassName(), name, defaultValue); }
+	template <class T> void AttributeManager::RegisterAttribute(RefPtr<AttributeInfo> attr) { RegisterAttribute(T::StaticGetTypeName(), attr); }
+	template <class T> void AttributeManager::RemoveAttribute(const char* name) { RemoveAttribute(T::StaticGetTypeName(), name); }
+	template <class T, class U> void AttributeManager::CopyBaseAttributes() { CopyBaseAttributes(T::StaticGetTypeName(), U::StaticGetTypeName()); }
+	template <class T> AttributeInfo* AttributeManager::GetAttribute(const char* name) { return GetAttribute(T::StaticGetTypeName(), name); }
+	template <class T> void AttributeManager::UpdateAttributeDefaultValue(const char* name, const Any& defaultValue) { UpdateAttributeDefaultValue(T::StaticGetTypeName(), name, defaultValue); }
 
 	#define COPY_BASE_ATTRIBUTES(className, sourceClassName) GetAttributeManager()->CopyBaseAttributes<sourceClassName, className>()
 	#define REMOVE_ATTRIBUTE(className, name) GetAttributeManager()->RemoveAttribute<className>(name)

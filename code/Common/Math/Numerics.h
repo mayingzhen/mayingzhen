@@ -40,7 +40,7 @@ namespace ma {
 	/** \addtogroup Math
 	*  @{
 	*/
-	/** Real type for numeric solvers */
+	/** float type for numeric solvers */
 	typedef double PreciseReal;
 
 

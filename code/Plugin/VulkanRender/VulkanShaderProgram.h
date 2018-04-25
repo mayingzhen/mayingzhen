@@ -17,15 +17,15 @@ namespace ma
 
 		void Destory();
 
-		void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
+		void CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize);
 
-		void ParseShaderUniform(ShaderType eType, const vector<uint32>& vtx_spv);
+		void ParseShaderUniform(ShaderType eType, const vector<uint32_t>& vtx_spv);
 
-		void HlslToSpirv(const char* vshSource, UINT vshSize, ShaderType eType, std::vector<UINT>& vtx_spv);
+		void HlslToSpirv(const char* vshSource, uint32_t vshSize, ShaderType eType, std::vector<uint32_t>& vtx_spv);
 
 	public:
-		std::vector<UINT> m_vtx_spv;
-		std::vector<UINT> m_frg_spv;
+		std::vector<uint32_t> m_vtx_spv;
+		std::vector<uint32_t> m_frg_spv;
 
 		VkPipelineShaderStageCreateInfo m_shaderStages[2];
 

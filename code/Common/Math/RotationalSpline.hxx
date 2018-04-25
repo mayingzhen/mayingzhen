@@ -87,7 +87,7 @@ namespace ma {
             return mPoints[fromIndex + 1];
         }
 
-        // Real interpolation
+        // float interpolation
         // Use squad using tangents we've already set up
         Quaternion &p = mPoints[fromIndex];
         Quaternion &q = mPoints[fromIndex+1];

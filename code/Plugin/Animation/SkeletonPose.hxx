@@ -8,12 +8,12 @@ namespace ma
 		pCloneNodePos->m_bPSSynced = m_bOSSynced;
 		pCloneNodePos->m_bOSSynced = m_bOSSynced;
 
-		UINT nodeNumber = m_arrParentIndice.size();
+		uint32_t nodeNumber = m_arrParentIndice.size();
  		pCloneNodePos->m_arrDirtyByte.resize(nodeNumber);
 		pCloneNodePos->m_arrTSF_PS.resize(nodeNumber);
 		pCloneNodePos->m_arrTSF_OS.resize(nodeNumber);
 		pCloneNodePos->m_arrParentIndice.resize(nodeNumber);
- 		for (UINT i = 0; i < m_arrDirtyByte.size();++i)
+ 		for (uint32_t i = 0; i < m_arrDirtyByte.size();++i)
 		{
 			pCloneNodePos->m_arrDirtyByte[i] = m_arrDirtyByte[i];
 			pCloneNodePos->m_arrTSF_PS[i] = m_arrTSF_PS[i];
@@ -25,13 +25,13 @@ namespace ma
 
 	void SkeletonPose::InitWithParentIndice(const std::vector<BoneIndex>& arrParentIndice)
 	{
-		UINT uBoneNum = arrParentIndice.size();
+		uint32_t uBoneNum = arrParentIndice.size();
 		m_arrDirtyByte.resize(uBoneNum);
 		m_arrParentIndice.resize(uBoneNum);
 		m_arrTSF_OS.resize(uBoneNum);
 		m_arrTSF_PS.resize(uBoneNum);
 
-		for (UINT uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
+		for (uint32_t uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
 		{
 			m_arrDirtyByte[uBoneCnt].m_bOSDirty = false;
 			m_arrDirtyByte[uBoneCnt].m_bPSDirty = false;
@@ -57,7 +57,7 @@ namespace ma
 
 	void SkeletonPose::InitLocalSpace(const std::vector<Transform>& arrTSF_LS,const SkeletonPose* pRefPose)
 	{
-		for (UINT nBoneCnt = 0; nBoneCnt < pRefPose->GetNodeNumber(); ++nBoneCnt)
+		for (uint32_t nBoneCnt = 0; nBoneCnt < pRefPose->GetNodeNumber(); ++nBoneCnt)
 		{
 			TransformMul(&m_arrTSF_PS[nBoneCnt],&pRefPose->GetTransformPS(nBoneCnt),&arrTSF_LS[nBoneCnt]);
 		}
@@ -68,8 +68,8 @@ namespace ma
 	void SkeletonPose::SetTransformPSAll(const std::vector<Transform>& arrTSF_PS)
 	{
 		ASSERT(arrTSF_PS.size() == m_arrParentIndice.size());
-		UINT uBoneNum = m_arrParentIndice.size();
-		for (UINT uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
+		uint32_t uBoneNum = m_arrParentIndice.size();
+		for (uint32_t uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
 		{
 			m_arrDirtyByte[uBoneCnt].m_bOSDirty = false;
 			m_arrDirtyByte[uBoneCnt].m_bPSDirty = false;
@@ -96,8 +96,8 @@ namespace ma
 	void SkeletonPose::SetTransformOSAll(const std::vector<Transform>& arrTSF_OS)
 	{
 		ASSERT(arrTSF_OS.size() == m_arrParentIndice.size());
-		UINT uBoneNum = m_arrParentIndice.size();
-		for (UINT uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
+		uint32_t uBoneNum = m_arrParentIndice.size();
+		for (uint32_t uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
 		{
 			m_arrDirtyByte[uBoneCnt].m_bOSDirty = false;
 			m_arrDirtyByte[uBoneCnt].m_bPSDirty = false;
@@ -129,7 +129,7 @@ namespace ma
 	{
 		if (!m_bPSSynced)
 		{
-			for (UINT nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
+			for (uint32_t nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
 			{
 				if (m_arrDirtyByte[nBoneCnt].m_bPSDirty)
 				{
@@ -144,7 +144,7 @@ namespace ma
 	{
 		if (!m_bOSSynced)
 		{
-			for (UINT nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
+			for (uint32_t nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
 			{
 				if (m_arrDirtyByte[nBoneCnt].m_bOSDirty)
 				{
@@ -243,8 +243,8 @@ namespace ma
 
 	void SkeletonPose::SyncAllChildPS(BoneIndex nAncestorInd) const
 	{
-		UINT uBoneNum = m_arrParentIndice.size();
-		for (UINT uBoneCnt = nAncestorInd + 1; uBoneCnt < uBoneNum; ++uBoneCnt)
+		uint32_t uBoneNum = m_arrParentIndice.size();
+		for (uint32_t uBoneCnt = nAncestorInd + 1; uBoneCnt < uBoneNum; ++uBoneCnt)
 		{
 			if ( IsAncestor(nAncestorInd, uBoneCnt) )
 			{
@@ -284,8 +284,8 @@ namespace ma
 
 		//Rectangle rec = GetRenderSystem()->GetViewPort();
 
-		UINT nBoneNumeber = m_arrParentIndice.size();
-		for (UINT i = 0; i < nBoneNumeber; ++i)
+		uint32_t nBoneNumeber = m_arrParentIndice.size();
+		for (uint32_t i = 0; i < nBoneNumeber; ++i)
 		{
 			Transform boneTsfWS;
 			TransformMul(&boneTsfWS,&tsfWS,&this->GetTransformOS(i));

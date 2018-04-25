@@ -41,7 +41,7 @@ namespace ma
 
 		void					Update();	
 
-		void					Reset(uint32 nWidth,uint32 nHeight);
+		void					Reset(uint32_t nWidth,uint32_t nHeight);
 
 		CullTree*				GetCullTree() const {return m_pCullTree.get();}
 
@@ -56,8 +56,8 @@ namespace ma
 
 		RenderScheme*			GetRenderScheme() const { return m_pRenderScheme.get(); }
 
-		UINT					GetVisibleNodeNum() const {return (UINT)m_arrRenderComp.size();}
-		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index].get();}
+		uint32_t					GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
+		RenderComponent*		GetVisibleNodeByIndex(uint32_t index) const {return m_arrRenderComp[index].get();}
 
 		RenderQueue*			GetRenderQueue();
 
@@ -73,8 +73,8 @@ namespace ma
 		void					AddParallelUpdate(Component* pComponent);
 		void					AddParallelShow(Component* pComponent);
 
-		UINT					GetVisibleLightNum() const {return (UINT)m_vecRenderLight.size();}
-		Light*					GetVisibleLightByIndex(UINT index) {return m_vecRenderLight[index].get();}
+		uint32_t					GetVisibleLightNum() const {return (uint32_t)m_vecRenderLight.size();}
+		Light*					GetVisibleLightByIndex(uint32_t index) {return m_vecRenderLight[index].get();}
 
 		const Vector3&			GetAmbientColor() const{return m_cAmbientColor;}
 		void					SetAmbientColor(const Vector3& cAmbientColor) {m_cAmbientColor = cAmbientColor;}

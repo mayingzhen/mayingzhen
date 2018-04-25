@@ -14,10 +14,10 @@ namespace ma
 
     struct Rectangle
     {
-        Real left;
-        Real top;
-        Real right;
-        Real bottom;
+        float left;
+		float top;
+		float right;
+		float bottom;
 
 		Rectangle()
 		{
@@ -40,7 +40,7 @@ namespace ma
 		float width() const {return right - left;}
 		float height() const {return bottom - top;}
 
-        inline bool inside(Real x, Real y) const { return x >= left && x <= right && y >= top && y <= bottom; }
+        inline bool inside(float x, float y) const { return x >= left && x <= right && y >= top && y <= bottom; }
     };
 
     /** Geometric intersection of two rectanglar regions.

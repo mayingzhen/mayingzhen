@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void Create();
 
-		virtual RenderCommand* GetThreadCommand(UINT nIndex, RenderListType eRLType);
+		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, RenderListType eRLType);
 
 		void InitRenderCommamd();
 

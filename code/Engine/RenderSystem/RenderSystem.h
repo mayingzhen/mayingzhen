@@ -1,5 +1,4 @@
-#ifndef  _RenderSystem__H__
-#define  _RenderSystem__H__
+#pragma once
 
 #include "RenderThread.h"
 #include "Engine/RenderScheme/RenderScheme.h"
@@ -33,8 +32,8 @@ namespace ma
 		void				Update();
 
 		// Render Command
-		void				Init(HWND wndhandle,bool bThread);
-		void				Reset(uint32 nWidth, uint32 nHeight);
+		void				Init(void* wndhandle,bool bThread);
+		void				Reset(uint32_t nWidth, uint32_t nHeight);
 		void				Shoutdown();
 		void				BegineRender();
 		void				EndRender();
@@ -44,14 +43,14 @@ namespace ma
 		Rectangle			GetViewPort() {return m_curViewport;}
 		RenderPass*			GetDefaultRenderPass();
 		
-		HWND				GetMainWnd() {return m_hWnd;}
+		void*				GetMainWnd() {return m_hWnd;}
 		
 		// Create	
-		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,UINT32 nMipMap = 1, PixelFormat format = PF_A8R8G8B8,bool bSRGB = true,TEXTURE_TYPE eType = TEXTYPE_2D);
+		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,uint32_t nMipMap = 1, PixelFormat format = PF_A8R8G8B8,bool bSRGB = true,TEXTURE_TYPE eType = TEXTYPE_2D);
 		RefPtr<Texture>		CreateDepthStencil(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_D24S8);
-		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
-		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
-		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
+		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
+		RefPtr<VertexBuffer> CreateVertexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
+		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32_t nCount);
 
 		void				TechniqueStreamComplete(Technique* pTech);
 		void				TexStreamComplete(Texture* pTexture);		
@@ -60,7 +59,7 @@ namespace ma
 		void				HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void				RenderPassStreamComplete(RenderPass* pRenderPass);
 
-		void				SetUniformValue(Uniform* pUniform, const void* data, UINT nSize);
+		void				SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);
 		void				SetSampler(Uniform* pUniform, SamplerState* pSampler);
 
 		void				BeginProfile(const char* pszLale);
@@ -79,8 +78,8 @@ namespace ma
 		
 		bool				AddShaderGlobaMacro(const char* pszKey, const char* pszValue);
 		const char*			GetShaderGlobaMacro(const char* pszKey) const;
-		uint32				GetNumShaderGlobaMacro() const;
-		const char*			GetShaderGlobaMacroByIndex(uint32 i, OUT const char*& pszValue) const;
+		uint32_t				GetNumShaderGlobaMacro() const;
+		const char*			GetShaderGlobaMacroByIndex(uint32_t i, OUT const char*& pszValue) const;
 		
 		void				ReloadShader();
 
@@ -88,8 +87,8 @@ namespace ma
 		void				SetClearColor(const ColourValue& cColor) { m_cClearClor = cColor;}
 		
 		enum { nNumParticleBuffer = 3 };
-		void				LockParticleVideoMemory(uint32 nId);
-		void				UnLockParticleVideoMemory(uint32 nId);
+		void				LockParticleVideoMemory(uint32_t nId);
+		void				UnLockParticleVideoMemory(uint32_t nId);
 		ParallHardWareBuffer*GetParticleBuffer();
 		ParallHardWareBuffer*GetRTParticleBuffer();
 
@@ -102,13 +101,13 @@ namespace ma
 		int					GetPooIdRT();	
 
 	protected: 
-		void				RT_Init(HWND wndhandle);
-		void				RT_Reset(uint32 nWidth,uint32 nHeight);
+		void				RT_Init(void* wndhandle);
+		void				RT_Reset(uint32_t nWidth,uint32_t nHeight);
 		void				RT_ShutDown();
  		void				RT_BeginRender();
  		void				RT_EndRender();
 		void				RT_Render();
-		void				RT_SetPoolId(uint32 poolId);
+		void				RT_SetPoolId(uint32_t poolId);
 
 		void				InitGlobeMarco();
 
@@ -131,7 +130,7 @@ namespace ma
 		VertexBuffer*		m_pCurVB;	
 		IndexBuffer*		m_pCurIB;
 
-		HWND				m_hWnd;
+		void*				m_hWnd;
 
 		typedef std::vector< RefPtr<Scene> > VEC_SCENE;
 		VEC_SCENE			m_arrScene;
@@ -149,8 +148,8 @@ namespace ma
 		// use m_nPoolIndex from the mainthread (or jobs which are synced before Renderworld)
 		// and m_nPoolIndexRT from the renderthread
 		// right now the particle are using this id
-		uint32				m_nPoolIndex;
-		uint32				m_nPoolIndexRT;
+		uint32_t				m_nPoolIndex;
+		uint32_t				m_nPoolIndexRT;
 
 		bool				m_bThread;
 		ColourValue			m_cClearClor;
@@ -160,6 +159,4 @@ namespace ma
 	extern RenderSystem* g_pRenderSystem;
 	RenderSystem* GetRenderSystem();
 }
-
-#endif
 

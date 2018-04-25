@@ -13,7 +13,7 @@ namespace ma
 	{
 	}
 
-	const char*	Skeleton::GetBoneNameByIndex(UINT uIndex) const
+	const char*	Skeleton::GetBoneNameByIndex(uint32_t uIndex) const
 	{
 		return m_arrBoneName[uIndex].c_str();
 	}
@@ -23,7 +23,7 @@ namespace ma
 		if (pszBoneName == NULL)
 			return Math::InvalidID<BoneIndex>();
 
-		for (UINT i = 0; i < m_arrBoneName.size(); ++i)
+		for (uint32_t i = 0; i < m_arrBoneName.size(); ++i)
 		{
 			if (_stricmp(pszBoneName,m_arrBoneName[i].c_str()) == 0)
 			{
@@ -53,7 +53,7 @@ namespace ma
 
 	BoneSet* Skeleton::GetBoneSetByName(const char* pszBoneSetName) const
 	{
-		for (UINT i = 0; i < m_arrBoneSet.size(); ++i)
+		for (uint32_t i = 0; i < m_arrBoneSet.size(); ++i)
 		{
 			if ( _stricmp(pszBoneSetName,m_arrBoneSet[i]->GetBoneSetName()) == 0 )
 				return m_arrBoneSet[i].get();
@@ -62,7 +62,7 @@ namespace ma
 		return NULL;
 	}
 
-	void Skeleton::AddBone(const char* pName,UINT nParentID,const Transform& tsfOS)
+	void Skeleton::AddBone(const char* pName,uint32_t nParentID,const Transform& tsfOS)
 	{
 		m_arrBoneName.push_back(pName);
 		m_arrParentIndice.push_back(nParentID);
@@ -110,7 +110,7 @@ namespace ma
 
 	bool Skeleton::InitRes()
 	{
-		UINT nIden = m_pDataStream->ReadUInt();
+		uint32_t nIden = m_pDataStream->ReadUInt();
 		if (nIden == 'SKLT')
 		{
 			ReadDataV0();
@@ -127,9 +127,9 @@ namespace ma
 
 	void Skeleton::ReadDataV0()
 	{	
-		//uint32 nIden = m_pDataStream->ReadUInt();
-		uint32 nVersion = m_pDataStream->ReadUInt();
-		uint32 nStringLen = m_pDataStream->ReadUInt();
+		//uint32_t nIden = m_pDataStream->ReadUInt();
+		uint32_t nVersion = m_pDataStream->ReadUInt();
+		uint32_t nStringLen = m_pDataStream->ReadUInt();
 		vector<char> vecChar;
 		vecChar.resize(nStringLen);
 		m_pDataStream->Read(&vecChar[0],nStringLen);	
@@ -140,48 +140,48 @@ namespace ma
 		char GID[16];
 		m_pDataStream->Read(GID,16);
 
-		uint32 nBoneNum = m_pDataStream->ReadUInt();
+		uint32_t nBoneNum = m_pDataStream->ReadUInt();
 
 		m_arrBoneName.resize(nBoneNum);
 		m_arrParentIndice.resize(nBoneNum);
 		m_arrTsfOS.resize(nBoneNum);
 
-		uint32 nBoneNameNum = m_pDataStream->ReadUInt();
-		for (uint32 i = 0; i < nBoneNameNum; ++i)
+		uint32_t nBoneNameNum = m_pDataStream->ReadUInt();
+		for (uint32_t i = 0; i < nBoneNameNum; ++i)
 		{
-			uint32 nStringLen = m_pDataStream->ReadUInt();
+			uint32_t nStringLen = m_pDataStream->ReadUInt();
 			vector<char> vecChar;
 			vecChar.resize(nStringLen);
 			m_pDataStream->Read(&vecChar[0],nStringLen);
 			m_arrBoneName[i] = &vecChar[0];
 		}
 
-		uint32 nParentIDNum = m_pDataStream->ReadUInt();
-		for (uint32 i = 0; i < nParentIDNum; ++i)
+		uint32_t nParentIDNum = m_pDataStream->ReadUInt();
+		for (uint32_t i = 0; i < nParentIDNum; ++i)
 		{
 			m_arrParentIndice[i] = m_pDataStream->ReadUInt();
 		}
 
-		uint32 nSacleOSNum = m_pDataStream->ReadUInt();
-		for (uint32 i = 0; i < nSacleOSNum; ++i)
+		uint32_t nSacleOSNum = m_pDataStream->ReadUInt();
+		for (uint32_t i = 0; i < nSacleOSNum; ++i)
 		{
 			m_arrTsfOS[i].m_vScale = m_pDataStream->ReadVector3();
 		}
 
-		uint32 nRotOSNum = m_pDataStream->ReadUInt();
-		for (uint32 i = 0; i < nRotOSNum; ++i)
+		uint32_t nRotOSNum = m_pDataStream->ReadUInt();
+		for (uint32_t i = 0; i < nRotOSNum; ++i)
 		{
 			m_arrTsfOS[i].m_qRot = m_pDataStream->ReadQuaternion();
 		}
 
-		uint32 nPosOSNum = m_pDataStream->ReadUInt();
-		for (uint32 i = 0; i < nPosOSNum; ++i)
+		uint32_t nPosOSNum = m_pDataStream->ReadUInt();
+		for (uint32_t i = 0; i < nPosOSNum; ++i)
 		{
 			m_arrTsfOS[i].m_vPos = m_pDataStream->ReadVector3();
 		}
 
-		// 		uint32 nSocketNum = m_pDataStream->ReadUInt();
-		// 		for (uint32 i = 0; i < nSacleOSNum; ++i)
+		// 		uint32_t nSocketNum = m_pDataStream->ReadUInt();
+		// 		for (uint32_t i = 0; i < nSacleOSNum; ++i)
 		// 		{
 		// 			m_arrTsfOS[i].m_vPos = m_pDataStream->ReadVector3();
 		// 		}
@@ -190,16 +190,16 @@ namespace ma
 
 	void Skeleton::ReadDataV1()
 	{	
-		//uint32 nIden = m_pDataStream->ReadUInt();
-		uint32 nVersion = m_pDataStream->ReadUInt();
+		//uint32_t nIden = m_pDataStream->ReadUInt();
+		uint32_t nVersion = m_pDataStream->ReadUInt();
 
-		uint32 nBoneNum = m_pDataStream->ReadUInt();
+		uint32_t nBoneNum = m_pDataStream->ReadUInt();
 		
 		m_arrBoneName.resize(nBoneNum);
 		m_arrParentIndice.resize(nBoneNum);
 		m_arrTsfOS.resize(nBoneNum);
 
-		for (uint32 i = 0; i < nBoneNum; ++i)
+		for (uint32_t i = 0; i < nBoneNum; ++i)
 		{
 			m_arrBoneName[i] = m_pDataStream->ReadString();
 		}
@@ -212,17 +212,17 @@ namespace ma
 	{
 		RefPtr<FileStream> pSaveStream = CreateFileStream(pszFile);
 		
-		uint32 nIden = 'MSKE';
-		uint32 nVersion = 0;
+		uint32_t nIden = 'MSKE';
+		uint32_t nVersion = 0;
 
 		pSaveStream->WriteUInt(nIden);
 		pSaveStream->WriteUInt(nVersion);
 
-		uint32 nBoneNum = m_arrBoneName.size();
+		uint32_t nBoneNum = m_arrBoneName.size();
 
 		pSaveStream->WriteUInt(nBoneNum);
 		
-		for (UINT32 i = 0; i < m_arrBoneName.size(); ++i)
+		for (uint32_t i = 0; i < m_arrBoneName.size(); ++i)
 		{
 			pSaveStream->WriteString(m_arrBoneName[i]);
 		}
@@ -237,12 +237,12 @@ namespace ma
 	{
 		m_refPose->InitObjectSpace(m_arrTsfOS, m_arrParentIndice);
 
-		UINT nBoneNumer = m_arrBoneName.size();
+		uint32_t nBoneNumer = m_arrBoneName.size();
 		//m_arrRefPosePS.resize(nBoneNumer);
 		//m_arrRefPoseOS.resize(nBoneNumer);
 		m_arrRefPoseOSInv.resize(nBoneNumer);
 
-		for (UINT uBoneCunt = 0; uBoneCunt < nBoneNumer; ++uBoneCunt)
+		for (uint32_t uBoneCunt = 0; uBoneCunt < nBoneNumer; ++uBoneCunt)
 		{
 			//MatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
 			//MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );

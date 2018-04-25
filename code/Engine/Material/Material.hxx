@@ -16,7 +16,7 @@ namespace ma
 	{
 		m_pShadingTech = pTech;
 
-		for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
 			m_pShadingTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 		}
@@ -29,7 +29,7 @@ namespace ma
 			VertexDeclaration* pVertexDecl = m_pShadingTech->GetShaderProgram()->GetVertexDeclaration();
 
 			std::vector<VertexElement> vecElement;
-			for (UINT i = 0; i < pVertexDecl->GetElementCount(0); ++i)
+			for (uint32_t i = 0; i < pVertexDecl->GetElementCount(0); ++i)
 			{
 				vecElement.push_back(pVertexDecl->GetElement(0, i));
 			}
@@ -48,7 +48,7 @@ namespace ma
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
 
-			for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 			{
 				m_pShadowDepthTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 			}
@@ -68,7 +68,7 @@ namespace ma
 		{
 			m_pShadingInstTech = m_pShadingTech->CreateInstTech();
 
-			for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 			{
 				m_pShadingInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 			}
@@ -82,7 +82,7 @@ namespace ma
 		{
 			m_pShadowDepthInstTech = m_pShadowDepthTech->CreateInstTech();
 
-			for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 			{
 				m_pShadingInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 			}
@@ -165,7 +165,7 @@ namespace ma
 			rapidxml::append_attribute(pXmlShadowDepthTech, doc, "TechMarco", pszMacro);
 		}
 
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
 			rapidxml::xml_node<>* pXmlParameter = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Parameters"));
 			pXmlElem->append_node(pXmlParameter);
@@ -217,7 +217,7 @@ namespace ma
 		if (pszName == NULL)
 			return NULL;
 
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
 			if (strcmp(m_arrParameters[i].GetName(), pszName) == 0)
 			{
@@ -267,7 +267,7 @@ namespace ma
 	{
 	}
 
-	UINT Material::GetLodSubNumber(UINT nLod) const
+	uint32_t Material::GetLodSubNumber(uint32_t nLod) const
 	{
 		if (nLod >= m_arrLodSubMaterial.size())
 			return 0;
@@ -275,7 +275,7 @@ namespace ma
 		return m_arrLodSubMaterial[nLod].size();
 	}
 
-	SubMaterial* Material::GetLodSubByIndex(UINT nLod,uint32 index) const
+	SubMaterial* Material::GetLodSubByIndex(uint32_t nLod,uint32_t index) const
 	{
 		ASSERT(nLod < m_arrLodSubMaterial.size());
 		if (nLod >= m_arrLodSubMaterial.size())
@@ -288,7 +288,7 @@ namespace ma
 		return m_arrLodSubMaterial[nLod][index].get();
 	}
 
-	void Material::AddSubMaterial(uint32 nLod,SubMaterial* pSubMaterial)
+	void Material::AddSubMaterial(uint32_t nLod,SubMaterial* pSubMaterial)
 	{
 		if (nLod >= m_arrLodSubMaterial.size())
 		{
@@ -300,7 +300,7 @@ namespace ma
 
 	bool Material::Import(rapidxml::xml_node<>* pXmlElem)
 	{
-		uint32 nLod = 0;
+		uint32_t nLod = 0;
 		rapidxml::xml_node<>* pXmlLodSubMaterial = pXmlElem->first_node("LodMaterial");
 		while(pXmlLodSubMaterial)
 		{
@@ -323,12 +323,12 @@ namespace ma
 
 	bool Material::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
-		for (UINT iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
+		for (uint32_t iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
 		{
 			rapidxml::xml_node<>* pXmlLodSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("LodMaterial"));
 			pXmlElem->append_node(pXmlLodSubMaterial);
 
-			for (UINT iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
+			for (uint32_t iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
 			{
 				rapidxml::xml_node<>* pXmlSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
 				pXmlLodSubMaterial->append_node(pXmlSubMaterial);
@@ -343,9 +343,9 @@ namespace ma
 
 	void Material::ReLoad()
 	{
-		for (UINT iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
+		for (uint32_t iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
 		{
-			for (UINT iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
+			for (uint32_t iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
 			{
 				m_arrLodSubMaterial[iLod][iSub]->ReLoad();
 			}

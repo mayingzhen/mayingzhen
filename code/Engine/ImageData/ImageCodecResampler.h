@@ -29,28 +29,28 @@ template<unsigned int elemsize> struct NearestResampler {
 		// ASSERT(src.format == dst.format);
 
 		// srcdata stays at beginning, pdst is a moving pointer
-		uint8* srcdata = (uint8*)src.data;
-		uint8* pdst = (uint8*)dst.data;
+		uint8_t* srcdata = (uint8_t*)src.data;
+		uint8_t* pdst = (uint8_t*)dst.data;
 
 		// sx_48,sy_48,sz_48 represent current position in source
 		// using 16/48-bit fixed precision, incremented by steps
-		uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-		uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
-		uint64 stepz = ((uint64)src.getDepth() << 48) / dst.getDepth();
+		uint64_t stepx = ((uint64_t)src.getWidth() << 48) / dst.getWidth();
+		uint64_t stepy = ((uint64_t)src.getHeight() << 48) / dst.getHeight();
+		uint64_t stepz = ((uint64_t)src.getDepth() << 48) / dst.getDepth();
 
 		// note: ((stepz>>1) - 1) is an extra half-step increment to adjust
 		// for the center of the destination pixel, not the top-left corner
-		uint64 sz_48 = (stepz >> 1) - 1;
+		uint64_t sz_48 = (stepz >> 1) - 1;
 		for (size_t z = dst.front; z < dst.back; z++, sz_48 += stepz) {
 			size_t srczoff = (size_t)(sz_48 >> 48) * src.slicePitch;
 			
-			uint64 sy_48 = (stepy >> 1) - 1;
+			uint64_t sy_48 = (stepy >> 1) - 1;
 			for (size_t y = dst.top; y < dst.bottom; y++, sy_48 += stepy) {
 				size_t srcyoff = (size_t)(sy_48 >> 48) * src.rowPitch;
 			
-				uint64 sx_48 = (stepx >> 1) - 1;
+				uint64_t sx_48 = (stepx >> 1) - 1;
 				for (size_t x = dst.left; x < dst.right; x++, sx_48 += stepx) {
-					uint8* psrc = srcdata +
+					uint8_t* psrc = srcdata +
 						elemsize*((size_t)(sx_48 >> 48) + srcyoff + srczoff);
                     memcpy(pdst, psrc, elemsize);
 					pdst += elemsize;
@@ -70,14 +70,14 @@ struct LinearResampler {
 		size_t dstelemsize = PixelUtil::getNumElemBytes(dst.format);
 
 		// srcdata stays at beginning, pdst is a moving pointer
-		uint8* srcdata = (uint8*)src.data;
-		uint8* pdst = (uint8*)dst.data;
+		uint8_t* srcdata = (uint8_t*)src.data;
+		uint8_t* pdst = (uint8_t*)dst.data;
 		
 		// sx_48,sy_48,sz_48 represent current position in source
 		// using 16/48-bit fixed precision, incremented by steps
-		uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-		uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
-		uint64 stepz = ((uint64)src.getDepth() << 48) / dst.getDepth();
+		uint64_t stepx = ((uint64_t)src.getWidth() << 48) / dst.getWidth();
+		uint64_t stepy = ((uint64_t)src.getHeight() << 48) / dst.getHeight();
+		uint64_t stepz = ((uint64_t)src.getDepth() << 48) / dst.getDepth();
 		
 		// temp is 16/16 bit fixed precision, used to adjust a source
 		// coordinate (x, y, or z) backwards by half a pixel so that the
@@ -87,7 +87,7 @@ struct LinearResampler {
 
 		// note: ((stepz>>1) - 1) is an extra half-step increment to adjust
 		// for the center of the destination pixel, not the top-left corner
-		uint64 sz_48 = (stepz >> 1) - 1;
+		uint64_t sz_48 = (stepz >> 1) - 1;
 		for (size_t z = dst.front; z < dst.back; z++, sz_48+=stepz) {
 			temp = static_cast<unsigned int>(sz_48 >> 32);
 			temp = (temp > 0x8000)? temp - 0x8000 : 0;
@@ -95,7 +95,7 @@ struct LinearResampler {
 			size_t sz2 = min(sz1+1,src.getDepth()-1);// src z, sample #2
 			float szf = (temp & 0xFFFF) / 65536.f; // weight of sample #2
 
-			uint64 sy_48 = (stepy >> 1) - 1;
+			uint64_t sy_48 = (stepy >> 1) - 1;
 			for (size_t y = dst.top; y < dst.bottom; y++, sy_48+=stepy) {
 				temp = static_cast<unsigned int>(sy_48 >> 32);
 				temp = (temp > 0x8000)? temp - 0x8000 : 0;
@@ -103,7 +103,7 @@ struct LinearResampler {
 				size_t sy2 = min(sy1+1,src.getHeight()-1);// src y #2
 				float syf = (temp & 0xFFFF) / 65536.f; // weight of #2
 				
-				uint64 sx_48 = (stepx >> 1) - 1;
+				uint64_t sx_48 = (stepx >> 1) - 1;
 				for (size_t x = dst.left; x < dst.right; x++, sx_48+=stepx) {
 					temp = static_cast<unsigned int>(sx_48 >> 32);
 					temp = (temp > 0x8000)? temp - 0x8000 : 0;
@@ -160,9 +160,9 @@ struct LinearResampler_Float32 {
 		
 		// sx_48,sy_48,sz_48 represent current position in source
 		// using 16/48-bit fixed precision, incremented by steps
-		uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-		uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
-		uint64 stepz = ((uint64)src.getDepth() << 48) / dst.getDepth();
+		uint64_t stepx = ((uint64_t)src.getWidth() << 48) / dst.getWidth();
+		uint64_t stepy = ((uint64_t)src.getHeight() << 48) / dst.getHeight();
+		uint64_t stepz = ((uint64_t)src.getDepth() << 48) / dst.getDepth();
 		
 		// temp is 16/16 bit fixed precision, used to adjust a source
 		// coordinate (x, y, or z) backwards by half a pixel so that the
@@ -172,7 +172,7 @@ struct LinearResampler_Float32 {
 
 		// note: ((stepz>>1) - 1) is an extra half-step increment to adjust
 		// for the center of the destination pixel, not the top-left corner
-		uint64 sz_48 = (stepz >> 1) - 1;
+		uint64_t sz_48 = (stepz >> 1) - 1;
 		for (size_t z = dst.front; z < dst.back; z++, sz_48+=stepz) {
 			temp = static_cast<unsigned int>(sz_48 >> 32);
 			temp = (temp > 0x8000)? temp - 0x8000 : 0;
@@ -180,7 +180,7 @@ struct LinearResampler_Float32 {
 			size_t sz2 = min(sz1+1,src.getDepth()-1);// src z, sample #2
 			float szf = (temp & 0xFFFF) / 65536.f; // weight of sample #2
 
-			uint64 sy_48 = (stepy >> 1) - 1;
+			uint64_t sy_48 = (stepy >> 1) - 1;
 			for (size_t y = dst.top; y < dst.bottom; y++, sy_48+=stepy) {
 				temp = static_cast<unsigned int>(sy_48 >> 32);
 				temp = (temp > 0x8000)? temp - 0x8000 : 0;
@@ -188,7 +188,7 @@ struct LinearResampler_Float32 {
 				size_t sy2 = min(sy1+1,src.getHeight()-1);// src y #2
 				float syf = (temp & 0xFFFF) / 65536.f; // weight of #2
 				
-				uint64 sx_48 = (stepx >> 1) - 1;
+				uint64_t sx_48 = (stepx >> 1) - 1;
 				for (size_t x = dst.left; x < dst.right; x++, sx_48+=stepx) {
 					temp = static_cast<unsigned int>(sx_48 >> 32);
 					temp = (temp > 0x8000)? temp - 0x8000 : 0;
@@ -266,13 +266,13 @@ template<unsigned int channels> struct LinearResampler_Byte {
 		}
 
 		// srcdata stays at beginning of slice, pdst is a moving pointer
-		uint8* srcdata = (uint8*)src.data;
-		uint8* pdst = (uint8*)dst.data;
+		uint8_t* srcdata = (uint8_t*)src.data;
+		uint8_t* pdst = (uint8_t*)dst.data;
 
 		// sx_48,sy_48 represent current position in source
 		// using 16/48-bit fixed precision, incremented by steps
-		uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-		uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
+		uint64_t stepx = ((uint64_t)src.getWidth() << 48) / dst.getWidth();
+		uint64_t stepy = ((uint64_t)src.getHeight() << 48) / dst.getHeight();
 		
 		// bottom 28 bits of temp are 16/12 bit fixed precision, used to
 		// adjust a source coordinate backwards by half a pixel so that the
@@ -280,7 +280,7 @@ template<unsigned int channels> struct LinearResampler_Byte {
 		// fractional bits are the blend weight of the second sample
 		unsigned int temp;
 		
-		uint64 sy_48 = (stepy >> 1) - 1;
+		uint64_t sy_48 = (stepy >> 1) - 1;
 		for (size_t y = dst.top; y < dst.bottom; y++, sy_48+=stepy) {
 			temp = static_cast<unsigned int>(sy_48 >> 36);
 			temp = (temp > 0x800)? temp - 0x800: 0;
@@ -290,7 +290,7 @@ template<unsigned int channels> struct LinearResampler_Byte {
 			size_t syoff1 = sy1 * src.rowPitch;
 			size_t syoff2 = sy2 * src.rowPitch;
 
-			uint64 sx_48 = (stepx >> 1) - 1;
+			uint64_t sx_48 = (stepx >> 1) - 1;
 			for (size_t x = dst.left; x < dst.right; x++, sx_48+=stepx) {
 				temp = static_cast<unsigned int>(sx_48 >> 36);
 				temp = (temp > 0x800)? temp - 0x800 : 0;
@@ -307,7 +307,7 @@ template<unsigned int channels> struct LinearResampler_Byte {
 						srcdata[(sx2 + syoff2)*channels+k]*sxfsyf;
 					// accum is computed using 8/24-bit fixed-point math
 					// (maximum is 0xFF000000; rounding will not cause overflow)
-					*pdst++ = static_cast<uint8>((accum + 0x800000) >> 24);
+					*pdst++ = static_cast<uint8_t>((accum + 0x800000) >> 24);
 				}
 			}
 			pdst += channels*dst.getRowSkip();

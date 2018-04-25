@@ -45,7 +45,7 @@ namespace ma
 		{
 		case APP_CMD_INIT_WINDOW:
 			{
-				pApplication->SetWindId((HWND)app->window);
+				pApplication->SetWindId((void*)app->window);
 			}
 			break;
 
@@ -112,7 +112,7 @@ namespace ma
 
 
 
-	void DebugSleep(uint32 nTime)
+	void DebugSleep(uint32_t nTime)
 	{
 		LogInfo("............begine Sleep..............");
 

@@ -103,6 +103,17 @@
 #include "Engine/Scene/Camera.hxx"
 #include "Engine/Scene/ParallelCull.hxx"
 
+#include "Engine/Scene/OcclusionCulling/AABBoxRasterizer.hxx"
+#include "Engine/Scene/OcclusionCulling/AABBoxRasterizerSSE.hxx"
+#include "Engine/Scene/OcclusionCulling/AABBoxRasterizerSSEST.hxx"
+#include "Engine/Scene/OcclusionCulling/DepthBufferRasterizer.hxx"
+#include "Engine/Scene/OcclusionCulling/DepthBufferRasterizerSSE.hxx"
+#include "Engine/Scene/OcclusionCulling/DepthBufferRasterizerSSEST.hxx"
+#include "Engine/Scene/OcclusionCulling/HelperSSE.hxx"
+#include "Engine/Scene/OcclusionCulling/TransformedAABBoxSSE.hxx"
+#include "Engine/Scene/OcclusionCulling/TransformedModelSSE.hxx"
+#include "Engine/Scene/OcclusionCulling/TransformedMeshSSE.hxx"
+
 // Light
 #include "Engine/Scene/Light/Light.hxx"
 #include "Engine/Scene/Light/ShadowMapFrustum.hxx"

@@ -38,7 +38,7 @@ namespace ma
 		void					Clear();
 
 	private:
-		UINT					GetRenderObjNumber(RenderListType eRLType);
+		uint32_t				GetRenderObjNumber(RenderListType eRLType);
 
 		Renderable*				GetRenderObjByIndex(RenderListType eRLType,int index);
 	

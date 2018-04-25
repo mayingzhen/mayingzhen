@@ -41,7 +41,7 @@ namespace ma
 
 		Quaternion			m_qPivotLS;
 
-		UINT				m_nBoneID;
+		uint32_t				m_nBoneID;
 		
 		string				m_strBoneName;
 

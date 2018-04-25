@@ -10,9 +10,9 @@ namespace ma
 
 	MetalRenderPass::MetalRenderPass()
 	{
-        UINT numThreads = std::thread::hardware_concurrency();
+        uint32_t numThreads = std::thread::hardware_concurrency();
         m_arrRenderCommand.resize(numThreads * RL_Count);
-        for (UINT i = 0; i < m_arrRenderCommand.size(); ++i)
+        for (uint32_t i = 0; i < m_arrRenderCommand.size(); ++i)
         {
             m_arrRenderCommand[i] = new MetalRenderCommand();
             m_arrRenderCommand[i]->m_pRenderPass = this;
@@ -40,7 +40,7 @@ namespace ma
 	{
         m_pass_desc = [MTLRenderPassDescriptor new];
         
-        for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
+        for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
         {
             if (m_arrColor[i] == NULL)
 				continue;
@@ -70,10 +70,10 @@ namespace ma
         }
 	}
     
-    RenderCommand* MetalRenderPass::GetThreadCommand(UINT nIndex, RenderListType eRLType)
+    RenderCommand* MetalRenderPass::GetThreadCommand(uint32_t nIndex, RenderListType eRLType)
     {
-		UINT numThreads = std::thread::hardware_concurrency();
-        UINT nAt = eRLType * numThreads + nIndex;
+		uint32_t numThreads = std::thread::hardware_concurrency();
+        uint32_t nAt = eRLType * numThreads + nIndex;
         return m_arrRenderCommand[nAt].get();
     }
 }

@@ -12,7 +12,7 @@ namespace ma
 	{
 	}
 
-	AnimTreeNode* AnimationSet::GetAnimationByIndex(UINT index)
+	AnimTreeNode* AnimationSet::GetAnimationByIndex(uint32_t index)
 	{
 		if (index >= m_arrSkelAnim.size())
 			return NULL;
@@ -25,13 +25,13 @@ namespace ma
 		return GetAnimationByAnimID( AnimTreeNode::AnimNameToID(pszName) );
 	}
 
-	AnimTreeNode* AnimationSet::GetAnimationByAnimID(UINT nAnimID)
+	AnimTreeNode* AnimationSet::GetAnimationByAnimID(uint32_t nAnimID)
 	{
 		ASSERT(nAnimID != -1);
 		if (nAnimID == -1)
 			return NULL;
 
-		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
+		for (uint32_t i = 0; i < m_arrSkelAnim.size(); ++i)
 		{
 			if (m_arrSkelAnim[i]->GetAnimID() == nAnimID)
 			{
@@ -53,7 +53,7 @@ namespace ma
 			return;
 		}
 
-		for (uint32 i = 0; i < m_arrSkelAnim.size(); ++i)
+		for (uint32_t i = 0; i < m_arrSkelAnim.size(); ++i)
 		{
 			if (m_arrSkelAnim[i] == pAction || m_arrSkelAnim[i]->GetAnimID() == pAction->GetAnimID() )
 			{
@@ -98,7 +98,7 @@ namespace ma
 
 	bool AnimationSet::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
-		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
+		for (uint32_t i = 0; i < m_arrSkelAnim.size(); ++i)
 		{
 			rapidxml::xml_node<>* pXmlAnimNode = doc.allocate_node(rapidxml::node_element, doc.allocate_string("AnimNode"));
 			pXmlElem->append_node(pXmlAnimNode);

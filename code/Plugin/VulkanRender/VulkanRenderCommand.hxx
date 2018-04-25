@@ -14,7 +14,7 @@ namespace ma
 
 	}
 
-	void VulkanRenderCommand::Create(UINT queueFamilyIndex)
+	void VulkanRenderCommand::Create(uint32_t queueFamilyIndex)
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
@@ -82,7 +82,7 @@ namespace ma
 		vkCmdBindIndexBuffer(m_vkCmdBuffer, pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 	}
 
-	void VulkanRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB, UINT nOffSet)
+	void VulkanRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB, uint32_t nOffSet)
 	{
 		if (m_pPreVB[index] == pVB && m_preVBOffset[index] == nOffSet)
 			return;
@@ -118,7 +118,7 @@ namespace ma
 			4, descriptorSets, 0, NULL);
 	}
 
-	void VulkanRenderCommand::DrawIndex(UINT nIndexStart,UINT nIndexCount, UINT nInstanceCount, PRIMITIVE_TYPE ePrType)
+	void VulkanRenderCommand::DrawIndex(uint32_t nIndexStart,uint32_t nIndexCount, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType)
 	{
 		vkCmdDrawIndexed(m_vkCmdBuffer, nIndexCount, nInstanceCount, nIndexStart, 0, 0);
 	}

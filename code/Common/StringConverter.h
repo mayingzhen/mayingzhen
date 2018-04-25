@@ -59,7 +59,7 @@ namespace ma {
         class.
     @par
         The string formats of each of the major types is listed with the methods. The basic types
-        like int and Real just use the underlying C runtime library atof and atoi family methods,
+        like int and float just use the underlying C runtime library atof and atoi family methods,
         however custom types like Vector3, ColourValue and Matrix4 are also supported by this class
         using custom formats.
     @author
@@ -69,7 +69,7 @@ namespace ma {
     {
     public:
 
-        /** Converts a Real to a string. */
+        /** Converts a float to a string. */
         static string toString(float val, unsigned short precision = 6, 
             unsigned short width = 0, char fill = ' ', 
             std::ios::fmtflags flags = std::ios::fmtflags(0) );
@@ -127,17 +127,17 @@ namespace ma {
         static string toString(bool val, bool yesNo = false);
 		/** Converts a Vector2 to a string. 
         @remarks
-            Format is "x y" (i.e. 2x Real values, space delimited)
+            Format is "x y" (i.e. 2x float values, space delimited)
         */
         static string toString(const Vector2& val);
         /** Converts a Vector3 to a string. 
         @remarks
-            Format is "x y z" (i.e. 3x Real values, space delimited)
+            Format is "x y z" (i.e. 3x float values, space delimited)
         */
         static string toString(const Vector3& val);
 		/** Converts a Vector4 to a string. 
         @remarks
-            Format is "x y z w" (i.e. 4x Real values, space delimited)
+            Format is "x y z w" (i.e. 4x float values, space delimited)
         */
         static string toString(const Vector4& val);
         /** Converts a Matrix3 to a string. 
@@ -153,12 +153,12 @@ namespace ma {
         static string toString(const Matrix4& val);
         /** Converts a Quaternion to a string. 
         @remarks
-            Format is "w x y z" (i.e. 4x Real values, space delimited)
+            Format is "w x y z" (i.e. 4x float values, space delimited)
         */
         static string toString(const Quaternion& val);
         /** Converts a ColourValue to a string. 
         @remarks
-            Format is "r g b a" (i.e. 4x Real values, space delimited). 
+            Format is "r g b a" (i.e. 4x float values, space delimited). 
         */
         static string toString(const ColourValue& val);
         /** Converts a vector<string> to a string.
@@ -172,9 +172,9 @@ namespace ma {
 		static string toString(const Vec2i& val);
 		static string toString(const Vec3i& val);
 
-        /** Converts a string to a Real. 
+        /** Converts a string to a float. 
         @returns
-            0.0 if the value could not be parsed, otherwise the Real version of the string.
+            0.0 if the value could not be parsed, otherwise the float version of the string.
         */
         static float parseReal(const string& val, float defaultValue = 0);
         /** Converts a string to a Angle. 
@@ -212,19 +212,19 @@ namespace ma {
         static bool parseBool(const string& val, bool defaultValue = 0);
 		/** Parses a Vector2 out of a string.
         @remarks
-            Format is "x y" ie. 2 Real components, space delimited. Failure to parse returns
+            Format is "x y" ie. 2 float components, space delimited. Failure to parse returns
             Vector2::Z
         */
 		static Vector2 parseVector2(const string& val, const Vector2& defaultValue = Vector2::ZERO);
 		/** Parses a Vector3 out of a string.
         @remarks
-            Format is "x y z" ie. 3 Real components, space delimited. Failure to parse returns
+            Format is "x y z" ie. 3 float components, space delimited. Failure to parse returns
             Vector3::ZERO.
         */
         static Vector3 parseVector3(const string& val, const Vector3& defaultValue = Vector3::ZERO);
         /** Parses a Vector4 out of a string.
         @remarks
-            Format is "x y z w" ie. 4 Real components, space delimited. Failure to parse returns
+            Format is "x y z w" ie. 4 float components, space delimited. Failure to parse returns
             Vector4::ZERO.
         */
         static Vector4 parseVector4(const string& val, const Vector4& defaultValue = Vector4::ZERO);
@@ -242,13 +242,13 @@ namespace ma {
         static Matrix4 parseMatrix4(const string& val, const Matrix4& defaultValue = Matrix4::IDENTITY);
         /** Parses a Quaternion out of a string. 
         @remarks
-            Format is "w x y z" (i.e. 4x Real values, space delimited). 
+            Format is "w x y z" (i.e. 4x float values, space delimited). 
             Failure to parse returns Quaternion::IDENTITY.
         */
         static Quaternion parseQuaternion(const string& val, const Quaternion& defaultValue = Quaternion::IDENTITY);
         /** Parses a ColourValue out of a string. 
         @remarks
-            Format is "r g b a" (i.e. 4x Real values, space delimited), or "r g b" which implies
+            Format is "r g b a" (i.e. 4x float values, space delimited), or "r g b" which implies
             an alpha value of 1.0 (opaque). Failure to parse returns ColourValue::Black.
         */
         static ColourValue parseColourValue(const string& val, const ColourValue& defaultValue = ColourValue::Black);

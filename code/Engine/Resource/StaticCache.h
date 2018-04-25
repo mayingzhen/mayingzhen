@@ -6,7 +6,7 @@ namespace ma
 {
 	/** Template version of cache based on static array.
 	'cacheSize' defines size of cache in bytes. */
-	template <UINT cacheSize>
+	template <uint32_t cacheSize>
 	class StaticCache
 	{
 	protected:
@@ -14,9 +14,9 @@ namespace ma
 		char mBuffer[cacheSize];
 
 		/// Number of bytes valid in cache (written from the beginning of static buffer)
-		UINT mValidBytes;
+		uint32_t mValidBytes;
 		/// Current read position
-		UINT mPos;
+		uint32_t mPos;
 
 	public:
 		/// Constructor
@@ -28,7 +28,7 @@ namespace ma
 
 		/** Cache data pointed by 'buf'. If 'count' is greater than cache size, we cache only last bytes.
 		Returns number of bytes written to cache. */
-		UINT cacheData(const void* buf, UINT count)
+		uint32_t cacheData(const void* buf, uint32_t count)
 		{
 			ASSERT(avail() == 0 && "It is assumed that you cache data only after you have read everything.");
 
@@ -43,7 +43,7 @@ namespace ma
 				}
 				else
 				{
-					UINT begOff = count - (cacheSize - mValidBytes);
+					uint32_t begOff = count - (cacheSize - mValidBytes);
 					// override old cache content in the beginning
 					memmove(mBuffer, mBuffer + begOff, mValidBytes - begOff);
 					// append new data
@@ -62,9 +62,9 @@ namespace ma
 			}
 		}
 		/** Read data from cache to 'buf' (maximum 'count' bytes). Returns number of bytes read from cache. */
-		UINT read(void* buf, UINT count)
+		uint32_t read(void* buf, uint32_t count)
 		{
-			UINT rb = avail();
+			uint32_t rb = avail();
 			rb = (rb < count) ? rb : count;
 			memcpy(buf, mBuffer + mPos, rb);
 			mPos += rb;
@@ -72,7 +72,7 @@ namespace ma
 		}
 
 		/** Step back in cached stream by 'count' bytes. Returns 'true' if cache contains resulting position. */
-		bool rewind(UINT count)
+		bool rewind(uint32_t count)
 		{
 			if (mPos < count)
 			{
@@ -86,7 +86,7 @@ namespace ma
 			}
 		}
 		/** Step forward in cached stream by 'count' bytes. Returns 'true' if cache contains resulting position. */
-		bool ff(UINT count)
+		bool ff(uint32_t count)
 		{
 			if (avail() < count)
 			{
@@ -101,7 +101,7 @@ namespace ma
 		}
 
 		/** Returns number of bytes available for reading in cache after rewinding. */
-		UINT avail() const
+		uint32_t avail() const
 		{
 			return mValidBytes - mPos;
 		}

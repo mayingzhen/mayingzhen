@@ -118,7 +118,7 @@ namespace ma
 		if (fFrame < 0)
 			fFrame = 0;
 
-		m_fLocalFrame = fmod( fFrame, (float)m_fFrameCount - 1.0f + std::numeric_limits<Real>::epsilon() );
+		m_fLocalFrame = fmod( fFrame, (float)m_fFrameCount - 1.0f + std::numeric_limits<float>::epsilon() );
 	}
 
 }

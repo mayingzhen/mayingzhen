@@ -23,7 +23,7 @@ namespace ma
 		
 		if (1)
 		{
-			for (uint32 i = 1; i < 4; ++i)
+			for (uint32_t i = 1; i < 4; ++i)
 			{
 				SceneNode* pBox = m_pScene->CreateSceneNode();
 				MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
@@ -88,7 +88,7 @@ namespace ma
 
 		if (1)
 		{
-			for (UINT i = 0; i < 40; ++i)
+			for (uint32_t i = 0; i < 40; ++i)
 			{
 				RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 				RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();

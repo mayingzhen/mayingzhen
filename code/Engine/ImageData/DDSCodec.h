@@ -25,12 +25,12 @@ namespace ma
     class CDDSCodec : public CImageCodec
     {
     private:
-    	void flipEndian(void * pData, uint32 size, uint32 count) const;
-	    void flipEndian(void * pData, uint32 size) const;
+    	void flipEndian(void * pData, uint32_t size, uint32_t count) const;
+	    void flipEndian(void * pData, uint32_t size) const;
 
-		PixelFormat convertFourCCFormat(uint32 fourcc) const;
-		PixelFormat convertPixelFormat(uint32 rgbBits, uint32 rMask, 
-			uint32 gMask, uint32 bMask, uint32 aMask) const;
+		PixelFormat convertFourCCFormat(uint32_t fourcc) const;
+		PixelFormat convertPixelFormat(uint32_t rgbBits, uint32_t rMask, 
+			uint32_t gMask, uint32_t bMask, uint32_t aMask) const;
 
 		/// Unpack DXT colours into array of 16 colour values
 		void unpackDXTColour(PixelFormat pf, const DXTColourBlock& block, ColourValue* pCol) const;
@@ -52,10 +52,10 @@ namespace ma
         /// @copydoc Codec::decode
         DecodeResult decode(DataStreamPtr& input) const;*/
 
-		bool decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN OUT ImageData& imageData) const;
+		bool decode(const char* pszName, void* pMemory, uint32_t nNumBytes, IN OUT ImageData& imageData) const;
 
 		/// @copydoc Codec::magicNumberToFileExt
-		string magicNumberToFileExt(const char *magicNumberPtr, uint32 maxbytes) const;       
+		string magicNumberToFileExt(const char *magicNumberPtr, uint32_t maxbytes) const;       
     };
 	/** @} */
 	/** @} */

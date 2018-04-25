@@ -16,7 +16,7 @@ namespace ma
 		m_bSRGB = false;
 	}
 
-	Texture::Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType) 
+	Texture::Texture(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat eFormat,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType) 
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
@@ -45,7 +45,7 @@ namespace ma
 	{
 		const char* pszName = this->GetResPath();
 		void* pMemory = m_pDataStream->GetPtr(); 
-		uint32 nSizeBytes =m_pDataStream->GetSize();
+		uint32_t nSizeBytes =m_pDataStream->GetSize();
 
 		ImageData imageData;
 		if (!BuildImageData(pszName, pMemory, nSizeBytes, imageData))
@@ -63,7 +63,7 @@ namespace ma
 		return true;
 	}
 
-	bool Texture::BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData)
+	bool Texture::BuildImageData(const char* pszFile, void* pMemory, uint32_t nNumBytes, OUT ImageData& imageData)
 	{
 		if (StringUtil::endsWith(pszFile, ".pvr", true))
 		{

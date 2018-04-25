@@ -10,12 +10,12 @@ namespace ma
 	public:
 		virtual void					PreRender(Technique* pTech);
 
-		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount);
+		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32_t nCount);
 
 		const DualQuaternion*			GetSkinDQ();
-		uint32							GetSkinDQCount() const;
+		uint32_t							GetSkinDQCount() const;
 		
-		uint32							GetSkinMatrixCount() const;
+		uint32_t							GetSkinMatrixCount() const;
 		const Matrix3x4*				GetSkinMatrix();
 
 	private:

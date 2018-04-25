@@ -14,13 +14,13 @@ namespace ma
 
 		~Animation();
 
-		UINT							GetFrameNumber() {return m_nFrameNumber;}
+		uint32_t							GetFrameNumber() {return m_nFrameNumber;}
 
 		void							SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
-		UINT							GetTrackNumber() const;
-		const char*						GetTrackNameByIndex(UINT index) const;
-		UINT							GetTrackIndexByName(const char* pszName) const;
+		uint32_t							GetTrackNumber() const;
+		const char*						GetTrackNameByIndex(uint32_t index) const;
+		uint32_t							GetTrackIndexByName(const char* pszName) const;
 
 		void							AddTrack(const char* pName,const Vector3Track* pScale,const QuaternionTrack* pRot,const Vector3Track* pPos);
 
@@ -41,7 +41,7 @@ namespace ma
 
 	private:
 		std::vector<std::string>		m_arrTrackName;
-		UINT							m_nFrameNumber;
+		uint32_t							m_nFrameNumber;
 		std::vector<Vector3Track>		m_arrScaleTrack;
 		std::vector<QuaternionTrack>	m_arrRotTrack;
 		std::vector<Vector3Track>		m_arrPosTrack;

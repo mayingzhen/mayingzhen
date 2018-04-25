@@ -84,12 +84,12 @@ public:
 	void SetRenderSystemName(const char* rs);
 
 	/// The number of simultaneous render targets supported
-	uint8 GetNumMultiRenderTargets(void) const{	return mNumMultiRenderTargets;}
-	void SetNumMultiRenderTargets(uint8 num){mNumMultiRenderTargets = num;}
+	uint8_t GetNumMultiRenderTargets(void) const{	return mNumMultiRenderTargets;}
+	void SetNumMultiRenderTargets(uint8_t num){mNumMultiRenderTargets = num;}
 
 	/// Maximum point screen size in pixels
-	void SetMaxPointSize(Real s){mMaxPointSize = s;} 
-	Real GetMaxPointSize(void) const{return mMaxPointSize;}
+	void SetMaxPointSize(float s){mMaxPointSize = s;} 
+	float GetMaxPointSize(void) const{return mMaxPointSize;}
 
 	void SetFloatTexturesSupported(bool b){mFloatTexturesSupported = b;}
 	bool GetFloatTexturesSupported() const{return mFloatTexturesSupported;}
@@ -147,8 +147,8 @@ private:
 	string mDeviceName;
 	string mRenderSystemName;
 
-	uint8 mNumMultiRenderTargets;
-	Real mMaxPointSize;
+	uint8_t mNumMultiRenderTargets;
+	float mMaxPointSize;
 	bool mFloatTexturesSupported;
 	bool m_bMRTIndependentBitDepth;
 

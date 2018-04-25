@@ -33,15 +33,15 @@ namespace ma
 
 		// Shadow Irreg
 		const	Vector4*	GetIrregKernel() const {return m_irreg_kernel;}
-		uint32				GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
+		uint32_t				GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
 		SamplerState*		GetRotSampler() const {return m_pRotSampler.get();}		
 		int					GetShadowSamplesNum() const {return m_ShadowSamplesNumer;}
 		void				SetShadowSamplesNum(int nNum);
-		void				SetIrregKernelRadius(const Vector2& vKernelRadiusm,UINT nSplit);
+		void				SetIrregKernelRadius(const Vector2& vKernelRadiusm,uint32_t nSplit);
 
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
-		UINT				GetMaxSplitCount() const {return m_nMaxSplitCount;}
+		uint32_t				GetMaxSplitCount() const {return m_nMaxSplitCount;}
 		int					GetCurSplitCount() const {return m_nCurSplitCount;}
 
 		void				SetSplitPosParam(Vector4 vSpiltPos) {m_SplitPosParam = vSpiltPos;}

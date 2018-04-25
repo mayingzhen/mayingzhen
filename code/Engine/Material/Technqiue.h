@@ -42,8 +42,8 @@ namespace ma
 
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
-		UINT				GetParameterCount();
-		Parameter*			GetParameterByIndex(UINT nIndex);
+		uint32_t				GetParameterCount();
+		Parameter*			GetParameterByIndex(uint32_t nIndex);
 
 		void				SetBlendState(BlendState* pBlendState);
 		const BlendState*	GetBlendState() { return m_pBlendState.get(); }
@@ -60,8 +60,8 @@ namespace ma
 		void				SetValue(Uniform* pUniform, const Vector3& value);
 		void				SetValue(Uniform* pUniform, const Vector4& value);
 		void				SetValue(Uniform* pUniform, const Matrix4& value);
-		void				SetValue(Uniform* pUniform, const Matrix4* values, UINT count);
-		void				SetValue(Uniform* pUniform, const Vector4* values, UINT count);
+		void				SetValue(Uniform* pUniform, const Matrix4* values, uint32_t count);
+		void				SetValue(Uniform* pUniform, const Vector4* values, uint32_t count);
 		void				SetValue(Uniform* pUniform, const ColourValue& value);
 		void				SetValue(Uniform* pUniform, Texture* pTexture);
 		void				SetValue(Uniform* pUniform, SamplerState* sampler);
@@ -69,14 +69,14 @@ namespace ma
 		Uniform*			GetUniform(const char* pszName);
 
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
-		UINT				GetConstBufferCount(ShaderType eType);
-		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, UINT nIndex);
+		uint32_t				GetConstBufferCount(ShaderType eType);
+		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, uint32_t nIndex);
 
 		void				AddSampler(Uniform* pUniform);
-		UINT				GetSamplerCount();
-		Uniform*			GetSamplerByIndex(UINT nIndex);
+		uint32_t				GetSamplerCount();
+		Uniform*			GetSamplerByIndex(uint32_t nIndex);
 		
-		SamplerState*		GetActiveSampler(UINT nIndex) { return m_arrSampler[nIndex]; }
+		SamplerState*		GetActiveSampler(uint32_t nIndex) { return m_arrSampler[nIndex]; }
 
 		RefPtr<Technique>	CreateInstTech();
 
@@ -95,7 +95,7 @@ namespace ma
 
 		void				BindParametersUniform(Uniform* pUniform,const Any& anyValue);
 
-		void				SetValue(Uniform* uniform, const float* values, UINT nSize);
+		void				SetValue(Uniform* uniform, const float* values, uint32_t nSize);
 
 		void				ClearConstBuffer(ShaderType eType);
 
@@ -110,7 +110,7 @@ namespace ma
 		RefPtr<BlendState>				m_pBlendState;
 		
 		RefPtr<DepthStencilState>		m_pDSState;
-		UINT							m_nStencilRef;
+		uint32_t							m_nStencilRef;
 
 		RefPtr<RasterizerState>			m_pRSState;
 

@@ -5,13 +5,13 @@
 namespace ma
 {
 
-	ZipDataStream::ZipDataStream(zzip_file* zzipFile, UINT uncompressedSize)
+	ZipDataStream::ZipDataStream(zzip_file* zzipFile, uint32_t uncompressedSize)
 	:mZzipFile(zzipFile)
 	{
 		m_nSize = uncompressedSize;
 	}
 
-	ZipDataStream::ZipDataStream(const char* name, zzip_file* zzipFile, UINT uncompressedSize)
+	ZipDataStream::ZipDataStream(const char* name, zzip_file* zzipFile, uint32_t uncompressedSize)
 	:Stream(name), mZzipFile(zzipFile)
 	{
 		m_nSize = uncompressedSize;
@@ -26,11 +26,11 @@ namespace ma
 	// virtual function
 	// ---------------------------------------------------------------------
 	// Read the requisite number of bytes from the stream, stopping at the end of the file.
-	UINT ZipDataStream::Read(IN OUT void* buf, UINT count)
+	uint32_t ZipDataStream::Read(IN OUT void* buf, uint32_t count)
 	{
 		//MutexScope scope(CResourceBackgroundQueue::m_sIOMutex);
 
-		UINT was_avail = mCache.read(buf, count);
+		uint32_t was_avail = mCache.read(buf, count);
 		zzip_ssize_t r = 0;
 		if (was_avail < count)
 		{
@@ -44,13 +44,13 @@ namespace ma
 				ASSERT(false);
 				return 0;
 			}
-			mCache.cacheData((char*)buf + was_avail, (UINT)r);
+			mCache.cacheData((char*)buf + was_avail, (uint32_t)r);
 		}
-		return was_avail + (UINT)r;
+		return was_avail + (uint32_t)r;
 	}
 
 	// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
-	UINT ZipDataStream::Write(const void* pBuffer, UINT nCount)
+	uint32_t ZipDataStream::Write(const void* pBuffer, uint32_t nCount)
 	{
 		// not supported
 		return 0;
@@ -68,13 +68,13 @@ namespace ma
 		}
 		else if (nCount < 0)
 		{
-			if (!mCache.rewind((UINT)(-(int)nCount)))
+			if (!mCache.rewind((uint32_t)(-(int)nCount)))
 				zzip_seek(mZzipFile, static_cast<zzip_off_t>(nCount + was_avail), SEEK_CUR);
 		}
 	}
 
 	// Repositions the read point to a specified byte.
-	void ZipDataStream::Seek(UINT nPos)
+	void ZipDataStream::Seek(uint32_t nPos)
 	{
 		zzip_off_t newPos = static_cast<zzip_off_t>(nPos);
 		zzip_off_t prevPos = static_cast<zzip_off_t>(Tell());
@@ -92,12 +92,12 @@ namespace ma
 	}
 
 	// Returns the current byte offset from beginning
-	UINT ZipDataStream::Tell() const
+	uint32_t ZipDataStream::Tell() const
 	{
 		zzip_off_t pos = zzip_tell(mZzipFile);
 		if (pos<0)
-			return (UINT)(-1);
-		return static_cast<UINT>(pos) - mCache.avail();
+			return (uint32_t)(-1);
+		return static_cast<uint32_t>(pos) - mCache.avail();
 	}
 
 	// Returns true if the stream has reached the end.

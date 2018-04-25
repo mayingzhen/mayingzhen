@@ -12,7 +12,7 @@ namespace ma
 		if (pRefPose == NULL)
 			return false;
 
-		for (UINT i = 0; i < pSkel->GetBoneNumer(); ++i)
+		for (uint32_t i = 0; i < pSkel->GetBoneNumer(); ++i)
 		{	
 			Transform tsfBonePSInv;
 			const Transform& tsfBonePS = pRefPose->GetTransformPS(i);
@@ -22,11 +22,11 @@ namespace ma
 			QuaternionTrack& rotTrack = m_arrRotTrack[i];
 			Vector3Track& posTrack = m_arrPosTrack[i];
 
-			UINT nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			uint32_t nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = Math::Max(nFrameNumber,posTrack.m_arrFrame.back());
 			nFrameNumber = nFrameNumber + 1;
 
-			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			for (uint32_t nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
 			{
 				Transform tsfAnimPS;
 				Transform tsfAnimLS;
@@ -52,7 +52,7 @@ namespace ma
 		if (pRefPose == NULL)
 			return false;
 
-		for (UINT i = 0; i < pSkel->GetBoneNumer(); ++i)
+		for (uint32_t i = 0; i < pSkel->GetBoneNumer(); ++i)
 		{	
 			Transform tsfBoneOSInv;
 			const Transform& tsfBoneOS = pRefPose->GetTransformOS(i);
@@ -62,11 +62,11 @@ namespace ma
 			QuaternionTrack& rotTrack = m_arrRotTrack[i];
 			Vector3Track& posTrack = m_arrPosTrack[i];
 
-			UINT nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			uint32_t nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = Math::Max(nFrameNumber,posTrack.m_arrFrame.back());
 			nFrameNumber = nFrameNumber + 1;
 
-			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			for (uint32_t nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
 			{
 				Transform tsfAnimOS;
 				Transform tsfAnimLS;
@@ -91,7 +91,7 @@ namespace ma
 		if (pRefPose == NULL)
 			return false;
 
-		for (UINT i = 0; i < pSkeleton->GetBoneNumer(); ++i)
+		for (uint32_t i = 0; i < pSkeleton->GetBoneNumer(); ++i)
 		{	
 			const Transform& tsfBonePS = pRefPose->GetTransformPS(i);
 
@@ -103,11 +103,11 @@ namespace ma
 			QuaternionTrack& rotTrack = m_arrRotTrack[nMapID];
 			Vector3Track& posTrack = m_arrPosTrack[nMapID];
 
-			UINT nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			uint32_t nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = Math::Max(nFrameNumber,posTrack.m_arrFrame.back());
 			nFrameNumber = nFrameNumber + 1;
 
-			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			for (uint32_t nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
 			{
 				Transform tsfAnimPS;
 				Transform tsfAnimLS;

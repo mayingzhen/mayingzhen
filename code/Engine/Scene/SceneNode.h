@@ -93,8 +93,8 @@ namespace ma
 		// Component
 		template<class T>
 		T*					CreateComponent();
-		UINT				GetComponentNumber() {return (UINT)m_arrComp.size();}
-		Component*			GetComponentByIndex(UINT index) {return m_arrComp[index].get();}
+		uint32_t				GetComponentNumber() {return (uint32_t)m_arrComp.size();}
+		Component*			GetComponentByIndex(uint32_t index) {return m_arrComp[index].get();}
 		template<class T>
 		void				GetTypeComponent(std::vector<T*>& arrTyeComp);
 		template<class T>
@@ -120,8 +120,8 @@ namespace ma
 		void				SetUserData(const char* pszKey,void* pData);
 		void*				GetUserData(const char* pszKey);
 
-		void				SetLastVisibleFrame(UINT nFrame) {m_nLastVisibleFrame = nFrame;}
-		UINT				GetLastVisibleFrame() {return m_nLastVisibleFrame;}
+		void				SetLastVisibleFrame(uint32_t nFrame) {m_nLastVisibleFrame = nFrame;}
+		uint32_t				GetLastVisibleFrame() {return m_nLastVisibleFrame;}
 
 		bool				BeginMatrix() const;
 		const Matrix4&		CalcMatrix();
@@ -144,7 +144,7 @@ namespace ma
 		Scene*						m_pScene;
 		VEC_CHILD					m_arrChild;
 
-		UINT						m_nLastVisibleFrame;
+		uint32_t						m_nLastVisibleFrame;
 
 		mutable Transform			m_tsfPS;
 		mutable Transform			m_tsfWS;
@@ -179,7 +179,7 @@ namespace ma
 	template<class T>
 	inline void SceneNode::GetTypeComponent(std::vector<T*>& arrTyeComp)
 	{
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			T* pComponent = dynamic_cast<T*>( m_arrComp[i].get() );
 			if (pComponent != NULL)
@@ -192,7 +192,7 @@ namespace ma
 	template<class T>
 	T*	SceneNode::GetTypeComponent()
 	{
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			T* pComponent = dynamic_cast<T*>( m_arrComp[i].get() );
 			if (pComponent != NULL)

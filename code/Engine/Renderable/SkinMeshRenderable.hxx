@@ -10,13 +10,13 @@ namespace ma
 		if (pTech->GetUniform("boneDQ"))
 		{
 			const DualQuaternion* pDQ = GetSkinDQ();
-			uint32 nNumDQ = GetSkinDQCount();	
+			uint32_t nNumDQ = GetSkinDQCount();	
 			pTech->SetValue(pTech->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumDQ * 2 );
 		}
 		else
 		{
 			const Matrix3x4* pMatrix = GetSkinMatrix();
-			UINT32 nNumMatrix = GetSkinMatrixCount();
+			uint32_t nNumMatrix = GetSkinMatrixCount();
 			pTech->SetValue(pTech->GetUniform("boneMatrix"), (const Vector4*)pMatrix, nNumMatrix * 3 );
 		}
 	}
@@ -27,21 +27,21 @@ namespace ma
 		VEC_DQ& arrSkinDQ = m_arrSkinDQ[index];
 		if (arrSkinDQ.empty())
 		{
-			uint32 nBoneNum = m_pSubMeshData->m_arrBonePalette.size();
+			uint32_t nBoneNum = m_pSubMeshData->m_arrBonePalette.size();
 			arrSkinDQ.resize(nBoneNum);
 		};
 
 		return &arrSkinDQ[0];
 	}
 
-	uint32 SkinMeshRenderable::GetSkinDQCount() const 
+	uint32_t SkinMeshRenderable::GetSkinDQCount() const 
 	{
 		int index = GetRenderSystem()->CurThreadProcess();
 		const VEC_DQ& arrSkinDQ = m_arrSkinDQ[index];
 		return arrSkinDQ.size();
 	}
 
-	uint32 SkinMeshRenderable::GetSkinMatrixCount() const
+	uint32_t SkinMeshRenderable::GetSkinMatrixCount() const
 	{
 		int index = GetRenderSystem()->CurThreadProcess();
 		const VEC_MATRIX& arrSkinDQ = m_arrSkinMatrix[index];
@@ -54,14 +54,14 @@ namespace ma
 		VEC_MATRIX& arrSkinMatrix = m_arrSkinMatrix[index];
 		if (arrSkinMatrix.empty())
 		{
-			uint32 nBoneNum = m_pSubMeshData->m_arrBonePalette.size();
+			uint32_t nBoneNum = m_pSubMeshData->m_arrBonePalette.size();
 			arrSkinMatrix.resize(nBoneNum,Matrix3x4::IDENTITY);
 		}
 
 		return &arrSkinMatrix[0];
 	}
 
-	void SkinMeshRenderable::SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount)
+	void SkinMeshRenderable::SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32_t nCount)
 	{
 		profile_code();
 
@@ -74,7 +74,7 @@ namespace ma
 			arrSkinDQ.resize(nCount);
 			arrSkinMatrix.resize(nCount);
 
-			for (uint32 i = 0; i < nCount; ++i)
+			for (uint32_t i = 0; i < nCount; ++i)
 			{
 				const Matrix3x4& matSkin = arrMatrixs[i];
 
@@ -88,10 +88,10 @@ namespace ma
 		}
 		else
 		{
-			uint32 nBoneCount = m_pSubMeshData->m_arrBonePalette.size();
+			uint32_t nBoneCount = m_pSubMeshData->m_arrBonePalette.size();
 			arrSkinDQ.resize( nBoneCount );
 			arrSkinMatrix.resize(nCount);
-			for (uint32 i = 0; i < nBoneCount; ++i)
+			for (uint32_t i = 0; i < nBoneCount; ++i)
 			{
 				BoneIndex boneID = m_pSubMeshData->m_arrBonePalette[i];
 				ASSERT(boneID >=0 && boneID < nCount);

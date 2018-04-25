@@ -26,7 +26,7 @@ namespace ma
 	
 		virtual void	Init();
 	
-		virtual void	Reset(uint32 nWidth,uint32 nHeight);
+		virtual void	Reset(uint32_t nWidth,uint32_t nHeight);
 
 		virtual void	Shutdown();
 
@@ -50,8 +50,8 @@ namespace ma
 
 	public:
 		bool m_bOnWindowSized;
-		uint32 m_OnWindowSizedWidth;
-		uint32 m_OnWindowSizedHeight;
+		uint32_t m_OnWindowSizedWidth;
+		uint32_t m_OnWindowSizedHeight;
 
 		Signal< void(Keyboard::KeyEvent, Keyboard::Key) > mkeyEvent;
 		Signal< void(Mouse::MouseEvent, int, int, int) > mMouseEvent;

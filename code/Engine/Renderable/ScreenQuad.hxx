@@ -31,15 +31,15 @@ namespace ma
 		quadVerts[2].texCoords = Vector2(1.0f, 0.0f);
 		quadVerts[3].texCoords = Vector2(1.0f, 1.0f);
 
-		uint16 indices[4];
+		uint16_t indices[4];
 		indices[0]= 0;
 		indices[1]= 1;
 		indices[2]= 2;
 		indices[3]= 3;
 
-		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer((uint8*)quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
+		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer((uint8_t*)quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
 
-		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer((uint8*)indices,sizeof(uint16) * 4,sizeof(uint16));
+		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer((uint8_t*)indices,sizeof(uint16_t) * 4,sizeof(uint16_t));
 
 		gpScrenQuad->m_pIndexBuffer = pIndexs;
 		gpScrenQuad->m_pVertexBuffer = pVertexs;

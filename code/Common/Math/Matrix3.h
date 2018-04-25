@@ -116,9 +116,9 @@ namespace ma
 		{
 			return (float*)m[iRow];
 		}
-        /*inline operator Real* ()
+        /*inline operator float* ()
 		{
-			return (Real*)m[0];
+			return (float*)m[0];
 		}*/
         Vector3 GetColumn (size_t iCol) const;
         void SetColumn(size_t iCol, const Vector3& vec);

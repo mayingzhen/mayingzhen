@@ -9,20 +9,20 @@ namespace ma
 {
 	struct SHORTV4
 	{
-		int16 x;
-		int16 y;
-		int16 z;
-		int16 w;
+		int16_t x;
+		int16_t y;
+		int16_t z;
+		int16_t w;
 	};
 
 	struct SHORTV2
 	{
-		int16 x;
-		int16 y;
+		int16_t x;
+		int16_t y;
 	};
 
-	UINT32 CompressNormal(const Vector3& vNorm);
-	UINT32 CompressQuaternion(const Vector3& tangent,Vector3 const& normal); 
+	uint32_t CompressNormal(const Vector3& vNorm);
+	uint32_t CompressQuaternion(const Vector3& tangent,Vector3 const& normal); 
 	SHORTV4 CompressPos(const Vector3& vPos, const Vector3& vCenter, const Vector3& vExtent);
 	SHORTV2 CompressUV(const Vector2& vUV,const Vector2& vCenter, const Vector2& vExtent);
 
@@ -32,13 +32,13 @@ namespace ma
 	struct SkinVertexV0
 	{
 		Vector3 pos;
-		uint32  bone_index;
-		uint32  bone_weight;
+		uint32_t  bone_index;
+		uint32_t  bone_weight;
 		Vector3 nor;
 		Vector2 uv;
 		Vector3 tan;
-		uint32  color0;
-		uint32  color1;
+		uint32_t  color0;
+		uint32_t  color1;
 
 		bool operator == ( const SkinVertexV0& other) const
 		{
@@ -52,16 +52,16 @@ namespace ma
 	struct SkinVertexV1
 	{
 		SHORTV4 pos;
-		uint32	nor;
+		uint32_t	nor;
 		SHORTV2	uv;
-		uint32  bone_index;
-		uint32  bone_weight;
+		uint32_t  bone_index;
+		uint32_t  bone_weight;
 	}; //24B
 
 	struct StaticVertexV1
 	{
 		SHORTV4 pos;
-		uint32	nor;
+		uint32_t	nor;
 		SHORTV2	uv;
 	}; //16B
 
@@ -75,11 +75,11 @@ namespace ma
 	class SubMeshData : public Referenced
 	{
 	public:
-		UINT					m_nIndexStart;
-		UINT					m_nIndexCount;
-		UINT					m_nVertexStart;
-		UINT					m_nVertexCount;
-		UINT					m_nMateiralID;
+		uint32_t					m_nIndexStart;
+		uint32_t					m_nIndexCount;
+		uint32_t					m_nVertexStart;
+		uint32_t					m_nVertexCount;
+		uint32_t					m_nMateiralID;
 		std::vector<BoneIndex>	m_arrBonePalette;
 
 		SubMeshData()
@@ -108,8 +108,8 @@ namespace ma
 
 		~MeshData();
 		
-		UINT					GetSubMeshNumber() {return (UINT)m_arrSubMesh.size();}
-		SubMeshData*			GetSubMeshByIndex(UINT index) const {return m_arrSubMesh[index].get();} 
+		uint32_t					GetSubMeshNumber() {return (uint32_t)m_arrSubMesh.size();}
+		SubMeshData*			GetSubMeshByIndex(uint32_t index) const {return m_arrSubMesh[index].get();} 
 		void					AddSubMeshData(SubMeshData* pSubMeshData);
 
 		IndexBuffer*			GetIndexBuffer() const {return m_pIndexBuffer.get();} 
@@ -130,13 +130,13 @@ namespace ma
 		INDEX_TYPE				GetIndexType() const {return m_nIndexType;}
 		void					SetIndexType(INDEX_TYPE nType) {m_nIndexType = nType;} 
 
-		UINT32					GetBoneNumber() const {return m_nBoneNumber;}
-		void					SetBoneNumber(UINT32 nNumber) {m_nBoneNumber = nNumber;}
+		uint32_t				GetBoneNumber() const {return m_nBoneNumber;}
+		void					SetBoneNumber(uint32_t nNumber) {m_nBoneNumber = nNumber;}
 		
 		bool					SaveToFile(const char* pszFile);	
 
-		void					UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex);
-		void					UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex);	
+		void					UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32_t nVertexCount,uint16_t* pIndex);
+		void					UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32_t nVertexCount,uint16_t* pIndex);	
 	
 	private:
 
@@ -147,7 +147,7 @@ namespace ma
 		void					ReadDataV0();
 
 	private:
-		UINT							m_nBoneNumber;
+		uint32_t							m_nBoneNumber;
 		INDEX_TYPE						m_nIndexType;
 		VertexType						m_nVertexType;
 		RefPtr<IndexBuffer>				m_pIndexBuffer;

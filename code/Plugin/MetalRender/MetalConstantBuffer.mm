@@ -29,7 +29,7 @@ namespace ma
 		Release();
 
 		// Round up to next 16 bytes
-		UINT nSize = GetSize() + 15;
+		uint32_t nSize = GetSize() + 15;
 		nSize &= 0xfffffff0;
 
         for (uint i = 0; i < 3; ++i)
@@ -48,7 +48,7 @@ namespace ma
         
         if (!m_bApply)
         {
-            for (UINT i = 0; i < 3; ++i)
+            for (uint32_t i = 0; i < 3; ++i)
             {
                 void* shadowData = [m_pMetalBuffer[i] contents];
                 BYTE* dest = (BYTE*)shadowData;
@@ -101,7 +101,7 @@ namespace ma
 		g_mapConstantBufferPool.clear();
 	}
 
-	RefPtr<MetalConstantBuffer> CreateConstantBuffer(const char* pszName, UINT nIndex, UINT size)
+	RefPtr<MetalConstantBuffer> CreateConstantBuffer(const char* pszName, uint32_t nIndex, uint32_t size)
 	{
 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 		//unsigned key = type | (index << 1) | (size << 4);

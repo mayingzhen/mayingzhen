@@ -39,7 +39,7 @@ namespace ma
 
 	void ParallelCull::RemoveObject(RenderComponent* pObject)
 	{
-		uint32 nCullIndex = pObject->GetCullIndex();
+		uint32_t nCullIndex = pObject->GetCullIndex();
 		if (nCullIndex == -1)
 			return;
 
@@ -82,7 +82,7 @@ namespace ma
 			return;
 		}
 
-		uint32 nCullIndex = pObject->GetCullIndex();
+		uint32_t nCullIndex = pObject->GetCullIndex();
 		if (nCullIndex == -1)
 		{
 			AddObject(pObject);
@@ -110,8 +110,8 @@ namespace ma
 		RenderComponent** m_pNodeStart;
 		int* m_pVisStart;
 		ParallelCull::NodeBound* m_pNodeBoundStart;
-		uint32 m_nNodeCount;
-		uint32 m_nMask;
+		uint32_t m_nNodeCount;
+		uint32_t m_nMask;
 		Frustum* m_pFrustum;
 
 		CullJobData()
@@ -132,9 +132,9 @@ namespace ma
 		RenderComponent** ppNodeStart = pCullJobData->m_pNodeStart;
 		int* ppViewStart = pCullJobData->m_pVisStart;
 		ParallelCull::NodeBound* ppNodeBound = pCullJobData->m_pNodeBoundStart;
-		UINT32 nIndexCount = pCullJobData->m_nNodeCount;
+		uint32_t nIndexCount = pCullJobData->m_nNodeCount;
 
-		for (uint32 i = 0; i <= nIndexCount; ++i)
+		for (uint32_t i = 0; i <= nIndexCount; ++i)
 		{
 			RenderComponent* pNode = ppNodeStart[i];
 			int& pView = ppViewStart[i];
@@ -153,11 +153,11 @@ namespace ma
 	}
 
 
-	void ParallelCull::FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) 
+	void ParallelCull::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj) 
 	{
 		ASSERT(vecObj.empty());
 
-        uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
+        uint32_t nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 	
 		if (nNumJob > 1 && m_vecNode.size() > nNumJob)
 		{
@@ -169,14 +169,14 @@ namespace ma
 			static vector<CullJobData> vecJobData;
 			vecJobData.resize(nNumJob);
 
-			uint32 nCountPerJob = m_vecNode.size() / nNumJob;
+			uint32_t nCountPerJob = m_vecNode.size() / nNumJob;
 
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(nNumJob);
 
-			for (UINT32 iJob = 0; iJob < nNumJob; ++iJob)
+			for (uint32_t iJob = 0; iJob < nNumJob; ++iJob)
 			{
-				uint32 nStartIndex = iJob * nCountPerJob;
-				uint32 nEndIndex = nStartIndex + nCountPerJob - 1;
+				uint32_t nStartIndex = iJob * nCountPerJob;
+				uint32_t nEndIndex = nStartIndex + nCountPerJob - 1;
 				if (iJob == nNumJob - 1) 
 					nEndIndex  = m_vecNode.size() - 1;
 
@@ -184,7 +184,7 @@ namespace ma
 				if (nEndIndex < nStartIndex)
 					continue;
 
-				uint32 nCount = nEndIndex - nStartIndex;
+				uint32_t nCount = nEndIndex - nStartIndex;
 				void* data = (Frustum*)pFrustum;
 				vecJobData[iJob].m_pNodeStart = &(m_vecNode[nStartIndex]);
 				vecJobData[iJob].m_pVisStart = &(vecVis[nStartIndex]);
@@ -198,7 +198,7 @@ namespace ma
 			GetJobScheduler()->WaitForGroup(jobGroup);
 
 			vecObj.clear();
-			for (UINT32 i = 0; i < vecVis.size(); ++i)
+			for (uint32_t i = 0; i < vecVis.size(); ++i)
 			{
 				if (vecVis[i])
 				{
@@ -213,7 +213,7 @@ namespace ma
 			//BEGIN_TIME(ParallelCull);
 	
 			vecObj.clear();
-			for (UINT32 i = 0; i < m_vecNode.size(); ++i)
+			for (uint32_t i = 0; i < m_vecNode.size(); ++i)
 			{
 				RenderComponent* pObject = m_vecNode[i];
 

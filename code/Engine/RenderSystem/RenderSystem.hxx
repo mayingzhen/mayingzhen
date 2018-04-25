@@ -23,7 +23,7 @@ namespace ma
 	RenderSystem::RenderSystem()
 	{
 		m_pDepthStencil = NULL;
-		for (UINT i = 0; i < MAX_RENDER_TARGET; ++i)
+		for (uint32_t i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
 			m_pRenderTarget[i] = NULL;
 		}
@@ -64,7 +64,7 @@ namespace ma
 		return m_arrScene[index].get();
 	}
 
-	void RenderSystem::Init(HWND wndhandle, bool bThread)
+	void RenderSystem::Init(void* wndhandle, bool bThread)
 	{
 		m_bThread = bThread;
 		if (bThread)
@@ -75,7 +75,7 @@ namespace ma
 		m_pRenderThread->RC_Init(wndhandle);
 	}
 
-	void RenderSystem::Reset(uint32 nWidth, uint32 nHeight)
+	void RenderSystem::Reset(uint32_t nWidth, uint32_t nHeight)
 	{
 		m_pRenderThread->RC_Reset(nWidth,nHeight);
 	}
@@ -100,7 +100,7 @@ namespace ma
 
 		UpdatePoolId();
 
-		for (UINT i = 0; i < m_arrScene.size(); ++i)
+		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
 		{
 			m_arrScene[i]->Update();
 		}
@@ -108,7 +108,7 @@ namespace ma
 
 	void RenderSystem::BegineRender()
 	{
-		for (UINT32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
+		for (uint32_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		{
 			m_arrSampState[i] = NULL;
 		}
@@ -130,7 +130,7 @@ namespace ma
 
 	void RenderSystem::OnFlushFrame()
 	{
-		for (UINT i = 0; i < m_arrScene.size(); ++i)
+		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
 		{
 			m_arrScene[i]->OnFlushFrame();
 		}
@@ -141,7 +141,7 @@ namespace ma
 
 	void RenderSystem::RT_ShutDown()
 	{	
-		for (UINT i = 0; i < m_arrScene.size(); ++i)
+		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
 		{
 			m_arrScene[i] = NULL;
 		}
@@ -195,7 +195,7 @@ namespace ma
 	}
 
 
-	void RenderSystem::RT_Init(HWND wndhandle)
+	void RenderSystem::RT_Init(void* wndhandle)
 	{
 		m_hWnd = wndhandle;
 
@@ -219,7 +219,7 @@ namespace ma
 		m_arrScene.push_back(pScene);
 	}
 
-	void RenderSystem::RT_Reset(uint32 nWidth,uint32 nHeight)
+	void RenderSystem::RT_Reset(uint32_t nWidth,uint32_t nHeight)
 	{
 		// Reset Main Scene
 		m_arrScene[0]->Reset(nWidth,nHeight);
@@ -245,13 +245,13 @@ namespace ma
 
 	void RenderSystem::RT_Render()
 	{
-		for (UINT i = 0; i < m_arrScene.size(); ++i)
+		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
 		{
 			m_arrScene[i]->Render();
 		}
 	}
 
-	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
+	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
@@ -316,7 +316,7 @@ namespace ma
 		m_pRenderThread->RC_RenderPassStreamComplete(pRenderPass);
 	}
 
-	void RenderSystem::SetUniformValue(Uniform* pUniform, const void* data, UINT nSize)
+	void RenderSystem::SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize)
 	{
 		m_pRenderThread->RC_SetUniformValue(pUniform,data,nSize);
 	}
@@ -336,7 +336,7 @@ namespace ma
 		m_pRenderThread->RC_EndProfile();	
 	}
 
-	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
+	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
 		pIB->SetData(pData,nSize,nStride,eUsage,bShadowData);
@@ -344,7 +344,7 @@ namespace ma
 		return pIB;
 	}
 
-	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
+	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
 		pVB->SetData(pData,nSize,nStride,eUsage,bShadowData);
@@ -352,10 +352,10 @@ namespace ma
 		return pVB;
 	}
 
-	RefPtr<VertexDeclaration> RenderSystem::CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount)
+	RefPtr<VertexDeclaration> RenderSystem::CreateVertexDeclaration(VertexElement* arrElememt,uint32_t nCount)
 	{
 		VertexDeclaration* pVD = GetRenderDevice()->CreateVertexDeclaration();
-		for (UINT i = 0 ; i < nCount; ++i)
+		for (uint32_t i = 0 ; i < nCount; ++i)
 		{
 			pVD->AddElement(arrElememt[i]);	
 		}
@@ -410,12 +410,12 @@ namespace ma
 		return iter->second.c_str();
 	}
 
-	uint32 RenderSystem::GetNumShaderGlobaMacro() const
+	uint32_t RenderSystem::GetNumShaderGlobaMacro() const
 	{
 		return m_mapMacros.size();
 	}
 
-	const char* RenderSystem::GetShaderGlobaMacroByIndex(uint32 i, OUT const char*& pszValue) const
+	const char* RenderSystem::GetShaderGlobaMacroByIndex(uint32_t i, OUT const char*& pszValue) const
 	{
 		if (i >= m_mapMacros.size())
 		{
@@ -436,7 +436,7 @@ namespace ma
 
 	void RenderSystem::InitParticleVideoMemory()
 	{
-		for (uint32 i = 0; i < nNumParticleBuffer; ++i)
+		for (uint32_t i = 0; i < nNumParticleBuffer; ++i)
 		{
 			//m_pParticleBuffer[i] = new ParallHardWareBuffer(sizeof(ParticleSystemRenderable::VERTEX), 7680 * 4, 7680 * 6);
 			//m_pParticleBuffer[i]->LockVideoMemory(); 
@@ -448,29 +448,29 @@ namespace ma
 
 	ParallHardWareBuffer* RenderSystem::GetParticleBuffer()
 	{
-		uint32 nIndex = m_nPoolIndex % nNumParticleBuffer;
+		uint32_t nIndex = m_nPoolIndex % nNumParticleBuffer;
 		return m_pParticleBuffer[nIndex].get();
 	}
 
 	ParallHardWareBuffer* RenderSystem::GetRTParticleBuffer()
 	{
-		uint32 nIndex = m_nPoolIndexRT % nNumParticleBuffer;
+		uint32_t nIndex = m_nPoolIndexRT % nNumParticleBuffer;
 		return m_pParticleBuffer[nIndex].get();
 	}
 
 	ParallHardWareBuffer* RenderSystem::GetInstanceBuffer()
 	{
-		uint32 nIndex = m_nPoolIndex % nNumParticleBuffer;
+		uint32_t nIndex = m_nPoolIndex % nNumParticleBuffer;
 		return m_pInstanceBuffer[nIndex].get();
 	}
 
 	ParallHardWareBuffer* RenderSystem::GetRTInstaneBuffer()
 	{
-		uint32 nIndex = m_nPoolIndexRT % nNumParticleBuffer;
+		uint32_t nIndex = m_nPoolIndexRT % nNumParticleBuffer;
 		return m_pInstanceBuffer[nIndex].get();
 	}
 
-	void RenderSystem::LockParticleVideoMemory(uint32 nId)
+	void RenderSystem::LockParticleVideoMemory(uint32_t nId)
 	{
 		profile_code();
 
@@ -489,7 +489,7 @@ namespace ma
 		}
 	}
 
-	void RenderSystem::UnLockParticleVideoMemory(uint32 nId)
+	void RenderSystem::UnLockParticleVideoMemory(uint32_t nId)
 	{
 		if(m_pParticleBuffer[nId])
 		{
@@ -502,7 +502,7 @@ namespace ma
 		}
 	}
 
-	void RenderSystem::RT_SetPoolId(uint32 poolId)
+	void RenderSystem::RT_SetPoolId(uint32_t poolId)
 	{
 		m_nPoolIndexRT = poolId; 
 	}

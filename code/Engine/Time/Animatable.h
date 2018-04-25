@@ -21,8 +21,8 @@ namespace ma
 		void SetInterval(float nIntervalMillisecond){m_fIntervalMillisecond = nIntervalMillisecond;}
 		float GetInterval() const{return m_fIntervalMillisecond;}
 		float CalcLocalTime();
-		void SetLoop(uint32 nLoopTimes){mLoop = nLoopTimes;}
-		uint32 GetLoop() const{return mLoop == 0 ? -1 : mLoop;}
+		void SetLoop(uint32_t nLoopTimes){mLoop = nLoopTimes;}
+		uint32_t GetLoop() const{return mLoop == 0 ? -1 : mLoop;}
 
 		float GetPlaySpeed() const {return  DEFAULT_INTERVAL / m_fIntervalMillisecond;}
 		void SetPlaySpeed(float fPlaySpeed) {m_fIntervalMillisecond = DEFAULT_INTERVAL / fPlaySpeed;}
@@ -41,18 +41,18 @@ namespace ma
 		STATE GetState() const {return m_state;}
 
 		float Process();
-		void SetFrameCount(uint32 nFrmaeCount) {m_fFrameCount = (float)nFrmaeCount;}
+		void SetFrameCount(uint32_t nFrmaeCount) {m_fFrameCount = (float)nFrmaeCount;}
 		float GetFrame() {return m_fLocalFrame;}
 		virtual void SetFrame(float fFrame);
 
 	protected:
 		float m_fOldElapsedTime;
 		float m_fElapsedTime;
-		uint64 m_nLastTime;
+		uint64_t m_nLastTime;
 		STATE m_state;
 
 		float m_fIntervalMillisecond;
-		uint32 mLoop;
+		uint32_t mLoop;
 
 		float m_fFrameCount;
 		float m_fLocalFrame;

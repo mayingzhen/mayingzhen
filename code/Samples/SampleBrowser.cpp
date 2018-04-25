@@ -5,7 +5,7 @@
 #include "VulkanRender/Module.h"
 #include "BulletPhysics/Module.h"
 
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 #include "MonoScript/Module.h"
 #include "D3D11Render/Module.h"
 #endif
@@ -17,7 +17,7 @@
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 //#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
 #endif
@@ -65,19 +65,16 @@ namespace ma
 		//BtPhysicsModuleInit();
         
 
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
         VulkanRenderModuleInit();
-#elif PLAFTORM_IOS == 1
-        MetalRenderModuleInit();
-#elif PLATFORM_ANDROID == 1
-        VulkanRenderModuleInit();
-#endif
-      
-#if PLATFORM_WIN == 1
-        MonoScriptModuleInit();
+		MonoScriptModuleInit();
 		//FBXImporterModuleInit();
+#elif defined(__APPLE__) 
+        MetalRenderModuleInit();
+#elif defined(__ANDROID__)
+        VulkanRenderModuleInit();
 #endif
-        
+
 	}
 
 	void SampleBrowser::ModuleShutdown()
@@ -85,23 +82,21 @@ namespace ma
 		AnimationModuleShutdown();
 		//BtPhysicsModuleShutdown();
         
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
         VulkanRenderModuleShutdown();
-#elif PLAFTORM_IOS == 1
+		MonoScriptModuleShutdown();
+		//FBXImporterModuleShutdown();
+#elif defined(__APPLE__) 
         MetalRenderModuleShutdown();
-#elif PLATFORM_ANDROID == 1
+#elif defined(__ANDROID__)
         VulkanRenderModuleShutdown();
 #endif
-       
-#if PLATFORM_WIN == 1
-        MonoScriptModuleShutdown();
-		//FBXImporterModuleShutdown();
-#endif	
+      
 	}
 
 	void SampleBrowser::InitResourcePath()
 	{
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 		char pszPath[MAX_PATH] = {0};
 
 		//GetArchiveMananger()->AddArchive(CreateZipArchive("data.zip").get());
@@ -111,7 +106,7 @@ namespace ma
 
 		GetArchiveMananger()->SetSaveDir(pszPath);
 
-#elif PLAFTORM_IOS == 1
+#elif defined(__APPLE__) 
 		std::string sAppDir = Platform::GetInstance().GetAppPath();
 
 		//std::string sDataDir = sAppDir + "data.zip";
@@ -120,7 +115,7 @@ namespace ma
         std::string sDataDir = sAppDir + "data";
 		GetArchiveMananger()->AddArchive( CreateFileArchive(sDataDir.c_str()).get() );
 
-#elif PLATFORM_ANDROID == 1
+#elif defined(__ANDROID__)
 		GetArchiveMananger()->AddArchive( new AAssetArchive("data") );
 #endif
 	}
@@ -133,7 +128,7 @@ namespace ma
 // 			if (GetPhysicsSystem())
 // 				GetPhysicsSystem()->Stop();
 // 
-// #if PLATFORM_WIN == 1
+// #if defined(_WIN32)
 // 			if (GetScriptSystem())
 // 				GetScriptSystem()->Stop();
 // #endif
@@ -145,7 +140,7 @@ namespace ma
 // 		if (GetPhysicsSystem())
 // 			GetPhysicsSystem()->Shoutdown();
         
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 		if (GetScriptSystem())
 			GetScriptSystem()->Shoutdown();
 #endif
@@ -166,12 +161,12 @@ namespace ma
 // 		if (GetPhysicsSystem())
 // 			GetPhysicsSystem()->Init();
         
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 		if (GetScriptSystem())
 			GetScriptSystem()->Init();
 #endif
 			
-		HWND hWnd = Platform::GetInstance().GetWindId();
+		void* hWnd = Platform::GetInstance().GetWindId();
 		
 		Scene* pScene = GetRenderSystem()->GetScene();
 		pScene->SetCallback(this);

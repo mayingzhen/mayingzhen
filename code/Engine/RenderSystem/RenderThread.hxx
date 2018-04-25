@@ -4,7 +4,7 @@
 namespace ma
 {
 #ifdef WIN32
-	HWND GetRenderWindowHandle()
+	void* GetRenderWindowHandle()
 	{
 		return GetRenderSystem()->GetMainWnd();
 	}
@@ -48,22 +48,22 @@ namespace ma
 	{
 		while (!m_bExit)
 		{
-			uint64 nTime = GetTimer()->GetMillisceonds();
+			uint64_t nTime = GetTimer()->GetMillisceonds();
 			WaitFlushCond();
-			uint64 nTimeAfterWait = GetTimer()->GetMillisceonds();
-			uint64 nTimeWaitForMain = nTimeAfterWait - nTime;
+			uint64_t nTimeAfterWait = GetTimer()->GetMillisceonds();
+			uint64_t nTimeWaitForMain = nTimeAfterWait - nTime;
 			//LogInfo("fTimeWaitForMain = %d",nTimeWaitForMain);
 			//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
 			ProcessCommands();
-			uint64 nTimeAfterProcess = GetTimer()->GetMillisceonds();
-			uint64 nTimeProcessedRT = nTimeAfterProcess - nTimeAfterWait;
+			uint64_t nTimeAfterProcess = GetTimer()->GetMillisceonds();
+			uint64_t nTimeProcessedRT = nTimeAfterProcess - nTimeAfterWait;
 			LogInfo("fTimeProcessedRT = %d",nTimeProcessedRT);
 			//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
 		}
 	}
 
 
-	void RenderThread::RC_Init(HWND wndhandle)
+	void RenderThread::RC_Init(void* wndhandle)
 	{
 		if (IsRenderThread())
 		{
@@ -76,7 +76,7 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_Reset(uint32 nWidth,uint32 nHeight)
+	void RenderThread::RC_Reset(uint32_t nWidth,uint32_t nHeight)
 	{
 		if (IsRenderThread())
 		{
@@ -274,7 +274,7 @@ namespace ma
 		AddPointer(pRenderTarget);
 	}
 
-	void RenderThread::RC_SetUniformValue(Uniform* pUniform, const void* data, UINT nSize)
+	void RenderThread::RC_SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize)
 	{
 		// job 线程也会调用到这边
 		if (IsRenderThread() || !IsMainThread())
@@ -303,7 +303,7 @@ namespace ma
 		AddPointer(pSampler);
 	}
 
-	void RenderThread::RC_SetPoolId(uint32 poolId)
+	void RenderThread::RC_SetPoolId(uint32_t poolId)
 	{
 		if (IsRenderThread())
 		{
@@ -347,22 +347,21 @@ namespace ma
 
 		int n = 0;
 		m_bSuccessful = true;
-		m_hResult = S_OK;
 		while (n < (int)m_Commands[m_nCurThreadProcess].Num())
 		{
-			BYTE nC = m_Commands[m_nCurThreadProcess][n++];
+			uint8_t nC = m_Commands[m_nCurThreadProcess][n++];
 			switch (nC)
 			{
 			case eRC_Init:
 				{
-					HWND wndhandle = ReadCommand<HWND>(n);
+					void* wndhandle = ReadCommand<void*>(n);
 					GetRenderSystem()->RT_Init(wndhandle);
 				}
 				break;
 			case eRC_Reset:
 				{
-					uint32 nWidth = ReadCommand<uint32>(n);
-					uint32 nHeight = ReadCommand<uint32>(n);
+					uint32_t nWidth = ReadCommand<uint32_t>(n);
+					uint32_t nHeight = ReadCommand<uint32_t>(n);
 					GetRenderSystem()->RT_Reset(nWidth,nHeight);
 				}
 				break;
@@ -445,7 +444,7 @@ namespace ma
 				{
 					Uniform* pUniform = ReadCommand<Uniform*>(n);
 					void* data = NULL;
-					UINT nSize = 0;
+					uint32_t nSize = 0;
 					ReadData(n, data, nSize);
 
 					ASSERT(nSize <= pUniform->GetSize());
@@ -461,7 +460,7 @@ namespace ma
 				break;
 			case  eRC_SetPoolId:
 				{
-					UINT nId = ReadCommand<UINT>(n);
+					uint32_t nId = ReadCommand<uint32_t>(n);
 					GetRenderSystem()->RT_SetPoolId(nId);
 				}
 				break;
@@ -514,9 +513,9 @@ namespace ma
 		//if (!IsMultithreaded())
 		//	return;
 
-		uint64 nTime = GetTimer()->GetMillisceonds();
+		uint64_t nTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
-		uint64 nTimeWaitForRender = GetTimer()->GetMillisceonds() - nTime;
+		uint64_t nTimeWaitForRender = GetTimer()->GetMillisceonds() - nTime;
 		//LogInfo("fTimeWaitForRender = %d",nTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		

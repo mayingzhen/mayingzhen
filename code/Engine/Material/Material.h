@@ -59,11 +59,11 @@ namespace ma
 
 		DECL_OBJECT(Material);
 	
-		UINT				GetLodNumber() const {return (UINT)m_arrLodSubMaterial.size();}
-		UINT				GetLodSubNumber(UINT nLod) const;
-		SubMaterial*		GetLodSubByIndex(UINT nLod,uint32 index) const;
+		uint32_t				GetLodNumber() const {return (uint32_t)m_arrLodSubMaterial.size();}
+		uint32_t				GetLodSubNumber(uint32_t nLod) const;
+		SubMaterial*		GetLodSubByIndex(uint32_t nLod,uint32_t index) const;
 
-		void				AddSubMaterial(UINT nLod,SubMaterial* pSubMaterial);	
+		void				AddSubMaterial(uint32_t nLod,SubMaterial* pSubMaterial);	
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	

@@ -20,7 +20,7 @@ namespace ma
 		DECL_USAGE      Usage;
 		short			UsageIndex;
 
-		uint32 mHash;
+		uint32_t mHash;
 
 		VertexElement();
 
@@ -28,7 +28,7 @@ namespace ma
 
 		void BuildHash();
 
-		uint32 GetHash() const { return mHash; }
+		uint32_t GetHash() const { return mHash; }
 	};
 
 	class VertexDeclaration : public Referenced
@@ -42,13 +42,13 @@ namespace ma
 
 		void					AddElement(const VertexElement& element);
 
-        UINT					GetStreanmStride(UINT nStream) const;
+        uint32_t					GetStreanmStride(uint32_t nStream) const;
 		
-        UINT					GetElementCount(UINT nStream);
+        uint32_t					GetElementCount(uint32_t nStream);
 		
-        const VertexElement&	GetElement(UINT nStream, UINT index);
+        const VertexElement&	GetElement(uint32_t nStream, uint32_t index);
 		
-		uint64					GetHash();
+		uint64_t					GetHash();
 
 		bool					Import(rapidxml::xml_node<>* pXmlElem);
 		bool					Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
@@ -60,7 +60,7 @@ namespace ma
 		typedef std::vector<VertexElement> StreamElement;
 		std::vector<StreamElement> 	m_arrStreamElement;
 		
-		std::vector<UINT>			m_arrStreamStride;
+		std::vector<uint32_t>			m_arrStreamStride;
 	};
 
 	RefPtr<VertexDeclaration> CreateVertexDeclaration();

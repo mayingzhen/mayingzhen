@@ -40,7 +40,7 @@ namespace ma
 
 		IsReady();
 
-		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
+		for (uint32_t i = 0; i < m_vecTrunk.size(); ++i)
 		{
 			m_vecTrunk[i]->Update();
 		}
@@ -48,7 +48,7 @@ namespace ma
 
 	void Terrain::ClearTempData()
 	{
-		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
+		for (uint32_t i = 0; i < m_vecTrunk.size(); ++i)
 		{
 			m_vecTrunk[i]->ClearTempData();
 		}
@@ -59,7 +59,7 @@ namespace ma
 	{
 		SceneNode::SetScene(pScene);
 
-		for (uint32 i = 0; i < m_vecTrunk.size(); ++i)
+		for (uint32_t i = 0; i < m_vecTrunk.size(); ++i)
 		{
 			m_vecTrunk[i]->SetSceneNode(this);
 		}
@@ -101,7 +101,7 @@ namespace ma
 		}
 		else
 		{
-			m_uNumLods = Math::Clamp<uint32>(m_uNumLods, 1, 4);
+			m_uNumLods = Math::Clamp<uint32_t>(m_uNumLods, 1, 4);
 		}
 	}
 
@@ -134,18 +134,18 @@ namespace ma
 
 	TerrainTrunk* Terrain::GetTerrainTrunkByVertex(int nXVert, int nYVert)
 	{
-		UINT i = nXVert / m_nXCellsAmount;
-		UINT j = nYVert / m_nYCellsAmount;
+		uint32_t i = nXVert / m_nXCellsAmount;
+		uint32_t j = nYVert / m_nYCellsAmount;
 		return this->GetTerrainTrunkByIndex(i, j);
 	}
 
-	TerrainTrunk* Terrain::GetTerrainTrunkByIndex(UINT i, UINT j)
+	TerrainTrunk* Terrain::GetTerrainTrunkByIndex(uint32_t i, uint32_t j)
 	{
-		UINT nTrunkXCellAmont = Math::ICeil(m_nXCellsAmount/(float)m_nTrunkSize);
-		UINT nTrunkYCellAmont = Math::ICeil(m_nYCellsAmount/(float)m_nTrunkSize);
+		uint32_t nTrunkXCellAmont = Math::ICeil(m_nXCellsAmount/(float)m_nTrunkSize);
+		uint32_t nTrunkYCellAmont = Math::ICeil(m_nYCellsAmount/(float)m_nTrunkSize);
 		i = Math::Clamp<int>(i, 0, nTrunkXCellAmont-1);
 		j = Math::Clamp<int>(j, 0, nTrunkYCellAmont-1);
-		UINT index = i + j * nTrunkXCellAmont;
+		uint32_t index = i + j * nTrunkXCellAmont;
 		ASSERT(index >= 0 && index < m_vecTrunk.size());
 		if (index >= m_vecTrunk.size())
 			return NULL;
@@ -235,14 +235,14 @@ namespace ma
 
 		if (m_pHeightMapData)
 		{
-			ResourceMapToData<uint16>(m_pHeightMapData.get(),m_vecHeight,m_nXCellsAmount,m_nYCellsAmount);
+			ResourceMapToData<uint16_t>(m_pHeightMapData.get(),m_vecHeight,m_nXCellsAmount,m_nYCellsAmount);
 			m_pHeightMapData = NULL;
 		}
 
 		if (m_pMaterialMapData)
 		{
 			int matW, matH;
-			ResourceMapToData<uint8>(m_pMaterialMapData.get(),m_vecVertexMatID,matW,matH);
+			ResourceMapToData<uint8_t>(m_pMaterialMapData.get(),m_vecVertexMatID,matW,matH);
 			m_pMaterialMapData = NULL;
 		}
 
@@ -328,7 +328,7 @@ namespace ma
 
 		const char* pszName = pSrcResource->GetResPath();
 		void* pMemory = pSrcResource->GetDataStream()->GetPtr(); 
-		uint32 nSizeBytes =	pSrcResource->GetDataStream()->GetSize();
+		uint32_t nSizeBytes =	pSrcResource->GetDataStream()->GetSize();
 
 		ImageData imageData;
 		Texture::BuildImageData(pszName,pMemory,nSizeBytes,imageData);
@@ -358,8 +358,8 @@ namespace ma
 					n = nHeight - 1;
 				}
 
-				uint8* srcP = (uint8*)src.data + n * src.rowPitch * sizeof(T) + m * sizeof(T);
-				uint8* desP = (uint8*)&vecDestData[0]  + j * (nWidth + 1) * sizeof(T) + i * sizeof(T);
+				uint8_t* srcP = (uint8_t*)src.data + n * src.rowPitch * sizeof(T) + m * sizeof(T);
+				uint8_t* desP = (uint8_t*)&vecDestData[0]  + j * (nWidth + 1) * sizeof(T) + i * sizeof(T);
 				memcpy(desP, srcP, sizeof(T));
 			}
 		}
@@ -561,12 +561,12 @@ namespace ma
 	}
 
 	// Material
-	uint8 Terrain::GetMaterialID(int nXVert,int nYVert) const
+	uint8_t Terrain::GetMaterialID(int nXVert,int nYVert) const
 	{
 		if ( m_vecVertexMatID.empty() )
 			return 0;
 
-		uint32 nIndex = nXVert + nYVert * (m_nXCellsAmount + 1);
+		uint32_t nIndex = nXVert + nYVert * (m_nXCellsAmount + 1);
 		ASSERT(nIndex >= 0 && nIndex < m_vecVertexMatID.size());
 		if (nIndex < 0 || nIndex >= m_vecVertexMatID.size())
 			return 0;
@@ -574,7 +574,7 @@ namespace ma
 		return m_vecVertexMatID[nIndex];	
 	}
 
-	SubMaterial* Terrain::GetMaterialByID(uint8 matID) const
+	SubMaterial* Terrain::GetMaterialByID(uint8_t matID) const
 	{
 		if (m_pMaterial == NULL)
 			return NULL;
@@ -586,7 +586,7 @@ namespace ma
 		return m_pMaterial->GetLodSubByIndex(0,matID);
 	}
 
-	UINT Terrain::GetMaterialCount() const
+	uint32_t Terrain::GetMaterialCount() const
 	{
 		if (m_pMaterial == NULL)
 			return 0;

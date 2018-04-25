@@ -64,7 +64,7 @@ bool CImageCodec::Load(const char* pszFile)
 	}
 
 	int nPitch = FreeImage_GetPitch(pBitmap);
-	uint8* pBits = FreeImage_GetBits(pBitmap);
+	uint8_t* pBits = FreeImage_GetBits(pBitmap);
 	int bpp = FreeImage_GetBPP(pBitmap);
 	m_nWidth = FreeImage_GetWidth(pBitmap);
 	m_nHeight = FreeImage_GetHeight(pBitmap);
@@ -74,12 +74,12 @@ bool CImageCodec::Load(const char* pszFile)
 	{
 	case 8:
 		{
-			uint8* pCur = pBits;
-			for (uint32 i = 0;i< m_nHeight;++i)
+			uint8_t* pCur = pBits;
+			for (uint32_t i = 0;i< m_nHeight;++i)
 			{
-				for (uint32 j = 0;j< m_nWidth;++j)
+				for (uint32_t j = 0;j< m_nWidth;++j)
 				{
-					uint8 nValue = 0;
+					uint8_t nValue = 0;
 					memcpy(&nValue, (void*)(pCur+j*1), 1);
 				}
 				pCur += nPitch;
@@ -88,12 +88,12 @@ bool CImageCodec::Load(const char* pszFile)
 		break;
 	case 16:
 		{
-			uint8* pCur = pBits;
-			for (uint32 i = 0;i< m_nHeight;++i)
+			uint8_t* pCur = pBits;
+			for (uint32_t i = 0;i< m_nHeight;++i)
 			{
-				for (uint32 j = 0;j< m_nWidth;++j)
+				for (uint32_t j = 0;j< m_nWidth;++j)
 				{
-					uint16 nValue = 0;
+					uint16_t nValue = 0;
 					memcpy(&nValue, (void*)(pCur+j*2), 2);
 				}
 				pCur += nPitch;
@@ -102,12 +102,12 @@ bool CImageCodec::Load(const char* pszFile)
 		break;
 	case 24:
 		{
-			uint8* pCur = pBits;
-			for (uint32 i = 0;i< m_nHeight;++i)
+			uint8_t* pCur = pBits;
+			for (uint32_t i = 0;i< m_nHeight;++i)
 			{
-				for (uint32 j = 0;j< m_nWidth;++j)
+				for (uint32_t j = 0;j< m_nWidth;++j)
 				{
-					uint32 nValue = 0;
+					uint32_t nValue = 0;
 					memcpy(&nValue, (void*)(pCur+j*3), 3);
 				}
 				pCur += nPitch;
@@ -116,12 +116,12 @@ bool CImageCodec::Load(const char* pszFile)
 		break;
 	case 32:
 		{
-			uint8* pCur = pBits;
-			for (uint32 i = 0;i< m_nHeight;++i)
+			uint8_t* pCur = pBits;
+			for (uint32_t i = 0;i< m_nHeight;++i)
 			{
-				for (uint32 j = 0;j< m_nWidth;++j)
+				for (uint32_t j = 0;j< m_nWidth;++j)
 				{
-					uint32 nValue = 0;
+					uint32_t nValue = 0;
 					memcpy(&nValue, (void*)(pCur+j*4), 4);
 				}
 				pCur += nPitch;
@@ -278,11 +278,11 @@ void CImageCodec::scale(const PixelBox &src, const PixelBox &scaled, Filter filt
 }
 
 //-----------------------------------------------------------------------------    
-uint32 CImageCodec::calculateSize(uint32 mipmaps, uint32 faces, uint32 width, uint32 height, uint32 depth, 
+uint32_t CImageCodec::calculateSize(uint32_t mipmaps, uint32_t faces, uint32_t width, uint32_t height, uint32_t depth, 
 							PixelFormat format)
 {
-	uint32 size = 0;
-	for( uint32 mip=0; mip<=mipmaps; ++mip )
+	uint32_t size = 0;
+	for( uint32_t mip=0; mip<=mipmaps; ++mip )
 	{
 		size += PixelUtil::getMemorySize( width, height, depth, format )*faces; 
 		if(width!=1) width /= 2;
@@ -292,7 +292,7 @@ uint32 CImageCodec::calculateSize(uint32 mipmaps, uint32 faces, uint32 width, ui
 	return size;
 }
 
-void CImageCodec::applyGamma( unsigned char *buffer, float gamma, uint32 size, uint8 bpp )
+void CImageCodec::applyGamma( unsigned char *buffer, float gamma, uint32_t size, uint8_t bpp )
 {
 	if( gamma == 1.0f )
 		return;
@@ -300,9 +300,9 @@ void CImageCodec::applyGamma( unsigned char *buffer, float gamma, uint32 size, u
 	//NB only 24/32-bit supported
 	if( bpp != 24 && bpp != 32 ) return;
 
-	uint32 stride = bpp >> 3;
+	uint32_t stride = bpp >> 3;
 
-	for( uint32 i = 0, j = size / stride; i < j; i++, buffer += stride )
+	for( uint32_t i = 0, j = size / stride; i < j; i++, buffer += stride )
 	{
 		float r, g, b;
 
@@ -325,21 +325,21 @@ void CImageCodec::applyGamma( unsigned char *buffer, float gamma, uint32 size, u
 
 		r *= scale; g *= scale; b *= scale;
 
-		buffer[0] = (uint8)r;
-		buffer[1] = (uint8)g;
-		buffer[2] = (uint8)b;
+		buffer[0] = (uint8_t)r;
+		buffer[1] = (uint8_t)g;
+		buffer[2] = (uint8_t)b;
 	}
 }
 //---------------------------------------------------------------------
-bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, IN OUT ImageData& imgData ) const
+bool CImageCodec::decode( const char* pszName, void* pMemory, uint32_t nNumBytes, IN OUT ImageData& imgData ) const
 {
 	// Set error handler
 	FreeImage_SetOutputMessage(FreeImageLoadErrorHandler);
 
 	FIMEMORY* fiMem = 
-		FreeImage_OpenMemory((BYTE*)pMemory, static_cast<uint32>(nNumBytes));
+		FreeImage_OpenMemory((uint8_t*)pMemory, static_cast<uint32_t>(nNumBytes));
 
-	FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(fiMem, static_cast<uint32>(nNumBytes));
+	FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(fiMem, static_cast<uint32_t>(nNumBytes));
 	if(fif == FIF_UNKNOWN)
 	{
 		fif = FreeImage_GetFIFFromFilename(pszName);
@@ -498,15 +498,15 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 	unsigned srcPitch = FreeImage_GetPitch(fiBitmap);
 
 	// Final data - invert image and trim pitch at the same time
-	uint32 dstPitch = imgData.m_nWidth * PixelUtil::getNumElemBytes(imgData.m_eFormat);
+	uint32_t dstPitch = imgData.m_nWidth * PixelUtil::getNumElemBytes(imgData.m_eFormat);
 	imgData.m_nSize = dstPitch * imgData.m_nHeight;
 	// Bind output buffer
 	output = CreateMemoryStream(imgData.m_nSize, false);
 
-	uint8* pDst = output->GetPtr();
-	for (uint32 y = 0; y < imgData.m_nHeight; ++y)
+	uint8_t* pDst = output->GetPtr();
+	for (uint32_t y = 0; y < imgData.m_nHeight; ++y)
 	{
-		uint8* pSrc = srcData + (imgData.m_nHeight - y - 1) * srcPitch;
+		uint8_t* pSrc = srcData + (imgData.m_nHeight - y - 1) * srcPitch;
 		memcpy(pDst, pSrc, dstPitch);
 		pDst += dstPitch;
 	}

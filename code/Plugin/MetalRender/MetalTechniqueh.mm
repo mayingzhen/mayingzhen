@@ -29,8 +29,8 @@ namespace ma
 		pConstantBuffer->SetName(src->GetName());
         pConstantBuffer->Create();
 
-		uint32 nUniformCount = src->GetUniformCount();
-		for (UINT i = 0; i < nUniformCount; ++i)
+		uint32_t nUniformCount = src->GetUniformCount();
+		for (uint32_t i = 0; i < nUniformCount; ++i)
 		{
 			Uniform* pUniform = src->GetUniformByIndex(i);
 
@@ -69,9 +69,9 @@ namespace ma
         
         m_pPipline = CreateMetalPipeline(this);
 
-		for (UINT i = 0; i < ShaderType_Number; ++i)
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
-			for (UINT j = 0; j < pShader->GetConstBufferCount((ShaderType)i); ++j)
+			for (uint32_t j = 0; j < pShader->GetConstBufferCount((ShaderType)i); ++j)
 			{
 				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex((ShaderType)i,j);
                 RefPtr<MetalConstantBuffer> pConstantBuffer = CloneConstBuffer(pShaderCS);
@@ -80,7 +80,7 @@ namespace ma
 			}
 		}
 
-		for (uint32 i = 0; i < pShader->GetSamplerCount(); ++i)
+		for (uint32_t i = 0; i < pShader->GetSamplerCount(); ++i)
 		{
 			Uniform* pUniform = pShader->GetSamplerByIndex(i);
 
@@ -95,9 +95,9 @@ namespace ma
 
 		BindUniform();
         
-        for (uint32 i = 0; i < this->GetSamplerCount(); ++i)
+        for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
         {
-            uint32 nIndex = this->GetSamplerByIndex(i)->GetIndex();
+            uint32_t nIndex = this->GetSamplerByIndex(i)->GetIndex();
             MetalSamplerStateObject* pSampler = (MetalSamplerStateObject*)this->GetActiveSampler(nIndex);
             if (pSampler == NULL)
                 continue;

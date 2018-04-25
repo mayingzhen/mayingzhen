@@ -135,7 +135,7 @@ namespace ma
 
 		static void			RegisterAttribute();
 
-		static uint32		AnimNameToID(const char* pszName);
+		static uint32_t		AnimNameToID(const char* pszName);
 
 		virtual void		AdvanceTime(float fTimeElepse) = 0;
 
@@ -145,7 +145,7 @@ namespace ma
 
 		const char*			GetName() const;
 		void				SetName(const char* pszName);	
-		uint32				GetAnimID() const {return m_nAnimID;}
+		uint32_t				GetAnimID() const {return m_nAnimID;}
 
 		float				GetFadeTime() const {return m_fFadeTime;}
 		void				SetFadeTime(float fFadeTime) {m_fFadeTime = fFadeTime;}
@@ -160,7 +160,7 @@ namespace ma
 		IAnimCallback*		GetAnimCallBack() const {return m_pCallBack;}
 
 		BoneIndex			GetBoneIndex(const char *boneName) const;
-		UINT				GetBoneCount() const;
+		uint32_t				GetBoneCount() const;
 		
 		virtual void		Init(AnimationComponent* pAnimator);
 
@@ -172,7 +172,7 @@ namespace ma
 
 	protected:
 		std::string			m_strName;
-		uint32				m_nAnimID;
+		uint32_t				m_nAnimID;
 
 		AnimationComponent* m_animator = nullptr;
 

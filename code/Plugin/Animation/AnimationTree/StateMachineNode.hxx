@@ -148,7 +148,7 @@ namespace ma
 	{
 		Serializable::Export(xmlNode,doc);
 
-		for (uint32 i = 0; i < m_conds.size(); ++i)
+		for (uint32_t i = 0; i < m_conds.size(); ++i)
 		{
 			MachineCondition* pCond = m_conds[i].get();
 
@@ -369,7 +369,7 @@ namespace ma
 		m_curState = state;
 		m_curState->Enter();
 
-		for (UINT i = 0; i < m_curState->m_trans.size(); ++i)
+		for (uint32_t i = 0; i < m_curState->m_trans.size(); ++i)
 		{
 			MachineTransition *trans = m_curState->m_trans[i].get();
 			HandleEvent(trans);

@@ -13,7 +13,7 @@ namespace ma
 		};
 
 
-		UINT GetNodeNumber()const {return m_arrParentIndice.size();}
+		uint32_t GetNodeNumber()const {return m_arrParentIndice.size();}
 
 		SkeletonPose* Clone() const;
 

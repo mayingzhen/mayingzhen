@@ -86,7 +86,7 @@ namespace ma
 	const char* ScriptObject::GetName()
 	{
 		ASSERT(m_pScriptClass);
-		return m_pScriptClass->GetClassName();
+		return m_pScriptClass->GetTypeName();
 	}
 
 	void ScriptObject::SetName(const char* pName)
@@ -107,8 +107,8 @@ namespace ma
 		if (m_pScriptClass == NULL)
 			return;
 
-		UINT nFieldNumber = m_pScriptClass->GetClassFieldNumber();
-		for (UINT i = 0; i < nFieldNumber; ++i)
+		uint32_t nFieldNumber = m_pScriptClass->GetClassFieldNumber();
+		for (uint32_t i = 0; i < nFieldNumber; ++i)
 		{
 			ClassField* pField = m_pScriptClass->GetClassFieldByIndex(i);
 			ClassField* pFieldInstace = pField->Clone();
@@ -169,7 +169,7 @@ namespace ma
 
 	ClassField*	ScriptObject::GetClassField(const char* pName)
 	{
-		for (UINT i = 0; i < m_arrFields.size(); ++i)
+		for (uint32_t i = 0; i < m_arrFields.size(); ++i)
 		{
 			if ( strcmp( pName,m_arrFields[i]->GetFieldName() ) == 0 )
 				return m_arrFields[i];
@@ -205,7 +205,7 @@ namespace ma
 
 		mono_runtime_object_init(m_pMonoObj);
 
-		for (UINT i = 0; i < m_arrFields.size(); ++i)
+		for (uint32_t i = 0; i < m_arrFields.size(); ++i)
 		{
 			ClassField* pField = m_arrFields[i];
 			if (pField == NULL)

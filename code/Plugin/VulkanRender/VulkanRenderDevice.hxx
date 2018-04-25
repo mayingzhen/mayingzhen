@@ -39,7 +39,7 @@ namespace ma
 		return new VulkanTexture();
 	}
 
-	Texture* VulkanRenderDevice::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
+	Texture* VulkanRenderDevice::CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
 		return new VulkanTexture(nWidth,nHeight,nMipMap,format,bSRGB,USAGE_RENDERTARGET,eType);
 	}
@@ -69,7 +69,7 @@ namespace ma
 		return new VulkanShaderProgram();
 	}
 
-	ConstantBuffer*	VulkanRenderDevice::CreateConstantBuffer(UINT nSize)
+	ConstantBuffer*	VulkanRenderDevice::CreateConstantBuffer(uint32_t nSize)
 	{
 		VulkanConstantBuffer* pVKConstBuffer = new VulkanConstantBuffer();
 		pVKConstBuffer->SetSize(nSize);
@@ -115,7 +115,7 @@ namespace ma
 	{
 	}
 
-	void VulkanRenderDevice::Init(HWND wndhandle)
+	void VulkanRenderDevice::Init(void* wndhandle)
 	{
 		//m_hWnd = wndhandle;
 
@@ -576,7 +576,7 @@ namespace ma
 
 	bool VulkanRenderDevice::CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage)
 	{
-// 		DWORD D3DUsage =  VulkanMapping::GetD3DTextureUsage(eUsage); 
+// 		uint32_t D3DUsage =  VulkanMapping::GetD3DTextureUsage(eUsage); 
 // 		D3DFORMAT D3DFormat = VulkanMapping::GetD3DFormat(eFormat);
 // 
 // 		HRESULT hr = D3DXCheckTextureRequirements(m_pD3DDevice, NULL, NULL, NULL, D3DUsage, &D3DFormat, D3DPOOL_DEFAULT);

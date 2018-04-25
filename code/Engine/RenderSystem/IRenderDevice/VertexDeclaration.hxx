@@ -43,11 +43,11 @@ namespace ma
 		mHash = 0;
 
 		//ASSERT(mGLLocate <= 15);
-		//UINT32 n = mGLLocate;
+		//uint32_t n = mGLLocate;
 		//mHash += n;
 
 		ASSERT(UsageIndex <= 15);
-		UINT32 n = UsageIndex;
+		uint32_t n = UsageIndex;
 		mHash += n << 4;
 
 		ASSERT(Usage <= 15);
@@ -76,7 +76,7 @@ namespace ma
 	{
 	}
     
-    UINT VertexDeclaration::GetStreanmStride(UINT nStream) const
+    uint32_t VertexDeclaration::GetStreanmStride(uint32_t nStream) const
     {
         if (nStream >= m_arrStreamStride.size())
             return 0;
@@ -84,15 +84,15 @@ namespace ma
         return m_arrStreamStride[nStream];
     }
     
-    UINT VertexDeclaration::GetElementCount(UINT nStream)
+    uint32_t VertexDeclaration::GetElementCount(uint32_t nStream)
     {
         if (nStream >= m_arrStreamElement.size())
             return 0;
         
-        return (UINT)m_arrStreamElement[nStream].size();
+        return (uint32_t)m_arrStreamElement[nStream].size();
     }
     
-    const VertexElement& VertexDeclaration::GetElement(UINT nStream, UINT index)
+    const VertexElement& VertexDeclaration::GetElement(uint32_t nStream, uint32_t index)
     {
         static VertexElement ve;
         if (nStream >= m_arrStreamElement.size())
@@ -103,7 +103,7 @@ namespace ma
 
 	void VertexDeclaration::AddElement(const VertexElement& element)
 	{
-		UINT nStream = element.Stream;
+		uint32_t nStream = element.Stream;
 
 		m_arrStreamElement.resize(nStream + 1);
 		m_arrStreamStride.resize(nStream + 1);
@@ -135,12 +135,12 @@ namespace ma
 		return 0;
 	}
 
-	uint64 VertexDeclaration::GetHash()
+	uint64_t VertexDeclaration::GetHash()
 	{
-		uint64 nNum = 0;
-		for (UINT i = 0; i < m_arrStreamElement.size(); ++i)
+		uint64_t nNum = 0;
+		for (uint32_t i = 0; i < m_arrStreamElement.size(); ++i)
 		{
-			for (UINT j = 0; j < m_arrStreamElement[i].size(); ++j)
+			for (uint32_t j = 0; j < m_arrStreamElement[i].size(); ++j)
 			{
 				VertexElement& e = m_arrStreamElement[i][j];
 				e.BuildHash();
@@ -169,9 +169,9 @@ namespace ma
 
 	bool VertexDeclaration::Export(rapidxml::xml_node<>* pXmlVD, rapidxml::xml_document<>& doc)
 	{
-		for (UINT i = 0; i < m_arrStreamElement.size(); ++i)
+		for (uint32_t i = 0; i < m_arrStreamElement.size(); ++i)
 		{
-			for (UINT j = 0; j < m_arrStreamElement[i].size(); ++j)
+			for (uint32_t j = 0; j < m_arrStreamElement[i].size(); ++j)
 			{
 				rapidxml::xml_node<>* pXmlElement = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Element"));
 				pXmlVD->append_node(pXmlElement);

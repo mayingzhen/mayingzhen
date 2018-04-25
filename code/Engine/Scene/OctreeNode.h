@@ -34,9 +34,9 @@ namespace ma
 		void GetChildIndexByBox(const AABB& box, int& x, int& y, int& z);
 
 		// object operation
-		UINT GetObjectAmount() const;
+		uint32_t GetObjectAmount() const;
 
-		RenderComponent* GetObjectByIndex(UINT nIndex) const;
+		RenderComponent* GetObjectByIndex(uint32_t nIndex) const;
 
 	private:
 		AABB		m_AABB;

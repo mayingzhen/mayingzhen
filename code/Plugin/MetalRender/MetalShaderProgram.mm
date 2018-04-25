@@ -34,7 +34,7 @@ namespace ma
 	{
 	}
 
-	void MetalShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
+	void MetalShaderProgram::CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize)
 	{
 		Destory();
 
@@ -114,8 +114,8 @@ namespace ma
                 
                 RefPtr<MetalConstantBuffer> pConstantBuffer = new MetalConstantBuffer();
                 pConstantBuffer->SetName(arg.name.UTF8String);
-                pConstantBuffer->SetBound((UINT)arg.index);
-                pConstantBuffer->SetSize((UINT)arg.bufferDataSize);
+                pConstantBuffer->SetBound((uint32_t)arg.index);
+                pConstantBuffer->SetSize((uint32_t)arg.bufferDataSize);
                 this->AddConstBuffer(VS, pConstantBuffer.get());
                 Uniform* pPreUniform = NULL;
                 for (MTLStructMember* mem in arg.bufferStructType.members)
@@ -319,7 +319,7 @@ namespace ma
     }
 
     
-    std::string HlslToMsl(const char* vshSource, UINT vshSize, ShaderType eType)
+    std::string HlslToMsl(const char* vshSource, uint32_t vshSize, ShaderType eType)
     {
         //VS
         EShLanguage stage = FindLanguage(eType);
@@ -352,7 +352,7 @@ namespace ma
             return "";
         }
         
-        std::vector<UINT> vtx_spv;
+        std::vector<uint32_t> vtx_spv;
         glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
         
         spirv_cross::CompilerMSL msl(vtx_spv.data(), vtx_spv.size());

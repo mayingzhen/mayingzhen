@@ -19,8 +19,8 @@ namespace ma
 		RefPtr<MemoryStream>	ReadAll(const char* pszFile);
 
 		void					AddArchive(Archive* pArchive);
-		UINT					GetArchiveNumber();
-		Archive*				GetArchiveByIndex(UINT index);
+		uint32_t					GetArchiveNumber();
+		Archive*				GetArchiveByIndex(uint32_t index);
 
 		bool					Exists(const char* pszFile) const;
 		

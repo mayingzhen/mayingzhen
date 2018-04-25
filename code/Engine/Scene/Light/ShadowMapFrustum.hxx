@@ -134,7 +134,7 @@ namespace ma
 			if (!pRenderComp->GetShadowCaster())
 				continue;
 				
-			for (UINT i = 0; i < pRenderComp->GetShadowRenderableCount(); ++i)
+			for (uint32_t i = 0; i < pRenderComp->GetShadowRenderableCount(); ++i)
 			{
 				pRenderQueue->AddRenderObj(RL_Mesh,pRenderComp->GetShadowRenderableByIndex(i));
 			}
@@ -176,8 +176,8 @@ namespace ma
 
 		AABB aabbInLightView;
 
-		uint32 iNodeNum = pCurScene->GetVisibleNodeNum();
-		for (uint32 i = 0; i < iNodeNum; ++i)
+		uint32_t iNodeNum = pCurScene->GetVisibleNodeNum();
+		for (uint32_t i = 0; i < iNodeNum; ++i)
 		{
 			RenderComponent* pNode = pCurScene->GetVisibleNodeByIndex(i);
 

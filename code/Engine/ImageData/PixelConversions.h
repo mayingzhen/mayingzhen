@@ -63,8 +63,8 @@ template <typename T, typename U, int id> struct PixelConverter {
 /** Type for PF_R8G8B8/PF_B8G8R8 */
 struct Col3b {
     Col3b(unsigned int a, unsigned int b, unsigned int c): 
-        x((uint8)a), y((uint8)b), z((uint8)c) { }
-    uint8 x,y,z;
+        x((uint8_t)a), y((uint8_t)b), z((uint8_t)c) { }
+    uint8_t x,y,z;
 };
 /** Type for PF_FLOAT32_RGB */
 struct Col3f {
@@ -79,7 +79,7 @@ struct Col4f {
 	float r,g,b,a;
 };
 
-struct A8R8G8B8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_A8R8G8B8, PF_A8B8G8R8)>
+struct A8R8G8B8toA8B8G8R8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_A8R8G8B8, PF_A8B8G8R8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -87,7 +87,7 @@ struct A8R8G8B8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct A8R8G8B8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_A8R8G8B8, PF_B8G8R8A8)>
+struct A8R8G8B8toB8G8R8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_A8R8G8B8, PF_B8G8R8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -95,7 +95,7 @@ struct A8R8G8B8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct A8R8G8B8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_A8R8G8B8, PF_R8G8B8A8)>
+struct A8R8G8B8toR8G8B8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_A8R8G8B8, PF_R8G8B8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -103,7 +103,7 @@ struct A8R8G8B8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct A8B8G8R8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_A8B8G8R8, PF_A8R8G8B8)>
+struct A8B8G8R8toA8R8G8B8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_A8B8G8R8, PF_A8R8G8B8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -111,7 +111,7 @@ struct A8B8G8R8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct A8B8G8R8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_A8B8G8R8, PF_B8G8R8A8)>
+struct A8B8G8R8toB8G8R8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_A8B8G8R8, PF_B8G8R8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -119,7 +119,7 @@ struct A8B8G8R8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct A8B8G8R8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_A8B8G8R8, PF_R8G8B8A8)>
+struct A8B8G8R8toR8G8B8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_A8B8G8R8, PF_R8G8B8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -127,7 +127,7 @@ struct A8B8G8R8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct B8G8R8A8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_B8G8R8A8, PF_A8R8G8B8)>
+struct B8G8R8A8toA8R8G8B8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_B8G8R8A8, PF_A8R8G8B8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -135,7 +135,7 @@ struct B8G8R8A8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct B8G8R8A8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_B8G8R8A8, PF_A8B8G8R8)>
+struct B8G8R8A8toA8B8G8R8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_B8G8R8A8, PF_A8B8G8R8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -143,7 +143,7 @@ struct B8G8R8A8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct B8G8R8A8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_B8G8R8A8, PF_R8G8B8A8)>
+struct B8G8R8A8toR8G8B8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_B8G8R8A8, PF_R8G8B8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -151,7 +151,7 @@ struct B8G8R8A8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct R8G8B8A8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_R8G8B8A8, PF_A8R8G8B8)>
+struct R8G8B8A8toA8R8G8B8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_R8G8B8A8, PF_A8R8G8B8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -159,7 +159,7 @@ struct R8G8B8A8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct R8G8B8A8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_R8G8B8A8, PF_A8B8G8R8)>
+struct R8G8B8A8toA8B8G8R8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_R8G8B8A8, PF_A8B8G8R8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -167,7 +167,7 @@ struct R8G8B8A8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct R8G8B8A8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_R8G8B8A8, PF_B8G8R8A8)>
+struct R8G8B8A8toB8G8R8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_R8G8B8A8, PF_B8G8R8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -175,31 +175,15 @@ struct R8G8B8A8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct A8B8G8R8toL8: public PixelConverter <uint32, uint8, FMTCONVERTERID(PF_A8B8G8R8, PF_L8)>
+struct A8B8G8R8toL8: public PixelConverter <uint32_t, uint8_t, FMTCONVERTERID(PF_A8B8G8R8, PF_L8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
-        return (uint8)(inp&0x000000FF);
+        return (uint8_t)(inp&0x000000FF);
     }
 };
 
-struct L8toA8B8G8R8: public PixelConverter <uint8, uint32, FMTCONVERTERID(PF_L8, PF_A8B8G8R8)>
-{
-    inline static DstType pixelConvert(SrcType inp)
-    {
-        return 0xFF000000|(((unsigned int)inp)<<0)|(((unsigned int)inp)<<8)|(((unsigned int)inp)<<16);
-    }
-};
-
-struct A8R8G8B8toL8: public PixelConverter <uint32, uint8, FMTCONVERTERID(PF_A8R8G8B8, PF_L8)>
-{
-    inline static DstType pixelConvert(SrcType inp)
-    {
-        return (uint8)((inp&0x00FF0000)>>16);
-    }
-};
-
-struct L8toA8R8G8B8: public PixelConverter <uint8, uint32, FMTCONVERTERID(PF_L8, PF_A8R8G8B8)>
+struct L8toA8B8G8R8: public PixelConverter <uint8_t, uint32_t, FMTCONVERTERID(PF_L8, PF_A8B8G8R8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -207,15 +191,31 @@ struct L8toA8R8G8B8: public PixelConverter <uint8, uint32, FMTCONVERTERID(PF_L8,
     }
 };
 
-struct B8G8R8A8toL8: public PixelConverter <uint32, uint8, FMTCONVERTERID(PF_B8G8R8A8, PF_L8)>
+struct A8R8G8B8toL8: public PixelConverter <uint32_t, uint8_t, FMTCONVERTERID(PF_A8R8G8B8, PF_L8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
-        return (uint8)((inp&0x0000FF00)>>8);
+        return (uint8_t)((inp&0x00FF0000)>>16);
     }
 };
 
-struct L8toB8G8R8A8: public PixelConverter <uint8, uint32, FMTCONVERTERID(PF_L8, PF_B8G8R8A8)>
+struct L8toA8R8G8B8: public PixelConverter <uint8_t, uint32_t, FMTCONVERTERID(PF_L8, PF_A8R8G8B8)>
+{
+    inline static DstType pixelConvert(SrcType inp)
+    {
+        return 0xFF000000|(((unsigned int)inp)<<0)|(((unsigned int)inp)<<8)|(((unsigned int)inp)<<16);
+    }
+};
+
+struct B8G8R8A8toL8: public PixelConverter <uint32_t, uint8_t, FMTCONVERTERID(PF_B8G8R8A8, PF_L8)>
+{
+    inline static DstType pixelConvert(SrcType inp)
+    {
+        return (uint8_t)((inp&0x0000FF00)>>8);
+    }
+};
+
+struct L8toB8G8R8A8: public PixelConverter <uint8_t, uint32_t, FMTCONVERTERID(PF_L8, PF_B8G8R8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -223,19 +223,19 @@ struct L8toB8G8R8A8: public PixelConverter <uint8, uint32, FMTCONVERTERID(PF_L8,
     }
 };
 
-struct L8toL16: public PixelConverter <uint8, uint16, FMTCONVERTERID(PF_L8, PF_L16)>
+struct L8toL16: public PixelConverter <uint8_t, uint16_t, FMTCONVERTERID(PF_L8, PF_L16)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
-        return (uint16)((((unsigned int)inp)<<8)|(((unsigned int)inp)));
+        return (uint16_t)((((unsigned int)inp)<<8)|(((unsigned int)inp)));
     }
 };
 
-struct L16toL8: public PixelConverter <uint16, uint8, FMTCONVERTERID(PF_L16, PF_L8)>
+struct L16toL8: public PixelConverter <uint16_t, uint8_t, FMTCONVERTERID(PF_L16, PF_L8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
-        return (uint8)(inp>>8);
+        return (uint8_t)(inp>>8);
     }
 };
 
@@ -257,9 +257,9 @@ struct B8G8R8toR8G8B8: public PixelConverter <Col3b, Col3b, FMTCONVERTERID(PF_B8
 
 // X8Y8Z8 ->  X8<<xshift Y8<<yshift Z8<<zshift A8<<ashift
 template <int id, unsigned int xshift, unsigned int yshift, unsigned int zshift, unsigned int ashift> struct Col3btoUint32swizzler:
-    public PixelConverter <Col3b, uint32, id>
+    public PixelConverter <Col3b, uint32_t, id>
 {
-    inline static uint32 pixelConvert(const Col3b &inp)
+    inline static uint32_t pixelConvert(const Col3b &inp)
     {
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
         return (0xFF<<ashift) | (((unsigned int)inp.x)<<xshift) | (((unsigned int)inp.y)<<yshift) | (((unsigned int)inp.z)<<zshift);
@@ -276,45 +276,45 @@ struct B8G8R8toA8B8G8R8: public Col3btoUint32swizzler<FMTCONVERTERID(PF_B8G8R8, 
 struct R8G8B8toB8G8R8A8: public Col3btoUint32swizzler<FMTCONVERTERID(PF_R8G8B8, PF_B8G8R8A8), 8, 16, 24, 0> { };
 struct B8G8R8toB8G8R8A8: public Col3btoUint32swizzler<FMTCONVERTERID(PF_B8G8R8, PF_B8G8R8A8), 24, 16, 8, 0> { };
 
-struct A8R8G8B8toR8G8B8: public PixelConverter <uint32, Col3b, FMTCONVERTERID(PF_A8R8G8B8, PF_BYTE_RGB)>
+struct A8R8G8B8toR8G8B8: public PixelConverter <uint32_t, Col3b, FMTCONVERTERID(PF_A8R8G8B8, PF_BYTE_RGB)>
 {
-    inline static DstType pixelConvert(uint32 inp)
+    inline static DstType pixelConvert(uint32_t inp)
     {
-        return Col3b((uint8)((inp>>16)&0xFF), (uint8)((inp>>8)&0xFF), (uint8)((inp>>0)&0xFF));
+        return Col3b((uint8_t)((inp>>16)&0xFF), (uint8_t)((inp>>8)&0xFF), (uint8_t)((inp>>0)&0xFF));
     }
 };
-struct A8R8G8B8toB8G8R8: public PixelConverter <uint32, Col3b, FMTCONVERTERID(PF_A8R8G8B8, PF_BYTE_BGR)>
+struct A8R8G8B8toB8G8R8: public PixelConverter <uint32_t, Col3b, FMTCONVERTERID(PF_A8R8G8B8, PF_BYTE_BGR)>
 {
-    inline static DstType pixelConvert(uint32 inp)
+    inline static DstType pixelConvert(uint32_t inp)
     {
-        return Col3b((uint8)((inp>>0)&0xFF), (uint8)((inp>>8)&0xFF), (uint8)((inp>>16)&0xFF));
+        return Col3b((uint8_t)((inp>>0)&0xFF), (uint8_t)((inp>>8)&0xFF), (uint8_t)((inp>>16)&0xFF));
     }
 };
 
 // Only conversions from X8R8G8B8 to formats with alpha need to be defined, the rest is implicitly the same
 // as A8R8G8B8
-struct X8R8G8B8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8R8G8B8, PF_A8R8G8B8)>
+struct X8R8G8B8toA8R8G8B8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8R8G8B8, PF_A8R8G8B8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
         return inp | 0xFF000000;
     }
 };
-struct X8R8G8B8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8R8G8B8, PF_A8B8G8R8)>
+struct X8R8G8B8toA8B8G8R8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8R8G8B8, PF_A8B8G8R8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
         return ((inp&0x0000FF)<<16)|((inp&0xFF0000)>>16)|(inp&0x00FF00)|0xFF000000;
     }
 };
-struct X8R8G8B8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8R8G8B8, PF_B8G8R8A8)>
+struct X8R8G8B8toB8G8R8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8R8G8B8, PF_B8G8R8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
         return ((inp&0x0000FF)<<24)|((inp&0xFF0000)>>8)|((inp&0x00FF00)<<8)|0x000000FF;
     }
 };
-struct X8R8G8B8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8R8G8B8, PF_R8G8B8A8)>
+struct X8R8G8B8toR8G8B8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8R8G8B8, PF_R8G8B8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -323,28 +323,28 @@ struct X8R8G8B8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
 };
 
 // X8B8G8R8
-struct X8B8G8R8toA8R8G8B8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8B8G8R8, PF_A8R8G8B8)>
+struct X8B8G8R8toA8R8G8B8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8B8G8R8, PF_A8R8G8B8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
         return ((inp&0x0000FF)<<16)|((inp&0xFF0000)>>16)|(inp&0x00FF00)|0xFF000000;
     }
 };
-struct X8B8G8R8toA8B8G8R8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8B8G8R8, PF_A8B8G8R8)>
+struct X8B8G8R8toA8B8G8R8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8B8G8R8, PF_A8B8G8R8)>
 {
 	inline static DstType pixelConvert(SrcType inp)
     {
         return inp | 0xFF000000;
     }
 };
-struct X8B8G8R8toB8G8R8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8B8G8R8, PF_B8G8R8A8)>
+struct X8B8G8R8toB8G8R8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8B8G8R8, PF_B8G8R8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
         return ((inp&0xFFFFFF)<<8)|0x000000FF;
     }
 };
-struct X8B8G8R8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID(PF_X8B8G8R8, PF_R8G8B8A8)>
+struct X8B8G8R8toR8G8B8A8: public PixelConverter <uint32_t, uint32_t, FMTCONVERTERID(PF_X8B8G8R8, PF_R8G8B8A8)>
 {
     inline static DstType pixelConvert(SrcType inp)
     {
@@ -352,7 +352,7 @@ struct X8B8G8R8toR8G8B8A8: public PixelConverter <uint32, uint32, FMTCONVERTERID
     }
 };
 
-struct A4R4G4B4toR4G4B4A4: public PixelConverter <uint16, uint16, FMTCONVERTERID(PF_A4R4G4B4, PF_R4G4B4A4)>
+struct A4R4G4B4toR4G4B4A4: public PixelConverter <uint16_t, uint16_t, FMTCONVERTERID(PF_A4R4G4B4, PF_R4G4B4A4)>
 {
 	inline static DstType pixelConvert(SrcType inp)
 	{
@@ -360,7 +360,7 @@ struct A4R4G4B4toR4G4B4A4: public PixelConverter <uint16, uint16, FMTCONVERTERID
 	}
 };
 
-struct R4G4B4A4toA4R4G4B4: public PixelConverter <uint16, uint16, FMTCONVERTERID(PF_R4G4B4A4, PF_A4R4G4B4)>
+struct R4G4B4A4toA4R4G4B4: public PixelConverter <uint16_t, uint16_t, FMTCONVERTERID(PF_R4G4B4A4, PF_A4R4G4B4)>
 {
 	inline static DstType pixelConvert(SrcType inp)
 	{

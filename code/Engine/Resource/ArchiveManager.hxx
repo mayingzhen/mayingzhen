@@ -72,12 +72,12 @@ namespace ma
 		m_vecArchive.insert(m_vecArchive.begin(), pArchive);
 	}
 
-	UINT ArchiveManager::GetArchiveNumber()
+	uint32_t ArchiveManager::GetArchiveNumber()
 	{
 		return m_vecArchive.size();
 	}
 
-	Archive* ArchiveManager::GetArchiveByIndex(UINT index)
+	Archive* ArchiveManager::GetArchiveByIndex(uint32_t index)
 	{
 		return m_vecArchive[index].get();
 	}

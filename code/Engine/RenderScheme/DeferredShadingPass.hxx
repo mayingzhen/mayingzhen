@@ -44,8 +44,8 @@ namespace ma
 
 		Matrix4 matView = GetRenderContext()->GetViewMatrix();
 
-		UINT nLigtNumber = 0;//m_pScene->GetVisibleLightNum();
-		for (UINT i = 0; i < nLigtNumber; ++i)
+		uint32_t nLigtNumber = 0;//m_pScene->GetVisibleLightNum();
+		for (uint32_t i = 0; i < nLigtNumber; ++i)
 		{
 			Light* pLight = NULL; // m_pScene->GetVisibleLightByIndex(i);
 			if (pLight == NULL)

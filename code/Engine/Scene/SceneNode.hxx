@@ -21,7 +21,7 @@ namespace ma
 
 	SceneNode::~SceneNode()
 	{
-		for (uint32 i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			m_arrComp[i]->SetSceneNode(NULL);
 		}
@@ -121,7 +121,7 @@ namespace ma
 	{
 		Serializable::Export(pXmlElem,doc);
 
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			rapidxml::xml_node<>* pXmlComp = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Component"));
 			pXmlElem->append_node(pXmlComp);
@@ -130,7 +130,7 @@ namespace ma
 			pComp->Export(pXmlComp,doc);
 		}
 
-		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		for (uint32_t i = 0; i < m_arrChild.size(); ++i)
 		{
 			rapidxml::xml_node<>* pXmlChildNode = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ChildNode"));
 			pXmlElem->append_node(pXmlChildNode);
@@ -167,12 +167,12 @@ namespace ma
 	{
 		m_pScene = pScene;
 
-		for (uint32 i = 0; i < m_arrChild.size(); ++i)
+		for (uint32_t i = 0; i < m_arrChild.size(); ++i)
 		{
 			m_arrChild[i]->SetScene(pScene);
 		}
 
-		for (uint32 i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			m_arrComp[i]->SetSceneNode(this);
 		}
@@ -251,7 +251,7 @@ namespace ma
 		if (pszName == NULL)
 			return NULL;
 
-		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		for (uint32_t i = 0; i < m_arrChild.size(); ++i)
 		{
 			if (strcmp(pszName,m_arrChild[i]->GetName()) == 0)
 			{
@@ -266,12 +266,12 @@ namespace ma
 	{
 		m_nNeedChange |= eChangeType;
 
-		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		for (uint32_t i = 0; i < m_arrChild.size(); ++i)
 		{
 			m_arrChild[i]->SetNeedChange(eChangeType);
 		}
 
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			m_arrComp[i]->SetNeedChange(eChangeType);
 		}
@@ -354,12 +354,12 @@ namespace ma
 		m_nNeedChange = CT_NOTIFY;
 
 		// change children
-		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		for (uint32_t i = 0; i < m_arrChild.size(); ++i)
 		{
 			m_arrChild[i]->SetNeedChange(CT_FROMPARENT);
 		}
 
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			m_arrComp[i]->SetNeedChange(CT_FROMPARENT);
 		}
@@ -374,12 +374,12 @@ namespace ma
 			this->EndMatrix();
 		}
 
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrComp.size(); ++i)
 		{
 			m_arrComp[i]->Update();
 		}
 
-		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		for (uint32_t i = 0; i < m_arrChild.size(); ++i)
 		{
 			m_arrChild[i]->Update();
 		}			

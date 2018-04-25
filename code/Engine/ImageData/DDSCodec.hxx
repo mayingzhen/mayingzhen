@@ -16,63 +16,63 @@ namespace ma
 	// Nested structure
 	struct DDSPixelFormat
 	{
-		uint32 size;
-		uint32 flags;
-		uint32 fourCC;
-		uint32 rgbBits;
-		uint32 redMask;
-		uint32 greenMask;
-		uint32 blueMask;
-		uint32 alphaMask;
+		uint32_t size;
+		uint32_t flags;
+		uint32_t fourCC;
+		uint32_t rgbBits;
+		uint32_t redMask;
+		uint32_t greenMask;
+		uint32_t blueMask;
+		uint32_t alphaMask;
 	};
 	
 	// Nested structure
 	struct DDSCaps
 	{
-		uint32 caps1;
-		uint32 caps2;
-		uint32 reserved[2];
+		uint32_t caps1;
+		uint32_t caps2;
+		uint32_t reserved[2];
 	};
 	// Main header, note preceded by 'DDS '
 	struct DDSHeader
 	{
-		uint32 size;		
-		uint32 flags;
-		uint32 height;
-		uint32 width;
-		uint32 sizeOrPitch;
-		uint32 depth;
-		uint32 mipMapCount;
-		uint32 reserved1[11];
+		uint32_t size;		
+		uint32_t flags;
+		uint32_t height;
+		uint32_t width;
+		uint32_t sizeOrPitch;
+		uint32_t depth;
+		uint32_t mipMapCount;
+		uint32_t reserved1[11];
 		DDSPixelFormat pixelFormat;
 		DDSCaps caps;
-		uint32 reserved2;
+		uint32_t reserved2;
 	};
 
 	// An 8-byte DXT colour block, represents a 4x4 texel area. Used by all DXT formats
 	struct DXTColourBlock
 	{
 		// 2 colour ranges
-		uint16 colour_0;
-		uint16 colour_1;
+		uint16_t colour_0;
+		uint16_t colour_1;
 		// 16 2-bit indexes, each byte here is one row
-		uint8 indexRow[4];
+		uint8_t indexRow[4];
 	};
 	// An 8-byte DXT explicit alpha block, represents a 4x4 texel area. Used by DXT2/3
 	struct DXTExplicitAlphaBlock
 	{
 		// 16 4-bit values, each 16-bit value is one row
-		uint16 alphaRow[4];
+		uint16_t alphaRow[4];
 	};
 	// An 8-byte DXT interpolated alpha block, represents a 4x4 texel area. Used by DXT4/5
 	struct DXTInterpolatedAlphaBlock
 	{
 		// 2 alpha ranges
-		uint8 alpha_0;
-		uint8 alpha_1;
+		uint8_t alpha_0;
+		uint8_t alpha_1;
 		// 16 3-bit indexes. Unfortunately 3 bits doesn't map too well to row bytes
 		// so just stored raw
-		uint8 indexes[6];
+		uint8_t indexes[6];
 	};
 	
 #ifdef WIN32
@@ -81,41 +81,41 @@ namespace ma
 #pragma pack ()
 #endif
 
-	const uint32 DDS_MAGIC = FOURCC('D', 'D', 'S', ' ');
-	const uint32 DDS_PIXELFORMAT_SIZE = 8 * sizeof(uint32);
-	const uint32 DDS_CAPS_SIZE = 4 * sizeof(uint32);
-	const uint32 DDS_HEADER_SIZE = 19 * sizeof(uint32) + DDS_PIXELFORMAT_SIZE + DDS_CAPS_SIZE;
+	const uint32_t DDS_MAGIC = FOURCC('D', 'D', 'S', ' ');
+	const uint32_t DDS_PIXELFORMAT_SIZE = 8 * sizeof(uint32_t);
+	const uint32_t DDS_CAPS_SIZE = 4 * sizeof(uint32_t);
+	const uint32_t DDS_HEADER_SIZE = 19 * sizeof(uint32_t) + DDS_PIXELFORMAT_SIZE + DDS_CAPS_SIZE;
 
-	const uint32 DDSD_CAPS = 0x00000001;
-	const uint32 DDSD_HEIGHT = 0x00000002;
-	const uint32 DDSD_WIDTH = 0x00000004;
-	const uint32 DDSD_PITCH = 0x00000008;
-	const uint32 DDSD_PIXELFORMAT = 0x00001000;
-	const uint32 DDSD_MIPMAPCOUNT = 0x00020000;
-	const uint32 DDSD_LINEARSIZE = 0x00080000;
-	const uint32 DDSD_DEPTH = 0x00800000;
-	const uint32 DDPF_ALPHAPIXELS = 0x00000001;
-	const uint32 DDPF_FOURCC = 0x00000004;
-	const uint32 DDPF_RGB = 0x00000040;
-	const uint32 DDSCAPS_COMPLEX = 0x00000008;
-	const uint32 DDSCAPS_TEXTURE = 0x00001000;
-	const uint32 DDSCAPS_MIPMAP = 0x00400000;
-	const uint32 DDSCAPS2_CUBEMAP = 0x00000200;
-	const uint32 DDSCAPS2_CUBEMAP_POSITIVEX = 0x00000400;
-	const uint32 DDSCAPS2_CUBEMAP_NEGATIVEX = 0x00000800;
-	const uint32 DDSCAPS2_CUBEMAP_POSITIVEY = 0x00001000;
-	const uint32 DDSCAPS2_CUBEMAP_NEGATIVEY = 0x00002000;
-	const uint32 DDSCAPS2_CUBEMAP_POSITIVEZ = 0x00004000;
-	const uint32 DDSCAPS2_CUBEMAP_NEGATIVEZ = 0x00008000;
-	const uint32 DDSCAPS2_VOLUME = 0x00200000;
+	const uint32_t DDSD_CAPS = 0x00000001;
+	const uint32_t DDSD_HEIGHT = 0x00000002;
+	const uint32_t DDSD_WIDTH = 0x00000004;
+	const uint32_t DDSD_PITCH = 0x00000008;
+	const uint32_t DDSD_PIXELFORMAT = 0x00001000;
+	const uint32_t DDSD_MIPMAPCOUNT = 0x00020000;
+	const uint32_t DDSD_LINEARSIZE = 0x00080000;
+	const uint32_t DDSD_DEPTH = 0x00800000;
+	const uint32_t DDPF_ALPHAPIXELS = 0x00000001;
+	const uint32_t DDPF_FOURCC = 0x00000004;
+	const uint32_t DDPF_RGB = 0x00000040;
+	const uint32_t DDSCAPS_COMPLEX = 0x00000008;
+	const uint32_t DDSCAPS_TEXTURE = 0x00001000;
+	const uint32_t DDSCAPS_MIPMAP = 0x00400000;
+	const uint32_t DDSCAPS2_CUBEMAP = 0x00000200;
+	const uint32_t DDSCAPS2_CUBEMAP_POSITIVEX = 0x00000400;
+	const uint32_t DDSCAPS2_CUBEMAP_NEGATIVEX = 0x00000800;
+	const uint32_t DDSCAPS2_CUBEMAP_POSITIVEY = 0x00001000;
+	const uint32_t DDSCAPS2_CUBEMAP_NEGATIVEY = 0x00002000;
+	const uint32_t DDSCAPS2_CUBEMAP_POSITIVEZ = 0x00004000;
+	const uint32_t DDSCAPS2_CUBEMAP_NEGATIVEZ = 0x00008000;
+	const uint32_t DDSCAPS2_VOLUME = 0x00200000;
 
 	// Special FourCC codes
-	const uint32 D3DFMT_R16F			= 111;
-	const uint32 D3DFMT_G16R16F			= 112;
-	const uint32 D3DFMT_A16B16G16R16F	= 113;
-	const uint32 D3DFMT_R32F            = 114;
-	const uint32 D3DFMT_G32R32F         = 115;
-	const uint32 D3DFMT_A32B32G32R32F   = 116;
+	const uint32_t D3DFMT_R16F			= 111;
+	const uint32_t D3DFMT_G16R16F			= 112;
+	const uint32_t D3DFMT_A16B16G16R16F	= 113;
+	const uint32_t D3DFMT_R32F            = 114;
+	const uint32_t D3DFMT_G32R32F         = 115;
+	const uint32_t D3DFMT_A32B32G32R32F   = 116;
 
 	//---------------------------------------------------------------------
     CDDSCodec::CDDSCodec()
@@ -163,7 +163,7 @@ namespace ma
 			notImplementedString += " non square textures";
 		}
 
-		uint32 size = 1;
+		uint32_t size = 1;
 		while (size < imgData.width)
 		{
 			size <<= 1;
@@ -203,12 +203,12 @@ namespace ma
 			// Build header and write to disk
 
 			// Variables for some DDS header flags
-			uint32 ddsHeaderFlags = 0;			
-			uint32 ddsHeaderRgbBits = 0;
-			uint32 ddsHeaderSizeOrPitch = 0;
-			uint32 ddsHeaderCaps1 = 0;
-			uint32 ddsHeaderCaps2 = 0;
-			uint32 ddsMagic = DDS_MAGIC;
+			uint32_t ddsHeaderFlags = 0;			
+			uint32_t ddsHeaderRgbBits = 0;
+			uint32_t ddsHeaderSizeOrPitch = 0;
+			uint32_t ddsHeaderCaps1 = 0;
+			uint32_t ddsHeaderCaps2 = 0;
+			uint32_t ddsMagic = DDS_MAGIC;
 
 			// Initalise the header flags
 			ddsHeaderFlags = (isVolume) ? DDSD_CAPS|DDSD_WIDTH|DDSD_HEIGHT|DDSD_DEPTH|DDSD_PIXELFORMAT :
@@ -256,13 +256,13 @@ namespace ma
 			DDSHeader ddsHeader;
 			ddsHeader.size = DDS_HEADER_SIZE;
 			ddsHeader.flags = ddsHeaderFlags;		
-			ddsHeader.width = (uint32)imgData.width;
-			ddsHeader.height = (uint32)imgData.height;
-			ddsHeader.depth = (uint32)(isVolume ? imgData.depth : 0);
-			ddsHeader.depth = (uint32)(isCubeMap ? 6 : ddsHeader.depth);
+			ddsHeader.width = (uint32_t)imgData.width;
+			ddsHeader.height = (uint32_t)imgData.height;
+			ddsHeader.depth = (uint32_t)(isVolume ? imgData.depth : 0);
+			ddsHeader.depth = (uint32_t)(isCubeMap ? 6 : ddsHeader.depth);
 			ddsHeader.mipMapCount = 0;
 			ddsHeader.sizeOrPitch = ddsHeaderSizeOrPitch;
-			for (uint32 reserved1=0; reserved1<11; reserved1++) // XXX nasty constant 11
+			for (uint32_t reserved1=0; reserved1<11; reserved1++) // XXX nasty constant 11
 			{
 				ddsHeader.reserved1[reserved1] = 0;
 			}
@@ -286,21 +286,21 @@ namespace ma
 			ddsHeader.caps.reserved[1] = 0;
 
 			// Swap endian
-			flipEndian(&ddsMagic, sizeof(uint32), 1);
+			flipEndian(&ddsMagic, sizeof(uint32_t), 1);
 			flipEndian(&ddsHeader, 4, sizeof(DDSHeader) / 4);
 
 			// Write the file 			
 			std::ofstream of;
 			of.open(outFileName.c_str(), std::ios_base::binary|std::ios_base::out);
-			of.write((const char *)&ddsMagic, sizeof(uint32));
+			of.write((const char *)&ddsMagic, sizeof(uint32_t));
 			of.write((const char *)&ddsHeader, DDS_HEADER_SIZE);
 			// XXX flipEndian on each pixel chunk written unless isFloat32r ?
-			of.write((const char *)input->getPtr(), (uint32)imgData.size);
+			of.write((const char *)input->getPtr(), (uint32_t)imgData.size);
 			of.close();
 		}
 	}*/
 	//---------------------------------------------------------------------
-	PixelFormat CDDSCodec::convertFourCCFormat(uint32 fourcc) const
+	PixelFormat CDDSCodec::convertFourCCFormat(uint32_t fourcc) const
 	{
 		// convert dxt pixel format
 		switch(fourcc)
@@ -335,8 +335,8 @@ namespace ma
 		return PF_UNKNOWN;
 	}
 	//---------------------------------------------------------------------
-	PixelFormat CDDSCodec::convertPixelFormat(uint32 rgbBits, uint32 rMask, 
-		uint32 gMask, uint32 bMask, uint32 aMask) const
+	PixelFormat CDDSCodec::convertPixelFormat(uint32_t rgbBits, uint32_t rMask, 
+		uint32_t gMask, uint32_t bMask, uint32_t aMask) const
 	{
 		// General search through pixel formats
 		for (int i = PF_UNKNOWN + 1; i < PF_COUNT; ++i)
@@ -344,7 +344,7 @@ namespace ma
 			PixelFormat pf = static_cast<PixelFormat>(i);
 			if (PixelUtil::getNumElemBits(pf) == rgbBits)
 			{
-				uint64 testMasks[4];
+				uint64_t testMasks[4];
 				PixelUtil::getBitMasks(pf, testMasks);
 				int testBits[4];
 				PixelUtil::getBitDepths(pf, testBits);
@@ -394,12 +394,12 @@ namespace ma
 		}
 
 		// Process 4x4 block of texels
-		for (uint32 row = 0; row < 4; ++row)
+		for (uint32_t row = 0; row < 4; ++row)
 		{
-			for (uint32 x = 0; x < 4; ++x)
+			for (uint32_t x = 0; x < 4; ++x)
 			{
 				// LSB come first
-				uint8 colIdx = static_cast<uint8>(block.indexRow[row] >> (x * 2) & 0x3);
+				uint8_t colIdx = static_cast<uint8_t>(block.indexRow[row] >> (x * 2) & 0x3);
 				if (pf == PF_DXT1)
 				{
 					// Overwrite entire colour
@@ -426,14 +426,14 @@ namespace ma
 		// Note - we assume all values have already been endian swapped
 		
 		// This is an explicit alpha block, 4 bits per pixel, LSB first
-		for (uint32 row = 0; row < 4; ++row)
+		for (uint32_t row = 0; row < 4; ++row)
 		{
-			for (uint32 x = 0; x < 4; ++x)
+			for (uint32_t x = 0; x < 4; ++x)
 			{
 				// Shift and mask off to 4 bits
-				uint8 val = static_cast<uint8>(block.alphaRow[row] >> (x * 4) & 0xF);
+				uint8_t val = static_cast<uint8_t>(block.alphaRow[row] >> (x * 4) & 0xF);
 				// Convert to [0,1]
-				pCol->a = (Real)val / (Real)0xF;
+				pCol->a = (float)val / (float)0xF;
 				pCol++;
 				
 			}
@@ -446,11 +446,11 @@ namespace ma
 		const DXTInterpolatedAlphaBlock& block, ColourValue* pCol) const
 	{
 		// 8 derived alpha values to be indexed
-		Real derivedAlphas[8];
+		float derivedAlphas[8];
 
 		// Explicit extremes
-		derivedAlphas[0] = block.alpha_0 / (Real)0xFF;
-		derivedAlphas[1] = block.alpha_1 / (Real)0xFF;
+		derivedAlphas[0] = block.alpha_0 / (float)0xFF;
+		derivedAlphas[1] = block.alpha_1 / (float)0xFF;
 		
 		
 		if (block.alpha_0 <= block.alpha_1)
@@ -459,11 +459,11 @@ namespace ma
 			// full range including extremes at [0] and [5]
 			// we want to fill in [1] through [4] at weights ranging
 			// from 1/5 to 4/5
-			Real denom = 1.0f / 5.0f;
-			for (uint32 i = 0; i < 4; ++i) 
+			float denom = 1.0f / 5.0f;
+			for (uint32_t i = 0; i < 4; ++i) 
 			{
-				Real factor0 = (4 - i) * denom;
-				Real factor1 = (i + 1) * denom;
+				float factor0 = (4 - i) * denom;
+				float factor1 = (i + 1) * denom;
 				derivedAlphas[i + 2] = 
 					(factor0 * block.alpha_0) + (factor1 * block.alpha_1);
 			}
@@ -477,11 +477,11 @@ namespace ma
 			// full range including extremes at [0] and [7]
 			// we want to fill in [1] through [6] at weights ranging
 			// from 1/7 to 6/7
-			Real denom = 1.0f / 7.0f;
-			for (uint32 i = 0; i < 6; ++i) 
+			float denom = 1.0f / 7.0f;
+			for (uint32_t i = 0; i < 6; ++i) 
 			{
-				Real factor0 = (6 - i) * denom;
-				Real factor1 = (i + 1) * denom;
+				float factor0 = (6 - i) * denom;
+				float factor1 = (i + 1) * denom;
 				derivedAlphas[i + 2] = 
 					(factor0 * block.alpha_0) + (factor1 * block.alpha_1);
 			}
@@ -489,15 +489,15 @@ namespace ma
 		}
 
 		// Ok, now we've built the reference values, process the indexes
-		for (uint32 i = 0; i < 16; ++i)
+		for (uint32_t i = 0; i < 16; ++i)
 		{
-			uint32 baseByte = (i * 3) / 8;
-			uint32 baseBit = (i * 3) % 8;
-			uint8 bits = static_cast<uint8>(block.indexes[baseByte] >> baseBit & 0x7);
+			uint32_t baseByte = (i * 3) / 8;
+			uint32_t baseBit = (i * 3) % 8;
+			uint8_t bits = static_cast<uint8_t>(block.indexes[baseByte] >> baseBit & 0x7);
 			// do we need to stitch in next byte too?
 			if (baseBit > 5)
 			{
-				uint8 extraBits = static_cast<uint8>(
+				uint8_t extraBits = static_cast<uint8_t>(
 					(block.indexes[baseByte+1] << (8 - baseBit)) & 0xFF);
 				bits |= extraBits & 0x7;
 			}
@@ -508,14 +508,14 @@ namespace ma
 	}
     //---------------------------------------------------------------------
     //Codec::DecodeResult DDSCodec::decode(DataStreamPtr& stream) const
-	bool CDDSCodec::decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN OUT ImageData& imgData) const
+	bool CDDSCodec::decode(const char* pszName, void* pMemory, uint32_t nNumBytes, IN OUT ImageData& imgData) const
     {
 		MemoryStream stream(pszName, pMemory, nNumBytes, true);
 
 		// Read 4 character code
-		uint32 fileType;
-		stream.Read(&fileType, sizeof(uint32));
-		flipEndian(&fileType, sizeof(uint32), 1);
+		uint32_t fileType;
+		stream.Read(&fileType, sizeof(uint32_t));
+		flipEndian(&fileType, sizeof(uint32_t), 1);
 		
 		if (FOURCC('D', 'D', 'S', ' ') != fileType)
 		{
@@ -550,7 +550,7 @@ namespace ma
 		imgData.m_nDepth = 1; // (deal with volume later)
 		imgData.m_nWidth = header.width;
 		imgData.m_nHeight = header.height;
-		uint32 numFaces = 1; // assume one face until we know otherwise
+		uint32_t numFaces = 1; // assume one face until we know otherwise
 
 		if (header.caps.caps1 & DDSCAPS_MIPMAP)
 		{
@@ -609,8 +609,8 @@ namespace ma
 					// 32-bit so can benefit from this.
 					DXTColourBlock block;
 					stream.Read(&block, sizeof(DXTColourBlock));
-					flipEndian(&(block.colour_0), sizeof(uint16), 1);
-					flipEndian(&(block.colour_1), sizeof(uint16), 1);
+					flipEndian(&(block.colour_0), sizeof(uint16_t), 1);
+					flipEndian(&(block.colour_1), sizeof(uint16_t), 1);
 					// skip back since we'll need to read this again
 					stream.Skip(0 - (long)sizeof(DXTColourBlock));
 					// colour_0 <= colour_1 means transparency in DXT1
@@ -662,14 +662,14 @@ namespace ma
 		void* destPtr = output->GetPtr();
 
 		// all mips for a face, then each face
-		for ( uint32 i = 0; i < numFaces; ++i )
+		for ( uint32_t i = 0; i < numFaces; ++i )
 		{   
-			uint32 width = imgData.m_nWidth;
-			uint32 height = imgData.m_nHeight;
-			uint32 depth = imgData.m_nDepth;
-			for ( uint32 mip=0; mip<=imgData.m_nNumMipmaps; ++mip )
+			uint32_t width = imgData.m_nWidth;
+			uint32_t height = imgData.m_nHeight;
+			uint32_t depth = imgData.m_nDepth;
+			for ( uint32_t mip=0; mip<=imgData.m_nNumMipmaps; ++mip )
 			{
-				uint32 dstPitch = width * PixelUtil::getNumElemBytes( imgData.m_eFormat );
+				uint32_t dstPitch = width * PixelUtil::getNumElemBytes( imgData.m_eFormat );
 				if ( PixelUtil::isCompressed(sourceFormat) )
 				{
 					// Compressed data
@@ -680,24 +680,24 @@ namespace ma
 						DXTExplicitAlphaBlock eAlpha;
 						// 4x4 block of decompressed colour
 						ColourValue tempColours[16];
-						uint32 destBpp = PixelUtil::getNumElemBytes(imgData.m_eFormat);
-						uint32 sx = min(width, (uint32)4);
-						uint32 sy = min(height, (uint32)4);
-						uint32 destPitchMinus4 = dstPitch - destBpp * sx;
+						uint32_t destBpp = PixelUtil::getNumElemBytes(imgData.m_eFormat);
+						uint32_t sx = min(width, (uint32_t)4);
+						uint32_t sy = min(height, (uint32_t)4);
+						uint32_t destPitchMinus4 = dstPitch - destBpp * sx;
 						// slices are done individually
-						for(uint32 z = 0; z < depth; ++z)
+						for(uint32_t z = 0; z < depth; ++z)
 						{
 							// 4x4 blocks in x/y
-							for (uint32 y = 0; y < height; y += 4)
+							for (uint32_t y = 0; y < height; y += 4)
 							{
-								for (uint32 x = 0; x < width; x += 4)
+								for (uint32_t x = 0; x < width; x += 4)
 								{
 									if (sourceFormat == PF_DXT2 || 
 										sourceFormat == PF_DXT3)
 									{
 										// explicit alpha
 										stream.Read(&eAlpha, sizeof(DXTExplicitAlphaBlock));
-										flipEndian(eAlpha.alphaRow, sizeof(uint16), 4);
+										flipEndian(eAlpha.alphaRow, sizeof(uint16_t), 4);
 										unpackDXTAlpha(eAlpha, tempColours) ;
 									}
 									else if (sourceFormat == PF_DXT4 || 
@@ -705,29 +705,29 @@ namespace ma
 									{
 										// interpolated alpha
 										stream.Read(&iAlpha, sizeof(DXTInterpolatedAlphaBlock));
-										flipEndian(&(iAlpha.alpha_0), sizeof(uint16), 1);
-										flipEndian(&(iAlpha.alpha_1), sizeof(uint16), 1);
+										flipEndian(&(iAlpha.alpha_0), sizeof(uint16_t), 1);
+										flipEndian(&(iAlpha.alpha_1), sizeof(uint16_t), 1);
 										unpackDXTAlpha(iAlpha, tempColours) ;
 									}
 									// always read colour
 									stream.Read(&col, sizeof(DXTColourBlock));
-									flipEndian(&(col.colour_0), sizeof(uint16), 1);
-									flipEndian(&(col.colour_1), sizeof(uint16), 1);
+									flipEndian(&(col.colour_0), sizeof(uint16_t), 1);
+									flipEndian(&(col.colour_1), sizeof(uint16_t), 1);
 									unpackDXTColour(sourceFormat, col, tempColours);
 
 									// write 4x4 block to uncompressed version
-									for (uint32 by = 0; by < sy; ++by)
+									for (uint32_t by = 0; by < sy; ++by)
 									{
-										for (uint32 bx = 0; bx < sx; ++bx)
+										for (uint32_t bx = 0; bx < sx; ++bx)
 										{
 											PixelUtil::packColour(tempColours[by*4+bx],
 												imgData.m_eFormat, destPtr);
 											destPtr = static_cast<void*>(
-												static_cast<uint8*>(destPtr) + destBpp);
+												static_cast<uint8_t*>(destPtr) + destBpp);
 										}
 										// advance to next row
 										destPtr = static_cast<void*>(
-											static_cast<uint8*>(destPtr) + destPitchMinus4);
+											static_cast<uint8_t*>(destPtr) + destPitchMinus4);
 									}
 									// next block. Our dest pointer is 4 lines down
 									// from where it started
@@ -735,14 +735,14 @@ namespace ma
 									{
 										// Jump back to the start of the line
 										destPtr = static_cast<void*>(
-											static_cast<uint8*>(destPtr) - destPitchMinus4);
+											static_cast<uint8_t*>(destPtr) - destPitchMinus4);
 									}
 									else
 									{
 										// Jump back up 4 rows and 4 pixels to the
 										// right to be at the next block to the right
 										destPtr = static_cast<void*>(
-											static_cast<uint8*>(destPtr) - dstPitch * sy + destBpp * sx);
+											static_cast<uint8_t*>(destPtr) - dstPitch * sy + destBpp * sx);
 
 									}
 
@@ -756,19 +756,19 @@ namespace ma
 					{
 						// load directly
 						// DDS format lies! sizeOrPitch is not always set for DXT!!
-						uint32 dxtSize = PixelUtil::getMemorySize( width, height, depth, imgData.m_eFormat );
+						uint32_t dxtSize = PixelUtil::getMemorySize( width, height, depth, imgData.m_eFormat );
 						stream.Read( destPtr, dxtSize );
-						destPtr = static_cast<void*>( static_cast<uint8*>(destPtr) + dxtSize );
+						destPtr = static_cast<void*>( static_cast<uint8_t*>(destPtr) + dxtSize );
 					}
 
 				}
 				else
 				{
 					// Final data - trim incoming pitch
-					uint32 srcPitch;
+					uint32_t srcPitch;
 					if ( header.flags & DDSD_PITCH )
 					{
-                        srcPitch = header.sizeOrPitch / max<uint32>(1,mip * 2);
+                        srcPitch = header.sizeOrPitch / max<uint32_t>(1,mip * 2);
 					}
 					else
 					{
@@ -777,14 +777,14 @@ namespace ma
 					}
 					ASSERT ( dstPitch <= srcPitch );
 					long srcAdvance = static_cast<long>(srcPitch) - static_cast<long>(dstPitch);
-					for ( uint32 z=0; z<depth; ++z )
+					for ( uint32_t z=0; z<depth; ++z )
 					{
-						for ( uint32 y = 0; y < height; ++y )
+						for ( uint32_t y = 0; y < height; ++y )
 						{
-							stream.Read(destPtr, (uint32)dstPitch);
+							stream.Read(destPtr, (uint32_t)dstPitch);
 							if (srcAdvance > 0)
 								stream.Skip(srcAdvance);
-							destPtr = static_cast<void*>(static_cast<uint8*>(destPtr) + dstPitch);
+							destPtr = static_cast<void*>(static_cast<uint8_t*>(destPtr) + dstPitch);
 						}
 					}
 
@@ -806,7 +806,7 @@ namespace ma
 		return true;
     }
     //---------------------------------------------------------------------    
-    void CDDSCodec::flipEndian(void * pData, uint32 size, uint32 count) const
+    void CDDSCodec::flipEndian(void * pData, uint32_t size, uint32_t count) const
     {
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
 		for(unsigned int index = 0; index < count; index++)
@@ -816,7 +816,7 @@ namespace ma
 #endif
     }
     //---------------------------------------------------------------------    
-    void CDDSCodec::flipEndian(void * pData, uint32 size) const
+    void CDDSCodec::flipEndian(void * pData, uint32_t size) const
     {
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
         char swapByte;
@@ -829,13 +829,13 @@ namespace ma
 #endif
     }
 	//---------------------------------------------------------------------
-	string CDDSCodec::magicNumberToFileExt(const char *magicNumberPtr, uint32 maxbytes) const
+	string CDDSCodec::magicNumberToFileExt(const char *magicNumberPtr, uint32_t maxbytes) const
 	{
-		if (maxbytes >= sizeof(uint32))
+		if (maxbytes >= sizeof(uint32_t))
 		{
-			uint32 fileType;
-			memcpy(&fileType, magicNumberPtr, sizeof(uint32));
-			flipEndian(&fileType, sizeof(uint32), 1);
+			uint32_t fileType;
+			memcpy(&fileType, magicNumberPtr, sizeof(uint32_t));
+			flipEndian(&fileType, sizeof(uint32_t), 1);
 
 			if (DDS_MAGIC == fileType)
 			{

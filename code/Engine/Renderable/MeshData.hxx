@@ -29,7 +29,7 @@ namespace ma
 
 	AABB ReadShape(MemoryStream* pDataStream)
 	{
-		uint16 ShaeType = pDataStream->ReadUShort();
+		uint16_t ShaeType = pDataStream->ReadUShort();
 		Vector3 vPos = pDataStream->ReadVector3();
 		/*Quaternion qRot = */pDataStream->ReadQuaternion();
 
@@ -45,12 +45,12 @@ namespace ma
 		}
 	}
 
-	uint32 ToBoneIndex(uint8 nID0,uint8 nID1, uint8 nID2, uint8 nID3)
+	uint32_t ToBoneIndex(uint8_t nID0,uint8_t nID1, uint8_t nID2, uint8_t nID3)
 	{
 		union UIndex
 		{
-			uint32 uInde;
-			uint8 uByte[4];
+			uint32_t uInde;
+			uint8_t uByte[4];
 		};
 
 		UIndex uBondID;
@@ -62,12 +62,12 @@ namespace ma
 		return uBondID.uInde;
 	}
 
-	void GetBoneIndex(uint32 nIndex, uint8& nID0, uint8& nID1, uint8& nID2, uint8& nID3)
+	void GetBoneIndex(uint32_t nIndex, uint8_t& nID0, uint8_t& nID1, uint8_t& nID2, uint8_t& nID3)
 	{
 		union UIndex
 		{
-			uint32 uInde;
-			uint8 uByte[4];
+			uint32_t uInde;
+			uint8_t uByte[4];
 		};
 
 		UIndex uBondID;
@@ -78,26 +78,26 @@ namespace ma
 		nID3 = uBondID.uByte[3];
 	}
 
-	UINT32 CompressNormal(const Vector3& vNorm)
+	uint32_t CompressNormal(const Vector3& vNorm)
 	{
 		Vector3 vNormIn = vNorm.normalisedCopy();
 
 		union UIndex
 		{
-			uint32 uInde;
-			uint8 uByte[4];
+			uint32_t uInde;
+			uint8_t uByte[4];
 		};
 
 		UIndex uTemp;
-		uTemp.uByte[0] = (uint8)(vNormIn.x * 127.5f + 128.0f);
-		uTemp.uByte[1] = (uint8)(vNormIn.y * 127.5f + 128.0f);
-		uTemp.uByte[2] = (uint8)(vNormIn.z * 127.5f + 128.0f);
-		uTemp.uByte[3] = (uint8)(0 * 127.5f + 128.0f);
+		uTemp.uByte[0] = (uint8_t)(vNormIn.x * 127.5f + 128.0f);
+		uTemp.uByte[1] = (uint8_t)(vNormIn.y * 127.5f + 128.0f);
+		uTemp.uByte[2] = (uint8_t)(vNormIn.z * 127.5f + 128.0f);
+		uTemp.uByte[3] = (uint8_t)(0 * 127.5f + 128.0f);
 
 		return uTemp.uInde;
 	}
 
-	UINT32 CompressQuaternion(const Vector3& tangent,Vector3 const& normal)
+	uint32_t CompressQuaternion(const Vector3& tangent,Vector3 const& normal)
 	{
 		Vector3 vTangent = ( tangent - normal * ( tangent.dotProduct(normal) ) ).normalisedCopy();  
 		Vector3 binormal = normal.crossProduct(vTangent);
@@ -138,15 +138,15 @@ namespace ma
 
 		union UIndex
 		{
-			uint32 uInde;
-			uint8 uByte[4];
+			uint32_t uInde;
+			uint8_t uByte[4];
 		};
 
 		UIndex uTemp;
-		uTemp.uByte[0] = (uint8)(tangent_quat.x * 127.5f + 128.0f);
-		uTemp.uByte[1] = (uint8)(tangent_quat.y * 127.5f + 128.0f);
-		uTemp.uByte[2] = (uint8)(tangent_quat.z * 127.5f + 128.0f);
-		uTemp.uByte[3] = (uint8)(tangent_quat.w * 127.5f + 128.0f);
+		uTemp.uByte[0] = (uint8_t)(tangent_quat.x * 127.5f + 128.0f);
+		uTemp.uByte[1] = (uint8_t)(tangent_quat.y * 127.5f + 128.0f);
+		uTemp.uByte[2] = (uint8_t)(tangent_quat.z * 127.5f + 128.0f);
+		uTemp.uByte[3] = (uint8_t)(tangent_quat.w * 127.5f + 128.0f);
 
 		return uTemp.uInde;
 	}
@@ -155,10 +155,10 @@ namespace ma
 	{
 		SHORTV4 vSkinPos;
 
-		vSkinPos.x = (int16)(((vPos.x -  vCenter.x) / vExtent.x) * 32767.5f);
-		vSkinPos.y = (int16)(((vPos.y -  vCenter.y) / vExtent.y) * 32767.5f);
-		vSkinPos.z = (int16)(((vPos.z -  vCenter.z) / vExtent.z) * 32767.5f);
-		vSkinPos.w = (int16)(((1.0f -  vCenter.z) / vExtent.z) * 32767.5f);
+		vSkinPos.x = (int16_t)(((vPos.x -  vCenter.x) / vExtent.x) * 32767.5f);
+		vSkinPos.y = (int16_t)(((vPos.y -  vCenter.y) / vExtent.y) * 32767.5f);
+		vSkinPos.z = (int16_t)(((vPos.z -  vCenter.z) / vExtent.z) * 32767.5f);
+		vSkinPos.w = (int16_t)(((1.0f -  vCenter.z) / vExtent.z) * 32767.5f);
 
 		return vSkinPos;
 	}
@@ -178,8 +178,8 @@ namespace ma
 	{
 		SHORTV2 vSkinUV;
 
-		vSkinUV.x = (int16)(((vUV.x -  vCenter.x) / vExtent.x) * 32767.5f);
-		vSkinUV.y = (int16)(((vUV.y -  vCenter.y) / vExtent.y) * 32767.5f);
+		vSkinUV.x = (int16_t)(((vUV.x -  vCenter.x) / vExtent.x) * 32767.5f);
+		vSkinUV.y = (int16_t)(((vUV.y -  vCenter.y) / vExtent.y) * 32767.5f);
 
 		return vSkinUV;
 	}
@@ -188,8 +188,8 @@ namespace ma
 	{
 		RefPtr<FileStream> pSaveStream = CreateFileStream(pszFile); 
 
-		uint32 nIden = 'MAMD';
-		uint32 nVersion = 0;
+		uint32_t nIden = 'MAMD';
+		uint32_t nVersion = 0;
 
 		pSaveStream->WriteUInt(nIden);
 		pSaveStream->WriteUInt(nVersion);
@@ -201,11 +201,11 @@ namespace ma
 		pSaveStream->WriteUInt(m_nIndexType);
 		pSaveStream->WriteUInt(m_nVertexType);
 
-		uint32 nIndexSize = m_pIndexBuffer->GetSize();
+		uint32_t nIndexSize = m_pIndexBuffer->GetSize();
 		pSaveStream->WriteUInt(nIndexSize);
 		pSaveStream->Write(m_pIndexBuffer->GetData(),nIndexSize);
 
-		uint32 nVertexSize = m_pVertexBuffer->GetSize();
+		uint32_t nVertexSize = m_pVertexBuffer->GetSize();
 		pSaveStream->WriteUInt(nVertexSize);
 		pSaveStream->Write(m_pVertexBuffer->GetData(),nVertexSize);
 
@@ -213,7 +213,7 @@ namespace ma
 		pSaveStream->WriteBoundingBox2D(m_tcBound);
 		
 		pSaveStream->WriteUInt(m_arrSubMesh.size());
-		for (uint32 j = 0; j < m_arrSubMesh.size(); ++j)
+		for (uint32_t j = 0; j < m_arrSubMesh.size(); ++j)
 		{
 			SubMeshData* subMesh = m_arrSubMesh[j].get();
 
@@ -223,7 +223,7 @@ namespace ma
 			pSaveStream->WriteUInt(subMesh->m_nVertexCount);
 	
 			pSaveStream->WriteUInt(subMesh->m_arrBonePalette.size());
-			for (uint32 iBone = 0; iBone < subMesh->m_arrBonePalette.size(); ++iBone)
+			for (uint32_t iBone = 0; iBone < subMesh->m_arrBonePalette.size(); ++iBone)
 			{
 				pSaveStream->WriteUShort(subMesh->m_arrBonePalette[iBone]);
 			}
@@ -236,49 +236,49 @@ namespace ma
 
 	void MeshData::ReadDataV1()
 	{
-		//uint32 nIden = m_pDataStream->ReadUInt();
-		uint32 nVersion = m_pDataStream->ReadUInt();
+		//uint32_t nIden = m_pDataStream->ReadUInt();
+		uint32_t nVersion = m_pDataStream->ReadUInt();
 		ASSERT(nVersion == 0);
 
 		m_nBoneNumber = m_pDataStream->ReadUInt();
-		uint32 nIndexNum = m_pDataStream->ReadUInt();
-		uint32 nVertexNum = m_pDataStream->ReadUInt();
+		uint32_t nIndexNum = m_pDataStream->ReadUInt();
+		uint32_t nVertexNum = m_pDataStream->ReadUInt();
 
 		m_nIndexType = (INDEX_TYPE)m_pDataStream->ReadUInt();
 		ASSERT(m_nIndexType == INDEX_TYPE_U16);
 
 		m_nVertexType = (VertexType)m_pDataStream->ReadUInt();
 		
-		vector<uint8> vecIBData;
+		vector<uint8_t> vecIBData;
 
-		uint32 nIndexSize = m_pDataStream->ReadUInt();
+		uint32_t nIndexSize = m_pDataStream->ReadUInt();
 		vecIBData.resize(nIndexSize);
 		m_pDataStream->Read(&vecIBData[0],nIndexSize);
 
 		if (m_nIndexType == INDEX_TYPE_U16)
 		{
-			UINT32 nIndexCount = nIndexSize / sizeof(uint16);
+			uint32_t nIndexCount = nIndexSize / sizeof(uint16_t);
 			ASSERT(nIndexCount == nIndexNum);
 
-			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint16));
+			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint16_t));
 		}
 		else
 		{
-			UINT32 nIndexCount = nIndexSize / sizeof(UINT32);
+			uint32_t nIndexCount = nIndexSize / sizeof(uint32_t);
 			ASSERT(nIndexCount == nIndexNum);
 
-			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(UINT32));
+			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint32_t));
 		}
 		
-		vector<uint8> vecVBData;
+		vector<uint8_t> vecVBData;
 
-		uint32 nVertexSize = m_pDataStream->ReadUInt();
+		uint32_t nVertexSize = m_pDataStream->ReadUInt();
 		vecVBData.resize(nVertexSize);
 		m_pDataStream->Read(&vecVBData[0],nVertexSize);
 	
 		if (m_nVertexType == SKIN_VERTEX_1)
 		{
-			uint32 nVertexCount = nVertexSize / sizeof(SkinVertexV1);
+			uint32_t nVertexCount = nVertexSize / sizeof(SkinVertexV1);
 			ASSERT(nVertexCount == nVertexNum);
 
 			VertexElement element[5];
@@ -293,7 +293,7 @@ namespace ma
 		}
 		else if (m_nVertexType == STATIC_VERTEX_1)
 		{
-			uint32 nVertexCount = nVertexSize / sizeof(StaticVertexV1);
+			uint32_t nVertexCount = nVertexSize / sizeof(StaticVertexV1);
 			ASSERT(nVertexCount == nVertexNum);
 
 			VertexElement element[3];
@@ -308,8 +308,8 @@ namespace ma
 		m_meshBound = m_pDataStream->ReadBoundingBox();
 		m_tcBound = m_pDataStream->ReadBoundingBox2D();
 
-		uint32 nSubMesh = m_pDataStream->ReadUInt();
-		for (uint32 iSub = 0; iSub < nSubMesh; ++iSub)
+		uint32_t nSubMesh = m_pDataStream->ReadUInt();
+		for (uint32_t iSub = 0; iSub < nSubMesh; ++iSub)
 		{
 			SubMeshData* subMesh = new SubMeshData;
 			subMesh->m_nIndexStart = m_pDataStream->ReadUInt();
@@ -317,9 +317,9 @@ namespace ma
 			subMesh->m_nVertexStart = m_pDataStream->ReadUInt();
 			subMesh->m_nVertexCount = m_pDataStream->ReadUInt();
 
-			uint32 nBoneNum = m_pDataStream->ReadUInt();
+			uint32_t nBoneNum = m_pDataStream->ReadUInt();
 			subMesh->m_arrBonePalette.resize(nBoneNum);
-			for (uint32 iBone = 0; iBone < nBoneNum; ++iBone)
+			for (uint32_t iBone = 0; iBone < nBoneNum; ++iBone)
 			{
 				subMesh->m_arrBonePalette[iBone] = m_pDataStream->ReadUShort();
 			}
@@ -332,10 +332,10 @@ namespace ma
 
 	void MeshData::ReadDataV0()
 	{
-		//uint32 nIden = m_pDataStream->ReadUInt();
+		//uint32_t nIden = m_pDataStream->ReadUInt();
 		//ASSERT(nIden == 'S3MD');
-		uint32 nVersion = m_pDataStream->ReadUInt();
-		uint32 nStringLen = m_pDataStream->ReadUInt();
+		uint32_t nVersion = m_pDataStream->ReadUInt();
+		uint32_t nStringLen = m_pDataStream->ReadUInt();
 		vector<char> vecChar;
 		vecChar.resize(nStringLen);
 		m_pDataStream->Read(&vecChar[0],nStringLen);	
@@ -345,38 +345,38 @@ namespace ma
 		m_pDataStream->Read(GID,16);
 
 		m_nBoneNumber = m_pDataStream->ReadUInt();
-		uint32 nIndexNum = m_pDataStream->ReadUInt();
-		uint32 nVertexNum = m_pDataStream->ReadUInt();
+		uint32_t nIndexNum = m_pDataStream->ReadUInt();
+		uint32_t nVertexNum = m_pDataStream->ReadUInt();
 
 		m_nIndexType = (INDEX_TYPE)m_pDataStream->ReadUInt();
 		m_nVertexType = (VertexType)m_pDataStream->ReadUInt();
 		ASSERT(m_nIndexType == INDEX_TYPE_U16);
 		ASSERT(m_nVertexType == SKIN_VERTEX_0);
 
-		vector<uint8> vecIBData;
+		vector<uint8_t> vecIBData;
 
-		uint32 nIndexSize = m_pDataStream->ReadUInt();
+		uint32_t nIndexSize = m_pDataStream->ReadUInt();
 		vecIBData.resize(nIndexSize);
 		m_pDataStream->Read(&vecIBData[0],nIndexSize);
 	
-		UINT32 nIndexCount = nIndexSize / sizeof(uint16);
+		uint32_t nIndexCount = nIndexSize / sizeof(uint16_t);
 		ASSERT(nIndexCount == nIndexNum);
 		
-		vector<uint8> vecVBData;
+		vector<uint8_t> vecVBData;
 
-		uint32 nVertexSize = m_pDataStream->ReadUInt();
+		uint32_t nVertexSize = m_pDataStream->ReadUInt();
 		vecVBData.resize(nVertexSize);
 		m_pDataStream->Read(&vecVBData[0],nVertexSize);
 
-		uint32 nVertexCount = nVertexSize / sizeof(SkinVertexV0);
+		uint32_t nVertexCount = nVertexSize / sizeof(SkinVertexV0);
 
 		m_meshBound = ReadShape(m_pDataStream.get());
 
-		uint32 nMeshLod = m_pDataStream->ReadUInt();
-		for (uint32 iLod = 0; iLod < nMeshLod; ++iLod)
+		uint32_t nMeshLod = m_pDataStream->ReadUInt();
+		for (uint32_t iLod = 0; iLod < nMeshLod; ++iLod)
 		{
-			uint32 nSubMesh = m_pDataStream->ReadUInt();
-			for (uint32 iSub = 0; iSub < nSubMesh; ++iSub)
+			uint32_t nSubMesh = m_pDataStream->ReadUInt();
+			for (uint32_t iSub = 0; iSub < nSubMesh; ++iSub)
 			{
 				SubMeshData* subMesh = new SubMeshData;
 				subMesh->m_nIndexStart = m_pDataStream->ReadUInt();
@@ -386,14 +386,14 @@ namespace ma
 
 				ReadShape(m_pDataStream.get());
 				
-				uint32 nBoneNum = m_pDataStream->ReadUInt();
+				uint32_t nBoneNum = m_pDataStream->ReadUInt();
 				subMesh->m_arrBonePalette.resize(nBoneNum);
-				for (uint32 iBone = 0; iBone < nBoneNum; ++iBone)
+				for (uint32_t iBone = 0; iBone < nBoneNum; ++iBone)
 				{
 					subMesh->m_arrBonePalette[iBone] = m_pDataStream->ReadUShort();
 				}
 
-				uint32 nStringLen = m_pDataStream->ReadUInt();
+				uint32_t nStringLen = m_pDataStream->ReadUInt();
 				vector<char> vecChar;
 				vecChar.resize(nStringLen);
 				m_pDataStream->Read(&vecChar[0],nStringLen);	
@@ -411,7 +411,7 @@ namespace ma
 		}
 
 		SkinVertexV0* pVertexV0 = (SkinVertexV0*)(&vecVBData[0]);
-		uint16* pIndex = (uint16*)(&vecIBData[0]);
+		uint16_t* pIndex = (uint16_t*)(&vecIBData[0]);
 
 		vector<SkinVertexV1> pVertexV1;
 		pVertexV1.resize(nVertexNum);
@@ -425,14 +425,14 @@ namespace ma
 		element[4] = VertexElement(0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0);
 		m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
 
-		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint16));
+		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint16_t));
 
-		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)&pVertexV1[0],nVertexNum * sizeof(SkinVertexV1),sizeof(SkinVertexV1));
+		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8_t*)&pVertexV1[0],nVertexNum * sizeof(SkinVertexV1),sizeof(SkinVertexV1));
 	}
 
-	void MeshData::UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex)
+	void MeshData::UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32_t nVertexCount,uint16_t* pIndex)
 	{
-		for (UINT32 i = 0; i < nVertexCount; ++i)
+		for (uint32_t i = 0; i < nVertexCount; ++i)
 		{
 			m_tcBound.merge(pVertexV0[i].uv);
 			m_meshBound.merge(pVertexV0[i].pos);
@@ -444,7 +444,7 @@ namespace ma
 		Vector3 pos_center = m_meshBound.getCenter();
 		Vector3 pos_extent = m_meshBound.getHalfSize();
 
-		for (UINT i = 0; i < nVertexCount; ++i)
+		for (uint32_t i = 0; i < nVertexCount; ++i)
 		{
 			SkinVertexV0& vertexV0 = pVertexV0[i];
 			StaticVertexV1& vertexV1 = pVertexV1[i];
@@ -455,9 +455,9 @@ namespace ma
 		}
 	}
 
-	void MeshData::UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex)
+	void MeshData::UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32_t nVertexCount,uint16_t* pIndex)
 	{
-		for (UINT32 i = 0; i < nVertexCount; ++i)
+		for (uint32_t i = 0; i < nVertexCount; ++i)
 		{
 			m_tcBound.merge(pVertexV0[i].uv);
 			m_meshBound.merge(pVertexV0[i].pos);
@@ -469,7 +469,7 @@ namespace ma
 		Vector3 pos_center = m_meshBound.getCenter();
 		Vector3 pos_extent = m_meshBound.getHalfSize();
 
-		for (UINT i = 0; i < nVertexCount; ++i)
+		for (uint32_t i = 0; i < nVertexCount; ++i)
 		{
 			SkinVertexV0& vertexV0 = pVertexV0[i];
 			SkinVertexV1& vertexV1 = pVertexV1[i];
@@ -485,7 +485,7 @@ namespace ma
 
 	bool MeshData::InitRes()
 	{
-		uint32 nIden = m_pDataStream->ReadUInt();
+		uint32_t nIden = m_pDataStream->ReadUInt();
 		if (nIden == 'S3MD')
 		{
 			ReadDataV0();

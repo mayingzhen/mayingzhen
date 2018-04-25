@@ -1,5 +1,4 @@
-#ifndef _Sample_H_
-#define _Sample_H_
+#pragma once
 
 
 namespace ma
@@ -40,5 +39,4 @@ namespace ma
 	};
 }
 
-#endif
 

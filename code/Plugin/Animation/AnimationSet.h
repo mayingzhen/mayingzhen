@@ -19,9 +19,9 @@ namespace ma
 
 		AnimTreeNode*		GetSkelAnimByName(const char* pszName);
 
-		AnimTreeNode*		GetAnimationByAnimID(UINT nAnimID);
+		AnimTreeNode*		GetAnimationByAnimID(uint32_t nAnimID);
 
-		AnimTreeNode*		GetAnimationByIndex(UINT index);
+		AnimTreeNode*		GetAnimationByIndex(uint32_t index);
 
 		void				AddSkelAnim(AnimTreeNode* pAction); 
 

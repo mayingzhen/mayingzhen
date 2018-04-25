@@ -2,6 +2,7 @@
 #include "md5.h"
 #include "BaseType.h"
 #ifdef WIN32
+#include <TimeAPI.h>
 #include <direct.h>
 #endif
 
@@ -262,9 +263,9 @@ string StaticFunc::GetBaseName(const string& strFile)
 
 string StaticFunc::GetFileName(const string& str)
 {
-    int32 index = (int32)str.find_last_of( "\\" );
+    int index = (int)str.find_last_of( "\\" );
     if ( index == -1 )
-        index = (int32)str.find_last_of( "/" );
+        index = (int)str.find_last_of( "/" );
     if ( index==-1 )
         return str;
     if ( index==((int)str.length()-1) )
@@ -305,7 +306,7 @@ string StaticFunc::ToLowerCase(const string& strFile)
 	string strLower;
 	strLower.assign(strFile.size(), 0);
 
-	for(uint32 i = 0; i < strFile.size(); i++) 
+	for(uint32_t i = 0; i < strFile.size(); i++) 
 	{	
 		if(strFile[i] >= 'A' && strFile[i] <= 'Z') 
 		{
@@ -327,7 +328,7 @@ string StaticFunc::ToLowerCase(const string& strFile)
 void StaticFunc::MakeDir( const char* pszPath )
 {
 	string strPath = pszPath;
-	for(uint32 i = 0; i < strPath.size(); i++) 
+	for(uint32_t i = 0; i < strPath.size(); i++) 
 	{	
 		if(strPath[i] == '\\') { strPath[i] = '/'; }
 	}
@@ -482,10 +483,10 @@ string StaticFunc::ToString(int n)
 
  void StaticFunc::StrFormatPath(IN OUT string& str, bool url)
  {
-     uint32 len = str.length();
+     uint32_t len = str.length();
      if ( url )
      {
-         for ( uint32 i=0; i<len; i++ )
+         for ( uint32_t i=0; i<len; i++ )
          {
              if ( str[i] == '\\' )
                  str[i] = '/';
@@ -496,7 +497,7 @@ string StaticFunc::ToString(int n)
      }
      else
      {
-         for ( uint32 i=0; i<len; i++ )
+         for ( uint32_t i=0; i<len; i++ )
          {
              if ( str[i] == '/' )
                  str[i] = '\\';
@@ -578,8 +579,8 @@ string StaticFunc::ToString(int n)
 string StaticFunc::UnicodeToAnsi(const wchar_t* pszUnicode)
 {
 #ifdef WIN32
-	UINT unLenW = wcslen(pszUnicode);
-	UINT unLen = MAX_STR;
+	uint32_t unLenW = wcslen(pszUnicode);
+	uint32_t unLen = MAX_STR;
 	char szBuf[MAX_STR] = "";
 	unLen = WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, pszUnicode, unLenW, szBuf, unLen, NULL, NULL);
 	szBuf[unLen] = '\0';
@@ -593,8 +594,8 @@ string StaticFunc::UnicodeToAnsi(const wchar_t* pszUnicode)
 wstring StaticFunc::AnsiToUnicode(const char* pszAnisi)
 {
 #ifdef WIN32
-	UINT unLen = strlen(pszAnisi);
-	UINT unLenW = MAX_STR;
+	uint32_t unLen = strlen(pszAnisi);
+	uint32_t unLenW = MAX_STR;
 	wchar_t szBuf[MAX_STR] = L"";
 	unLenW = MultiByteToWideChar(CP_ACP, 0, pszAnisi, unLen, szBuf, unLenW);
 	szBuf[unLenW] = '\0';

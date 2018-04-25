@@ -119,12 +119,17 @@ namespace ma
 
 	void GenIntegrateBRDF(const char* out_file)
 	{
-		uint32 const WIDTH = 256;
-		uint32 const HEIGHT = 256;
+		uint32_t const WIDTH = 256;
+		uint32_t const HEIGHT = 256;
 
 		RefPtr<Texture> pOutTex = GetRenderSystem()->CreateRenderTarget(WIDTH,HEIGHT,1,PF_FLOAT32_RGBA,false,TEXTYPE_2D);
 
-		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf","PrefilterBrdf","PrefilterBrdf","");
+		VertexElement element[2];
+		element[0] = VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0);
+		element[1] = VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0);
+		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 2);
+
+		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf","PrefilterBrdf","PrefilterBrdf","", pDeclaration.get());
 
 		RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
 		pRenderPass->AttachColor(0, pOutTex.get(), 0, 0);

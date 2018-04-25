@@ -24,14 +24,14 @@ namespace ma
 
 		std::vector<std::string> arrTok = StringUtil::split(defines,";");
 
-		for (UINT i = 0; i < arrTok.size(); ++i)
+		for (uint32_t i = 0; i < arrTok.size(); ++i)
 		{
 			out += "#define " + arrTok[i] + "\n";
 		}
 
 		// global macro
-		uint32 nNumMacros = GetRenderSystem()->GetNumShaderGlobaMacro();
-		for (uint32 i = 0;i< nNumMacros;++i)
+		uint32_t nNumMacros = GetRenderSystem()->GetNumShaderGlobaMacro();
+		for (uint32_t i = 0;i< nNumMacros;++i)
 		{
 			const char* pszValue = NULL;
 			const char* pszMacro = GetRenderSystem()->GetShaderGlobaMacroByIndex(i, pszValue);
@@ -129,7 +129,7 @@ namespace ma
 			return NULL;
 		}
 
-		const UINT SHADER_SOURCE_LENGTH = 3;
+		const uint32_t SHADER_SOURCE_LENGTH = 3;
 		const char* shaderSource[SHADER_SOURCE_LENGTH];
 		// Replace all comma separated definitions with #define prefix and \n suffix
 		std::string definesStr = "";

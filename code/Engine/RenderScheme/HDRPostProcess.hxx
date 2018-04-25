@@ -15,7 +15,7 @@ namespace ma
 	{
 		m_SumLogTech = CreateTechnique("SumLuminanceLog","Screen","HDR/SumLuminanceLog",NULL); 
 
-		for (UINT i = 0; i < NUM_SUM_LUM; ++i)
+		for (uint32_t i = 0; i < NUM_SUM_LUM; ++i)
 		{
 			m_SumLumIterativeTech[i] = CreateTechnique("SumLuminanceIterative","Screen","HDR/SumLuminanceIterative",NULL);
 		}
@@ -26,7 +26,7 @@ namespace ma
 
 		m_BrightPassTech = CreateTechnique("BrightPass","Screen","HDR/BrightPass",NULL); 
 
-		for (UINT i = 0; i < NUM_DownSamplers; ++i)
+		for (uint32_t i = 0; i < NUM_DownSamplers; ++i)
 		{
 			m_DownSamplersTech[i] = CreateTechnique("DownSample","Screen","HDR/DownSample",NULL); 
 		}
@@ -74,7 +74,7 @@ namespace ma
 // 		m_SumLogTech->SetParameter("g_SamplerSrc",Any(m_pInputTex));
 // 		m_SumLogTech->SetParameter("tex_coord_offset",Any(texCoordOffset)); 
 // 
-// 		for (UINT i = 0; i < NUM_SUM_LUM; ++i)
+// 		for (uint32_t i = 0; i < NUM_SUM_LUM; ++i)
 // 		{
 // 			GetSampleOffsets2x2(m_lumTexs[i -1]->GetWidth(), m_lumTexs[i -1]->GetHeight(), texCoordOffset);
 // 
@@ -93,7 +93,7 @@ namespace ma
 // 
 // 		m_BrightPassTech->SetParameter("g_SamplerSrc",Any(m_pInputTex));
 // 
-// 		for (UINT i = 0; i < NUM_DownSamplers; ++i)
+// 		for (uint32_t i = 0; i < NUM_DownSamplers; ++i)
 // 		{
 // 			m_DownSamplersTech[i]->SetParameter("g_SamplerSrc",Any(m_DownSampleTex[i]));
 // 		}

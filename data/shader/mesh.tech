@@ -37,8 +37,8 @@
 			<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
 			<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
 			<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
-			<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
-			<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
+			<Attribute Name="StencilMask" Type="uint32_t" Value="4294967295"/>
+			<Attribute Name="WriteMask" Type="uint32_t" Value="4294967295"/>
 		</DepthStencilState>
 		<RasterizerState ClassName="RasterizerState">
 			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>

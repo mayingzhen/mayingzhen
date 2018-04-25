@@ -9,7 +9,7 @@ static MonoObject* MonoGameObject_GetScript(int gameObjPtr,MonoString* pScriptNa
 	std::string strScriptName = mono_string_to_utf8(pScriptNameM);
 
 	ScriptObject* pScriptObj = NULL;
-	for (UINT nCnt = 0; nCnt < pGameObj->GetComponentNumber(); ++nCnt)
+	for (uint32_t nCnt = 0; nCnt < pGameObj->GetComponentNumber(); ++nCnt)
 	{
 		RefPtr<Component> pComp = pGameObj->GetComponentByIndex(nCnt);
 		pScriptObj = dynamic_cast<ScriptObject*>(pComp.get());

@@ -1,5 +1,4 @@
-#ifndef _Sample_MonoScript_H_
-#define _Sample_MonoScript_H_
+#pragma once
 
 namespace ma
 {
@@ -22,4 +21,3 @@ namespace ma
 
 }
 
-#endif

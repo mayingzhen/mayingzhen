@@ -39,7 +39,7 @@ namespace ma
 		SAFE_DELETE(m_pRenderQueue[1]);
 	}
 
-	void Scene::Reset(uint32 nWidth,uint32 nHeight)
+	void Scene::Reset(uint32_t nWidth,uint32_t nHeight)
 	{
 		float fAspect = (float)nWidth / (float)nHeight;
 		float fFOV = m_pCamera->GetFov();
@@ -97,7 +97,7 @@ namespace ma
 		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelUpdate.size());
-			for (UINT32 i = 0; i < m_vecParallelUpdate.size(); ++i)
+			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
 			{
 				Component* pComp = m_vecParallelUpdate[i].get();
 
@@ -107,7 +107,7 @@ namespace ma
 			}
 			GetJobScheduler()->WaitForGroup(jobGroup);
 
-			for (UINT i = 0; i < m_vecParallelUpdate.size(); ++i)
+			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
 			{
 				m_vecParallelUpdate[i]->EndParallelUpdate();
 			}
@@ -157,9 +157,9 @@ namespace ma
 			int i = 3;
 		}
 
-		uint32 nNodeCount = vecObj.size();
+		uint32_t nNodeCount = vecObj.size();
 		m_arrRenderComp.resize(nNodeCount);
-		for (uint32 mm = 0;mm< nNodeCount;++mm)
+		for (uint32_t mm = 0;mm< nNodeCount;++mm)
 		{
 			m_arrRenderComp[mm] = vecObj[mm];
 		}
@@ -168,7 +168,7 @@ namespace ma
 		if (GetRenderQueue())
 			GetRenderQueue()->Clear();
 
-		for (UINT i = 0; i < m_arrRenderComp.size(); ++i)
+		for (uint32_t i = 0; i < m_arrRenderComp.size(); ++i)
 		{
 			m_arrRenderComp[i]->Show(m_pCamera.get());
 		}
@@ -176,7 +176,7 @@ namespace ma
 		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelShow.size());
-			for (UINT32 i = 0; i < m_vecParallelShow.size(); ++i)
+			for (uint32_t i = 0; i < m_vecParallelShow.size(); ++i)
 			{
 				Component* pComp = m_vecParallelUpdate[i].get();
 				Camera* pCamera = m_pCamera.get();
@@ -210,7 +210,7 @@ namespace ma
 	
 		GetRenderSystem()->BegineRender();
 
-		for (uint32 i = 0; i < m_vecRenderLight.size();++i)
+		for (uint32_t i = 0; i < m_vecRenderLight.size();++i)
 		{
 			m_vecRenderLight[i]->RenderShadowMap(m_pCamera.get());
 		}

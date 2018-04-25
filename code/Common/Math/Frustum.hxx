@@ -46,13 +46,13 @@ namespace ma
 
 		if (bInvertedY)
 		{
-			for (UINT i = 0; i < PointsNumber; ++i)
+			for (uint32_t i = 0; i < PointsNumber; ++i)
 			{
 				pPoints[i].y *= -1.0f;
 			}
 		}
 
-		for (UINT i = 0; i < PointsNumber; ++i)
+		for (uint32_t i = 0; i < PointsNumber; ++i)
 		{
 			m_pPoints[i] = invProjViewMatrix * pPoints[i];
 		}
@@ -104,7 +104,7 @@ namespace ma
 		if (m_rgSIMDPlane == NULL)
 		{
 			m_rgSIMDPlane = static_cast<SIMDPlane*>( AlignedMemory_allocate( 8 * sizeof(SIMDPlane) , 16 ) );
-			for (uint32 i = 0; i < 8; ++i)
+			for (uint32_t i = 0; i < 8; ++i)
 			{
 				m_rgSIMDPlane[i] = SIMDPlane();
 			}
@@ -188,7 +188,7 @@ namespace ma
 		// Since we are moving straight through get a pointer to the data
 		const SIMDPlane* /*RESTRICT*/ PermutedPlanePtr = m_rgSIMDPlane;
 		// Process four planes at a time until we have < 4 left
-		for ( int32 Count = 0; Count < 8; Count += 4 )
+		for (int Count = 0; Count < 8; Count += 4 )
 		{
 			// Load 4 planes that are already all Xs, Ys, ...
 			ASSERT(_isAlignedForSSE(PermutedPlanePtr));

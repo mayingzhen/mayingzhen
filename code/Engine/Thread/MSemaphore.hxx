@@ -39,7 +39,7 @@ public:
 	{ 
 		while (1)
 		{
-			DWORD result = WaitForSingleObjectEx( m_Semaphore, INFINITE, TRUE );
+			uint32_t result = WaitForSingleObjectEx( m_Semaphore, INFINITE, TRUE );
 			switch (result)
 			{
 			case WAIT_OBJECT_0:

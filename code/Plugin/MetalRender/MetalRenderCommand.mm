@@ -36,7 +36,7 @@ namespace ma
         memset(m_nPreVBOffset,0,sizeof(m_nPreVBOffset));
         m_preDS = 0;
         m_prePipeline = 0;
-        for(UINT i = 0; i < 16; ++i)
+        for(uint32_t i = 0; i < 16; ++i)
         {
             m_preTexture[i] = 0;
             m_preSampler[i] = 0;
@@ -53,7 +53,7 @@ namespace ma
         m_pCurIB = pIB;
 	}
 
-	void MetalRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB, UINT nOffSet)
+	void MetalRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB, uint32_t nOffSet)
 	{
         if (m_pPreVB[index] == pVB && m_nPreVBOffset[index] == nOffSet)
             return;
@@ -96,9 +96,9 @@ namespace ma
             m_prePipeline = pVulkanTech->m_pPipline->m_pipelineState;
         }
         
-        for (UINT i = 0; i < ShaderType_Number; ++i)
+        for (uint32_t i = 0; i < ShaderType_Number; ++i)
         {
-            for (UINT j = 0; j < pTech->GetConstBufferCount((ShaderType)i); ++j)
+            for (uint32_t j = 0; j < pTech->GetConstBufferCount((ShaderType)i); ++j)
             {
                 ConstantBuffer* pCB = pTech->GetConstBufferByIndex((ShaderType)i,j);
                 MetalConstantBuffer* pMlCB = (MetalConstantBuffer*)pCB;
@@ -106,9 +106,9 @@ namespace ma
             }
         }
         
-        for (uint32 i = 0; i < pTech->GetSamplerCount(); ++i)
+        for (uint32_t i = 0; i < pTech->GetSamplerCount(); ++i)
         {
-            uint32 nIndex = pTech->GetSamplerByIndex(i)->GetIndex();
+            uint32_t nIndex = pTech->GetSamplerByIndex(i)->GetIndex();
             MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pTech->GetActiveSampler(nIndex);
             if (pMetalSampler == NULL)
             {
@@ -133,7 +133,7 @@ namespace ma
         }
     }
     
-    void MetalRenderCommand::DrawIndex(UINT nIndexStart, UINT nIndexCount, UINT nInstanceCount,PRIMITIVE_TYPE ePrType)
+    void MetalRenderCommand::DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nInstanceCount,PRIMITIVE_TYPE ePrType)
     {
         MTLPrimitiveType ePrimitiveType = MetalMapping::GetPrimitiveType(ePrType);
         

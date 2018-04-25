@@ -22,7 +22,7 @@ namespace ma
 	{
 		SHORTV4 pos;
 		SHORTV2 uv;
-		uint32 tangent_quat;
+		uint32_t tangent_quat;
 	};
 
 	class Terrain : public SceneNode
@@ -53,10 +53,10 @@ namespace ma
 		Vector3 GetTangent(int nXVert, int nYVert) const;
 		Vector3 GetTangent(float x, float y) const;
 
-		uint8 GetMaterialID(int nXVert,int nYVert) const;
+		uint8_t GetMaterialID(int nXVert,int nYVert) const;
 		SubMaterial* GetMaterial(int nXVert,int nYVert) const;
-		SubMaterial* GetMaterialByID(uint8 matID) const;
-		UINT GetMaterialCount() const;
+		SubMaterial* GetMaterialByID(uint8_t matID) const;
+		uint32_t GetMaterialCount() const;
 		void AddMaterial(SubMaterial* pMateral);
 		const char* GetMaterialPath() const;
 		void SetMaterialPath(const char* pPath);
@@ -70,13 +70,13 @@ namespace ma
 		int GetYCellAmount() const {return m_nYCellsAmount;}
 		Vector2 GetCellAmount() const {return Vector2(m_nXCellsAmount,m_nYCellsAmount);}
 
-		UINT GetNumLod() const {return m_uNumLods;}
+		uint32_t GetNumLod() const {return m_uNumLods;}
 
 		TerrainTrunk* GetTerrainTrunkByPos(float x, float y);
-		TerrainTrunk* GetTerrainTrunkByIndex(UINT i, UINT j);
+		TerrainTrunk* GetTerrainTrunkByIndex(uint32_t i, uint32_t j);
 		TerrainTrunk* GetTerrainTrunkByVertex(int nXVert, int nYVert);
-		UINT GetNumTerrainTrunks() const{return m_vecTrunk.size();}
-		TerrainTrunk* GetTerrainTrunkByIndex(UINT i){return m_vecTrunk[i].get();}
+		uint32_t GetNumTerrainTrunks() const{return m_vecTrunk.size();}
+		TerrainTrunk* GetTerrainTrunkByIndex(uint32_t i){return m_vecTrunk[i].get();}
 
 		//Serialize
 		float GetCellSpacing() const {return m_fCellSpacing;}
@@ -134,17 +134,17 @@ namespace ma
 		int	m_nTrunkSize;
 		float m_fLodParamDiv;
 
-		UINT m_uNumLods;
+		uint32_t m_uNumLods;
 
 		// Height
 		string m_strHeightMap;
 		RefPtr<Resource> m_pHeightMapData;
-		vector<uint16> m_vecHeight;
+		vector<uint16_t> m_vecHeight;
 
 		// Material
 		string m_strMaterialMap;
 		RefPtr<Resource> m_pMaterialMapData;
-		vector<uint8> m_vecVertexMatID;	
+		vector<uint8_t> m_vecVertexMatID;	
 		RefPtr<Material> m_pMaterial;
 
 		// Blend

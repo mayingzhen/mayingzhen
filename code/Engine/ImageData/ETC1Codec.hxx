@@ -4,19 +4,19 @@ namespace ma
 
 #define FOURCC(c0, c1, c2, c3) (c0 | (c1 << 8) | (c2 << 16) | (c3 << 24))
 
-const uint32 ETC1_MAGIC = FOURCC('P', 'K', 'M', ' ');
+const uint32_t ETC1_MAGIC = FOURCC('P', 'K', 'M', ' ');
 
 typedef struct {
-	int8   aName[6];
-	uint16 iBlank;
-	uint8  iPaddedWidthMSB;
-	uint8  iPaddedWidthLSB;
-	uint8  iPaddedHeightMSB;
-	uint8  iPaddedHeightLSB;
-	uint8  iWidthMSB;
-	uint8  iWidthLSB;
-	uint8  iHeightMSB;
-	uint8  iHeightLSB;
+	int8_t   aName[6];
+	uint16_t iBlank;
+	uint8_t  iPaddedWidthMSB;
+	uint8_t  iPaddedWidthLSB;
+	uint8_t  iPaddedHeightMSB;
+	uint8_t  iPaddedHeightLSB;
+	uint8_t  iWidthMSB;
+	uint8_t  iWidthLSB;
+	uint8_t  iHeightMSB;
+	uint8_t  iHeightLSB;
 } ETCHeader;
 
 //---------------------------------------------------------------------
@@ -46,7 +46,7 @@ void CETC1Codec::codeToFile(MemoryDataStreamPtr& input,
 }
 //---------------------------------------------------------------------
 Codec::DecodeResult CETC1Codec::decode(DataStreamPtr& stream) const*/
-bool CETC1Codec::decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN OUT ImageData& imgData) const
+bool CETC1Codec::decode(const char* pszName, void* pMemory, uint32_t nNumBytes, IN OUT ImageData& imgData) const
 {
 	ETCHeader header;
 
@@ -62,10 +62,10 @@ bool CETC1Codec::decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN
 	}
 
 	// TODO add endian awareness
-	uint16 width = (header.iWidthMSB << 8) | header.iWidthLSB;
-	uint16 height = (header.iHeightMSB << 8) | header.iHeightLSB;
-	uint16 paddedWidth = (header.iPaddedWidthMSB << 8) | header.iPaddedWidthLSB;
-	uint16 paddedHeight = (header.iPaddedHeightMSB << 8) | header.iPaddedHeightLSB;
+	uint16_t width = (header.iWidthMSB << 8) | header.iWidthLSB;
+	uint16_t height = (header.iHeightMSB << 8) | header.iHeightLSB;
+	uint16_t paddedWidth = (header.iPaddedWidthMSB << 8) | header.iPaddedWidthLSB;
+	uint16_t paddedHeight = (header.iPaddedHeightMSB << 8) | header.iPaddedHeightLSB;
 
 	imgData.m_nDepth = 1;
 	imgData.m_nWidth = width;
@@ -90,7 +90,7 @@ bool CETC1Codec::decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN
 	// Now deal with the data
 	void *destPtr = output->GetPtr();
 	stream.Read(destPtr, imgData.m_nSize);
-	destPtr = static_cast<void*>(static_cast<uint8*>(destPtr));
+	destPtr = static_cast<void*>(static_cast<uint8_t*>(destPtr));
 
 	imgData.m_pMemory = output;
 	return true;
@@ -126,11 +126,11 @@ void CETC1Codec::flipEndian(void * pData, size_t size) const
 //---------------------------------------------------------------------    
 string CETC1Codec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
 {
-	if (maxbytes >= sizeof(uint32))
+	if (maxbytes >= sizeof(uint32_t))
 	{
-		uint32 fileType;
-		memcpy(&fileType, magicNumberPtr, sizeof(uint32));
-		flipEndian(&fileType, sizeof(uint32), 1);
+		uint32_t fileType;
+		memcpy(&fileType, magicNumberPtr, sizeof(uint32_t));
+		flipEndian(&fileType, sizeof(uint32_t), 1);
 
 		if (ETC1_MAGIC == fileType)
 		{

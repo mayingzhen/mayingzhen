@@ -15,9 +15,9 @@ namespace ma
 
 		std::string		basename;	/// Base filename
 
-		UINT			compressedSize;
+		uint32_t			compressedSize;
 
-		UINT			uncompressedSize;
+		uint32_t			uncompressedSize;
 	};
 
 }

@@ -9,9 +9,9 @@ namespace ma
 
 		~Engine();
 
-		void Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler);
+		void Init(void* hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler);
 		
-		void Reset(uint32 nWidth, uint32 nHeight);
+		void Reset(uint32_t nWidth, uint32_t nHeight);
 
 		void Shutdown();
 

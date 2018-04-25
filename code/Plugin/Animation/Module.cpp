@@ -53,7 +53,7 @@ void AnimationModuleShutdown()
 }
 
 
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 extern "C" bool dllStartPlugin()
 {
 	AnimationModuleInit();

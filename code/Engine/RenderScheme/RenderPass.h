@@ -35,14 +35,14 @@ namespace ma
 
 		virtual void End() = 0;
 
-		virtual RenderCommand* GetThreadCommand(UINT nIndex, RenderListType eRLType) = 0;
+		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, RenderListType eRLType) = 0;
 
 	public:
 		RefPtr<Texture> m_pDepthStencil;
 
 		float m_fClearDepth = 1.0;
 
-		UINT m_nClearStencil = 0;
+		uint32_t m_nClearStencil = 0;
 		
 		RenderSurface m_arrColor[MAX_RENDERTARGETS];
 

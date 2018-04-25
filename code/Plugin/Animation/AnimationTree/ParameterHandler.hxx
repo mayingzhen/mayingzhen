@@ -38,12 +38,12 @@ namespace ma
 		return from * (1.0f - ratio) + to * ratio;
 	}
 
-	void AnimationBaseHandler::Handle(uint8 index)
+	void AnimationBaseHandler::Handle(uint8_t index)
 	{
 		Handle();
 	}
 
-	BaseParameter * AnimationBaseHandler::GetParameter(uint8 param_index)
+	BaseParameter * AnimationBaseHandler::GetParameter(uint8_t param_index)
 	{
 		if (param_index >= m_params.size())
 			return NULL;

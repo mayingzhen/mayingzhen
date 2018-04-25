@@ -620,46 +620,58 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Degree(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_maGUID_m_a_set(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_maGUID_m_a_set(void * jarg1, void * jarg2) {
   ma::maGUID *arg1 = (ma::maGUID *) 0 ;
-  uint64 arg2 ;
+  uint64_t arg2 ;
+  uint64_t *argp2 ;
   
   arg1 = (ma::maGUID *)jarg1; 
-  arg2 = (uint64)jarg2; 
+  argp2 = (uint64_t *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint64_t", 0);
+    return ;
+  }
+  arg2 = *argp2; 
   if (arg1) (arg1)->m_a = arg2;
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_maGUID_m_a_get(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_maGUID_m_a_get(void * jarg1) {
+  void * jresult ;
   ma::maGUID *arg1 = (ma::maGUID *) 0 ;
-  uint64 result;
+  uint64_t result;
   
   arg1 = (ma::maGUID *)jarg1; 
-  result = (uint64) ((arg1)->m_a);
-  jresult = result; 
+  result =  ((arg1)->m_a);
+  jresult = new uint64_t((const uint64_t &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_maGUID_m_b_set(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_maGUID_m_b_set(void * jarg1, void * jarg2) {
   ma::maGUID *arg1 = (ma::maGUID *) 0 ;
-  uint64 arg2 ;
+  uint64_t arg2 ;
+  uint64_t *argp2 ;
   
   arg1 = (ma::maGUID *)jarg1; 
-  arg2 = (uint64)jarg2; 
+  argp2 = (uint64_t *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint64_t", 0);
+    return ;
+  }
+  arg2 = *argp2; 
   if (arg1) (arg1)->m_b = arg2;
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_maGUID_m_b_get(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_maGUID_m_b_get(void * jarg1) {
+  void * jresult ;
   ma::maGUID *arg1 = (ma::maGUID *) 0 ;
-  uint64 result;
+  uint64_t result;
   
   arg1 = (ma::maGUID *)jarg1; 
-  result = (uint64) ((arg1)->m_b);
-  jresult = result; 
+  result =  ((arg1)->m_b);
+  jresult = new uint64_t((const uint64_t &)result); 
   return jresult;
 }
 
@@ -1196,11 +1208,11 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Math_Exp(float jarg1) {
 
 SWIGEXPORT float SWIGSTDCALL CSharp_Math_Exp2(float jarg1) {
   float jresult ;
-  Real arg1 ;
-  Real result;
+  float arg1 ;
+  float result;
   
-  arg1 = (Real)jarg1; 
-  result = (Real)ma::Math::Exp2(arg1);
+  arg1 = (float)jarg1; 
+  result = (float)ma::Math::Exp2(arg1);
   jresult = result; 
   return jresult;
 }
@@ -2326,18 +2338,18 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Math_gaussianDistribution__SWIG_2(float jarg
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_Math_NextPowerOfTwo(void * jarg1) {
   void * jresult ;
-  UINT arg1 ;
-  UINT *argp1 ;
-  UINT result;
+  uint32_t arg1 ;
+  uint32_t *argp1 ;
+  uint32_t result;
   
-  argp1 = (UINT *)jarg1; 
+  argp1 = (uint32_t *)jarg1; 
   if (!argp1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint32_t", 0);
     return 0;
   }
   arg1 = *argp1; 
   result = ma::Math::NextPowerOfTwo(arg1);
-  jresult = new UINT((const UINT &)result); 
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 
@@ -2512,32 +2524,38 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Math_Intersects(void * jarg1, void * 
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Math_FastHash__SWIG_0(char * jarg1, int jarg2, unsigned int jarg3) {
-  unsigned int jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_Math_FastHash__SWIG_0(char * jarg1, int jarg2, void * jarg3) {
+  void * jresult ;
   char *arg1 = (char *) 0 ;
   int arg2 ;
-  uint32 arg3 ;
-  uint32 result;
+  uint32_t arg3 ;
+  uint32_t *argp3 ;
+  uint32_t result;
   
   arg1 = (char *)jarg1; 
   arg2 = (int)jarg2; 
-  arg3 = (uint32)jarg3; 
-  result = (uint32)ma::Math::FastHash((char const *)arg1,arg2,arg3);
-  jresult = result; 
+  argp3 = (uint32_t *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint32_t", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = ma::Math::FastHash((char const *)arg1,arg2,arg3);
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Math_FastHash__SWIG_1(char * jarg1, int jarg2) {
-  unsigned int jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_Math_FastHash__SWIG_1(char * jarg1, int jarg2) {
+  void * jresult ;
   char *arg1 = (char *) 0 ;
   int arg2 ;
-  uint32 result;
+  uint32_t result;
   
   arg1 = (char *)jarg1; 
   arg2 = (int)jarg2; 
-  result = (uint32)ma::Math::FastHash((char const *)arg1,arg2);
-  jresult = result; 
+  result = ma::Math::FastHash((char const *)arg1,arg2);
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 
@@ -2634,20 +2652,20 @@ SWIGEXPORT int SWIGSTDCALL CSharp_M_MAX_INT_get() {
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_M_MIN_UNSIGNED_get() {
   void * jresult ;
-  UINT result;
+  uint32_t result;
   
-  result = (UINT)ma::M_MIN_UNSIGNED;
-  jresult = new UINT((const UINT &)result); 
+  result = (uint32_t)ma::M_MIN_UNSIGNED;
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_M_MAX_UNSIGNED_get() {
   void * jresult ;
-  UINT result;
+  uint32_t result;
   
-  result = (UINT)ma::M_MAX_UNSIGNED;
-  jresult = new UINT((const UINT &)result); 
+  result = (uint32_t)ma::M_MAX_UNSIGNED;
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 
@@ -2669,9 +2687,9 @@ SWIGEXPORT int SWIGSTDCALL CSharp_Randomizer_rand() {
 
 SWIGEXPORT float SWIGSTDCALL CSharp_Randomizer_frand() {
   float jresult ;
-  Real result;
+  float result;
   
-  result = (Real)ma::Randomizer::frand();
+  result = (float)ma::Randomizer::frand();
   jresult = result; 
   return jresult;
 }
@@ -3633,90 +3651,114 @@ SWIGEXPORT float SWIGSTDCALL CSharp_ColourValue_a_get(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ColourValue_getAsRGBA(void * jarg1) {
-  unsigned int jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_ColourValue_getAsRGBA(void * jarg1) {
+  void * jresult ;
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::RGBA result;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  result = (ma::RGBA)((ma::ColourValue const *)arg1)->getAsRGBA();
-  jresult = result; 
+  result = ((ma::ColourValue const *)arg1)->getAsRGBA();
+  jresult = new ma::RGBA((const ma::RGBA &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ColourValue_getAsARGB(void * jarg1) {
-  unsigned int jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_ColourValue_getAsARGB(void * jarg1) {
+  void * jresult ;
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::ARGB result;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  result = (ma::ARGB)((ma::ColourValue const *)arg1)->getAsARGB();
-  jresult = result; 
+  result = ((ma::ColourValue const *)arg1)->getAsARGB();
+  jresult = new ma::ARGB((const ma::ARGB &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ColourValue_getAsBGRA(void * jarg1) {
-  unsigned int jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_ColourValue_getAsBGRA(void * jarg1) {
+  void * jresult ;
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::BGRA result;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  result = (ma::BGRA)((ma::ColourValue const *)arg1)->getAsBGRA();
-  jresult = result; 
+  result = ((ma::ColourValue const *)arg1)->getAsBGRA();
+  jresult = new ma::BGRA((const ma::BGRA &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ColourValue_getAsABGR(void * jarg1) {
-  unsigned int jresult ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_ColourValue_getAsABGR(void * jarg1) {
+  void * jresult ;
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::ABGR result;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  result = (ma::ABGR)((ma::ColourValue const *)arg1)->getAsABGR();
-  jresult = result; 
+  result = ((ma::ColourValue const *)arg1)->getAsABGR();
+  jresult = new ma::ABGR((const ma::ABGR &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsRGBA(void * jarg1, unsigned int jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsRGBA(void * jarg1, void * jarg2) {
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::RGBA arg2 ;
+  ma::RGBA const *argp2 ;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  arg2 = (ma::RGBA)jarg2; 
+  argp2 = (ma::RGBA *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::RGBA const", 0);
+    return ;
+  }
+  arg2 = *argp2; 
   (arg1)->setAsRGBA(arg2);
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsARGB(void * jarg1, unsigned int jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsARGB(void * jarg1, void * jarg2) {
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::ARGB arg2 ;
+  ma::ARGB const *argp2 ;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  arg2 = (ma::ARGB)jarg2; 
+  argp2 = (ma::ARGB *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::ARGB const", 0);
+    return ;
+  }
+  arg2 = *argp2; 
   (arg1)->setAsARGB(arg2);
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsBGRA(void * jarg1, unsigned int jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsBGRA(void * jarg1, void * jarg2) {
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::BGRA arg2 ;
+  ma::BGRA const *argp2 ;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  arg2 = (ma::BGRA)jarg2; 
+  argp2 = (ma::BGRA *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::BGRA const", 0);
+    return ;
+  }
+  arg2 = *argp2; 
   (arg1)->setAsBGRA(arg2);
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsABGR(void * jarg1, unsigned int jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_ColourValue_setAsABGR(void * jarg1, void * jarg2) {
   ma::ColourValue *arg1 = (ma::ColourValue *) 0 ;
   ma::ABGR arg2 ;
+  ma::ABGR const *argp2 ;
   
   arg1 = (ma::ColourValue *)jarg1; 
-  arg2 = (ma::ABGR)jarg2; 
+  argp2 = (ma::ABGR *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::ABGR const", 0);
+    return ;
+  }
+  arg2 = *argp2; 
   (arg1)->setAsABGR(arg2);
 }
 
@@ -9695,10 +9737,10 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_DualQuaternion(void * jarg1) {
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_left_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real arg2 ;
+  float arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (Real)jarg2; 
+  arg2 = (float)jarg2; 
   if (arg1) (arg1)->left = arg2;
 }
 
@@ -9706,10 +9748,10 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_left_set(void * jarg1, float jarg2)
 SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_left_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real result;
+  float result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (Real) ((arg1)->left);
+  result = (float) ((arg1)->left);
   jresult = result; 
   return jresult;
 }
@@ -9717,10 +9759,10 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_left_get(void * jarg1) {
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_top_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real arg2 ;
+  float arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (Real)jarg2; 
+  arg2 = (float)jarg2; 
   if (arg1) (arg1)->top = arg2;
 }
 
@@ -9728,10 +9770,10 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_top_set(void * jarg1, float jarg2) 
 SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_top_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real result;
+  float result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (Real) ((arg1)->top);
+  result = (float) ((arg1)->top);
   jresult = result; 
   return jresult;
 }
@@ -9739,10 +9781,10 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_top_get(void * jarg1) {
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_right_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real arg2 ;
+  float arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (Real)jarg2; 
+  arg2 = (float)jarg2; 
   if (arg1) (arg1)->right = arg2;
 }
 
@@ -9750,10 +9792,10 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_right_set(void * jarg1, float jarg2
 SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_right_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real result;
+  float result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (Real) ((arg1)->right);
+  result = (float) ((arg1)->right);
   jresult = result; 
   return jresult;
 }
@@ -9761,10 +9803,10 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_right_get(void * jarg1) {
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_bottom_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real arg2 ;
+  float arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (Real)jarg2; 
+  arg2 = (float)jarg2; 
   if (arg1) (arg1)->bottom = arg2;
 }
 
@@ -9772,10 +9814,10 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_bottom_set(void * jarg1, float jarg
 SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_bottom_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real result;
+  float result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (Real) ((arg1)->bottom);
+  result = (float) ((arg1)->bottom);
   jresult = result; 
   return jresult;
 }
@@ -9860,13 +9902,13 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_height(void * jarg1) {
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_inside(void * jarg1, float jarg2, float jarg3) {
   unsigned int jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  Real arg2 ;
-  Real arg3 ;
+  float arg2 ;
+  float arg3 ;
   bool result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (Real)jarg2; 
-  arg3 = (Real)jarg3; 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
   result = (bool)((ma::Rectangle const *)arg1)->inside(arg2,arg3);
   jresult = result; 
   return jresult;
@@ -9926,11 +9968,11 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Time_GetFrameDeltaTime(void * jarg1) {
 SWIGEXPORT void * SWIGSTDCALL CSharp_Time_GetFrameCount(void * jarg1) {
   void * jresult ;
   ma::Time *arg1 = (ma::Time *) 0 ;
-  UINT result;
+  uint32_t result;
   
   arg1 = (ma::Time *)jarg1; 
   result = ((ma::Time const *)arg1)->GetFrameCount();
-  jresult = new UINT((const UINT &)result); 
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 
@@ -10478,11 +10520,11 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_RotateAround(void * jarg1, void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetComponentNumber(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  UINT result;
+  uint32_t result;
   
   arg1 = (ma::SceneNode *)jarg1; 
   result = (arg1)->GetComponentNumber();
-  jresult = new UINT((const UINT &)result); 
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 
@@ -10490,14 +10532,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetComponentNumber(void * jarg1) 
 SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetComponentByIndex(void * jarg1, void * jarg2) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
+  uint32_t arg2 ;
+  uint32_t *argp2 ;
   ma::Component *result = 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  argp2 = (UINT *)jarg2; 
+  argp2 = (uint32_t *)jarg2; 
   if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint32_t", 0);
     return 0;
   }
   arg2 = *argp2; 
@@ -10669,13 +10711,13 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetUserData(void * jarg1, char * 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetLastVisibleFrame(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
+  uint32_t arg2 ;
+  uint32_t *argp2 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  argp2 = (UINT *)jarg2; 
+  argp2 = (uint32_t *)jarg2; 
   if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint32_t", 0);
     return ;
   }
   arg2 = *argp2; 
@@ -10686,11 +10728,11 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetLastVisibleFrame(void * jarg1, v
 SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetLastVisibleFrame(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  UINT result;
+  uint32_t result;
   
   arg1 = (ma::SceneNode *)jarg1; 
   result = (arg1)->GetLastVisibleFrame();
-  jresult = new UINT((const UINT &)result); 
+  jresult = new uint32_t((const uint32_t &)result); 
   return jresult;
 }
 

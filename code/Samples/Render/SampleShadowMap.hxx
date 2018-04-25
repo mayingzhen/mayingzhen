@@ -24,8 +24,8 @@ namespace ma
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
 		
-		UINT nCount = 150;
-		for (uint32 i = 0; i < 0; ++i)
+		uint32_t nCount = 15;
+		for (uint32_t i = 0; i < nCount; ++i)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -38,7 +38,7 @@ namespace ma
 			//pAnimComp->SetAnimation(100);
 		}
 
-		for (uint32 i = 0; i < nCount; ++i)
+		for (uint32_t i = 0; i < nCount; ++i)
 		{
 			SceneNode* pBox = m_pScene->CreateSceneNode();
 			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
@@ -54,7 +54,7 @@ namespace ma
 
 	void SampleShadowMap::OnTerrainLoadOver()
 	{
-		for (uint32 i = 0; i < 200; ++i)
+		for (uint32_t i = 0; i < 200; ++i)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -68,7 +68,7 @@ namespace ma
 // 			pAnimComp->SetAnimation(100);
 		}
 
-		for (uint32 i = 0; i < 200; ++i)
+		for (uint32_t i = 0; i < 200; ++i)
 		{
 			SceneNode* pBox = m_pScene->CreateSceneNode();
 			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();

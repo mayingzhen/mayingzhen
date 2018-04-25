@@ -11,30 +11,30 @@ namespace ma
 
 		void	Clone(const Vector3Track* pTrack);
 
-		void	SetKeyNumber(UINT keyNum);
+		void	SetKeyNumber(uint32_t keyNum);
 
-		UINT	GetKeyNumber() const;
+		uint32_t	GetKeyNumber() const;
 
-		UINT	GetFrameNumber() const;
+		uint32_t	GetFrameNumber() const;
 
-		void	SetKeyFrame(UINT nKeyInd,UINT nFrame);
+		void	SetKeyFrame(uint32_t nKeyInd,uint32_t nFrame);
 
-		UINT	GetKeyFrame(UINT nKeyInd) const;
+		uint32_t	GetKeyFrame(uint32_t nKeyInd) const;
 
-		void	SetKeyValue(UINT key,const Vector3& val);
+		void	SetKeyValue(uint32_t key,const Vector3& val);
 
-		const Vector3&	GetKeyValue(UINT nKeyIndex)const;
+		const Vector3&	GetKeyValue(uint32_t nKeyIndex)const;
 
-		void	SetKey(UINT key, UINT frame, const Vector3& val);
+		void	SetKey(uint32_t key, uint32_t frame, const Vector3& val);
 
-		void	Pushback(UINT frame,const Vector3& val);
+		void	Pushback(uint32_t frame,const Vector3& val);
 
 		void	SampleFrame(float frame,Vector3& val) const ;
 
 		void	DbgDump() const;
 
 	private:
-		std::vector<UINT>		m_arrFrame; //frame number of each key
+		std::vector<uint32_t>		m_arrFrame; //frame number of each key
 		std::vector<Vector3>	m_arrValue;
 
 		friend class Animation;
@@ -49,30 +49,30 @@ namespace ma
 
 		void	Clear();
 
-		void	SetKeyNumber(UINT keyNum);
+		void	SetKeyNumber(uint32_t keyNum);
 
-		UINT	GetKeyNumber() const;
+		uint32_t	GetKeyNumber() const;
 
-		UINT	GetFrameNumber() const;
+		uint32_t	GetFrameNumber() const;
 
-		void 	SetKeyFrame(UINT nKeyInd,UINT nFrame);
+		void 	SetKeyFrame(uint32_t nKeyInd,uint32_t nFrame);
 
-		UINT	GetKeyFrame(UINT nKeyInd) const;
+		uint32_t	GetKeyFrame(uint32_t nKeyInd) const;
 
-		void 	SetKeyValue(UINT key,const Quaternion& val);
+		void 	SetKeyValue(uint32_t key,const Quaternion& val);
 
-		const Quaternion&	GetKeyValue(UINT nKeyIndex)const;
+		const Quaternion&	GetKeyValue(uint32_t nKeyIndex)const;
 
-		void 	SetKey(UINT key,UINT frame,const Quaternion& val);
+		void 	SetKey(uint32_t key,uint32_t frame,const Quaternion& val);
 
-		void 	Pushback(UINT frame,const Quaternion& val);
+		void 	Pushback(uint32_t frame,const Quaternion& val);
 
 		void 	SampleFrame(float frame,Quaternion& val) const;
 
 		void	DbgDump() const;
 
 	private:
-		std::vector<UINT>		m_arrFrame; //frame number of each key
+		std::vector<uint32_t>		m_arrFrame; //frame number of each key
 		std::vector<Quaternion>	m_arrValue;
 
 		friend class Animation;

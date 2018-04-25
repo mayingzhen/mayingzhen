@@ -19,11 +19,11 @@ namespace ma
 
 		virtual void SetIndexBuffer(IndexBuffer* pIB);
         
-		virtual	void SetVertexBuffer(int index, VertexBuffer* pVB, UINT nOffSet);
+		virtual	void SetVertexBuffer(int index, VertexBuffer* pVB, uint32_t nOffSet);
         
         virtual void SetTechnique(Technique* pTech);
 
-		virtual void DrawIndex(UINT nIndexStart, UINT nIndexCount, UINT nInstanceCount,PRIMITIVE_TYPE ePrType);
+		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nInstanceCount,PRIMITIVE_TYPE ePrType);
 
 	public:
         id<MTLRenderCommandEncoder> m_encoder;
@@ -40,7 +40,7 @@ namespace ma
         
         IndexBuffer* m_pPreIB = NULL;
         VertexBuffer* m_pPreVB[MAX_VB] = { NULL };
-        UINT m_nPreVBOffset[MAX_VB] = {0};
+        uint32_t m_nPreVBOffset[MAX_VB] = {0};
         id<MTLDepthStencilState> m_preDS = 0;
         id<MTLRenderPipelineState> m_prePipeline = 0;
         id<MTLTexture> m_preTexture[16];

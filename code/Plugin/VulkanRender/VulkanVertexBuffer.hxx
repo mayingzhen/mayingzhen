@@ -52,7 +52,7 @@ namespace ma
 				VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 				VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 				&m_vertexBuffer,
-				static_cast<uint32_t>((UINT)(m_Size))));
+				static_cast<uint32_t>((uint32_t)(m_Size))));
 
 			VkCommandBuffer copyCmd = vulkanDevice->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, false);
 

@@ -4,7 +4,7 @@ namespace ma
 {
 	void BoneSet::RemoveBoneInd(BoneIndex uBoneID) 
 	{
-		for (UINT i = 0; i<m_arrBone.size(); ++i)
+		for (uint32_t i = 0; i<m_arrBone.size(); ++i)
 		{
 			if (m_arrBone[i] == uBoneID)
 			{

@@ -422,7 +422,7 @@ namespace ma
                 vec Vector with which to calculate the absolute dot product (together
                 with this one).
             @returns
-                A Real representing the absolute dot product value.
+                A float representing the absolute dot product value.
         */
         inline float absDotProduct(const Vector3& vec) const
         {
@@ -776,9 +776,9 @@ namespace ma
 		\param center The center of the rotation. */
         void rotateXZBy(const Radian& angle)
         {
-            Real cs = Math::Cos(angle);
-            Real sn = Math::Sin(angle);
-            Real tX = x, tZ = z;
+            float cs = Math::Cos(angle);
+            float sn = Math::Sin(angle);
+            float tX = x, tZ = z;
             x = (tX*cs - tZ*sn);
             z = (tX*sn + tZ*cs);
         }
@@ -799,9 +799,9 @@ namespace ma
 		\param center: The center of the rotation. */
         void rotateXYBy(const Radian& angle)
         {
-            Real cs = Math::Cos(angle);
-            Real sn = Math::Sin(angle);
-            Real tX = x, tY = y;
+            float cs = Math::Cos(angle);
+            float sn = Math::Sin(angle);
+            float tX = x, tY = y;
             x =(tX*cs - tY*sn);
             y =(tX*sn + tY*cs);
         }
@@ -821,9 +821,9 @@ namespace ma
 		\param center: The center of the rotation. */
         void rotateYZBy(const Radian& angle)
         {
-            Real cs = Math::Cos(angle);
-            Real sn = Math::Sin(angle);
-            Real tY = y, tZ = z;
+            float cs = Math::Cos(angle);
+            float sn = Math::Sin(angle);
+            float tY = y, tZ = z;
             y = (tY*cs - tZ*sn);
             z = (tY*sn + tZ*cs);
         }

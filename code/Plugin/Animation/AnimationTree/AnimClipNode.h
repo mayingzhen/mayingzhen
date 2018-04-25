@@ -24,13 +24,13 @@ namespace ma
 		virtual void	SetAnimationClip(const char* pszSkaPath);
 		const char*		GetAnimationClip() const;
 
-		void			SetStartFrame(uint32 nStartFrame) {m_nStartFrame = nStartFrame;}
-		uint32			GetStartFrame() const {return m_nStartFrame;}
+		void			SetStartFrame(uint32_t nStartFrame) {m_nStartFrame = nStartFrame;}
+		uint32_t			GetStartFrame() const {return m_nStartFrame;}
 
-		void			SetEndFrame(uint32 nEndFram) {m_nEndFrame = nEndFram;}
-		uint32			GetEndFrame() const {return m_nEndFrame;}
+		void			SetEndFrame(uint32_t nEndFram) {m_nEndFrame = nEndFram;}
+		uint32_t			GetEndFrame() const {return m_nEndFrame;}
 
-		virtual uint32	GetFrameCount();
+		virtual uint32_t	GetFrameCount();
 
 		virtual void	Activate();
 
@@ -50,8 +50,8 @@ namespace ma
 
 		BoneMap					m_NodeLink;
 
-		uint32					m_nStartFrame;
-		uint32					m_nEndFrame;
+		uint32_t					m_nStartFrame;
+		uint32_t					m_nEndFrame;
 
 		float					m_fSkaFrame;
 

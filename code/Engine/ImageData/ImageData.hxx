@@ -11,15 +11,15 @@ namespace ma
 
 	void ImageData::bulkPixelConversion(PixelFormat toFormat)
 	{
-        uint32 nNumFace = getNumFaces();
-        uint32 nMemSize = CImageCodec::calculateSize(m_nNumMipmaps, nNumFace, m_nWidth,
+        uint32_t nNumFace = getNumFaces();
+        uint32_t nMemSize = CImageCodec::calculateSize(m_nNumMipmaps, nNumFace, m_nWidth,
                                                      m_nHeight, m_nDepth, toFormat);
 		RefPtr<MemoryStream> toMemory = CreateMemoryStream(nMemSize, false);
-		uint32 nMemOffset = 0;
+		uint32_t nMemOffset = 0;
 
-		for (uint32 iFace = 0; iFace < nNumFace; ++iFace)
+		for (uint32_t iFace = 0; iFace < nNumFace; ++iFace)
 		{
-			for (uint32 mip = 0; mip <= m_nNumMipmaps; ++mip)
+			for (uint32_t mip = 0; mip <= m_nNumMipmaps; ++mip)
 			{
 				PixelBox src = GetPixelBox(iFace, mip);
 				PixelBox dst = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), toFormat, toMemory->GetPtr() + nMemOffset);
@@ -33,14 +33,14 @@ namespace ma
 		m_nSize = m_pMemory->GetSize();
 	}
 
-	uint32 ImageData::getNumFaces(void) const
+	uint32_t ImageData::getNumFaces(void) const
 	{
 		if ( m_nFlags &IF_CUBEMAP )
 			return 6;
 		return 1;
 	}
 
-	PixelBox ImageData::GetPixelBox( uint32 face, uint32 mipmap ) const
+	PixelBox ImageData::GetPixelBox( uint32_t face, uint32_t mipmap ) const
 	{
 		// Image data is arranged as:
 		// face 0, top level (mip 0)
@@ -55,16 +55,16 @@ namespace ma
 		if(face >= getNumFaces())
 			LogError("Face index out of range, Image::getPixelBox");
 		// Calculate mipmap offset and size
-		uint8 *offset = const_cast<uint8*>(m_pMemory->GetPtr());
+		uint8_t *offset = const_cast<uint8_t*>(m_pMemory->GetPtr());
 		// Base offset is number of full faces
-		uint32 nwidth = m_nWidth, nheight= m_nHeight, ndepth=m_nDepth;
-		uint32 numMips = m_nNumMipmaps;
+		uint32_t nwidth = m_nWidth, nheight= m_nHeight, ndepth=m_nDepth;
+		uint32_t numMips = m_nNumMipmaps;
 
 		// Figure out the offsets 
-		uint32 fullFaceSize = 0;
-		uint32 finalFaceSize = 0;
-		uint32 finalWidth = 0, finalHeight = 0, finalDepth = 0;
-		for( uint32 mip=0; mip <= numMips; ++mip )
+		uint32_t fullFaceSize = 0;
+		uint32_t finalFaceSize = 0;
+		uint32_t finalWidth = 0, finalHeight = 0, finalDepth = 0;
+		for( uint32_t mip=0; mip <= numMips; ++mip )
 		{
 			if (mip == mipmap)
 			{

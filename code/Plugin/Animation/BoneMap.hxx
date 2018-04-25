@@ -7,12 +7,12 @@ namespace ma
 		if (pSkeleton == NULL || pAnimation == NULL)
 			return;
 
-		UINT uBoneNumber = pSkeleton->GetBoneNumer();
+		uint32_t uBoneNumber = pSkeleton->GetBoneNumer();
 		m_arrMapBoneInd.resize(uBoneNumber,Math::InvalidID<BoneIndex>());
-		for (UINT i = 0; i < uBoneNumber; ++i)
+		for (uint32_t i = 0; i < uBoneNumber; ++i)
 		{
 			const char* pszBoneName = pSkeleton->GetBoneNameByIndex(i); 
-			UINT uTransfTrackIndex = pAnimation->GetTrackIndexByName(pszBoneName);
+			uint32_t uTransfTrackIndex = pAnimation->GetTrackIndexByName(pszBoneName);
 			m_arrMapBoneInd[i] = uTransfTrackIndex;
 		}
 	}

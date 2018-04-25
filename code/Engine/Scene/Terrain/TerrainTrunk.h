@@ -19,7 +19,7 @@ namespace ma
 
 		bool Init(int i, int j);
 
-		UINT GetLodIndex() const {return m_uLodIndex;}
+		uint32_t GetLodIndex() const {return m_uLodIndex;}
 
 		int GetIndexX() const{return m_nX;}
 		
@@ -46,7 +46,7 @@ namespace ma
 
 		void UpdateRenderable();
 
-		void AddToIBList( vector< vector<uint16> >& vecIBList, uint8 matID, uint16 triangle[3]);
+		void AddToIBList( vector< vector<uint16_t> >& vecIBList, uint8_t matID, uint16_t triangle[3]);
 
 		void ClearTempData();
 
@@ -59,7 +59,7 @@ namespace ma
 
 		float m_fLodParam;
 
-		UINT m_uLodIndex;
+		uint32_t m_uLodIndex;
 
 		typedef vector< RefPtr<TerrainRenderable> > VEC_RENDERABLE;
 
@@ -83,14 +83,14 @@ namespace ma
 		};
 		vector<TERRAIN_LOD> m_vecLodRenderable;
 
-		vector< set<uint8> > m_vecSetMatIDTemp;
-		vector< vector<uint8> > m_vecTriangleMatID;
+		vector< set<uint8_t> > m_vecSetMatIDTemp;
+		vector< vector<uint8_t> > m_vecTriangleMatID;
 
 		vector< RefPtr<VertexBuffer> > m_vecVBTemp;
 		vector< vector<TERRAIN_VERTEX> > m_vecVBDataTemp;
 
 		vector< RefPtr<IndexBuffer> > m_vecIBTemp;
-		vector< vector<uint16> > m_vecIBDataTemp;
+		vector< vector<uint16_t> > m_vecIBDataTemp;
 
 		vector< vector<SkitIB> > m_vecSkirt;
 

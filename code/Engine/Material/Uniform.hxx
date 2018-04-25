@@ -12,12 +12,12 @@ namespace ma
 		return pUnifrom.get();
 	}
 
-	UINT ConstantBuffer::GetUniformCount()
+	uint32_t ConstantBuffer::GetUniformCount()
 	{
 		return m_vecUniform.size();
 	}
 
-	Uniform* ConstantBuffer::GetUniformByIndex(UINT nIndex)
+	Uniform* ConstantBuffer::GetUniformByIndex(uint32_t nIndex)
 	{
 		return m_vecUniform[nIndex].get();
 	}
@@ -32,7 +32,7 @@ namespace ma
 		return m_strName.c_str();
 	}
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(UINT nSize)
+	RefPtr<ConstantBuffer> CreateConstantBuffer(uint32_t nSize)
 	{
 		return GetRenderDevice()->CreateConstantBuffer(nSize);
 	}

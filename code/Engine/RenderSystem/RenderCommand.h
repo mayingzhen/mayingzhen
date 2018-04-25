@@ -12,11 +12,11 @@ namespace ma
 
 		virtual void SetIndexBuffer(IndexBuffer* pIB) = 0;
 
-		virtual	void SetVertexBuffer(int index, VertexBuffer* pVB, UINT nOffSet) = 0;
+		virtual	void SetVertexBuffer(int index, VertexBuffer* pVB, uint32_t nOffSet) = 0;
 
 		virtual void SetTechnique(Technique* pTech) = 0;
 
-		virtual void DrawIndex(UINT nIndexStart, UINT nIndexCount, UINT nInstanceCount, PRIMITIVE_TYPE ePrType) = 0;
+		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType) = 0;
 	};
 }
 

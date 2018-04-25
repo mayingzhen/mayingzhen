@@ -90,7 +90,7 @@ public:
 	*
 	* @pre Windows
 	* @param platformHandle HINSTANCE of the window to create the surface for
-	* @param platformWindow HWND of the window to create the surface for
+	* @param platformWindow void* of the window to create the surface for
 	*
 	* @pre Android 
 	* @param window A native platform window

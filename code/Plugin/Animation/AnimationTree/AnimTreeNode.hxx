@@ -23,7 +23,7 @@ namespace ma
 		ACCESSOR_ATTRIBUTE(AnimTreeNode, "FadeTime", GetFadeTime, SetFadeTime, float, 0.3f, AM_DEFAULT);
 	}
 
-	uint32 AnimTreeNode::AnimNameToID(const char* pszName)
+	uint32_t AnimTreeNode::AnimNameToID(const char* pszName)
 	{
 		ASSERT(pszName != NULL);
 		if (pszName == NULL)
@@ -59,7 +59,7 @@ namespace ma
 
 	void AnimTreeNode::ProcessPoseModifier(SkeletonPose* pNodePose, Skeleton* pSkeleton, float fWeight)
 	{
-		for (uint32 i = 0; i < m_vecPoseModifier.size(); ++i)
+		for (uint32_t i = 0; i < m_vecPoseModifier.size(); ++i)
 		{
 			m_vecPoseModifier[i]->UpdatePose(pNodePose,pSkeleton,fWeight);
 		}
@@ -73,7 +73,7 @@ namespace ma
 		return m_animator->GetSkeleton()->GetBoneIdByName(boneName);
 	}
 
-	UINT AnimTreeNode::GetBoneCount() const
+	uint32_t AnimTreeNode::GetBoneCount() const
 	{
 		if (m_animator->GetSkeleton() == NULL)
 			return 0;
@@ -128,7 +128,7 @@ namespace ma
 	{
 		Serializable::Export(xmlNode,doc);
 		
-// 		for (uint32 i = 0; i < m_vecFrameEvent.size(); ++i)
+// 		for (uint32_t i = 0; i < m_vecFrameEvent.size(); ++i)
 // 		{
 // 			rapidxml::xml_node<>* xmlFrameEvent = doc.allocate_node(rapidxml::node_element, doc.allocate_string("FrameEvent"));
 // 			xmlNode->append_node(xmlFrameEvent);	
@@ -138,7 +138,7 @@ namespace ma
 // 			pFrameEvent->Export(xmlFrameEvent,doc);
 // 		}
 
-		for (uint32 i = 0; i < m_vecPoseModifier.size(); ++i)
+		for (uint32_t i = 0; i < m_vecPoseModifier.size(); ++i)
 		{
 			rapidxml::xml_node<>* xmlPoseModifier = doc.allocate_node(rapidxml::node_element, doc.allocate_string("PoseModifier"));
 			xmlNode->append_node(xmlPoseModifier);	

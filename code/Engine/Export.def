@@ -91,7 +91,6 @@ EXPORTS
 ?GetEngine@ma@@YAPAVEngine@1@XZ
 ?Update@Engine@ma@@QAEXXZ
 ?Render@Engine@ma@@QAEXXZ
-?Init@Engine@ma@@QAEXPAUHWND__@@_N11@Z
 ?GetAttributeManager@ma@@YAPAVAttributeManager@1@XZ
 ?CopyBaseAttributes@AttributeManager@ma@@QAEXPBD0@Z
 ?IsReady@Resource@ma@@UAE_NXZ
@@ -266,3 +265,4 @@ EXPORTS
 ?ClearConstBuffer@Technique@ma@@IAEXW4ShaderType@2@@Z
 ?ClearSampler@Technique@ma@@IAEXXZ
 ??0Texture@ma@@QAE@HHIW4PixelFormat@1@_NW4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z
+?Init@Engine@ma@@QAEXPAX_N11@Z

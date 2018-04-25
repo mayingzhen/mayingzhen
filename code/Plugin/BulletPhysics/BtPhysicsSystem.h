@@ -28,7 +28,7 @@ namespace ma
 
 		void							DebugRender();
 
-		void							SetLayerCollisionMask(uint8 nLayer,uint8 nColLayer,bool bCollide);
+		void							SetLayerCollisionMask(uint8_t nLayer, uint8_t nColLayer,bool bCollide);
 
 		Vector3							GetGravity() const;
 

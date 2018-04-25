@@ -11,9 +11,9 @@ namespace ma
 		m_vecClearValues[0].color = { { 0.025f, 0.025f, 0.025f, 1.0f } };
 		m_vecClearValues[1].depthStencil = { 1.0f, 0 };
 
-		UINT numThreads = std::thread::hardware_concurrency();
+		uint32_t numThreads = std::thread::hardware_concurrency();
 		m_arrRenderCommand.resize(numThreads * RL_Count);
-		for (UINT i = 0; i < m_arrRenderCommand.size(); ++i)
+		for (uint32_t i = 0; i < m_arrRenderCommand.size(); ++i)
 		{
 			m_arrRenderCommand[i] = new VulkanRenderCommand();
 			m_arrRenderCommand[i]->m_pRenderPass = this;
@@ -25,11 +25,11 @@ namespace ma
 
 	}
 
-	RenderCommand* VulkanRenderPass::GetThreadCommand(UINT nIndex, RenderListType eRLType)
+	RenderCommand* VulkanRenderPass::GetThreadCommand(uint32_t nIndex, RenderListType eRLType)
 	{
-		UINT numThreads = std::thread::hardware_concurrency();
+		uint32_t numThreads = std::thread::hardware_concurrency();
 
-		UINT nAt = eRLType * numThreads + nIndex;
+		uint32_t nAt = eRLType * numThreads + nIndex;
 		ASSERT(nAt < m_arrRenderCommand.size());
 		if (nAt >= m_arrRenderCommand.size())
 			return NULL;
@@ -54,8 +54,8 @@ namespace ma
 		rp_begin.framebuffer = m_frameBuffer;
 		rp_begin.renderArea.offset.x = (int)m_viewPort.offsetX();
 		rp_begin.renderArea.offset.y = (int)m_viewPort.offsetY();
-		rp_begin.renderArea.extent.width = (UINT)m_viewPort.width();
-		rp_begin.renderArea.extent.height = (UINT)m_viewPort.height();
+		rp_begin.renderArea.extent.width = (uint32_t)m_viewPort.width();
+		rp_begin.renderArea.extent.height = (uint32_t)m_viewPort.height();
 		rp_begin.clearValueCount = m_vecClearValues.size();
 		rp_begin.pClearValues = m_vecClearValues.data();
 
@@ -86,7 +86,7 @@ namespace ma
 		std::vector<VkAttachmentDescription> vecAttachments;
 
 		std::vector<VkAttachmentReference> vecColorReference;
-		for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
+		for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
 			Texture* pTexture = m_arrColor[i].m_pTexture.get();
 			if (pTexture == NULL)
@@ -194,7 +194,7 @@ namespace ma
 		std::vector<VkImageView> vecImagView;
 
 		std::vector<VkAttachmentReference> vecColorReference;
-		for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
+		for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
 			Texture* pTexture = m_arrColor[i].m_pTexture.get();
 			if (pTexture == NULL)
@@ -234,7 +234,7 @@ namespace ma
 	{
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
-		for (UINT i = 0; i < m_arrRenderCommand.size(); ++i)
+		for (uint32_t i = 0; i < m_arrRenderCommand.size(); ++i)
 		{
 			VulkanRenderCommand* pRenderCommad = m_arrRenderCommand[i].get();
 			pRenderCommad->Create(pRender->m_swapChain.queueNodeIndex);

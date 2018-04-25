@@ -24,7 +24,7 @@ namespace ma
 		VkDeviceMemory m_mem = VK_NULL_HANDLE;
 		VkDescriptorBufferInfo m_descriptor;
 
-		BYTE* m_mapped = nullptr;
+		uint8_t* m_mapped = nullptr;
 	};
 
 }

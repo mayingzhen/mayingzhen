@@ -14,7 +14,7 @@ namespace ma
 		memset(m_pRenderTargetView,0,sizeof(m_pRenderTargetView));
 	}
 
-	D3D11Texture::D3D11Texture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
+	D3D11Texture::D3D11Texture(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
 		:Texture(nWidth,nHeight,nMipMap,format,bTypeLess,bSRGB,eUsage,eType)
 	{
 		m_pD3D11Tex2D = NULL;
@@ -30,9 +30,9 @@ namespace ma
 		SAFE_RELEASE(m_pD3D11ShaderResourceView);
 		SAFE_RELEASE(m_pD3D11ShaderResourceViewSRGBNotEqual);
 		SAFE_RELEASE(m_pDepthStencilView);
-		for (uint32 i = 0; i < MAX_MIP; ++i)
+		for (uint32_t i = 0; i < MAX_MIP; ++i)
 		{
-			for (uint32 j = 0; j < 6; ++j)
+			for (uint32_t j = 0; j < 6; ++j)
 			{
 				SAFE_RELEASE(m_pRenderTargetView[i][j]);
 			}
@@ -132,8 +132,8 @@ namespace ma
 
 		D3D11_TEXTURE2D_DESC textureDesc;
 		memset(&textureDesc, 0, sizeof textureDesc);
-		textureDesc.Width = (UINT)m_nWidth;
-		textureDesc.Height = (UINT)m_nHeight;
+		textureDesc.Width = (uint32_t)m_nWidth;
+		textureDesc.Height = (uint32_t)m_nHeight;
 		textureDesc.MipLevels = m_nMipLevels;
 		textureDesc.ArraySize = 6;
 		textureDesc.Format = m_descFormat;
@@ -197,8 +197,8 @@ namespace ma
 
 		D3D11_TEXTURE2D_DESC textureDesc;
 		memset(&textureDesc, 0, sizeof textureDesc);
-		textureDesc.Width = (UINT)m_nWidth;
-		textureDesc.Height = (UINT)m_nHeight;
+		textureDesc.Width = (uint32_t)m_nWidth;
+		textureDesc.Height = (uint32_t)m_nHeight;
 		textureDesc.MipLevels = m_nMipLevels;
 		textureDesc.ArraySize = 1;
 		textureDesc.Format = m_descFormat;
@@ -360,12 +360,12 @@ namespace ma
 	D3D11_BOX OgreImageBoxToDx11Box(const Box &inBox)
 	{
 		D3D11_BOX res;
-		res.left	= static_cast<UINT>(inBox.left);
-		res.top		= static_cast<UINT>(inBox.top);
-		res.front	= static_cast<UINT>(inBox.front);
-		res.right	= static_cast<UINT>(inBox.right);
-		res.bottom	= static_cast<UINT>(inBox.bottom);
-		res.back	= static_cast<UINT>(inBox.back);
+		res.left	= static_cast<uint32_t>(inBox.left);
+		res.top		= static_cast<uint32_t>(inBox.top);
+		res.front	= static_cast<uint32_t>(inBox.front);
+		res.right	= static_cast<uint32_t>(inBox.right);
+		res.bottom	= static_cast<uint32_t>(inBox.bottom);
+		res.back	= static_cast<uint32_t>(inBox.back);
 
 		return res;
 	}
@@ -401,7 +401,7 @@ namespace ma
 			PixelUtil::bulkPixelConversion(src, converted);
 		}
 
-		uint32 rowWidth;
+		uint32_t rowWidth;
 		if (PixelUtil::isCompressed(converted.format))
 		{
 			// D3D wants the width of one row of cells in bytes

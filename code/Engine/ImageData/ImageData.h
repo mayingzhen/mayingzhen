@@ -19,18 +19,18 @@ namespace ma
 
 		void bulkPixelConversion(PixelFormat toFormat);
 
-		uint32 getNumFaces(void) const;
+		uint32_t getNumFaces(void) const;
 
-		PixelBox GetPixelBox(uint32 face, uint32 mipmap) const;
+		PixelBox GetPixelBox(uint32_t face, uint32_t mipmap) const;
 
 		RefPtr<MemoryStream> m_pMemory;
-		uint32 m_nHeight;
-		uint32 m_nWidth;
-		uint32 m_nDepth;
-		uint32 m_nSize;
+		uint32_t m_nHeight;
+		uint32_t m_nWidth;
+		uint32_t m_nDepth;
+		uint32_t m_nSize;
 
-		uint16 m_nNumMipmaps;
-		uint32 m_nFlags;
+		uint16_t m_nNumMipmaps;
+		uint32_t m_nFlags;
 
 		PixelFormat m_eFormat;
 	};

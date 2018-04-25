@@ -6,7 +6,6 @@ using namespace ma;
 
 #if __cplusplus_cli
 // there are compile issues with this file in managed mode, so use the FPU version
-#include "UnrealMathFPU.h"
 #else
 
 // We require SSE2
@@ -18,6 +17,10 @@ using namespace ma;
 
 #ifndef RESTRICT
 #define RESTRICT __restrict						/* no alias hint */
+#endif
+
+#ifndef FORCEINLINE
+#define FORCEINLINE inline						/* no alias hint */
 #endif
 
 /*=============================================================================
@@ -44,13 +47,13 @@ typedef __m128i VectorRegisterInt;
 /**
  * Returns a bitwise equivalent vector based on 4 DWORDs.
  *
- * @param X		1st uint32 component
- * @param Y		2nd uint32 component
- * @param Z		3rd uint32 component
- * @param W		4th uint32 component
+ * @param X		1st uint32_t component
+ * @param Y		2nd uint32_t component
+ * @param Z		3rd uint32_t component
+ * @param W		4th uint32_t component
  * @return		Bitwise equivalent vector with 4 floats
  */
-FORCEINLINE VectorRegister MakeVectorRegister( uint32 X, uint32 Y, uint32 Z, uint32 W )
+FORCEINLINE VectorRegister MakeVectorRegister(uint32_t X, uint32_t Y, uint32_t Z, uint32_t W )
 {
  	union { VectorRegister v; VectorRegisterInt i; } Tmp;
 	Tmp.i = _mm_setr_epi32( X, Y, Z, W );
@@ -105,17 +108,17 @@ namespace GlobalVectorConstants
 	static const VectorRegister RAD_TO_DEG = MakeVectorRegister((180.f)/Math::PI, (180.f)/Math::PI, (180.f)/Math::PI, (180.f)/Math::PI);
 
 	/** Bitmask to AND out the XYZ components in a vector */
-	static const VectorRegister XYZMask = MakeVectorRegister((uint32)0xffffffff, (uint32)0xffffffff, (uint32)0xffffffff, (uint32)0x00000000);
+	static const VectorRegister XYZMask = MakeVectorRegister((uint32_t)0xffffffff, (uint32_t)0xffffffff, (uint32_t)0xffffffff, (uint32_t)0x00000000);
 
 	/** Bitmask to AND out the sign bit of each components in a vector */
 #define SIGN_BIT ((1 << 31))
-	static const VectorRegister SignBit = MakeVectorRegister((uint32)SIGN_BIT, (uint32)SIGN_BIT, (uint32)SIGN_BIT, (uint32)SIGN_BIT);
-	static const VectorRegister SignMask = MakeVectorRegister((uint32)(~SIGN_BIT), (uint32)(~SIGN_BIT), (uint32)(~SIGN_BIT), (uint32)(~SIGN_BIT));
+	static const VectorRegister SignBit = MakeVectorRegister((uint32_t)SIGN_BIT, (uint32_t)SIGN_BIT, (uint32_t)SIGN_BIT, (uint32_t)SIGN_BIT);
+	static const VectorRegister SignMask = MakeVectorRegister((uint32_t)(~SIGN_BIT), (uint32_t)(~SIGN_BIT), (uint32_t)(~SIGN_BIT), (uint32_t)(~SIGN_BIT));
 #undef SIGN_BIT
 	static const VectorRegister AllMask = MakeVectorRegister(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 
 	/** Vector full of positive infinity */
-	static const VectorRegister FloatInfinity = MakeVectorRegister((uint32)0x7F800000, (uint32)0x7F800000, (uint32)0x7F800000, (uint32)0x7F800000);
+	static const VectorRegister FloatInfinity = MakeVectorRegister((uint32_t)0x7F800000, (uint32_t)0x7F800000, (uint32_t)0x7F800000, (uint32_t)0x7F800000);
 
 
 	static const VectorRegister Pi = MakeVectorRegister(Math::PI, Math::PI, Math::PI, Math::PI);
@@ -155,7 +158,7 @@ namespace GlobalVectorConstants
  * @param ComponentIndex	Which component to get, X=0, Y=1, Z=2, W=3
  * @return					The component as a float
  */
-FORCEINLINE float VectorGetComponent(VectorRegister Vec, uint32 ComponentIndex)
+FORCEINLINE float VectorGetComponent(VectorRegister Vec, uint32_t ComponentIndex)
 {
 	return (((float*)&(Vec))[ComponentIndex]);
 }
@@ -883,18 +886,18 @@ FORCEINLINE VectorRegister VectorTransformVector(const VectorRegister&  VecP,  c
  */
 #if WIN32
 #pragma intrinsic( _BitScanForward )
-FORCEINLINE uint32 appCountTrailingZeros(uint32 Value)
+FORCEINLINE uint32_t appCountTrailingZeros(uint32_t Value)
 {
 	if (Value == 0)
 	{
 		return 32;
 	}
-	uint32 BitIndex;	// 0-based, where the LSB is 0 and MSB is 31
-	_BitScanForward( (::DWORD *)&BitIndex, Value );	// Scans from LSB to MSB
-	return BitIndex;
+	unsigned long BitIndex;	// 0-based, where the LSB is 0 and MSB is 31
+	_BitScanForward( &BitIndex, Value );	// Scans from LSB to MSB
+	return (uint32_t)BitIndex;
 }
 #else // PLATFORM_WINDOWS
-FORCEINLINE uint32 appCountTrailingZeros(uint32 Value)
+FORCEINLINE uint32_t appCountTrailingZeros(uint32_t Value)
 {
 	if (Value == 0)
 	{
@@ -923,7 +926,7 @@ FORCEINLINE uint32 appCountTrailingZeros(uint32 Value)
  */
 // Looks complex but is really quite straightforward:
 // Load as 32-bit value, unpack 4x unsigned bytes to 4x 16-bit ints, then unpack again into 4x 32-bit ints, then convert to 4x floats
-#define VectorLoadByte4( Ptr )			_mm_cvtepi32_ps(_mm_unpacklo_epi16(_mm_unpacklo_epi8(_mm_cvtsi32_si128(*(int32*)Ptr), _mm_setzero_si128()), _mm_setzero_si128()))
+#define VectorLoadByte4( Ptr )			_mm_cvtepi32_ps(_mm_unpacklo_epi16(_mm_unpacklo_epi8(_mm_cvtsi32_si128(*(int*)Ptr), _mm_setzero_si128()), _mm_setzero_si128()))
 
 /**
  * Loads 4 BYTEs from unaligned memory and converts them into 4 FLOATs in reversed order.
@@ -949,7 +952,7 @@ FORCEINLINE void VectorStoreByte4( const VectorRegister& Vec, void* Ptr )
 {
 	// Looks complex but is really quite straightforward:
 	// Convert 4x floats to 4x 32-bit ints, then pack into 4x 16-bit ints, then into 4x 8-bit unsigned ints, then store as a 32-bit value
-	*(int32*)Ptr = _mm_cvtsi128_si32(_mm_packus_epi16(_mm_packs_epi32(_mm_cvttps_epi32(Vec), _mm_setzero_si128()), _mm_setzero_si128()));
+	*(int32_t*)Ptr = _mm_cvtsi128_si32(_mm_packus_epi16(_mm_packs_epi32(_mm_cvttps_epi32(Vec), _mm_setzero_si128()), _mm_setzero_si128()));
 }
 
 /**
@@ -971,14 +974,14 @@ FORCEINLINE void VectorStoreByte4( const VectorRegister& Vec, void* Ptr )
 /**
  * Returns the control register.
  *
- * @return			The uint32 control register
+ * @return			The uint32_t control register
  */
 #define VectorGetControlRegister()		_mm_getcsr()
 
 /**
  * Sets the control register.
  *
- * @param ControlStatus		The uint32 control status value to set
+ * @param ControlStatus		The uint32_t control status value to set
  */
 #define	VectorSetControlRegister(ControlStatus) _mm_setcsr( ControlStatus )
 

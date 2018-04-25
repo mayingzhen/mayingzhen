@@ -199,8 +199,8 @@ namespace ma
 	{
 		ASSERT(m_nWidth > 0 && m_nHeight > 0);
 
-		Real nx = (2.0f * mousePos.x)/m_nWidth - 1.0f;
-		Real ny = 1.0f - (2.0f * mousePos.y)/m_nHeight;
+		float nx = (2.0f * mousePos.x)/m_nWidth - 1.0f;
+		float ny = 1.0f - (2.0f * mousePos.y)/m_nHeight;
 
 		// Use midPoint rather than far point to avoid issues with infinite projection
 		Vector3 farPoint (nx, ny,  1.f);

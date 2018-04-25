@@ -100,7 +100,7 @@ namespace ma
     */
 	class Degree
 	{
-		float mDeg; // if you get an error here - make sure to define/typedef 'Real' first
+		float mDeg; // if you get an error here - make sure to define/typedef 'float' first
 
 	public:
 		explicit Degree ( float d=0 ) : mDeg(d) {}

@@ -31,8 +31,8 @@ namespace ma
 	{
 		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
 
-		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
-		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+		uint32_t nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
+		uint32_t nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 
 		pRenderCommand->SetTechnique(pTechnique);
 

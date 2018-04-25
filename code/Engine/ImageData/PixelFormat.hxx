@@ -1401,7 +1401,7 @@ namespace ma
 		// Notice how we do not propagate left/top/front from the incoming box, since
 		// the returned pointer is already offset
 		PixelBox rval(def.getWidth(), def.getHeight(), def.getDepth(), format, 
-			((uint8*)data) + ((def.left-left)*elemSize)
+			((uint8_t*)data) + ((def.left-left)*elemSize)
 			+ ((def.top-top)*rowPitch*elemSize)
 			+ ((def.front-front)*slicePitch*elemSize)
 		);
@@ -1430,7 +1430,7 @@ namespace ma
         return getDescriptionFor(format).elemBytes;
     }
 	//-----------------------------------------------------------------------
-	size_t PixelUtil::getMemorySize(uint32 width, uint32 height, uint32 depth, PixelFormat format)
+	size_t PixelUtil::getMemorySize(uint32_t width, uint32_t height, uint32_t depth, PixelFormat format)
 	{
 		if(isCompressed(format))
 		{
@@ -1494,7 +1494,7 @@ namespace ma
 		}
     }
     //-----------------------------------------------------------------------
-    uint32 PixelUtil::getCompressedBlockWidth( PixelFormat format, bool apiStrict )
+    uint32_t PixelUtil::getCompressedBlockWidth( PixelFormat format, bool apiStrict )
     {
         switch(format)
         {
@@ -1547,7 +1547,7 @@ namespace ma
         }
     }
     //-----------------------------------------------------------------------
-    uint32 PixelUtil::getCompressedBlockHeight( PixelFormat format, bool apiStrict )
+    uint32_t PixelUtil::getCompressedBlockHeight( PixelFormat format, bool apiStrict )
     {
         return getCompressedBlockWidth( format, apiStrict );
     }
@@ -1636,7 +1636,7 @@ namespace ma
         rgba[3] = des.abits;
     }
 	//-----------------------------------------------------------------------
-	void PixelUtil::getBitMasks(PixelFormat format, uint64 rgba[4])
+	void PixelUtil::getBitMasks(PixelFormat format, uint64_t rgba[4])
     {
         const PixelFormatDescription &des = getDescriptionFor(format);
         rgba[0] = des.rmask;
@@ -1729,7 +1729,7 @@ namespace ma
         return result;
     }
     //-----------------------------------------------------------------------
-    PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, uint16 integerBits, uint16 floatBits)
+    PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, uint16_t integerBits, uint16_t floatBits)
     {
         switch (integerBits)
         {
@@ -1844,7 +1844,7 @@ namespace ma
         packColour(colour.r, colour.g, colour.b, colour.a, pf, dest);
     }
     //-----------------------------------------------------------------------
-    void PixelUtil::packColour(const uint8 r, const uint8 g, const uint8 b, const uint8 a, const PixelFormat pf,  void* dest)
+    void PixelUtil::packColour(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a, const PixelFormat pf,  void* dest)
     {
         const PixelFormatDescription &des = getDescriptionFor(pf);
         if(des.flags & PFF_NATIVEENDIAN) {
@@ -1896,37 +1896,37 @@ namespace ma
                 ((float*)dest)[3] = a;
                 break;
             case PF_FLOAT16_R:
-                ((uint16*)dest)[0] = Bitwise::floatToHalf(r);
+                ((uint16_t*)dest)[0] = Bitwise::floatToHalf(r);
                 break;
 			case PF_FLOAT16_GR:
-				((uint16*)dest)[0] = Bitwise::floatToHalf(g);
-				((uint16*)dest)[1] = Bitwise::floatToHalf(r);
+				((uint16_t*)dest)[0] = Bitwise::floatToHalf(g);
+				((uint16_t*)dest)[1] = Bitwise::floatToHalf(r);
 				break;
             case PF_FLOAT16_RGB:
-                ((uint16*)dest)[0] = Bitwise::floatToHalf(r);
-                ((uint16*)dest)[1] = Bitwise::floatToHalf(g);
-                ((uint16*)dest)[2] = Bitwise::floatToHalf(b);
+                ((uint16_t*)dest)[0] = Bitwise::floatToHalf(r);
+                ((uint16_t*)dest)[1] = Bitwise::floatToHalf(g);
+                ((uint16_t*)dest)[2] = Bitwise::floatToHalf(b);
                 break;
             case PF_FLOAT16_RGBA:
-                ((uint16*)dest)[0] = Bitwise::floatToHalf(r);
-                ((uint16*)dest)[1] = Bitwise::floatToHalf(g);
-                ((uint16*)dest)[2] = Bitwise::floatToHalf(b);
-                ((uint16*)dest)[3] = Bitwise::floatToHalf(a);
+                ((uint16_t*)dest)[0] = Bitwise::floatToHalf(r);
+                ((uint16_t*)dest)[1] = Bitwise::floatToHalf(g);
+                ((uint16_t*)dest)[2] = Bitwise::floatToHalf(b);
+                ((uint16_t*)dest)[3] = Bitwise::floatToHalf(a);
                 break;
             case PF_SHORT_RGB:
-				((uint16*)dest)[0] = (uint16)Bitwise::floatToFixed(r, 16);
-                ((uint16*)dest)[1] = (uint16)Bitwise::floatToFixed(g, 16);
-                ((uint16*)dest)[2] = (uint16)Bitwise::floatToFixed(b, 16);
+				((uint16_t*)dest)[0] = (uint16_t)Bitwise::floatToFixed(r, 16);
+                ((uint16_t*)dest)[1] = (uint16_t)Bitwise::floatToFixed(g, 16);
+                ((uint16_t*)dest)[2] = (uint16_t)Bitwise::floatToFixed(b, 16);
                 break;
 			case PF_SHORT_RGBA:
-				((uint16*)dest)[0] = (uint16)Bitwise::floatToFixed(r, 16);
-                ((uint16*)dest)[1] = (uint16)Bitwise::floatToFixed(g, 16);
-                ((uint16*)dest)[2] = (uint16)Bitwise::floatToFixed(b, 16);
-                ((uint16*)dest)[3] = (uint16)Bitwise::floatToFixed(a, 16);
+				((uint16_t*)dest)[0] = (uint16_t)Bitwise::floatToFixed(r, 16);
+                ((uint16_t*)dest)[1] = (uint16_t)Bitwise::floatToFixed(g, 16);
+                ((uint16_t*)dest)[2] = (uint16_t)Bitwise::floatToFixed(b, 16);
+                ((uint16_t*)dest)[3] = (uint16_t)Bitwise::floatToFixed(a, 16);
 				break;
 			case PF_BYTE_LA:
-				((uint8*)dest)[0] = (uint8)Bitwise::floatToFixed(r, 8);
-                ((uint8*)dest)[1] = (uint8)Bitwise::floatToFixed(a, 8);
+				((uint8_t*)dest)[0] = (uint8_t)Bitwise::floatToFixed(r, 8);
+                ((uint8_t*)dest)[1] = (uint8_t)Bitwise::floatToFixed(a, 8);
 				break;
             default:
                 // Not yet supported
@@ -1941,7 +1941,7 @@ namespace ma
         unpackColour(&colour->r, &colour->g, &colour->b, &colour->a, pf, src);
     }
     //-----------------------------------------------------------------------
-    void PixelUtil::unpackColour(uint8 *r, uint8 *g, uint8 *b, uint8 *a, PixelFormat pf,  const void* src)
+    void PixelUtil::unpackColour(uint8_t *r, uint8_t *g, uint8_t *b, uint8_t *a, PixelFormat pf,  const void* src)
     {
         const PixelFormatDescription &des = getDescriptionFor(pf);
         if(des.flags & PFF_NATIVEENDIAN) {
@@ -1950,18 +1950,18 @@ namespace ma
             if(des.flags & PFF_LUMINANCE)
             {
                 // Luminance format -- only rbits used
-                *r = *g = *b = (uint8)Bitwise::fixedToFixed(
+                *r = *g = *b = (uint8_t)Bitwise::fixedToFixed(
                     (value & des.rmask)>>des.rshift, des.rbits, 8);
             }
             else
             {
-                *r = (uint8)Bitwise::fixedToFixed((value & des.rmask)>>des.rshift, des.rbits, 8);
-                *g = (uint8)Bitwise::fixedToFixed((value & des.gmask)>>des.gshift, des.gbits, 8);
-                *b = (uint8)Bitwise::fixedToFixed((value & des.bmask)>>des.bshift, des.bbits, 8);
+                *r = (uint8_t)Bitwise::fixedToFixed((value & des.rmask)>>des.rshift, des.rbits, 8);
+                *g = (uint8_t)Bitwise::fixedToFixed((value & des.gmask)>>des.gshift, des.gbits, 8);
+                *b = (uint8_t)Bitwise::fixedToFixed((value & des.bmask)>>des.bshift, des.bbits, 8);
             }
             if(des.flags & PFF_HASALPHA)
             {
-                *a = (uint8)Bitwise::fixedToFixed((value & des.amask)>>des.ashift, des.abits, 8);
+                *a = (uint8_t)Bitwise::fixedToFixed((value & des.amask)>>des.ashift, des.abits, 8);
             }
             else
             {
@@ -1971,10 +1971,10 @@ namespace ma
             // Do the operation with the more generic floating point
             float rr = 0, gg = 0, bb = 0, aa = 0;
             unpackColour(&rr,&gg,&bb,&aa, pf, src);
-            *r = (uint8)Bitwise::floatToFixed(rr, 8);
-            *g = (uint8)Bitwise::floatToFixed(gg, 8);
-            *b = (uint8)Bitwise::floatToFixed(bb, 8);
-            *a = (uint8)Bitwise::floatToFixed(aa, 8);
+            *r = (uint8_t)Bitwise::floatToFixed(rr, 8);
+            *g = (uint8_t)Bitwise::floatToFixed(gg, 8);
+            *b = (uint8_t)Bitwise::floatToFixed(bb, 8);
+            *a = (uint8_t)Bitwise::floatToFixed(aa, 8);
         }
     }
     //-----------------------------------------------------------------------
@@ -2030,41 +2030,41 @@ namespace ma
                 *a = ((float*)src)[3];
                 break;
             case PF_FLOAT16_R:
-                *r = *g = *b = Bitwise::halfToFloat(((uint16*)src)[0]);
+                *r = *g = *b = Bitwise::halfToFloat(((uint16_t*)src)[0]);
                 *a = 1.0f;
                 break;
 			case PF_FLOAT16_GR:
-				*g = Bitwise::halfToFloat(((uint16*)src)[0]);
-				*r = *b = Bitwise::halfToFloat(((uint16*)src)[1]);
+				*g = Bitwise::halfToFloat(((uint16_t*)src)[0]);
+				*r = *b = Bitwise::halfToFloat(((uint16_t*)src)[1]);
 				*a = 1.0f;
 				break;
             case PF_FLOAT16_RGB:
-                *r = Bitwise::halfToFloat(((uint16*)src)[0]);
-                *g = Bitwise::halfToFloat(((uint16*)src)[1]);
-                *b = Bitwise::halfToFloat(((uint16*)src)[2]);
+                *r = Bitwise::halfToFloat(((uint16_t*)src)[0]);
+                *g = Bitwise::halfToFloat(((uint16_t*)src)[1]);
+                *b = Bitwise::halfToFloat(((uint16_t*)src)[2]);
                 *a = 1.0f;
                 break;
             case PF_FLOAT16_RGBA:
-                *r = Bitwise::halfToFloat(((uint16*)src)[0]);
-                *g = Bitwise::halfToFloat(((uint16*)src)[1]);
-                *b = Bitwise::halfToFloat(((uint16*)src)[2]);
-                *a = Bitwise::halfToFloat(((uint16*)src)[3]);
+                *r = Bitwise::halfToFloat(((uint16_t*)src)[0]);
+                *g = Bitwise::halfToFloat(((uint16_t*)src)[1]);
+                *b = Bitwise::halfToFloat(((uint16_t*)src)[2]);
+                *a = Bitwise::halfToFloat(((uint16_t*)src)[3]);
                 break;
 			case PF_SHORT_RGB:
-				*r = Bitwise::fixedToFloat(((uint16*)src)[0], 16);
-                *g = Bitwise::fixedToFloat(((uint16*)src)[1], 16);
-				*b = Bitwise::fixedToFloat(((uint16*)src)[2], 16);
+				*r = Bitwise::fixedToFloat(((uint16_t*)src)[0], 16);
+                *g = Bitwise::fixedToFloat(((uint16_t*)src)[1], 16);
+				*b = Bitwise::fixedToFloat(((uint16_t*)src)[2], 16);
 				*a = 1.0f;
 				break;
 			case PF_SHORT_RGBA:
-				*r = Bitwise::fixedToFloat(((uint16*)src)[0], 16);
-                *g = Bitwise::fixedToFloat(((uint16*)src)[1], 16);
-				*b = Bitwise::fixedToFloat(((uint16*)src)[2], 16);
-				*a = Bitwise::fixedToFloat(((uint16*)src)[3], 16);
+				*r = Bitwise::fixedToFloat(((uint16_t*)src)[0], 16);
+                *g = Bitwise::fixedToFloat(((uint16_t*)src)[1], 16);
+				*b = Bitwise::fixedToFloat(((uint16_t*)src)[2], 16);
+				*a = Bitwise::fixedToFloat(((uint16_t*)src)[3], 16);
 				break;
 			case PF_BYTE_LA:
-				*r = *g = *b = Bitwise::fixedToFloat(((uint8*)src)[0], 8);
-				*a = Bitwise::fixedToFloat(((uint8*)src)[1], 8);
+				*r = *g = *b = Bitwise::fixedToFloat(((uint8_t*)src)[0], 8);
+				*a = Bitwise::fixedToFloat(((uint8_t*)src)[1], 8);
 				break;
             default:
                 // Not yet supported
@@ -2103,9 +2103,9 @@ namespace ma
             return;
         }
 
-        uint32 blockWidth  = PixelUtil::getCompressedBlockWidth( dst.format, false );
-        uint32 blockHeight = PixelUtil::getCompressedBlockHeight( dst.format, false );
-        uint32 blockResolution = blockWidth * blockHeight;
+        uint32_t blockWidth  = PixelUtil::getCompressedBlockWidth( dst.format, false );
+        uint32_t blockHeight = PixelUtil::getCompressedBlockHeight( dst.format, false );
+        uint32_t blockResolution = blockWidth * blockHeight;
         if( !blockWidth || !blockHeight )
         {
             LogError("Cannot transfer subregions of the image when compressed by format %s . You must update the entire image, PixelUtil::bulkCompressedSubregion",
@@ -2131,8 +2131,8 @@ namespace ma
             {
                 size_t dstY = ((y - dst.top) * dst.getWidth()) / blockResolution;
                 size_t srcY = (y * src.getWidth()) / blockResolution;
-                memcpy( (uint8*)(dst.data) + ( (dstZ + dstY + dstRegion.left / blockWidth) * blockSize ),
-                        (uint8*)(src.data) + ( (srcZ + srcY ) * blockSize ),
+                memcpy( (uint8_t*)(dst.data) + ( (dstZ + dstY + dstRegion.left / blockWidth) * blockSize ),
+                        (uint8_t*)(src.data) + ( (srcZ + srcY ) * blockSize ),
                         (dstRegion.getWidth() / blockWidth) * blockSize );
             }
         }
@@ -2155,8 +2155,8 @@ namespace ma
                 {
                     ASSERT(false);
                     const size_t rowSize = PixelUtil::getMemorySize( src.getWidth(), 1, 1, src.format );
-                    const uint32 blockWidth  = PixelUtil::getCompressedBlockWidth( dst.format, false );
-                    const uint32 blockHeight = PixelUtil::getCompressedBlockHeight( dst.format, false );
+                    const uint32_t blockWidth  = PixelUtil::getCompressedBlockWidth( dst.format, false );
+                    const uint32_t blockHeight = PixelUtil::getCompressedBlockHeight( dst.format, false );
 
                     if( blockWidth == 0 || blockHeight == 0 )
                     {
@@ -2164,11 +2164,11 @@ namespace ma
                         return;
                     }
 
-                    uint8 *srcptr = static_cast<uint8*>(src.data)
+                    uint8_t *srcptr = static_cast<uint8_t*>(src.data)
                         + (src.left + blockWidth - 1) / blockWidth +
                             (src.top + blockHeight - 1) / blockHeight * src.rowPitch +
                             src.front * src.slicePitch;
-                    uint8 *dstptr = static_cast<uint8*>(dst.data)
+                    uint8_t *dstptr = static_cast<uint8_t*>(dst.data)
                         + (dst.left + blockWidth - 1) / blockWidth +
                             (dst.top + blockHeight - 1) / blockHeight * dst.rowPitch +
                             dst.front * dst.slicePitch;
@@ -2216,9 +2216,9 @@ namespace ma
 
             const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
             const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
-            uint8 *srcptr = static_cast<uint8*>(src.data)
+            uint8_t *srcptr = static_cast<uint8_t*>(src.data)
                 + (src.left + src.top * src.rowPitch + src.front * src.slicePitch) * srcPixelSize;
-            uint8 *dstptr = static_cast<uint8*>(dst.data)
+            uint8_t *dstptr = static_cast<uint8_t*>(dst.data)
 				+ (dst.left + dst.top * dst.rowPitch + dst.front * dst.slicePitch) * dstPixelSize;
 
             // Calculate pitches+skips in bytes
@@ -2277,13 +2277,13 @@ namespace ma
 
         const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
         const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
-        uint8 *srcptr = static_cast<uint8*>(src.data)
+        uint8_t *srcptr = static_cast<uint8_t*>(src.data)
             + (src.left + src.top * src.rowPitch + src.front * src.slicePitch) * srcPixelSize;
-        uint8 *dstptr = static_cast<uint8*>(dst.data)
+        uint8_t *dstptr = static_cast<uint8_t*>(dst.data)
             + (dst.left + dst.top * dst.rowPitch + dst.front * dst.slicePitch) * dstPixelSize;
 		
 		// Old way, not taking into account box dimensions
-		//uint8 *srcptr = static_cast<uint8*>(src.data), *dstptr = static_cast<uint8*>(dst.data);
+		//uint8_t *srcptr = static_cast<uint8_t*>(src.data), *dstptr = static_cast<uint8_t*>(dst.data);
 
         // Calculate pitches+skips in bytes
         const size_t srcRowSkipBytes = src.getRowSkip()*srcPixelSize;
@@ -2323,9 +2323,9 @@ namespace ma
 
         const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
         const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
-        uint8 *srcPtr = static_cast<uint8*>(src.data)
+        uint8_t *srcPtr = static_cast<uint8_t*>(src.data)
             + (src.left + src.top * src.rowPitch + src.front * src.slicePitch) * srcPixelSize;
-        int8 *dstPtr = static_cast<int8*>(dst.data)
+        int8_t *dstPtr = static_cast<int8_t*>(dst.data)
             + (dst.left + dst.top * dst.rowPitch + dst.front * dst.slicePitch) * dstPixelSize;
 
         // Calculate pitches+skips in bytes
@@ -2334,8 +2334,8 @@ namespace ma
         const size_t dstRowSkipBytes    = dst.getRowSkip() * dstPixelSize;
         const size_t dstSliceSkipBytes  = dst.getSliceSkip() * dstPixelSize;
 
-        uint8 notLuminanceMask  = srcDesc.flags & PFF_LUMINANCE ? 0x00 : 0xFF;
-        uint8 luminanceMask     = srcDesc.flags & PFF_LUMINANCE ? 0xFF : 0x00;
+        uint8_t notLuminanceMask  = srcDesc.flags & PFF_LUMINANCE ? 0x00 : 0xFF;
+        uint8_t luminanceMask     = srcDesc.flags & PFF_LUMINANCE ? 0xFF : 0x00;
 
         if( srcDesc.flags & PFF_FLOAT )
         {
@@ -2349,12 +2349,12 @@ namespace ma
             return;
         }
 
-        uint8 shiftOffset = 0x7F;
+        uint8_t shiftOffset = 0x7F;
 
         if( dst.format == PF_BYTE_LA || dst.format == PF_RG8 )
             shiftOffset = 0x00;
 
-        uint8 r, g, b, a;
+        uint8_t r, g, b, a;
         for(size_t z=src.front; z<src.back; z++)
         {
             for(size_t y=src.top; y<src.bottom; y++)
@@ -2396,17 +2396,17 @@ namespace ma
         const size_t rowPitchBytes = box.rowPitch * pixelSize;
         const size_t slicePitchBytes = box.slicePitch * pixelSize;
 
-        uint8 *basesrcptr = static_cast<uint8*>(box.data)
+        uint8_t *basesrcptr = static_cast<uint8_t*>(box.data)
             + (box.left + box.top * box.rowPitch + box.front * box.slicePitch) * pixelSize;
-        uint8 *basedstptr = basesrcptr + (box.bottom - box.top - 1) * rowPitchBytes;
-        uint8* tmpptr = (uint8*)new uint8[copySize];
+        uint8_t *basedstptr = basesrcptr + (box.bottom - box.top - 1) * rowPitchBytes;
+        uint8_t* tmpptr = (uint8_t*)new uint8_t[copySize];
         
         // swap rows
         const size_t halfRowCount = (box.bottom - box.top) >> 1;
         for(size_t z = box.front; z < box.back; z++)
         {
-            uint8* srcptr = basesrcptr;
-            uint8* dstptr = basedstptr;
+            uint8_t* srcptr = basesrcptr;
+            uint8_t* dstptr = basedstptr;
             for(size_t y = 0; y < halfRowCount; y++)
             {
                 // swap rows

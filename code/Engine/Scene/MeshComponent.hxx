@@ -47,7 +47,7 @@ namespace ma
 	{
 		Serializable::Export(pXmlElem,doc);
 
-		for (UINT i = 0; i < m_vecMesData.size(); ++i)
+		for (uint32_t i = 0; i < m_vecMesData.size(); ++i)
 		{
 			rapidxml::xml_node<>* pXmlLodMeshData = doc.allocate_node(rapidxml::node_element, doc.allocate_string("LodMeshData"));
 			pXmlElem->append_node(pXmlLodMeshData);
@@ -67,7 +67,7 @@ namespace ma
 		return IsReady();
 	}
 
-	MeshData* MeshComponent::GetMeshData(uint32 nLod)
+	MeshData* MeshComponent::GetMeshData(uint32_t nLod)
 	{
 		if (nLod < 0 || nLod >= m_vecMesData.size())
 			return NULL;
@@ -75,7 +75,7 @@ namespace ma
 		return m_vecMesData[nLod].get();
 	}
 
-	const char*	MeshComponent::GetMeshFile(uint32 nLod) const
+	const char*	MeshComponent::GetMeshFile(uint32_t nLod) const
 	{
 		if (nLod < 0 || nLod >= m_vecMesData.size())
 			return NULL;
@@ -83,7 +83,7 @@ namespace ma
 		return m_vecMesData[nLod] ? m_vecMesData[nLod]->GetResPath() : NULL;
 	}
 
-	void MeshComponent::SetMeshFile(const char* pFile,uint32 nLod)
+	void MeshComponent::SetMeshFile(const char* pFile,uint32_t nLod)
 	{
 		if (nLod >= m_vecMesData.size())
 		{
@@ -117,25 +117,25 @@ namespace ma
 		IsReady();
 	}
 
-	UINT MeshComponent::GetRenderableCount(uint32 nLod) const
+	uint32_t MeshComponent::GetRenderableCount(uint32_t nLod) const
 	{
 		return m_arrLodRenderable[nLod].size();
 	}
 
-	Renderable*	MeshComponent::GetRenderableByIndex(uint32 nLod,UINT index) const
+	Renderable*	MeshComponent::GetRenderableByIndex(uint32_t nLod,uint32_t index) const
 	{
 		return m_arrLodRenderable[nLod][index].get();
 	}
 
-	UINT MeshComponent::GetShadowRenderableCount() const
+	uint32_t MeshComponent::GetShadowRenderableCount() const
 	{
-		UINT nLod = m_arrLodRenderable.size() - 1;
+		uint32_t nLod = m_arrLodRenderable.size() - 1;
 		return m_arrLodRenderable[nLod].size();
 	}
 
-	Renderable*	MeshComponent::GetShadowRenderableByIndex(UINT index) const
+	Renderable*	MeshComponent::GetShadowRenderableByIndex(uint32_t index) const
 	{
-		UINT nLod = m_arrLodRenderable.size() - 1;
+		uint32_t nLod = m_arrLodRenderable.size() - 1;
 		return m_arrLodRenderable[nLod][index].get();
 	}
 
@@ -148,22 +148,22 @@ namespace ma
 	{
 		m_bSuportInstance = b;
 
-		for (uint32 iLod = 0; iLod < m_arrLodRenderable.size(); ++iLod)
+		for (uint32_t iLod = 0; iLod < m_arrLodRenderable.size(); ++iLod)
 		{
 			VEC_RENDERABLE arrRenderable = m_arrLodRenderable[iLod];
-			for (UINT iSub = 0; iSub < arrRenderable.size(); ++iSub)
+			for (uint32_t iSub = 0; iSub < arrRenderable.size(); ++iSub)
 			{
 				arrRenderable[iSub]->m_bSuportInstace = b;
 			}
 		}
 	}
 
-	UINT32 MeshComponent::GetSubMaterialCount(uint32 nLod)
+	uint32_t MeshComponent::GetSubMaterialCount(uint32_t nLod)
 	{
 		return m_arrLodRenderable[nLod].size();
 	}
 
-	SubMaterial* MeshComponent::GetSubMaterial(uint32 nLod,UINT index)
+	SubMaterial* MeshComponent::GetSubMaterial(uint32_t nLod,uint32_t index)
 	{
 		return m_pMaterial->GetLodSubByIndex(nLod,index);
 	}
@@ -187,12 +187,12 @@ namespace ma
 			return;
 		
 		arrLodRenderable.clear();
-		for (uint32 iLod = 0; iLod < m_vecMesData.size(); ++iLod)
+		for (uint32_t iLod = 0; iLod < m_vecMesData.size(); ++iLod)
 		{
 			MeshData* pMesData = m_vecMesData[iLod].get();
 
 			VEC_RENDERABLE arrRenderable;
-			for (UINT iSub = 0; iSub < pMesData->GetSubMeshNumber(); ++iSub)
+			for (uint32_t iSub = 0; iSub < pMesData->GetSubMeshNumber(); ++iSub)
 			{
 				RefPtr<MeshRenderable> pRenderable = CreateMeshRenderable();
 
@@ -249,7 +249,7 @@ namespace ma
 		if (!m_bOnLoadOver)
 			return;
 
-		for (UINT i = 0; i < m_arrLodRenderable[m_nLod].size(); ++i)
+		for (uint32_t i = 0; i < m_arrLodRenderable[m_nLod].size(); ++i)
 		{
 			 m_arrLodRenderable[m_nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 

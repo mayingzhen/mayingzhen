@@ -1,9 +1,9 @@
 #include "Platform.h"
 
-#if PLATFORM_WIN == 1
+#if defined(_WIN32)
 #include "Win/PlatformWin.hxx"
-#elif PLAFTORM_IOS == 1
-#elif PLATFORM_ANDROID == 1
+#elif defined(__APPLE__)
+#elif defined(__ANDROID__)
 #include "Android/PlatformAndroid.hxx"
 #endif
 

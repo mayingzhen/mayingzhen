@@ -22,7 +22,7 @@ namespace ma
         struct Reskey
         {
             std::string m_strName;
-            uint64 m_nVertecDecl;
+            uint64_t m_nVertecDecl;
             
             bool operator < (const Reskey& other) const
             {

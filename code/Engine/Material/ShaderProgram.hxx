@@ -14,7 +14,7 @@ namespace ma
 
 	void ShaderProgram::Reload()
 	{
-		for (UINT i = 0; i < ShaderType_Number; ++i)
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
 			m_vecConstBuffer[i].clear();
 		}
@@ -82,12 +82,12 @@ namespace ma
 		m_vecPSSamplers.push_back(pUniform);
 	}
 
-	UINT ShaderProgram::GetSamplerCount()
+	uint32_t ShaderProgram::GetSamplerCount()
 	{
 		return m_vecPSSamplers.size();
 	}
 
-	Uniform* ShaderProgram::GetSamplerByIndex(UINT nIndex)
+	Uniform* ShaderProgram::GetSamplerByIndex(uint32_t nIndex)
 	{
 		return m_vecPSSamplers[nIndex].get();
 	}
@@ -97,12 +97,12 @@ namespace ma
 		m_vecConstBuffer[eType].push_back(pConstBuffer);
 	}
 
-	UINT ShaderProgram::GetConstBufferCount(ShaderType eType)
+	uint32_t ShaderProgram::GetConstBufferCount(ShaderType eType)
 	{
 		return m_vecConstBuffer[eType].size();
 	}
 
-	ConstantBuffer*	ShaderProgram::GetConstBufferByIndex(ShaderType eType, UINT nIndex)
+	ConstantBuffer*	ShaderProgram::GetConstBufferByIndex(ShaderType eType, uint32_t nIndex)
 	{
 		if (nIndex >= m_vecConstBuffer[eType].size())
 			return NULL;

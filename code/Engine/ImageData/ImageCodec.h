@@ -26,7 +26,7 @@ public:
 	/// Static method to shutdown FreeImage and unregister the FreeImage codecs
 	static void Shutdown();
 
-	bool decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN OUT ImageData& imageData) const;
+	bool decode(const char* pszName, void* pMemory, uint32_t nNumBytes, IN OUT ImageData& imageData) const;
 
 	enum Filter
 	{
@@ -47,16 +47,16 @@ public:
 	static void scale(const PixelBox &src, const PixelBox &dst, Filter filter = FILTER_BILINEAR);
 
 	// Static function to calculate size in bytes from the number of mipmaps, faces and the dimensions
-	static uint32 calculateSize(uint32 mipmaps, uint32 faces, uint32 width, uint32 height, uint32 depth, PixelFormat format);
+	static uint32_t calculateSize(uint32_t mipmaps, uint32_t faces, uint32_t width, uint32_t height, uint32_t depth, PixelFormat format);
 	
 	/** Does gamma adjustment.
         @note
             Basic algo taken from Titan Engine, copyright (c) 2000 Ignacio 
             Castano Iguado
     */
-	static void applyGamma( unsigned char *buffer, float gamma, uint32 size, uint8 bpp );
+	static void applyGamma( unsigned char *buffer, float gamma, uint32_t size, uint8_t bpp );
 private:
-	uint32 m_nWidth, m_nHeight;
+	uint32_t m_nWidth, m_nHeight;
 };
 
 }

@@ -111,22 +111,22 @@ namespace ma
 		return m_worldAABB;
 	}
 
-	UINT RenderComponent::GetRenderableCount(uint32 nLod) const
+	uint32_t RenderComponent::GetRenderableCount(uint32_t nLod) const
 	{
 		return 0;
 	}
 
-	Renderable* RenderComponent::GetRenderableByIndex(uint32 nLod,UINT index) const
+	Renderable* RenderComponent::GetRenderableByIndex(uint32_t nLod,uint32_t index) const
 	{
 		return NULL;
 	}
 
-	UINT RenderComponent::GetShadowRenderableCount() const
+	uint32_t RenderComponent::GetShadowRenderableCount() const
 	{
 		return 0;
 	}
 
-	Renderable*	RenderComponent::GetShadowRenderableByIndex(UINT index) const
+	Renderable*	RenderComponent::GetShadowRenderableByIndex(uint32_t index) const
 	{
 		return NULL;
 	}

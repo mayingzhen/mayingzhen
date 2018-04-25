@@ -18,7 +18,7 @@ RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSke
 	strSkaFile = StringUtil::replaceAll(strSkaFile, "\\", "/");
     strSkaFile = StringUtil::replaceAll(strSkaFile, "//", "/");
     StringUtil::toLowerCase(strSkaFile);
-	uint32 uHash = Math::FastHash(strSkaFile.c_str(), strlen(strSkaFile.c_str()));
+	uint32_t uHash = Math::FastHash(strSkaFile.c_str(), strlen(strSkaFile.c_str()));
 	MAP_HASH_RES::iterator iter = m_mapFactory.find(uHash);
 
 	// not find
@@ -81,9 +81,9 @@ void AnimDataManager::Clear( bool bRemoveAll )
     }
 }
 
-// void AnimDataManager::FreeTick(bool bForceRelease, uint32 nResTime)
+// void AnimDataManager::FreeTick(bool bForceRelease, uint32_t nResTime)
 // {
-//     uint32 nCurTime = GetTimer()->GetTime();
+//     uint32_t nCurTime = GetTimer()->GetTime();
 // 
 //     for (MAP_HASH_RES::iterator iter = m_mapFactory.begin();iter != m_mapFactory.end();)
 //     {
@@ -103,7 +103,7 @@ void AnimDataManager::Clear( bool bRemoveAll )
 //                 }
 //                 else
 //                 {
-//                     uint32 nFreeTime = pRes->GetFreeTime();
+//                     uint32_t nFreeTime = pRes->GetFreeTime();
 //                     if (nFreeTime == 0)
 //                     {
 //                         pRes->SetFreeTime(nCurTime);

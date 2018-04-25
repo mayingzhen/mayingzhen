@@ -1,6 +1,8 @@
 #include "CameraController.h"
 
-
+#ifdef WIN32
+#include "windows.h"
+#endif
 
 
 namespace ma
@@ -118,8 +120,8 @@ namespace ma
 			break;
 		case Mouse::MOUSE_MOVE:
 			{
-				uint32 nWindowWidth = Game::GetInstance().m_OnWindowSizedWidth;
-				uint32 nWindowHight = Game::GetInstance().m_OnWindowSizedHeight;
+				uint32_t nWindowWidth = Game::GetInstance().m_OnWindowSizedWidth;
+				uint32_t nWindowHight = Game::GetInstance().m_OnWindowSizedHeight;
 			
 				if (s_bMButtonDown)
 				{
@@ -320,7 +322,7 @@ namespace ma
 	void CameraController::Process(float dwElapsed)
     {
 #ifdef WIN32
-		uint8 nMultiple = 1;
+		uint8_t nMultiple = 1;
 		if (GetKeyState(VK_SHIFT) & 0x80000)
 		{
 			nMultiple = 4;

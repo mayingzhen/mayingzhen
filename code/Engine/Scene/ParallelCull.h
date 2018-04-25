@@ -20,7 +20,7 @@ namespace ma
 
 		void UpdateObject(RenderComponent* pobject);
 
-		void FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj); 
+		void FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj); 
 
 	public:
 		struct NodeBound

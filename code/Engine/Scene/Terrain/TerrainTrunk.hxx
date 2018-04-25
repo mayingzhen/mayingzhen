@@ -26,12 +26,12 @@ namespace ma
 
 		TERRAIN_LOD& lod = m_vecLodRenderable[m_uLodIndex];
 
-		for (uint32 i = 0; i < lod.m_vecBody.size(); ++i)
+		for (uint32_t i = 0; i < lod.m_vecBody.size(); ++i)
 		{
 			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecBody[i].get());
 		}
 
-		for (uint32 i = 0; i < lod.m_vecBorder.size(); ++i)
+		for (uint32_t i = 0; i < lod.m_vecBorder.size(); ++i)
 		{
 			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecBorder[i].get());
 		}
@@ -41,7 +41,7 @@ namespace ma
 		int nTrunkYCellAmont = m_pTerrain->GetYCellAmount() / m_pTerrain->GetTrunkSize();
 		if (m_nX > 0)
 		{
-			uint32 west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
+			uint32_t west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < west)
 			{
 				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[west].skirt[West].get());
@@ -50,7 +50,7 @@ namespace ma
 
 		if (m_nX < nTrunkXCellAmont-1)
 		{
-			uint32 east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
+			uint32_t east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < east)
 			{
 				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[east].skirt[East].get());
@@ -59,7 +59,7 @@ namespace ma
 
 		if (m_nY > 0)
 		{
-			uint32 north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
+			uint32_t north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
 			if (m_uLodIndex < north)
 			{
 				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[north].skirt[North].get());
@@ -68,7 +68,7 @@ namespace ma
 
 		if (m_nY < nTrunkYCellAmont -1)
 		{
-			uint32 south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
+			uint32_t south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
 			if (m_uLodIndex < south)
 			{
 				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[south].skirt[South].get());
@@ -87,9 +87,9 @@ namespace ma
 			int nNumLodPow2 = Math::PowInt(2, m_pTerrain->GetNumLod() - 1);
 			float fLodValue = Math::Max<float>( 1.0f, Math::Min<float>(fDistance / m_fLodParam, (float)nNumLodPow2) );
 
-			m_uLodIndex = (UINT)Math::Log2(fLodValue);
+			m_uLodIndex = (uint32_t)Math::Log2(fLodValue);
 
-			m_uLodIndex = Math::Clamp<UINT>(m_uLodIndex, 0, m_pTerrain->GetNumLod() - 1);
+			m_uLodIndex = Math::Clamp<uint32_t>(m_uLodIndex, 0, m_pTerrain->GetNumLod() - 1);
 		}
 		else
 		{
@@ -122,7 +122,7 @@ namespace ma
 		m_vecSetMatIDTemp.resize(m_pTerrain->GetNumLod());
 		m_vecIBDataTemp.resize(m_pTerrain->GetNumLod());
 		m_vecIBTemp.resize(m_pTerrain->GetNumLod());
-		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
+		for (uint32_t m = 0; m < m_pTerrain->GetNumLod(); ++m)
 		{
 			m_vecLodRenderable[m].m_vecSkirt.resize(m_pTerrain->GetNumLod());
 		
@@ -147,7 +147,7 @@ namespace ma
 		m_vecSetMatIDTemp.clear();
 		m_vecSetMatIDTemp.resize(m_pTerrain->GetNumLod());
 
-		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
+		for (uint32_t m = 0; m < m_pTerrain->GetNumLod(); ++m)
 		{
 			//TERRAIN_LOD& lod = m_vecLodRenderable[m];
 
@@ -173,7 +173,7 @@ namespace ma
 					Vector2 vUV = m_pTerrain->GetUV(nXVert,nYVert);
 					Vector3 vNormal = m_pTerrain->GetNormal(nXVert, nYVert);;
 					Vector3 vTanget = m_pTerrain->GetTangent(nXVert, nYVert);
-					uint8 nMateriID = m_pTerrain->GetMaterialID(nXVert,nYVert);
+					uint8_t nMateriID = m_pTerrain->GetMaterialID(nXVert,nYVert);
 
 					vertex.pos = CompressPos(vPos,GetAABB().getCenter(),GetAABB().getHalfSize());
 					vertex.uv = CompressUV(vUV,m_uvAABB.getCenter(),m_uvAABB.getHalfSize());
@@ -189,7 +189,7 @@ namespace ma
 			}
 
 			m_vecVBTemp[m] = GetRenderSystem()->CreateVertexBuffer(
-				(uint8*)&(m_vecVBDataTemp[m][0]),m_vecVBDataTemp[m].size() * sizeof(TERRAIN_VERTEX),sizeof(TERRAIN_VERTEX));
+				(uint8_t*)&(m_vecVBDataTemp[m][0]),m_vecVBDataTemp[m].size() * sizeof(TERRAIN_VERTEX),sizeof(TERRAIN_VERTEX));
 		}
 	}
 
@@ -199,20 +199,20 @@ namespace ma
 		m_vecTriangleMatID.clear();
 		m_vecTriangleMatID.resize(m_pTerrain->GetNumLod());
 
-		for (uint32 m = 0; m < m_pTerrain->GetNumLod();++m)
+		for (uint32_t m = 0; m < m_pTerrain->GetNumLod();++m)
 		{
 			TERRAIN_LOD& lod = m_vecLodRenderable[m];
 			m_vecTriangleMatID[m].resize(m_vecIBDataTemp[m].size() / 3, -1);	
 
 			lod.m_vecBody.clear();
 
-			set<uint8>& setMatIDTemp = m_vecSetMatIDTemp[m];
+			set<uint8_t>& setMatIDTemp = m_vecSetMatIDTemp[m];
 
 			if (setMatIDTemp.size() == 1)
 			{	
-				uint8 iMatID = *setMatIDTemp.begin();
+				uint8_t iMatID = *setMatIDTemp.begin();
 
-				if (iMatID == (uint8)-1)
+				if (iMatID == (uint8_t)-1)
 					continue;
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
@@ -225,30 +225,30 @@ namespace ma
 			}
 			else
 			{
-				for (set<uint8>::iterator it = setMatIDTemp.begin(); it != setMatIDTemp.end(); ++it)
+				for (set<uint8_t>::iterator it = setMatIDTemp.begin(); it != setMatIDTemp.end(); ++it)
 				{
-					uint8 iMatID = *it;
-					if (iMatID == (uint8)-1)
+					uint8_t iMatID = *it;
+					if (iMatID == (uint8_t)-1)
 						continue;
 
-					vector<uint16> bodyIBList;
+					vector<uint16_t> bodyIBList;
 
-					vector<uint16>& pIBData = m_vecIBDataTemp[m]; 
+					vector<uint16_t>& pIBData = m_vecIBDataTemp[m]; 
 					vector<TERRAIN_VERTEX>& pVBData = m_vecVBDataTemp[m];
 
-					for (UINT i = 0; i < pIBData.size(); i += 3)
+					for (uint32_t i = 0; i < pIBData.size(); i += 3)
 					{
-						uint16 triangle[3] = { pIBData[i+0], pIBData[i+1], pIBData[i+2] };
+						uint16_t triangle[3] = { pIBData[i+0], pIBData[i+1], pIBData[i+2] };
 
 						TERRAIN_VERTEX& vertex0 = pVBData[ triangle[0] ];
 						TERRAIN_VERTEX& vertex1 = pVBData[ triangle[1] ];
 						TERRAIN_VERTEX& vertex2 = pVBData[ triangle[2] ];
 
-						uint8 matID0 = (uint8)(vertex0.pos.w);
-						uint8 matID1 = (uint8)(vertex1.pos.w);
-						uint8 matID2 = (uint8)(vertex2.pos.w);
+						uint8_t matID0 = (uint8_t)(vertex0.pos.w);
+						uint8_t matID1 = (uint8_t)(vertex1.pos.w);
+						uint8_t matID2 = (uint8_t)(vertex2.pos.w);
 
-						if ( (matID0 == iMatID || matID1 == iMatID || matID2 == iMatID) && m_vecTriangleMatID[m][i / 3] == (uint8)-1)	
+						if ( (matID0 == iMatID || matID1 == iMatID || matID2 == iMatID) && m_vecTriangleMatID[m][i / 3] == (uint8_t)-1)	
 						{
 							m_vecTriangleMatID[m][i / 3] = iMatID;
 
@@ -262,7 +262,7 @@ namespace ma
 						continue;
 
 					RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-						(uint8*)&bodyIBList[0],sizeof(uint16) * bodyIBList.size(),sizeof(uint16));
+						(uint8_t*)&bodyIBList[0],sizeof(uint16_t) * bodyIBList.size(),sizeof(uint16_t));
 
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
 					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
@@ -281,7 +281,7 @@ namespace ma
 		if (m_pTerrain->GetMaterialCount() <= 1)
 			return;
 
-		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
+		for (uint32_t m = 0; m < m_pTerrain->GetNumLod(); ++m)
 		{
 			TERRAIN_LOD& lod = m_vecLodRenderable[m];
 			
@@ -290,27 +290,27 @@ namespace ma
 			if (m_vecSetMatIDTemp[m].size() <= 1)
 				continue;
 
-			vector< vector<uint16> > borderIBList; 
+			vector< vector<uint16_t> > borderIBList; 
 
-			vector<uint16> pIBData = m_vecIBDataTemp[m]; 
+			vector<uint16_t> pIBData = m_vecIBDataTemp[m]; 
 			vector<TERRAIN_VERTEX>& pVBData = m_vecVBDataTemp[m];
 
-			for (UINT i = 0; i < pIBData.size(); i += 3)
+			for (uint32_t i = 0; i < pIBData.size(); i += 3)
 			{
-				uint16 triangle[3] = { pIBData[i+0], pIBData[i+1], pIBData[i+2] };
+				uint16_t triangle[3] = { pIBData[i+0], pIBData[i+1], pIBData[i+2] };
 
 				TERRAIN_VERTEX& vertex0 = pVBData[ triangle[0] ];
 				TERRAIN_VERTEX& vertex1 = pVBData[ triangle[1] ];
 				TERRAIN_VERTEX& vertex2 = pVBData[ triangle[2] ];
 
-				uint8 matID0 = (uint8)(vertex0.pos.w);
-				uint8 matID1 = (uint8)(vertex1.pos.w);
-				uint8 matID2 = (uint8)(vertex2.pos.w);
+				uint8_t matID0 = (uint8_t)(vertex0.pos.w);
+				uint8_t matID1 = (uint8_t)(vertex1.pos.w);
+				uint8_t matID2 = (uint8_t)(vertex2.pos.w);
 
 				if (matID2 == matID0 && matID2 == matID1)
 					continue;
 
-				uint8 nTriangleMatID = m_vecTriangleMatID[m][i / 3];
+				uint8_t nTriangleMatID = m_vecTriangleMatID[m][i / 3];
 
 				if (matID0 != nTriangleMatID)
 				{
@@ -328,21 +328,21 @@ namespace ma
 				}
 			}
 
-			map< uint8, RefPtr<IndexBuffer> > matAddIdToIB;
-			for (uint32 i = 0; i < borderIBList.size(); ++i)
+			map< uint8_t, RefPtr<IndexBuffer> > matAddIdToIB;
+			for (uint32_t i = 0; i < borderIBList.size(); ++i)
 			{
 				if (borderIBList[i].empty())
 					continue;
 
-				vector<uint16>& indexList  = borderIBList[i];
+				vector<uint16_t>& indexList  = borderIBList[i];
 
 				RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-					(uint8*)&indexList[0],sizeof(uint16) * indexList.size(),sizeof(uint16));
+					(uint8_t*)&indexList[0],sizeof(uint16_t) * indexList.size(),sizeof(uint16_t));
 
 				matAddIdToIB[i] = pIB;
 			}
 
-			map< uint8, RefPtr<IndexBuffer> >::iterator it = matAddIdToIB.begin();
+			map< uint8_t, RefPtr<IndexBuffer> >::iterator it = matAddIdToIB.begin();
 			for (; it != matAddIdToIB.end(); ++it)
 			{
 				RefPtr<SubMaterial> pBorderMaterial = m_pTerrain->GetMaterialByID(it->first)->Clone();
@@ -373,11 +373,11 @@ namespace ma
 		if (m_pTerrain->GetNumLod() <= 1)
 			return;
 
-		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
+		for (uint32_t m = 0; m < m_pTerrain->GetNumLod(); ++m)
 		{
 			TERRAIN_LOD& lod = m_vecLodRenderable[m];
 	
-			for (uint32 n = 0; n < m_pTerrain->GetNumLod(); ++n)
+			for (uint32_t n = 0; n < m_pTerrain->GetNumLod(); ++n)
 			{
 				if (m >= n)
 				{
@@ -396,7 +396,7 @@ namespace ma
 				pRSState->m_eCullMode = CULL_FACE_SIDE_NONE;
 				pSkirtMaterial->GetShadingTechnqiue()->SetRasterizerState(pRSState.get());
 
-				for (UINT i = 0; i < SideNum; ++i)
+				for (uint32_t i = 0; i < SideNum; ++i)
 				{
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
 					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
@@ -424,9 +424,9 @@ namespace ma
 		BuildSkirt();
 	}
 
-	void TerrainTrunk::AddToIBList( vector< vector<uint16> >& vecIBList, uint8 matID, uint16 triangle[3])
+	void TerrainTrunk::AddToIBList( vector< vector<uint16_t> >& vecIBList, uint8_t matID, uint16_t triangle[3])
 	{
-		if (matID == (uint8)-1)
+		if (matID == (uint8_t)-1)
 			return;
 
 		if (vecIBList.size() <= matID)
@@ -449,9 +449,9 @@ namespace ma
 		int nCellAmountSelf,int nCellAmountConnect,
 		int nSelfStart,int nSelfStep)
 	{
-		UINT nIndexCount = (nCellAmountSelf + nCellAmountConnect)*3;
+		uint32_t nIndexCount = (nCellAmountSelf + nCellAmountConnect)*3;
 
-		vector<uint16> pIndexData;
+		vector<uint16_t> pIndexData;
 		pIndexData.resize(nIndexCount);
 
 		ASSERT(nCellAmountSelf%nCellAmountConnect == 0);
@@ -459,7 +459,7 @@ namespace ma
 
 		int baseIndex = 0;
 
-		vector<uint16> indexList;
+		vector<uint16_t> indexList;
 
 		for (int i = 0;i< nCellAmountConnect + 1;++i)
 		{
@@ -497,7 +497,7 @@ namespace ma
 			}
 		}
 
-		pSkirtIB = GetRenderSystem()->CreateIndexBuffer((uint8*)&pIndexData[0],pIndexData.size() * 2, 2);
+		pSkirtIB = GetRenderSystem()->CreateIndexBuffer((uint8_t*)&pIndexData[0],pIndexData.size() * 2, 2);
 	}
 
 	void TerrainTrunk::BuildSkirtIndexBuffer()
@@ -506,14 +506,14 @@ namespace ma
 			return;
 
 		m_vecSkirt.resize(m_pTerrain->GetNumLod());
-		for (uint32 i = 0;i< m_pTerrain->GetNumLod();++i)
+		for (uint32_t i = 0;i< m_pTerrain->GetNumLod();++i)
 		{
 			m_vecSkirt[i].resize(m_pTerrain->GetNumLod());
 		}
 
-		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
+		for (uint32_t m = 0; m < m_pTerrain->GetNumLod(); ++m)
 		{
-			for (uint32 n = 0; n < m_pTerrain->GetNumLod(); ++n)
+			for (uint32_t n = 0; n < m_pTerrain->GetNumLod(); ++n)
 			{
 				SkitIB& skirt = m_vecSkirt[m][n];
 				if (m >= n)
@@ -538,7 +538,7 @@ namespace ma
 
 	void TerrainTrunk::BuildIndexBuffer()
 	{
-		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
+		for (uint32_t m = 0; m < m_pTerrain->GetNumLod(); ++m)
 		{
 			int nXCellsAmount = m_pTerrain->GetTrunkSize() >> m;
 			int nYCellsAmount = m_pTerrain->GetTrunkSize() >> m;
@@ -546,7 +546,7 @@ namespace ma
 			int nYVertsAmount = nYCellsAmount + 1;
 
 			// ib
-			vector<uint16>& pIndexData = m_vecIBDataTemp[m];
+			vector<uint16_t>& pIndexData = m_vecIBDataTemp[m];
 
 			int baseIndex = 0;
 
@@ -560,11 +560,11 @@ namespace ma
 					int nXVert = m_pTerrain->GetXCellAmount() *  m_nX  + i * nStep;
 					int nYVert = m_pTerrain->GetYCellAmount() *  m_nY  + j * nStep;
 
-					uint16 iIndexTopLeft = i  * (nYCellsAmount+1) + j;			    
-					uint16 iIndexTopRight = (i+1)   * (nYCellsAmount+1) + j;	    
-					uint16 iIndexBottomLeft = (i) * (nYCellsAmount+1) + j+1;			
-					uint16 iIndexBottomRight = (i+1)   * (nYCellsAmount+1) + j + 1; 
-					uint16 iRect[4] = {iIndexTopLeft,iIndexTopRight,iIndexBottomLeft,iIndexBottomRight};
+					uint16_t iIndexTopLeft = i  * (nYCellsAmount+1) + j;			    
+					uint16_t iIndexTopRight = (i+1)   * (nYCellsAmount+1) + j;	    
+					uint16_t iIndexBottomLeft = (i) * (nYCellsAmount+1) + j+1;			
+					uint16_t iIndexBottomRight = (i+1)   * (nYCellsAmount+1) + j + 1; 
+					uint16_t iRect[4] = {iIndexTopLeft,iIndexTopRight,iIndexBottomLeft,iIndexBottomRight};
 
 					if (m_pTerrain->GetTriFlip(nXVert,nYVert))
 					{
@@ -592,7 +592,7 @@ namespace ma
 				}
 			}
 
-			m_vecIBTemp[m] = GetRenderSystem()->CreateIndexBuffer((uint8*)&pIndexData[0],sizeof(uint16) * pIndexData.size(),sizeof(uint16));
+			m_vecIBTemp[m] = GetRenderSystem()->CreateIndexBuffer((uint8_t*)&pIndexData[0],sizeof(uint16_t) * pIndexData.size(),sizeof(uint16_t));
 		}
 	}
 

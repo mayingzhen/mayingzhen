@@ -14,9 +14,9 @@ namespace ma
 
 		virtual void GetCullBoundingBox(AABB& box) const = 0;
 
-		virtual UINT GetObjectAmount() const = 0;
+		virtual uint32_t GetObjectAmount() const = 0;
 
-		virtual RenderComponent* GetObjectByIndex( UINT nIndex ) const = 0;
+		virtual RenderComponent* GetObjectByIndex( uint32_t nIndex ) const = 0;
 	};
 
 

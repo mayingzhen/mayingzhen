@@ -25,7 +25,7 @@ public:
  
     /// Create worker threads. Can only be called once.
     void		CreateThreads(int numThreads,int maxGroups);
-	UINT	    GetNumThreads() const { return (UINT)m_vecThread.size(); }
+	uint32_t	GetNumThreads() const { return (uint32_t)m_vecThread.size(); }
 	void		ClearThreads();
 
 	JobGroupID	BeginGroup( int maxJobs ); 

@@ -66,7 +66,7 @@ namespace ma
 	{
 		m_pMonoClas = pMonoClass;
 
-		for (UINT i = 0; i < m_arrObjectInstance.size(); ++i)
+		for (uint32_t i = 0; i < m_arrObjectInstance.size(); ++i)
 		{
 			m_arrObjectInstance[i]->InitMonoObject(m_pMonoClas);
 		}

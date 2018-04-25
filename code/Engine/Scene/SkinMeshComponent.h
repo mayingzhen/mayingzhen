@@ -14,7 +14,7 @@ namespace ma
 
 		static void					RegisterAttribute();
 
-		void						SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount);
+		void						SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32_t nCount);
 	
 	private:
 		virtual RefPtr<MeshRenderable>	CreateMeshRenderable();

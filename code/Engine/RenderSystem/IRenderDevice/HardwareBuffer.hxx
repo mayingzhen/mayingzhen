@@ -42,7 +42,7 @@ namespace ma
 		}
 	}
 
-	void HardwareBuffer::SetData(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
+	void HardwareBuffer::SetData(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
 	{
 		FreeData();
 
@@ -53,7 +53,7 @@ namespace ma
 
 		if (pData)
 		{
-			m_pData = new uint8[nSize];
+			m_pData = new uint8_t[nSize];
 			memcpy(m_pData,pData,nSize);
 		}
 	}

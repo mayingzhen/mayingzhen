@@ -12,9 +12,9 @@ class HardwareBuffer;
 
 struct SubAllocVB
 {
-	BYTE* m_pVertices;
-	uint32 m_nAllocVerts;
-	uint16	m_nFirstVertex;
+	uint8_t*	m_pVertices;
+	uint32_t	m_nAllocVerts;
+	uint16_t	m_nFirstVertex;
 
 	SubAllocVB()
 	{
@@ -26,9 +26,9 @@ struct SubAllocVB
 
 struct SubAllocIB
 {
-	uint16* m_pIndices;
-	uint32 m_nAllocInds;
-	uint32	m_nFirstIndex;
+	uint16_t* m_pIndices;
+	uint32_t m_nAllocInds;
+	uint32_t	m_nFirstIndex;
 
 	SubAllocIB()
 	{
@@ -43,7 +43,7 @@ class ParallHardWareBuffer : public Referenced
 {
 
 public:
-	ParallHardWareBuffer(uint32 nVertexStride,uint32 nNumVertice,uint32 numIndexes);
+	ParallHardWareBuffer(uint32_t nVertexStride,uint32_t nNumVertice,uint32_t numIndexes);
 	~ParallHardWareBuffer();
 
 	void LockVideoMemory();
@@ -55,8 +55,8 @@ public:
 	VertexBuffer* GetVertexBuffer();
 	IndexBuffer* GetIndexBuffer();
 	
-	BYTE* GetVertexVideoMemoryBase() {return m_pVertexVideoMemoryBase;}
-	BYTE* GetIndexVideoMemoryBase() {return m_pIndexVideoMemoryBase;}
+	uint8_t* GetVertexVideoMemoryBase() {return m_pVertexVideoMemoryBase;}
+	uint8_t* GetIndexVideoMemoryBase() {return m_pIndexVideoMemoryBase;}
 
 private:
 
@@ -66,15 +66,15 @@ private:
 
 	// During writing, we only expose the base Video Memory pointer
 	// and the offsets to the next free memory in this buffer
-	BYTE* m_pVertexVideoMemoryBase;
-	BYTE* m_pIndexVideoMemoryBase;
+	uint8_t* m_pVertexVideoMemoryBase;
+	uint8_t* m_pIndexVideoMemoryBase;
 
-	std::atomic<uint32> m_nVertexOffset;
-	std::atomic<uint32> m_nIndexOffset;
+	std::atomic<uint32_t> m_nVertexOffset;
+	std::atomic<uint32_t> m_nIndexOffset;
 
 	// total amount of allocated memory for vertex/index buffers
-	uint32 m_nVertexBufferAvailableMemory;
-	uint32 m_nIndexBufferAvailableMemory;
+	uint32_t m_nVertexBufferAvailableMemory;
+	uint32_t m_nIndexBufferAvailableMemory;
 	
 	bool m_bLocked;
 };

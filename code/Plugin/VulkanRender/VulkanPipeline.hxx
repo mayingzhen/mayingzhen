@@ -39,7 +39,7 @@ namespace ma
 
 		{
 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (UINT i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
 			{
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
@@ -56,7 +56,7 @@ namespace ma
 
 		{
 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (UINT i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
 			{
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
@@ -74,7 +74,7 @@ namespace ma
 
 		{
 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (UINT i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
+			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
 			{
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_SAMPLER,
@@ -92,7 +92,7 @@ namespace ma
 
 		{
 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (UINT i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
+			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
 			{
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,

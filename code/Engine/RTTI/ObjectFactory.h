@@ -35,7 +35,7 @@ namespace ma
 		if (pszClassName)
 			pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
 		else
-			pObject = GetObjectFactoryManager()->CreateObject( T::StaticGetClassName() );
+			pObject = GetObjectFactoryManager()->CreateObject( T::StaticGetTypeName() );
 
 		ASSERT(pObject);
 
@@ -44,7 +44,7 @@ namespace ma
 		return pTypeObject;
 	}
 
-	#define REGISTER_OBJECT(className, createFunction) GetObjectFactoryManager()->RegisterObjectFactory(className::StaticGetClassName(),(ObjectCreator)createFunction);
+	#define REGISTER_OBJECT(className, createFunction) GetObjectFactoryManager()->RegisterObjectFactory(className::StaticGetTypeName(),(ObjectCreator)createFunction);
 
 }
 

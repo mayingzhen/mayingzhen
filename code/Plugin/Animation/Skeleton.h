@@ -25,9 +25,9 @@ namespace ma
 
 		const SkeletonPose* GetResPose() const {return m_refPose.get();} 
 
-		UINT				GetBoneNumer() const {return m_arrBoneName.size();} 
+		uint32_t				GetBoneNumer() const {return m_arrBoneName.size();} 
 
-		const char*			GetBoneNameByIndex(UINT uIndex) const; 
+		const char*			GetBoneNameByIndex(uint32_t uIndex) const; 
 
 		BoneIndex			GetBoneIdByName(const char* pszBoneName) const;
 
@@ -35,7 +35,7 @@ namespace ma
 
 		BoneSet*			GetBoneSetByName(const char* pszBoneSetName) const;
 
-		void				AddBone(const char* pName,UINT nParentID,const Transform& tsfOS);
+		void				AddBone(const char* pName,uint32_t nParentID,const Transform& tsfOS);
 
 		bool				IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID) const;
 

@@ -227,7 +227,7 @@ namespace ma {
     //-----------------------------------------------------------------------
     Vector3 Quaternion::xAxis(void) const
     {
-        //Real fTx  = 2.0*x;
+        //float fTx  = 2.0*x;
         float fTy  = 2.0f*y;
         float fTz  = 2.0f*z;
         float fTwy = fTy*w;
@@ -588,7 +588,7 @@ namespace ma {
 		{
 			// roll = atan2(localx.y, localx.x)
 			// pick parts of xAxis() implementation that we need
-//			Real fTx  = 2.0*x;
+//			float fTx  = 2.0*x;
 			float fTy  = 2.0f*y;
 			float fTz  = 2.0f*z;
 			float fTwz = fTz*w;
@@ -614,7 +614,7 @@ namespace ma {
 			// pitch = atan2(localy.z, localy.y)
 			// pick parts of yAxis() implementation that we need
 			float fTx  = 2.0f*x;
-//			Real fTy  = 2.0f*y;
+//			float fTy  = 2.0f*y;
 			float fTz  = 2.0f*z;
 			float fTwx = fTx*w;
 			float fTxx = fTx*x;

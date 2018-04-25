@@ -4,20 +4,20 @@
 namespace ma
 {
 
-	MemoryStream::MemoryStream(void* pMem, UINT nSize, bool bReadOnly)
+	MemoryStream::MemoryStream(void* pMem, uint32_t nSize, bool bReadOnly)
 		: Stream(bReadOnly ? AM_READ : (AM_READ | AM_WRITE))
 	{
-		m_pData = m_pPos = static_cast<uint8*>(pMem);
+		m_pData = m_pPos = static_cast<uint8_t*>(pMem);
 		m_nSize = nSize;
 		m_pEnd = m_pData + m_nSize;
 		ASSERT(m_pEnd >= m_pPos);
 		m_bFreeOnClose = false;
 	}
 
-	MemoryStream::MemoryStream(const char* pszName, void* pMem, UINT nSize, bool bReadOnly)
+	MemoryStream::MemoryStream(const char* pszName, void* pMem, uint32_t nSize, bool bReadOnly)
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
-		m_pData = m_pPos = static_cast<uint8*>(pMem);
+		m_pData = m_pPos = static_cast<uint8_t*>(pMem);
 		m_nSize = nSize;
 		m_pEnd = m_pData + m_nSize;
 		ASSERT(m_pEnd >= m_pPos);
@@ -28,7 +28,7 @@ namespace ma
 		: Stream(bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = srcStream->GetSize();
-		m_pData = new uint8[m_nSize + 1];
+		m_pData = new uint8_t[m_nSize + 1];
 		m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 		m_pEnd = m_pData + srcStream->Read(m_pData, m_nSize);
@@ -40,7 +40,7 @@ namespace ma
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = srcStream->GetSize();
-		m_pData = new uint8[m_nSize + 1];
+		m_pData = new uint8_t[m_nSize + 1];
 		m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 		m_pEnd = m_pData + srcStream->Read(m_pData, m_nSize);
@@ -48,17 +48,17 @@ namespace ma
 		m_bFreeOnClose = true;
 	}
 
-	MemoryStream::MemoryStream(const char* pszName, Stream* srcStream, UINT nSize, bool bReadOnly)
+	MemoryStream::MemoryStream(const char* pszName, Stream* srcStream, uint32_t nSize, bool bReadOnly)
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = nSize;
-		m_pData = new uint8[m_nSize + 1];
+		m_pData = new uint8_t[m_nSize + 1];
 		m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 
 		if (m_nSize >= srcStream->GetSize())
 		{
-			UINT uReadSize = srcStream->Read(m_pData, srcStream->GetSize());
+			uint32_t uReadSize = srcStream->Read(m_pData, srcStream->GetSize());
 			memset(m_pData + uReadSize, 0, m_nSize-uReadSize);
 			m_pEnd = m_pData + m_nSize;
 		}
@@ -70,10 +70,10 @@ namespace ma
 	}
 
 	MemoryStream::MemoryStream(size_t size, bool readOnly)
-		:Stream(static_cast<uint16>(readOnly ? AM_READ : (AM_READ | AM_WRITE)))
+		:Stream(static_cast<uint16_t>(readOnly ? AM_READ : (AM_READ | AM_WRITE)))
 	{
 		m_nSize = size;
-		m_pData = new uint8[m_nSize+1];
+		m_pData = new uint8_t[m_nSize+1];
     	m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 		m_pEnd = m_pData + m_nSize;
@@ -90,7 +90,7 @@ namespace ma
 	// virtual function
 	// ---------------------------------------------------------------------
 	// Read the requisite number of bytes from the stream, stopping at the end of the file.
-	UINT MemoryStream::Read(IN OUT void* pBuffer, UINT nCount)
+	uint32_t MemoryStream::Read(IN OUT void* pBuffer, uint32_t nCount)
 	{
 		size_t cnt = nCount;
 		// Read over end of memory?
@@ -107,7 +107,7 @@ namespace ma
 	}
 
 	// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
-	UINT MemoryStream::Write(const void* pBuffer, UINT nCount)
+	uint32_t MemoryStream::Write(const void* pBuffer, uint32_t nCount)
 	{
 		size_t written = 0;
 		if (IsWritable())
@@ -127,7 +127,7 @@ namespace ma
 	}
 
 
-	UINT MemoryStream::ReadLine( char* buf, UINT maxCount, const std::string& delim /*= "\n"*/ )
+	uint32_t MemoryStream::ReadLine( char* buf, uint32_t maxCount, const std::string& delim /*= "\n"*/ )
 	{
 		// Deal with both Unix & Windows LFs
 		bool trimCR = false;
@@ -175,14 +175,14 @@ namespace ma
 	}
 
 	// Repositions the read point to a specified byte.
-	void MemoryStream::Seek(UINT nPos)
+	void MemoryStream::Seek(uint32_t nPos)
 	{
 		ASSERT( m_pData + nPos <= m_pEnd );
 		m_pPos = m_pData + nPos;
 	}
 
 	// Returns the current byte offset from beginning
-	UINT MemoryStream::Tell() const
+	uint32_t MemoryStream::Tell() const
 	{
 		//mData is start, mPos is current location
 		return m_pPos - m_pData;
@@ -203,17 +203,17 @@ namespace ma
 		}
 	}
 
-	RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, Stream* srcStream, uint32 nSize, bool bReadOnly)
+	RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, Stream* srcStream, uint32_t nSize, bool bReadOnly)
 	{
 		return new MemoryStream(pszName,srcStream,nSize,bReadOnly);
 	}
 
-	RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, void* pMem, uint32 nSize, bool bReadOnly)
+	RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, void* pMem, uint32_t nSize, bool bReadOnly)
 	{
 		return new MemoryStream(pszName,pMem,nSize,bReadOnly);
 	}
 
-	RefPtr<MemoryStream> CreateMemoryStream(uint32 size, bool readOnly)
+	RefPtr<MemoryStream> CreateMemoryStream(uint32_t size, bool readOnly)
 	{
 		return new MemoryStream(size,readOnly);
 	}

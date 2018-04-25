@@ -15,13 +15,13 @@ namespace ma
 		this->Close();
 	}
 
-	UINT AAssetStream::Read( IN OUT void* pBuffer, UINT nCount )
+	uint32_t AAssetStream::Read( IN OUT void* pBuffer, uint32_t nCount )
 	{
 		int result = AAsset_read(m_pAAsset, pBuffer, nCount);
 		return result;
 	}
 
-	UINT AAssetStream::Write( const void* pBuffer, UINT nCount )
+	uint32_t AAssetStream::Write( const void* pBuffer, uint32_t nCount )
 	{
 		ASSERT(false);
 		return 0;
@@ -32,12 +32,12 @@ namespace ma
 		AAsset_seek(m_pAAsset, nCount, SEEK_CUR);
 	}
 
-	void AAssetStream::Seek( UINT nPos )
+	void AAssetStream::Seek( uint32_t nPos )
 	{
 		AAsset_seek(m_pAAsset, nPos, SEEK_SET);
 	}
 
-	UINT AAssetStream::Tell() const
+	uint32_t AAssetStream::Tell() const
 	{
 		return AAsset_getLength(m_pAAsset) - AAsset_getRemainingLength(m_pAAsset);
 	}

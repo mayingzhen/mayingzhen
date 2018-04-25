@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	UINT Stream::ReadLine(char* buf, UINT maxCount, const std::string& delim/* = "\n"*/)
+	uint32_t Stream::ReadLine(char* buf, uint32_t maxCount, const std::string& delim/* = "\n"*/)
 	{
 		// Deal with both Unix & Windows LFs
 		bool trimCR = false;
@@ -12,7 +12,7 @@ namespace ma
 		}
 
 		char tmpBuf[128];
-		size_t chunkSize = Math::Min(maxCount, (UINT)128-1);
+		size_t chunkSize = Math::Min(maxCount, (uint32_t)128-1);
 		size_t totalCount = 0;
 		size_t readCount; 
 		while (chunkSize && (readCount = Read(tmpBuf, chunkSize)) != 0)

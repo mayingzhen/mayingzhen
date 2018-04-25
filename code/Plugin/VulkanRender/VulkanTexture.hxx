@@ -11,7 +11,7 @@ namespace ma
 
 	}
 
-	VulkanTexture::VulkanTexture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
+	VulkanTexture::VulkanTexture(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
 		:Texture(nWidth,nHeight,nMipMap,format,bSRGB,eUsage,eType)
 	{
 	}
@@ -294,7 +294,7 @@ namespace ma
 				int width = m_nWidth >> level;
 				int height = m_nHeight >> level;
 
-				UINT size =  PixelUtil::getMemorySize(width, height, 1, m_eFormat);
+				uint32_t size =  PixelUtil::getMemorySize(width, height, 1, m_eFormat);
 
 				VkBufferImageCopy bufferCopyRegion = {};
 				bufferCopyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -322,7 +322,7 @@ namespace ma
 		imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 		imageCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		imageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		imageCreateInfo.extent = { (uint32)m_nWidth, (uint32)m_nHeight, 1 };
+		imageCreateInfo.extent = { (uint32_t)m_nWidth, (uint32_t)m_nHeight, 1 };
 		imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT/*imageUsageFlags*/;
 		// Ensure that the TRANSFER_DST bit is set for staging
 		if (!(imageCreateInfo.usage & VK_IMAGE_USAGE_TRANSFER_DST_BIT))
