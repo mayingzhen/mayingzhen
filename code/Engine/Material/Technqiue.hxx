@@ -17,13 +17,7 @@ namespace ma
 
 	Technique::~Technique()
 	{
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
-		{
-			SAFE_DELETE(m_arrParameters[i]);
-		}
-		m_arrParameters.clear();
-	
-		m_pShaderProgram = NULL;
+
 	}
 
 	void Technique::RegisterAttribute()
@@ -301,16 +295,11 @@ namespace ma
 		}
 		else
 		{
-			pParame = new Parameter();
-			pParame->SetName(pszName);
-			pParame->SetValue(value);
-			m_arrParameters.push_back(pParame);
+			Parameter matParam;
+			matParam.SetName(pszName);
+			matParam.SetValue(value);
+			m_arrParameters.push_back(matParam);
 		}
-
-// 		if (m_pInstTech)
-// 		{
-// 			m_pInstTech->SetParameter(pszName, value);
-// 		}
 	}
 
 	Parameter* Technique::GetParameter(const char* pszName)
@@ -321,9 +310,9 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			if (m_arrParameters[i] && strcmp(m_arrParameters[i]->GetName(), pszName) == 0)
+			if (strcmp(m_arrParameters[i].GetName(), pszName) == 0)
 			{
-				return m_arrParameters[i];
+				return &m_arrParameters[i];
 			}
 		}
 
@@ -341,7 +330,7 @@ namespace ma
 		if (nIndex >= m_arrParameters.size())
 			return NULL;
 
-		return m_arrParameters[nIndex];
+		return &m_arrParameters[nIndex];
 	}
 
 	const char*	Technique::GetTechName() const
@@ -665,7 +654,7 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			pInstTech->SetParameter(m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue());
+			pInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 		}
 
 		pInstTech->SetRenderPass(this->GetRenderPass());
@@ -693,7 +682,7 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			pClonTechnique->SetParameter(m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue());
+			pClonTechnique->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 		}
 
 		return pClonTechnique;

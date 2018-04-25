@@ -50,7 +50,7 @@ namespace ma
 		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
 
 		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();	
-		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat,true);
+		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat);
 		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
 		m_pShadowMapFB->SetViewPort(m_viewport);
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowMapFB.get());

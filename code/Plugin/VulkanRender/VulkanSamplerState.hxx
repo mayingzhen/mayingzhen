@@ -48,7 +48,7 @@ namespace ma
 		VK_CHECK_RESULT(vkCreateSampler(device->logicalDevice, &samplerCreateInfo, nullptr, &m_sampler));
 
 		m_descriptor.sampler = m_sampler;
-		m_descriptor.imageView = pTex->m_view;
+		m_descriptor.imageView = pTex->GetImageView(0,0);
 		m_descriptor.imageLayout = pTex->m_imageLayout;
 	}
 }

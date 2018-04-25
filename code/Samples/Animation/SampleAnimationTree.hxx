@@ -39,33 +39,33 @@ namespace ma
 		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip602.get());
 		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip120.get());
 
-	
-		RefPtr<StateMachineNode> pStateMachineNode = CreateStateMachineNode();
-		MachineState* pState602 = pStateMachineNode->AddState("602");
-		MachineState* pState120 = pStateMachineNode->AddState("120");
-	
-		BaseParameter* pParm120 = m_pAnimator->GetParameterNode()->AddParameter("To120", 1.0f);
+		{
+			RefPtr<StateMachineNode> pStateMachineNode = CreateStateMachineNode();
+			MachineState* pState602 = pStateMachineNode->AddState("602");
+			MachineState* pState120 = pStateMachineNode->AddState("120");
 
-		MachineTransition* pTrans120 = pState602->AddTransition();
-		pTrans120->SetEndState("120");
-		pTrans120->SetBlendTime(0.3f);
-		pTrans120->AddCondition(Condition::Greater, "To120", 1.0f);
+			BaseParameter* pParm120 = m_pAnimator->GetParameterNode()->AddParameter("To120", 1.0f);
 
-		MachineTransition* pTrans602 = pState120->AddTransition();
-		pTrans120->SetEndState("602");
-		pTrans120->SetBlendTime(0.0f);
-		pTrans602->AddCondition(Condition::Less, "To120", 1.0f);
+			MachineTransition* pTrans120 = pState602->AddTransition();
+			pTrans120->SetEndState("120");
+			pTrans120->SetBlendTime(0.3f);
+			pTrans120->AddCondition(Condition::Greater, "To120", 1.0f);
 
-		pStateMachineNode->SetStartStateId("120");
+			MachineTransition* pTrans602 = pState120->AddTransition();
+			pTrans120->SetEndState("602");
+			pTrans120->SetBlendTime(0.0f);
+			pTrans602->AddCondition(Condition::Less, "To120", 1.0f);
 
-		//pAnimComp->SetAnimationTree(pStateMachineNode.get(),true);
+			pStateMachineNode->SetStartStateId("120");
 
-		pStateMachineNode->SaveToXML("test.xml");
+			pStateMachineNode->SaveToXML("test.xml");
+		}
 
 		RefPtr<StateMachineNode> pStateMachineNodeLoad = CreateStateMachineNode();
 		pStateMachineNodeLoad->LoadFromXML("test.xml");
 
 		pAnimComp->SetAnimationTree(pStateMachineNodeLoad.get(),true);
+
 	}
 
 	void SampleAnimationTree::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)

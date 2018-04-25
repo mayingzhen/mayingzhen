@@ -1,6 +1,5 @@
 #include "AnimationComponent.h"
 #include "AnimationSet.h"
-//#include "MTScheduler.h"
 #include "AnimationTree/AnimationNodeOutput.h"
 
 namespace ma
@@ -255,3 +254,4 @@ namespace ma
 	}
 
 }
+

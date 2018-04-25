@@ -1,6 +1,4 @@
-#ifndef  _SCREENQUAD__H__
-#define  _SCREENQUAD__H__
-
+#pragma once
 
 namespace ma
 {
@@ -15,7 +13,4 @@ namespace ma
 	};
 
 }
-
-#endif
-
 

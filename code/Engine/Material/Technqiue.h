@@ -114,7 +114,7 @@ namespace ma
 
 		RefPtr<RasterizerState>			m_pRSState;
 
-		std::vector<Parameter*>			m_arrParameters; 
+		std::vector<Parameter>			m_arrParameters; 
 
 		RenderPass*						m_pRenderPass = NULL;
 

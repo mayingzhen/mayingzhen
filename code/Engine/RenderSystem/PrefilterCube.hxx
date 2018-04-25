@@ -28,7 +28,7 @@ namespace ma
 		RefPtr<Technique> PrefilterCopySrc = CreateTechnique("PrefilterCopySrc","PrefilterCopySrc","PrefilterCopySrc","", pDeclaration.get());
 		RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse","PrefilterCubeDiffuse","PrefilterCubeDiffuse","", pDeclaration.get());
 		RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular","PrefilterCubeSpecular","PrefilterCubeSpecular","",pDeclaration.get());
-	
+
 		PrefilterCopySrc->SetParameter("skybox_cube_tex",Any(pInSampler));
 		PrefilterCubeDiffuse->SetParameter("skybox_cube_tex",Any(pInSampler));
 		PrefilterCubeSpecular->SetParameter("skybox_cube_tex",Any(pInSampler));
@@ -38,8 +38,11 @@ namespace ma
 			// level 0 保存原始图
 			{
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, out_tex.get(), 0, 0, face);
+				pRenderPass->AttachColor(0, out_tex.get(), 0, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
+
+				PrefilterCopySrc->SetRenderPass(pRenderPass.get());
+				GetRenderSystem()->TechniqueStreamComplete(PrefilterCopySrc.get());
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
 				
@@ -60,15 +63,18 @@ namespace ma
 			{
 				float roughness = static_cast<float>(level) / (out_num_mipmaps - 1);
 
-				//Rectangle viewPort(0,0,(float)(in_height >> level),(float)(in_height >> level));
-				//GetRenderSystem()->SetViewPort(viewPort);
-
-				//GetRenderSystem()->SetRenderTarget(0, out_tex.get(), level, 0, face);
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, out_tex.get(), level, 0, face);
+				pRenderPass->AttachColor(0, out_tex.get(), level, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
+				PrefilterCubeSpecular->SetRenderPass(pRenderPass.get());
+				GetRenderSystem()->TechniqueStreamComplete(PrefilterCubeSpecular.get());
+
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
+
+				pRenderPass->Begine();
+
+				pCommand->Begin();
 
 				PrefilterCubeSpecular->SetParameter("face",Any(face));
 				PrefilterCubeSpecular->SetParameter("roughness",Any(roughness));
@@ -82,15 +88,18 @@ namespace ma
 
 			// 最后一级 保存Diffuse
 			{
-				//Rectangle viewPort(0,0,(float)(in_height >> (out_num_mipmaps - 1)),(float)(in_height >> (out_num_mipmaps - 1)));
-				//GetRenderSystem()->SetViewPort(viewPort);
-
-				//GetRenderSystem()->SetRenderTarget(0, out_tex.get(), out_num_mipmaps - 1, 0, face);
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, out_tex.get(), out_num_mipmaps - 1, 0, face);
+				pRenderPass->AttachColor(0, out_tex.get(), out_num_mipmaps - 1, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
+				PrefilterCubeDiffuse->SetRenderPass(pRenderPass.get());
+				GetRenderSystem()->TechniqueStreamComplete(PrefilterCubeDiffuse.get());
+
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
+
+				pRenderPass->Begine();
+
+				pCommand->Begin();
 
 				PrefilterCubeDiffuse->SetParameter("face",Any(face));
 
@@ -110,19 +119,25 @@ namespace ma
 
 	void GenIntegrateBRDF(const char* out_file)
 	{
-		RenderPass* pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
-		pRenderPass->Begine();
-
-		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
-
-		pCommand->Begin();
-
 		uint32 const WIDTH = 256;
 		uint32 const HEIGHT = 256;
 
 		RefPtr<Texture> pOutTex = GetRenderSystem()->CreateRenderTarget(WIDTH,HEIGHT,1,PF_FLOAT32_RGBA,false,TEXTYPE_2D);
 
 		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf","PrefilterBrdf","PrefilterBrdf","");
+
+		RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
+		pRenderPass->AttachColor(0, pOutTex.get(), 0, 0);
+		GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
+
+		pPrefilterBrdf->SetRenderPass(pRenderPass.get());
+		GetRenderSystem()->TechniqueStreamComplete(pPrefilterBrdf.get());
+
+		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
+
+		pRenderPass->Begine();
+
+		pCommand->Begin();
 
 		ScreenQuad::Render(pPrefilterBrdf.get(), pCommand);
 
@@ -135,3 +150,4 @@ namespace ma
 		pOutTex->SaveToFile(strSaveFile.c_str());
 	}
 }
+

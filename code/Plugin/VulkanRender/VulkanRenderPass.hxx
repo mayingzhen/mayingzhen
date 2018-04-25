@@ -88,12 +88,13 @@ namespace ma
 		std::vector<VkAttachmentReference> vecColorReference;
 		for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
-			if (m_arrColor[i] == NULL)
+			Texture* pTexture = m_arrColor[i].m_pTexture.get();
+			if (pTexture == NULL)
 				continue;
 
 			// Color attachment
 			VkAttachmentDescription color = {};
-			color.format = VulkanMapping::_getPF( m_arrColor[i]->GetFormat() );
+			color.format = VulkanMapping::_getPF( pTexture->GetFormat() );
 			color.samples = VK_SAMPLE_COUNT_1_BIT;
 			color.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 			color.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -195,20 +196,21 @@ namespace ma
 		std::vector<VkAttachmentReference> vecColorReference;
 		for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
-			if (m_arrColor[i] == NULL)
+			Texture* pTexture = m_arrColor[i].m_pTexture.get();
+			if (pTexture == NULL)
 				continue;
 
-			VulkanTexture* pVkTexture = (VulkanTexture*)m_arrColor[i].get();
-			vecImagView.push_back(pVkTexture->m_view);
+			VulkanTexture* pVkTexture = (VulkanTexture*)pTexture;
+			vecImagView.push_back(pVkTexture->GetImageView(m_arrColor[i].m_nMip,m_arrColor[i].m_nFace));
 		}
 
 		if (m_pDepthStencil)
 		{
 			VulkanTexture* pVkTexture = (VulkanTexture*)m_pDepthStencil.get();
-			vecImagView.push_back(pVkTexture->m_view);
+			vecImagView.push_back(pVkTexture->GetImageView(0,0));
 		}
 
-		Texture* pRT = m_arrColor[0] ? m_arrColor[0].get() : m_pDepthStencil.get();
+		Texture* pRT = m_arrColor[0].m_pTexture ? m_arrColor[0].m_pTexture.get() : m_pDepthStencil.get();
 		ASSERT(pRT);
 
 		// Create frame buffer
@@ -239,6 +241,7 @@ namespace ma
 		}
 	}
 }
+
 
 
 

@@ -48,7 +48,7 @@ namespace ma
 		
 		// Create	
 		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,UINT32 nMipMap = 1, PixelFormat format = PF_A8R8G8B8,bool bSRGB = true,TEXTURE_TYPE eType = TEXTYPE_2D);
-		RefPtr<Texture>		CreateDepthStencil(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_D24S8,bool bTypeLess = false);
+		RefPtr<Texture>		CreateDepthStencil(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_D24S8);
 		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
@@ -81,7 +81,6 @@ namespace ma
 		const char*			GetShaderGlobaMacro(const char* pszKey) const;
 		uint32				GetNumShaderGlobaMacro() const;
 		const char*			GetShaderGlobaMacroByIndex(uint32 i, OUT const char*& pszValue) const;
-
 		
 		void				ReloadShader();
 

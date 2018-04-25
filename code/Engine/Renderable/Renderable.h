@@ -1,6 +1,4 @@
-#ifndef  _Rendererable__H__
-#define  _Rendererable__H__
-
+#pragma once
 
 namespace ma
 {
@@ -37,6 +35,4 @@ namespace ma
 	};
 
 }
-
-#endif
 

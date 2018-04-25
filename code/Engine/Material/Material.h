@@ -1,5 +1,4 @@
-#ifndef _Material_H_
-#define _Material_H_
+#pragma once
 
 
 namespace ma
@@ -84,7 +83,5 @@ namespace ma
 
 	extern ResourceSystem<Material>* g_pMaterialManager;
 }	
-
-#endif // _Material_H_
 
 

@@ -14,17 +14,15 @@ namespace ma
 		m_eType = TEXTYPE_2D;
 		m_bMipMap = false;
 		m_bSRGB = false;
-		m_bTypeLess = false;
 	}
 
-	Texture::Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType) 
+	Texture::Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType) 
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
 		m_nMipLevels = nMipMap;
 		m_eUsage = eUsage;
 		m_eFormat = eFormat;
-		m_bTypeLess = bTypeLess;
 		m_bSRGB = bSRGB;
 		m_eType = eType;
 		m_bMipMap = false;

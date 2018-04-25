@@ -263,7 +263,7 @@ namespace ma
 		return pTarget;
 	}
 
-	RefPtr<Texture> RenderSystem::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
+	RefPtr<Texture> RenderSystem::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format)
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
@@ -271,7 +271,7 @@ namespace ma
 			nHeight = (int)m_curViewport.height();
 		}
 
-		Texture* pTarget = GetRenderDevice()->CreateDepthStencil(nWidth,nHeight,format,bTypeLess);
+		Texture* pTarget = GetRenderDevice()->CreateDepthStencil(nWidth,nHeight,format);
 		m_pRenderThread->RC_CreateTexture(pTarget);
 		return pTarget;
 	}

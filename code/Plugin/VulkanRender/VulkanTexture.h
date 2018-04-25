@@ -9,7 +9,7 @@ namespace ma
 	public:
 		VulkanTexture();
 
-		VulkanTexture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
+		VulkanTexture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
 
 		~VulkanTexture();
 	
@@ -17,28 +17,28 @@ namespace ma
 
 		virtual bool	SaveToFile(const char* pszPath);
 
-		void			SetImageView(VkImageView view) { m_view = view; }
+		VkImageView		GetImageView(int nInlevel, int nFace) { return m_view[nInlevel][nFace]; }
 
 	private:
-		virtual	bool			RT_CreateCubeTexture();	
+		virtual	bool	RT_CreateCubeTexture();	
 
-		virtual	bool			RT_CreateTexture();			
+		virtual	bool	RT_CreateTexture();			
 
-		virtual bool			LoadFromImagData(const ImageData& imageData);
+		virtual bool	LoadFromImagData(const ImageData& imageData);
 
-		virtual bool			GenerateMipmaps();
+		virtual bool	GenerateMipmaps();
 		
 	public:
-		VkImage	m_image = 0;
-		VkImageLayout m_imageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		VkImageView m_view  = 0;
+		VkImage			m_image = 0;
+		VkImageLayout	m_imageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 
-		VkDeviceMemory m_deviceMemory;
+		enum { MAX_MIP = 10 };
+		VkImageView		m_view[MAX_MIP][6] = { 0 };
 
-		VkFormat m_vkformat;
+		VkDeviceMemory	m_deviceMemory;
+
+		VkFormat		m_vkformat;
 	};
 
-
 }
-
 

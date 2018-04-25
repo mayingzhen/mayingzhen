@@ -1,5 +1,4 @@
-#ifndef  _AnimationComponent__H__
-#define  _AnimationComponent__H__
+#pragma once
 
 namespace ma
 {
@@ -83,5 +82,5 @@ namespace ma
 
 }
 
-#endif
+
 

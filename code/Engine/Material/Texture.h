@@ -1,6 +1,4 @@
-#ifndef  _IRENDTEXTURE__H__
-#define  _IRENDTEXTURE__H__
-
+#pragma once
 
 
 namespace ma
@@ -13,7 +11,7 @@ namespace ma
 	public:
 		Texture(); 
 
-		Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
+		Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
 		
 		virtual ~Texture();
 
@@ -62,7 +60,6 @@ namespace ma
 
 		bool			m_bMipMap;
 		bool			m_bSRGB;
-		bool			m_bTypeLess;
 
 		friend class	RenderThread;
 		friend class	TextureManager;
@@ -115,4 +112,3 @@ namespace ma
 	RefPtr<SamplerState> CreateSamplerState(Texture* pTexutre,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR,bool bSRGB = true);
 }
 
-#endif

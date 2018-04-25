@@ -209,7 +209,6 @@ EXPORTS
 ?Open@ArchiveManager@ma@@QAEPAVStream@2@PBD_N@Z
 ?Close@ArchiveManager@ma@@QAEXPAVStream@2@@Z
 ?PrefilterCubeGPU@ma@@YAXPBD0@Z
-??0Texture@ma@@QAE@HHIW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@II@Z
 ?GenIntegrateBRDF@ma@@YAXPBD@Z
 ?SetFrame@Animatable@ma@@UAEXM@Z
@@ -266,3 +265,4 @@ EXPORTS
 ?BindUniform@Technique@ma@@IAEXPAVRenderable@2@@Z
 ?ClearConstBuffer@Technique@ma@@IAEXW4ShaderType@2@@Z
 ?ClearSampler@Technique@ma@@IAEXXZ
+??0Texture@ma@@QAE@HHIW4PixelFormat@1@_NW4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z

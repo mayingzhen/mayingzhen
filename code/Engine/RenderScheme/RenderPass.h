@@ -4,11 +4,26 @@ namespace ma
 {
 	class Scene;
 
+	struct RenderSurface
+	{
+		RefPtr<Texture> m_pTexture;
+		uint32_t m_nMip;
+		uint32_t m_nFace;
+
+		ColourValue m_cClearColor;
+	};
+
 	class RenderPass : public Referenced
 	{
 	public:
 
-		void AttachColor(int index, Texture* pColor, int level, int array_index, int face) { m_arrColor[index] = pColor; }
+		void AttachColor(int index, Texture* pColor, int level, int face) 
+		{
+			m_arrColor[index].m_pTexture = pColor;
+			m_arrColor[index].m_nMip = level;
+			m_arrColor[index].m_nFace = face;
+		}
+
 		void AttachDepthStencil(Texture* pDepthStencil) { m_pDepthStencil = pDepthStencil; }
 
 		void SetViewPort(const Rectangle& viewPort) { m_viewPort = viewPort; }
@@ -25,13 +40,11 @@ namespace ma
 	public:
 		RefPtr<Texture> m_pDepthStencil;
 
-		RefPtr<Texture> m_arrColor[MAX_RENDERTARGETS];
-
-		ColourValue m_arrClearColor[MAX_RENDERTARGETS];
-
 		float m_fClearDepth = 1.0;
-		
+
 		UINT m_nClearStencil = 0;
+		
+		RenderSurface m_arrColor[MAX_RENDERTARGETS];
 
 		Rectangle m_viewPort;
 	};

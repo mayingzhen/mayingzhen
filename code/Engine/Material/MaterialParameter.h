@@ -1,5 +1,4 @@
-#ifndef _MaterialParameter_H_
-#define _MaterialParameter_H_
+#pragma once
 
 
 namespace ma
@@ -28,5 +27,3 @@ namespace ma
 		std::string		m_sName;
 	};
 }
-
-#endif

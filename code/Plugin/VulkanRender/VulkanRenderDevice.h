@@ -26,7 +26,7 @@ namespace ma
 
 		virtual Texture*			CreateTexture();
 		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,UINT nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType);
-		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess);
+		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();

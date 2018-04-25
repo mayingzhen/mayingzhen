@@ -1,6 +1,4 @@
-# ifndef _ParameterManager_H_
-# define _ParameterManager_H_
-
+#pragma once
 
 namespace ma
 {
@@ -33,4 +31,3 @@ namespace ma
 
 }
 
-#endif

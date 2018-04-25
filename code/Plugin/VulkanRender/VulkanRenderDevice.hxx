@@ -41,12 +41,12 @@ namespace ma
 
 	Texture* VulkanRenderDevice::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
-		return new VulkanTexture(nWidth,nHeight,nMipMap,format,false,bSRGB,USAGE_RENDERTARGET,eType);
+		return new VulkanTexture(nWidth,nHeight,nMipMap,format,bSRGB,USAGE_RENDERTARGET,eType);
 	}
 
-	Texture* VulkanRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
+	Texture* VulkanRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format)
 	{
-		return new VulkanTexture(nWidth,nHeight,1,format,bTypeLess,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
+		return new VulkanTexture(nWidth,nHeight,1,format,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
 	}
 
 	VertexDeclaration* VulkanRenderDevice::CreateVertexDeclaration()

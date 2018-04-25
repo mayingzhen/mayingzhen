@@ -217,10 +217,10 @@ namespace ma
 
 		GetRenderContext()->SetCamera(m_pCamera.get());
 
-// 		if (m_pCallback)
-// 		{
-// 			m_pCallback->OnPreRender(this);
-// 		}
+		if (m_pCallback)
+		{
+			m_pCallback->OnPreRender(this);
+		}
 
 		m_pRenderScheme->Render();
 
@@ -238,8 +238,7 @@ namespace ma
 
 	void Scene::OnFlushFrame()
 	{
-		//if ( GetRenderQueue() )
-		//	GetRenderQueue()->Clear()
+
 	}
 
 	RefPtr<Scene> CreateScene()
