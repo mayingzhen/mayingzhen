@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	std::map<uint64, MTLVertexDescriptor* > g_vertexDeclarationPool;
+	std::map<uint64_t, MTLVertexDescriptor* > g_vertexDeclarationPool;
 
 	MetalVertexDeclaration::MetalVertexDeclaration()
 	{
@@ -43,7 +43,7 @@ namespace ma
         
         if (this->GetElementCount(INSTANCE_BUFFER_BIND_ID) > 0)
         {
-            for (UINT i = 0; i < this->GetElementCount(INSTANCE_BUFFER_BIND_ID); ++i)
+            for (uint32_t i = 0; i < this->GetElementCount(INSTANCE_BUFFER_BIND_ID); ++i)
             {
                 const VertexElement& element = this->GetElement(INSTANCE_BUFFER_BIND_ID,i);
                 

@@ -103,6 +103,7 @@
 #include "Engine/Scene/Camera.hxx"
 #include "Engine/Scene/ParallelCull.hxx"
 
+#if defined(_WIN32)
 #include "Engine/Scene/OcclusionCulling/AABBoxRasterizer.hxx"
 #include "Engine/Scene/OcclusionCulling/AABBoxRasterizerSSE.hxx"
 #include "Engine/Scene/OcclusionCulling/AABBoxRasterizerSSEST.hxx"
@@ -113,7 +114,8 @@
 #include "Engine/Scene/OcclusionCulling/TransformedAABBoxSSE.hxx"
 #include "Engine/Scene/OcclusionCulling/TransformedModelSSE.hxx"
 #include "Engine/Scene/OcclusionCulling/TransformedMeshSSE.hxx"
-
+#endif
+ 
 // Light
 #include "Engine/Scene/Light/Light.hxx"
 #include "Engine/Scene/Light/ShadowMapFrustum.hxx"

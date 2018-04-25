@@ -29,12 +29,12 @@ namespace ma
 		float ans = 0;
 		if (std::abs(from - to) > 1e-5)
 			ans = (value - from) / (to - from);
-		return __min(1.0f, __max(0.0f, ans));
+        return std::min(1.0f, std::max(0.0f, ans));
 	}
 
 	float AnimationBaseHandler::Lerp(float from, float to, float ratio)
 	{
-		ratio = __min(1.0f, __max(0.0f, ratio));
+        ratio = std::min(1.0f, std::max(0.0f, ratio));
 		return from * (1.0f - ratio) + to * ratio;
 	}
 

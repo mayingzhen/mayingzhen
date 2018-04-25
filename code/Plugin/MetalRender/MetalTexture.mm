@@ -10,8 +10,8 @@ namespace ma
         m_native = nil;
 	}
 
-	MetalTexture::MetalTexture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
-		:Texture(nWidth,nHeight,nMipMap,format,bTypeLess,bSRGB,eUsage,eType)
+	MetalTexture::MetalTexture(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
+		:Texture(nWidth,nHeight,nMipMap,format,bSRGB,eUsage,eType)
 	{
         m_native = nil;
 	}
@@ -55,8 +55,8 @@ namespace ma
         MTLTextureDescriptor* textureDesc = [MTLTextureDescriptor new];
         textureDesc.textureType = MTLTextureTypeCube;
         textureDesc.pixelFormat = m_descFormat;
-        textureDesc.width = (UINT)m_nWidth;
-        textureDesc.height = (UINT)m_nHeight;
+        textureDesc.width = (uint32_t)m_nWidth;
+        textureDesc.height = (uint32_t)m_nHeight;
         textureDesc.mipmapLevelCount = m_nMipLevels;
         textureDesc.arrayLength = 1;
         textureDesc.pixelFormat = m_descFormat;
@@ -101,8 +101,8 @@ namespace ma
 		MTLTextureDescriptor* textureDesc = [MTLTextureDescriptor new];
 		textureDesc.textureType = MTLTextureType2D;
         textureDesc.pixelFormat = m_descFormat;
-		textureDesc.width = (UINT)m_nWidth;
-		textureDesc.height = (UINT)m_nHeight;
+		textureDesc.width = (uint32_t)m_nWidth;
+		textureDesc.height = (uint32_t)m_nHeight;
 		textureDesc.mipmapLevelCount = m_nMipLevels;
 		textureDesc.arrayLength = 1;
 		textureDesc.pixelFormat = m_descFormat;
@@ -173,9 +173,9 @@ namespace ma
                 return false;
             }
             
-            for(uint16 mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
+            for(uint16_t mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
             {
-                for (UINT32 iFace = 0; iFace < 6; ++iFace)
+                for (uint32_t iFace = 0; iFace < 6; ++iFace)
                 {
                     PixelBox src = imageData.GetPixelBox(iFace, mip);
                     
@@ -192,7 +192,7 @@ namespace ma
                 return false;
             }
             
-            for(uint16 mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
+            for(uint16_t mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
             {
                 PixelBox src = imageData.GetPixelBox(0, mip);
                 

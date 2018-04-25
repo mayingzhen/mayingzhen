@@ -26,7 +26,7 @@ namespace ma
 	void PhysicsSystem::Init()
 	{
 		m_pPhysicsThread = new PhysicsThread();
-        m_pPhysicsThread->Start();
+        //m_pPhysicsThread->Start();
 	}
 
 	void PhysicsSystem::Shoutdown()
@@ -55,17 +55,17 @@ namespace ma
 
 		m_pDynamicsWorld->setGravity(m_vGravity);
 
-		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
+		for (uint32_t i = 0; i < m_arrPhysicsObject.size(); ++i)
 		{
 			StartPhysicsObject(m_arrPhysicsObject[i]);
 		}
 	
-		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
+		for (uint32_t i = 0; i < m_arrPhysicsObject.size(); ++i)
 		{
 			SceneNode* pGameObj = m_arrPhysicsObject[i];
 			std::vector<PhysicsJoint*> arrJoint;
 			pGameObj->GetTypeComponent<PhysicsJoint>(arrJoint);
-			for (UINT j = 0; j < arrJoint.size(); ++j)
+			for (uint32_t j = 0; j < arrJoint.size(); ++j)
 			{
 				arrJoint[j]->Start();
 			}
@@ -107,7 +107,7 @@ namespace ma
 			}
 
 			btCompoundShape* pCompoundShape = new btCompoundShape();
-			for (UINT i = 0; i < arrCollisionShape.size(); ++i)
+			for (uint32_t i = 0; i < arrCollisionShape.size(); ++i)
 			{
 				btCollisionShape* pBtShape = (btCollisionShape*)arrCollisionShape[i]->Create();
 				btTransform btTsfLs = ToBulletUnit(arrCollisionShape[i]->GetTransformLS());
@@ -149,8 +149,8 @@ namespace ma
 		if (m_pDynamicsWorld == NULL)
 			return;
 
-		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
-		for (UINT i = 0; i < nActNum; ++i)
+		uint32_t nActNum = m_pDynamicsWorld->getNumCollisionObjects();
+		for (uint32_t i = 0; i < nActNum; ++i)
 		{
 			btCollisionObject* pObj = m_pDynamicsWorld->getCollisionObjectArray()[i];
 			if (pObj == NULL)
@@ -177,8 +177,8 @@ namespace ma
 
 		m_pPhysicsThread->EndUpdate();
 
-		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
-		for (UINT i = 0; i < nActNum; ++i)
+		uint32_t nActNum = m_pDynamicsWorld->getNumCollisionObjects();
+		for (uint32_t i = 0; i < nActNum; ++i)
 		{
 			btCollisionObject* pObj = m_pDynamicsWorld->getCollisionObjectArray()[i];
 			if (pObj == NULL)
@@ -204,7 +204,7 @@ namespace ma
 			m_pDynamicsWorld->debugDrawWorld();
 	}
 
-	void PhysicsSystem::SetLayerCollisionMask(uint8 nLayer,uint8 nColLayer,bool bCollide)
+	void PhysicsSystem::SetLayerCollisionMask(uint8_t nLayer,uint8_t nColLayer,bool bCollide)
 	{
 
 	}

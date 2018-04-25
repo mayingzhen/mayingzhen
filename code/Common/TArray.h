@@ -62,7 +62,7 @@ public:
 #else
 		p = (pointer)malloc (0x10+_Count*sizeof(T));
 #endif
-		pointer pResult = (pointer)(((UINT_PTR)p+0x10)&~0xF);
+		pointer pResult = (pointer)(((uintptr_t)p+0x10)&~0xF);
 		// save the offset to the actual allocated address behind the useable aligned address
 		reinterpret_cast<int*>(pResult)[-1] = (char*)p - (char*)pResult;
 		return pResult;

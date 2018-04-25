@@ -22,11 +22,11 @@ namespace ma
         
         virtual void RT_StreamComplete();
         
-        void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
+        void CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize);
         
         void Destory();
         
-		void ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
+		void ParseShaderUniform(ShaderType eType,const vector<uint8_t>& vecByteCode,
 			RefPtr<ConstantBuffer> ConstantBuffersPtr[]);
 
 	public:

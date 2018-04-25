@@ -4,9 +4,9 @@ namespace ma
 {
 	void PhysicsThread::ThreadLoop()
 	{
-		while(!m_bExit)
+		//while(!m_bExit)
 		{
-			m_pBeginEvent->Wait();
+			//m_pBeginEvent->Wait();
 
 			m_bEnd = false;
 
@@ -17,27 +17,27 @@ namespace ma
 		}
 	}
 
-	PhysicsThread::PhysicsThread():Thread("PhysicsThread")
+	PhysicsThread::PhysicsThread()
 	{
-		m_pBeginEvent = new CMyEvent();
+		//m_pBeginEvent = new CMyEvent();
 	}
 
 	PhysicsThread::~PhysicsThread()
 	{
-        SAFE_DELETE(m_pBeginEvent);
+        //SAFE_DELETE(m_pBeginEvent);
 	}
 
 	void PhysicsThread::Stop()
 	{
-		m_bExit = true;
-		m_pBeginEvent->Signal();
+		//m_bExit = true;
+		//m_pBeginEvent->Signal();
 
-		Thread::Stop();
+		//Thread::Stop();
 	}
 
 	void PhysicsThread::BeginUpdate()
 	{
-		m_pBeginEvent->Signal();
+		//m_pBeginEvent->Signal();
 	}
 
 	void PhysicsThread::EndUpdate()

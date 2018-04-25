@@ -44,14 +44,14 @@ namespace ma
 		return new MetalTexture();
 	}
 
-	Texture* MetalRenderDevice::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
+	Texture* MetalRenderDevice::CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
-		return new MetalTexture(nWidth,nHeight,nMipMap,format,false,bSRGB,USAGE_RENDERTARGET,eType);
+		return new MetalTexture(nWidth,nHeight,nMipMap,format,bSRGB,USAGE_RENDERTARGET,eType);
 	}
 
-	Texture* MetalRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
+	Texture* MetalRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format)
 	{
-		return new MetalTexture(nWidth,nHeight,1,format,bTypeLess,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
+		return new MetalTexture(nWidth,nHeight,1,format,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
 	}
 
 	VertexDeclaration* MetalRenderDevice::CreateVertexDeclaration()
@@ -74,7 +74,7 @@ namespace ma
 		return new MetalShaderProgram();
 	}
     
-    ConstantBuffer*	MetalRenderDevice::CreateConstantBuffer(UINT nSize)
+    ConstantBuffer*	MetalRenderDevice::CreateConstantBuffer(uint32_t nSize)
     {
         MetalConstantBuffer* pConstBuffer = new MetalConstantBuffer();
         pConstBuffer->SetSize(nSize);
@@ -129,7 +129,7 @@ namespace ma
 
 	}
 
-	void MetalRenderDevice::Init(HWND wndhandle)
+	void MetalRenderDevice::Init(void* wndhandle)
 	{
 		//m_hWnd = wndhandle;
 
@@ -212,10 +212,10 @@ namespace ma
         
         m_pDefaultRenderPass = new MetalRenderPass();
         
-        MetalTexture* pCo = new MetalTexture();
-        pCo->m_descFormat = MTLPixelFormatBGRA8Unorm_sRGB;
-        pCo->m_native = pass_desc.colorAttachments[0].texture;
-        m_pDefaultRenderPass->m_arrColor[0] = pCo;
+        MetalTexture* pDefault = new MetalTexture();
+        pDefault->m_descFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+        pDefault->m_native = pass_desc.colorAttachments[0].texture;
+        m_pDefaultRenderPass->m_arrColor[0].m_pTexture = pDefault;
         
         MetalTexture* pDs = new MetalTexture();
         pDs->m_descFormat = MTLPixelFormatDepth32Float;
@@ -301,7 +301,7 @@ namespace ma
         rect.right = width;
         
         /*
-		UINT num = 1;
+		uint32_t num = 1;
 
 		Metal_VIEWPORT vp[Metal_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
 		m_pDeviceContext->RSGetViewports(&num,vp);

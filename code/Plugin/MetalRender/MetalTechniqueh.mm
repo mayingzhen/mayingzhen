@@ -38,13 +38,16 @@ namespace ma
 			pUniformCopy->SetIndex(pUniform->GetIndex());
 			pUniformCopy->SetSize(pUniform->GetSize());
 			pUniformCopy->SetOffset(pUniform->GetOffset());
-
-			GetParameterManager()->UseDefaultBing(pUniformCopy.get());
 		}
 
 		return pConstantBuffer;
 	}
 
+    void MetalTechnique::RT_SetSampler(ma::Uniform *pUniform, ma::SamplerState *pSampler)
+    {
+        
+    }
+    
 	void MetalTechnique::RT_StreamComplete()
 	{
         MetalRasterizerStateObject* rs = (MetalRasterizerStateObject*)this->GetRasterizerState();
@@ -58,12 +61,6 @@ namespace ma
         bs->RT_StreamComplete();
         
         ds->RT_StreamComplete();
-        
-        if (GetInstTech())
-        {
-            GetInstTech()->SetRenderPass(this->GetRenderPass());
-            GetInstTech()->RT_StreamComplete();
-        }
         
         MetalShaderProgram* pShader = (MetalShaderProgram*)this->GetShaderProgram();
         
@@ -89,11 +86,9 @@ namespace ma
 			pUniformCopy->SetIndex(pUniform->GetIndex());
 
 			this->AddSampler(pUniformCopy.get());
-
-			GetParameterManager()->UseDefaultBing(pUniformCopy.get());
 		}
 
-		BindUniform();
+		BindUniform(nullptr);
         
         for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
         {

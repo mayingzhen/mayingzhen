@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MaterialParameter.h"
+
 namespace ma
 {
 	class BlendState;
@@ -42,7 +44,7 @@ namespace ma
 
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
-		uint32_t				GetParameterCount();
+		uint32_t			GetParameterCount();
 		Parameter*			GetParameterByIndex(uint32_t nIndex);
 
 		void				SetBlendState(BlendState* pBlendState);

@@ -25,7 +25,7 @@ namespace ma
 
 		for (uint32_t i = 0; i < m_arrBoneName.size(); ++i)
 		{
-			if (_stricmp(pszBoneName,m_arrBoneName[i].c_str()) == 0)
+            if (strcmp(pszBoneName,m_arrBoneName[i].c_str()) == 0)
 			{
 				return i;
 			}
@@ -55,7 +55,7 @@ namespace ma
 	{
 		for (uint32_t i = 0; i < m_arrBoneSet.size(); ++i)
 		{
-			if ( _stricmp(pszBoneSetName,m_arrBoneSet[i]->GetBoneSetName()) == 0 )
+            if( strcmp(pszBoneSetName,m_arrBoneSet[i]->GetBoneSetName()) == 0 )
 				return m_arrBoneSet[i].get();
 		}
 

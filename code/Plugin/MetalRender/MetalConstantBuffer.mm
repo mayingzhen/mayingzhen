@@ -51,14 +51,14 @@ namespace ma
             for (uint32_t i = 0; i < 3; ++i)
             {
                 void* shadowData = [m_pMetalBuffer[i] contents];
-                BYTE* dest = (BYTE*)shadowData;
+                uint8_t* dest = (uint8_t*)shadowData;
                 memcpy(dest + offset, data, size);
             }
         }
         else
         {
             void* shadowData = [m_pMetalBuffer[m_nCurFrame] contents];
-            BYTE* dest = (BYTE*)shadowData;
+            uint8_t* dest = (uint8_t*)shadowData;
             memcpy(dest + offset, data, size);
         }
         

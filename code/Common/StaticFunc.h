@@ -122,34 +122,34 @@ public:
 // ²âÊÔÊ±¼ä
 // ---------------------------------------------------------------------
 #ifdef WIN32
-#define BEGIN_TIME(name) \
+    #define BEGIN_TIME(name) \
 	    LARGE_INTEGER nFreq##name;\
 	    LARGE_INTEGER nBeginTime##name;\
 	    LARGE_INTEGER nEndTime##name;\
 	    QueryPerformanceFrequency(&nFreq##name);\
 	    QueryPerformanceCounter(&nBeginTime##name)
 
-#define END_TIME(name)	\
+    #define END_TIME(name)	\
         QueryPerformanceCounter(&nEndTime##name);\
         double dWasteTime##name = (double)(nEndTime##name.QuadPart-nBeginTime##name.QuadPart)/(double)nFreq##name.QuadPart*1000;\
         StaticFunc::DebugMsg("%s %fms", #name, dWasteTime##name)
 
-#define END_TIME_FILTER(name,timefilter)	\
+    #define END_TIME_FILTER(name,timefilter)	\
 		QueryPerformanceCounter(&nEndTime##name);\
 		double dWasteTime##name = (double)(nEndTime##name.QuadPart-nBeginTime##name.QuadPart)/(double)nFreq##name.QuadPart*1000;\
 		if(dWasteTime##name >timefilter) CStaticFunc::DebugMsg("%s %fms", #name, dWasteTime##name)
 
 #else
 
-#define BEGIN_TIME(name) \
-        timeval ttBegin##name;\
-        gettimeofday(&ttBegin##name, NULL)
+    #define BEGIN_TIME(name) \
+        //timeval ttBegin##name;\
+        //gettimeofday(&ttBegin##name, NULL)
 
-#define END_TIME(name)	\
-        timeval ttEnd##name;\
-        gettimeofday(&ttEnd##name, NULL);\
-        double dWasteTime##name = (ttEnd##name.tv_sec-ttBegin##name.tv_sec)*1000 + (ttEnd##name.tv_usec-ttBegin##name.tv_usec)*0.001;\
-        StaticFunc::DebugMsg("%s %fms", #name, dWasteTime##name)
+    #define END_TIME(name)	\
+        //timeval ttEnd##name;\
+        //gettimeofday(&ttEnd##name, NULL);\
+        //double dWasteTime##name = (ttEnd##name.tv_sec-ttBegin##name.tv_sec)*1000 + (ttEnd##name.tv_usec-ttBegin##name.tv_usec)*0.001;\
+        //StaticFunc::DebugMsg("%s %fms", #name, dWasteTime##name)
 
 #endif
 

@@ -10,7 +10,7 @@ namespace ma
 	public:
 		MetalTexture();
 
-		MetalTexture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
+		MetalTexture(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
 
 		~MetalTexture();
 		

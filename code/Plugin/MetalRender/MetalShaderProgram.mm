@@ -189,10 +189,9 @@ namespace ma
         }
 	}
 
-	void MetalShaderProgram::ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
+	void MetalShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint8_t>& vecByteCode,
 		RefPtr<ConstantBuffer> ConstantBuffersPtr[])
 	{
-
 
 	}
     
@@ -390,11 +389,12 @@ namespace ma
             vecResBinding.push_back(resBinding);
         }
 
-		bool bShadow = false;
+		//bool bShadow = false;
         for (auto &resource : resources.separate_images)
         {
             msl.set_decoration(resource.id, spv::DecorationDescriptorSet, 3);
             
+            /*
             if (resource.name == "g_tShadowMap")
             {
                 //const spirv_cross::SPIRType& spType = msl.get_type(resource.type_id);
@@ -407,6 +407,7 @@ namespace ma
 
 				bShadow = true;
             }
+             */
             
             unsigned binding = msl.get_decoration(resource.id, spv::DecorationBinding);
             
@@ -421,13 +422,13 @@ namespace ma
         
         // Set some options.
         spirv_cross::CompilerMSL::Options options;
-        //options.vulkan_semantics = true;
-        //msl.set_entry_point("metal_main");
+        options.platform = spirv_cross::CompilerMSL::Options::iOS;
         msl.set_options(options);
         
         // Compile to GLSL, ready to give to GL driver.
         std::string source = msl.compile(NULL, &vecResBinding);
 
+        /*
 		if (bShadow)
 		{
 			std::string strFrom = "sample_compare(g_sShadowMap,";
@@ -438,6 +439,7 @@ namespace ma
             strTo = "depth2d<float> g_tShadowMap";
             source = StringUtil::replaceAll(source, strFrom, strTo);
 		}
+         */
         
         return source;
     }

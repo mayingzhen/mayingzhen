@@ -45,9 +45,9 @@ namespace ma
         [pipelineStateDescriptor setFragmentFunction:pShader->m_pPiexelShader];
         [pipelineStateDescriptor setVertexDescriptor:pMetalVertexDec->m_descriptor];
         
-        for (UINT i = 0 ; i < MAX_RENDERTARGETS; ++i)
+        for (uint32_t i = 0 ; i < MAX_RENDERTARGETS; ++i)
         {
-            Texture* pRT = pRenderPass->m_arrColor[i].get();
+            Texture* pRT = pRenderPass->m_arrColor[i].m_pTexture.get();
             if (pRT == NULL)
             {
                 pipelineStateDescriptor.colorAttachments[i].pixelFormat = MTLPixelFormatInvalid;

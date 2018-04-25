@@ -21,7 +21,7 @@ namespace ma
 		virtual void ThreadLoop();
 
 	public:
-		CMyEvent*		m_pBeginEvent;
+		//CMyEvent*		m_pBeginEvent;
 	
 		volatile bool	m_bEnd;
 	

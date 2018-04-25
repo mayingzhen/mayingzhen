@@ -12,8 +12,10 @@ namespace ma
 		MetalTechnique();
 
 		~MetalTechnique();
+        
+        virtual void        RT_SetSampler(Uniform* pUniform, SamplerState* pSampler);
 
-		void				RT_StreamComplete();
+		virtual void		RT_StreamComplete();
 
 	public:
         RefPtr<MetalPipeline> m_pPipline;

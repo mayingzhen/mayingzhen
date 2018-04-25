@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Technqiue.h"
 
 namespace ma
 {

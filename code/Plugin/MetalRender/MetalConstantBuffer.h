@@ -34,16 +34,16 @@ namespace ma
 
 	private:
 		/// Shadow data.
-        //UINT m_nSize;
+        //uint32_t m_nSize;
 
 
 		id<MTLBuffer> m_pMetalBuffer[3];
-        UINT m_nCurFrame;
+        uint32_t m_nCurFrame;
         
         bool m_bApply = false;
         
 	};
 
-	RefPtr<MetalConstantBuffer> CreateConstantBuffer(const char* pszName, UINT nIndex, UINT size);
+	RefPtr<MetalConstantBuffer> CreateConstantBuffer(const char* pszName, uint32_t nIndex, uint32_t size);
 
 }

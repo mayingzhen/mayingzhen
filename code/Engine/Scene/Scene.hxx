@@ -1,8 +1,11 @@
 #include "Scene.h"
 #include "Octree.h"
 #include "ParallelCull.h"
+
+#if defined(_WIN32)
 #include "OcclusionCulling/DepthBufferRasterizerSSEST.h"
 #include "OcclusionCulling/AABBoxRasterizerSSEST.h"
+#endif
 
 namespace ma
 {
@@ -121,6 +124,7 @@ namespace ma
 		m_pCullTree->FindObjectsIn(&m_pCamera->GetFrustum(),-1,vecObj);
 
 		//
+#if defined(_WIN32)
 		if (0)
 		{
 
@@ -156,6 +160,7 @@ namespace ma
 
 			int i = 3;
 		}
+#endif
 
 		uint32_t nNodeCount = vecObj.size();
 		m_arrRenderComp.resize(nNodeCount);

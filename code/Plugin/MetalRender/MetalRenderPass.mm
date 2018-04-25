@@ -42,10 +42,10 @@ namespace ma
         
         for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
         {
-            if (m_arrColor[i] == NULL)
+            if (m_arrColor[i].m_pTexture == nullptr)
 				continue;
 
-            MetalTexture* pMlTexture = (MetalTexture*)m_arrColor[i].get();
+            MetalTexture* pMlTexture = (MetalTexture*)m_arrColor[i].m_pTexture.get();
 
             m_pass_desc.colorAttachments[i].texture = pMlTexture->GetNative();
             m_pass_desc.colorAttachments[i].resolveTexture = nil;

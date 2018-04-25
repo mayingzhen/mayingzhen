@@ -56,7 +56,7 @@ namespace ma
 		for (uint32_t i = 0; i < m_arrTrackName.size(); ++i)
 		{
 			const char* pszTrackName = m_arrTrackName[i].c_str();
-			if ( _stricmp(pszTrackName,pszName) == 0)
+            if ( strcmp(pszTrackName,pszName) == 0)
 			{
 				return i;
 			}
