@@ -118,7 +118,7 @@ namespace ma
 			ShaderProgram* pShader = pTech->GetShaderProgram();
 			VertexBuffer* pVB = pRenderable->m_pVertexBuffer.get();
 
-			if (pPreShader && pShader != pPreShader || pPreVB && pPreVB != pVB)
+			if ((pPreShader && pShader != pPreShader) || (pPreVB && pPreVB != pVB))
 			{
 				this->PrepareInstance(m_batchTemp, eRPType);
 

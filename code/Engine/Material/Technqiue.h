@@ -71,11 +71,11 @@ namespace ma
 		Uniform*			GetUniform(const char* pszName);
 
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
-		uint32_t				GetConstBufferCount(ShaderType eType);
+		uint32_t			GetConstBufferCount(ShaderType eType);
 		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, uint32_t nIndex);
 
 		void				AddSampler(Uniform* pUniform);
-		uint32_t				GetSamplerCount();
+		uint32_t			GetSamplerCount();
 		Uniform*			GetSamplerByIndex(uint32_t nIndex);
 		
 		SamplerState*		GetActiveSampler(uint32_t nIndex) { return m_arrSampler[nIndex]; }
@@ -112,7 +112,7 @@ namespace ma
 		RefPtr<BlendState>				m_pBlendState;
 		
 		RefPtr<DepthStencilState>		m_pDSState;
-		uint32_t							m_nStencilRef;
+		uint32_t						m_nStencilRef;
 
 		RefPtr<RasterizerState>			m_pRSState;
 

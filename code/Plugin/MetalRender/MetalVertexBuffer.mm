@@ -11,21 +11,18 @@ namespace ma
 
 	MetalVertexBuffer::~MetalVertexBuffer()
 	{
-		//SAFE_RELEASE(mMetalVertexBuffer);
+        [mMetalVertexBuffer release];
 	}
 
 	void* MetalVertexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-        return NULL;
+        void* pLock = [mMetalVertexBuffer contents];
+        return (uint8_t*)pLock + iOffsetBytes;
 	}
 
 	void MetalVertexBuffer::UnlockImpl()
 	{
-		ASSERT(mMetalVertexBuffer);
-		if (mMetalVertexBuffer == NULL)
-			return;
-
-		//GetMetalDxDeviveContext()->Unmap(mMetalVertexBuffer, 0);
+        
 	}
 
 	void MetalVertexBuffer::RT_StreamComplete()
@@ -48,11 +45,6 @@ namespace ma
         {
             FreeData();
         }
-
-		if (!m_bShadowData)
-		{
-			FreeData();
-		}
 	}
 
 	id<MTLBuffer> MetalVertexBuffer::GetMetalVertexBuffer()

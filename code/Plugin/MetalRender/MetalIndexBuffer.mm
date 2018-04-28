@@ -12,18 +12,19 @@ MetalIndexBuffer::MetalIndexBuffer()
 
 MetalIndexBuffer::~MetalIndexBuffer()
 {
-    //SAFE_RELEASE(mMetalIndexBuffer);
+    [mMetalIndexBuffer release];
 }
 
 
 void* MetalIndexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
-    return NULL;
+    void* pLock = [mMetalIndexBuffer contents];
+    return (uint8_t*)pLock + iOffsetBytes;
 }
 
 void MetalIndexBuffer::UnlockImpl()
 {
-	//GetD3D11DxDeviveContext()->Unmap(mMetalIndexBuffer, 0);
+	
 }
 
 void MetalIndexBuffer::RT_StreamComplete()

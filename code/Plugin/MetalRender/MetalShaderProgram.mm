@@ -102,7 +102,7 @@ namespace ma
 
 		return;
 	}
-
+    
 	void MetalShaderProgram::ParseUniform(MTLRenderPipelineReflection* pReflection)
 	{
         for (MTLArgument *arg in pReflection.vertexArguments)

@@ -35,7 +35,7 @@ namespace ma
 		return m_pCamera.get();
 	}
 
-	void Sample::CreateMeshMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro)
+	void Sample::CreateMeshMaterial(const char* pszTexture,const char* pMatPath,const char* pszAddMacro)
 	{
 		RefPtr<Material> pMaterial = CreateMaterial();
 

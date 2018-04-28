@@ -3,12 +3,6 @@
 #include "AppDelegate.h"
 
 
-#define DeviceOrientedSize(o)         ((o == UIInterfaceOrientationPortrait || o == UIInterfaceOrientationPortraitUpsideDown)?                      \
-                                            CGSizeMake([[UIScreen mainScreen] bounds].size.width * [[UIScreen mainScreen] scale], [[UIScreen mainScreen] bounds].size.height * [[UIScreen mainScreen] scale]):  \
-                                            CGSizeMake([[UIScreen mainScreen] bounds].size.height * [[UIScreen mainScreen] scale], [[UIScreen mainScreen] bounds].size.width * [[UIScreen mainScreen] scale]))
-
-
-
 namespace ma
 {
 	static Platform* gplatform = NULL;
@@ -42,10 +36,22 @@ namespace ma
 	{
         AppDelegate* pAppDelegate = (AppDelegate*)[UIApplication sharedApplication];
         
-		CGSize size = DeviceOrientedSize([pAppDelegate.m_pViewController interfaceOrientation]);
-		w = size.width;
-		h = size.height;
+        float fScale = [[UIScreen mainScreen] scale];
+        float width = [[UIScreen mainScreen] bounds].size.width * fScale;
+        float height = [[UIScreen mainScreen] bounds].size.height * fScale;
+        bool bFlib = [pAppDelegate.m_pViewController interfaceOrientation] == UIInterfaceOrientationPortrait ||
+            [pAppDelegate.m_pViewController interfaceOrientation] == UIInterfaceOrientationPortraitUpsideDown;
+        
+        if (bFlib)
+        {
+            w = width;
+            h = height;
+        }
+        else
+        {
+            w = height;
+            h = width;
+        }
 	}
- 
 }
 

@@ -190,6 +190,27 @@ namespace ma
 
 		glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv_tem);
 
+		// test
+		{
+			spirv_cross::CompilerMSL glsl(vtx_spv_tem.data(), vtx_spv_tem.size());
+
+			// The SPIR-V is now parsed, and we can perform reflection on it.
+			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+
+			// Set some options.
+			spirv_cross::CompilerMSL::Options options;
+			options.platform = spirv_cross::CompilerMSL::Options::iOS;
+			glsl.set_options(options);
+
+			// Compile to GLSL, ready to give to GL driver.
+			std::string source = glsl.compile();
+			if (source.find("ShadowDepthCompare") != std::string::npos)
+			{
+				int o = 5;
+			}
+			int i = 4;
+		}
+
 		{
 			spirv_cross::CompilerGLSL glsl(vtx_spv_tem.data(), vtx_spv_tem.size());
 

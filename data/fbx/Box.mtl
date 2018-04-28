@@ -1,7 +1,7 @@
 <Material>
 	<LodMaterial>
 		<SubMaterial>
-			<ShadingTech TechName="shader/mesh.tech" TechMarco="DIFFUSECOLOR;IBL"/>
+			<ShadingTech TechName="shader/mesh.tech" TechMarco="DIFFUSECOLOR"/>
 			<Parameters Name="u_texture" Type="SamplerState" ClassName="SamplerState">
 				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
 				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>

@@ -30,7 +30,7 @@ namespace ma
 		virtual void		keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key){}
 
 	protected:
-		void				CreateMeshMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro = NULL);
+		void				CreateMeshMaterial(const char* pszTexture,const char* pMatPath,const char* pszAddMacro = NULL);
 
 	protected:
 		RefPtr<Scene>		m_pScene;

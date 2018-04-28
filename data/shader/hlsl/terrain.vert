@@ -11,11 +11,12 @@ cbuffer ObjectVS : register(b5)
 	float2 uDetailScale;
 	float4 uDetailOffSet;
 	float4 uDetailRotate;
-	float uCurMaterialID;
 	
 	float3 pos_extent;
 	float3 pos_center;
 	float4 tc_extent_center;
+
+	float uCurMaterialID;
 };
 
 

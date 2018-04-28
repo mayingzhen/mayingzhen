@@ -63,7 +63,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Engine/StdAfx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
@@ -277,6 +277,27 @@
     <ClInclude Include="..\..\code\Engine\Scene\Light\ShadowMapFrustum.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\MeshComponent.h" />
     <ClInclude Include="..\..\code\Engine\Scene\MeshComponent.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\AABBoxRasterizer.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\AABBoxRasterizer.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\AABBoxRasterizerSSE.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\AABBoxRasterizerSSE.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\AABBoxRasterizerSSEST.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\AABBoxRasterizerSSEST.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\CPUTMath.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\DepthBufferRasterizer.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\DepthBufferRasterizer.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\DepthBufferRasterizerSSE.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\DepthBufferRasterizerSSE.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\DepthBufferRasterizerSSEST.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\DepthBufferRasterizerSSEST.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\HelperSSE.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\HelperSSE.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\TransformedAABBoxSSE.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\TransformedAABBoxSSE.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\TransformedMeshSSE.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\TransformedMeshSSE.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\TransformedModelSSE.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\OcclusionCulling\TransformedModelSSE.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\Octree.h" />
     <ClInclude Include="..\..\code\Engine\Scene\Octree.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\OctreeNode.h" />

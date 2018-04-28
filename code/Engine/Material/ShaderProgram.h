@@ -34,7 +34,7 @@ namespace ma
         VertexDeclaration*  GetVertexDeclaration() {return m_pVertexDecl.get();}
 
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
-		uint32_t				GetConstBufferCount(ShaderType eType);
+		uint32_t			GetConstBufferCount(ShaderType eType);
 		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType,uint32_t nIndex);
 
 		void				AddSampler(Uniform* pUniform);

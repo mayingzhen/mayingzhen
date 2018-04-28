@@ -68,7 +68,7 @@ namespace ma
 	{
         m_bApply = true;
         
-		if (m_pMetalBuffer)
+		if (m_pMetalBuffer[m_nCurFrame])
 		{
             if (ps)
             {
