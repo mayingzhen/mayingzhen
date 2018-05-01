@@ -8,6 +8,7 @@ namespace ma
 	class DepthStencilState;
 	class RasterizerState;
 	class Renderable;
+	struct ShaderCreateInfo;
 
 	class Technique : public Serializable
 	{
@@ -37,24 +38,10 @@ namespace ma
 		ShaderProgram*		GetShaderProgram() const { return m_pShaderProgram.get(); }
 		void				SetShaderProgram(ShaderProgram* pShader);
 
-		int					GetShaderMacroInt(const char* pszMacro);
-		void				SetShaderMacroInt(const char* pszMacro, int nValue);
-		void				SetShaderMacroBool(const char* pszMacro, bool b);
-		bool				GetShaderMacroBool(const char* pszMacro);
-
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 		uint32_t			GetParameterCount();
 		Parameter*			GetParameterByIndex(uint32_t nIndex);
-
-		void				SetBlendState(BlendState* pBlendState);
-		const BlendState*	GetBlendState() { return m_pBlendState.get(); }
-
-		void				SetDepthStencilState(DepthStencilState* pDSSate);
-		const DepthStencilState* GetDepthStencilState() { return m_pDSState.get(); }
-
-		void				SetRasterizerState(RasterizerState* pRSState);
-		const RasterizerState* GetRasterizerState() { return m_pRSState.get(); }
 
 		void				SetValue(Uniform* pUniform, int value);
 		void				SetValue(Uniform* pUniform, float value);
@@ -88,9 +75,9 @@ namespace ma
 		void				ReLoad();
 
 		RefPtr<Technique>   Clone();
-
-		void				SetRenderPass(RenderPass* pRenderPass) { m_pRenderPass = pRenderPass; }
-		RenderPass*			GetRenderPass() { return m_pRenderPass; }
+// 
+// 		void				SetRenderPass(RenderPass* pRenderPass) { m_pRenderPass = pRenderPass; }
+// 		RenderPass*			GetRenderPass() { return m_pRenderPass; }
 
 	protected:
 		void				BindUniform(Renderable* pRenderable);
@@ -109,16 +96,9 @@ namespace ma
 
 		RefPtr<ShaderProgram>			m_pShaderProgram;
 
-		RefPtr<BlendState>				m_pBlendState;
-		
-		RefPtr<DepthStencilState>		m_pDSState;
-		uint32_t						m_nStencilRef;
-
-		RefPtr<RasterizerState>			m_pRSState;
-
 		std::vector<Parameter>			m_arrParameters; 
 
-		RenderPass*						m_pRenderPass = NULL;
+		//RenderPass*						m_pRenderPass = NULL;
 
 		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
 		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
@@ -131,4 +111,5 @@ namespace ma
 	RefPtr<Technique> CreateTechnique();
 	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine);
     RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine,VertexDeclaration* pVertexDecl = NULL);
+	RefPtr<Technique> CreateTechnique(const char* pTechName, const ShaderCreateInfo& info);
 }

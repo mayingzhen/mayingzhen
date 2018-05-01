@@ -38,7 +38,7 @@ namespace ma
 		IndexBuffer* m_pPreIB = NULL;
 		VertexBuffer* m_pPreVB[MAX_VB] = { NULL };
 		uint32_t m_preVBOffset[MAX_VB] = { 0 };
-		VulkanPipeline* m_pPrePipeline = NULL;
+		VkPipeline m_prePipeline;
 	};
 
 

@@ -21,60 +21,199 @@ namespace ma
 	
 		m_eResState = ResUnLoad;
 
-		CreateFromFile(m_strVSFile.c_str(),m_strPSFile.c_str(),m_shaderMacro.c_str(),m_pVertexDecl.get());
+		CreateFromFile(m_createInfo);
 	}
 
-	void ShaderProgram::CreateFromFile(const char* vshPath, const char* fshPath, const char* defines, VertexDeclaration* pVertexDecl)
+	void ShaderProgram::CreateFromFile(const ShaderCreateInfo& createInfo)
 	{
 		if (m_eResState == ResInited)
 		{
-			ASSERT(m_strVSFile == vshPath);
-			ASSERT(m_strPSFile == fshPath);
-			ASSERT(m_shaderMacro == defines);
+			m_createInfo = createInfo;
+			
 			return;
 		}
 
-		m_strVSFile = vshPath ? vshPath : "";
-		m_strPSFile = fshPath ? fshPath : "";
-		m_shaderMacro = defines ? defines: "";
-        
-        m_pVertexDecl = pVertexDecl;
+		m_createInfo = createInfo;
         
 		m_eResState = ResLoaded;
         
         GetRenderSystem()->ShaderStreamComplete(this);
-        
-        GetRenderSystem()->VertexDeclaComplete(pVertexDecl);
 	}
 
 	const char* ShaderProgram::GetVSFile() const
 	{
-		return m_strVSFile.c_str();
+		return m_createInfo.m_strVSFile.c_str();
 	}
 
 	void ShaderProgram::SetVSFile(const char* pszVSFile)
 	{
-		m_strVSFile = pszVSFile ? pszVSFile : "";
+		m_createInfo.m_strVSFile = pszVSFile ? pszVSFile : "";
 	}
 
 	const char*	ShaderProgram::GetPSFile() const
 	{
-		return m_strPSFile.c_str();
+		return m_createInfo.m_strPSFile.c_str();
 	}
 
 	void ShaderProgram::SetPSFile(const char* pszPSFile)
 	{
-		m_strPSFile = pszPSFile ? pszPSFile : "";
+		m_createInfo.m_strPSFile = pszPSFile ? pszPSFile : "";
 	}
 
 	const char*	ShaderProgram::GetShaderMacro() const
 	{
-		return m_shaderMacro.c_str();
+		return m_createInfo.m_shaderMacro.c_str();
 	}
 
 	void ShaderProgram::SetShaderMacro(const char* pszMacro)
 	{
-		m_shaderMacro = pszMacro ? pszMacro : "";
+		m_createInfo.m_shaderMacro = pszMacro ? pszMacro : "";
+	}
+
+	int ShaderProgram::GetShaderMacroInt(const char* pszMacro)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return false;
+
+		std::string stdShder = this->GetShaderMacro();
+
+		const vector<string> vecMacros = StringUtil::split(stdShder, ";");
+
+		if (vecMacros.empty())
+			return 0;
+
+		for (uint32_t i = 0; i < vecMacros.size(); i++)
+		{
+			const vector<string> keyValue = StringUtil::split(vecMacros[i], "=");
+			uint32_t nSize = keyValue.size();
+			if (nSize != 2)
+				continue;
+
+			if (keyValue[0] != string(pszMacro))
+				continue;
+
+			return StringConverter::parseInt(keyValue[1]);
+		}
+
+		return 0;
+	}
+
+	void ShaderProgram::SetShaderMacroInt(const char* pszMacro, int nValue)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return;
+
+		std::string strShder = this->GetShaderMacro();
+
+		vector<string> vecMacros = StringUtil::split(strShder, ";");
+		if (vecMacros.empty())
+			return;
+
+		uint32_t i = 1;
+		for (; i < vecMacros.size(); ++i)
+		{
+			vector<string> keyValue = StringUtil::split(vecMacros[i], "=");
+			uint32_t nSize = keyValue.size();
+			if (nSize != 2)
+				continue;
+
+			if (keyValue[0] != string(pszMacro))
+				continue;
+
+			keyValue[1] = StringConverter::toString(nValue);
+
+			vecMacros[i] = keyValue[0] + "=" + keyValue[1];
+			break;
+		}
+
+		if (i == vecMacros.size())
+		{
+			string strKey = pszMacro;
+			string strValue = StringConverter::toString(nValue);
+			vecMacros.push_back(strKey + "=" + strValue);
+		}
+
+		std::sort(vecMacros.begin() + 1, vecMacros.end());
+
+		string strFinal = vecMacros[0];
+		for (uint32_t i = 1; i < vecMacros.size(); ++i)
+		{
+			strFinal += ";" + vecMacros[i];
+		}
+
+		m_createInfo.m_shaderMacro = strFinal;
+
+		this->Reload();
+	}
+
+	bool ShaderProgram::GetShaderMacroBool(const char* pszMacro)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return false;
+
+		std::string strShder = this->GetShaderMacro();
+
+		vector<string> vecMacros = StringUtil::split(strShder, ";");
+		if (vecMacros.empty())
+			return false;
+
+		for (uint32_t i = 0; i < vecMacros.size(); ++i)
+		{
+			if (vecMacros[i] == string(pszMacro))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	void ShaderProgram::SetShaderMacroBool(const char* pszMacro, bool b)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return;
+
+		std::string strShder = this->GetShaderMacro();
+
+		vector<string> vecMacros = StringUtil::split(strShder, ";");
+		if (vecMacros.empty())
+			return;
+
+		uint32_t i = 1;
+		for (; i < vecMacros.size(); ++i)
+		{
+			if (vecMacros[i] == string(pszMacro))
+			{
+				break;
+			}
+		}
+
+		if (i == vecMacros.size())
+		{
+			if (b)
+				vecMacros.push_back(pszMacro);
+		}
+		else
+		{
+			if (!b)
+				vecMacros.erase(vecMacros.begin() + i);
+		}
+
+		std::sort(vecMacros.begin() + 1, vecMacros.end());
+
+		string strFinal = vecMacros[0];
+		for (uint32_t i = 1; i < vecMacros.size(); ++i)
+		{
+			strFinal += ";" + vecMacros[i];
+		}
+
+		m_createInfo.m_shaderMacro = strFinal;
+
+		this->Reload();
 	}
 
 	void ShaderProgram::AddSampler(Uniform* pUniform)
@@ -110,9 +249,9 @@ namespace ma
 		return m_vecConstBuffer[eType][nIndex].get();
 	}
 
-	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco,VertexDeclaration* pVertexDecl)
+	RefPtr<ShaderProgram> CreateShaderProgram(const ShaderCreateInfo& createInfo)
 	{
-		return g_pShaderManager->CreateShader(pszVSFile,pszPSFile,pszMarco,pVertexDecl);
+		return g_pShaderManager->CreateShader(createInfo);
 	}
 
 }

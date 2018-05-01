@@ -35,7 +35,7 @@ namespace ma
 		pDSSate->m_eStencilFail = SOP_KEEP;
 		pDSSate->m_eDepthFailOp = SOP_KEEP;
 		pDSSate->m_eStencilPass = SOP_REPLACE;
-		m_pColorEdgeDetection->SetDepthStencilState(pDSSate.get());
+		//m_pColorEdgeDetection->SetDepthStencilState(pDSSate.get());
 
 		//m_pColorEdgeDetection->SaveToXML("tech/ColorEdgeDetection.tech");
 	
@@ -63,7 +63,7 @@ namespace ma
 		pDSSate2->m_eStencilFail = SOP_KEEP;
 		pDSSate2->m_eDepthFailOp = SOP_KEEP;
 		pDSSate2->m_eStencilPass = SOP_KEEP;
-		m_pBlendWeightCalculation->SetDepthStencilState(pDSSate2.get());
+		//m_pBlendWeightCalculation->SetDepthStencilState(pDSSate2.get());
 
 		m_pAreadTex = CreateSamplerState("AreaTexDX10.dds",CLAMP,TFO_BILINEAR,false);
 		m_pAreadTex->SetWrapModeW(CLAMP);
@@ -82,7 +82,7 @@ namespace ma
 		pDSSate3->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 		pDSSate3->m_bDepthWrite = false;
 		pDSSate3->m_bStencil = false;
-		m_pNeiborhoodBlending->SetDepthStencilState(pDSSate3.get());
+		//m_pNeiborhoodBlending->SetDepthStencilState(pDSSate3.get());
 
 		//m_pNeiborhoodBlending->SaveToXML("tech/m_pNeiborhoodBlending.tech");
 	}

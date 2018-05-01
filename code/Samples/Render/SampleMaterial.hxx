@@ -101,9 +101,9 @@ namespace ma
 				if (0)
 				{
 					SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0, 0);
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT", true);
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC", true);
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("BRDF", true);
+					pSubMaterial->GetShadingTechnqiue()->GetShaderProgram()->SetShaderMacroBool("DIRLIGHT", true);
+					pSubMaterial->GetShadingTechnqiue()->GetShaderProgram()->SetShaderMacroBool("SPEC", true);
+					pSubMaterial->GetShadingTechnqiue()->GetShaderProgram()->SetShaderMacroBool("BRDF", true);
 
 					//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
 

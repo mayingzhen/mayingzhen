@@ -82,11 +82,11 @@ namespace ma
 				subMaterial->SetShadingTechnqiue(pNewShadingTech.get());
 
 				Technique* pShadingTech = subMaterial->GetShadingTechnqiue();
-				pShadingTech->SetShaderMacroBool("DIRLIGHT",true);
-				pShadingTech->SetShaderMacroBool("SPEC",true);
-				pShadingTech->SetShaderMacroBool("BRDF",true);
-				pShadingTech->SetShaderMacroBool("BUMPMAP",true);
-				pShadingTech->SetShaderMacroBool("PARALLAXMAPPING",true);
+				pShadingTech->GetShaderProgram()->SetShaderMacroBool("DIRLIGHT",true);
+				pShadingTech->GetShaderProgram()->SetShaderMacroBool("SPEC",true);
+				pShadingTech->GetShaderProgram()->SetShaderMacroBool("BRDF",true);
+				pShadingTech->GetShaderProgram()->SetShaderMacroBool("BUMPMAP",true);
+				pShadingTech->GetShaderProgram()->SetShaderMacroBool("PARALLAXMAPPING",true);
 				
 
 				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/wall.jpg") ) );

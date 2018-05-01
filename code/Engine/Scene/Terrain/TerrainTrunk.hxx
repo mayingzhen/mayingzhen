@@ -350,12 +350,12 @@ namespace ma
 				
 				RefPtr<BlendState> pBlendState = CreateBlendState();
 				pBlendState->m_eBlendMode = BM_TRANSPARENT;
-				pTech->SetBlendState(pBlendState.get());
+				//pTech->SetBlendState(pBlendState.get());
 
 				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
 				pDSState->m_bDepthWrite = false;
 				pDSState->m_eDepthCheckMode = CMPF_EQUAL;
-				pTech->SetDepthStencilState(pDSState.get());
+				//pTech->SetDepthStencilState(pDSState.get());
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
@@ -394,7 +394,7 @@ namespace ma
 				RefPtr<SubMaterial> pSkirtMaterial = lod.m_vecBody[0]->GetMaterial()->Clone();
 				RefPtr<RasterizerState> pRSState = CreateRasterizerState();
 				pRSState->m_eCullMode = CULL_FACE_SIDE_NONE;
-				pSkirtMaterial->GetShadingTechnqiue()->SetRasterizerState(pRSState.get());
+				//pSkirtMaterial->GetShadingTechnqiue()->SetRasterizerState(pRSState.get());
 
 				for (uint32_t i = 0; i < SideNum; ++i)
 				{

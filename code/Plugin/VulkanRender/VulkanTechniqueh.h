@@ -27,8 +27,6 @@ namespace ma
 		VkDescriptorSet m_descriptorSets_uniform[2];
 
 		VkDescriptorSet m_descriptorSets_sampler[2];
-
-		RefPtr<VulkanPipeline> m_pPipline;
 	};
 
 

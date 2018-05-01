@@ -36,15 +36,24 @@ namespace ma
 
 			RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
 
-			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-            m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str(), pDeclaration.get());
+			std::string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
+          
 			RefPtr<BlendState> pBlendSate = CreateBlendState();
 			pBlendSate->m_bColorWrite = false;
-			m_pShadowDepthTech->SetBlendState(pBlendSate.get());
 
 			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
-			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
+
+			ShaderCreateInfo info;
+			info.m_strVSFile = "ShadowDepth";
+			info.m_strPSFile = "ShadowDepth";
+			info.m_shaderMacro = strShaderMacro;
+			info.m_pVertexDecl = pDeclaration;
+			info.m_pBlendState = pBlendSate;
+			info.m_pRenderPass = shadowMap.GetShadowMapFrameBuffer();
+			m_pShadowDepthTech = CreateTechnique("ShadowDepth", info);
+
+			//m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
 
@@ -124,7 +133,7 @@ namespace ma
 
 		if (m_pShadingTech)
 		{
-			m_pShadingTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
+			m_pShadingTech->GetShaderProgram()->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadingTech.get());
 		}
@@ -133,7 +142,7 @@ namespace ma
 		{
 			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
-			m_pShadowDepthTech->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
+			m_pShadowDepthTech->GetShaderProgram()->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
 		}

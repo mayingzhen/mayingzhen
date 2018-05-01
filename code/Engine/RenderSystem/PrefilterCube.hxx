@@ -41,7 +41,7 @@ namespace ma
 				pRenderPass->AttachColor(0, out_tex.get(), 0, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-				PrefilterCopySrc->SetRenderPass(pRenderPass.get());
+				//PrefilterCopySrc->SetRenderPass(pRenderPass.get());
 				GetRenderSystem()->TechniqueStreamComplete(PrefilterCopySrc.get());
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
@@ -67,7 +67,7 @@ namespace ma
 				pRenderPass->AttachColor(0, out_tex.get(), level, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-				PrefilterCubeSpecular->SetRenderPass(pRenderPass.get());
+				//PrefilterCubeSpecular->SetRenderPass(pRenderPass.get());
 				GetRenderSystem()->TechniqueStreamComplete(PrefilterCubeSpecular.get());
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
@@ -92,7 +92,7 @@ namespace ma
 				pRenderPass->AttachColor(0, out_tex.get(), out_num_mipmaps - 1, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-				PrefilterCubeDiffuse->SetRenderPass(pRenderPass.get());
+				//PrefilterCubeDiffuse->SetRenderPass(pRenderPass.get());
 				GetRenderSystem()->TechniqueStreamComplete(PrefilterCubeDiffuse.get());
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
@@ -135,7 +135,7 @@ namespace ma
 		pRenderPass->AttachColor(0, pOutTex.get(), 0, 0);
 		GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-		pPrefilterBrdf->SetRenderPass(pRenderPass.get());
+		//pPrefilterBrdf->SetRenderPass(pRenderPass.get());
 		GetRenderSystem()->TechniqueStreamComplete(pPrefilterBrdf.get());
 
 		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);

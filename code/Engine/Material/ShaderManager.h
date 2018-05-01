@@ -1,9 +1,9 @@
 #pragma once
 
+#include "ShaderProgram.h"
+
 namespace ma
 {
-    class VertexDeclaration;
-    
 	class ShaderManager 
 	{
 	public:
@@ -11,7 +11,7 @@ namespace ma
 
 		~ShaderManager();
 
-		RefPtr<ShaderProgram> CreateShader(const char* pszVSFile,const char* pszPSFile,const char* pszMarco,VertexDeclaration* pVertexDecl);
+		RefPtr<ShaderProgram> CreateShader(const ShaderCreateInfo& createInfo);
 
 		void ReLoad();
 
@@ -19,24 +19,7 @@ namespace ma
 
 	private:
         
-        struct Reskey
-        {
-            std::string m_strName;
-            uint64_t m_nVertecDecl;
-            
-            bool operator < (const Reskey& other) const
-            {
-                if (m_nVertecDecl != other.m_nVertecDecl)
-                    return m_nVertecDecl < other.m_nVertecDecl;
-                
-                if (m_strName != other.m_strName)
-                    return m_strName < other.m_strName;
-                
-                return false;
-            }
-        };
-        
-		typedef std::map<Reskey, RefPtr<ShaderProgram> > ResourceMap;
+		typedef std::map<ShaderCreateInfo, RefPtr<ShaderProgram> > ResourceMap;
 
 		ResourceMap			m_resMap;
 	};

@@ -220,9 +220,7 @@ EXPORTS
 ??0VertexElement@ma@@QAE@XZ
 ??0VertexElement@ma@@QAE@FFW4DECL_TYPE@1@W4DECL_USAGE@1@E@Z
 ?CreateVertexDeclaration@RenderSystem@ma@@QAE?AV?$RefPtr@VVertexDeclaration@ma@@@2@PAUVertexElement@2@I@Z
-?SetShaderMacroBool@Technique@ma@@QAEXPBD_N@Z
 ?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBD0@Z
-?GetShaderMacroBool@Technique@ma@@QAE_NPBD@Z
 ??0Technique@ma@@QAE@XZ
 ??1Technique@ma@@UAE@XZ
 ?UnBind@Technique@ma@@UAEXXZ

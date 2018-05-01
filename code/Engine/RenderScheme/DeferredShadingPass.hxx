@@ -12,18 +12,18 @@ namespace ma
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
 		pDSState->m_bDepthWrite = false;
-		m_pAmbientLight->SetDepthStencilState(pDSState.get());
+		//m_pAmbientLight->SetDepthStencilState(pDSState.get());
 
 		m_pDirLight = CreateTechnique("DirectLight","DeferredLight","DeferredLight","DIRECT_LIGHT");
-		m_pDirLight->SetDepthStencilState(pDSState.get());
+		//m_pDirLight->SetDepthStencilState(pDSState.get());
 
 		RefPtr<BlendState> pBlendState = CreateBlendState();
 		pBlendState->m_eBlendMode = BM_ADD;
-		m_pDirLight->SetBlendState(pBlendState.get());
+		//m_pDirLight->SetBlendState(pBlendState.get());
 
 		m_pPointLight = CreateTechnique("PointLight","DeferredLight","DeferredLight","POINT_LIGHT");
-		m_pPointLight->SetDepthStencilState(pDSState.get());
-		m_pDirLight->SetBlendState(pBlendState.get());
+		//m_pPointLight->SetDepthStencilState(pDSState.get());
+		//m_pDirLight->SetBlendState(pBlendState.get());
 	}
 
 	void DeferredShading::Reset()

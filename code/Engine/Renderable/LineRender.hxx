@@ -25,19 +25,22 @@ namespace ma
         element[1] = VertexElement(0,12,DT_COLOR,DU_COLOR,0);
         RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
         
-        RefPtr<ShaderProgram> pShader = CreateShaderProgram("line","line","",pVertexDec.get());
-        
-        gpLinTech->SetShaderProgram(pShader.get());
-    
-        //gpLinTech->SetVertexDeclaration(pVertexDec.get());
-        
 		RefPtr<DepthStencilState> pDSSate = CreateDepthStencilState();
 		pDSSate->m_bDepthWrite = true;
 		pDSSate->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
         
-		gpLinTech->SetDepthStencilState(pDSSate.get());
+		ShaderCreateInfo shaderInfo;
+		shaderInfo.m_strVSFile = "line";
+		shaderInfo.m_strPSFile = "line";
+		shaderInfo.m_pVertexDecl = pVertexDec;
+		shaderInfo.m_pDSState = pDSSate;
+		shaderInfo.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
         
-		gpLinTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
+		RefPtr<ShaderProgram> pShader = CreateShaderProgram(shaderInfo);
+
+		//gpLinTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
+
+		gpLinTech->SetShaderProgram(pShader.get());
 
 		GetRenderSystem()->TechniqueStreamComplete(gpLinTech.get());
 
