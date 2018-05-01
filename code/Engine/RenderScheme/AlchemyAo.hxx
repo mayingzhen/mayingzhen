@@ -13,7 +13,7 @@ namespace ma
 
 	void AlchemyAo::Init()
 	{
-		m_pAlchemyAo = CreateTechnique("AlchemyAo","AlchemyAo","AlchemyAo","");
+		//m_pAlchemyAo = CreateTechnique("AlchemyAo","AlchemyAo","AlchemyAo","");
 		//m_pAlchemyAo->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 
 		mRandomMap = CreateSamplerState("white_noise_tex.dds",REPEAT,TFO_POINT,false);

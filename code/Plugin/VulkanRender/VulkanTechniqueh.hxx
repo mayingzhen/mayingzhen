@@ -1,6 +1,5 @@
 #include "VulkanTechniqueh.h"
 #include "VulkanConstantBuffer.h"
-#include "VulkanPipeline.h"
 #include "glslang/glslang/Include\ResourceLimits.h"
 #include "glslang/glslang/Public/ShaderLang.h"
 #include "glslang/SPIRV/GlslangToSpv.h"
@@ -47,21 +46,7 @@ namespace ma
 
 	void VulkanTechnique::RT_StreamComplete()
 	{
-		VulkanBlendStateObject* pVulkanBS = (VulkanBlendStateObject*)(this->GetBlendState());
-		pVulkanBS->RT_StreamComplete();
-
-		VulkanDepthStencilStateObject* pVulkanDS = (VulkanDepthStencilStateObject*)(this->GetDepthStencilState());
-		pVulkanDS->RT_StreamComplete();
-
-		VulkanRasterizerStateObject* pVulkanRS = (VulkanRasterizerStateObject*)(this->GetRasterizerState());
-		pVulkanRS->RT_StreamComplete();
-
-		vks::VulkanDevice* device = GetVulkanDevice();
-		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
-
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
-
-		m_pPipline = CreateVulkanPipeline(this);
 
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
@@ -110,14 +95,16 @@ namespace ma
 
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
+		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
+
 		//init_descriptor_set
 		{
 			VkDescriptorSetAllocateInfo alloc_info[1];
 			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = m_pPipline->m_desc_pool;
+			alloc_info[0].descriptorPool = pShader->m_desc_pool;
 			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout_uniform[VS];
+			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_uniform[VS];
 
 			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_uniform[VS]);
 			assert(res == VK_SUCCESS);
@@ -146,9 +133,9 @@ namespace ma
 			VkDescriptorSetAllocateInfo alloc_info[1];
 			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = m_pPipline->m_desc_pool;
+			alloc_info[0].descriptorPool = pShader->m_desc_pool;
 			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout_uniform[PS];
+			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_uniform[PS];
 
 			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_uniform[PS]);
 			assert(res == VK_SUCCESS);
@@ -179,13 +166,15 @@ namespace ma
 
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
+		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
+
 		{
 			VkDescriptorSetAllocateInfo alloc_info[1];
 			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = m_pPipline->m_desc_pool;
+			alloc_info[0].descriptorPool = pShader->m_desc_pool;
 			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout_sampler[0];
+			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_sampler[0];
 
 			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_sampler[0]);
 			assert(res == VK_SUCCESS);
@@ -220,9 +209,9 @@ namespace ma
 			VkDescriptorSetAllocateInfo alloc_info[1];
 			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = m_pPipline->m_desc_pool;
+			alloc_info[0].descriptorPool = pShader->m_desc_pool;
 			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &m_pPipline->m_desc_layout_sampler[1];
+			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_sampler[1];
 
 			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_sampler[1]);
 			assert(res == VK_SUCCESS);

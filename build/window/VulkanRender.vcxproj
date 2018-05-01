@@ -129,8 +129,6 @@
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanIndexBuffer.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanInitializers.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanMapping.h" />
-    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanPipeline.h" />
-    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanPipeline.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderDevice.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderPass.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderPass.hxx" />

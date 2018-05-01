@@ -41,9 +41,11 @@ namespace ma
                 element[2] = VertexElement(0, 12, DT_UBYTE4N, DU_TANGENT, 0);
                 RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
                 
-				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "terrain", "terrain", "", pDeclaration.get());
-
-				//pShadingTech->SetVertexDeclaration(pDeclaration.get());
+				ShaderCreateInfo info;
+				info.m_strVSFile = "terrain";
+				info.m_strPSFile = "terrain";
+				info.m_pVertexDecl = pDeclaration;
+				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", info);
 
 				pShadingTech->SaveToXML("shader/terrain.tech");
 			}
@@ -148,8 +150,6 @@ namespace ma
 	{
 		//m_pTerrain = NULL;		
 	}
-
-
 }
 
 

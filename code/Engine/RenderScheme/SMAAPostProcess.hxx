@@ -12,7 +12,7 @@ namespace ma
 
 	void SMAAPostProcess::Init()
 	{
-		m_pColorEdgeDetection = CreateTechnique("ColorEdgeDetection","smaa/coloredgedetection","smaa/coloredgedetection","");
+//		m_pColorEdgeDetection = CreateTechnique("ColorEdgeDetection","smaa/coloredgedetection","smaa/coloredgedetection","");
 // 		m_pColorEdgeDetection->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 // 		m_pColorEdgeDetection->m_bDepthWrite = false;
 // 		m_pColorEdgeDetection->m_bStencil = true;
@@ -35,12 +35,12 @@ namespace ma
 		pDSSate->m_eStencilFail = SOP_KEEP;
 		pDSSate->m_eDepthFailOp = SOP_KEEP;
 		pDSSate->m_eStencilPass = SOP_REPLACE;
-		m_pColorEdgeDetection->SetDepthStencilState(pDSSate.get());
+		//m_pColorEdgeDetection->SetDepthStencilState(pDSSate.get());
 
 		//m_pColorEdgeDetection->SaveToXML("tech/ColorEdgeDetection.tech");
 	
 
-		m_pBlendWeightCalculation = CreateTechnique("BlendWeightCalculation","smaa/BlendWeightCalculation","smaa/BlendWeightCalculation","");
+//		m_pBlendWeightCalculation = CreateTechnique("BlendWeightCalculation","smaa/BlendWeightCalculation","smaa/BlendWeightCalculation","");
 // 		m_pBlendWeightCalculation->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 // 		m_pBlendWeightCalculation->m_bDepthWrite = false;
 // 		m_pBlendWeightCalculation->m_bStencil = true;
@@ -63,7 +63,7 @@ namespace ma
 		pDSSate2->m_eStencilFail = SOP_KEEP;
 		pDSSate2->m_eDepthFailOp = SOP_KEEP;
 		pDSSate2->m_eStencilPass = SOP_KEEP;
-		m_pBlendWeightCalculation->SetDepthStencilState(pDSSate2.get());
+		//m_pBlendWeightCalculation->SetDepthStencilState(pDSSate2.get());
 
 		m_pAreadTex = CreateSamplerState("AreaTexDX10.dds",CLAMP,TFO_BILINEAR,false);
 		m_pAreadTex->SetWrapModeW(CLAMP);
@@ -75,14 +75,14 @@ namespace ma
 
 		//m_pBlendWeightCalculation->SaveToXML("tech/BlendWeightCalculation.tech");
 
-		m_pNeiborhoodBlending = CreateTechnique("NeiborhoodBlending","smaa/NeiborhoodBlending","smaa/NeiborhoodBlending","");
+//		m_pNeiborhoodBlending = CreateTechnique("NeiborhoodBlending","smaa/NeiborhoodBlending","smaa/NeiborhoodBlending","");
 // 		m_pNeiborhoodBlending->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 // 		m_pNeiborhoodBlending->m_bDepthWrite = false;
 		RefPtr<DepthStencilState> pDSSate3 = CreateDepthStencilState();
 		pDSSate3->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 		pDSSate3->m_bDepthWrite = false;
 		pDSSate3->m_bStencil = false;
-		m_pNeiborhoodBlending->SetDepthStencilState(pDSSate3.get());
+		//m_pNeiborhoodBlending->SetDepthStencilState(pDSSate3.get());
 
 		//m_pNeiborhoodBlending->SaveToXML("tech/m_pNeiborhoodBlending.tech");
 	}

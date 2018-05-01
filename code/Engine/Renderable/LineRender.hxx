@@ -18,28 +18,23 @@ namespace ma
 
 	void LineRender::Init()
 	{
-        gpLinTech = CreateTechnique();
-        
         VertexElement element[2];
         element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
         element[1] = VertexElement(0,12,DT_COLOR,DU_COLOR,0);
         RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
         
-        RefPtr<ShaderProgram> pShader = CreateShaderProgram("line","line","",pVertexDec.get());
-        
-        gpLinTech->SetShaderProgram(pShader.get());
-    
-        //gpLinTech->SetVertexDeclaration(pVertexDec.get());
-        
 		RefPtr<DepthStencilState> pDSSate = CreateDepthStencilState();
 		pDSSate->m_bDepthWrite = true;
 		pDSSate->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
         
-		gpLinTech->SetDepthStencilState(pDSSate.get());
-        
-		gpLinTech->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
-
-		GetRenderSystem()->TechniqueStreamComplete(gpLinTech.get());
+		ShaderCreateInfo shaderInfo;
+		shaderInfo.m_strVSFile = "line";
+		shaderInfo.m_strPSFile = "line";
+		shaderInfo.m_pVertexDecl = pVertexDec;
+		shaderInfo.m_pDSState = pDSSate;
+		shaderInfo.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
+ 
+		gpLinTech = CreateTechnique("line", shaderInfo);
 
 		gpMeshBatch = new MeshBatch(pVertexDec->GetStreanmStride(0),PRIM_LINELIST, true, 1024);
 	}

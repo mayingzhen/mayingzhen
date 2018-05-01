@@ -13,25 +13,25 @@ namespace ma
 
 	void HDRPostProcess::Init()
 	{
-		m_SumLogTech = CreateTechnique("SumLuminanceLog","Screen","HDR/SumLuminanceLog",NULL); 
-
-		for (uint32_t i = 0; i < NUM_SUM_LUM; ++i)
-		{
-			m_SumLumIterativeTech[i] = CreateTechnique("SumLuminanceIterative","Screen","HDR/SumLuminanceIterative",NULL);
-		}
-
-		m_SumLumFinal = CreateTechnique("SumLuminanceFinal","Screen","HDR/SumLuminanceFinal",NULL);
-
-		m_AdaptedLumTech = CreateTechnique("AdaptedLum","Screen","HDR/AdaptedLum",NULL); 	
-
-		m_BrightPassTech = CreateTechnique("BrightPass","Screen","HDR/BrightPass",NULL); 
-
-		for (uint32_t i = 0; i < NUM_DownSamplers; ++i)
-		{
-			m_DownSamplersTech[i] = CreateTechnique("DownSample","Screen","HDR/DownSample",NULL); 
-		}
-
-		m_ToneMappingTech = CreateTechnique("ToneMaping","Screen","HDR/ToneMaping",NULL);
+// 		m_SumLogTech = CreateTechnique("SumLuminanceLog","Screen","HDR/SumLuminanceLog",NULL); 
+// 
+// 		for (uint32_t i = 0; i < NUM_SUM_LUM; ++i)
+// 		{
+// 			m_SumLumIterativeTech[i] = CreateTechnique("SumLuminanceIterative","Screen","HDR/SumLuminanceIterative",NULL);
+// 		}
+// 
+// 		m_SumLumFinal = CreateTechnique("SumLuminanceFinal","Screen","HDR/SumLuminanceFinal",NULL);
+// 
+// 		m_AdaptedLumTech = CreateTechnique("AdaptedLum","Screen","HDR/AdaptedLum",NULL); 	
+// 
+// 		m_BrightPassTech = CreateTechnique("BrightPass","Screen","HDR/BrightPass",NULL); 
+// 
+// 		for (uint32_t i = 0; i < NUM_DownSamplers; ++i)
+// 		{
+// 			m_DownSamplersTech[i] = CreateTechnique("DownSample","Screen","HDR/DownSample",NULL); 
+// 		}
+// 
+// 		m_ToneMappingTech = CreateTechnique("ToneMaping","Screen","HDR/ToneMaping",NULL);
 	}
 
 	void HDRPostProcess::Reset(Texture* pInput, Texture* pOutput)

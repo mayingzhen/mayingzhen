@@ -39,9 +39,6 @@ namespace ma
 		RefPtr<Technique>	m_pShadowDepthTech;
 		RefPtr<Technique>	m_pShadowDepthInstTech;
 
-		std::string			m_strShaderName;
-		std::string			m_strShaderMacro;
-
 		typedef std::vector<Parameter> VEC_PARAM;
 		VEC_PARAM			m_arrParameters;
 	};
@@ -59,8 +56,8 @@ namespace ma
 
 		DECL_OBJECT(Material);
 	
-		uint32_t				GetLodNumber() const {return (uint32_t)m_arrLodSubMaterial.size();}
-		uint32_t				GetLodSubNumber(uint32_t nLod) const;
+		uint32_t			GetLodNumber() const {return (uint32_t)m_arrLodSubMaterial.size();}
+		uint32_t			GetLodSubNumber(uint32_t nLod) const;
 		SubMaterial*		GetLodSubByIndex(uint32_t nLod,uint32_t index) const;
 
 		void				AddSubMaterial(uint32_t nLod,SubMaterial* pSubMaterial);	

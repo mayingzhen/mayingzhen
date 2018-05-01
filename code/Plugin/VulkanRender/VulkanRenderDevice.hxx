@@ -23,7 +23,6 @@ namespace ma
 
 	VulkanRenderDevice::VulkanRenderDevice()
 	{
-		//memset(m_arrSampler, 0, sizeof(m_arrSampler));
 	}
 
 	VulkanRenderDevice::~VulkanRenderDevice()
@@ -117,9 +116,7 @@ namespace ma
 
 	void VulkanRenderDevice::Init(void* wndhandle)
 	{
-		//m_hWnd = wndhandle;
-
-		bool enableValidation = false;
+		bool enableValidation = true;
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;

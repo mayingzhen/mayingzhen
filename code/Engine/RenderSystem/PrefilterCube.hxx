@@ -25,13 +25,16 @@ namespace ma
 		element[1] = VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0);
 		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 2);
 
-		RefPtr<Technique> PrefilterCopySrc = CreateTechnique("PrefilterCopySrc","PrefilterCopySrc","PrefilterCopySrc","", pDeclaration.get());
-		RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse","PrefilterCubeDiffuse","PrefilterCubeDiffuse","", pDeclaration.get());
-		RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular","PrefilterCubeSpecular","PrefilterCubeSpecular","",pDeclaration.get());
-
-		PrefilterCopySrc->SetParameter("skybox_cube_tex",Any(pInSampler));
-		PrefilterCubeDiffuse->SetParameter("skybox_cube_tex",Any(pInSampler));
-		PrefilterCubeSpecular->SetParameter("skybox_cube_tex",Any(pInSampler));
+// 		ShaderCreateInfo copySrc;
+// 		copySrc.m_strVSFile = "PrefilterCopySrc";
+// 		copySrc.m_strPSFile = "PrefilterCopySrc";
+// 		copySrc.m_pVertexDecl = pDeclaration;
+// 		RefPtr<Technique> PrefilterCopySrc = CreateTechnique("PrefilterCopySrc", copySrc);
+// 
+// 		RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse","PrefilterCubeDiffuse","PrefilterCubeDiffuse","", pDeclaration.get());
+// 		
+// 		RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular","PrefilterCubeSpecular","PrefilterCubeSpecular","",pDeclaration.get());
+		
 
 		for (int face = 0; face < 6; ++ face)
 		{
@@ -41,8 +44,12 @@ namespace ma
 				pRenderPass->AttachColor(0, out_tex.get(), 0, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-				PrefilterCopySrc->SetRenderPass(pRenderPass.get());
-				GetRenderSystem()->TechniqueStreamComplete(PrefilterCopySrc.get());
+				ShaderCreateInfo info;
+				info.m_strVSFile = "PrefilterCopySrc";
+				info.m_strPSFile = "PrefilterCopySrc";
+				info.m_pVertexDecl = pDeclaration;
+				info.m_pRenderPass = pRenderPass.get();
+				RefPtr<Technique> PrefilterCopySrc = CreateTechnique("PrefilterCopySrc", info);
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
 				
@@ -50,6 +57,7 @@ namespace ma
 
 				pCommand->Begin();
 
+				PrefilterCopySrc->SetParameter("skybox_cube_tex", Any(pInSampler));
 				PrefilterCopySrc->SetParameter("face",Any(face));
 
 				ScreenQuad::Render(PrefilterCopySrc.get(),pCommand);
@@ -67,8 +75,12 @@ namespace ma
 				pRenderPass->AttachColor(0, out_tex.get(), level, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-				PrefilterCubeSpecular->SetRenderPass(pRenderPass.get());
-				GetRenderSystem()->TechniqueStreamComplete(PrefilterCubeSpecular.get());
+				ShaderCreateInfo info;
+				info.m_strVSFile = "PrefilterCubeSpecular";
+				info.m_strPSFile = "PrefilterCubeSpecular";
+				info.m_pVertexDecl = pDeclaration;
+				info.m_pRenderPass = pRenderPass.get();
+				RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular", info);
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
 
@@ -76,6 +88,7 @@ namespace ma
 
 				pCommand->Begin();
 
+				PrefilterCubeSpecular->SetParameter("skybox_cube_tex", Any(pInSampler));
 				PrefilterCubeSpecular->SetParameter("face",Any(face));
 				PrefilterCubeSpecular->SetParameter("roughness",Any(roughness));
 
@@ -92,8 +105,12 @@ namespace ma
 				pRenderPass->AttachColor(0, out_tex.get(), out_num_mipmaps - 1, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-				PrefilterCubeDiffuse->SetRenderPass(pRenderPass.get());
-				GetRenderSystem()->TechniqueStreamComplete(PrefilterCubeDiffuse.get());
+				ShaderCreateInfo info;
+				info.m_strVSFile = "PrefilterCubeDiffuse";
+				info.m_strPSFile = "PrefilterCubeDiffuse";
+				info.m_pVertexDecl = pDeclaration;
+				info.m_pRenderPass = pRenderPass.get();
+				RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse", info);
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
 
@@ -101,6 +118,7 @@ namespace ma
 
 				pCommand->Begin();
 
+				PrefilterCubeDiffuse->SetParameter("skybox_cube_tex", Any(pInSampler));
 				PrefilterCubeDiffuse->SetParameter("face",Any(face));
 
 				ScreenQuad::Render(PrefilterCubeDiffuse.get(), pCommand);
@@ -129,14 +147,16 @@ namespace ma
 		element[1] = VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0);
 		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 2);
 
-		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf","PrefilterBrdf","PrefilterBrdf","", pDeclaration.get());
-
 		RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
 		pRenderPass->AttachColor(0, pOutTex.get(), 0, 0);
 		GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
-		pPrefilterBrdf->SetRenderPass(pRenderPass.get());
-		GetRenderSystem()->TechniqueStreamComplete(pPrefilterBrdf.get());
+		ShaderCreateInfo info;
+		info.m_strVSFile = "PrefilterBrdf";
+		info.m_strPSFile = "PrefilterBrdf";
+		info.m_pVertexDecl = pDeclaration;
+		info.m_pRenderPass = pRenderPass.get();
+		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf", info);
 
 		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
 

@@ -5,7 +5,7 @@
 #include "common.h"
 
 #if USING_SHADOW != 0
-#include"shadowMap.h"
+#include"shadowMap_vs.h"
 #endif
 
 #ifdef SKIN

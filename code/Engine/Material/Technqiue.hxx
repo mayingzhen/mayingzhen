@@ -4,13 +4,13 @@ namespace ma
 {
 	Technique::Technique()
 	{
-		m_nStencilRef = 0;
-
-		m_pBlendState = CreateBlendState();
-
-		m_pDSState = CreateDepthStencilState();
-
-		m_pRSState = CreateRasterizerState();
+// 		m_nStencilRef = 0;
+// 
+// 		m_pBlendState = CreateBlendState();
+// 
+// 		m_pDSState = CreateDepthStencilState();
+// 
+// 		m_pRSState = CreateRasterizerState();
 
 		memset(m_arrSampler, 0, sizeof(m_arrSampler));
 	}
@@ -30,154 +30,6 @@ namespace ma
 			return;
 
 		m_pShaderProgram = pShader;
-	}
-
-	int Technique::GetShaderMacroInt(const char* pszMacro)
-	{
-		ASSERT(pszMacro);
-		if (pszMacro == NULL)
-			return false;
-
-		std::string stdShder = m_pShaderProgram->GetShaderMacro();
-
-		const vector<string> vecMacros = StringUtil::split(stdShder, ";");
-
-		if( vecMacros.empty() )
-			return 0;
-
-		for(uint32_t i=0; i< vecMacros.size(); i++)
-		{
-			const vector<string> keyValue = StringUtil::split(vecMacros[i], "=");
-			uint32_t nSize = keyValue.size();
-			if(nSize != 2)
-				continue;
-
-			if(keyValue[0] != string(pszMacro) )
-				continue;
-
-			return StringConverter::parseInt(keyValue[1]);
-		}
-
-		return 0;
-	}
-
-	void Technique::SetShaderMacroInt(const char* pszMacro, int nValue)
-	{
-		ASSERT(pszMacro);
-		if (pszMacro == NULL)
-			return;
-
-		const char* pVSFile = m_pShaderProgram->GetVSFile();
-		const char* pPSFile = m_pShaderProgram->GetPSFile();
-		std::string strShder = m_pShaderProgram->GetShaderMacro();
-        VertexDeclaration* pVertexDecl = m_pShaderProgram->GetVertexDeclaration();
-
-		vector<string> vecMacros = StringUtil::split(strShder,";");
-		if (vecMacros.empty())
-			return;
-
-		uint32_t i = 1;
-		for (; i < vecMacros.size(); ++i)
-		{
-			vector<string> keyValue = StringUtil::split(vecMacros[i],"=");
-			uint32_t nSize = keyValue.size();
-			if (nSize != 2)
-				continue;
-
-			if (keyValue[0] != string(pszMacro))
-				continue; 
-
-			keyValue[1] = StringConverter::toString(nValue);
-
-			vecMacros[i] = keyValue[0] + "=" + keyValue[1];
-			break;
-		}
-
-		if (i == vecMacros.size())
-		{
-			string strKey = pszMacro;
-			string strValue = StringConverter::toString(nValue);
-			vecMacros.push_back(strKey + "=" + strValue);
-		}
-
-		std::sort(vecMacros.begin() + 1, vecMacros.end());
-
-		string strFinal = vecMacros[0];
-		for (uint32_t i = 1; i < vecMacros.size(); ++i)
-		{
-			strFinal += ";" + vecMacros[i];
-		}
-	
- 		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strFinal.c_str(),pVertexDecl);
-	}
-
-	bool Technique::GetShaderMacroBool(const char* pszMacro)
-	{
-		ASSERT(pszMacro);
-		if (pszMacro == NULL)
-			return false;
-
-		std::string strShder = m_pShaderProgram->GetShaderMacro();
-
-		vector<string> vecMacros = StringUtil::split(strShder,";");
-		if (vecMacros.empty())
-			return false;
-
-		for (uint32_t i = 0; i < vecMacros.size(); ++i)
-		{
-			if (vecMacros[i] == string(pszMacro))
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	void Technique::SetShaderMacroBool(const char* pszMacro, bool b)
-	{
-		ASSERT(pszMacro);
-		if (pszMacro == NULL)
-			return;
-
-		const char* pVSFile = m_pShaderProgram->GetVSFile();
-		const char* pPSFile = m_pShaderProgram->GetPSFile();
-		std::string strShder = m_pShaderProgram->GetShaderMacro();
-        VertexDeclaration* pVertexDecl = m_pShaderProgram->GetVertexDeclaration();
-
-		vector<string> vecMacros = StringUtil::split(strShder,";");
-		if (vecMacros.empty())
-			return;
-
-		uint32_t i = 1;
-		for (; i < vecMacros.size(); ++i)
-		{
-			if (vecMacros[i] == string(pszMacro))
-			{
-				break;
-			}
-		}
-
-		if (i == vecMacros.size())
-		{
-			if (b)
-				vecMacros.push_back(pszMacro);
-		}
-		else
-		{
-			if (!b)
-				vecMacros.erase(vecMacros.begin() + i);
-		}
-
-		std::sort(vecMacros.begin() + 1, vecMacros.end());
-
-		string strFinal = vecMacros[0];
-		for (uint32_t i = 1; i < vecMacros.size(); ++i)
-		{
-			strFinal += ";" + vecMacros[i];
-		}
-
-		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strFinal.c_str(),pVertexDecl);
 	}
 
 	void Technique::Bind(Renderable* pRenderable)
@@ -357,19 +209,150 @@ namespace ma
 		m_strDefine = pszDefine;
 	}
 
-	void Technique::SetBlendState(BlendState* pBlendState)
+	int Technique::GetShaderMacroInt(const char* pszMacro)
 	{
-		m_pBlendState = pBlendState;
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return false;
+
+		std::string stdShder = m_strDefine;
+
+		const vector<string> vecMacros = StringUtil::split(stdShder, ";");
+
+		if (vecMacros.empty())
+			return 0;
+
+		for (uint32_t i = 0; i < vecMacros.size(); i++)
+		{
+			const vector<string> keyValue = StringUtil::split(vecMacros[i], "=");
+			uint32_t nSize = keyValue.size();
+			if (nSize != 2)
+				continue;
+
+			if (keyValue[0] != string(pszMacro))
+				continue;
+
+			return StringConverter::parseInt(keyValue[1]);
+		}
+
+		return 0;
 	}
 
-	void Technique::SetDepthStencilState(DepthStencilState* pDSSate)
+	void Technique::SetShaderMacroInt(const char* pszMacro, int nValue)
 	{
-		m_pDSState = pDSSate;
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return;
+
+		std::string strShder = m_strDefine;
+
+		vector<string> vecMacros = StringUtil::split(strShder, ";");
+		if (vecMacros.empty())
+			return;
+
+		uint32_t i = 1;
+		for (; i < vecMacros.size(); ++i)
+		{
+			vector<string> keyValue = StringUtil::split(vecMacros[i], "=");
+			uint32_t nSize = keyValue.size();
+			if (nSize != 2)
+				continue;
+
+			if (keyValue[0] != string(pszMacro))
+				continue;
+
+			keyValue[1] = StringConverter::toString(nValue);
+
+			vecMacros[i] = keyValue[0] + "=" + keyValue[1];
+			break;
+		}
+
+		if (i == vecMacros.size())
+		{
+			string strKey = pszMacro;
+			string strValue = StringConverter::toString(nValue);
+			vecMacros.push_back(strKey + "=" + strValue);
+		}
+
+		std::sort(vecMacros.begin() + 1, vecMacros.end());
+
+		string strFinal = vecMacros[0];
+		for (uint32_t i = 1; i < vecMacros.size(); ++i)
+		{
+			strFinal += ";" + vecMacros[i];
+		}
+
+		m_strDefine = strFinal;
+
+		this->ReLoad();
 	}
 
-	void Technique::SetRasterizerState(RasterizerState* pRSState)
+	bool Technique::GetShaderMacroBool(const char* pszMacro)
 	{
-		m_pRSState = pRSState;
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return false;
+
+		std::string strShder = m_strDefine;
+
+		vector<string> vecMacros = StringUtil::split(strShder, ";");
+		if (vecMacros.empty())
+			return false;
+
+		for (uint32_t i = 0; i < vecMacros.size(); ++i)
+		{
+			if (vecMacros[i] == string(pszMacro))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	void Technique::SetShaderMacroBool(const char* pszMacro, bool b)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return;
+
+		std::string strShder = m_strDefine;
+
+		vector<string> vecMacros = StringUtil::split(strShder, ";");
+		if (vecMacros.empty())
+			return;
+
+		uint32_t i = 1;
+		for (; i < vecMacros.size(); ++i)
+		{
+			if (vecMacros[i] == string(pszMacro))
+			{
+				break;
+			}
+		}
+
+		if (i == vecMacros.size())
+		{
+			if (b)
+				vecMacros.push_back(pszMacro);
+		}
+		else
+		{
+			if (!b)
+				vecMacros.erase(vecMacros.begin() + i);
+		}
+
+		std::sort(vecMacros.begin() + 1, vecMacros.end());
+
+		string strFinal = vecMacros[0];
+		for (uint32_t i = 1; i < vecMacros.size(); ++i)
+		{
+			strFinal += ";" + vecMacros[i];
+		}
+
+		m_strDefine = strFinal;
+
+		this->ReLoad();
 	}
 
 	void Technique::SetValue(Uniform* pUniform, int value)
@@ -524,6 +507,8 @@ namespace ma
 
 	bool Technique::Import(rapidxml::xml_node<>* pXmlElem)
 	{
+		ShaderCreateInfo info;
+
 		rapidxml::xml_node<>* pXmlShader = pXmlElem->first_node("Shader");
 		ASSERT(pXmlShader);
 		if (pXmlShader)
@@ -540,7 +525,10 @@ namespace ma
 			const char* pszVSFile = pXmlShader->findAttribute("VSFile");
 			const char* pszPSFile = pXmlShader->findAttribute("PSFile");
             
-			m_pShaderProgram = CreateShaderProgram(pszVSFile, pszPSFile,m_strDefine.c_str(),pDeclaration.get());
+			info.m_shaderMacro = m_strDefine;
+			info.m_strVSFile = pszVSFile;
+			info.m_strPSFile = pszPSFile;
+			info.m_pVertexDecl = pDeclaration;
 		}
 
 		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
@@ -553,7 +541,7 @@ namespace ma
 				RefPtr<BlendState> pBlendState = CreateBlendState();
 				pBlendState->Import(pXmlBlendState);
 
-				this->SetBlendState(pBlendState.get());
+				info.m_pBlendState = pBlendState;
 			}
 
 			rapidxml::xml_node<>* pXmlDSState = pXmlElem->first_node("DepthStencilState");
@@ -562,7 +550,7 @@ namespace ma
 				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
 				pDSState->Import(pXmlDSState);
 
-				this->SetDepthStencilState(pDSState.get());
+				info.m_pDSState = pDSState;
 			}
 
 			rapidxml::xml_node<>* pXmlRSState = pXmlElem->first_node("RasterizerState");
@@ -571,58 +559,63 @@ namespace ma
 				RefPtr<RasterizerState> pRSState = CreateRasterizerState();
 				pRSState->Import(pXmlRSState);
 
-				this->SetRasterizerState(pRSState.get());
+				info.m_pRSState = pRSState;
 			}
 		}
+
+		info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
 	
+		m_pShaderProgram = CreateShaderProgram(info);
+
 		return true;
 	}
 
 	bool Technique::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
-		if (m_pShaderProgram)
-		{
-			rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
-			pXmlElem->append_node(pXmlShader);
+		if (m_pShaderProgram == NULL)
+			return false;
 
-			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"), doc.allocate_string(m_pShaderProgram->GetVSFile())));
-			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"), doc.allocate_string(m_pShaderProgram->GetPSFile())));
+		rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
+		pXmlElem->append_node(pXmlShader);
+
+		const ShaderCreateInfo& info = m_pShaderProgram->GetShaderCreateInfo();
+
+		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"), doc.allocate_string(info.m_strVSFile.c_str())));
+		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"), doc.allocate_string(info.m_strPSFile.c_str())));
             
-            VertexDeclaration* pVertexDecl = m_pShaderProgram->GetVertexDeclaration();
-            if (pVertexDecl)
-            {
-                rapidxml::xml_node<>* pXmlVertexDeclaration = doc.allocate_node(rapidxml::node_element, doc.allocate_string("VertexDeclaration"));
-                pXmlShader->append_node(pXmlVertexDeclaration);
+        if (info.m_pVertexDecl)
+        {
+			rapidxml::xml_node<>* pXmlVertexDeclaration = doc.allocate_node(rapidxml::node_element, doc.allocate_string("VertexDeclaration"));
+            pXmlShader->append_node(pXmlVertexDeclaration);
                 
-                pVertexDecl->Export(pXmlVertexDeclaration, doc);
-            }
-		}
-
+			info.m_pVertexDecl->Export(pXmlVertexDeclaration, doc);
+        }
+		
 		rapidxml::xml_node<>* pXmlRenderState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RenderState"));
 		pXmlElem->append_node(pXmlRenderState);
 
-		if (m_pBlendState)
+		if (info.m_pBlendState)
 		{
 			rapidxml::xml_node<>* pXmlBlendState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("BlendState"));
 			pXmlRenderState->append_node(pXmlBlendState);
 
-			m_pBlendState->Export(pXmlBlendState, doc);
+			info.m_pBlendState->Export(pXmlBlendState, doc);
 		}
 	
-		if (m_pDSState)
+		if (info.m_pDSState)
 		{
 			rapidxml::xml_node<>* pXmlDSState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("DepthStencilState"));
 			pXmlRenderState->append_node(pXmlDSState);
 
-			m_pDSState->Export(pXmlDSState, doc);
+			info.m_pDSState->Export(pXmlDSState, doc);
 		}
 
-		if (m_pRSState)
+		if (info.m_pRSState)
 		{
 			rapidxml::xml_node<>* pXmlRSState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RasterizerState"));
 			pXmlRenderState->append_node(pXmlRSState);
 
-			m_pRSState->Export(pXmlRSState, doc);
+			info.m_pRSState->Export(pXmlRSState, doc);
 		}
 
 		return true;
@@ -635,7 +628,9 @@ namespace ma
 		if (pShader == NULL)
 			return NULL;
 
-		VertexDeclaration* pVertexDecl = pShader->GetVertexDeclaration();
+		const ShaderCreateInfo& info = pShader->GetShaderCreateInfo();
+
+		VertexDeclaration* pVertexDecl = info.m_pVertexDecl.get();
 
 		std::vector<VertexElement> vecElement;
 		for (uint32_t i = 0; i < pVertexDecl->GetElementCount(0); ++i)
@@ -648,24 +643,32 @@ namespace ma
 
 		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vecElement.data(), vecElement.size());
 
-		std::string strShaderMacro = pShader->GetShaderMacro();
+		std::string strShaderMacro = info.m_shaderMacro;
 		strShaderMacro += ";INSTANCE";
-		RefPtr<Technique> pInstTech = CreateTechnique("instance.tech", pShader->GetVSFile(), pShader->GetPSFile(), strShaderMacro.c_str(), pDeclaration.get());
+
+		ShaderCreateInfo instInfo;
+		instInfo.m_strVSFile = info.m_strVSFile;
+		instInfo.m_strPSFile = info.m_strPSFile;
+		instInfo.m_shaderMacro = strShaderMacro;
+		instInfo.m_pVertexDecl = pDeclaration;
+		instInfo.m_pRenderPass = pShader->GetRenderPass();
+
+		RefPtr<Technique> pInstTech = CreateTechnique("instance.tech", instInfo);
 
 		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
 			pInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 		}
 
-		pInstTech->SetRenderPass(this->GetRenderPass());
-		GetRenderSystem()->TechniqueStreamComplete(pInstTech.get());
-
 		return pInstTech;
 	}
 
 	void Technique::ReLoad()
 	{
-		m_pShaderProgram->Reload();
+		ShaderCreateInfo info = m_pShaderProgram->GetShaderCreateInfo();
+		info.m_shaderMacro = m_strDefine;
+
+		m_pShaderProgram = CreateShaderProgram(info);
 
 		GetRenderSystem()->TechniqueStreamComplete(this);
 	}
@@ -703,16 +706,18 @@ namespace ma
 		return pTech;
 	}
 
-	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine,VertexDeclaration* pVertexDecl)
+	RefPtr<Technique> CreateTechnique(const char* pTechName, const ShaderCreateInfo& info)
 	{
 		Technique* pTech = GetRenderDevice()->CreateTechnique();
 		pTech->SetTechName(pTechName);
-		pTech->SetShaderDefine(pDefine);
 
-		RefPtr<ShaderProgram> pShader = CreateShaderProgram(pVSFile,pPSFile,pDefine,pVertexDecl);
+		RefPtr<ShaderProgram> pShader = CreateShaderProgram(info);
 
 		pTech->SetShaderProgram(pShader.get());
+
+		GetRenderSystem()->TechniqueStreamComplete(pTech);
 
 		return pTech;
 	}
 }
+

@@ -9,8 +9,6 @@ namespace ma
 
 		virtual void	RT_StreamComplete();
 
-		static void		Clear();
-
 	public:
 		VkPipelineRasterizationStateCreateInfo rs;
 	};
@@ -22,9 +20,6 @@ namespace ma
 
 		virtual void	RT_StreamComplete();
 
-
-		static void		Clear();
-
 	public:
 		VkPipelineDepthStencilStateCreateInfo ds;
 	};
@@ -35,8 +30,6 @@ namespace ma
 		VulkanBlendStateObject();
 
 		virtual void	RT_StreamComplete();
-
-		static void		Clear();
 
 	public:
 		VkPipelineColorBlendStateCreateInfo cb;

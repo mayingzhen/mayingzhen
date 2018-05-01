@@ -91,19 +91,19 @@ namespace ma
 
 	void DeferredShadow::Init()
 	{
-		m_pFrustumVolume = CreateTechnique("frustumclipvolume","volume","volume","");
+		//m_pFrustumVolume = CreateTechnique("frustumclipvolume","volume","volume","");
 
-		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
-		RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
-		pDSState->m_bDepthWrite = false;
-		m_pDefferedShadow->SetDepthStencilState(pDSState.get());
+		//m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
+		//RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+		//pDSState->m_bDepthWrite = false;
+		//m_pDefferedShadow->SetDepthStencilState(pDSState.get());
 
-		m_pBlendMaterial = CreateTechnique("DeferredShadowBlend","DefferedShadow","DefferedShadow","FRUSTUM_BLEND");
+		//m_pBlendMaterial = CreateTechnique("DeferredShadowBlend","DefferedShadow","DefferedShadow","FRUSTUM_BLEND");
 
-		m_pScreen = CreateTechnique("screen","screen","screen","");
-		RefPtr<BlendState> pBlendState = CreateBlendState();
-		pBlendState->m_eBlendMode = BM_MULTIPLY;
-		m_pScreen->SetBlendState(pBlendState.get());
+		//m_pScreen = CreateTechnique("screen","screen","screen","");
+		//RefPtr<BlendState> pBlendState = CreateBlendState();
+		//pBlendState->m_eBlendMode = BM_MULTIPLY;
+		//m_pScreen->SetBlendState(pBlendState.get());
 
 		CreateSimpleLightFrustumMesh();
 	}

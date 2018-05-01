@@ -13,8 +13,8 @@ namespace ma
 
 	void BlurPostProcess::Init()
 	{
-		m_pBlurXTech = CreateTechnique("BlurX","Blur","Blur","BLUR_X 1"); 
-		m_pBlurYTech = CreateTechnique("BlurY","Blur","Blur","BLUR_Y 1");
+		//m_pBlurXTech = CreateTechnique("BlurX","Blur","Blur","BLUR_X 1"); 
+		//m_pBlurYTech = CreateTechnique("BlurY","Blur","Blur","BLUR_Y 1");
 	}
 
 	void BlurPostProcess::Reset(Texture* pInput, Texture* pOutput)

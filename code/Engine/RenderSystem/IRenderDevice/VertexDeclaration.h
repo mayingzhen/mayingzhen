@@ -42,13 +42,13 @@ namespace ma
 
 		void					AddElement(const VertexElement& element);
 
-        uint32_t					GetStreanmStride(uint32_t nStream) const;
+        uint32_t				GetStreanmStride(uint32_t nStream) const;
 		
-        uint32_t					GetElementCount(uint32_t nStream);
+        uint32_t				GetElementCount(uint32_t nStream);
 		
         const VertexElement&	GetElement(uint32_t nStream, uint32_t index);
 		
-		uint64_t					GetHash();
+		uint64_t				GetHash();
 
 		bool					Import(rapidxml::xml_node<>* pXmlElem);
 		bool					Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);

@@ -94,7 +94,7 @@ namespace ma
 				std::string includeStr = str.substr(startQuote, len);
 				directoryPath.append(includeStr);
 				RefPtr<MemoryStream> pDataStream = GetArchiveMananger()->ReadAll(directoryPath.c_str());	
-				char* includedSource = (char*)pDataStream->GetPtr();
+				char* includedSource = pDataStream ? (char*)pDataStream->GetPtr() : NULL;
 				if (includedSource == NULL)
 				{
 					LogError("Compile failed for shader '%s' invalid filepath.", filepathStr.c_str());

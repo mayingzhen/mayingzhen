@@ -63,7 +63,7 @@ namespace ma
 		m_pPreIB = NULL;
 		memset(m_pPreVB, 0, sizeof(m_pPreVB));
 		memset(m_preVBOffset, 0, sizeof(m_preVBOffset));
-		m_pPrePipeline = NULL;
+		m_prePipeline = -1;
 	}
 
 	void VulkanRenderCommand::End()
@@ -100,12 +100,13 @@ namespace ma
 	void VulkanRenderCommand::SetTechnique(Technique* pTech)
 	{
 		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
+		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
 
-		if (m_pPrePipeline != pVulkanTech->m_pPipline.get())
+		if (m_prePipeline != pVulkanShader->m_pipeline)
 		{
-			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanTech->m_pPipline->m_pipeline);
+			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_pipeline);
 		
-			m_pPrePipeline = pVulkanTech->m_pPipline.get();
+			m_prePipeline = pVulkanShader->m_pipeline;
 		}
 		
 		VkDescriptorSet descriptorSets[4];
@@ -114,7 +115,7 @@ namespace ma
 		descriptorSets[2] = pVulkanTech->m_descriptorSets_sampler[0];
 		descriptorSets[3] = pVulkanTech->m_descriptorSets_sampler[1];
 
-		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanTech->m_pPipline->m_pipelineLayout, 0,
+		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_pipelineLayout, 0,
 			4, descriptorSets, 0, NULL);
 	}
 

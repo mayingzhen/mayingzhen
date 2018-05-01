@@ -58,9 +58,11 @@ namespace ma
             element[4] = VertexElement(0, 20, DT_UBYTE4N, DU_BLENDWEIGHT, 0);
             RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 5);
             
-			pShadingTech = CreateTechnique("shader/skinmesh.tech", "mesh", "mesh", strMacro.c_str(), pDeclaration.get());
-
-			//pShadingTech->SetVertexDeclaration(pDeclaration.get());
+			ShaderCreateInfo info;
+			info.m_strVSFile = "mesh";
+			info.m_strPSFile = "mesh";
+			info.m_pVertexDecl = pDeclaration;
+			pShadingTech = CreateTechnique("shader/skinmesh.tech", info);
 
 			pShadingTech->SaveToXML("shader/skinmesh.tech");
 		}
@@ -72,7 +74,11 @@ namespace ma
 			vec_element.push_back(VertexElement(0, 12, DT_SHORT2N, DU_TEXCOORD, 0) );
             RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vec_element.data(), vec_element.size());
             
-			pShadingTech = CreateTechnique("shader/mesh.tech", "mesh", "mesh", strMacro.c_str(), pDeclaration.get());
+			ShaderCreateInfo info;
+			info.m_strVSFile = "mesh";
+			info.m_strPSFile = "mesh";
+			info.m_pVertexDecl = pDeclaration;
+			pShadingTech = CreateTechnique("shader/mesh.tech", info);
 
 			pShadingTech->SaveToXML("shader/mesh.tech");
 		}
