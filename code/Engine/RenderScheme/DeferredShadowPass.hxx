@@ -16,7 +16,7 @@ namespace ma
 	{
 		m_pRenderable = new Renderable;
 	
-		//m_ShadowLight = pScene->GetDirLight();
+		//m_ShadowLight = pScene->GetMainDirLight();
 	}
 
 	void DeferredShadow::CreateSimpleLightFrustumMesh()
@@ -119,7 +119,7 @@ namespace ma
 	{
 		RENDER_PROFILE(DeferredShadow);
 
-		RefPtr<Texture> pPreTarget = GetRenderSystem()->GetRenderTarget(0);
+		//RefPtr<Texture> pPreTarget = GetRenderSystem()->GetRenderTarget(0);
 
 // 		FrameBuffer fb;
 // 		fb.AttachColor(0,m_pShadowTex.get());

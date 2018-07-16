@@ -24,9 +24,9 @@ namespace ma
 		void				UpdateSamplerDescriptorSets();
 
 	public:
-		VkDescriptorSet m_descriptorSets_uniform[2];
+		VkDescriptorSet		m_descriptorSets_uniform[2];
 
-		VkDescriptorSet m_descriptorSets_sampler[2];
+		VkDescriptorSet		m_descriptorSets_sampler[2];
 	};
 
 

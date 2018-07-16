@@ -1,5 +1,4 @@
-#ifndef _TerrainTrunk_H_
-#define _TerrainTrunk_H_
+#pragma once
 
 
 namespace ma
@@ -15,7 +14,7 @@ namespace ma
 
 		~TerrainTrunk();
 
-		void Show(Camera* pCamera);
+		void Render(RenderQueue* pRenderQueue);
 
 		bool Init(int i, int j);
 
@@ -99,6 +98,4 @@ namespace ma
 		friend class Terrain;
 	};
 }
-
-#endif
 

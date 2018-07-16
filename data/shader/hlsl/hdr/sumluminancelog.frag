@@ -1,12 +1,18 @@
 float4 tex_coord_offset[2];
 
-sampler2D g_SamplerSrc;
+Texture2D g_TexSrc;
+SamplerState g_SamplerSrc;
 
-
-float4 main(float2 itex : TEXCOORD0) : COLOR
+float LumLog(float3 color)
 {
-	const float3 RGB_TO_LUM = float3(0.299f, 0.587f, 0.114f);
-	
+	const float3 RGB_TO_LUM = float3(0.299, 0.587, 0.114);
+	float lum = dot(color, RGB_TO_LUM);
+	lum = max(lum, 0.0001);
+	return log( lum );
+}
+
+float4 main(float2 itex : TEXCOORD0) : SV_TARGET
+{
 	float4 tex[2] ;
 	
 	tex[0] = itex.xyxy + tex_coord_offset[0];
@@ -15,11 +21,11 @@ float4 main(float2 itex : TEXCOORD0) : COLOR
 	float logLum = 0;
 	for (int i = 0; i < 2; ++ i)
 	{
-		logLum += log( dot( tex2D(g_SamplerSrc, tex[i].xy).rgb, RGB_TO_LUM) + 0.001f);
-		logLum += log( dot( tex2D(g_SamplerSrc, tex[i].zw).rgb, RGB_TO_LUM) + 0.001f);
+		logLum += LumLog( g_TexSrc.Sample(g_SamplerSrc, tex[i].xy).rgb );
+		logLum += LumLog( g_TexSrc.Sample(g_SamplerSrc, tex[i].zw).rgb );
 	}
 
-	logLum /= 4;
+	logLum /= 4.0;
 	
 	return float4(logLum, logLum, logLum, 1.0f);
 }	

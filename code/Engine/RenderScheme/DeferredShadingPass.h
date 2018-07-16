@@ -15,7 +15,7 @@ namespace ma
 		
 		void		Reset();
 
-		void		Render();
+		void		Render(RenderCommand* pCommond);
 
 		void		Shoutdown();
 

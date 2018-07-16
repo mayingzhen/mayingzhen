@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	class UniformAnimation : public Serializable, public Animatable
+	class UniformAnimation : public Object, public Animatable
 	{
 	public:
 		UniformAnimation();

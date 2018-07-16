@@ -101,7 +101,6 @@ namespace ma
 
 		m_batchTemp.clear();
 
-		//Technique* pPreMaterial = NULL;
 		ShaderProgram* pPreShader = NULL;
 		VertexBuffer* pPreVB = NULL;
 

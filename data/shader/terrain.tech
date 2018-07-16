@@ -1,48 +1,11 @@
 <Technique>
 	<Shader VSFile="terrain" PSFile="terrain">
 		<VertexDeclaration>
-			<Element ClassName="VertexElement">
-				<Attribute Name="Stream" Type="short" Value="0"/>
-				<Attribute Name="Offset" Type="short" Value="0"/>
-				<Attribute Name="Type" Type="string" Value="DT_SHORT4N"/>
-				<Attribute Name="Usage" Type="string" Value="DU_POSITION"/>
-				<Attribute Name="UsageIndex" Type="short" Value="0"/>
-			</Element>
-			<Element ClassName="VertexElement">
-				<Attribute Name="Stream" Type="short" Value="0"/>
-				<Attribute Name="Offset" Type="short" Value="8"/>
-				<Attribute Name="Type" Type="string" Value="DT_SHORT2N"/>
-				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
-				<Attribute Name="UsageIndex" Type="short" Value="0"/>
-			</Element>
-			<Element ClassName="VertexElement">
-				<Attribute Name="Stream" Type="short" Value="0"/>
-				<Attribute Name="Offset" Type="short" Value="12"/>
-				<Attribute Name="Type" Type="string" Value="DT_UBYTE4N"/>
-				<Attribute Name="Usage" Type="string" Value="DU_TANGENT"/>
-				<Attribute Name="UsageIndex" Type="short" Value="0"/>
-			</Element>
+			<Element Value="0,0,DT_SHORT4N,DU_POSITION,0"/>
+			<Element Value="0,8,DT_SHORT2N,DU_TEXCOORD,0"/>
+			<Element Value="0,12,DT_UBYTE4N,DU_TANGENT,0"/>
 		</VertexDeclaration>
 	</Shader>
-	<RenderState>
-		<BlendState ClassName="BlendState">
-			<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-			<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
-		</BlendState>
-		<DepthStencilState ClassName="DepthStencilState">
-			<Attribute Name="DepthWrite" Type="bool" Value="true"/>
-			<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
-			<Attribute Name="Stencil" Type="bool" Value="false"/>
-			<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
-			<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
-			<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
-			<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
-			<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
-			<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
-		</DepthStencilState>
-		<RasterizerState ClassName="RasterizerState">
-			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
-		</RasterizerState>
-	</RenderState>
+	<RenderState/>
 </Technique>
 

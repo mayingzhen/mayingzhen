@@ -1,5 +1,4 @@
-#ifndef  _RenderProfile__H__
-#define  _RenderProfile__H__
+#pragma once
 
 
 namespace ma
@@ -21,6 +20,3 @@ namespace ma
 	#define RENDER_PROFILE(name) RenderProfile __re_##name(#name)
 
 }
-
-
-#endif

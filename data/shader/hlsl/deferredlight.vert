@@ -7,7 +7,7 @@
 struct VS_OUT
 {
    float2 oTc : TEXCOORD0;
-   float4 oViewDir : TEXCOORD1;
+   //float4 oViewDir : TEXCOORD1;
    float4 pos : SV_POSITION;
 };
 
@@ -32,7 +32,7 @@ void main(
 {
 #ifdef SCEERN_LIGHT
    vOut.pos = float4(pos.x, pos.y, 0.0, 1);
-   vOut.oViewDir = mul(float4(vOut.pos.xyz ,1),g_matProjInv);
+   //vOut.oViewDir = mul(float4(vOut.pos.xyz ,1),g_matProjInv);
    vOut.oTc = iUV;
 #else
    float3 iPos = pos * pos_extent + pos_center;	

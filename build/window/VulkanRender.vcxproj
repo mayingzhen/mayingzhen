@@ -176,6 +176,14 @@
     <None Include="..\..\data\shader\hlsl\font.frag" />
     <None Include="..\..\data\shader\hlsl\font.vert" />
     <None Include="..\..\data\shader\hlsl\frustumclipvolume.vert" />
+    <None Include="..\..\data\shader\hlsl\hdr\adaptedlum.frag" />
+    <None Include="..\..\data\shader\hlsl\hdr\brightpass.frag" />
+    <None Include="..\..\data\shader\hlsl\hdr\downsample.frag" />
+    <None Include="..\..\data\shader\hlsl\hdr\glowmerge.frag" />
+    <None Include="..\..\data\shader\hlsl\hdr\sumluminancefinal.frag" />
+    <None Include="..\..\data\shader\hlsl\hdr\sumluminanceiterative.frag" />
+    <None Include="..\..\data\shader\hlsl\hdr\sumluminancelog.frag" />
+    <None Include="..\..\data\shader\hlsl\hdr\tonemaping.frag" />
     <None Include="..\..\data\shader\hlsl\line.frag" />
     <None Include="..\..\data\shader\hlsl\line.vert" />
     <None Include="..\..\data\shader\hlsl\linearizedepth.frag" />

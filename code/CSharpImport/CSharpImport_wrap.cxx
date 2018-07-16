@@ -6347,6 +6347,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_FromEulerAngles(void * jarg1, floa
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_EulerAngles(void * jarg1) {
+  void * jresult ;
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  ma::Vector3 result;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  result = ((ma::Quaternion const *)arg1)->EulerAngles();
+  jresult = new ma::Vector3((const ma::Vector3 &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_FromAxes__SWIG_0(void * jarg1, void * jarg2) {
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   ma::Vector3 *arg2 = (ma::Vector3 *) 0 ;
@@ -7001,89 +7013,89 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_IDENTITY_get() {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_x_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion__x_set(void * jarg1, float jarg2) {
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float arg2 ;
   
   arg1 = (ma::Quaternion *)jarg1; 
   arg2 = (float)jarg2; 
-  if (arg1) (arg1)->x = arg2;
+  if (arg1) (arg1)->_x = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_x_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion__x_get(void * jarg1) {
   float jresult ;
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float result;
   
   arg1 = (ma::Quaternion *)jarg1; 
-  result = (float) ((arg1)->x);
+  result = (float) ((arg1)->_x);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_y_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion__y_set(void * jarg1, float jarg2) {
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float arg2 ;
   
   arg1 = (ma::Quaternion *)jarg1; 
   arg2 = (float)jarg2; 
-  if (arg1) (arg1)->y = arg2;
+  if (arg1) (arg1)->_y = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_y_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion__y_get(void * jarg1) {
   float jresult ;
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float result;
   
   arg1 = (ma::Quaternion *)jarg1; 
-  result = (float) ((arg1)->y);
+  result = (float) ((arg1)->_y);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_z_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion__z_set(void * jarg1, float jarg2) {
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float arg2 ;
   
   arg1 = (ma::Quaternion *)jarg1; 
   arg2 = (float)jarg2; 
-  if (arg1) (arg1)->z = arg2;
+  if (arg1) (arg1)->_z = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_z_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion__z_get(void * jarg1) {
   float jresult ;
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float result;
   
   arg1 = (ma::Quaternion *)jarg1; 
-  result = (float) ((arg1)->z);
+  result = (float) ((arg1)->_z);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_w_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion__w_set(void * jarg1, float jarg2) {
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float arg2 ;
   
   arg1 = (ma::Quaternion *)jarg1; 
   arg2 = (float)jarg2; 
-  if (arg1) (arg1)->w = arg2;
+  if (arg1) (arg1)->_w = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_w_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion__w_get(void * jarg1) {
   float jresult ;
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float result;
   
   arg1 = (ma::Quaternion *)jarg1; 
-  result = (float) ((arg1)->w);
+  result = (float) ((arg1)->_w);
   jresult = result; 
   return jresult;
 }

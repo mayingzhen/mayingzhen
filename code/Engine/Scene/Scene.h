@@ -1,5 +1,4 @@
-#ifndef  _Scene__H__
-#define  _Scene__H__
+#pragma once
 
 #include "Engine/RenderScheme/RenderScheme.h"
 
@@ -56,7 +55,7 @@ namespace ma
 
 		RenderScheme*			GetRenderScheme() const { return m_pRenderScheme.get(); }
 
-		uint32_t					GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
+		uint32_t				GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
 		RenderComponent*		GetVisibleNodeByIndex(uint32_t index) const {return m_arrRenderComp[index].get();}
 
 		RenderQueue*			GetRenderQueue();
@@ -67,18 +66,16 @@ namespace ma
 		float					GetViewMinZ() const {return m_viwMinZ;}
 		float					GetViewMaxZ() const {return m_viwMaxZ;}
 		void					SetViewMinMaxZ(float fViewMinZ, float fViewMaxZ) {m_viwMinZ = fViewMinZ; m_viwMaxZ = fViewMaxZ;}
-		
-		void					OnFlushFrame();
 
 		void					AddParallelUpdate(Component* pComponent);
 		void					AddParallelShow(Component* pComponent);
 
-		uint32_t					GetVisibleLightNum() const {return (uint32_t)m_vecRenderLight.size();}
+		uint32_t				GetVisibleLightNum() const {return (uint32_t)m_vecRenderLight.size();}
 		Light*					GetVisibleLightByIndex(uint32_t index) {return m_vecRenderLight[index].get();}
 
 		const Vector3&			GetAmbientColor() const{return m_cAmbientColor;}
 		void					SetAmbientColor(const Vector3& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
-		DirectonalLight*		GetDirLight() {return m_pDirLight.get();}
+		DirectonalLight*		GetMainDirLight() {return m_pMainDirLight.get();}
 
 		void					AddRenderLight(Light* pLight);
 
@@ -111,12 +108,9 @@ namespace ma
 		CCallback*				m_pCallback;
 
 		Vector3					m_cAmbientColor;
-		RefPtr<DirectonalLight> m_pDirLight;
+		RefPtr<DirectonalLight> m_pMainDirLight;
 	};
 
 	RefPtr<Scene> CreateScene();
 }
 
-
-
-#endif // _Scene__H__

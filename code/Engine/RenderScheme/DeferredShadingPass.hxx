@@ -31,7 +31,7 @@ namespace ma
 
 	}
 
-	void DeferredShading::Render()
+	void DeferredShading::Render(RenderCommand* pCommond)
 	{
 		RENDER_PROFILE(DefferedLighting);
 
@@ -40,14 +40,14 @@ namespace ma
 		// AmbientLight
 		Vector3 cAmbientColor;//= m_pScene->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color",Any(cAmbientColor));
-		//ScreenQuad::Render(m_pAmbientLight.get());	
+		ScreenQuad::Render(m_pAmbientLight.get(), pCommond);
 
 		Matrix4 matView = GetRenderContext()->GetViewMatrix();
 
 		uint32_t nLigtNumber = 0;//m_pScene->GetVisibleLightNum();
 		for (uint32_t i = 0; i < nLigtNumber; ++i)
 		{
-			Light* pLight = NULL; // m_pScene->GetVisibleLightByIndex(i);
+			Light* pLight = NULL;//m_pScene->GetVisibleLightByIndex(i);
 			if (pLight == NULL)
 				continue;
 
@@ -66,7 +66,7 @@ namespace ma
 				m_pDirLight->SetValue(pUniformDirES,vDirES);
 				m_pDirLight->SetValue(pUniformColor,pLight->GetLightColor());
 
-				//ScreenQuad::Render(m_pDirLight.get());		
+				ScreenQuad::Render(m_pDirLight.get(),pCommond);		
 			}
 			else if (pLight->GetLightType() == LIGHT_POINT)
 			{
@@ -91,7 +91,7 @@ namespace ma
 					//m_pPointLight->m_eCullMode = CULL_FACE_SIDE_BACK;
 				}
 
-				UnitSphere::Render(m_pPointLight.get(),pPointLight->GetSceneNode()->GetPos(),pPointLight->GetRadius());
+				UnitSphere::Render(m_pPointLight.get(),pPointLight->GetSceneNode()->GetPos(),pPointLight->GetRadius(),pCommond);
 			}
 
 			GetRenderContext()->SetCurLight(NULL);

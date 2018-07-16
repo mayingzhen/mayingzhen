@@ -17,7 +17,9 @@ namespace ma
 
 		virtual bool	SaveToFile(const char* pszPath);
 
-		VkImageView		GetImageView(int nInlevel, int nFace) { return m_view[nInlevel][nFace]; }
+		VkImageView		GetShaderView() { return m_shaderView; }
+
+		VkImageView		GetRenderTargetView(int nInlevel, int nFace) { return m_rtView[nInlevel][nFace]; }
 
 	private:
 		virtual	bool	RT_CreateCubeTexture();	
@@ -27,13 +29,19 @@ namespace ma
 		virtual bool	LoadFromImagData(const ImageData& imageData);
 
 		virtual bool	GenerateMipmaps();
+
+		void			CreateShaderView();
+
+		void			CreateRenderTargetView();
 		
 	public:
 		VkImage			m_image = 0;
 		VkImageLayout	m_imageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 
 		enum { MAX_MIP = 10 };
-		VkImageView		m_view[MAX_MIP][6] = { 0 };
+		VkImageView		m_rtView[MAX_MIP][6] = { 0 };
+
+		VkImageView		m_shaderView = 0;
 
 		VkDeviceMemory	m_deviceMemory;
 

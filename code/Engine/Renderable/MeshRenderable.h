@@ -8,8 +8,6 @@ namespace ma
 	{
 	public:
 		MeshRenderable();
-
-		virtual void	PreRender(Technique* pTech);
     };
 }
 

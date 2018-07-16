@@ -13,9 +13,9 @@ namespace ma
 		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32_t nCount);
 
 		const DualQuaternion*			GetSkinDQ();
-		uint32_t							GetSkinDQCount() const;
+		uint32_t						GetSkinDQCount() const;
 		
-		uint32_t							GetSkinMatrixCount() const;
+		uint32_t						GetSkinMatrixCount() const;
 		const Matrix3x4*				GetSkinMatrix();
 
 	private:

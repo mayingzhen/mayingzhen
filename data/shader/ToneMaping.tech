@@ -1,0 +1,22 @@
+<Technique>
+	<Shader VSFile="Screen" PSFile="HDR/ToneMaping">
+		<VertexDeclaration>
+      <Element Value="0,0,DT_FLOAT2,DU_POSITION,0"/>
+      <Element Value="0,8,DT_FLOAT2,DU_TEXCOORD,0"/>
+		</VertexDeclaration>
+	</Shader>
+  <RenderState>
+  <DepthStencilState ClassName="DepthStencilState">
+     <Attribute Name="DepthWrite" Type="bool" Value="true"/>
+    <Attribute Name="DepthCheckMode" Type="string" Value="CMPF_ALWAYS_PASS"/>
+    <Attribute Name="Stencil" Type="bool" Value="false"/>
+    <Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
+    <Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
+    <Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
+    <Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
+    <Attribute Name="StencilMask" Type="uint32_t" Value="4294967295"/>
+    <Attribute Name="WriteMask" Type="uint32_t" Value="4294967295"/>
+  </DepthStencilState>
+  </RenderState>
+</Technique>
+

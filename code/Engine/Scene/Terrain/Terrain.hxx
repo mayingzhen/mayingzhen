@@ -231,7 +231,7 @@ namespace ma
 			return false;
 
 		if (m_pBlendMap == NULL || !m_pBlendMap->IsReady())
-				return false;
+			return false;
 
 		if (m_pHeightMapData)
 		{
@@ -466,8 +466,8 @@ namespace ma
 
 		Vector3 vPos;
 		vPos.x = m_vStartpoint.x + nXVert * m_fCellSpacing;
-		vPos.y = m_vStartpoint.z + nYVert * m_fCellSpacing;
-		vPos.z = GetHeight(nXVert,nYVert);	
+		vPos.z = m_vStartpoint.z + nYVert * m_fCellSpacing;
+		vPos.y = GetHeight(nXVert,nYVert);	
 
 		return vPos;
 	}
@@ -493,7 +493,7 @@ namespace ma
 		float fHeight2 = this->GetHeight(nXVert, nYVert - 1);
 		float fHeight3 = this->GetHeight(nXVert + 1, nYVert);
 		float fHeight4 = this->GetHeight(nXVert, nYVert + 1);
-		Vector3 vNormal(fHeight1 - fHeight3, 2 * m_fCellSpacing, fHeight2 - fHeight4);
+		Vector3 vNormal(fHeight1 - fHeight3, fHeight2 - fHeight4, 2 * m_fCellSpacing);
 		vNormal.normalise();
 		return vNormal;
 	}
@@ -502,18 +502,18 @@ namespace ma
 	{
 		float flip = 1.f;
 		float fStep = m_fCellSpacing*0.5f;
-		Vector3 here (x, y, this->GetHeight(x, y));
-		Vector3 right (x+fStep, y, this->GetHeight(x+fStep, y));
-		Vector3 up (x, y+fStep, this->GetHeight(x, y+fStep));
+		Vector3 here (x, this->GetHeight(x, y), y);
+		Vector3 right (x + fStep, this->GetHeight(x + fStep, y), y);
+		Vector3 up (x, this->GetHeight(x, y + fStep), y + fStep);
 		if (right.x >= m_vStartpoint.x + m_fCellSpacing*m_nXCellsAmount)
 		{
 			flip *= -1;
-			right = Vector3(x-fStep, y, this->GetHeight(x-fStep, y));
+			right = Vector3(x-fStep, this->GetHeight(x - fStep, y), y);
 		}
 		if (up.y >=m_vStartpoint.y + m_fCellSpacing*m_nYCellsAmount)
 		{
 			flip *= -1;
-			up = Vector3(x, y-fStep, this->GetHeight(x, y-fStep));
+			up = Vector3(x, this->GetHeight(x, y - fStep), y-fStep);
 		}
 		right -= here;
 		up -= here;
@@ -537,7 +537,7 @@ namespace ma
 
 		float fHeight1 = this->GetHeight(nXVert - 1, nYVert);
 		float fHeight3 = this->GetHeight(nXVert + 1, nYVert);
-		Vector3 vTan(2 * m_fCellSpacing, fHeight3 - fHeight1, 0);
+		Vector3 vTan(2 * m_fCellSpacing,  0, fHeight3 - fHeight1);
 		vTan.normalise();
 		return vTan;
 	}
@@ -546,12 +546,12 @@ namespace ma
 	{
 		float flip = 1;
 		float fStep = m_fCellSpacing*0.5f;
-		Vector3 here(x, y, this->GetHeight(x,y));
-		Vector3 right(x+fStep, y, this->GetHeight(x+fStep, y));
+		Vector3 here(x, this->GetHeight(x, y), y);
+		Vector3 right(x+fStep, this->GetHeight(x + fStep, y), y);
 		if (right.x >= m_vStartpoint.x + m_fCellSpacing*m_nXCellsAmount)
 		{
 			flip *= -1;
-			right = Vector3(x-fStep, y, this->GetHeight(x-fStep, y));
+			right = Vector3(x - fStep, this->GetHeight(x - fStep, y), y);
 		}
 
 		right -= here;
@@ -579,11 +579,11 @@ namespace ma
 		if (m_pMaterial == NULL)
 			return NULL;
 
-		ASSERT(matID < m_pMaterial->GetLodSubNumber(0));
-		if (matID >= m_pMaterial->GetLodSubNumber(0))
+		ASSERT(matID < m_pMaterial->GetSubNumber());
+		if (matID >= m_pMaterial->GetSubNumber())
 			return NULL;
 
-		return m_pMaterial->GetLodSubByIndex(0,matID);
+		return m_pMaterial->GetSubByIndex(matID);
 	}
 
 	uint32_t Terrain::GetMaterialCount() const
@@ -591,7 +591,7 @@ namespace ma
 		if (m_pMaterial == NULL)
 			return 0;
 
-		return m_pMaterial->GetLodSubNumber(0);
+		return m_pMaterial->GetSubNumber();
 	}
 
 	void Terrain::AddMaterial(SubMaterial* pMateral)
@@ -599,7 +599,7 @@ namespace ma
 		if (m_pMaterial == NULL)
 			return;
 
-		m_pMaterial->AddSubMaterial(0,pMateral);
+		m_pMaterial->AddSubMaterial(pMateral);
 	}
 
 	SubMaterial* Terrain::GetMaterial(int nXVert,int nYVert) const

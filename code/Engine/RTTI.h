@@ -8,6 +8,7 @@ namespace ma
 		SceneNode::RegisterAttribute();
 		MeshComponent::RegisterAttribute();
 		SkinMeshComponent::RegisterAttribute();
+		SkyBox::RegisterAttribute();
 		Camera::RegisterAttribute();
 		Terrain::RegisterAttribute();
 		BlendState::RegisterAttribute();
@@ -15,7 +16,6 @@ namespace ma
 		RasterizerState::RegisterAttribute();
 		Technique::RegisterAttribute();
 		SamplerState::RegisterAttribute();
-		VertexElement::RegisterAttribute();
 	}
 
 	void EngineRTTIShutdown()

@@ -5,7 +5,7 @@ namespace ma
 {
 	class SkeletonPose;
 
-	class PoseModifier : public Serializable
+	class PoseModifier : public Object
 	{
 	
 	public:

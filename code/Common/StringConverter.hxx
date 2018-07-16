@@ -235,7 +235,7 @@ namespace ma {
     {
 		stringstream stream;
         stream.imbue(std::locale("C"));
-        stream  << val.w << " " << val.x << " " << val.y << " " << val.z;
+        stream  << val._w << " " << val._x << " " << val._y << " " << val._z;
         return stream.str();
     }
     //-----------------------------------------------------------------------

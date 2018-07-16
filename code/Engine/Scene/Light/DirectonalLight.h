@@ -23,9 +23,11 @@ namespace ma
 		bool				GetShadowEnabled() {return m_bShadowEnable;}
 
 		void				Init();
-		void				Update();
-		void				Show(Camera* pCamera);
+
+		void				UpdateShadowMap(Camera* pCamera);
+
 		void				RenderShadowMap(Camera* pCamera);
+
 		void				Clear(Camera* pCamera);
 
 		void				SetShadowBlurLevel(Shadow_Blur eBlur);
@@ -33,7 +35,7 @@ namespace ma
 
 		// Shadow Irreg
 		const	Vector4*	GetIrregKernel() const {return m_irreg_kernel;}
-		uint32_t				GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
+		uint32_t			GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
 		SamplerState*		GetRotSampler() const {return m_pRotSampler.get();}		
 		int					GetShadowSamplesNum() const {return m_ShadowSamplesNumer;}
 		void				SetShadowSamplesNum(int nNum);
@@ -41,7 +43,7 @@ namespace ma
 
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
-		uint32_t				GetMaxSplitCount() const {return m_nMaxSplitCount;}
+		uint32_t			GetMaxSplitCount() const {return m_nMaxSplitCount;}
 		int					GetCurSplitCount() const {return m_nCurSplitCount;}
 
 		void				SetSplitPosParam(Vector4 vSpiltPos) {m_SplitPosParam = vSpiltPos;}

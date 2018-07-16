@@ -100,7 +100,7 @@ namespace ma
 
 				if (0)
 				{
-					SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0, 0);
+					SubMaterial* pSubMaterial = pClone->GetSubByIndex(0);
 					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT", true);
 					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC", true);
 					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("BRDF", true);
@@ -121,8 +121,8 @@ namespace ma
 			}
 		}
 		
-		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(10,0,10),Vector3(0,0,0));
-		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
+		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10,0,10),Vector3(0,0,0));
+		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
 		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
 	}
 
@@ -138,12 +138,12 @@ namespace ma
 		if (key == Keyboard::KEY_A)
 		{
 			RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
-			pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
+			//pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
 		}
 		else if (key == Keyboard::KEY_D)
 		{
 			RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
-			pRenderScheme->SetDeferredShadingEnabled( !pRenderScheme->GetDeferredShadingEnabled() );
+			//pRenderScheme->SetDeferredShadingEnabled( !pRenderScheme->GetDeferredShadingEnabled() );
 		}
 	}
 

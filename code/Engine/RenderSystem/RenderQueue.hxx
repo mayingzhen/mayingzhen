@@ -1,15 +1,15 @@
 #include "RenderQueue.h"
 #include "BatchRenderable.h"
-#include "BatchTerrainRenderable.h"
 
 
 namespace ma
 {
 	RenderQueue::RenderQueue()	
 	{
-		m_arrRenderList[RL_Mesh] = new BatchRenderable();
-		m_arrRenderList[RL_MeshTrans] = new BatchRenderable();
-		m_arrRenderList[RL_Terrain] = new BatchTerrainRenderable();
+		for (size_t i = 0; i < RL_Count; i++)
+		{
+			m_arrRenderList[i] = new BatchRenderable();
+		}
 	}
 
 	RenderQueue::~RenderQueue()

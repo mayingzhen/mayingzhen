@@ -1,5 +1,4 @@
-#ifndef  _RESOURCE__H__
-#define  _RESOURCE__H__
+#pragma once
 
 #include "DataThread.h"
 
@@ -67,5 +66,3 @@ namespace ma
 	RefPtr<Resource> CreateResource(const char* pszPath);
 }
 
-
-#endif

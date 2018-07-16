@@ -101,13 +101,10 @@ namespace ma
 		vCamPos =  mShadowTexGen * Vector4(cam.GetPosWS(), 1.0f);
 	}
 
-	void DirectonalLight::Update()
+	void DirectonalLight::UpdateShadowMap(Camera* pCamera)
 	{
-		m_pSceneNode->GetScene()->AddRenderLight(this);
-	}
+		//m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_LIGHT, m_arrLodRenderable[m_nLod][i].get());
 
-	void DirectonalLight::Show(Camera* pCamera)
-	{
 		if (!m_bShadowEnable)
 			return;
 

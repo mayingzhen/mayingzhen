@@ -1,119 +1,167 @@
 #include "RenderScheme.h"
-#include "HDRPostProcess.h"
-#include "SMAAPostProcess.h"
-#include "AlchemyAo.h"
 #include "../RenderSystem/RenderCommand.h"
+#include "../RenderSystem/RenderProfile.h"
+#include "PostProcess.h"
 
 namespace ma
 {
 	RenderScheme::RenderScheme(Scene* pScene)
 	{
 		m_pScene = pScene;
+		g_pPostProcessPipeline = new PostProcessPipeline();
+	}
+
+	RenderScheme::~RenderScheme()
+	{
+		SAFE_DELETE(g_pPostProcessPipeline);
 	}
 
 	void RenderScheme::Init()
 	{
 		Shoutdown();
+	}
 
-		if (m_pDeferredShading)
+	void SetupGlow()
+	{
+		RefPtr<PostProcess> pGlow = new PostProcess();
+		g_pPostProcessPipeline->AddPostProcess(pGlow.get());
+
+		//std::string strDownSampleTarget = std::string("DownSampleTarget") + StringConverter::toString(i);
+		//g_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), 1, 1, PF_FLOAT32_R);
+		
+		int iterations = 6;
+		for (uint32_t i = 0; i < iterations; ++i)
 		{
-			m_pDeferredShading->Init();
+			std::string strDownSampleTarget = std::string("DownSampleTarget") + StringConverter::toString(i);
+			g_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), 1, 1, PF_FLOAT32_R);
+
+			std::string strUpSampleTarget = std::string("UpSampleTarget") + StringConverter::toString(i);
+			g_pPostProcessPipeline->AddRenderPass(strUpSampleTarget.c_str(), 1, 1, PF_FLOAT32_R);
 		}
 
-		if (m_pDeferredShadow)
+		//DownSample
+		std::string strInput = "[StageInput]";
+		for (uint32_t i = 0; i < iterations; ++i)
 		{
-			m_pDeferredShadow->Init();
+			std::string strOuput = std::string("DownSampleTarget") + StringConverter::toString(i);
+
+			RefPtr<PostProcessStep> pDownSample = new PostProcessStep();
+			pDownSample->SetInput("tSrcColor", strInput.c_str());
+			pDownSample->SetOutput(strOuput.c_str());
+			pDownSample->SetTechnique("shader/downsample.tech");
+			pGlow->AddStep(pDownSample.get());
+
+			strInput = strOuput;
 		}
 
-		if (m_pSSAO)
+		//UpSample
+		for (int i = iterations - 2; i >= 0; i--)
 		{
-			m_pSSAO->Init();
+			std::string strOuput = std::string("UpSampleTarget") + StringConverter::toString(i);
+
+			RefPtr<PostProcessStep> pUpSample = new PostProcessStep();
+			pUpSample->SetInput("tSrcColor", strInput.c_str());
+			pUpSample->SetOutput(strOuput.c_str());
+			pUpSample->SetTechnique("shader/upsample.tech");
+			pGlow->AddStep(pUpSample.get());
+
+			strInput = strOuput;
 		}
 
-		if (m_pHDR)
+	}
+
+	void SetupHDR()
+	{
 		{
-			m_pHDR->Init();
+			g_pPostProcessPipeline->AddRenderPass("IllumAdjust", 1, 1, PF_FLOAT32_R);
+			g_pPostProcessPipeline->AddRenderPass("IllumLast", 1, 1, PF_FLOAT32_R);
+			g_pPostProcessPipeline->AddRenderPass("IllumLumLog1", 4, 4, PF_FLOAT32_R);
+			g_pPostProcessPipeline->AddRenderPass("IllumLumLog2", 16, 16, PF_FLOAT32_R);
+			g_pPostProcessPipeline->AddRenderPass("IllumLumLog3", 64, 64, PF_FLOAT32_R);
 		}
 
-		if (m_pSMAA)
+		RefPtr<PostProcess> pHDR = new PostProcess();
+		g_pPostProcessPipeline->AddPostProcess(pHDR.get());
+
 		{
-			m_pSMAA->Init();
+			RefPtr<PostProcessStep> pStepLog = new PostProcessStep();
+			pStepLog->SetInput("g_TexSrc", "[StageInput]");
+			pStepLog->SetOutput("IllumLumLog3");
+			pStepLog->SetTechnique("shader/SumLuminanceLog.tech");
+			pHDR->AddStep(pStepLog.get());
+		}
+
+		{
+			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep();
+			pStepIterative->SetInput("tSrcColor", "IllumLumLog3");
+			pStepIterative->SetOutput("IllumLumLog2");
+			pStepIterative->SetTechnique("shader/SumLuminanceIterative.tech");
+			pHDR->AddStep(pStepIterative.get());
+		}
+
+		{
+			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep();
+			pStepIterative->SetInput("g_TextureSrc", "IllumLumLog2");
+			pStepIterative->SetOutput("IllumLumLog1");
+			pStepIterative->SetTechnique("shader/SumLuminanceIterative.tech");
+			pHDR->AddStep(pStepIterative.get());
+		}
+
+		{
+			RefPtr<PostProcessStep> pStepFinal = new PostProcessStep();
+			pStepFinal->SetInput("g_TextureSrc", "IllumLumLog1");
+			pStepFinal->SetInput("g_TexLumLast", "IllumLast");
+			pStepFinal->SetOutput("IllumAdjust");
+			pStepFinal->SetTechnique("shader/SumLuminanceFinal.tech");
+			pHDR->AddStep(pStepFinal.get());
+		}
+
+		{
+			RefPtr<PostProcessStep> pCopy = new PostProcessStep();
+			pCopy->SetInput("tSrcColor", "IllumAdjust");
+			pCopy->SetOutput("IllumLast");
+			pCopy->SetTechnique("shader/copy.tech");
+			pHDR->AddStep(pCopy.get());
+		}
+
+		{
+			RefPtr<PostProcessStep> pStepToneMap = new PostProcessStep();
+			pStepToneMap->SetInput("gTex_Scene", "[StageInput]");
+			pStepToneMap->SetInput("gTex_Lum", "IllumAdjust");
+			pStepToneMap->SetOutput("[StageOutput]");
+			pStepToneMap->SetTechnique("shader/ToneMaping.tech");
+			pHDR->AddStep(pStepToneMap.get());
 		}
 	}
 
 	void RenderScheme::Reset()
-	{
-// 		m_pFrameBuffer->AttachDepthStencil(NULL);
-// 		m_pFrameBuffer->AttachColor(0,NULL);
-// 		m_pFrameBuffer->AttachColor(1,NULL);
-		
-//		m_pDiffuseTex = GetRenderSystem()->GetDefaultRenderTarget();
-		if (m_pHDR)
+	{	
+		m_pShadingPass = GetRenderSystem()->GetDefaultRenderPass();
+
+		if (0)
 		{
-			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT16_RGBA,true);
+			RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
+
+			RefPtr<Texture> pTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT16_RGBA);
+			RefPtr<Texture> pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8);
+
+			pHDRPass->AttachColor(0, pTex.get(), 0, 0);
+			pHDRPass->AttachDepthStencil(pDepthTex.get());
+
+			GetRenderSystem()->RenderPassStreamComplete(pHDRPass.get());
+			
+			SetupHDR();
+
+			SetupGlow();
+
+			g_pPostProcessPipeline->Setup(pHDRPass.get(), GetRenderSystem()->GetDefaultRenderPass());
+
+			GetRenderSystem()->SetDefaultRenderPass(pHDRPass.get());
+			GetRenderSystem()->ReloadShader();
+
+			m_pShadingPass = pHDRPass;
+
 		}
-		else if (m_pSMAA)
-		{
-			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
-		}
-
-		//m_pDepthTex = GetRenderSystem()->GetDefaultDepthStencil();
-		//m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
-		//m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
-
-		if (m_pDeferredShading)
-		{
-            m_pLinearDepthTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT32_R,false);
-            m_pLinearDepthSampler = CreateSamplerState(m_pLinearDepthTex.get(),CLAMP,TFO_POINT,false);
-            //m_pTecLinearDepth = CreateTechnique("LinearDepth","screen","linearizedepth","");
-            
-			m_pDiffTemp = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
-			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,false);
-
-			m_pDiffTempSampler = CreateSamplerState(m_pDiffTemp.get(),CLAMP,TFO_POINT,true);
-			m_pNormalSampler = CreateSamplerState(m_pNormalTex.get(),CLAMP,TFO_POINT,false);
-
-			//m_pFrameBuffer->AttachColor(0,m_pDiffTemp.get());
-			//m_pFrameBuffer->AttachColor(1,m_pNormalTex.get());
-		}
-		else
-		{
-			if (m_pDiffuseTex)
-			{
-				//m_pFrameBuffer->AttachColor( 0,m_pDiffuseTex.get() );
-			}
-			else
-			{
-				//m_pFrameBuffer->AttachColor( 0,GetRenderSystem()->GetDefaultRenderTarget().get() );
-			}
-		}
-
-		if (m_pDeferredShading)
-		{
-			m_pDeferredShading->Reset();
-		}
-
-		if (m_pDeferredShadow)
-		{
-			m_pDeferredShadow->Reset();
-		}
-
-		if (m_pSSAO)
-		{
-			m_pSSAO->Reset(NULL,NULL);
-		}
-
-// 		RefPtr<Texture> pOutputTex = GetRenderSystem()->GetDefaultRenderTarget();
-// 
-// 		if (m_pHDR)
-// 		{
-// 			m_pHDR->Reset(m_pDiffuseTex.get(),pOutputTex.get());
-// 		}
-// 
-// 		if (m_pSMAA)
-// 		{
-// 			m_pSMAA->Reset(m_pDiffuseTex.get(),pOutputTex.get());
-// 		}
 	}
 
 	void RenderScheme::Shoutdown()
@@ -127,114 +175,31 @@ namespace ma
 	{
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
-		RenderPass* pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
-		pRenderPass->Begine();
+		m_pShadingPass->Begine();
 
 		{
 			RENDER_PROFILE(RL_Mesh);
-			pRenderQueue->RenderObjList(pRenderPass,RL_Mesh,RP_Shading);
+			pRenderQueue->RenderObjList(m_pShadingPass.get(),RL_Mesh,RP_Shading);
 		}
 
 		{
 			RENDER_PROFILE(RL_Terrain);
-			pRenderQueue->RenderObjList(pRenderPass,RL_Terrain,RP_Shading);
+			pRenderQueue->RenderObjList(m_pShadingPass.get(),RL_Terrain,RP_Shading);
 		}
 
-		pRenderPass->End();
-
-// 		if (m_pLinearDepthPass)
-// 		{
-// 			m_pLinearDepthPass->Begine();
-// 			ScreenQuad::Render(m_pTecLinearDepth.get());
-// 			m_pLinearDepthPass->End();
-// 		}
-
-		if (m_pDeferredShadow)
 		{
-			RENDER_PROFILE(m_pDeferredShadow);
-			m_pDeferredShadow->Render();
+			RENDER_PROFILE(RL_SkyBox);
+			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_SkyBox, RP_Shading);
 		}
 
-		if (m_pSSAO)
-		{
-			m_pSSAO->Render();
-		}
+		m_pShadingPass->End();
 
-// 		if (m_pDeferredShadingPass)
-// 		{
-// 			FrameBuffer fb;
-// 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
-// 			fb.AttachColor(0,m_pDiffuseTex.get());
-// 			GetRenderSystem()->SetFrameBuffer(&fb);
-// 
-// 			RENDER_PROFILE(m_pDeferredShadingPass);
-// 			m_pDeferredShadingPass->Render();
-// 		}
-
-		if (m_pHDR)
-		{
-			m_pHDR->Render();
-		}
-
-		if (m_pSMAA)
-		{
-			m_pSMAA->Render();
-		}
+		g_pPostProcessPipeline->Render();
 	}
 
-	void RenderScheme::SetSMAAEnabled(bool b)
-	{
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
-			return;
-
-		if (b)
-		{
-			if (m_pSMAA != NULL)
-				return;
-
-			m_pSMAA = new SMAAPostProcess();
-		}
-		else
-		{
-			if (m_pSMAA == NULL)
-				return;
-
-			m_pSMAA = NULL;
-		}
-
-		Init();
-		Reset();
-	}
-
-	bool RenderScheme::GetSMAAEnabled() const
-	{
-		return m_pSMAA != NULL;
-	}
 
 	void RenderScheme::SetDeferredShadingEnabled(bool b)
 	{
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
-			return;
-
-		if (b)
-		{
-			if (m_pDeferredShading)
-				return;
-
-			//m_pDeferredShadingPass = new DeferredShadingPass(m_pScene);
-
-			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "1");
-		}
-		else
-		{
-			if (m_pDeferredShading == NULL)
-				return;
-
-			m_pDeferredShading = NULL;
-
-			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "0");
-		}
-
 		Init();
 		Reset();
 	}
@@ -243,70 +208,6 @@ namespace ma
 	{
 		return m_pDeferredShading != NULL;
 	}
-
-	void RenderScheme::SetDeferredShadowEnabled(bool b)
-	{
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
-			return;
-
-		if (b)
-		{
-			if (m_pDeferredShadow)
-				return;
-
-			//m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
-
-			GetRenderSystem()->AddShaderGlobaMacro("USING_DEFERREDSHADOW", "1");
-		}
-		else
-		{
-			if (m_pDeferredShadow == NULL)
-				return;
-
-			m_pDeferredShadow = NULL;
-
-			GetRenderSystem()->AddShaderGlobaMacro("USING_DEFERREDSHADOW", "0");
-		}
-
-		Init();
-		Reset();
-	}
-
-	bool RenderScheme::GetDeferredShadowEnabled() const
-	{
-		return m_pDeferredShadow != NULL;
-	}
-
-	void RenderScheme::SetSSAOEnabled(bool b)
-	{
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
-			return;
-
-		if (b)
-		{
-			if (m_pSSAO)
-				return;
-
-			if (!GetDeferredShadingEnabled())
-				return;
-
-			m_pSSAO = new AlchemyAo();
-		}
-		else
-		{
-			if (m_pSSAO == NULL)
-				return;
-
-			m_pSSAO = NULL;
-		}
-
-		Init();
-		Reset();
-	}
-
-	bool RenderScheme::GetSSAOEnabled() const
-	{
-		return m_pSSAO != NULL;
-	}
 }
+
 

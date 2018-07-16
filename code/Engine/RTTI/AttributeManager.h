@@ -1,6 +1,4 @@
-
-#ifndef __AttributeManager_H__
-#define __AttributeManager_H__
+#pragma once
 
 #include "Attribute.h"
 
@@ -69,13 +67,11 @@ namespace ma
 	#define COPY_BASE_ATTRIBUTES(className, sourceClassName) GetAttributeManager()->CopyBaseAttributes<sourceClassName, className>()
 	#define REMOVE_ATTRIBUTE(className, name) GetAttributeManager()->RemoveAttribute<className>(name)
 	#define ATTRIBUTE(className, name, variable, typeName, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new AttributeImpl<className, typeName>( offsetof(className, variable) ) , Any(defaultValue), mode))
-	#define ENUM_ATTRIBUTE(className, name, variable, typeName, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new EnumAttributeImpl<className, typeName>(enumNames, offsetof(className, variable)), Any(defaultValue), mode))
+	#define ENUM_ATTRIBUTE(className, name, variable, typeName, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new EnumAttributeImpl<className, typeName>(enumNames, offsetof(className, variable)), Any(enumNames[defaultValue]), mode))
 	#define ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new AttributeAccessorImpl<className, typeName>(&className::getFunction, &className::setFunction), Any(defaultValue), mode))
-	#define ENUM_ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new EnumAttributeAccessorImpl<className, typeName>(enumNames,&className::getFunction, &className::setFunction), Any(defaultValue), mode))
+	#define ENUM_ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new EnumAttributeAccessorImpl<className, typeName>(enumNames,&className::getFunction, &className::setFunction), Any(enumNames[defaultValue]), mode))
 	#define REF_ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new RefAttributeAccessorImpl<className, typeName>(&className::getFunction, &className::setFunction), Any(defaultValue), mode))
 	#define UPDATE_ATTRIBUTE_DEFAULT_VALUE(className, name, defaultValue) GetAttributeManager()->UpdateAttributeDefaultValue<className>(name, defaultValue)
 
 }
 
-
-#endif

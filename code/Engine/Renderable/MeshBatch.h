@@ -28,18 +28,18 @@ namespace ma
 
 	protected:
 		bool			m_bIndexed;
-		uint32_t			m_nGrowSize;
+		uint32_t		m_nGrowSize;
 
-		uint32_t			m_nCapacity;
-		uint32_t			m_nVertexCapacity;
-		uint32_t			m_nIndexCapacity;
-		uint32_t			m_nStreanmStride;
+		uint32_t		m_nCapacity;
+		uint32_t		m_nVertexCapacity;
+		uint32_t		m_nIndexCapacity;
+		uint32_t		m_nStreanmStride;
 
-		uint8_t*			m_pVerticesPtr;
-		uint16_t*			m_pIndicesPtr;
+		uint8_t*		m_pVerticesPtr;
+		uint16_t*		m_pIndicesPtr;
 
-		uint8_t*			m_pVerticesPtrBase;
-		uint16_t*			m_pIndicesPtrBase;
+		uint8_t*		m_pVerticesPtrBase;
+		uint16_t*		m_pIndicesPtrBase;
 	};
 
 	template <class T>

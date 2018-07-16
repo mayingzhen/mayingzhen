@@ -4,7 +4,7 @@ namespace ma
 {
 	static Renderable* gpSphere = NULL;
 
-	void UnitSphere::Render(Technique* pTech,const Vector3& vPos,float fRadius)
+	void UnitSphere::Render(Technique* pTech,const Vector3& vPos,float fRadius,RenderCommand* pComomnd)
 	{
 		Matrix4 matTras = Matrix4::IDENTITY;  
 		matTras.setTrans(vPos);
@@ -12,7 +12,7 @@ namespace ma
 
 		gpSphere->SetWorldMatrix(matTras);
 		
-		//gpSphere->Render(pTech);
+		gpSphere->Render(pTech, pComomnd);
 	}
 
 	void SphereTessR(Vector3& v0, Vector3& v1, Vector3& v2, int depth, vector<uint16_t>& indBuff, vector<Vector3>& vertBuff)

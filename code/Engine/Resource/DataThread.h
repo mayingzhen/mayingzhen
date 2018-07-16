@@ -1,5 +1,4 @@
-#ifndef _DataThread_h__
-#define _DataThread_h__
+#pragma once
 
 
 namespace ma
@@ -42,8 +41,4 @@ namespace ma
 	extern DataThread* g_pDataThread;
 	DataThread* GetDataThread();
 }
-
-
-
-#endif 
 

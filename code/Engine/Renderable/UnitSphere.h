@@ -10,7 +10,7 @@ namespace ma
 		
 		static void Shoutdown();
 			
-		static void Render(Technique* pTech,const Vector3& vPos,float fRadius);
+		static void Render(Technique* pTech,const Vector3& vPos,float fRadius, RenderCommand* pComomnd);
 	};
 }
 

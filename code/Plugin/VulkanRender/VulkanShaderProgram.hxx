@@ -300,25 +300,6 @@ namespace ma
 		}
 	}
 
-	void VulkanShaderProgram::CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize)
-	{
-		Destory();
-
-		CreateShaderMode(vshSource,vshSize, VS);
-
-		CreateShaderMode(fshSource, fshSize, PS);
-
-		CreatePipelineLayout();
-
-		CreatePipelineCache();
-
-		CreateDescriptorPool();
-
-		CreatePipeline();
-
-		return;
-	}
-
 	VkShaderStageFlagBits ToVkShader(ShaderType type)
 	{
 		if (type == VS)
@@ -512,6 +493,8 @@ namespace ma
 			pVulkanBS = &bs;
 		}
 
+		pVulkanBS->cb.attachmentCount = GetRenderPass()->m_arrColor.size();
+
 		VulkanDepthStencilStateObject ds;
 		VulkanDepthStencilStateObject* pVulkanDS = (VulkanDepthStencilStateObject*)(info.m_pDSState.get());
 		if (pVulkanDS)
@@ -693,8 +676,17 @@ namespace ma
 		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), info.m_shaderMacro.c_str());
 		std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), info.m_shaderMacro.c_str());
 
-		CreateFromSource(strVshSource.c_str(), strVshSource.length(),
-			strFshSource.c_str(), strFshSource.length());
+		CreateShaderMode(strVshSource.c_str(), strVshSource.length(), VS);
+
+		CreateShaderMode(strFshSource.c_str(), strFshSource.length(), PS);
+
+		CreatePipelineLayout();
+
+		CreatePipelineCache();
+
+		CreateDescriptorPool();
+
+		CreatePipeline();
 
 		SetResState(ResInited);
 	}

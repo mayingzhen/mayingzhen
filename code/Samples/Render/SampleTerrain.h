@@ -1,5 +1,4 @@
-#ifndef _SampleTerrain_H_
-#define _SampleTerrain_H_
+#pragma once
 
 namespace ma
 {
@@ -19,6 +18,4 @@ namespace ma
 	};
 }
 
-
-#endif
 

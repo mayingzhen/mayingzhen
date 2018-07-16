@@ -21,9 +21,9 @@ namespace ma
 		profile_code();
 		
 		uint32_t nLod = 0;
-		for (uint32_t i = 0; i < m_arrLodRenderable[nLod].size(); ++i)
+		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			SkinMeshRenderable* pSkinRenderable = (SkinMeshRenderable*)m_arrLodRenderable[nLod][i].get();
+			SkinMeshRenderable* pSkinRenderable = (SkinMeshRenderable*)m_arrRenderable[i].get();
 			pSkinRenderable->SetSkinMatrix(arrMatrixs,nCount);
 		}
 	}

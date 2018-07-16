@@ -86,7 +86,7 @@ namespace ma
 		std::vector<VkAttachmentDescription> vecAttachments;
 
 		std::vector<VkAttachmentReference> vecColorReference;
-		for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
+		for (uint32_t i = 0; i < m_arrColor.size(); ++i)
 		{
 			Texture* pTexture = m_arrColor[i].m_pTexture.get();
 			if (pTexture == NULL)
@@ -111,8 +111,10 @@ namespace ma
 
 			vecColorReference.push_back(colorReference);
 
+			ColourValue vcolor = m_arrColor[i].m_cClearColor;
+
 			VkClearValue clearValues;
-			clearValues.color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+			clearValues.color = { { vcolor.r, vcolor.g, vcolor.b, vcolor.a } };
 			m_vecClearValues.push_back(clearValues);
 		}
 
@@ -194,23 +196,23 @@ namespace ma
 		std::vector<VkImageView> vecImagView;
 
 		std::vector<VkAttachmentReference> vecColorReference;
-		for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
+		for (uint32_t i = 0; i < m_arrColor.size(); ++i)
 		{
 			Texture* pTexture = m_arrColor[i].m_pTexture.get();
 			if (pTexture == NULL)
 				continue;
 
 			VulkanTexture* pVkTexture = (VulkanTexture*)pTexture;
-			vecImagView.push_back(pVkTexture->GetImageView(m_arrColor[i].m_nMip,m_arrColor[i].m_nFace));
+			vecImagView.push_back(pVkTexture->GetRenderTargetView(m_arrColor[i].m_nMip,m_arrColor[i].m_nFace));
 		}
 
 		if (m_pDepthStencil)
 		{
 			VulkanTexture* pVkTexture = (VulkanTexture*)m_pDepthStencil.get();
-			vecImagView.push_back(pVkTexture->GetImageView(0,0));
+			vecImagView.push_back(pVkTexture->GetRenderTargetView(0,0));
 		}
 
-		Texture* pRT = m_arrColor[0].m_pTexture ? m_arrColor[0].m_pTexture.get() : m_pDepthStencil.get();
+		Texture* pRT = m_arrColor.empty() ? m_pDepthStencil.get() : m_arrColor[0].m_pTexture.get();
 		ASSERT(pRT);
 
 		// Create frame buffer
@@ -218,15 +220,15 @@ namespace ma
 		fbufCreateInfo.renderPass = m_impl;
 		fbufCreateInfo.attachmentCount = vecImagView.size();
 		fbufCreateInfo.pAttachments = vecImagView.data();
-		fbufCreateInfo.width = pRT->GetWidth();
-		fbufCreateInfo.height = pRT->GetHeight();
+		fbufCreateInfo.width = pRT->GetWidth() >> m_arrColor[0].m_nMip;
+		fbufCreateInfo.height = pRT->GetHeight() >> m_arrColor[0].m_nMip;
 		fbufCreateInfo.layers = 1;
 
 		VK_CHECK_RESULT(vkCreateFramebuffer(device->logicalDevice, &fbufCreateInfo, nullptr, &m_frameBuffer));
 
 		if (m_viewPort.width() == 0 || m_viewPort.height() == 0)
 		{
-			m_viewPort = Rectangle(0, 0, (float)pRT->GetWidth(), (float)pRT->GetHeight());
+			m_viewPort = Rectangle(0, 0, (float)fbufCreateInfo.width, (float)fbufCreateInfo.height);
 		}
 	}
 

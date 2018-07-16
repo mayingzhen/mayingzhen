@@ -13,16 +13,16 @@ namespace ma
 	{
 	}
 
+	void Light::Render(RenderQueue* pRenderQueue)
+	{
+		m_pSceneNode->GetScene()->AddRenderLight(this);
+	}
+
 	void PointLight::SetRadius(float fRadius) 
 	{
 		m_fRadius = fRadius ? fRadius : 1.0f;
 
 		SetAABB( AABB(Vector3(-m_fRadius),Vector3(m_fRadius)) );
-	}
-
-	void PointLight::Show(Camera* pCamera)
-	{
-		m_pSceneNode->GetScene()->AddRenderLight(this);
 	}
 
 	RefPtr<PointLight> CreatePointLight()

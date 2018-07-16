@@ -1,6 +1,4 @@
-
-#ifndef __Serializable_H__
-#define __Serializable_H__
+#pragma once
 
 #include "Attribute.h"
 #include "Engine/Resource/Resource.h"
@@ -32,4 +30,3 @@ namespace ma
 	};
 }
 
-#endif

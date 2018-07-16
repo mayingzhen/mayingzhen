@@ -7,13 +7,8 @@ namespace ma
 	{
 
 	}
-
-	void MeshRenderable::PreRender(Technique* pTech)
-	{
- 		pTech->Bind(this);
-	}
-
 }
+
 
 
 

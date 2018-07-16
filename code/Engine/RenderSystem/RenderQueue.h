@@ -1,7 +1,4 @@
-#ifndef  _RenderQueue__H__
-#define  _RenderQueue__H__
-
-
+#pragma once
 
 namespace ma
 {
@@ -13,6 +10,7 @@ namespace ma
 	{
 		RL_Mesh,
 		RL_Terrain,
+		RL_SkyBox,
 		RL_MeshTrans,
 		RL_Count,
 	};
@@ -36,15 +34,8 @@ namespace ma
 		void					RenderObjList(RenderPass* pPass, RenderListType eRLType, RenderPassType eRPType);
 
 		void					Clear();
-
-	private:
-		uint32_t				GetRenderObjNumber(RenderListType eRLType);
-
-		Renderable*				GetRenderObjByIndex(RenderListType eRLType,int index);
 	
 	private:
 		BatchRenderable*		m_arrRenderList[RL_Count];
 	};
 }
-
-#endif // _RenderQueue__H__

@@ -7,8 +7,8 @@ namespace ma
 	struct RenderSurface
 	{
 		RefPtr<Texture> m_pTexture;
-		uint32_t m_nMip;
-		uint32_t m_nFace;
+		uint32_t m_nMip = 0;
+		uint32_t m_nFace = 0;
 
 		ColourValue m_cClearColor;
 	};
@@ -19,6 +19,8 @@ namespace ma
 
 		void AttachColor(int index, Texture* pColor, int level, int face) 
 		{
+			m_arrColor.resize(index + 1);
+
 			m_arrColor[index].m_pTexture = pColor;
 			m_arrColor[index].m_nMip = level;
 			m_arrColor[index].m_nFace = face;
@@ -38,15 +40,15 @@ namespace ma
 		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, RenderListType eRLType) = 0;
 
 	public:
-		RefPtr<Texture> m_pDepthStencil;
+		RefPtr<Texture>				m_pDepthStencil;
 
-		float m_fClearDepth = 1.0;
+		float						m_fClearDepth = 1.0;
 
-		uint32_t m_nClearStencil = 0;
+		uint32_t					m_nClearStencil = 0;
 		
-		RenderSurface m_arrColor[MAX_RENDERTARGETS];
+		std::vector<RenderSurface>	m_arrColor;
 
-		Rectangle m_viewPort;
+		Rectangle					m_viewPort;
 	};
 }
 

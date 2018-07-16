@@ -41,7 +41,7 @@ namespace ma
 			RefPtr<BlendState> pBlendSate = CreateBlendState();
 			pBlendSate->m_bColorWrite = false;
 
-			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
+			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
 
 			ShaderCreateInfo info;
@@ -103,7 +103,7 @@ namespace ma
 			const char* pszTechName = pXmlShadingTech->findAttribute("TechName");
 			const char* pszTechMacro = pXmlShadingTech->findAttribute("TechMarco");
 
-			m_pShadingTech = CreateTechnique(pszTechName, pszTechMacro);
+			m_pShadingTech = CreateTechnique(pszTechName, pszTechMacro, nullptr);
 		}
 
 		rapidxml::xml_node<>* pXmlShadowDepthTech = pXmlElem->first_node("ShadowDepthTech");
@@ -112,7 +112,7 @@ namespace ma
 			const char* pszTechName = pXmlShadingTech->findAttribute("TechName");
 			const char* pszTechMacro = pXmlShadingTech->findAttribute("TechMarco");
 
-			m_pShadowDepthTech = CreateTechnique(pszTechName, pszTechMacro);
+			m_pShadowDepthTech = CreateTechnique(pszTechName, pszTechMacro, nullptr);
 		}
 
 		rapidxml::xml_node<>* pXmlParameter = pXmlElem->first_node("Parameters");
@@ -136,7 +136,7 @@ namespace ma
 
 		if (m_pShadowDepthTech)
 		{
-			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetDirLight();
+			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
 			m_pShadowDepthTech->GetShaderProgram()->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
 
@@ -244,7 +244,7 @@ namespace ma
 
 	RefPtr<SubMaterial> SubMaterial::Clone()
 	{
-		SubMaterial* pClonMaterial = new SubMaterial();
+		RefPtr<SubMaterial> pClonMaterial = CreateSubMaterial();
 
 		rapidxml::xml_document<> doc;
 		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
@@ -255,10 +255,13 @@ namespace ma
 		return pClonMaterial;
 	}
 
+	std::vector< RefPtr<SubMaterial> > g_subMaterilalAll;
 
 	RefPtr<SubMaterial> CreateSubMaterial()
 	{
 		SubMaterial* pMaterial = new SubMaterial();
+
+		g_subMaterilalAll.push_back(pMaterial);
 
 		return pMaterial;
 	}
@@ -272,55 +275,36 @@ namespace ma
 	{
 	}
 
-	uint32_t Material::GetLodSubNumber(uint32_t nLod) const
+	uint32_t Material::GetSubNumber() const
 	{
-		if (nLod >= m_arrLodSubMaterial.size())
-			return 0;
-
-		return m_arrLodSubMaterial[nLod].size();
+		return m_arrSubMaterial.size();
 	}
 
-	SubMaterial* Material::GetLodSubByIndex(uint32_t nLod,uint32_t index) const
+	SubMaterial* Material::GetSubByIndex(uint32_t index) const
 	{
-		ASSERT(nLod < m_arrLodSubMaterial.size());
-		if (nLod >= m_arrLodSubMaterial.size())
+		ASSERT(index < m_arrSubMaterial.size());
+		if (index >= m_arrSubMaterial.size())
 			return NULL;
 
-		ASSERT(index < m_arrLodSubMaterial[nLod].size());
-		if (index >= m_arrLodSubMaterial[nLod].size())
-			return NULL;
-
-		return m_arrLodSubMaterial[nLod][index].get();
+		return m_arrSubMaterial[index].get();
 	}
 
-	void Material::AddSubMaterial(uint32_t nLod,SubMaterial* pSubMaterial)
+	void Material::AddSubMaterial(SubMaterial* pSubMaterial)
 	{
-		if (nLod >= m_arrLodSubMaterial.size())
-		{
-			m_arrLodSubMaterial.resize(nLod + 1);
-		}
-		m_arrLodSubMaterial[nLod].push_back(pSubMaterial);
+		m_arrSubMaterial.push_back(pSubMaterial);
 	}
-
 
 	bool Material::Import(rapidxml::xml_node<>* pXmlElem)
 	{
-		uint32_t nLod = 0;
-		rapidxml::xml_node<>* pXmlLodSubMaterial = pXmlElem->first_node("LodMaterial");
-		while(pXmlLodSubMaterial)
+		rapidxml::xml_node<>* pXmlSubMaterial = pXmlElem->first_node("SubMaterial");
+		while(pXmlSubMaterial)
 		{
-			rapidxml::xml_node<>* pXmlSubMaterial = pXmlLodSubMaterial->first_node("SubMaterial");
-			while(pXmlSubMaterial)
-			{
-				RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
-				this->AddSubMaterial(nLod,pSubMaterial.get());
+			RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
+			this->AddSubMaterial(pSubMaterial.get());
 
-				pSubMaterial->Import(pXmlSubMaterial,this);
+			pSubMaterial->Import(pXmlSubMaterial,this);
 
-				pXmlSubMaterial = pXmlSubMaterial->next_sibling("SubMaterial");
-			}
-			pXmlLodSubMaterial = pXmlLodSubMaterial->next_sibling("LodMaterial");
-			nLod++;
+			pXmlSubMaterial = pXmlSubMaterial->next_sibling("SubMaterial");
 		}
 
 		return true;
@@ -328,19 +312,13 @@ namespace ma
 
 	bool Material::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
-		for (uint32_t iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
+		for (uint32_t iSub = 0; iSub < m_arrSubMaterial.size(); ++iSub)
 		{
-			rapidxml::xml_node<>* pXmlLodSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("LodMaterial"));
-			pXmlElem->append_node(pXmlLodSubMaterial);
+			rapidxml::xml_node<>* pXmlSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
+			pXmlElem->append_node(pXmlSubMaterial);
 
-			for (uint32_t iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
-			{
-				rapidxml::xml_node<>* pXmlSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
-				pXmlLodSubMaterial->append_node(pXmlSubMaterial);
-
-				SubMaterial* pSubMaterial = m_arrLodSubMaterial[iLod][iSub].get();
-				pSubMaterial->Export(pXmlSubMaterial,doc);
-			}
+			SubMaterial* pSubMaterial = m_arrSubMaterial[iSub].get();
+			pSubMaterial->Export(pXmlSubMaterial,doc);
 		}
 
 		return true;
@@ -348,12 +326,9 @@ namespace ma
 
 	void Material::ReLoad()
 	{
-		for (uint32_t iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
+		for (uint32_t iSub = 0; iSub < m_arrSubMaterial.size(); ++iSub)
 		{
-			for (uint32_t iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
-			{
-				m_arrLodSubMaterial[iLod][iSub]->ReLoad();
-			}
+			m_arrSubMaterial[iSub]->ReLoad();
 		}
 	}
 

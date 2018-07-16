@@ -10,6 +10,8 @@ namespace ma
 		static void Shoutdown();
 
 		static void Render(Technique* pTechnique, RenderCommand* pCommand);
+
+		static Renderable* GetRenderable();
 	};
 
 }

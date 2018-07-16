@@ -43,7 +43,7 @@ namespace ma
 		VEC_PARAM			m_arrParameters;
 	};
 
-	RefPtr<SubMaterial> CreateSubMaterial();
+	RefPtr<SubMaterial>	CreateSubMaterial();
 
 
 	class Material : public XmlFile
@@ -56,29 +56,30 @@ namespace ma
 
 		DECL_OBJECT(Material);
 	
-		uint32_t			GetLodNumber() const {return (uint32_t)m_arrLodSubMaterial.size();}
-		uint32_t			GetLodSubNumber(uint32_t nLod) const;
-		SubMaterial*		GetLodSubByIndex(uint32_t nLod,uint32_t index) const;
+		uint32_t			GetSubNumber() const;
+		SubMaterial*		GetSubByIndex(uint32_t index) const;
 
-		void				AddSubMaterial(uint32_t nLod,SubMaterial* pSubMaterial);	
-
-		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
-		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
+		void				AddSubMaterial(SubMaterial* pSubMaterial);	
 
 		void				ReLoad();
 
 		RefPtr<Material>	Clone();
 
 	private:
+		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
+		virtual bool		Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
+
+	private:
 		typedef std::vector< RefPtr<SubMaterial> >	VEC_SUBMATERIAL;
-		typedef std::vector< VEC_SUBMATERIAL > VEC_LOD_SUBMATERIAL;
-		VEC_LOD_SUBMATERIAL		m_arrLodSubMaterial;
+		VEC_SUBMATERIAL		m_arrSubMaterial;
 	};
 
 	RefPtr<Material> CreateMaterial();
 	RefPtr<Material> CreateMaterial(const char* pszPath);
 
 	extern ResourceSystem<Material>* g_pMaterialManager;
+
 }	
+
 
 

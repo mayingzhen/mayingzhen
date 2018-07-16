@@ -29,7 +29,7 @@ namespace ma
 	{
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView( pCamera->GetMatView() );
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj( pCamera->GetMatProj() );
-		m_vEyeWordPos[GetRenderSystem()->CurThreadFill()] = pCamera->GetEyeNode()->GetPosWS();
+		m_vEyeWordPos[GetRenderSystem()->CurThreadFill()] = pCamera->GetPosWS();
 
 		m_fFar[GetRenderSystem()->CurThreadFill()] = pCamera->GetFarClip();
 		m_fNear[GetRenderSystem()->CurThreadFill()] = pCamera->GetNearClip();
@@ -93,7 +93,7 @@ namespace ma
 		if (m_pCurScene == NULL)
 			return Vector3::ZERO;
 
-		ColourValue color = m_pCurScene->GetDirLight()->GetLightColor();
+		ColourValue color = m_pCurScene->GetMainDirLight()->GetLightColor();
 		return Vector3(color.r,color.g,color.b);
 	}
 
@@ -102,7 +102,7 @@ namespace ma
 		if (m_pCurScene == NULL)
 			return Vector3::ZERO;
 
-		return -m_pCurScene->GetDirLight()->GetSceneNode()->GetForward();
+		return -m_pCurScene->GetMainDirLight()->GetSceneNode()->GetForward();
 	}
 
 

@@ -21,9 +21,10 @@ namespace ma
 
 		virtual	bool	SaveToFile(const char* pszFile);
 
+	private:
 		virtual bool	Import(rapidxml::xml_node<>* pXmlElem);
 
-		virtual bool	Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);
+		virtual bool	Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
 			
 	protected:
 		 rapidxml::xml_document<>	m_doc;

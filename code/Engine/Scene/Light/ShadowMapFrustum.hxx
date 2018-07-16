@@ -133,11 +133,8 @@ namespace ma
 
 			if (!pRenderComp->GetShadowCaster())
 				continue;
-				
-			for (uint32_t i = 0; i < pRenderComp->GetShadowRenderableCount(); ++i)
-			{
-				pRenderQueue->AddRenderObj(RL_Mesh,pRenderComp->GetShadowRenderableByIndex(i));
-			}
+
+			pRenderComp->RenderShadow(pRenderQueue);
 		}
 	}
 
@@ -295,11 +292,12 @@ namespace ma
 	void ProjectScreenToWorldExpansionBasis(const Matrix4& mShadowTexGen, const Camera& cam, float fViewWidth, float fViewHeight, 
 		Vector4& vWBasisX, Vector4& vWBasisY, Vector4& vWBasisZ, Vector4& vCamPos)
 	{
+		ASSERT(false);
 
-		Matrix4 camMatrix = cam.GetEyeNode()->GetMatrixWS();
+		Matrix4 camMatrix = cam.GetMatrixWS();
 		//camMatrix = cam.GetViewMatrixInv();
 		Vector3 vPos = camMatrix.getTrans();
-		vPos = cam.GetEyeNode()->GetPosWS();
+		//vPos = cam.GetPosWS();
 
 		// projection ratio
 		float fProjectionRatio = fViewWidth / fViewHeight ;
@@ -353,8 +351,10 @@ namespace ma
 				m_vWBasisX,m_vWBasisY,m_vWBasisZ,m_vShadowCamPos);
 		}
 
-		Vector3 vViewPosLS = this->GetLightViewMatrix() * pCamera->GetEyeNode()->GetPosWS();
-		Vector3 vViewVectLS = this->GetLightViewMatrix() * pCamera->GetAtNode()->GetPosWS() - vViewPosLS;
+		Vector3 vAtPos = pCamera->GetPosWS() + pCamera->GetForward() * 1000.0f;
+
+		Vector3 vViewPosLS = this->GetLightViewMatrix() * pCamera->GetPosWS();
+		Vector3 vViewVectLS = this->GetLightViewMatrix() * vAtPos - vViewPosLS;
 		m_viewPosVecLS = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
 	}
 

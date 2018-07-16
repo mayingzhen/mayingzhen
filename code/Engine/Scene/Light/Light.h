@@ -1,5 +1,4 @@
-#ifndef  _Light__H__
-#define  _Light__H__
+#pragma once
 
 
 namespace ma
@@ -34,7 +33,7 @@ namespace ma
 		void						SetLightIntensity(float fIntensity) {m_fLightIntensity = fIntensity;}
 		float						GetLightIntensity() {return m_fLightIntensity;}
 
-		virtual	void				RenderShadowMap(Camera* pCamera) {}
+		void						Render(RenderQueue* pRenderQueue);
 
 	protected:
 		LightType					m_eLightType;
@@ -55,8 +54,6 @@ namespace ma
 		float			GetRadius() {return m_fRadius;}
 
 		void			SetRadius(float fRadius);
-
-		void			Show(Camera* pCamera);
 
 	private:
 
@@ -92,7 +89,3 @@ namespace ma
 	};
 
 }
-
-#endif
-
-

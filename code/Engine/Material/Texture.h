@@ -29,7 +29,7 @@ namespace ma
 
 		void			SetMipMap(bool b) {m_bMipMap = b;}
 		bool			GetMipMap() const {return m_bMipMap;}
-		uint32_t			GetMipMapNumber() const {return m_nMipLevels;}
+		uint32_t		GetMipMapNumber() const {return m_nMipLevels;}
 		
 		void			SetSRGB(bool b) {m_bSRGB = b;}
 		bool			GetSRGB() const {return m_bSRGB;}
@@ -53,7 +53,7 @@ namespace ma
 	protected:
 		int				m_nWidth;
 		int				m_nHeight;
-		uint32_t			m_nMipLevels;
+		uint32_t		m_nMipLevels;
 		TEXTURE_USAGE	m_eUsage;
 		PixelFormat		m_eFormat;
 		TEXTURE_TYPE	m_eType;
@@ -67,7 +67,7 @@ namespace ma
 
 	RefPtr<Texture> CreateTexture(const char* pImagePath,bool bMipMap = true,bool bSRGB = true);
 
-	class SamplerState : public Serializable
+	class SamplerState : public Object
 	{
 	public:
 		SamplerState();

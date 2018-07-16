@@ -93,7 +93,7 @@ namespace ma
 
 	bool AnimTreeNode::Import(rapidxml::xml_node<>* xmlNode)
 	{
-		Serializable::Import(xmlNode);
+		Object::Import(xmlNode);
 
 		rapidxml::xml_node<>* xmlFrameEvent = xmlNode->first_node("FrameEvent");
 		while (xmlFrameEvent)
@@ -126,7 +126,7 @@ namespace ma
 
 	bool AnimTreeNode::Export(rapidxml::xml_node<>* xmlNode,rapidxml::xml_document<>& doc)
 	{
-		Serializable::Export(xmlNode,doc);
+		Object::Export(xmlNode,doc);
 		
 // 		for (uint32_t i = 0; i < m_vecFrameEvent.size(); ++i)
 // 		{

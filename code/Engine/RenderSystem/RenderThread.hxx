@@ -216,19 +216,6 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
-	{
-		if (IsRenderThread())
-		{
-			//GetRenderSystem()->RT_DrawRenderable(pRenderable,pTechnique);
-			return;
-		}
-
-		AddCommand(eRC_DrawRenderable);
-		AddPointer(pRenderable);
-		AddPointer(pTechnique);
-	}
-
 	void RenderThread::RC_Render()
 	{
 		if (IsRenderThread())

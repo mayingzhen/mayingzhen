@@ -22,20 +22,6 @@ namespace ma
 
 	RenderSystem::RenderSystem()
 	{
-		m_pDepthStencil = NULL;
-		for (uint32_t i = 0; i < MAX_RENDER_TARGET; ++i)
-		{
-			m_pRenderTarget[i] = NULL;
-		}
-		for (int i = 0; i < MAX_TEXTURE_UNITS; ++i)
-		{
-			m_arrSampState[i] = NULL;
-		}
-
-		m_pCurVertexDecla = NULL;
-		m_pCurVB = NULL;
-		m_pCurIB = NULL;
-
 		m_pRenderContext = new RenderContext();
 		SetRenderContext(m_pRenderContext);
 
@@ -108,13 +94,6 @@ namespace ma
 
 	void RenderSystem::BegineRender()
 	{
-		for (uint32_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
-		{
-			m_arrSampState[i] = NULL;
-		}
-        
-        m_pCurShader = NULL;
-
 		m_pRenderThread->RC_BeginRender();
 	}
 
@@ -130,11 +109,6 @@ namespace ma
 
 	void RenderSystem::OnFlushFrame()
 	{
-		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
-		{
-			m_arrScene[i]->OnFlushFrame();
-		}
-
 		LineRender::OnFlushFrame();
 	}
 	
@@ -151,15 +125,6 @@ namespace ma
 		ScreenQuad::Shoutdown();
 		UnitSphere::Shoutdown();
 
-		m_pDepthStencil = NULL;
-		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
-		{
-			m_pRenderTarget[i] = NULL;
-		}
-		for (int i = 0; i < MAX_SHADOW_SAMPLES_NUM; ++i)
-		{
-			m_arrSampState[i] = NULL;
-		}
 		for (int i = 0; i < nNumParticleBuffer; ++i)
 		{
 			if (m_pParticleBuffer[i])
@@ -208,6 +173,8 @@ namespace ma
 		InitParticleVideoMemory();
 
 		m_curViewport = GetRenderDevice()->GetViewport();
+
+		m_pDefaultRenderPass = GetRenderDevice()->GetDefaultRenderPass();
 	
 		LineRender::Init();
 		ScreenQuad::Init();
@@ -276,14 +243,14 @@ namespace ma
 		return pTarget;
 	}
 
-	RefPtr<Texture> RenderSystem::GetRenderTarget(int index)
+	void RenderSystem::SetDefaultRenderPass(RenderPass* pRenderPass)
 	{
-		return m_pRenderTarget[index];
+		m_pDefaultRenderPass = pRenderPass;
 	}
 
 	RenderPass* RenderSystem::GetDefaultRenderPass()
 	{
-		return GetRenderDevice()->GetDefaultRenderPass();
+		return m_pDefaultRenderPass.get();
 	}
 	
 	void RenderSystem::TechniqueStreamComplete(Technique* pTech)

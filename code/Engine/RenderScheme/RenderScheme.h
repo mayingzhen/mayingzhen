@@ -16,6 +16,8 @@ namespace ma
 	public:
 		RenderScheme(Scene* pScene);
 
+		~RenderScheme();
+
 		void	Init();
 
 		void	Reset();
@@ -31,27 +33,15 @@ namespace ma
 		SamplerState* GetSceneDepth() const {return m_pDepthSampler.get();}
 		SamplerState* GetSceneNormal() const {return m_pNormalSampler.get();}
 
-		void SetSMAAEnabled(bool b);
-		bool GetSMAAEnabled() const;
-
 		void SetDeferredShadingEnabled(bool b);
 		bool GetDeferredShadingEnabled() const;
-
-		void SetDeferredShadowEnabled(bool b);
-		bool GetDeferredShadowEnabled() const;
-
-		void SetSSAOEnabled(bool b);
-		bool GetSSAOEnabled() const;
 		
 	private:
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
 		RefPtr<DeferredShading>	m_pDeferredShading;
 
-		RefPtr<HDRPostProcess>	m_pHDR;
-		RefPtr<SMAAPostProcess> m_pSMAA;
-		RefPtr<AlchemyAo>		m_pSSAO;
-
 		RefPtr<Texture>			m_pDiffuseTex;
+		RefPtr<RenderPass>		m_pHDRFB;
 
 		RefPtr<Texture>			m_pDepthTex;
 		RefPtr<Texture>			m_pLinearDepthTex;
@@ -64,6 +54,10 @@ namespace ma
 		RefPtr<SamplerState>	m_pLinearDepthSampler;
 		RefPtr<SamplerState>	m_pNormalSampler;
 		RefPtr<SamplerState>	m_pDiffTempSampler;
+
+		RefPtr<RenderPass>		m_pShadingPass;
+
+		RefPtr<RenderPass>		m_pLinearDepthPass;
 
 		Scene*					m_pScene;
 	};

@@ -7,13 +7,9 @@ namespace ma
 {
 	class ShaderProgram;
 
-	struct  VertexElement : public Object
+	struct  VertexElement 
 	{
 	public:
-		DECL_OBJECT(VertexElement);
-
-		static void	RegisterAttribute();
-
 		short           Stream;
 		short           Offset;
 		DECL_TYPE       Type;

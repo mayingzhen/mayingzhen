@@ -370,7 +370,7 @@ namespace ma
 	{
 		if (this->BeginMatrix())
 		{
-			/*const Matrix4& matWorld = */this->CalcMatrix();
+			this->CalcMatrix();
 			this->EndMatrix();
 		}
 
@@ -554,32 +554,47 @@ namespace ma
 
 	void SceneNode::LookAt(const Vector3& vEye, const Vector3& vAt)
 	{
-		Vector3 vUp = Vector3::UNIT_Z;
-
-		Vector3 vDirY = vAt - vEye;
-		vDirY.normalise();
-
-		if (vDirY.positionEquals(Vector3::UNIT_Z))
-		{
-			vUp.y = 0.01f;
-		}
-		else if (vDirY.positionEquals(Vector3::NEGATIVE_UNIT_Z))
-		{
-			vUp.y = 0.01f;
-		}
-
-		Vector3 vDirX = vDirY.crossProduct(vUp);
-		vDirX.normalise();
-
-		Vector3 vDirZ = vDirX.crossProduct(vDirY);
-		vDirZ.normalise();
+		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye, vAt, Vector3::UNIT_Y);
+		Matrix4 matWorld = matView.inverse();
 
 		Transform tsfWS;
-		tsfWS.m_vPos = vEye;
-		tsfWS.m_qRot = Quaternion(vDirX,vDirY,vDirZ);
-		tsfWS.m_vScale = Vector3::UNIT_SCALE;
+		matWorld.decomposition(tsfWS.m_vPos, tsfWS.m_vScale, tsfWS.m_qRot);
+		
+		tsfWS.m_vScale = GetScaleWS();
 
  		SetTransformWS(tsfWS);
+		
+// 		Vector3 vUp = Vector3::UNIT_Y;
+// 
+// 		Vector3 lookDir = vAt - vEye;
+// 		if (lookDir == Vector3::ZERO)
+// 			return;
+// 		
+// 		Quaternion rot = Quaternion::IDENTITY;
+// 
+// 		Vector3 forward = lookDir.normalisedCopy();
+// 
+// 		Vector3 v = forward.crossProduct(vUp);
+// 		// If direction & upDirection are parallel and crossproduct becomes zero, use FromRotationTo() fallback
+// 		if (v.squaredLength() >= 1e-6f)
+// 		{
+// 			v.normalise();
+// 			Vector3 up = v.crossProduct(forward);
+// 			Vector3 right = up.crossProduct(forward);
+// 			rot.FromAxes(right, up, forward);
+// 		}
+// 		else
+// 		{
+// 			ASSERT(false);
+// 		}
+// 
+// 
+// 		Transform tsfWS;
+// 		tsfWS.m_vPos = vEye;
+// 		tsfWS.m_qRot = rot;
+// 		tsfWS.m_vScale = GetScaleWS();
+// 
+//  		SetTransformWS(tsfWS);
 	}
 
 	void SceneNode::LookAt(const Vector3& vTarget)

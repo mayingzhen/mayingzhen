@@ -10,7 +10,7 @@ struct PS_IN
 
 
 uniform float4 gUVOffsets[SCALE];
-uniform sampler2D gTex_Color;
+uniform SamplerState gTex_Color;
 
 float4 main(PS_IN In) : COLOR
 {

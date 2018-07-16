@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class RasterizerState : public Serializable
+	class RasterizerState : public Object
 	{
 	public:
 		RasterizerState();
@@ -26,7 +26,7 @@ namespace ma
 
 	RefPtr<RasterizerState> CreateRasterizerState();
 
-	class DepthStencilState : public Serializable
+	class DepthStencilState : public Object
 	{
 	public:
 		DepthStencilState();
@@ -43,8 +43,8 @@ namespace ma
 		StencilOperation	m_eStencilPass;
 		StencilOperation	m_eStencilFail;
 		StencilOperation	m_eDepthFailOp;
-		uint32_t              m_nStencilMask;
-		uint32_t				m_nStencilWriteMask;
+		uint32_t            m_nStencilMask;
+		uint32_t			m_nStencilWriteMask;
 
 		bool				m_bDepthWrite;
 		CompareFunction		m_eDepthCheckMode;
@@ -70,7 +70,7 @@ namespace ma
 
 	RefPtr<DepthStencilState> CreateDepthStencilState();
 
-	class BlendState : public Serializable
+	class BlendState : public Object
 	{
 	public:
 		BlendState();

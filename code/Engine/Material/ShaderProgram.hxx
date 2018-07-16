@@ -22,6 +22,10 @@ namespace ma
 		}
 
 		m_createInfo = createInfo;
+		if (m_createInfo.m_pRenderPass == NULL)
+		{
+			m_createInfo.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
+		}
         
 		m_eResState = ResLoaded;
         

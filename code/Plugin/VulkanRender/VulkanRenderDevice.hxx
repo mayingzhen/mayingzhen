@@ -199,7 +199,8 @@ namespace ma
 
 		vulkanDevice = new vks::VulkanDevice(physicalDevice);
 		VkResult res = vulkanDevice->createLogicalDevice(deviceFeatures, enabledExtensions);
-		if (res != VK_SUCCESS) {
+		if (res != VK_SUCCESS) 
+		{
 			vks::tools::exitFatal("Could not create Vulkan device: \n" + vks::tools::errorString(res), "Fatal error");
 		}
 
@@ -384,6 +385,7 @@ namespace ma
 		m_pDefaultPass = new VulkanRenderPass();
 		m_pDefaultPass->m_impl = renderPass;
 		m_pDefaultPass->m_viewPort = Rectangle(0, 0, (float)m_width, (float)m_height);
+		m_pDefaultPass->m_arrColor.resize(1);
 		m_pDefaultPass->InitRenderCommamd();
 	}
 

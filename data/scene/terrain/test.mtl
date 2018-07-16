@@ -1,91 +1,59 @@
 <Material>
-	<LodMaterial>
-		<SubMaterial>
-			<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 2;DIRLIGHT"/>
-			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
-				<Attribute Name="SRGB" Type="bool" Value="true"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/chess.dds"/>
-			</Parameters>
-			<Parameters Name="tDetailMap1" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
-				<Attribute Name="SRGB" Type="bool" Value="true"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/diban_zhuanshi.dds"/>
-			</Parameters>
-			<Parameters Name="uDetailScale" Type="Vector2" Value="0.1 0.1"/>
-			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
-			<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
-			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
-			<Parameters Name="u_roughness" Type="float" Value="0"/>
-			<Parameters Name="tBlendingMap" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_POINT"/>
-				<Attribute Name="SRGB" Type="bool" Value="false"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/test_b0.dds"/>
-			</Parameters>
-		</SubMaterial>
-		<SubMaterial>
-			<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 1"/>
-			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
-				<Attribute Name="SRGB" Type="bool" Value="true"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/wall.jpg"/>
-			</Parameters>
-			<Parameters Name="tBumpMap0" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
-				<Attribute Name="SRGB" Type="bool" Value="false"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/wall_NM_height.tga"/>
-			</Parameters>
-			<Parameters Name="uDetailScale" Type="Vector2" Value="0.1 0.1"/>
-			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
-			<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
-			<Parameters Name="u_cSpecColor" Type="Vector4" Value="1 1 1 1"/>
-			<Parameters Name="u_roughness" Type="float" Value="0"/>
-			<Parameters Name="tBlendingMap" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_POINT"/>
-				<Attribute Name="SRGB" Type="bool" Value="false"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/test_b0.dds"/>
-			</Parameters>
-		</SubMaterial>
-		<SubMaterial>
-			<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 1"/>
-			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
-				<Attribute Name="SRGB" Type="bool" Value="true"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/diban_tu.dds"/>
-			</Parameters>
-			<Parameters Name="uDetailScale" Type="Vector2" Value="0.01 0.01"/>
-			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
-			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
-			<Parameters Name="tBlendingMap" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_POINT"/>
-				<Attribute Name="SRGB" Type="bool" Value="false"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/test_b0.dds"/>
-			</Parameters>
-		</SubMaterial>
-	</LodMaterial>
+	<SubMaterial>
+		<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 2;DIRLIGHT"/>
+		<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/chess.dds"/>
+		</Parameters>
+		<Parameters Name="tDetailMap1" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/diban_zhuanshi.dds"/>
+		</Parameters>
+		<Parameters Name="uDetailScale" Type="Vector2" Value="0.1 0.1"/>
+		<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
+		<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
+		<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
+		<Parameters Name="u_roughness" Type="float" Value="0"/>
+		<Parameters Name="tBlendingMap" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
+			<Attribute Name="Filter" Type="string" Value="TFO_POINT"/>
+			<Attribute Name="SRGB" Type="bool" Value="false"/>
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/test_b0.dds"/>
+		</Parameters>
+	</SubMaterial>
+	<SubMaterial>
+		<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 1;BRDF;BUMPMAP;DIRLIGHT;PARALLAXMAPPING;SPEC"/>
+		<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/wall.jpg"/>
+		</Parameters>
+		<Parameters Name="tBumpMap0" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="SRGB" Type="bool" Value="false"/>
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/wall_NM_height.tga"/>
+		</Parameters>
+		<Parameters Name="uDetailScale" Type="Vector2" Value="0.1 0.1"/>
+		<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
+		<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
+		<Parameters Name="u_cSpecColor" Type="Vector4" Value="1 1 1 1"/>
+		<Parameters Name="u_roughness" Type="float" Value="0"/>
+		<Parameters Name="tBlendingMap" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
+			<Attribute Name="Filter" Type="string" Value="TFO_POINT"/>
+			<Attribute Name="SRGB" Type="bool" Value="false"/>
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/test_b0.dds"/>
+		</Parameters>
+	</SubMaterial>
+	<SubMaterial>
+		<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 1"/>
+		<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/diban_tu.dds"/>
+		</Parameters>
+		<Parameters Name="uDetailScale" Type="Vector2" Value="0.01 0.01"/>
+		<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
+		<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
+		<Parameters Name="tBlendingMap" Type="SamplerState" ClassName="SamplerState">
+			<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
+			<Attribute Name="Filter" Type="string" Value="TFO_POINT"/>
+			<Attribute Name="SRGB" Type="bool" Value="false"/>
+			<Attribute Name="ImagePath" Type="string" Value="scene/terrain/test_b0.dds"/>
+		</Parameters>
+	</SubMaterial>
 </Material>
 

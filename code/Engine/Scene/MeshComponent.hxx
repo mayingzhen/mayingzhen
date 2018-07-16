@@ -6,7 +6,6 @@ namespace ma
 {
 	MeshComponent::MeshComponent()
 	{
-		m_nLod = 0;
 		m_bOnLoadOver = false;
 	}
 
@@ -19,79 +18,32 @@ namespace ma
 	{
 		REGISTER_OBJECT(MeshComponent,CreateMeshComponent); 
 
-		ACCESSOR_ATTRIBUTE(MeshComponent, "MatPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
-	}
-
-	bool MeshComponent::Import(rapidxml::xml_node<>* pXmlElem)
-	{
-		Serializable::Import(pXmlElem);
-	
-		rapidxml::xml_node<>* pXmlLodMeshData = pXmlElem->first_node("LodMeshData");
-		while(pXmlLodMeshData)
-		{
-			const char* pszFile = pXmlLodMeshData->findAttribute("MeshData");
-			
-			RefPtr<MeshData> pMeshData = CreateMeshData(pszFile);
-
-			m_vecMesData.push_back(pMeshData);
-		
-			pXmlLodMeshData = pXmlElem->next_sibling("LodMeshData");
-		}
-		
-		IsReady();
-
-		return true;
-	}
-
-	bool MeshComponent::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
-	{
-		Serializable::Export(pXmlElem,doc);
-
-		for (uint32_t i = 0; i < m_vecMesData.size(); ++i)
-		{
-			rapidxml::xml_node<>* pXmlLodMeshData = doc.allocate_node(rapidxml::node_element, doc.allocate_string("LodMeshData"));
-			pXmlElem->append_node(pXmlLodMeshData);
-
-			pXmlLodMeshData->append_attribute(doc.allocate_attribute(doc.allocate_string("MeshData"),doc.allocate_string(m_vecMesData[i]->GetResPath())));
-		}
-
-		return true;
+		ACCESSOR_ATTRIBUTE(MeshComponent, "MtgPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(MeshComponent, "MesPath", GetMeshFile, SetMeshFile, const char*, NULL, AM_DEFAULT);
 	}
 
 	bool MeshComponent::Load(const char* pszSknPath,const char* pszMatPath)
 	{
 		SetMaterialFile(pszMatPath);
 		
-		SetMeshFile(pszSknPath,0);
+		SetMeshFile(pszSknPath);
 
 		return IsReady();
 	}
 
-	MeshData* MeshComponent::GetMeshData(uint32_t nLod)
+	MeshData* MeshComponent::GetMeshData()
 	{
-		if (nLod < 0 || nLod >= m_vecMesData.size())
-			return NULL;
-
-		return m_vecMesData[nLod].get();
+		return m_pMesData ? m_pMesData.get() : nullptr;
 	}
 
-	const char*	MeshComponent::GetMeshFile(uint32_t nLod) const
+	const char*	MeshComponent::GetMeshFile() const
 	{
-		if (nLod < 0 || nLod >= m_vecMesData.size())
-			return NULL;
-
-		return m_vecMesData[nLod] ? m_vecMesData[nLod]->GetResPath() : NULL;
+		return m_pMesData ? m_pMesData->GetResPath() : nullptr;  
 	}
 
-	void MeshComponent::SetMeshFile(const char* pFile,uint32_t nLod)
+	void MeshComponent::SetMeshFile(const char* pFile)
 	{
-		if (nLod >= m_vecMesData.size())
-		{
-			m_vecMesData.resize(nLod + 1);
-		}
-
-		RefPtr<MeshData> pMeshData = CreateMeshData(pFile);
-		m_vecMesData[nLod] = pMeshData;
+		m_pMesData = CreateMeshData(pFile);
 
 		m_bOnLoadOver = false;
 		IsReady();
@@ -99,7 +51,7 @@ namespace ma
 
 	const char*	 MeshComponent::GetMaterialFile() const
 	{
-		return m_pMaterial ? m_pMaterial->GetResPath() : NULL;
+		return m_pMaterial ? m_pMaterial->GetResPath() : nullptr;
 	}
 
 	void MeshComponent::SetMaterialFile(const char* pFile)
@@ -117,26 +69,26 @@ namespace ma
 		IsReady();
 	}
 
-	uint32_t MeshComponent::GetRenderableCount(uint32_t nLod) const
+	uint32_t MeshComponent::GetRenderableCount() const
 	{
-		return m_arrLodRenderable[nLod].size();
+		return m_arrRenderable.size();
 	}
 
-	Renderable*	MeshComponent::GetRenderableByIndex(uint32_t nLod,uint32_t index) const
+	Renderable*	MeshComponent::GetRenderableByIndex(uint32_t index) const
 	{
-		return m_arrLodRenderable[nLod][index].get();
+		return m_arrRenderable[index].get();
 	}
 
 	uint32_t MeshComponent::GetShadowRenderableCount() const
 	{
-		uint32_t nLod = m_arrLodRenderable.size() - 1;
-		return m_arrLodRenderable[nLod].size();
+		uint32_t nLod = m_arrRenderable.size() - 1;
+		return m_arrRenderable.size();
 	}
 
 	Renderable*	MeshComponent::GetShadowRenderableByIndex(uint32_t index) const
 	{
-		uint32_t nLod = m_arrLodRenderable.size() - 1;
-		return m_arrLodRenderable[nLod][index].get();
+		uint32_t nLod = m_arrRenderable.size() - 1;
+		return m_arrRenderable[index].get();
 	}
 
 	void MeshComponent::SetShadowCaster(bool b)
@@ -148,24 +100,20 @@ namespace ma
 	{
 		m_bSuportInstance = b;
 
-		for (uint32_t iLod = 0; iLod < m_arrLodRenderable.size(); ++iLod)
+		for (uint32_t iSub = 0; iSub < m_arrRenderable.size(); ++iSub)
 		{
-			VEC_RENDERABLE arrRenderable = m_arrLodRenderable[iLod];
-			for (uint32_t iSub = 0; iSub < arrRenderable.size(); ++iSub)
-			{
-				arrRenderable[iSub]->m_bSuportInstace = b;
-			}
+			m_arrRenderable[iSub]->m_bSuportInstace = b;
 		}
 	}
 
-	uint32_t MeshComponent::GetSubMaterialCount(uint32_t nLod)
+	uint32_t MeshComponent::GetSubMaterialCount()
 	{
-		return m_arrLodRenderable[nLod].size();
+		return m_arrRenderable.size();
 	}
 
-	SubMaterial* MeshComponent::GetSubMaterial(uint32_t nLod,uint32_t index)
+	SubMaterial* MeshComponent::GetSubMaterial(uint32_t index)
 	{
-		return m_pMaterial->GetLodSubByIndex(nLod,index);
+		return m_pMaterial->GetSubByIndex(index);
 	}
 
 	void MeshComponent::Update()
@@ -175,50 +123,39 @@ namespace ma
 		RenderComponent::Update();
 	}
 
-	RefPtr<MeshRenderable> MeshComponent::CreateMeshRenderable()
+	void MeshComponent::CreateRenderable(VEC_RENDERABLE& arrRenderable)
 	{
-		return new MeshRenderable();
-	}
-
-	void MeshComponent::CreateRenderable(VEC_LOD_RENDERABLE& arrLodRenderable)
-	{
-		ASSERT(m_pMaterial && !m_vecMesData.empty());
-		if (m_pMaterial == NULL || m_vecMesData.empty())
+		ASSERT(m_pMaterial && m_pMesData);
+		if (m_pMaterial == nullptr || m_pMesData == nullptr)
 			return;
 		
-		arrLodRenderable.clear();
-		for (uint32_t iLod = 0; iLod < m_vecMesData.size(); ++iLod)
+		arrRenderable.clear();
+
+		for (uint32_t iSub = 0; iSub < m_pMesData->GetSubMeshNumber(); ++iSub)
 		{
-			MeshData* pMesData = m_vecMesData[iLod].get();
+			RefPtr<MeshRenderable> pRenderable = new MeshRenderable();
 
-			VEC_RENDERABLE arrRenderable;
-			for (uint32_t iSub = 0; iSub < pMesData->GetSubMeshNumber(); ++iSub)
-			{
-				RefPtr<MeshRenderable> pRenderable = CreateMeshRenderable();
+			pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
+			pRenderable->m_pVertexBuffer = m_pMesData->GetVertexBuffer();
+			pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
+			pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(iSub);
 
-				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-				pRenderable->m_pVertexBuffer = pMesData->GetVertexBuffer(); 
-				pRenderable->m_pIndexBuffer = pMesData->GetIndexBuffer();
-				pRenderable->m_pSubMeshData = pMesData->GetSubMeshByIndex(iSub);
+			pRenderable->m_bSuportInstace = m_bSuportInstance;
 
-				pRenderable->m_bSuportInstace = m_bSuportInstance;
+			SubMaterial* pSubMaterial = m_pMaterial->GetSubByIndex(iSub);
+			pRenderable->m_pSubMaterial = pSubMaterial;
 
-				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
-				pRenderable->m_pSubMaterial = pSubMaterial;
+			Vector3 pos_extent = m_pMesData->GetBoundingAABB().getHalfSize();
+			Vector3 pos_center = m_pMesData->GetBoundingAABB().getCenter();
+			Vector2 tc_extent = m_pMesData->GetUVBoundingAABB().getHalfSize();
+			Vector2	tc_center = m_pMesData->GetUVBoundingAABB().getCenter();
+			Vector4 tc_extent_center = Vector4(tc_extent.x, tc_extent.y, tc_center.x, tc_center.y);
 
-				Vector3 pos_extent = pMesData->GetBoundingAABB().getHalfSize();
-				Vector3 pos_center = pMesData->GetBoundingAABB().getCenter();
-				Vector2 tc_extent = pMesData->GetUVBoundingAABB().getHalfSize();
-				Vector2	tc_center = pMesData->GetUVBoundingAABB().getCenter();
-				Vector4 tc_extent_center = Vector4(tc_extent.x,tc_extent.y,tc_center.x,tc_center.y);
+			pSubMaterial->SetParameter("pos_extent", Any(pos_extent));
+			pSubMaterial->SetParameter("pos_center", Any(pos_center));
+			pSubMaterial->SetParameter("tc_extent_center", Any(tc_extent_center));
 
-				pSubMaterial->SetParameter( "pos_extent", Any(pos_extent) );
-				pSubMaterial->SetParameter( "pos_center", Any(pos_center) );
-				pSubMaterial->SetParameter( "tc_extent_center", Any(tc_extent_center) );
-
-				arrRenderable.push_back(pRenderable);
-			}
-			arrLodRenderable.push_back(arrRenderable);
+			arrRenderable.push_back(pRenderable);
 		}
 	}
 
@@ -227,34 +164,43 @@ namespace ma
 		if (m_bOnLoadOver)
 			return true;
 
-		if (m_vecMesData.empty() || m_vecMesData[m_nLod] == NULL || !m_vecMesData[m_nLod]->IsReady())
+		if (m_pMesData == nullptr || !m_pMesData->IsReady())
 			return false;
 
 		if (m_pMaterial == NULL || !m_pMaterial->IsReady())
 			return false;
 
-		CreateRenderable(m_arrLodRenderable);
+		CreateRenderable(m_arrRenderable);
 
-		SetAABB(m_vecMesData[0]->GetBoundingAABB());
+		SetAABB(m_pMesData->GetBoundingAABB());
 
 		m_bOnLoadOver = true;
 		
 		return true;
 	}
 
-	void MeshComponent::Show(Camera* pCamera)
+	void MeshComponent::Render(RenderQueue* pRenderQueue)
 	{
-		RenderComponent::Show(pCamera);
-
 		if (!m_bOnLoadOver)
 			return;
 
-		for (uint32_t i = 0; i < m_arrLodRenderable[m_nLod].size(); ++i)
+		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			 m_arrLodRenderable[m_nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
+			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Mesh, m_arrLodRenderable[m_nLod][i].get());
+			pRenderQueue->AddRenderObj(RL_Mesh, m_arrRenderable[i].get());
 		}
+	}
+
+	void MeshComponent::RenderShadow(RenderQueue* pRenderQueue)
+	{
+		if (!m_bOnLoadOver)
+			return;
+
+		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
+ 		{
+ 			pRenderQueue->AddRenderObj(RL_Mesh, m_arrRenderable[i].get());
+ 		}
 	}
 
 	RefPtr<MeshComponent> CreateMeshComponent()

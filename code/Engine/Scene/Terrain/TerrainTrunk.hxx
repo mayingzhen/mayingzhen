@@ -76,9 +76,11 @@ namespace ma
 		}
 	}
 
-	void TerrainTrunk::Show(Camera* pCamera)
+	void TerrainTrunk::Render(RenderQueue* pRenderQueue)
 	{
 		ASSERT(m_pTerrain->GetNumLod() >= 1);
+
+		Camera* pCamera = m_pTerrain->GetScene()->GetCamera();
 
 		if (m_pTerrain->GetNumLod() > 1)
 		{
@@ -569,22 +571,22 @@ namespace ma
 					if (m_pTerrain->GetTriFlip(nXVert,nYVert))
 					{
 						pIndexData[baseIndex]     = iRect[0];
-						pIndexData[baseIndex + 1] = iRect[1];
-						pIndexData[baseIndex + 2] = iRect[3];
+						pIndexData[baseIndex + 1] = iRect[3];
+						pIndexData[baseIndex + 2] = iRect[1];
 
 						pIndexData[baseIndex + 3] = iRect[0];
-						pIndexData[baseIndex + 4] = iRect[3];
-						pIndexData[baseIndex + 5] = iRect[2];
+						pIndexData[baseIndex + 4] = iRect[2];
+						pIndexData[baseIndex + 5] = iRect[3];
 					}
 					else
 					{
 						pIndexData[baseIndex]     = iRect[0];
-						pIndexData[baseIndex + 1] = iRect[1];
-						pIndexData[baseIndex + 2] = iRect[2];
+						pIndexData[baseIndex + 1] = iRect[2];
+						pIndexData[baseIndex + 2] = iRect[1];
 
 						pIndexData[baseIndex + 3] = iRect[2];
-						pIndexData[baseIndex + 4] = iRect[1];
-						pIndexData[baseIndex + 5] = iRect[3];
+						pIndexData[baseIndex + 4] = iRect[3];
+						pIndexData[baseIndex + 5] = iRect[1];
 					}
 
 					// next quad

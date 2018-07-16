@@ -67,14 +67,14 @@ namespace ma
 			Scene* pCurScene = GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return NULL;
-			return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMap(); 
+			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMap(); 
 		});
 
 		AddFunMethodBinding<Matrix4>("g_matShadow", [](Renderable*) {
 			Scene* pCurScene = GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return Matrix4::IDENTITY;
-			return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
+			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 		});
 
 		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*) {
@@ -82,7 +82,7 @@ namespace ma
 			if (pCurScene == NULL)
 				return Matrix4::IDENTITY;
 
-			return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetLightViewProjMatrix();
+			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetLightViewProjMatrix();
 		});
 
 		AddFunMethodBinding<Vector4>("g_shadowMapTexelSize", [](Renderable*) {
@@ -90,7 +90,7 @@ namespace ma
 			if (pCurScene == NULL)
 				return Vector4::ZERO;
 
-			SamplerState* pShadowMap = pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMap();
+			SamplerState* pShadowMap = pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMap();
 			Texture* pTexture = pShadowMap->GetTexture();
 			return Vector4((float)pTexture->GetWidth(), 1.0f / (float)pTexture->GetWidth(), 0, 0);
 		});

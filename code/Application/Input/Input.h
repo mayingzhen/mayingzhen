@@ -1,5 +1,4 @@
-#ifndef __InputH__
-#define __InputH__
+#pragma once
 
 
 namespace ma
@@ -40,6 +39,8 @@ namespace ma
 
 		bool IsMouseButtonReleased(MouseButtonID button) const;
 
+		Vector2 GetMouseMove() const;
+
 		const MouseState& GetMouseState() const;
 
 		void OnResize(int w,int h);
@@ -64,4 +65,3 @@ namespace ma
 	APP_API Input* GetInput();
 }
 
-#endif 

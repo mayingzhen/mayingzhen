@@ -1,8 +1,8 @@
+Texture2D g_TexSrc;
+SamplerState g_SamplerSrc;
 
-sampler2D g_SamplerSrc;
 
-
-float4 main(float2 tex : TEXCOORD0) : COLOR
+float4 main(float2 tex : TEXCOORD0) : SV_TARGET
 {
-	return tex2D(g_SamplerSrc, tex);
+	return g_TexSrc.Sample(g_SamplerSrc, tex);
 }

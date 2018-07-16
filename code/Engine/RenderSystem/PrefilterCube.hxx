@@ -1,47 +1,40 @@
 namespace ma
 {
-	void PrefilterCubeGPU(const char* in_file, const char* out_file)
+	void PrefilterCube::Init(const char* in_file)
 	{
-		RefPtr<Texture> in_tex = CreateTexture(in_file, false, false);
-		uint32_t in_width = in_tex->GetWidth();
-		uint32_t in_height = in_tex->GetHeight();
+		m_pInTexture = CreateTexture(in_file, false, false);
+		uint32_t in_width = m_pInTexture->GetWidth();
+		uint32_t in_height = m_pInTexture->GetHeight();
 
-		uint32_t out_num_mipmaps = 1;
+		m_nOutMipmaps = 1;
 		{
 			uint32_t w = in_width;
 			while (w > 8)
 			{
-				++ out_num_mipmaps;
+				++m_nOutMipmaps;
 
 				w = std::max<uint32_t>(1U, w / 2);
 			}
 		}
-		RefPtr<SamplerState> pInSampler = CreateSamplerState(in_tex.get(),CLAMP,TFO_TRILINEAR,false);
+		RefPtr<SamplerState> pInSampler = CreateSamplerState(m_pInTexture.get(), CLAMP, TFO_TRILINEAR, false);
 
-		RefPtr<Texture> out_tex = GetRenderSystem()->CreateRenderTarget(in_height,in_height,out_num_mipmaps,PF_FLOAT16_RGBA,false,TEXTYPE_CUBE);
+		m_pOutTexture = GetRenderSystem()->CreateRenderTarget(in_height, in_height, m_nOutMipmaps, PF_FLOAT16_RGBA, false, TEXTYPE_CUBE);
 
 		VertexElement element[2];
 		element[0] = VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0);
 		element[1] = VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0);
 		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 2);
 
-// 		ShaderCreateInfo copySrc;
-// 		copySrc.m_strVSFile = "PrefilterCopySrc";
-// 		copySrc.m_strPSFile = "PrefilterCopySrc";
-// 		copySrc.m_pVertexDecl = pDeclaration;
-// 		RefPtr<Technique> PrefilterCopySrc = CreateTechnique("PrefilterCopySrc", copySrc);
-// 
-// 		RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse","PrefilterCubeDiffuse","PrefilterCubeDiffuse","", pDeclaration.get());
-// 		
-// 		RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular","PrefilterCubeSpecular","PrefilterCubeSpecular","",pDeclaration.get());
-		
+		Matrix3 matRotate3x3 = Matrix3::IDENTITY;
+		//matRotate3x3.FromAxisAngle(Vector3::UNIT_X,Radian(-Math::HALF_PI));
+		Matrix4 matRotate(matRotate3x3);
 
-		for (int face = 0; face < 6; ++ face)
+		for (int face = 0; face < 6; ++face)
 		{
 			// level 0 保存原始图
 			{
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, out_tex.get(), 0, face);
+				pRenderPass->AttachColor(0, m_pOutTexture.get(), 0, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
@@ -49,30 +42,20 @@ namespace ma
 				info.m_strPSFile = "PrefilterCopySrc";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
-				RefPtr<Technique> PrefilterCopySrc = CreateTechnique("PrefilterCopySrc", info);
+				m_pTechnique[face][0] = CreateTechnique("PrefilterCopySrc", info);
+				m_pRendePass[face][0] = pRenderPass;
 
-				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
-				
-				pRenderPass->Begine();
-
-				pCommand->Begin();
-
-				PrefilterCopySrc->SetParameter("skybox_cube_tex", Any(pInSampler));
-				PrefilterCopySrc->SetParameter("face",Any(face));
-
-				ScreenQuad::Render(PrefilterCopySrc.get(),pCommand);
-
-				pCommand->End();
-
-				pRenderPass->End();
+				m_pTechnique[face][0]->SetParameter("tSkyBoxCube", Any(pInSampler));
+				m_pTechnique[face][0]->SetParameter("face", Any(face));
+				m_pTechnique[face][0]->SetParameter("matRotate", Any(matRotate));
 			}
 
-			for (uint32_t level = 1; level < out_num_mipmaps - 1; ++ level)
+			for (uint32_t level = 1; level < m_nOutMipmaps - 1; ++level)
 			{
-				float roughness = static_cast<float>(level) / (out_num_mipmaps - 1);
+				float roughness = static_cast<float>(level) / (m_nOutMipmaps - 1);
 
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, out_tex.get(), level, face);
+				pRenderPass->AttachColor(0,  m_pOutTexture.get(), level, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
@@ -80,29 +63,19 @@ namespace ma
 				info.m_strPSFile = "PrefilterCubeSpecular";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
-				RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular", info);
+				m_pTechnique[face][level] = CreateTechnique("PrefilterCubeSpecular", info);
+				m_pRendePass[face][level] = pRenderPass;
 
-				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
-
-				pRenderPass->Begine();
-
-				pCommand->Begin();
-
-				PrefilterCubeSpecular->SetParameter("skybox_cube_tex", Any(pInSampler));
-				PrefilterCubeSpecular->SetParameter("face",Any(face));
-				PrefilterCubeSpecular->SetParameter("roughness",Any(roughness));
-
-				ScreenQuad::Render(PrefilterCubeSpecular.get(), pCommand);
-
-				pCommand->End();
-
-				pRenderPass->End();
+				m_pTechnique[face][level]->SetParameter("tSkyBoxCube", Any(pInSampler));
+				m_pTechnique[face][level]->SetParameter("face", Any(face));
+				m_pTechnique[face][level]->SetParameter("roughness", Any(roughness));
+				m_pTechnique[face][level]->SetParameter("matRotate", Any(matRotate));
 			}
 
 			// 最后一级 保存Diffuse
 			{
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, out_tex.get(), out_num_mipmaps - 1, face);
+				pRenderPass->AttachColor(0, m_pOutTexture.get(), m_nOutMipmaps - 1, face);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
@@ -110,33 +83,77 @@ namespace ma
 				info.m_strPSFile = "PrefilterCubeDiffuse";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
-				RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse", info);
+				m_pTechnique[face][m_nOutMipmaps - 1] = CreateTechnique("PrefilterCubeDiffuse", info);
+				m_pRendePass[face][m_nOutMipmaps - 1] = pRenderPass;
+
+				m_pTechnique[face][m_nOutMipmaps - 1]->SetParameter("tSkyBoxCube", Any(pInSampler));
+				m_pTechnique[face][m_nOutMipmaps - 1]->SetParameter("face", Any(face));
+				m_pTechnique[face][m_nOutMipmaps - 1]->SetParameter("matRotate", Any(matRotate));
+			}
+		}
+
+	}
+
+	void PrefilterCube::Render()
+	{
+		for (int face = 0; face < 6; ++face)
+		{
+			// level 0 保存原始图
+			{
+				RefPtr<RenderPass> pRenderPass = m_pRendePass[face][0];
+				RefPtr<Technique> PrefilterCopySrc = m_pTechnique[face][0];
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
 
 				pRenderPass->Begine();
 
-				pCommand->Begin();
+				ScreenQuad::Render(PrefilterCopySrc.get(), pCommand);
 
-				PrefilterCubeDiffuse->SetParameter("skybox_cube_tex", Any(pInSampler));
-				PrefilterCubeDiffuse->SetParameter("face",Any(face));
+				pRenderPass->End();
+			}
+
+			for (uint32_t level = 1; level < m_nOutMipmaps - 1; ++level)
+			{
+				RefPtr<RenderPass> pRenderPass = m_pRendePass[face][level];
+				RefPtr<Technique> PrefilterCubeSpecular = m_pTechnique[face][level];
+
+				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
+
+				pRenderPass->Begine();
+
+				ScreenQuad::Render(PrefilterCubeSpecular.get(), pCommand);
+
+				pRenderPass->End();
+			}
+
+			// 最后一级 保存Diffuse
+			{
+				RefPtr<RenderPass> pRenderPass = m_pRendePass[face][m_nOutMipmaps - 1];
+				RefPtr<Technique> PrefilterCubeDiffuse = m_pTechnique[face][m_nOutMipmaps - 1];
+
+				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, (RenderListType)0);
+
+				pRenderPass->Begine();
 
 				ScreenQuad::Render(PrefilterCubeDiffuse.get(), pCommand);
-
-				pCommand->End();
 
 				pRenderPass->End();
 			}
 		}
+	}
 
+	void PrefilterCube::Save(const char* out_file)
+	{
 		string strSaveDir = GetArchiveMananger()->GetSaveDir();
 		string strSaveFile = strSaveDir + out_file;
-		out_tex->SaveToFile(strSaveFile.c_str());
+		m_pOutTexture->SaveToFile(strSaveFile.c_str());
 	}
 
 
-	void GenIntegrateBRDF(const char* out_file)
+	void PrefilterCube::GenIntegrateBRDF(const char* out_file)
 	{
+		//GetRenderSystem()->BegineRender();
+
 		uint32_t const WIDTH = 256;
 		uint32_t const HEIGHT = 256;
 
@@ -149,6 +166,7 @@ namespace ma
 
 		RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
 		pRenderPass->AttachColor(0, pOutTex.get(), 0, 0);
+		pRenderPass->m_arrColor[0].m_cClearColor = ColourValue::White;
 		GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 		ShaderCreateInfo info;
@@ -173,6 +191,8 @@ namespace ma
 		string strSaveDir = GetArchiveMananger()->GetSaveDir();
 		string strSaveFile = strSaveDir + out_file;
 		pOutTex->SaveToFile(strSaveFile.c_str());
+
+		//GetRenderSystem()->EndRender();
 	}
 }
 

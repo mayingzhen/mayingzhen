@@ -115,20 +115,20 @@ namespace ma
 
 		Quaternion tangent_quat;
 		tangent_quat.FromRotationMatrix(tangent_frame);
-		if (tangent_quat.w < 0)
+		if (tangent_quat._w < 0)
 		{
 			tangent_quat = -tangent_quat;
 		}
 		//if (bits > 0)
 		{
 			float const bias = float(1) / ((1UL << (8 - 1)) - 1);
-			if (tangent_quat.w < bias)
+			if (tangent_quat._w < bias)
 			{
 				float const factor = sqrt(1 - bias * bias);
-				tangent_quat.x *= factor;
-				tangent_quat.y *= factor;
-				tangent_quat.z *= factor;
-				tangent_quat.w = bias;
+				tangent_quat._x *= factor;
+				tangent_quat._y *= factor;
+				tangent_quat._z *= factor;
+				tangent_quat._w = bias;
 			}
 		}
 		if (k < 0)
@@ -143,10 +143,10 @@ namespace ma
 		};
 
 		UIndex uTemp;
-		uTemp.uByte[0] = (uint8_t)(tangent_quat.x * 127.5f + 128.0f);
-		uTemp.uByte[1] = (uint8_t)(tangent_quat.y * 127.5f + 128.0f);
-		uTemp.uByte[2] = (uint8_t)(tangent_quat.z * 127.5f + 128.0f);
-		uTemp.uByte[3] = (uint8_t)(tangent_quat.w * 127.5f + 128.0f);
+		uTemp.uByte[0] = (uint8_t)(tangent_quat._x * 127.5f + 128.0f);
+		uTemp.uByte[1] = (uint8_t)(tangent_quat._y * 127.5f + 128.0f);
+		uTemp.uByte[2] = (uint8_t)(tangent_quat._z * 127.5f + 128.0f);
+		uTemp.uByte[3] = (uint8_t)(tangent_quat._w * 127.5f + 128.0f);
 
 		return uTemp.uInde;
 	}

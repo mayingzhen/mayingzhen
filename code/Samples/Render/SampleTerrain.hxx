@@ -11,15 +11,16 @@ namespace ma
 	void SampleTerrain::Load()
 	{
  		Vector3 lookAtPos(100,0,0);
- 		Vector3 eyePos = Vector3(100,-60,360);
+ 		Vector3 eyePos = Vector3(100, 360, -60);
  		GetCamera()->LookAt(eyePos,lookAtPos);
+		GetCameraControll()->Init();
 
 		//GetResourceSystem()->SetDataThreadEnable(true);
 
 		RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
 		//pRenderScheme->SetDeferredShadingEnabled(true);
 
-		if (0)
+		if (1)
 		{
 			RefPtr<Terrain> pTerrain = CreateTerrain();
 
@@ -53,9 +54,9 @@ namespace ma
 			RefPtr<Material> testMaterial = CreateMaterial();
 			{
 				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
-				testMaterial->AddSubMaterial(0,subMaterial.get());
+				testMaterial->AddSubMaterial(subMaterial.get());
 
-				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 2;DIRLIGHT");
+				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 2;DIRLIGHT",nullptr);
 
 				subMaterial->SetShadingTechnqiue(pShadingTech.get());
 				
@@ -75,11 +76,11 @@ namespace ma
 
 			{
 				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
-				testMaterial->AddSubMaterial(0,subMaterial.get());
+				testMaterial->AddSubMaterial(subMaterial.get());
 
 				//subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
 
-				RefPtr<Technique> pNewShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 1");
+				RefPtr<Technique> pNewShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 1", nullptr);
 
 				subMaterial->SetShadingTechnqiue(pNewShadingTech.get());
 
@@ -102,11 +103,11 @@ namespace ma
 
 			{
 				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
-				testMaterial->AddSubMaterial(0,subMaterial.get());
+				testMaterial->AddSubMaterial(subMaterial.get());
 
 				//subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
 
-				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 1");
+				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 1",nullptr);
 
 				subMaterial->SetShadingTechnqiue(pShadingTech.get());
 
@@ -116,9 +117,9 @@ namespace ma
 				subMaterial->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
 
-			for (uint32_t i = 0; i < testMaterial->GetLodSubNumber(0); ++i)
+			for (uint32_t i = 0; i < testMaterial->GetSubNumber(); ++i)
 			{
-				SubMaterial* subMaterial = testMaterial->GetLodSubByIndex(0,i);
+				SubMaterial* subMaterial = testMaterial->GetSubByIndex(i);
 				subMaterial->SetParameter("tBlendingMap", Any(CreateSamplerState("scene/terrain/test_b0.dds", CLAMP, TFO_POINT, false)));
 			}
 
@@ -141,8 +142,8 @@ namespace ma
 			m_pScene->GetRootNode()->AddChild(pTerrain.get());
 		}
 
-		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(10,10,10),Vector3(0,0,0));
-		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
+		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10,10,10),Vector3(0,0,0));
+		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
 		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
 	}
 

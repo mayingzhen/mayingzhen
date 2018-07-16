@@ -14,7 +14,7 @@ namespace ma
 	{
 		gpScrenQuad = new Renderable();
 
-		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
+		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLELIST;
 
 		/*
 			0   2	
@@ -31,15 +31,17 @@ namespace ma
 		quadVerts[2].texCoords = Vector2(1.0f, 0.0f);
 		quadVerts[3].texCoords = Vector2(1.0f, 1.0f);
 
-		uint16_t indices[4];
-		indices[0]= 0;
-		indices[1]= 1;
-		indices[2]= 2;
-		indices[3]= 3;
+		uint16_t indices[6];
+		indices[0] = 0;
+		indices[1] = 2;
+		indices[2] = 1;
+		indices[3] = 1;
+		indices[4] = 2;
+		indices[5] = 3;
 
 		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer((uint8_t*)quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
 
-		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer((uint8_t*)indices,sizeof(uint16_t) * 4,sizeof(uint16_t));
+		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer((uint8_t*)indices,sizeof(uint16_t) * 6,sizeof(uint16_t));
 
 		gpScrenQuad->m_pIndexBuffer = pIndexs;
 		gpScrenQuad->m_pVertexBuffer = pVertexs;
@@ -52,9 +54,18 @@ namespace ma
 
 	void ScreenQuad::Render(Technique* pTechnique, RenderCommand* pCommand)
 	{
+		pCommand->Begin();
+
 		gpScrenQuad->PreRender(pTechnique);
 
 		gpScrenQuad->Render(pTechnique, pCommand);
+
+		pCommand->End();
+	}
+
+	Renderable* ScreenQuad::GetRenderable()
+	{
+		return gpScrenQuad;
 	}
 }
 

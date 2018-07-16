@@ -51,7 +51,8 @@ namespace ma
 
 	void VulkanDepthStencilStateObject::RT_StreamComplete()
 	{
-
+		ds.depthWriteEnable = m_bDepthWrite;
+		ds.depthCompareOp = VulkanMapping::get(m_eDepthCheckMode);
 	}
 
 	VulkanBlendStateObject::VulkanBlendStateObject()

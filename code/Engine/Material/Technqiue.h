@@ -35,6 +35,8 @@ namespace ma
 		const char*			GetShaderDefine() const;
 		void				SetShaderDefine(const char* pszDefine);
 
+		void				SetRenderPass(RenderPass* pPass);
+
 		int					GetShaderMacroInt(const char* pszMacro);
 		void				SetShaderMacroInt(const char* pszMacro, int nValue);
 		void				SetShaderMacroBool(const char* pszMacro, bool b);
@@ -70,7 +72,7 @@ namespace ma
 		uint32_t			GetSamplerCount();
 		Uniform*			GetSamplerByIndex(uint32_t nIndex);
 		
-		SamplerState*		GetActiveSampler(uint32_t nIndex) { return m_arrSampler[nIndex]; }
+		SamplerState*		GetActiveSampler(uint32_t nIndex) { return m_arrSampler[nIndex].get(); }
 
 		RefPtr<Technique>	CreateInstTech();
 
@@ -96,6 +98,8 @@ namespace ma
 		std::string						m_stName;
 		std::string						m_strDefine;
 
+		RefPtr<RenderPass>				m_pRenderPass;
+
 		RefPtr<ShaderProgram>			m_pShaderProgram;
 
 		std::vector<Parameter>			m_arrParameters; 
@@ -105,11 +109,10 @@ namespace ma
 
 		std::vector< RefPtr<Uniform> >  m_vecPSSamplers;
 
-		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];
+		RefPtr<SamplerState>			m_arrSampler[MAX_TEXTURE_UNITS];
 	};
 	
 	RefPtr<Technique> CreateTechnique();
-	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine);
-//    RefPtr<Technique> CreateTechnique(const char* pVSFile, const char* pPSFile, const char* pDefine,VertexDeclaration* pVertexDecl = NULL);
+	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine, RenderPass* pPass);
 	RefPtr<Technique> CreateTechnique(const char* pTechName, const ShaderCreateInfo& info);
 }

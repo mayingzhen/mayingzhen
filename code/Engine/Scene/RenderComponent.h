@@ -25,18 +25,13 @@ namespace ma
 		
 		virtual	void	Update();
 
-		virtual void	Show(Camera* pCamera); 
+		virtual void	Render(RenderQueue* pRenderQueue);
+
+		virtual	void	RenderShadow(RenderQueue* pRenderQueue);
 		
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
 		
-		virtual uint32_t  GetLodIndex() {return 0;}
-		virtual	uint32_t	GetRenderableCount(uint32_t nLod) const;
-		virtual Renderable* GetRenderableByIndex(uint32_t nLod,uint32_t index) const;
-
-		virtual uint32_t	GetShadowRenderableCount() const;
-		virtual	Renderable*	GetShadowRenderableByIndex(uint32_t index) const;
-
 		virtual void	SetShadowCaster(bool b) {m_bShadowCaster = b;}
 		bool			GetShadowCaster() const {return m_bShadowCaster;}
 	
@@ -78,7 +73,7 @@ namespace ma
 
 		bool				m_bParallelUpdate;
 
-		uint32_t				m_nCullIndex;
+		uint32_t			m_nCullIndex;
 	};
 }
 

@@ -1,5 +1,4 @@
-#ifndef  _Engine_Moudule__H__
-#define  _Engine_Moudule__H__
+#pragma once
 
 #include "WarningPrefix.h"
 
@@ -60,9 +59,6 @@
 #include "Engine/RenderScheme/RenderPass.h"
 #include "Engine/RenderScheme/RenderScheme.h"
 #include "Engine/RenderScheme/PostProcess.h"
-#include "Engine/RenderScheme/BlurPostProcess.h"
-#include "Engine/RenderScheme/HDRPostProcess.h"
-#include "Engine/RenderScheme/SMAAPostProcess.h"
 
 #include "Engine/ImageData/PixelFormat.h"
 #include "Engine/ImageData/ImageData.h"
@@ -89,6 +85,9 @@
 
 #include "Engine/Scene/Terrain/Terrain.h"
 
+#include "Engine/Scene/SkyBox.h"
+
+
 #include "Engine/Profile/CodeTimer.h"
 
 #include "Engine/Engine.h"
@@ -96,5 +95,3 @@
 #include "WarningSuffix.h"
 
 
-
-#endif

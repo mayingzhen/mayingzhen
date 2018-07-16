@@ -18,7 +18,7 @@ namespace ma
 
 		RefPtr<RasterizerState>			m_pRSState;
 
-		RenderPass*						m_pRenderPass = NULL;
+		RefPtr<RenderPass>				m_pRenderPass;
 
 		std::string						m_strVSFile;
 		std::string						m_strPSFile;
@@ -32,9 +32,10 @@ namespace ma
 			CMPVAR(m_strVSFile)
 			CMPVAR(m_strPSFile);
 			CMPVAR(m_shaderMacro);
-			CMPVAR(m_pBlendState);
-			CMPVAR(m_pDSState);
-			CMPVAR(m_pRSState);
+			CMPVAR(m_pBlendState.get());
+			CMPVAR(m_pDSState.get());
+			CMPVAR(m_pRSState.get());
+			CMPVAR(m_pRenderPass.get());
 
 			return false;
 		}
@@ -55,7 +56,7 @@ namespace ma
 		const ShaderCreateInfo& GetShaderCreateInfo() { return m_createInfo; }
 
 		void				SetRenderPass(RenderPass* pRenderPass) { m_createInfo.m_pRenderPass = pRenderPass; }
-		RenderPass*			GetRenderPass() { return m_createInfo.m_pRenderPass; }
+		RenderPass*			GetRenderPass() { return m_createInfo.m_pRenderPass.get(); }
 
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
 		uint32_t			GetConstBufferCount(ShaderType eType);

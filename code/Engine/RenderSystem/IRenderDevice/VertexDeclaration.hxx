@@ -24,15 +24,6 @@ namespace ma
 		BuildHash();
 	}
 
-	void VertexElement::RegisterAttribute()
-	{
-		ATTRIBUTE(VertexElement, "Stream", Stream, short, 0, AM_DEFAULT);
-		ATTRIBUTE(VertexElement, "Offset", Offset, short, 0, AM_DEFAULT);
-		ENUM_ATTRIBUTE(VertexElement, "Type", Type, DECL_TYPE, strDECL_TYPE, DT_UNKNOWN, AM_DEFAULT);
-		ENUM_ATTRIBUTE(VertexElement, "Usage", Usage, DECL_USAGE, strDECL_USAGE, DU_UNKNOWN, AM_DEFAULT);
-		ATTRIBUTE(VertexElement, "UsageIndex", UsageIndex, short, 0, AM_DEFAULT);
-	}
-
 	// ---------------------------------------------------------------------
 	//  stream  offset  type  semantic index GLLocate
 	//   4        12     4      4        4	    4
@@ -156,10 +147,20 @@ namespace ma
 		rapidxml::xml_node<>* pXmlEment = pXmlVD->first_node("Element");
 		while (pXmlEment)
 		{
-			VertexElement element;
-			element.Import(pXmlEment);
+			const char* buf = pXmlEment->findAttribute("Value");
+			ASSERT(buf);
 
-			AddElement(element);
+			std::vector<std::string> vec = StringUtil::split(buf, ",");
+			ASSERT(vec.size() == 5);
+
+			VertexElement ele;
+			ele.Stream = StringConverter::parseInt(vec[0]);
+			ele.Offset = StringConverter::parseInt(vec[1]);
+			ele.Type = StringUtil::StringToEnum<DECL_TYPE>(vec[2], strDECL_TYPE);
+			ele.Usage = StringUtil::StringToEnum<DECL_USAGE>(vec[3], strDECL_USAGE);
+			ele.UsageIndex = StringConverter::parseInt(vec[4]);
+
+			AddElement(ele);
 
 			pXmlEment = pXmlEment->next_sibling("Element");
 		}
@@ -177,7 +178,16 @@ namespace ma
 				pXmlVD->append_node(pXmlElement);
 
 				VertexElement& ele = m_arrStreamElement[i][j];
-				ele.Export(pXmlElement, doc);
+
+				char buf[MAX_PATH] = { 0 };
+				sprintf(buf, "%d,%d,%s,%s,%d", 
+					ele.Stream, 
+					ele.Offset, 
+					strDECL_TYPE[ele.Type], 
+					strDECL_USAGE[ele.Usage],
+					ele.UsageIndex);
+
+				pXmlElement->append_attribute(doc.allocate_attribute(doc.allocate_string("Value"), doc.allocate_string(buf)));
 			}
 		}
 

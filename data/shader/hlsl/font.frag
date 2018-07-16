@@ -1,4 +1,4 @@
-uniform sampler2D u_texture;
+uniform SamplerState u_texture;
 
 // Varyings
 struct PS_IN

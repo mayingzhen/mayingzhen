@@ -11,12 +11,6 @@ namespace ma
 		m_fFOV = DegreesToRadians(45.0f);
 
 		m_matVP = m_matProjInv = m_matVPInv = m_matViewInv = m_matView = Matrix4::IDENTITY;
-
-		m_atNode = new SceneNode(NULL,NULL);
-		this->AddChild(m_atNode.get());
-
-		m_eyeNode = new SceneNode(NULL,NULL);
-		this->AddChild(m_eyeNode.get());
 	}
 
 	Camera::~Camera()
@@ -36,48 +30,16 @@ namespace ma
 
 	void Camera::Update()
 	{
-		if (m_eyeNode->BeginMatrix() || m_atNode->BeginMatrix() || this->BeginMatrix())
-		{
-			if (m_eyeNode->BeginMatrix() || m_atNode->BeginMatrix())
-			{
-				Vector3 vEye = m_eyeNode->GetPos(), vAt = m_atNode->GetPos(), vUp = Vector3::UNIT_Z;
-				Vector3 vDirZ = vEye - vAt;
-				vDirZ.normalise();
-				if (vDirZ.positionEquals(Vector3::UNIT_Z))
-				{
-					vUp.y = 0.01f;
-				}
-				else if (vDirZ.positionEquals(Vector3::NEGATIVE_UNIT_Z))
-				{
-					vUp.y = 0.01f;
-				}
-
-				Vector3 vDirX = vUp.crossProduct(vDirZ);
-				vDirX.normalise();
-
-				Vector3 vDirY = vDirZ.crossProduct(vDirX);
-				vDirY.normalise();
-				m_eyeNode->SetRotation(Quaternion(vDirX, vDirY, vDirZ));
-			}
-
-			this->CalcMatrix();
-			const Matrix4& matEye = m_eyeNode->CalcMatrix();
-			m_atNode->CalcMatrix();
-
-			this->UpdateViewMatrix(matEye);
-
-			m_atNode->EndMatrix();
-			m_eyeNode->EndMatrix();
-			this->EndMatrix();
-		}
-
 		SceneNode::Update();
-	}
 
-	void Camera::UpdateViewMatrix(const Matrix4& matWorldEye)
-	{
-		m_matViewInv = matWorldEye;
-		m_matView = matWorldEye.inverseAffine();
+		Matrix4 worldTransform = Matrix4::IDENTITY;
+		Vector3 vPos = GetPosWS();
+		Quaternion rot = GetRotationWS();
+		worldTransform.makeTransform(GetPosWS(), Vector3(1.0f), GetRotationWS());
+
+		//UpdateViewMatrix(worldTransform);
+		m_matViewInv = worldTransform;
+		m_matView = m_matViewInv.inverseAffine();
 
 		this->UpdateViewProjMatrix();
 	}
@@ -233,55 +195,6 @@ namespace ma
 // 
 // 		worldOrig = vWorld0;
 // 		worldDir = (vWorld1 - vWorld0).normalisedCopy();
-	}
-
-	void Camera::Yaw(const Radian& fParam)
-	{
-		Vector3 vDir = m_eyeNode->GetPos() - m_atNode->GetPos();
-		Vector3 vUp = Vector3::UNIT_Z;
-		Quaternion q(fParam, vUp);
-
-		Vector3 vDest = q*vDir;
-		m_eyeNode->SetPos(vDest + m_atNode->GetPos());
-	}
-
-	void Camera::Pitch(const Radian& fParam)
-	{
-		Vector3 vDir = m_eyeNode->GetPos() - m_atNode->GetPos();
-		Vector3 vRight = this->GetRight();
-		Quaternion q(fParam, vRight);
-
-		Vector3 vDest = q*vDir;
-
-		// 上下仰角限制在Degree[-90,90]之间
-		Plane planeXY(Vector3::UNIT_Z, Vector3(0,0,0));
-		if (vDest.dotProduct(planeXY.projectVector(vDir)) < 0)
-		{
-			return;
-		}
-		m_eyeNode->SetPos(vDest + m_atNode->GetPos());
-	}
-
-	void Camera::LookAt(const Vector3& vEye, const Vector3& vAt)
-	{
-		m_eyeNode->SetPos(vEye);
-
-		m_atNode->SetPos(vAt);
-	}
-
-	Vector3	Camera::GetForward() const
-	{
-		return Vector3(m_matView[2][0], m_matView[2][1], m_matView[2][2]);
-	}
-
-	Vector3	Camera::GetRight() const
-	{
-		return Vector3(m_matView[0][0], m_matView[0][1], m_matView[0][2]);
-	}
-
-	Vector3	Camera::GetUp() const
-	{
-		return Vector3(m_matView[1][0], m_matView[1][1], m_matView[1][2]);
 	}
 
 	void Camera::AdjustPlanes(const AABB& aabbWorld)

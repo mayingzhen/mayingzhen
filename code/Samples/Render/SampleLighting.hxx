@@ -23,8 +23,8 @@ namespace ma
 		pSceneNode->SetScale(Vector3(0.01f));
 		m_pScene->GetRootNode()->AddChild(pSceneNode.get());
 		
-		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,10,0),Vector3(0,0,0));
-		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0f,1.0f,1.0f,1.0f));
+		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(0,10,0),Vector3(0,0,0));
+		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0f,1.0f,1.0f,1.0f));
 
 		// Light
 		if (1)

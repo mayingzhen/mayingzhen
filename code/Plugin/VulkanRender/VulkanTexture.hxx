@@ -24,10 +24,10 @@ namespace ma
 		{
 			for (uint32_t j = 0; j < 6; ++j)
 			{
-				if (m_view[i][j] == 0)
+				if (m_rtView[i][j] == 0)
 					continue;
 
-				vkDestroyImageView(device->logicalDevice, m_view[i][j], nullptr);
+				vkDestroyImageView(device->logicalDevice, m_rtView[i][j], nullptr);
 			}
 		}
 		
@@ -87,7 +87,12 @@ namespace ma
 		else if (m_eUsage == USAGE_RENDERTARGET)
 		{
 			image.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+			//m_imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		}
+
+		image.usage |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+
 		VK_CHECK_RESULT(vkCreateImage(device->logicalDevice, &image, nullptr, &m_image));
 
 		VkMemoryAllocateInfo memAlloc = vks::initializers::memoryAllocateInfo();
@@ -98,41 +103,9 @@ namespace ma
 		VK_CHECK_RESULT(vkAllocateMemory(device->logicalDevice, &memAlloc, nullptr, &m_deviceMemory));
 		VK_CHECK_RESULT(vkBindImageMemory(device->logicalDevice, m_image, m_deviceMemory, 0));
 
-		// Create image view
-		// Textures are not directly accessed by the shaders and
-		// are abstracted by image views containing additional
-		// information and sub resource ranges
-		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
-		view.viewType = VK_IMAGE_VIEW_TYPE_CUBE;
-		view.format = m_vkformat;
-		if (m_eUsage == USAGE_DEPTHSTENCIL)
-		{
-			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
-		}
-		else
-		{
-			view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
-			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-		}
+		CreateRenderTargetView();
 
-		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
-		// It's possible to create multiple image views for a single image referring to different (and/or overlapping) ranges of the image
-		for (uint32_t nMip = 0; nMip < m_nMipLevels; ++nMip)
-		{
-			for (uint32_t nFace = 0; nFace < 6; ++nFace)
-			{
-				view.subresourceRange.baseMipLevel = nMip;
-				view.subresourceRange.baseArrayLayer = nFace;
-				view.subresourceRange.layerCount = 1;
-				// Linear tiling usually won't support mip maps
-				// Only set mip map count if optimal tiling is used
-				view.subresourceRange.levelCount = 1;
-				// The view will be based on the texture's image
-				view.image = m_image;
-				VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_view[nMip][nFace]));
-			}
-		}
-
+		CreateShaderView();
 
 		return true;
 	}
@@ -154,7 +127,7 @@ namespace ma
 		image.extent.width = m_nWidth;
 		image.extent.height = m_nHeight;
 		image.extent.depth = 1;
-		image.mipLevels = m_nMipLevels;
+		image.mipLevels = std::max<uint32_t>(m_nMipLevels,1);
 		image.arrayLayers = 1;
 		image.samples = VK_SAMPLE_COUNT_1_BIT;
 		image.tiling = VK_IMAGE_TILING_OPTIMAL;
@@ -169,7 +142,12 @@ namespace ma
 		else if (m_eUsage == USAGE_RENDERTARGET)
 		{
 			image.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+			//m_imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		}
+
+		//image.usage |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+
 		VK_CHECK_RESULT(vkCreateImage(device->logicalDevice, &image, nullptr, &m_image));
 
 		VkMemoryAllocateInfo memAlloc = vks::initializers::memoryAllocateInfo();
@@ -179,6 +157,43 @@ namespace ma
 		memAlloc.memoryTypeIndex = device->getMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 		VK_CHECK_RESULT(vkAllocateMemory(device->logicalDevice, &memAlloc, nullptr, &m_deviceMemory));
 		VK_CHECK_RESULT(vkBindImageMemory(device->logicalDevice, m_image, m_deviceMemory, 0));
+
+		CreateRenderTargetView();
+			
+		CreateShaderView();
+
+		return true;
+	}
+
+	void VulkanTexture::CreateShaderView()
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		// Create image view
+		// Textures are not directly accessed by the shaders and
+		// are abstracted by image views containing additional
+		// information and sub resource ranges
+		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
+		view.viewType = m_eType == TEXTYPE_CUBE ? VK_IMAGE_VIEW_TYPE_CUBE : VK_IMAGE_VIEW_TYPE_2D;
+		view.format = m_vkformat;
+		view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
+		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
+		// It's possible to create multiple image views for a single image referring to different (and/or overlapping) ranges of the image
+		view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		view.subresourceRange.baseMipLevel = 0;
+		view.subresourceRange.baseArrayLayer = 0;
+		view.subresourceRange.layerCount = m_eType == TEXTYPE_CUBE ? 6 : 1;
+		// Linear tiling usually won't support mip maps
+		// Only set mip map count if optimal tiling is used
+		view.subresourceRange.levelCount = m_nMipLevels/* (useStaging) ? texture.mipLevels : 1*/;
+		// The view will be based on the texture's image
+		view.image = m_image;
+		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_shaderView));
+	}
+
+	void VulkanTexture::CreateRenderTargetView()
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
 
 		// Create image view
 		// Textures are not directly accessed by the shaders and
@@ -196,23 +211,25 @@ namespace ma
 			view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
 			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		}
-		
+
 		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
 		// It's possible to create multiple image views for a single image referring to different (and/or overlapping) ranges of the image
+		uint32_t nFaceCount = GetType() == TEXTYPE_CUBE ? 6 : 1;
 		for (uint32_t nMip = 0; nMip < m_nMipLevels; ++nMip)
 		{
-			view.subresourceRange.baseMipLevel = nMip;
-			view.subresourceRange.baseArrayLayer = 0;
-			view.subresourceRange.layerCount = 1;
-			// Linear tiling usually won't support mip maps
-			// Only set mip map count if optimal tiling is used
-			view.subresourceRange.levelCount = 1;
-			// The view will be based on the texture's image
-			view.image = m_image;
-			VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_view[nMip][0]));
+			for (uint32_t nFace = 0; nFace < nFaceCount; ++nFace)
+			{
+				view.subresourceRange.baseMipLevel = nMip;
+				view.subresourceRange.baseArrayLayer = nFace;
+				view.subresourceRange.layerCount = 1;
+				// Linear tiling usually won't support mip maps
+				// Only set mip map count if optimal tiling is used
+				view.subresourceRange.levelCount = 1;
+				// The view will be based on the texture's image
+				view.image = m_image;
+				VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_rtView[nMip][nFace]));
+			}
 		}
-
-		return true;
 	}
 
 	bool VulkanTexture::LoadFromImagData(const ImageData& imageData)
@@ -381,26 +398,7 @@ namespace ma
 		vkFreeMemory(device->logicalDevice, stagingMemory, nullptr);
 		vkDestroyBuffer(device->logicalDevice, stagingBuffer, nullptr);
 
-		// Create image view
-		// Textures are not directly accessed by the shaders and
-		// are abstracted by image views containing additional
-		// information and sub resource ranges
-		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
-		view.viewType = imageData.getNumFaces() == 1 ? VK_IMAGE_VIEW_TYPE_2D : VK_IMAGE_VIEW_TYPE_CUBE;
-		view.format = m_vkformat;
-		view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
-		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
-		// It's possible to create multiple image views for a single image referring to different (and/or overlapping) ranges of the image
-		view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-		view.subresourceRange.baseMipLevel = 0;
-		view.subresourceRange.baseArrayLayer = 0;
-		view.subresourceRange.layerCount = imageData.getNumFaces();
-		// Linear tiling usually won't support mip maps
-		// Only set mip map count if optimal tiling is used
-		view.subresourceRange.levelCount = m_nMipLevels/* (useStaging) ? texture.mipLevels : 1*/;
-		// The view will be based on the texture's image
-		view.image = m_image;
-		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_view[0][0]));
+		CreateShaderView();
 
 		m_eResState = ResInited;
 
@@ -445,7 +443,7 @@ namespace ma
 		}
 
 		// Check if the device supports blitting to linear images 
-		vkGetPhysicalDeviceFormatProperties(device->physicalDevice, VK_FORMAT_R8G8B8A8_UNORM, &formatProps);
+		vkGetPhysicalDeviceFormatProperties(device->physicalDevice, m_vkformat, &formatProps);
 		if (!(formatProps.linearTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT)) 
 		{
 			std::cerr << "Device does not support blitting to linear tiled images, using copy instead of blit!" << std::endl;
@@ -455,16 +453,18 @@ namespace ma
 		// Source for the copy is the last rendered swapchain image
 		VkImage srcImage = m_image;//swapChain.images[currentBuffer];
 
+		uint32_t nLayerCount = m_eType == TEXTYPE_CUBE ? 6 : 1;
+
 		// Create the linear tiled destination image to copy to and to read the memory from
 		VkImageCreateInfo imageCreateCI(vks::initializers::imageCreateInfo());
 		imageCreateCI.imageType = VK_IMAGE_TYPE_2D;
 		// Note that vkCmdBlitImage (if supported) will also do format conversions if the swapchain color format would differ
-		imageCreateCI.format = VK_FORMAT_R8G8B8A8_UNORM;
+		imageCreateCI.format = m_vkformat;
 		imageCreateCI.extent.width = this->GetWidth();
 		imageCreateCI.extent.height = this->GetHeight();
 		imageCreateCI.extent.depth = 1;
-		imageCreateCI.arrayLayers = 1;
-		imageCreateCI.mipLevels = 1;
+		imageCreateCI.arrayLayers = nLayerCount;
+		imageCreateCI.mipLevels = m_nMipLevels;
 		imageCreateCI.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		imageCreateCI.samples = VK_SAMPLE_COUNT_1_BIT;
 		imageCreateCI.tiling = VK_IMAGE_TILING_LINEAR;
@@ -506,7 +506,7 @@ namespace ma
 			srcImage,
 			VK_ACCESS_MEMORY_READ_BIT,
 			VK_ACCESS_TRANSFER_READ_BIT,
-			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+			m_imageLayout,
 			VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
 			VK_PIPELINE_STAGE_TRANSFER_BIT,
 			VK_PIPELINE_STAGE_TRANSFER_BIT,
@@ -522,10 +522,10 @@ namespace ma
 			blitSize.z = 1;
 			VkImageBlit imageBlitRegion{};
 			imageBlitRegion.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			imageBlitRegion.srcSubresource.layerCount = 1;
+			imageBlitRegion.srcSubresource.layerCount = nLayerCount;
 			imageBlitRegion.srcOffsets[1] = blitSize;
 			imageBlitRegion.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			imageBlitRegion.dstSubresource.layerCount = 1;
+			imageBlitRegion.dstSubresource.layerCount = nLayerCount;
 			imageBlitRegion.dstOffsets[1] = blitSize;
 
 			// Issue the blit command
@@ -542,9 +542,9 @@ namespace ma
 			// Otherwise use image copy (requires us to manually flip components)
 			VkImageCopy imageCopyRegion{};
 			imageCopyRegion.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			imageCopyRegion.srcSubresource.layerCount = 1;
+			imageCopyRegion.srcSubresource.layerCount = nLayerCount;
 			imageCopyRegion.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			imageCopyRegion.dstSubresource.layerCount = 1;
+			imageCopyRegion.dstSubresource.layerCount = nLayerCount;
 			imageCopyRegion.extent.width = this->GetWidth();
 			imageCopyRegion.extent.height = this->GetHeight();
 			imageCopyRegion.extent.depth = 1;
@@ -571,16 +571,16 @@ namespace ma
 			VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
 
 		// Transition back the swap chain image after the blit is done
-		vks::tools::insertImageMemoryBarrier(
-			copyCmd,
-			srcImage,
-			VK_ACCESS_TRANSFER_READ_BIT,
-			VK_ACCESS_MEMORY_READ_BIT,
-			VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
-			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
-			VK_PIPELINE_STAGE_TRANSFER_BIT,
-			VK_PIPELINE_STAGE_TRANSFER_BIT,
-			VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+// 		vks::tools::insertImageMemoryBarrier(
+// 			copyCmd,
+// 			srcImage,
+// 			VK_ACCESS_TRANSFER_READ_BIT,
+// 			VK_ACCESS_MEMORY_READ_BIT,
+// 			VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+// 			m_imageLayout,
+// 			VK_PIPELINE_STAGE_TRANSFER_BIT,
+// 			VK_PIPELINE_STAGE_TRANSFER_BIT,
+// 			VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
 
 		device->flushCommandBuffer(copyCmd, pRender->m_queue);
 

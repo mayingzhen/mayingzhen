@@ -59,11 +59,11 @@ namespace ma {
         {
             // |w| > 1/2, may as well choose w > 1/2
             fRoot = Math::Sqrt(fTrace + 1.0f);  // 2w
-            w = 0.5f*fRoot;
+            _w = 0.5f*fRoot;
             fRoot = 0.5f/fRoot;  // 1/(4w)
-            x = (kRot[2][1]-kRot[1][2])*fRoot;
-            y = (kRot[0][2]-kRot[2][0])*fRoot;
-            z = (kRot[1][0]-kRot[0][1])*fRoot;
+            _x = (kRot[2][1]-kRot[1][2])*fRoot;
+            _y = (kRot[0][2]-kRot[2][0])*fRoot;
+            _z = (kRot[1][0]-kRot[0][1])*fRoot;
         }
         else
         {
@@ -78,10 +78,10 @@ namespace ma {
             size_t k = s_iNext[j];
 
             fRoot = Math::Sqrt(kRot[i][i]-kRot[j][j]-kRot[k][k] + 1.0f);
-            float* apkQuat[3] = { &x, &y, &z };
+            float* apkQuat[3] = { &_x, &_y, &_z };
             *apkQuat[i] = 0.5f*fRoot;
             fRoot = 0.5f/fRoot;
-            w = (kRot[k][j]-kRot[j][k])*fRoot;
+            _w = (kRot[k][j]-kRot[j][k])*fRoot;
             *apkQuat[j] = (kRot[j][i]+kRot[i][j])*fRoot;
             *apkQuat[k] = (kRot[k][i]+kRot[i][k])*fRoot;
         }
@@ -89,18 +89,18 @@ namespace ma {
     //-----------------------------------------------------------------------
     void Quaternion::ToRotationMatrix (Matrix3& kRot) const
     {
-        float fTx  = x+x;
-        float fTy  = y+y;
-        float fTz  = z+z;
-        float fTwx = fTx*w;
-        float fTwy = fTy*w;
-        float fTwz = fTz*w;
-        float fTxx = fTx*x;
-        float fTxy = fTy*x;
-        float fTxz = fTz*x;
-        float fTyy = fTy*y;
-        float fTyz = fTz*y;
-        float fTzz = fTz*z;
+        float fTx  = _x+_x;
+        float fTy  = _y+_y;
+        float fTz  = _z+_z;
+        float fTwx = fTx*_w;
+        float fTwy = fTy*_w;
+        float fTwz = fTz*_w;
+        float fTxx = fTx*_x;
+        float fTxy = fTy*_x;
+        float fTxz = fTz*_x;
+        float fTyy = fTy*_y;
+        float fTyz = fTz*_y;
+        float fTzz = fTz*_z;
 
         kRot[0][0] = 1.0f-(fTyy+fTzz);
         kRot[0][1] = fTxy-fTwz;
@@ -123,10 +123,10 @@ namespace ma {
 
         Radian fHalfAngle ( 0.5*rfAngle );
         float fSin = Math::Sin(fHalfAngle);
-        w = Math::Cos(fHalfAngle);
-        x = fSin*rkAxis.x;
-        y = fSin*rkAxis.y;
-        z = fSin*rkAxis.z;
+        _w = Math::Cos(fHalfAngle);
+        _x = fSin*rkAxis.x;
+        _y = fSin*rkAxis.y;
+        _z = fSin*rkAxis.z;
     }
     //-----------------------------------------------------------------------
     void Quaternion::ToAngleAxis (Radian& rfAngle, Vector3& rkAxis) const
@@ -134,14 +134,14 @@ namespace ma {
         // The quaternion representing the rotation is
         //   q = cos(A/2)+sin(A/2)*(x*i+y*j+z*k)
 
-        float fSqrLength = x*x+y*y+z*z;
+        float fSqrLength = _x*_x+_y*_y+_z*_z;
         if ( fSqrLength > 0.0 )
         {
-            rfAngle = 2.0*Math::ACos(w);
+            rfAngle = 2.0*Math::ACos(_w);
             float fInvLength = Math::InvSqrt(fSqrLength);
-            rkAxis.x = x*fInvLength;
-            rkAxis.y = y*fInvLength;
-            rkAxis.z = z*fInvLength;
+            rkAxis.x = _x*fInvLength;
+            rkAxis.y = _y*fInvLength;
+            rkAxis.z = _z*fInvLength;
         }
         else
         {
@@ -154,25 +154,61 @@ namespace ma {
     }
 
 
-	void Quaternion::FromEulerAngles(float x, float y, float z)
+	void Quaternion::FromEulerAngles(float eX, float eY, float eZ)
 	{
         static const float M_DEGTORAD_2 = 3.1415926f / 360.0f;    // M_DEGTORAD / 2.f
         
 		// Order of rotations: Z first, then X, then Y (mimics typical FPS camera with gimbal lock at top/bottom)
-		x *= M_DEGTORAD_2;
-		y *= M_DEGTORAD_2;
-		z *= M_DEGTORAD_2;
-		float sinX = sinf(x);
-		float cosX = cosf(x);
-		float sinY = sinf(y);
-		float cosY = cosf(y);
-		float sinZ = sinf(z);
-		float cosZ = cosf(z);
+		eX *= M_DEGTORAD_2;
+		eY *= M_DEGTORAD_2;
+		eZ *= M_DEGTORAD_2;
+		float sinX = sinf(eX);
+		float cosX = cosf(eX);
+		float sinY = sinf(eY);
+		float cosY = cosf(eY);
+		float sinZ = sinf(eZ);
+		float cosZ = cosf(eZ);
 
-		w = cosY * cosX * cosZ + sinY * sinX * sinZ;
-		x = cosY * sinX * cosZ + sinY * cosX * sinZ;
-		y = sinY * cosX * cosZ - cosY * sinX * sinZ;
-		z = cosY * cosX * sinZ - sinY * sinX * cosZ;
+		_w = cosY * cosX * cosZ + sinY * sinX * sinZ;
+		_x = cosY * sinX * cosZ + sinY * cosX * sinZ;
+		_y = sinY * cosX * cosZ - cosY * sinX * sinZ;
+		_z = cosY * cosX * sinZ - sinY * sinX * cosZ;
+	}
+
+	Vector3 Quaternion::EulerAngles() const
+	{
+		static const float M_PI = 3.14159265358979323846264338327950288f;
+		static const float M_DEGTORAD = M_PI / 180.0f;
+		static const float M_RADTODEG = 1.0f / M_DEGTORAD;
+
+		// Derivation from http://www.geometrictools.com/Documentation/EulerAngles.pdf
+		// Order of rotations: Z first, then X, then Y
+		float check = 2.0f * (-_y * _z + _w * _x);
+
+		if (check < -0.995f)
+		{
+			return Vector3(
+				-90.0f,
+				0.0f,
+				-atan2f(2.0f * (_x * _z - _w * _y), 1.0f - 2.0f * (_y * _y + _z * _z)) * M_RADTODEG
+			);
+		}
+		else if (check > 0.995f)
+		{
+			return Vector3(
+				90.0f,
+				0.0f,
+				atan2f(2.0f * (_x * _z - _w * _y), 1.0f - 2.0f * (_y * _y + _z * _z)) * M_RADTODEG
+			);
+		}
+		else
+		{
+			return Vector3(
+				asinf(check) * M_RADTODEG,
+				atan2f(2.0f * (_x * _z + _w * _y), 1.0f - 2.0f * (_x * _x + _y * _y)) * M_RADTODEG,
+				atan2f(2.0f * (_x * _y + _w * _z), 1.0f - 2.0f * (_x * _x + _z * _z)) * M_RADTODEG
+			);
+		}
 	}
 
 
@@ -228,44 +264,44 @@ namespace ma {
     Vector3 Quaternion::xAxis(void) const
     {
         //float fTx  = 2.0*x;
-        float fTy  = 2.0f*y;
-        float fTz  = 2.0f*z;
-        float fTwy = fTy*w;
-        float fTwz = fTz*w;
-        float fTxy = fTy*x;
-        float fTxz = fTz*x;
-        float fTyy = fTy*y;
-        float fTzz = fTz*z;
+        float fTy  = 2.0f*_y;
+        float fTz  = 2.0f*_z;
+        float fTwy = fTy*_w;
+        float fTwz = fTz*_w;
+        float fTxy = fTy*_x;
+        float fTxz = fTz*_x;
+        float fTyy = fTy*_y;
+        float fTzz = fTz*_z;
 
         return Vector3(1.0f-(fTyy+fTzz), fTxy+fTwz, fTxz-fTwy);
     }
     //-----------------------------------------------------------------------
     Vector3 Quaternion::yAxis(void) const
     {
-        float fTx  = 2.0f*x;
-        float fTy  = 2.0f*y;
-        float fTz  = 2.0f*z;
-        float fTwx = fTx*w;
-        float fTwz = fTz*w;
-        float fTxx = fTx*x;
-        float fTxy = fTy*x;
-        float fTyz = fTz*y;
-        float fTzz = fTz*z;
+        float fTx  = 2.0f*_x;
+        float fTy  = 2.0f*_y;
+        float fTz  = 2.0f*_z;
+        float fTwx = fTx*_w;
+        float fTwz = fTz*_w;
+        float fTxx = fTx*_x;
+        float fTxy = fTy*_x;
+        float fTyz = fTz*_y;
+        float fTzz = fTz*_z;
 
         return Vector3(fTxy-fTwz, 1.0f-(fTxx+fTzz), fTyz+fTwx);
     }
     //-----------------------------------------------------------------------
     Vector3 Quaternion::zAxis(void) const
     {
-        float fTx  = 2.0f*x;
-        float fTy  = 2.0f*y;
-        float fTz  = 2.0f*z;
-        float fTwx = fTx*w;
-        float fTwy = fTy*w;
-        float fTxx = fTx*x;
-        float fTxz = fTz*x;
-        float fTyy = fTy*y;
-        float fTyz = fTz*y;
+        float fTx  = 2.0f*_x;
+        float fTy  = 2.0f*_y;
+        float fTz  = 2.0f*_z;
+        float fTwx = fTx*_w;
+        float fTwy = fTy*_w;
+        float fTxx = fTx*_x;
+        float fTxz = fTz*_x;
+        float fTyy = fTy*_y;
+        float fTyz = fTz*_y;
 
         return Vector3(fTxz+fTwy, fTyz-fTwx, 1.0f-(fTxx+fTyy));
     }
@@ -292,12 +328,12 @@ namespace ma {
     //-----------------------------------------------------------------------
     Quaternion Quaternion::operator+ (const Quaternion& rkQ) const
     {
-        return Quaternion(w+rkQ.w,x+rkQ.x,y+rkQ.y,z+rkQ.z);
+        return Quaternion(_w+rkQ._w,_x+rkQ._x,_y+rkQ._y,_z+rkQ._z);
     }
     //-----------------------------------------------------------------------
     Quaternion Quaternion::operator- (const Quaternion& rkQ) const
     {
-        return Quaternion(w-rkQ.w,x-rkQ.x,y-rkQ.y,z-rkQ.z);
+        return Quaternion(_w-rkQ._w,_x-rkQ._x,_y-rkQ._y,_z-rkQ._z);
     }
     //-----------------------------------------------------------------------
     Quaternion Quaternion::operator* (const Quaternion& rkQ) const
@@ -307,46 +343,46 @@ namespace ma {
 
         return Quaternion
         (
-            w * rkQ.w - x * rkQ.x - y * rkQ.y - z * rkQ.z,
-            w * rkQ.x + x * rkQ.w + y * rkQ.z - z * rkQ.y,
-            w * rkQ.y + y * rkQ.w + z * rkQ.x - x * rkQ.z,
-            w * rkQ.z + z * rkQ.w + x * rkQ.y - y * rkQ.x
+            _w * rkQ._w - _x * rkQ._x - _y * rkQ._y - _z * rkQ._z,
+            _w * rkQ._x + _x * rkQ._w + _y * rkQ._z - _z * rkQ._y,
+            _w * rkQ._y + _y * rkQ._w + _z * rkQ._x - _x * rkQ._z,
+            _w * rkQ._z + _z * rkQ._w + _x * rkQ._y - _y * rkQ._x
         );
     }
     //-----------------------------------------------------------------------
     Quaternion Quaternion::operator* (float fScalar) const
     {
-        return Quaternion(fScalar*w,fScalar*x,fScalar*y,fScalar*z);
+        return Quaternion(fScalar*_w,fScalar*_x,fScalar*_y,fScalar*_z);
     }
     //-----------------------------------------------------------------------
     Quaternion operator* (float fScalar, const Quaternion& rkQ)
     {
-        return Quaternion(fScalar*rkQ.w,fScalar*rkQ.x,fScalar*rkQ.y,
-            fScalar*rkQ.z);
+        return Quaternion(fScalar*rkQ._w,fScalar*rkQ._x,fScalar*rkQ._y,
+            fScalar*rkQ._z);
     }
     //-----------------------------------------------------------------------
     Quaternion Quaternion::operator- () const
     {
-        return Quaternion(-w,-x,-y,-z);
+        return Quaternion(-_w,-_x,-_y,-_z);
     }
     //-----------------------------------------------------------------------
     float Quaternion::Dot (const Quaternion& rkQ) const
     {
-        return w*rkQ.w+x*rkQ.x+y*rkQ.y+z*rkQ.z;
+        return _w*rkQ._w+_x*rkQ._x+_y*rkQ._y+_z*rkQ._z;
     }
     //-----------------------------------------------------------------------
     float Quaternion::Norm () const
     {
-        return w*w+x*x+y*y+z*z;
+        return _w*_w+_x*_x+_y*_y+_z*_z;
     }
     //-----------------------------------------------------------------------
     Quaternion Quaternion::Inverse () const
     {
-        float fNorm = w*w+x*x+y*y+z*z;
+        float fNorm = _w*_w+_x*_x+_y*_y+_z*_z;
         if ( fNorm > 0.0 )
         {
             float fInvNorm = 1.0f/fNorm;
-            return Quaternion(w*fInvNorm,-x*fInvNorm,-y*fInvNorm,-z*fInvNorm);
+            return Quaternion(_w*fInvNorm,-_x*fInvNorm,-_y*fInvNorm,-_z*fInvNorm);
         }
         else
         {
@@ -358,7 +394,7 @@ namespace ma {
     Quaternion Quaternion::UnitInverse () const
     {
         // assert:  'this' is unit length
-        return Quaternion(w,-x,-y,-z);
+        return Quaternion(_w,-_x,-_y,-_z);
     }
     //-----------------------------------------------------------------------
     Quaternion Quaternion::Exp () const
@@ -367,24 +403,24 @@ namespace ma {
         // exp(q) = cos(A)+sin(A)*(x*i+y*j+z*k).  If sin(A) is near zero,
         // use exp(q) = cos(A)+A*(x*i+y*j+z*k) since A/sin(A) has limit 1.
 
-        Radian fAngle ( Math::Sqrt(x*x+y*y+z*z) );
+        Radian fAngle ( Math::Sqrt(_x*_x+_y*_y+_z*_z) );
         float fSin = Math::Sin(fAngle);
 
         Quaternion kResult;
-        kResult.w = Math::Cos(fAngle);
+        kResult._w = Math::Cos(fAngle);
 
         if ( Math::Abs(fSin) >= ms_fEpsilon )
         {
             float fCoeff = fSin/(fAngle.valueRadians());
-            kResult.x = fCoeff*x;
-            kResult.y = fCoeff*y;
-            kResult.z = fCoeff*z;
+            kResult._x = fCoeff*_x;
+            kResult._y = fCoeff*_y;
+            kResult._z = fCoeff*_z;
         }
         else
         {
-            kResult.x = x;
-            kResult.y = y;
-            kResult.z = z;
+            kResult._x = _x;
+            kResult._y = _y;
+            kResult._z = _z;
         }
 
         return kResult;
@@ -397,25 +433,25 @@ namespace ma {
         // sin(A)*(x*i+y*j+z*k) since sin(A)/A has limit 1.
 
         Quaternion kResult;
-        kResult.w = 0.0;
+        kResult._w = 0.0;
 
-        if ( Math::Abs(w) < 1.0 )
+        if ( Math::Abs(_w) < 1.0 )
         {
-            Radian fAngle ( Math::ACos(w) );
+            Radian fAngle ( Math::ACos(_w) );
             float fSin = Math::Sin(fAngle);
             if ( Math::Abs(fSin) >= ms_fEpsilon )
             {
                 float fCoeff = fAngle.valueRadians()/fSin;
-                kResult.x = fCoeff*x;
-                kResult.y = fCoeff*y;
-                kResult.z = fCoeff*z;
+                kResult._x = fCoeff*_x;
+                kResult._y = fCoeff*_y;
+                kResult._z = fCoeff*_z;
                 return kResult;
             }
         }
 
-        kResult.x = x;
-        kResult.y = y;
-        kResult.z = z;
+        kResult._x = _x;
+        kResult._y = _y;
+        kResult._z = _z;
 
         return kResult;
     }
@@ -424,10 +460,10 @@ namespace ma {
     {
 		// nVidia SDK implementation
 		Vector3 uv, uuv;
-		Vector3 qvec(x, y, z);
+		Vector3 qvec(_x, _y, _z);
 		uv = qvec.crossProduct(v);
 		uuv = qvec.crossProduct(uv);
-		uv *= (2.0f * w);
+		uv *= (2.0f * _w);
 		uuv *= 2.0f;
 
 		return v + uv + uuv;
@@ -589,12 +625,12 @@ namespace ma {
 			// roll = atan2(localx.y, localx.x)
 			// pick parts of xAxis() implementation that we need
 //			float fTx  = 2.0*x;
-			float fTy  = 2.0f*y;
-			float fTz  = 2.0f*z;
-			float fTwz = fTz*w;
-			float fTxy = fTy*x;
-			float fTyy = fTy*y;
-			float fTzz = fTz*z;
+			float fTy  = 2.0f*_y;
+			float fTz  = 2.0f*_z;
+			float fTwz = fTz*_w;
+			float fTxy = fTy*_x;
+			float fTyy = fTy*_y;
+			float fTzz = fTz*_z;
 
 			// Vector3(1.0-(fTyy+fTzz), fTxy+fTwz, fTxz-fTwy);
 
@@ -603,7 +639,7 @@ namespace ma {
 		}
 		else
 		{
-			return Radian(Math::ATan2(2*(x*y + w*z), w*w + x*x - y*y - z*z));
+			return Radian(Math::ATan2(2*(_x*_y + _w*_z), _w*_w + _x*_x - _y*_y - _z*_z));
 		}
 	}
     //-----------------------------------------------------------------------
@@ -613,13 +649,13 @@ namespace ma {
 		{
 			// pitch = atan2(localy.z, localy.y)
 			// pick parts of yAxis() implementation that we need
-			float fTx  = 2.0f*x;
+			float fTx  = 2.0f*_x;
 //			float fTy  = 2.0f*y;
-			float fTz  = 2.0f*z;
-			float fTwx = fTx*w;
-			float fTxx = fTx*x;
-			float fTyz = fTz*y;
-			float fTzz = fTz*z;
+			float fTz  = 2.0f*_z;
+			float fTwx = fTx*_w;
+			float fTxx = fTx*_x;
+			float fTyz = fTz*_y;
+			float fTzz = fTz*_z;
 
 			// Vector3(fTxy-fTwz, 1.0-(fTxx+fTzz), fTyz+fTwx);
 			return Radian(Math::ATan2(fTyz+fTwx, 1.0f-(fTxx+fTzz)));
@@ -627,7 +663,7 @@ namespace ma {
 		else
 		{
 			// internal version
-			return Radian(Math::ATan2(2*(y*z + w*x), w*w - x*x - y*y + z*z));
+			return Radian(Math::ATan2(2*(_y*_z + _w*_x), _w*_w - _x*_x - _y*_y + _z*_z));
 		}
 	}
     //-----------------------------------------------------------------------
@@ -637,13 +673,13 @@ namespace ma {
 		{
 			// yaw = atan2(localz.x, localz.z)
 			// pick parts of zAxis() implementation that we need
-			float fTx  = 2.0f*x;
-			float fTy  = 2.0f*y;
-			float fTz  = 2.0f*z;
-			float fTwy = fTy*w;
-			float fTxx = fTx*x;
-			float fTxz = fTz*x;
-			float fTyy = fTy*y;
+			float fTx  = 2.0f*_x;
+			float fTy  = 2.0f*_y;
+			float fTz  = 2.0f*_z;
+			float fTwy = fTy*_w;
+			float fTxx = fTx*_x;
+			float fTxz = fTz*_x;
+			float fTyy = fTy*_y;
 
 			// Vector3(fTxz+fTwy, fTyz-fTwx, 1.0-(fTxx+fTyy));
 
@@ -653,7 +689,7 @@ namespace ma {
 		else
 		{
 			// internal version
-			return Radian(Math::ASin(-2*(x*z - w*y)));
+			return Radian(Math::ASin(-2*(_x*_z - _w*_y)));
 		}
 	}
     //-----------------------------------------------------------------------

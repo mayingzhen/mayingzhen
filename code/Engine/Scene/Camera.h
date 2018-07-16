@@ -18,12 +18,6 @@ namespace ma
 
 		virtual void		Update();
 
-		virtual void		LookAt(const Vector3& vEye, const Vector3& vAt);
-
-		virtual Vector3		GetForward() const;
-		virtual Vector3		GetRight() const;		
-		virtual Vector3		GetUp() const;
-
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
 		const Matrix4&		GetMatView();
@@ -52,17 +46,10 @@ namespace ma
 
 		const Frustum&		GetFrustum() const {return m_frustum;}
 
-		void				Yaw(const Radian& fParam);
-		void				Pitch(const Radian& fParam);
-
-		SceneNode*			GetEyeNode() const {return m_eyeNode.get();}
-		SceneNode*			GetAtNode() const {return m_atNode.get();}
-
 	protected:
 
 		Vector2				GetNearPlaneSize() const;
 
-		void				UpdateViewMatrix(const Matrix4& matWorldEye);
 		void				UpdateViewProjMatrix();
 
 	private:
@@ -73,15 +60,12 @@ namespace ma
 		float				m_fFOV;	
 		float				m_fNear;
 		float				m_fFar;
-		uint32_t				m_nWidth;
-		uint32_t				m_nHeight;
+		uint32_t			m_nWidth;
+		uint32_t			m_nHeight;
 
 		float				m_fNearMin;		
 
 		Frustum				m_frustum;
-	
-		RefPtr<SceneNode>	m_atNode;
-		RefPtr<SceneNode>	m_eyeNode;
  	};
 	
 	RefPtr<Camera> CreateCamera();

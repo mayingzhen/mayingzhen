@@ -20,7 +20,7 @@ namespace ma
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
-		m_nMipLevels = nMipMap;
+		m_nMipLevels = std::max<uint32_t>(nMipMap,1);
 		m_eUsage = eUsage;
 		m_eFormat = eFormat;
 		m_bSRGB = bSRGB;
@@ -51,6 +51,11 @@ namespace ma
 		if (!BuildImageData(pszName, pMemory, nSizeBytes, imageData))
 		{
 			return false;
+		}
+
+		if (imageData.getNumFaces() == 6)
+		{
+			m_eType = TEXTYPE_CUBE;
 		}
 
 		if ( !LoadFromImagData(imageData) )

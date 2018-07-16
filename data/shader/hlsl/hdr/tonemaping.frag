@@ -3,11 +3,20 @@ struct PS_IN
 	float2 uv : TEXCOORD0;
 };
 
-uniform sampler2D gTex_Lum : register (s0);
-uniform sampler2D gTex_Scene : register (s1);
-uniform sampler2D gTex_Bright0 : register (s2);
-uniform sampler2D gTex_Bright1 : register (s3);
-uniform sampler2D gTex_Bright2 : register (s4);
+uniform Texture2D gTex_Lum : register (t0);
+uniform SamplerState gSam_Lum : register (s0);
+
+uniform Texture2D gTex_Scene : register (t1);
+uniform SamplerState gSam_Scene : register (s1);
+
+uniform Texture2D gTex_Bright0 : register (t2);
+uniform SamplerState gSam_Bright0 : register (s2);
+
+uniform Texture2D gTex_Bright1 : register (t3);
+uniform SamplerState gSam_Bright1 : register (s3);
+
+uniform Texture2D gTex_Bright2 : register (t4);
+uniform SamplerState gSam_Bright2 : register (s4);
 
 uniform float gExposure;
 uniform float4 gBloomWeight;
@@ -50,24 +59,21 @@ float3 BlurShift(float3 vSample, float fLum)
 	return lerp(vSample, vRodColor, fBlueShiftCoefficient) ;
 }
 
-float4 main(PS_IN In) : COLOR
+float4 main(PS_IN In) : SV_TARGET
 {
-	float adaptedLum = tex2D(gTex_Lum, float2(0.5, 0.5)).r;
-	float3 texColor = tex2D(gTex_Scene, In.uv).rgb;
-	float3 texBright0 = tex2D(gTex_Bright0, In.uv).rgb * gBloomWeight.x;
-	float3 texBright1 = tex2D(gTex_Bright1, In.uv).rgb * gBloomWeight.y;
-	float3 texBright2 = tex2D(gTex_Bright2, In.uv).rgb * gBloomWeight.z;
+	float adaptedLum = gTex_Lum.Sample(gSam_Lum, float2(0.5, 0.5)).r;
+	float3 texColor = gTex_Scene.Sample(gSam_Scene, In.uv).rgb;
+	float3 texBright0 = gTex_Bright0.Sample(gSam_Bright0, In.uv).rgb * gBloomWeight.x;
+	float3 texBright1 = gTex_Bright1.Sample(gSam_Bright1, In.uv).rgb * gBloomWeight.y;
+	float3 texBright2 = gTex_Bright2.Sample(gSam_Bright2, In.uv).rgb * gBloomWeight.z;
 	
 	float3 texBright = texBright0 + texBright1 + texBright2;
 	
-	texColor = pow(texColor.rgb, 2.2);
-	texBright = pow(texBright.rgb, 2.2);
-	
-	texColor += texBright;
+	//texColor += texBright;
 
 	//texColor = BlurShift(texColor, adaptedLum);
 	
-	texColor *= gExposure / (adaptedLum + 0.001f);
+	texColor *= 1.0;//gExposure / (adaptedLum + 0.001f);
 
 	float3 curr = Uncharted2Tonemap(texColor);
 	

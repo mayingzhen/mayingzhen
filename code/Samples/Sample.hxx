@@ -40,7 +40,7 @@ namespace ma
 		RefPtr<Material> pMaterial = CreateMaterial();
 
 		RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
-		pMaterial->AddSubMaterial(0,pSubMaterial.get());
+		pMaterial->AddSubMaterial(pSubMaterial.get());
 		
 		std::string strMacro = "DIFFUSECOLOR";
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;
@@ -62,6 +62,8 @@ namespace ma
 			info.m_strVSFile = "mesh";
 			info.m_strPSFile = "mesh";
 			info.m_pVertexDecl = pDeclaration;
+			info.m_shaderMacro = strMacro;
+			info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
 			pShadingTech = CreateTechnique("shader/skinmesh.tech", info);
 
 			pShadingTech->SaveToXML("shader/skinmesh.tech");
@@ -78,6 +80,8 @@ namespace ma
 			info.m_strVSFile = "mesh";
 			info.m_strPSFile = "mesh";
 			info.m_pVertexDecl = pDeclaration;
+			info.m_shaderMacro = strMacro;
+			info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
 			pShadingTech = CreateTechnique("shader/mesh.tech", info);
 
 			pShadingTech->SaveToXML("shader/mesh.tech");

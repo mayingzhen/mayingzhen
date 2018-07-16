@@ -54,18 +54,18 @@ namespace ma {
     public:
 		inline Quaternion()
 		{
-			w = 0;
-			x = 0;
-			y = 0;
-			z = 0;
+			_w = 0;
+			_x = 0;
+			_y = 0;
+			_z = 0;
 		}
 
         inline Quaternion(float fW,float fX, float fY, float fZ)
 		{
-			w = fW;
-			x = fX;
-			y = fY;
-			z = fZ;
+			_w = fW;
+			_x = fX;
+			_y = fY;
+			_z = fZ;
 		}
         /// Construct a quaternion from a rotation matrix
         inline Quaternion(const Matrix3& rot)
@@ -94,17 +94,17 @@ namespace ma {
 		/// Construct a quaternion from 4 manual w/x/y/z values
 		inline Quaternion(float* valptr)
 		{
-			memcpy(&x, valptr, sizeof(float)*4);
+			memcpy(&_x, valptr, sizeof(float)*4);
 		}
 
 		/** Exchange the contents of this quaternion with another. 
 		*/
 		inline void swap(Quaternion& other)
 		{
-			std::swap(w, other.w);
-			std::swap(x, other.x);
-			std::swap(y, other.y);
-			std::swap(z, other.z);
+			std::swap(_w, other._w);
+			std::swap(_x, other._x);
+			std::swap(_y, other._y);
+			std::swap(_z, other._z);
 		}
 
 		/// Array accessor operator
@@ -112,7 +112,7 @@ namespace ma {
 		{
 			assert( i < 4 );
 
-			return *(&w+i);
+			return *(&_w+i);
 		}
 
 		/// Array accessor operator
@@ -120,19 +120,19 @@ namespace ma {
 		{
 			assert( i < 4 );
 
-			return *(&w+i);
+			return *(&_w+i);
 		}
 
 		/// Pointer accessor for direct copying
 		inline float* ptr()
 		{
-			return &w;
+			return &_w;
 		}
 
 		/// Pointer accessor for direct copying
 		inline const float* ptr() const
 		{
-			return &w;
+			return &_w;
 		}
 
 		void FromRotationMatrix (const Matrix3& kRot);
@@ -145,6 +145,9 @@ namespace ma {
             dAngle = rAngle;
         }
 		void FromEulerAngles(float x, float y, float z);
+
+		/// Return Euler angles in degrees.
+		Vector3 EulerAngles() const;
 
         void FromAxes (const Vector3* akAxis);
         void FromAxes (const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
@@ -159,10 +162,10 @@ namespace ma {
 
         inline Quaternion& operator= (const Quaternion& rkQ)
 		{
-			w = rkQ.w;
-			x = rkQ.x;
-			y = rkQ.y;
-			z = rkQ.z;
+			_w = rkQ._w;
+			_x = rkQ._x;
+			_y = rkQ._y;
+			_z = rkQ._z;
 			return *this;
 		}
         Quaternion operator+ (const Quaternion& rkQ) const;
@@ -174,8 +177,8 @@ namespace ma {
         Quaternion operator- () const;
         inline bool operator== (const Quaternion& rhs) const
 		{
-			return (rhs.x == x) && (rhs.y == y) &&
-				(rhs.z == z) && (rhs.w == w);
+			return (rhs._x == _x) && (rhs._y == _y) &&
+				(rhs._z == _z) && (rhs._w == _w);
 		}
         inline bool operator!= (const Quaternion& rhs) const
 		{
@@ -191,7 +194,7 @@ namespace ma {
         Quaternion Exp () const;
         Quaternion Log () const;
 
-		float LengthSquared() const { return w * w + x * x + y * y + z * z; }
+		float LengthSquared() const { return _w * _w + _x * _x + _y * _y + _z * _z; }
 
 		void Normalize()
 		{
@@ -199,10 +202,10 @@ namespace ma {
 			if (!Math::RealEqual(lenSquared, 1.0f) && lenSquared > 0.0f)
 			{
 				float invLen = 1.0f / sqrtf(lenSquared);
-				w *= invLen;
-				x *= invLen;
-				y *= invLen;
-				z *= invLen;
+				_w *= invLen;
+				_x *= invLen;
+				_y *= invLen;
+				_z *= invLen;
 			}
 		}
 
@@ -275,12 +278,12 @@ namespace ma {
         static const Quaternion ZERO;
         static const Quaternion IDENTITY;
 
-		float x, y, z, w;
+		float _x, _y, _z, _w;
 
 		/// Check whether this quaternion contains valid values
 		inline bool isNaN() const
 		{
-			return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z) || Math::isNaN(w);
+			return Math::isNaN(_x) || Math::isNaN(_y) || Math::isNaN(_z) || Math::isNaN(_w);
 		}
 
         /** Function for writing to a stream. Outputs "Quaternion(w, x, y, z)" with w,x,y,z
@@ -289,7 +292,7 @@ namespace ma {
         inline friend std::ostream& operator <<
             ( std::ostream& o, const Quaternion& q )
         {
-            o << "Quaternion(" << q.w << ", " << q.x << ", " << q.y << ", " << q.z << ")";
+            o << "Quaternion(" << q._w << ", " << q._x << ", " << q._y << ", " << q._z << ")";
             return o;
         }
 

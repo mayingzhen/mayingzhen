@@ -61,7 +61,6 @@
 #include "Engine/RenderSystem/RenderThread.hxx"
 #include "Engine/RenderSystem/BatchRenderable.hxx"
 #include "Engine/RenderSystem/InstanceRenderable.hxx"
-#include "Engine/RenderSystem/BatchTerrainRenderable.hxx"
 #include "Engine/RenderSystem/RenderQueue.hxx"
 #include "Engine/RenderSystem/RenderContext.hxx"
 #include "Engine/RenderSystem/DeviceCapabilities.hxx"
@@ -83,13 +82,9 @@
 #include "Engine/Material/Uniform.hxx"
 #include "Engine/Material/UniformAnimation.hxx"
 
-#include "Engine/RenderScheme/DeferredShadingPass.hxx"
-#include "Engine/RenderScheme/DeferredShadowPass.hxx"
 #include "Engine/RenderScheme/RenderScheme.hxx"
-#include "Engine/RenderScheme/BlurPostProcess.hxx"
-#include "Engine/RenderScheme/HDRPostProcess.hxx"
-#include "Engine/RenderScheme/SMAAPostProcess.hxx"
-#include "Engine/RenderScheme/AlchemyAo.hxx"
+#include "Engine/RenderScheme/PostProcess.hxx"
+
 
 // Scene
 #include "Engine/Scene/Component.hxx"
@@ -102,19 +97,6 @@
 #include "Engine/Scene/Octree.hxx"
 #include "Engine/Scene/Camera.hxx"
 #include "Engine/Scene/ParallelCull.hxx"
-
-#if defined(_WIN32)
-#include "Engine/Scene/OcclusionCulling/AABBoxRasterizer.hxx"
-#include "Engine/Scene/OcclusionCulling/AABBoxRasterizerSSE.hxx"
-#include "Engine/Scene/OcclusionCulling/AABBoxRasterizerSSEST.hxx"
-#include "Engine/Scene/OcclusionCulling/DepthBufferRasterizer.hxx"
-#include "Engine/Scene/OcclusionCulling/DepthBufferRasterizerSSE.hxx"
-#include "Engine/Scene/OcclusionCulling/DepthBufferRasterizerSSEST.hxx"
-#include "Engine/Scene/OcclusionCulling/HelperSSE.hxx"
-#include "Engine/Scene/OcclusionCulling/TransformedAABBoxSSE.hxx"
-#include "Engine/Scene/OcclusionCulling/TransformedModelSSE.hxx"
-#include "Engine/Scene/OcclusionCulling/TransformedMeshSSE.hxx"
-#endif
  
 // Light
 #include "Engine/Scene/Light/Light.hxx"
@@ -127,6 +109,10 @@
 #include "Engine/Scene/Terrain/Terrain.hxx"
 #include "Engine/Scene/Terrain/TerrainTrunk.hxx"
 #include "Engine/Scene/Terrain/TerrainRenderable.hxx"
+
+// SkyBox
+#include "Engine/Scene/SkyBox.hxx"
+#include "Engine/Renderable/SkyBoxRenderable.hxx"
 
 #include "Engine/Profile/CodeTimer.hxx"
 

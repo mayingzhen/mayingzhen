@@ -1,10 +1,10 @@
-#ifndef __RenderThread_H__
-#define __RenderThread_H__
+#pragma once
 
 #ifdef WIN32
 #else
 #include <unistd.h>
 #endif
+
 namespace ma
 {
 	class Uniform;
@@ -28,7 +28,6 @@ namespace ma
 		eRC_BeginRender,
 		eRC_EndRender,
 		eRC_Render,
-		eRC_DrawRenderable,
 		eRC_CreateShader,
 		eRC_CreateTexture,
 
@@ -93,7 +92,6 @@ namespace ma
 		int		GetThreadList();
 		bool	IsRenderThread();
 		bool	IsMainThread();
-		//bool	IsMultithreaded();
 		int		CurThreadFill() const;
 		int		CurThreadProcess() const;
 
@@ -110,7 +108,6 @@ namespace ma
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void	RC_RenderPassStreamComplete(RenderPass* pRenderPass);
 		void	RC_Render();
-		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		
@@ -311,10 +308,4 @@ namespace ma
 		return m_nCurThreadProcess;
 	}
 }
-
-
-
-
-
-#endif	// __RENDERTHREAD_H__
 

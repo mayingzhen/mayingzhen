@@ -1,9 +1,10 @@
 
-sampler2D g_SamplerSrc;
+Texture2D g_TexSrc;
+SamplerState g_SamplerSrc;
 
-float4 main(float2 tex : TEXCOORD0) : COLOR
+float4 main(float2 tex : TEXCOORD0) : SV_TARGET
 {
-	float4 clr = tex2D(g_SamplerSrc, tex);
+	float4 clr = g_TexSrc.Sample(g_SamplerSrc, tex);
 	
 	float lum = dot( float3(0.3333, 0.3333, 0.3333), clr.rgb );
 	

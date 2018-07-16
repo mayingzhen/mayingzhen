@@ -68,7 +68,7 @@ namespace ma
 		else if (key == Keyboard::KEY_A)
 		{
 			RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
-			pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
+			//pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
 		}
 	}
 

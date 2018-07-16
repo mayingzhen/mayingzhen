@@ -4,8 +4,11 @@ cbuffer ObjectVS : register(b5)
 {
 	int face;
 	float roughness;
+	float4x4 matRotate;
 };
 
+#define PI 3.14159
+#define INV_PI 1.0 / 3.14159
 
 TextureCube skybox_cube_tex : register(t1);
 SamplerState skybox_sampler : register(s1);
@@ -47,7 +50,7 @@ float3 ToDir(int face, float2 xy)
 		dir.z = -1;
 	}
 
-	return normalize(dir);
+	return normalize(mul(float4(dir, 0.0), matRotate).xyz);
 }
 
 uint ReverseBits(uint bits)
@@ -70,6 +73,7 @@ float2 Hammersley2D(uint i, uint N)
 	return float2(float(i) / N, RadicalInverseVdC(i));
 }
 
+
 float3 TangentToWorld( float3 Vec, float3 TangentZ )
 {
 	float3 UpVector = abs(TangentZ.z) < 0.999 ? float3(0,0,1) : float3(1,0,0);
@@ -78,50 +82,30 @@ float3 TangentToWorld( float3 Vec, float3 TangentZ )
 	return TangentX * Vec.x + TangentY * Vec.y + TangentZ * Vec.z;
 }
 
-float3 ImportanceSampleLambert(float2 xi)
-{
-	const float PI = 3.1415926f;
-
-	float phi = 2 * PI * xi.x;
-	float cos_theta = sqrt(1 - xi.y);
-	float sin_theta = sqrt(1 - cos_theta * cos_theta);
-	return float3(sin_theta * cos(phi), sin_theta * sin(phi), cos_theta);
-}
 
 float3 ImportanceSampleLambert(float2 xi, float3 normal)
 {
-	float3 h = ImportanceSampleLambert(xi);
-	
-	float3 up_vec = abs(normal.z) < 0.999f ? float3(0, 0, 1) : float3(1, 0, 0);
-	float3 tangent = normalize(cross(up_vec, normal));
-	float3 binormal = cross(normal, tangent);
-	return tangent * h.x + binormal * h.y + normal * h.z;
-}
-
-float3 ImportanceSampleBP(float2 xi, float roughness)
-{
-	const float PI = 3.1415926f;
-
 	float phi = 2 * PI * xi.x;
-	float cos_theta = pow(1 - xi.y * (roughness + 1) / (roughness + 2), 1 / (roughness + 1));
+	float cos_theta = sqrt(1 - xi.y);
 	float sin_theta = sqrt(1 - cos_theta * cos_theta);
-	return float3(sin_theta * cos(phi), sin_theta * sin(phi), cos_theta);
+	float3 H = float3(sin_theta * cos(phi), sin_theta * sin(phi), cos_theta);
+	
+	return TangentToWorld(H, normal);
 }
+
 
 float3 ImportanceSampleBP(float2 xi, float roughness, float3 normal)
 {
-	float3 h = ImportanceSampleBP(xi, roughness);
+	float phi = 2 * PI * xi.x;
+	float cos_theta = pow(abs(1 - xi.y * (roughness + 1) / (roughness + 2)), 1 / (roughness + 1));
+	float sin_theta = sqrt(1 - cos_theta * cos_theta);
+	float3 H = float3(sin_theta * cos(phi), sin_theta * sin(phi), cos_theta);
 	
-	float3 up_vec = abs(normal.z) < 0.999f ? float3(0, 0, 1) : float3(1, 0, 0);
-	float3 tangent = normalize(cross(up_vec, normal));
-	float3 binormal = cross(normal, tangent);
-	return tangent * h.x + binormal * h.y + normal * h.z;
+	return TangentToWorld(H, normal);
 }
 
 float3 importanceSampleGGX(float2 xi, float roughness, float3 normal)
 {
-	const float PI = 3.1415926f;
-
 	float a = roughness * roughness;
 
 	float Phi = 2 * PI * xi.x;
@@ -133,40 +117,74 @@ float3 importanceSampleGGX(float2 xi, float roughness, float3 normal)
 	H.y = SinTheta * sin(Phi);
 	H.z = CosTheta;
 
-	float3 UpVector = abs(normal.z) < 0.999 ? float3(0, 0, 1) : float3(1, 0, 0);
-	float3 TangentX = normalize(cross(UpVector, normal));
-	float3 TangentY = cross(normal, TangentX);
-
-	return TangentX * H.x + TangentY * H.y + normal * H.z;
+	return TangentToWorld(H, normal);
 }
+
+
+
+
 
 float4 CopySrcPS(float2 tex : TEXCOORD0) : SV_Target
 {
 	float3 normal = ToDir(face, tex);
 
-	return skybox_cube_tex.SampleLevel(skybox_sampler, normal, 0);
+	return float4(tSkyBoxCube.SampleLevel(sSkyBoxCube, normal, 0).rgb,1.0);
 }
 
+ // http://http.developer.nvidia.com/GPUGems3/gpugems3_ch20.html
+float ComputeLod(float pdf, float samplesNum, float cubesize)
+{
+	pdf = max(pdf,0.001f);
+
+    float solidAngleTexel = 4 * PI / (6 * cubesize * cubesize);
+    float solidAngleSample = 1.0 / (samplesNum * pdf);
+    float lod = 0.5 * log2((float)(solidAngleSample / solidAngleTexel));
+    return lod;	
+}
 
 
 float4 PrefilterCubeDiffusePS(float2 tex : TEXCOORD0) : SV_Target
 {
-	float3 normal = ToDir(face, tex);
+	float3 r = ToDir(face, tex);
 
+	float3 normal = r;
+	float3 view = r;
 	float3 prefiltered_clr = 0;
+	float total_weight = 0;
 
-	const uint NUM_SAMPLES = 1024;
+	uint cubeWidth, cubeHeight;
+	tSkyBoxCube.GetDimensions(cubeWidth, cubeHeight);
+
+	const uint NUM_SAMPLES = 32;
 	for (uint i = 0; i < NUM_SAMPLES; ++ i)
 	{
 		float2 xi = Hammersley2D(i, NUM_SAMPLES);
-		float3 l = ImportanceSampleLambert(xi, normal);
+		float3 H = ImportanceSampleLambert(xi, normal);
+		float3 L = normalize(2 * dot( view, H ) * H - view);
+        float n_dot_l = saturate(dot( normal, L ));
+        if (n_dot_l > 0.0)
+        {
+            float pdf = max(0.0, dot(normal, L) * INV_PI);
 
-		prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, 0).xyz;
+            float lod = ComputeLod(pdf,NUM_SAMPLES,cubeWidth);
+
+            prefiltered_clr += tSkyBoxCube.SampleLevel(sSkyBoxCube, L, lod).xyz * n_dot_l;
+            total_weight += n_dot_l;
+		}
 	}
 
-	return float4(prefiltered_clr / NUM_SAMPLES, 1);
+	return float4(prefiltered_clr / max(1e-6f, total_weight), 1);
 }
 
+
+// Normal Distribution function
+float D_GGX(float dotNH, float roughness)
+{
+	float alpha = roughness * roughness;
+	float alpha2 = alpha * alpha;
+	float denom = dotNH * dotNH * (alpha2 - 1.0) + 1.0;
+	return (alpha2) / (PI * denom*denom);
+}
 
 float4 PrefilterCubeSpecularPS(float2 tex : TEXCOORD0) : SV_Target
 {
@@ -177,7 +195,10 @@ float4 PrefilterCubeSpecularPS(float2 tex : TEXCOORD0) : SV_Target
 	float3 prefiltered_clr = 0;
 	float total_weight = 0;
 
-	const uint NUM_SAMPLES = 1024;
+	uint cubeWidth, cubeHeight;
+	tSkyBoxCube.GetDimensions(cubeWidth, cubeHeight);
+
+	const uint NUM_SAMPLES = 32;
 	for (uint i = 0; i < NUM_SAMPLES; ++ i)
 	{
 		float2 xi = Hammersley2D(i, NUM_SAMPLES);
@@ -186,7 +207,15 @@ float4 PrefilterCubeSpecularPS(float2 tex : TEXCOORD0) : SV_Target
 		float n_dot_l = saturate(dot(normal, l));
 		if (n_dot_l > 0)
 		{
-			prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, 0).xyz * n_dot_l;
+			float dotNH = clamp(dot(normal, h), 0.0, 1.0);
+			float dotVH = clamp(dot(view, h), 0.0, 1.0);
+
+			// Probability Distribution Function
+			float pdf = D_GGX(dotNH, roughness) * dotNH / (4.0 * dotVH);
+
+			float lod = ComputeLod(pdf,NUM_SAMPLES,cubeWidth);
+
+			prefiltered_clr += tSkyBoxCube.SampleLevel(sSkyBoxCube, l, lod).xyz * n_dot_l;
 			total_weight += n_dot_l;
 		}
 	}

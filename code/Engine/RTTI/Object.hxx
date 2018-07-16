@@ -62,6 +62,14 @@ namespace ma
 		{
 			return Any( StringConverter::parseVec3i(strVarValue) );
 		}
+		else if (strVarType == "SamplerState")
+		{
+			return  Any();
+		}
+		else
+		{
+			ASSERT(false);
+		}
 
 		return Any();
 	}
@@ -173,20 +181,28 @@ namespace ma
 
 		for (uint32_t i = 0; i < attributes->size(); ++i)
 		{
-			rapidxml::xml_node<>* pXmlAttribute = doc.allocate_node(rapidxml::node_element,doc.allocate_string("Attribute"));
-			pXmlObject->append_node(pXmlAttribute);
-
 			RefPtr<AttributeInfo> attribute = attributes->at(i);
 
 			Any anyValue;
 
 			OnGetAttribute(*attribute,anyValue);	
 
-			string strName = attribute->GetName();
-			string strType;
-			string strValue;
+			std::string strName = attribute->GetName();
+			std::string strType;
+			std::string strValue;
 
 			AnyGetString(anyValue,strType,strValue);
+
+			std::string defaultValue;
+			std::string defalutType;
+			AnyGetString(attribute->defaultValue_, defalutType, defaultValue);
+			if (defaultValue == strValue)
+			{
+				continue;
+			}
+
+			rapidxml::xml_node<>* pXmlAttribute = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Attribute"));
+			pXmlObject->append_node(pXmlAttribute);
 
 			pXmlAttribute->append_attribute(doc.allocate_attribute(doc.allocate_string("Name"),doc.allocate_string(strName.c_str())));
 			pXmlAttribute->append_attribute(doc.allocate_attribute(doc.allocate_string("Type"),doc.allocate_string(strType.c_str())));

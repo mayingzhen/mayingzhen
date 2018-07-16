@@ -38,9 +38,10 @@ namespace ma
 		void				BegineRender();
 		void				EndRender();
 		void				Render();
-		
-		RefPtr<Texture>		GetRenderTarget(int index = 0);
+	
 		Rectangle			GetViewPort() {return m_curViewport;}
+
+		void				SetDefaultRenderPass(RenderPass* pRenderPass);
 		RenderPass*			GetDefaultRenderPass();
 		
 		void*				GetMainWnd() {return m_hWnd;}
@@ -78,7 +79,7 @@ namespace ma
 		
 		bool				AddShaderGlobaMacro(const char* pszKey, const char* pszValue);
 		const char*			GetShaderGlobaMacro(const char* pszKey) const;
-		uint32_t				GetNumShaderGlobaMacro() const;
+		uint32_t			GetNumShaderGlobaMacro() const;
 		const char*			GetShaderGlobaMacroByIndex(uint32_t i, OUT const char*& pszValue) const;
 		
 		void				ReloadShader();
@@ -120,15 +121,9 @@ namespace ma
 
  		RenderThread*		m_pRenderThread;
  		
-		enum {MAX_RENDER_TARGET = 4};
-		Texture*			m_pDepthStencil;
-		Texture*			m_pRenderTarget[MAX_RENDER_TARGET];
 		Rectangle			m_curViewport;
-		ShaderProgram*		m_pCurShader;
-		SamplerState*		m_arrSampState[MAX_TEXTURE_UNITS];
-		VertexDeclaration*	m_pCurVertexDecla;
-		VertexBuffer*		m_pCurVB;	
-		IndexBuffer*		m_pCurIB;
+
+		RefPtr<RenderPass>	m_pDefaultRenderPass;
 
 		void*				m_hWnd;
 

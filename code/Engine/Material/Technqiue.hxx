@@ -4,14 +4,6 @@ namespace ma
 {
 	Technique::Technique()
 	{
-// 		m_nStencilRef = 0;
-// 
-// 		m_pBlendState = CreateBlendState();
-// 
-// 		m_pDSState = CreateDepthStencilState();
-// 
-// 		m_pRSState = CreateRasterizerState();
-
 		memset(m_arrSampler, 0, sizeof(m_arrSampler));
 	}
 
@@ -105,6 +97,12 @@ namespace ma
 			const Vector4* value = any_cast<Vector4>(&anyValue);
 			this->SetValue(pUniform, *value);
 		}
+		else if (type == typeid(std::vector<Vector4>))
+		{
+			const std::vector<Vector4>* value = any_cast<std::vector<Vector4>>(&anyValue);
+			const std::vector<Vector4>& vecValue = *value;
+			this->SetValue(pUniform, &vecValue[0], vecValue.size());
+		}
 		else if (type == typeid(ColourValue))
 		{
 			ColourValue cColor = any_cast<ColourValue>(anyValue);
@@ -120,6 +118,11 @@ namespace ma
 		{
 			SamplerState* pTexture = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
 			this->SetValue(pUniform,pTexture);
+		}
+		else if (type == typeid(RefPtr<Texture>))
+		{
+			Texture* pTexture = any_cast<RefPtr<Texture>>(&anyValue)->get();
+			this->SetValue(pUniform, pTexture);
 		}
 		else if (type == typeid(RefPtr<UniformAnimation>))
 		{
@@ -202,11 +205,12 @@ namespace ma
 
 	void Technique::SetShaderDefine(const char* pszDefine)
 	{
-		ASSERT(pszDefine);
-		if (pszDefine == NULL)
-			return;
+		m_strDefine = pszDefine ? pszDefine : "";
+	}
 
-		m_strDefine = pszDefine;
+	void Technique::SetRenderPass(RenderPass* pPass)
+	{
+		m_pRenderPass = pPass;
 	}
 
 	int Technique::GetShaderMacroInt(const char* pszMacro)
@@ -413,7 +417,16 @@ namespace ma
 
 	void Technique::SetValue(Uniform* pUniform, Texture* pTexture)
 	{
+		if (m_arrSampler[pUniform->GetIndex()] == nullptr)
+		{
+			m_arrSampler[pUniform->GetIndex()] = CreateSamplerState(pTexture);
+		}
+		else if (m_arrSampler[pUniform->GetIndex()]->GetTexture() != pTexture)
+		{
+			m_arrSampler[pUniform->GetIndex()]->SetTexture(pTexture);
+		}
 
+		GetRenderSystem()->SetSampler(pUniform, m_arrSampler[pUniform->GetIndex()].get());
 	}
 
 	void Technique::SetValue(Uniform* pUniform, SamplerState* sampler)
@@ -532,10 +545,10 @@ namespace ma
 		}
 
 		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
-		ASSERT(pXmlRenderState);
+		//ASSERT(pXmlRenderState);
 		if (pXmlRenderState)
 		{
-			rapidxml::xml_node<>* pXmlBlendState = pXmlElem->first_node("BlendState");
+			rapidxml::xml_node<>* pXmlBlendState = pXmlRenderState->first_node("BlendState");
 			if (pXmlBlendState)
 			{
 				RefPtr<BlendState> pBlendState = CreateBlendState();
@@ -544,7 +557,7 @@ namespace ma
 				info.m_pBlendState = pBlendState;
 			}
 
-			rapidxml::xml_node<>* pXmlDSState = pXmlElem->first_node("DepthStencilState");
+			rapidxml::xml_node<>* pXmlDSState = pXmlRenderState->first_node("DepthStencilState");
 			if (pXmlDSState)
 			{
 				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
@@ -553,7 +566,7 @@ namespace ma
 				info.m_pDSState = pDSState;
 			}
 
-			rapidxml::xml_node<>* pXmlRSState = pXmlElem->first_node("RasterizerState");
+			rapidxml::xml_node<>* pXmlRSState = pXmlRenderState->first_node("RasterizerState");
 			if (pXmlRSState)
 			{
 				RefPtr<RasterizerState> pRSState = CreateRasterizerState();
@@ -563,9 +576,11 @@ namespace ma
 			}
 		}
 
-		info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
+		info.m_pRenderPass = m_pRenderPass ? m_pRenderPass : GetRenderSystem()->GetDefaultRenderPass();
 	
 		m_pShaderProgram = CreateShaderProgram(info);
+
+		GetRenderSystem()->TechniqueStreamComplete(this);
 
 		return true;
 	}
@@ -696,11 +711,12 @@ namespace ma
 		return GetRenderDevice()->CreateTechnique();
 	}
 
-	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine)
+	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine, RenderPass* pPass)
 	{
 		Technique* pTech = GetRenderDevice()->CreateTechnique();
 		pTech->SetTechName(pszXMLFile);
 		pTech->SetShaderDefine(pDefine);
+		pTech->SetRenderPass(pPass);
 		pTech->LoadFromXML(pszXMLFile);
 		pTech->IsReady();
 		return pTech;
@@ -719,5 +735,6 @@ namespace ma
 
 		return pTech;
 	}
+
 }
 

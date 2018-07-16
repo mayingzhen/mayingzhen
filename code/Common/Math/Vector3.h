@@ -688,10 +688,10 @@ namespace ma
 
 				Vector3 c = v0.crossProduct(v1);
 
-    	        q.x = c.x * invs;
-        	    q.y = c.y * invs;
-            	q.z = c.z * invs;
-            	q.w = s * 0.5f;
+    	        q._x = c.x * invs;
+        	    q._y = c.y * invs;
+            	q._z = c.z * invs;
+            	q._w = s * 0.5f;
 				q.normalise();
 			}
             return q;

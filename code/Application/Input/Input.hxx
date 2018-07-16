@@ -147,6 +147,13 @@ namespace ma
 		return m_curIS.m_mouseState;
 	}
 
+	Vector2 Input::GetMouseMove() const
+	{
+		float x = m_curIS.m_mouseState.X.rel;
+		float y = m_curIS.m_mouseState.Y.rel;
+		return Vector2(x, y);
+	}
+
 	void Input::OnResize(int w,int h)
 	{
 		m_curIS.m_mouseState.width = w;

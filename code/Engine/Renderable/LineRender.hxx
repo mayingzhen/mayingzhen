@@ -7,7 +7,7 @@ namespace ma
 	struct LineVertex
 	{
 		Vector3			pos;
-		uint32_t			col;
+		uint32_t		col;
 	};
 
 	static RefPtr<MeshBatch> gpMeshBatch;

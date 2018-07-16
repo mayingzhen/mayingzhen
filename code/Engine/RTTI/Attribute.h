@@ -1,6 +1,4 @@
-
-#ifndef __AttributeInfo_H__
-#define __AttributeInfo_H__
+#pragma once
 
 namespace ma
 {
@@ -305,6 +303,4 @@ namespace ma
 	};
 
 }
-
-#endif
 

@@ -82,10 +82,16 @@ namespace ma
 		m_worldAABB.transformAffine(m_pSceneNode->GetMatrixWS());
 	}
 
-	void RenderComponent::Show(Camera* pCamera) 
+	void RenderComponent::Render(RenderQueue* pRenderQueue)
 	{
-		m_pSceneNode->SetLastVisibleFrame(GetTimer()->GetFrameCount());
+		ASSERT(false);
 	}
+	
+	void RenderComponent::RenderShadow(RenderQueue* pRenderQueue)
+	{
+		ASSERT(false);
+	}
+
 
 	const	AABB& RenderComponent::GetAABB() const
 	{
@@ -111,25 +117,6 @@ namespace ma
 		return m_worldAABB;
 	}
 
-	uint32_t RenderComponent::GetRenderableCount(uint32_t nLod) const
-	{
-		return 0;
-	}
-
-	Renderable* RenderComponent::GetRenderableByIndex(uint32_t nLod,uint32_t index) const
-	{
-		return NULL;
-	}
-
-	uint32_t RenderComponent::GetShadowRenderableCount() const
-	{
-		return 0;
-	}
-
-	Renderable*	RenderComponent::GetShadowRenderableByIndex(uint32_t index) const
-	{
-		return NULL;
-	}
-
 }
+
 

@@ -8,7 +8,7 @@ namespace ma
 	class AnimTreeNode;
 
 
-	class FrameEvent : public Serializable
+	class FrameEvent : public Object
 	{
 	public:
 		FrameEvent();

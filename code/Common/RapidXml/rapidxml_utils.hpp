@@ -122,6 +122,13 @@ namespace rapidxml
 	{
 		pXmlElem->append_attribute(doc.allocate_attribute(doc.allocate_string(doc.allocate_string(pszName)), doc.allocate_string(pszVale)));
 	}
+
+	inline rapidxml::xml_node<>* append_node(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc, const char* pszName)
+	{
+		rapidxml::xml_node<>* pXmlNode = doc.allocate_node(rapidxml::node_element, doc.allocate_string(doc.allocate_string(pszName)));
+		pXmlElem->append_node(pXmlNode);
+		return pXmlNode;
+	}
 	
 }
 

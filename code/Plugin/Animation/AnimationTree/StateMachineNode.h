@@ -30,7 +30,7 @@ namespace ma
 	};
 
 	// ×´Ì¬»úÖÐµÄ±ß
-	class MachineTransition : public Serializable
+	class MachineTransition : public Object
 	{
 	public:
 

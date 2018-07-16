@@ -15,10 +15,10 @@ namespace ma
         Vector3 eyePos = Vector3(100,-60,360);
         GetCamera()->LookAt(eyePos,lookAtPos);
 
-		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
-		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
-		m_pScene->GetDirLight()->SetSplitPosParam(Vector4(500.0f));
-		m_pScene->GetDirLight()->SetShadowEnabled(true);
+		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
+		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
+		m_pScene->GetMainDirLight()->SetSplitPosParam(Vector4(500.0f));
+		m_pScene->GetMainDirLight()->SetShadowEnabled(true);
 		m_pScene->SetAmbientColor(Vector3(0.0, 0.0, 0.0));
 
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
@@ -80,7 +80,7 @@ namespace ma
 		}
 
 
-		RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
+		RefPtr<DirectonalLight> pSunLight = m_pScene->GetMainDirLight();
 
 		pSunLight->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
 		pSunLight->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
@@ -124,7 +124,7 @@ namespace ma
 
 		if (key == Keyboard::KEY_S)
 		{
-			RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
+			RefPtr<DirectonalLight> pSunLight = m_pScene->GetMainDirLight();
 
 			pSunLight->SetShadowEnabled( !pSunLight->GetShadowEnabled() );
 		}

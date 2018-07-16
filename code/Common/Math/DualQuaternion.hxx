@@ -71,10 +71,10 @@ namespace ma {
 	void DualQuaternion::fromRotationTranslation (const Quaternion& q, const Vector3& trans)
 	{
 		// non-dual part (just copy the quaternion):
-		w = q.w;
-		x = q.x;
-		y = q.y;
-		z = q.z;
+		w = q._w;
+		x = q._x;
+		y = q._y;
+		z = q._z;
 		
 		// dual part:
 		float half = 0.5;
@@ -89,10 +89,10 @@ namespace ma {
 	void DualQuaternion::toRotationTranslation (Quaternion& q, Vector3& translation) const
 	{
 		// regular quaternion (just copy the non-dual part):
-		q.w = w;
-		q.x = x;
-		q.y = y;
-		q.z = z;
+		q._w = w;
+		q._x = x;
+		q._y = y;
+		q._z = z;
 
 		// translation vector:
 		float doub = 2.0;

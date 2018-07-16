@@ -17,8 +17,6 @@ namespace ma
 
 		void Destory();
 
-		void CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize);
-
 		void ParseShaderUniform(ShaderType eType, const vector<uint32_t>& vtx_spv);
 
 		void HlslToSpirv(const char* vshSource, uint32_t vshSize, ShaderType eType, std::vector<uint32_t>& vtx_spv);
