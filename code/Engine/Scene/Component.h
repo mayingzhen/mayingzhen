@@ -1,5 +1,4 @@
-#ifndef  _Component__H__
-#define  _Component__H__
+#pragma once
 
 #include "SceneNode.h"
 
@@ -39,6 +38,3 @@ namespace ma
 
 }
 
-
-
-#endif // _Component__H__

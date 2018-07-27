@@ -1,0 +1,22 @@
+<Technique>
+	<Shader VSFile="Screen" PSFile="HDR/AdaptedLum">
+		<VertexDeclaration>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="0"/>
+				<Attribute Name="Offset" Type="short" Value="0"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT2"/>
+				<Attribute Name="Usage" Type="string" Value="DU_POSITION"/>
+				<Attribute Name="UsageIndex" Type="short" Value="0"/>
+			</Element>
+			<Element ClassName="VertexElement">
+				<Attribute Name="Stream" Type="short" Value="0"/>
+				<Attribute Name="Offset" Type="short" Value="8"/>
+				<Attribute Name="Type" Type="string" Value="DT_FLOAT2"/>
+				<Attribute Name="Usage" Type="string" Value="DU_TEXCOORD"/>
+				<Attribute Name="UsageIndex" Type="short" Value="0"/>
+			</Element>
+		</VertexDeclaration>
+	</Shader>
+	<RenderState/>
+</Technique>
+

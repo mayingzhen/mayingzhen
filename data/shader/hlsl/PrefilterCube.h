@@ -10,8 +10,8 @@ cbuffer ObjectVS : register(b5)
 #define PI 3.14159
 #define INV_PI 1.0 / 3.14159
 
-TextureCube skybox_cube_tex : register(t1);
-SamplerState skybox_sampler : register(s1);
+TextureCube tSkyBoxCube : register(t1);
+SamplerState sSkyBoxCube : register(s1);
 
 float3 ToDir(int face, float2 xy)
 {

@@ -34,9 +34,7 @@ namespace ma
 	public:
 		VkDescriptorPool m_desc_pool = VK_NULL_HANDLE;
 
-		VkDescriptorSetLayout m_desc_layout_uniform[ShaderType_Number] = { VK_NULL_HANDLE };
-
-		VkDescriptorSetLayout m_desc_layout_sampler[ShaderType_Number] = { VK_NULL_HANDLE };
+		VkDescriptorSetLayout m_desc_layout;
 
 		VkPipelineCache m_pipelineCache = VK_NULL_HANDLE;
 
@@ -45,6 +43,10 @@ namespace ma
 		VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
 
 		VkPipelineShaderStageCreateInfo m_shaderStages[ShaderType_Number];
+
+		uint32_t m_cbshiftBinding[ShaderType_Number] = { 0 };
+		uint32_t m_texshiftBinding[ShaderType_Number] = { 0 };
+		uint32_t m_samplershiftBinding[ShaderType_Number] = { 0 };
 
 		friend class VulkanRenderDevice;
 	};

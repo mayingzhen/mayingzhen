@@ -78,6 +78,17 @@ namespace ma
 
 		BindUniform(NULL);
 
+		VkDescriptorSetAllocateInfo alloc_info[1];
+		alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+		alloc_info[0].pNext = NULL;
+		alloc_info[0].descriptorPool = pShader->m_desc_pool;
+		alloc_info[0].descriptorSetCount = 1;
+		alloc_info[0].pSetLayouts = &pShader->m_desc_layout;
+
+		vks::VulkanDevice* device = GetVulkanDevice();
+		VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSet);
+		assert(res == VK_SUCCESS);
+
 		UpdateUniformDescriptorSets();
 
 		UpdateSamplerDescriptorSets();
@@ -99,16 +110,6 @@ namespace ma
 
 		//init_descriptor_set
 		{
-			VkDescriptorSetAllocateInfo alloc_info[1];
-			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = pShader->m_desc_pool;
-			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_uniform[VS];
-
-			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_uniform[VS]);
-			assert(res == VK_SUCCESS);
-
 			std::vector<VkWriteDescriptorSet> vecVSwrite;
 			for (uint32_t i = 0; i < this->GetConstBufferCount(VS); ++i)
 			{
@@ -116,7 +117,7 @@ namespace ma
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
-				write.dstSet = m_descriptorSets_uniform[VS];
+				write.dstSet = m_descriptorSet;
 				write.descriptorCount = 1;
 				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				write.pBufferInfo = &pConstBuffer->m_descriptor;
@@ -130,16 +131,6 @@ namespace ma
 
 		// PS
 		{
-			VkDescriptorSetAllocateInfo alloc_info[1];
-			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = pShader->m_desc_pool;
-			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_uniform[PS];
-
-			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_uniform[PS]);
-			assert(res == VK_SUCCESS);
-
 			std::vector<VkWriteDescriptorSet> vecPSwrite;
 			for (uint32_t i = 0; i < this->GetConstBufferCount(PS); ++i)
 			{
@@ -147,7 +138,7 @@ namespace ma
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
-				write.dstSet = m_descriptorSets_uniform[PS];
+				write.dstSet = m_descriptorSet;
 				write.descriptorCount = 1;
 				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				write.pBufferInfo = &pConstBuffer->m_descriptor;
@@ -169,16 +160,6 @@ namespace ma
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
 		{
-			VkDescriptorSetAllocateInfo alloc_info[1];
-			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = pShader->m_desc_pool;
-			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_sampler[0];
-
-			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_sampler[0]);
-			assert(res == VK_SUCCESS);
-
 			std::vector<VkWriteDescriptorSet> vec_write;
 			for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
 			{
@@ -192,12 +173,12 @@ namespace ma
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
-				write.dstSet = m_descriptorSets_sampler[0];
+				write.dstSet = m_descriptorSet;
 				write.descriptorCount = 1;
 				write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
 				write.pImageInfo = &pSampler->m_descriptor;
 				write.dstArrayElement = 0;
-				write.dstBinding = nIndex;
+				write.dstBinding = nIndex + pShader->m_samplershiftBinding[PS];
 				vec_write.push_back(write);
 
 			}
@@ -206,16 +187,6 @@ namespace ma
 		}
 
 		{
-			VkDescriptorSetAllocateInfo alloc_info[1];
-			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = pShader->m_desc_pool;
-			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &pShader->m_desc_layout_sampler[1];
-
-			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSets_sampler[1]);
-			assert(res == VK_SUCCESS);
-
 			std::vector<VkWriteDescriptorSet> vec_write;
 			for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
 			{
@@ -229,12 +200,12 @@ namespace ma
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
-				write.dstSet = m_descriptorSets_sampler[1];
+				write.dstSet = m_descriptorSet;
 				write.descriptorCount = 1;
 				write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
 				write.pImageInfo = &pSampler->m_descriptor;
 				write.dstArrayElement = 0;
-				write.dstBinding = nIndex;
+				write.dstBinding = nIndex + pShader->m_texshiftBinding[PS];;
 				vec_write.push_back(write);
 			}
 

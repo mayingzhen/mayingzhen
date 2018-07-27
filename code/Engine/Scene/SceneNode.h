@@ -1,5 +1,4 @@
-#ifndef  _SceneNode__H__
-#define  _SceneNode__H__
+#pragma once
 
 #include "Component.h"
 
@@ -93,7 +92,7 @@ namespace ma
 		// Component
 		template<class T>
 		T*					CreateComponent();
-		uint32_t				GetComponentNumber() {return (uint32_t)m_arrComp.size();}
+		uint32_t			GetComponentNumber() {return (uint32_t)m_arrComp.size();}
 		Component*			GetComponentByIndex(uint32_t index) {return m_arrComp[index].get();}
 		template<class T>
 		void				GetTypeComponent(std::vector<T*>& arrTyeComp);
@@ -121,7 +120,7 @@ namespace ma
 		void*				GetUserData(const char* pszKey);
 
 		void				SetLastVisibleFrame(uint32_t nFrame) {m_nLastVisibleFrame = nFrame;}
-		uint32_t				GetLastVisibleFrame() {return m_nLastVisibleFrame;}
+		uint32_t			GetLastVisibleFrame() {return m_nLastVisibleFrame;}
 
 		bool				BeginMatrix() const;
 		const Matrix4&		CalcMatrix();
@@ -144,7 +143,7 @@ namespace ma
 		Scene*						m_pScene;
 		VEC_CHILD					m_arrChild;
 
-		uint32_t						m_nLastVisibleFrame;
+		uint32_t					m_nLastVisibleFrame;
 
 		mutable Transform			m_tsfPS;
 		mutable Transform			m_tsfWS;
@@ -203,7 +202,3 @@ namespace ma
 		return NULL;
 	}
 }
-
-
-
-#endif

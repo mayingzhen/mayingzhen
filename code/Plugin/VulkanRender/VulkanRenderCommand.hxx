@@ -109,14 +109,9 @@ namespace ma
 			m_prePipeline = pVulkanShader->m_pipeline;
 		}
 		
-		VkDescriptorSet descriptorSets[4];
-		descriptorSets[0] = pVulkanTech->m_descriptorSets_uniform[0];
-		descriptorSets[1] = pVulkanTech->m_descriptorSets_uniform[1];
-		descriptorSets[2] = pVulkanTech->m_descriptorSets_sampler[0];
-		descriptorSets[3] = pVulkanTech->m_descriptorSets_sampler[1];
 
 		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_pipelineLayout, 0,
-			4, descriptorSets, 0, NULL);
+			1, &pVulkanTech->m_descriptorSet, 0, NULL);
 	}
 
 	void VulkanRenderCommand::DrawIndex(uint32_t nIndexStart,uint32_t nIndexCount, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType)

@@ -17,7 +17,14 @@ namespace ma
 
 	VulkanShaderProgram::VulkanShaderProgram()
 	{
-
+		uint32_t offset = 0;
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		{
+			m_cbshiftBinding[i] = offset;
+			m_texshiftBinding[i] = m_cbshiftBinding[i] + MAX_SHADER_PARAMETER_GROUPS;
+			m_samplershiftBinding[i] = m_texshiftBinding[i] + MAX_TEXTURE_UNITS;
+			offset = m_samplershiftBinding[i] + MAX_TEXTURE_UNITS;
+		}
 	}
 
 	VulkanShaderProgram::~VulkanShaderProgram()
@@ -184,6 +191,11 @@ namespace ma
 		shaderStrings[0] = vshSource;
 		shader.setStrings(shaderStrings, 1);
 		shader.setEntryPoint("main");
+		shader.setAutoMapBindings(true);
+		shader.setHlslIoMapping(true);
+		shader.setShiftCbufferBinding(m_cbshiftBinding[eType]);
+		shader.setShiftTextureBinding(m_texshiftBinding[eType]);
+		shader.setShiftSamplerBinding(m_samplershiftBinding[eType]);
 
 		if (!shader.parse(&Resources, 100, false, messages))
 		{
@@ -201,103 +213,73 @@ namespace ma
 			return;
 		}
 
-		std::vector<uint32_t> vtx_spv_tem;
-
-		glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv_tem);
-
-		// test
+		if (!program.mapIO())
 		{
-			spirv_cross::CompilerMSL glsl(vtx_spv_tem.data(), vtx_spv_tem.size());
-
-			// The SPIR-V is now parsed, and we can perform reflection on it.
-			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
-
-			// Set some options.
-			spirv_cross::CompilerMSL::Options options;
-			options.platform = spirv_cross::CompilerMSL::Options::iOS;
-			glsl.set_options(options);
-
-			// Compile to GLSL, ready to give to GL driver.
-			std::string source = glsl.compile();
-			if (source.find("ShadowDepthCompare") != std::string::npos)
-			{
-				int o = 5;
-			}
-			int i = 4;
+			LogError(shader.getInfoLog());
+			LogError(shader.getInfoDebugLog());
+			return;
 		}
 
+		glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
+
+		/*
+		program.buildReflection();
+		program.dumpReflection();
+
+		int nNumUniformBlock = program.getNumLiveUniformBlocks();
+
+		std::vector<VulkanConstantBuffer*> vecCB(nNumUniformBlock);
+
+		for (int iBlock = 0; iBlock < nNumUniformBlock; ++iBlock)
 		{
-			spirv_cross::CompilerGLSL glsl(vtx_spv_tem.data(), vtx_spv_tem.size());
+			const char* pszName = program.getUniformBlockName(iBlock);
+			int size = program.getUniformBlockSize(iBlock);
+			const glslang::TType* type = program.getUniformBlockTType(iBlock);
+			int binding = type->getQualifier().layoutBinding;
 
-			// The SPIR-V is now parsed, and we can perform reflection on it.
-			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+			RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
+			this->AddConstBuffer(eType, pConstantBuffer.get());
 
-			for (auto &resource : resources.uniform_buffers)
-			{
-				unsigned set = glsl.get_decoration(resource.id, spv::DecorationDescriptorSet);
-				glsl.set_decoration(resource.id, spv::DecorationDescriptorSet, eType == VS ? 0 : 1);
-			}
+			pConstantBuffer->SetName(pszName);
+			pConstantBuffer->SetBound(binding);
+			pConstantBuffer->SetSize(size);
 
-			// Get all sampled images in the shader.
-			for (auto &resource : resources.separate_samplers)
-			{
-				unsigned set = glsl.get_decoration(resource.id, spv::DecorationDescriptorSet);
-				glsl.set_decoration(resource.id, spv::DecorationDescriptorSet, 2);
-			}
-
-			for (auto &resource : resources.separate_images)
-			{
-				unsigned set = glsl.get_decoration(resource.id, spv::DecorationDescriptorSet);
-				glsl.set_decoration(resource.id, spv::DecorationDescriptorSet, 3);
-			}
-
-			// Set some options.
-			spirv_cross::CompilerGLSL::Options options;
-			options.vulkan_semantics = true;
-			glsl.set_options(options);
-
-			// Compile to GLSL, ready to give to GL driver.
-			std::string source = glsl.compile();
-
-			EShLanguage stage = FindLanguage(eType);
-			glslang::TShader shader(stage);
-			glslang::TProgram program;
-			const char *shaderStrings[1];
-			TBuiltInResource Resources;
-			init_resources(Resources);
-
-			// Enable SPIR-V and Vulkan rules when parsing GLSL
-			EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules);
-
-			shaderStrings[0] = source.c_str();
-			shader.setStrings(shaderStrings, 1);
-			shader.setEntryPoint("main");
-
-			if (!shader.parse(&Resources, 100, false, messages))
-			{
-				LogError(shader.getInfoLog());
-				LogError(shader.getInfoDebugLog());
-				return;
-			}
-
-			program.addShader(&shader);
-
-			if (!program.link(messages))
-			{
-				LogError(shader.getInfoLog());
-				LogError(shader.getInfoDebugLog());
-				return;
-			}
-
-			if (0)
-			{
-				program.buildReflection();
-				program.dumpReflection();
-			}
-
-			glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
-
+			vecCB[iBlock] = pConstantBuffer.get();
 		}
+
+		int nNumUniformVar = program.getNumLiveUniformVariables();
+		for (int iVar = 0; iVar < nNumUniformVar; ++iVar)
+		{
+			const char* pszName = program.getUniformName(iVar);
+			int offset = program.getUniformBufferOffset(iVar);
+			int arraySize = program.getUniformArraySize(iVar);
+			const glslang::TType* type = program.getUniformTType(iVar);
+			int size = 0;
+			if (type->getBasicType() == glslang::EbtFloat)
+			{
+				if (type->getMatrixCols() * type->getMatrixRows() > 0)
+				{
+					size = sizeof(float) * type->getMatrixCols() * type->getMatrixRows() * arraySize;
+				}
+				else if (type->getVectorSize() > 0)
+				{
+					size = sizeof(float) * type->getVectorSize() * arraySize;
+				}
+			}
+			int blockIndex = program.getUniformBlockIndex(iVar);
+			if (blockIndex >= 0)
+			{
+				ASSERT(blockIndex < nNumUniformBlock);
+
+				VulkanConstantBuffer* pConstantBuffer = vecCB[blockIndex];
+
+				Uniform* pUniform = pConstantBuffer->AddUniform(pszName);
+				pUniform->SetIndex(-1);
+				pUniform->SetOffset(offset);
+				pUniform->SetSize(size);
+			}
+		}
+		*/
 	}
 
 	VkShaderStageFlagBits ToVkShader(ShaderType type)
@@ -350,80 +332,127 @@ namespace ma
 
 		{
 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+
+			for (uint32_t icb = 0; icb < MAX_SHADER_PARAMETER_GROUPS; ++icb)
 			{
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
 					VK_SHADER_STAGE_VERTEX_BIT,
-					i));
-			}
+					m_cbshiftBinding[VS] + icb));
 
-			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-				setLayoutBindings.data(),
-				static_cast<uint32_t>(setLayoutBindings.size()));
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[VS]));
-		}
-
-		{
-			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-			{
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
 					VK_SHADER_STAGE_FRAGMENT_BIT,
-					i));
+					m_cbshiftBinding[PS] + icb));
 			}
 
-			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-				setLayoutBindings.data(),
-				static_cast<uint32_t>(setLayoutBindings.size()));
-
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[PS]));
-		}
-
-		{
-			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
-			{
-				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
-					VK_DESCRIPTOR_TYPE_SAMPLER,
-					VK_SHADER_STAGE_FRAGMENT_BIT,
-					i));
-			}
-
-			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-				setLayoutBindings.data(),
-				static_cast<uint32_t>(setLayoutBindings.size()));
-
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_sampler[VS]));
-		}
-
-		{
-			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
+			for (uint32_t itex = 0; itex < MAX_TEXTURE_UNITS; ++itex)
 			{
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
+					VK_SHADER_STAGE_VERTEX_BIT,
+					m_texshiftBinding[VS] + itex));
+
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
 					VK_SHADER_STAGE_FRAGMENT_BIT,
-					i));
+					m_texshiftBinding[PS] + itex));
+
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_SAMPLER,
+					VK_SHADER_STAGE_VERTEX_BIT,
+					m_samplershiftBinding[VS] + itex));
+
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_SAMPLER,
+					VK_SHADER_STAGE_FRAGMENT_BIT,
+					m_samplershiftBinding[PS] + itex));
 			}
+
 
 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
 				setLayoutBindings.data(),
 				static_cast<uint32_t>(setLayoutBindings.size()));
-
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_sampler[PS]));
+			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout));
 		}
 
-		VkDescriptorSetLayout SetLayouts[4];
-		SetLayouts[0] = m_desc_layout_uniform[VS];
-		SetLayouts[1] = m_desc_layout_uniform[PS];
-		SetLayouts[2] = m_desc_layout_sampler[VS];
-		SetLayouts[3] = m_desc_layout_sampler[PS];
+// 		{
+// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
+// 			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+// 			{
+// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+// 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+// 					VK_SHADER_STAGE_VERTEX_BIT,
+// 					m_cbshiftBinding[VS] + i ) );
+// 			}
+// 
+// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
+// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
+// 				setLayoutBindings.data(),
+// 				static_cast<uint32_t>(setLayoutBindings.size()));
+// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[VS]));
+// 		}
+
+// 		{
+// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
+// 			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+// 			{
+// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+// 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+// 					VK_SHADER_STAGE_FRAGMENT_BIT,
+// 					m_cbshiftBinding[PS] + i ) );
+// 			}
+// 
+// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
+// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
+// 				setLayoutBindings.data(),
+// 				static_cast<uint32_t>(setLayoutBindings.size()));
+// 
+// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[PS]));
+// 		}
+
+// 		{
+// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
+// 			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
+// 			{
+// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+// 					VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
+// 					VK_SHADER_STAGE_VERTEX_BIT,
+// 					m_texshiftBinding[VS] + i ) );
+// 			}
+// 
+// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
+// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
+// 				setLayoutBindings.data(),
+// 				static_cast<uint32_t>(setLayoutBindings.size()));
+// 
+// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_sampler[VS]));
+// 		}
+
+// 		{
+// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
+// 			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
+// 			{
+// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+// 					VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
+// 					VK_SHADER_STAGE_FRAGMENT_BIT,
+// 					m_texshiftBinding[PS] + i ) );
+// 			}
+// 
+// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
+// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
+// 				setLayoutBindings.data(),
+// 				static_cast<uint32_t>(setLayoutBindings.size()));
+// 
+// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_sampler[PS]));
+// 		}
+
+// 		VkDescriptorSetLayout SetLayouts[4];
+// 		SetLayouts[0] = m_desc_layout_uniform[VS];
+// 		SetLayouts[1] = m_desc_layout_uniform[PS];
+// 		SetLayouts[2] = m_desc_layout_sampler[VS];
+// 		SetLayouts[3] = m_desc_layout_sampler[PS];
 
 		/* Now use the descriptor layout to create a pipeline layout */
 		VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
@@ -431,8 +460,8 @@ namespace ma
 		pPipelineLayoutCreateInfo.pNext = NULL;
 		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;// pPushConstantRanges.size();
 		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;// pPushConstantRanges.data();
-		pPipelineLayoutCreateInfo.setLayoutCount = 4;
-		pPipelineLayoutCreateInfo.pSetLayouts = SetLayouts;
+		pPipelineLayoutCreateInfo.setLayoutCount = 1;
+		pPipelineLayoutCreateInfo.pSetLayouts = &m_desc_layout;
 
 		VK_CHECK_RESULT(vkCreatePipelineLayout(device->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout));
 	}
@@ -610,27 +639,27 @@ namespace ma
 
 	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32_t>& vtx_spv)
 	{
-		spirv_cross::CompilerGLSL glsl(vtx_spv.data(),vtx_spv.size());
+		spirv_cross::CompilerHLSL hlsl(vtx_spv.data(),vtx_spv.size());
 
 		if (0)
 		{
 			// Set some options.
-			spirv_cross::CompilerGLSL::Options options;
-			options.vulkan_semantics = true;
-			glsl.set_options(options);
+			spirv_cross::CompilerHLSL::Options options;
+			//options.vulkan_semantics = true;
+			hlsl.set_options(options);
 
 			// Compile to GLSL, ready to give to GL driver.
-			std::string source = glsl.compile();
+			std::string source = hlsl.compile();
 
 			LogInfo("%s", source.c_str());
 		}
 
-		spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+		spirv_cross::ShaderResources resources = hlsl.get_shader_resources();
 		for (auto &resource : resources.uniform_buffers)
 		{
-			const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
-			size_t size_ = glsl.get_declared_struct_size(spType);
-			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
+			const spirv_cross::SPIRType& spType = hlsl.get_type(resource.type_id);
+			size_t size_ = hlsl.get_declared_struct_size(spType);
+			unsigned binding = hlsl.get_decoration(resource.id, spv::DecorationBinding);
 			RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
 			pConstantBuffer->SetName(resource.name.c_str());
 			pConstantBuffer->SetBound(binding);
@@ -638,9 +667,9 @@ namespace ma
 			this->AddConstBuffer(eType, pConstantBuffer.get());
 			for (uint32_t i = 0; i < spType.member_types.size(); ++i)
 			{
-				std::string str = glsl.get_member_name(spType.self, i);
-				size_t offset = glsl.type_struct_member_offset(spType, i);
-				size_t size = glsl.get_declared_struct_member_size(spType, i);
+				std::string str = hlsl.get_member_name(spType.self, i);
+				size_t offset = hlsl.type_struct_member_offset(spType, i);
+				size_t size = hlsl.get_declared_struct_member_size(spType, i);
 
 				Uniform* pUniform = pConstantBuffer->AddUniform(str.c_str());
 				pUniform->SetIndex(i);
@@ -651,10 +680,10 @@ namespace ma
 
 		for (auto &resource : resources.separate_images)
 		{
-			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned binding = hlsl.get_decoration(resource.id, spv::DecorationBinding);
 
 			RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
-			pUniform->SetIndex(binding);
+			pUniform->SetIndex(binding - m_texshiftBinding[eType]);
 
 			this->AddSampler(pUniform.get());
 		}
