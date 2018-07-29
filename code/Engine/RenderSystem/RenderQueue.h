@@ -12,6 +12,7 @@ namespace ma
 		RL_Terrain,
 		RL_SkyBox,
 		RL_MeshTrans,
+		RL_UI,
 		RL_Count,
 	};
 

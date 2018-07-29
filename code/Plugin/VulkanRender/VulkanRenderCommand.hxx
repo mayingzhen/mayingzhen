@@ -79,7 +79,7 @@ namespace ma
 		m_pPreIB = pIB;
 
 		VulkanIndexBuffer* pIml = (VulkanIndexBuffer*)pIB;
-		vkCmdBindIndexBuffer(m_vkCmdBuffer, pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
+		vkCmdBindIndexBuffer(m_vkCmdBuffer, pIml->m_indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 	}
 
 	void VulkanRenderCommand::SetVertexBuffer(int index, VertexBuffer* pVB, uint32_t nOffSet)
@@ -114,9 +114,24 @@ namespace ma
 			1, &pVulkanTech->m_descriptorSet, 0, NULL);
 	}
 
-	void VulkanRenderCommand::DrawIndex(uint32_t nIndexStart,uint32_t nIndexCount, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType)
+	void VulkanRenderCommand::DrawIndex(uint32_t nIndexStart,uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType)
 	{
-		vkCmdDrawIndexed(m_vkCmdBuffer, nIndexCount, nInstanceCount, nIndexStart, 0, 0);
+		vkCmdDrawIndexed(m_vkCmdBuffer, nIndexCount, nInstanceCount, nIndexStart, nVertexStart, 0);
+	}
+
+	void VulkanRenderCommand::SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors)
+	{
+		std::vector<VkRect2D> vecScissor(scissorCount);
+		for (uint32_t i = 0; i < scissorCount; ++i)
+		{
+			VkRect2D scissor;
+			scissor.offset.x = (uint32_t)pScissors[0].x;
+			scissor.offset.y = (uint32_t)pScissors[0].y;
+			scissor.extent.width = (uint32_t)pScissors[0].z;
+			scissor.extent.height = (uint32_t)pScissors[0].w;
+			vecScissor[i] = scissor;
+		}
+		vkCmdSetScissor(m_vkCmdBuffer, firstScissor, scissorCount, &vecScissor[0]);
 	}
 
 }

@@ -96,6 +96,9 @@ namespace ma
 		ParallHardWareBuffer*GetInstanceBuffer();
 		ParallHardWareBuffer*GetRTInstaneBuffer();
 
+		ParallHardWareBuffer* GetUIBufeer();
+		ParallHardWareBuffer* GetRIUIBuffer();
+
 		
 		void				UpdatePoolId();
 		int					GetPoolId();
@@ -137,6 +140,8 @@ namespace ma
 		RefPtr<ParallHardWareBuffer> m_pParticleBuffer[nNumParticleBuffer];
 
 		RefPtr<ParallHardWareBuffer> m_pInstanceBuffer[nNumParticleBuffer];
+
+		RefPtr<ParallHardWareBuffer> m_pUIBuffer[nNumParticleBuffer];
 
 		// these ids can be used for tripple (or more) buffered structures
 		// they are incremented in RenderWorld on the mainthread

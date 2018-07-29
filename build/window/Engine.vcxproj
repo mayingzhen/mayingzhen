@@ -180,8 +180,6 @@
     <ClInclude Include="..\..\code\Engine\RenderScheme\RenderScheme.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\BatchRenderable.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\BatchRenderable.hxx" />
-    <ClInclude Include="..\..\code\Engine\RenderSystem\BatchTerrainRenderable.h" />
-    <ClInclude Include="..\..\code\Engine\RenderSystem\BatchTerrainRenderable.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\DeviceCapabilities.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\DeviceCapabilities.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\InstanceRenderable.h" />

@@ -19,7 +19,7 @@ namespace ma
 
 	public:
 
-		vks::Buffer indexBuffer;
+		vks::Buffer		m_indexBuffer;
 	};
 
 }

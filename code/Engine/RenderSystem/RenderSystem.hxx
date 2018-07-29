@@ -138,6 +138,12 @@ namespace ma
 				m_pInstanceBuffer[i]->UnLockVideoMemory();
 				m_pInstanceBuffer[i] = NULL;
 			}
+
+			if (m_pUIBuffer[i])
+			{
+				m_pUIBuffer[i]->UnLockVideoMemory();
+				m_pUIBuffer[i] = NULL;
+			}
 		}
 
 		GetRenderDevice()->Shoutdown();
@@ -401,6 +407,13 @@ namespace ma
 		m_bNeedReloadShader = true;
 	}
 
+	struct UIVertex
+	{
+		Vector2 m_pos;
+		Vector2 m_uv;
+		uint32_t m_color;
+	};
+
 	void RenderSystem::InitParticleVideoMemory()
 	{
 		for (uint32_t i = 0; i < nNumParticleBuffer; ++i)
@@ -410,6 +423,9 @@ namespace ma
 
 			m_pInstanceBuffer[i] = new ParallHardWareBuffer(sizeof(InstanceRenderable::InstaceData), 1024, 0);
 			m_pInstanceBuffer[i]->LockVideoMemory();
+
+			m_pUIBuffer[i] = new ParallHardWareBuffer(sizeof(UIVertex), 1024 * 4, 1024 * 6);
+			//m_pUIBuffer[i]->LockVideoMemory();
 		}
 	}
 
@@ -437,6 +453,18 @@ namespace ma
 		return m_pInstanceBuffer[nIndex].get();
 	}
 
+	ParallHardWareBuffer* RenderSystem::GetUIBufeer()
+	{
+		uint32_t nIndex = m_nPoolIndex % nNumParticleBuffer;
+		return m_pUIBuffer[nIndex].get();
+	}
+
+	ParallHardWareBuffer* RenderSystem::GetRIUIBuffer()
+	{
+		uint32_t nIndex = m_nPoolIndexRT % nNumParticleBuffer;
+		return m_pUIBuffer[nIndex].get();
+	}
+
 	void RenderSystem::LockParticleVideoMemory(uint32_t nId)
 	{
 		profile_code();
@@ -454,6 +482,11 @@ namespace ma
 		{
 			m_pInstanceBuffer[nId]->LockVideoMemory();
 		}
+
+		if (m_pUIBuffer[nId])
+		{
+			//m_pUIBuffer[nId]->LockVideoMemory();
+		}
 	}
 
 	void RenderSystem::UnLockParticleVideoMemory(uint32_t nId)
@@ -466,6 +499,11 @@ namespace ma
 		if (m_pInstanceBuffer[nId])
 		{
 			m_pInstanceBuffer[nId]->UnLockVideoMemory();
+		}
+
+		if (m_pUIBuffer[nId])
+		{
+			//m_pUIBuffer[nId]->UnLockVideoMemory();
 		}
 	}
 

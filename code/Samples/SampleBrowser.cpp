@@ -298,14 +298,16 @@ namespace ma
 	{
 		if (m_pCurSample)
 		{
-			m_pCurSample->Render();
+			m_pCurSample->PreRender();
 		}
 	}
 
 	void SampleBrowser::OnPosRender(Scene* pScene)
 	{
-// 		if (GetPhysicsSystem())
-// 			GetPhysicsSystem()->DebugRender();
+		if (m_pCurSample)
+		{
+			m_pCurSample->PostRender();
+		}
 	}
 }
 

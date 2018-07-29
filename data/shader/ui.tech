@@ -1,0 +1,10 @@
+<Technique>
+	<Shader VSFile="ui" PSFile="ui">
+		<VertexDeclaration>
+      <Element Value="0,0,DT_FLOAT2,DU_POSITION,0"/>
+      <Element Value="0,8,DT_FLOAT2,DU_TEXCOORD,0"/>
+	  <Element Value="0,16,DT_COLOR,DU_COLOR,0"/>
+		</VertexDeclaration>
+	</Shader>
+</Technique>
+

@@ -258,3 +258,17 @@ EXPORTS
 ?GetSubByIndex@Material@ma@@QBEPAVSubMaterial@2@I@Z
 ?AddSubMaterial@Material@ma@@QAEXPAVSubMaterial@2@@Z
 ?SetCubeMap@SkyBox@ma@@QAEXPBD@Z
+?AllocVertexBuffer@ParallHardWareBuffer@ma@@QAE?AUSubAllocVB@2@H@Z
+?AllocIndexBuffer@ParallHardWareBuffer@ma@@QAE?AUSubAllocIB@2@H@Z
+?GetVertexBuffer@ParallHardWareBuffer@ma@@QAEPAVVertexBuffer@2@XZ
+?GetIndexBuffer@ParallHardWareBuffer@ma@@QAEPAVIndexBuffer@2@XZ
+?GetUIBufeer@RenderSystem@ma@@QAEPAVParallHardWareBuffer@2@XZ
+?SetValue@Technique@ma@@QAEXPAVUniform@2@ABVMatrix4@2@@Z
+?GetUniform@Technique@ma@@QAEPAVUniform@2@PBD@Z
+?GetRTInstaneBuffer@RenderSystem@ma@@QAEPAVParallHardWareBuffer@2@XZ
+?CreateMemoryStream@ma@@YA?AV?$RefPtr@VMemoryStream@ma@@@1@PBDPAXI_N@Z
+?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@ABVImageData@1@_N1@Z
+?SetValue@Technique@ma@@QAEXPAVUniform@2@PAVSamplerState@2@@Z
+??0ImageData@ma@@QAE@XZ
+?UnLockVideoMemory@ParallHardWareBuffer@ma@@QAEXXZ
+?LockVideoMemory@ParallHardWareBuffer@ma@@QAEXXZ

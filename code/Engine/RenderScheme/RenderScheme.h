@@ -24,7 +24,11 @@ namespace ma
 
 		void	Shoutdown();
 
+		void	BeginRender();
+
 		void	Render();
+
+		void	EndRender();
 
 		DeferredShadow*	GetDeferredShadow() const { return m_pDeferredShadow.get(); }
 		DeferredShading* GetDeferredShading() const { return m_pDeferredShading.get(); }

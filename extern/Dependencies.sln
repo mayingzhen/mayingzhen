@@ -58,6 +58,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSDependent", "glslang\glsl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SPIRV", "glslang\SPIRV\SPIRV.vcxproj", "{9852F7D4-11D4-3487-AE9D-527AE7042EB4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "imgui\imgui.vcxproj", "{345A953E-A004-4648-B442-DC5F9F11068C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -425,6 +427,22 @@ Global
 		{9852F7D4-11D4-3487-AE9D-527AE7042EB4}.RelWithDebInfo|Win32.ActiveCfg = RelWithDebInfo|Win32
 		{9852F7D4-11D4-3487-AE9D-527AE7042EB4}.RelWithDebInfo|Win32.Build.0 = RelWithDebInfo|Win32
 		{9852F7D4-11D4-3487-AE9D-527AE7042EB4}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Debug|Win32.Build.0 = Debug|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Debug|x64.ActiveCfg = Debug|x64
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Debug|x64.Build.0 = Debug|x64
+		{345A953E-A004-4648-B442-DC5F9F11068C}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.MinSizeRel|x64.ActiveCfg = Release|x64
+		{345A953E-A004-4648-B442-DC5F9F11068C}.MinSizeRel|x64.Build.0 = Release|x64
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Release|Win32.ActiveCfg = Release|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Release|Win32.Build.0 = Release|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Release|x64.ActiveCfg = Release|x64
+		{345A953E-A004-4648-B442-DC5F9F11068C}.Release|x64.Build.0 = Release|x64
+		{345A953E-A004-4648-B442-DC5F9F11068C}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{345A953E-A004-4648-B442-DC5F9F11068C}.RelWithDebInfo|x64.ActiveCfg = Release|x64
+		{345A953E-A004-4648-B442-DC5F9F11068C}.RelWithDebInfo|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

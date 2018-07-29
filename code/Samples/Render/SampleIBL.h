@@ -11,7 +11,11 @@ namespace ma
 
 		virtual void UnLoad();
 
-		virtual void Render();
+		virtual void Update();
+
+		virtual void PreRender();
+
+		virtual void PostRender();
 
 		virtual void keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 

@@ -38,10 +38,10 @@ namespace ma
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32_t nNumBytes, OUT ImageData& imageData);
 	
+		virtual bool	LoadFromImagData(const ImageData& imageData) = 0;
+
 	protected:
 
-		virtual bool	LoadFromImagData(const ImageData& imageData) = 0;
-		
 		bool			RT_StreamComplete();  
 
 		virtual	bool	RT_CreateCubeTexture() = 0;
@@ -66,6 +66,7 @@ namespace ma
 	};
 
 	RefPtr<Texture> CreateTexture(const char* pImagePath,bool bMipMap = true,bool bSRGB = true);
+	RefPtr<Texture> CreateTexture(const ImageData& imageData, bool bMipMap = true, bool bSRGB = true);
 
 	class SamplerState : public Object
 	{

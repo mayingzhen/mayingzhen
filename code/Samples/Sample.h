@@ -19,7 +19,9 @@ namespace ma
 
 		virtual void		Update() {}
 
-		virtual void		Render()  {}
+		virtual void		PreRender()  {}
+
+		virtual void		PostRender() {}
 
 		CameraController*	GetCameraControll();
 

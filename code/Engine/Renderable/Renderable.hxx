@@ -40,7 +40,7 @@ namespace ma
 
 		pRenderCommand->SetIndexBuffer(this->m_pIndexBuffer.get());
 
-		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, 1, this->m_ePrimitiveType);
+		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, 0, 1, this->m_ePrimitiveType);
 	}
 
 }

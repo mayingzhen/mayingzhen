@@ -28,7 +28,7 @@ namespace ma
 
 		uint32_t nInstancCount = m_arrRenderList.size();
 
-		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nInstancCount, this->m_ePrimitiveType);
+		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, 0, nInstancCount, this->m_ePrimitiveType);
 	}
 
 	void InstanceRenderable::AddRenderable(Renderable* pRenderObj)

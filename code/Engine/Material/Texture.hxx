@@ -151,6 +151,17 @@ namespace ma
 		return g_pTextureManager->CreateTexture(pImagePath,bMipMap,bSRGB);
 	}
 
+	RefPtr<Texture> CreateTexture(const ImageData& imageData, bool bMipMap/* = true*/, bool bSRGB/* = true*/)
+	{
+		RefPtr<Texture> pTextute = GetRenderDevice()->CreateTexture();
+		pTextute->SetMipMap(bMipMap);
+		pTextute->SetSRGB(bSRGB);
+		pTextute->LoadFromImagData(imageData);
+		//pTextute->Load(pImagePath);
+		//m_resMap[strKey] = pTextute;
+		return pTextute;
+	}
+
 	SamplerState::SamplerState()
 	{
 		m_eWrap = REPEAT;
