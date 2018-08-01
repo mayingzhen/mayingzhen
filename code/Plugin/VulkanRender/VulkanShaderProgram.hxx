@@ -522,7 +522,7 @@ namespace ma
 			pVulkanBS = &bs;
 		}
 
-		pVulkanBS->cb.attachmentCount = GetRenderPass()->m_arrColor.size();
+		pVulkanBS->m_cb.attachmentCount = GetRenderPass()->m_arrColor.size();
 
 		VulkanDepthStencilStateObject ds;
 		VulkanDepthStencilStateObject* pVulkanDS = (VulkanDepthStencilStateObject*)(info.m_pDSState.get());
@@ -621,7 +621,7 @@ namespace ma
 		pipelineCreateInfo.pVertexInputState = &pVertexDec->m_inputState;
 		pipelineCreateInfo.pInputAssemblyState = &ia;
 		pipelineCreateInfo.pRasterizationState = &pVulkanRS->rs;
-		pipelineCreateInfo.pColorBlendState = &pVulkanBS->cb;
+		pipelineCreateInfo.pColorBlendState = &pVulkanBS->m_cb;
 		pipelineCreateInfo.pTessellationState = NULL;
 		pipelineCreateInfo.pMultisampleState = &ms;
 		pipelineCreateInfo.pDynamicState = &dynamicState;

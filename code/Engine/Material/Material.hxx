@@ -39,7 +39,7 @@ namespace ma
 			std::string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderCreateInfo().m_shaderMacro;
           
 			RefPtr<BlendState> pBlendSate = CreateBlendState();
-			pBlendSate->m_bColorWrite = false;
+			pBlendSate->m_blendDesc[0].nColorWrite = 0;
 
 			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);

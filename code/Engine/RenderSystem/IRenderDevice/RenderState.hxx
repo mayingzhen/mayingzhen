@@ -58,14 +58,16 @@ namespace ma
 
 	BlendState::BlendState()
 	{
-		m_bColorWrite = true;
-		m_eBlendMode = BM_OPATICY;
 	}
 
-	void BlendState::RegisterAttribute()
+	bool BlendState::Import(rapidxml::xml_node<>* pXmlObject)
 	{
-		ATTRIBUTE(BlendState, "ColorWrite", m_bColorWrite, bool, true, AM_DEFAULT);
-		ENUM_ATTRIBUTE(BlendState, "BlendMode", m_eBlendMode, BLEND_MODE, strBlendMode, BM_OPATICY, AM_DEFAULT);
+		return true;
+	}
+
+	bool BlendState::Export(rapidxml::xml_node<>* pXmlObject, rapidxml::xml_document<>& doc)
+	{
+		return true;
 	}
 
 	RefPtr<BlendState> CreateBlendState()

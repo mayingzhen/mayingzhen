@@ -42,6 +42,8 @@ VkFormat VulkanMapping::_getPF(PixelFormat ogrePF)
 	{
 	case PF_A8R8G8B8: 
 		return VK_FORMAT_B8G8R8A8_UNORM;
+	case PF_A8B8G8R8:
+		return VK_FORMAT_R8G8B8A8_UNORM;
 	case PF_A2B10G10R10:
 		return VK_FORMAT_A2B10G10R10_UNORM_PACK32;
 	case PF_A2R10G10B10:
@@ -389,6 +391,70 @@ VkCullModeFlagBits VulkanMapping::get(CULL_MODE mode)
 		ASSERT(false);
 		return VK_CULL_MODE_BACK_BIT;
 	}
+}
+
+VkBlendOp VulkanMapping::get(BLEND_OP op)
+{
+	switch (op)
+	{
+	case BLEND_OP_ADD:
+		return VK_BLEND_OP_ADD;
+	case BLEND_OP_SUBTRACT:
+		return VK_BLEND_OP_SUBTRACT;
+	case BLEND_OP_REV_SUBTRACT:
+		return VK_BLEND_OP_REVERSE_SUBTRACT;
+	case BLEND_OP_MIN:
+		return VK_BLEND_OP_MIN;
+	case BLEND_OP_MAX:
+		return VK_BLEND_OP_MAX;
+	default:
+		ASSERT(false);
+		break;
+	}
+
+	return VK_BLEND_OP_ADD;
+}
+
+VkBlendFactor VulkanMapping::get(BLEND blend)
+{
+	switch (blend)
+	{
+	case BLEND_ZERO:
+		return VK_BLEND_FACTOR_ZERO;
+	case BLEND_ONE:
+		return VK_BLEND_FACTOR_ONE;
+	case BLEND_SRC_COLOR:
+		return VK_BLEND_FACTOR_SRC_COLOR;
+	case BLEND_INV_SRC_COLOR:
+		return VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+	case BLEND_SRC_ALPHA:
+		return VK_BLEND_FACTOR_SRC_ALPHA;
+	case BLEND_INV_SRC_ALPHA:
+		return VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+	case BLEND_DEST_ALPHA:
+		return VK_BLEND_FACTOR_DST_ALPHA;
+	case BLEND_INV_DEST_ALPHA:
+		return VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA;
+	case BLEND_DEST_COLOR:
+		return VK_BLEND_FACTOR_DST_COLOR;
+	case BLEND_INV_DEST_COLOR:
+		return VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR;
+	case BLEND_SRC_ALPHA_SAT:
+		return VK_BLEND_FACTOR_SRC_ALPHA_SATURATE;
+	case BLEND_SRC1_COLOR:
+		return VK_BLEND_FACTOR_SRC1_COLOR;
+	case BLEND_INV_SRC1_COLOR:
+		return VK_BLEND_FACTOR_ONE_MINUS_SRC1_COLOR;
+	case BLEND_SRC1_ALPHA:
+		return VK_BLEND_FACTOR_SRC1_ALPHA;
+	case BLEND_INV_SRC1_ALPHA:
+		return VK_BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA;
+	default:
+		ASSERT(false);
+		break;
+	}
+
+	return VK_BLEND_FACTOR_ONE;
 }
 
 }

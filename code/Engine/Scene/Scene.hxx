@@ -183,8 +183,6 @@ namespace ma
 		{
 			m_pCallback->OnPreRender(this);
 		}
-		
-		m_pRenderScheme->BeginRender();
 
 		m_pRenderScheme->Render();
 
@@ -192,10 +190,6 @@ namespace ma
 		{
 			m_pCallback->OnPosRender(this);
 		}
-
-		//LineRender::Render();
-
-		m_pRenderScheme->EndRender();
 
 		GetRenderSystem()->EndRender();
 

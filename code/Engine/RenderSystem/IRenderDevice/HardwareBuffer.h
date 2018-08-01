@@ -1,5 +1,4 @@
-#ifndef  _HardwareBuffer__H__
-#define  _HardwareBuffer__H__
+#pragma once
 
 #include "Engine/RenderSystem/IRenderDevice/RenderDefine.h"
 
@@ -48,4 +47,3 @@ namespace ma
 	};
 }
 
-#endif

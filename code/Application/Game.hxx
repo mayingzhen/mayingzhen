@@ -1,8 +1,9 @@
 #include "Game.h"
+#include "ui.h"
 
 namespace ma
 {
-	static Platform ___platform;
+	static Platform __platform;
 
 	static Game* __gameInstance = NULL;
 
@@ -13,13 +14,14 @@ namespace ma
         
 		__gameInstance = this;
 
-		___platform.Init();
+		__platform.Init();
 		m_sGameName = pGameName ? pGameName : "";
 
 		Engine* pEngine = new Engine();
 		SetEngine(pEngine);
 
 		g_pInput = new Input();
+		g_pUI = new UI();
 
 		m_bOnWindowSized = false;
 	}
@@ -32,7 +34,7 @@ namespace ma
 
 		SAFE_DELETE(g_pInput);
 
-		___platform.Shutdown();
+		__platform.Shutdown();
 	}
 
 	Game& Game::GetInstance()
@@ -50,6 +52,8 @@ namespace ma
 	{
 		void* hWnd = Platform::GetInstance().GetWindId();
 		GetEngine()->Init(hWnd, m_setting.bRenderThread, m_setting.bDataThread, m_setting.bJobScheduler);
+
+		g_pUI->Init();
 	}
 
 	void Game::Reset(uint32_t nWidth,uint32_t nHeight)
@@ -59,12 +63,14 @@ namespace ma
 
 	void Game::Shutdown()
 	{
+		g_pInput->Shutdown();
+
 		GetEngine()->Shutdown();
 	}
 
 	void Game::Run()
 	{
-		___platform.Run();
+		__platform.Run();
 	}
 
 	void Game::Update()
@@ -76,12 +82,18 @@ namespace ma
 			m_bOnWindowSized = false;
 			this->Reset(m_OnWindowSizedWidth, m_OnWindowSizedHeight);
 		}
+
+		g_pUI->Update();
 	
 		GetEngine()->Update();
+
 	}	
 
 	void Game::Render()
 	{
+		g_pUI->Render();
+
 		GetEngine()->Render();
 	}
 }
+

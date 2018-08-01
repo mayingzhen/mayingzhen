@@ -19,6 +19,16 @@ namespace ma
 		Game::GetInstance().mMouseEvent.remove(this,&Input::mouseEvent);
 	}
 
+	void Input::Init(int winId)
+	{
+
+	}
+
+	void Input::Shutdown()
+	{
+
+	}
+
 	void Input::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
 	{
 		if (Keyboard::KEY_PRESS == evt)

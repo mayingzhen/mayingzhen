@@ -32,7 +32,7 @@ namespace ma
 		virtual void	RT_StreamComplete();
 
 	public:
-		VkPipelineColorBlendStateCreateInfo cb;
-		VkPipelineColorBlendAttachmentState att_state[1];
+		VkPipelineColorBlendStateCreateInfo m_cb;
+		VkPipelineColorBlendAttachmentState m_att_state[MAX_RENDERTARGETS];
 	};
 }

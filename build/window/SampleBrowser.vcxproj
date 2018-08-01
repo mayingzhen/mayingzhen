@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/Bullet-2.82/src;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include;../../extern/wwise/include;../../extern/imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/Bullet-2.82/src;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include;../../extern/wwise/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -69,14 +69,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>..\..\Bin\Debug\VulkanRender.lib;..\..\extern\imgui\Debug\imgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\Bin\Debug\VulkanRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/Bullet-2.82/src;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include;../../extern/imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/Bullet-2.82/src;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -103,7 +103,6 @@
     <ClInclude Include="..\..\Code\Samples\Animation\SampleAnimationTree.hxx" />
     <ClInclude Include="..\..\code\Samples\CameraController.h" />
     <ClInclude Include="..\..\code\Samples\CameraController.hxx" />
-    <ClInclude Include="..\..\code\Samples\imgui_impl_win32.h" />
     <ClInclude Include="..\..\code\Samples\Render\SampleIBL.h" />
     <ClInclude Include="..\..\code\Samples\Render\SampleIBL.hxx" />
     <ClInclude Include="..\..\Code\Samples\Render\SampleLighting.h" />
@@ -126,7 +125,6 @@
     <ClInclude Include="..\..\Code\Samples\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\code\Samples\imgui_impl_win32.cpp" />
     <ClCompile Include="..\..\code\Samples\main-windows.cpp" />
     <ClCompile Include="..\..\Code\Samples\SampleBrowser.cpp" />
     <ClCompile Include="..\..\Code\Samples\stdafx.cpp">

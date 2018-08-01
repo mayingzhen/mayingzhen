@@ -171,16 +171,11 @@ namespace ma
 		m_pDiffuseTex = NULL;
 	}
 
-	void RenderScheme::BeginRender()
-	{
-		m_pShadingPass->Begine();
-	}
-
 	void RenderScheme::Render()
 	{
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
-		//m_pShadingPass->Begine();
+		m_pShadingPass->Begine();
 
 		{
 			RENDER_PROFILE(RL_Mesh);
@@ -197,18 +192,16 @@ namespace ma
 			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_SkyBox, RP_Shading);
 		}
 
-		//m_pShadingPass->End();
+		g_pPostProcessPipeline->Render();
 
-		//g_pPostProcessPipeline->Render();
-	}
+		{
+			RENDER_PROFILE(RL_UI);
+			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_UI, RP_Shading);
+		}
 
-	void RenderScheme::EndRender()
-	{
 		m_pShadingPass->End();
 
-		g_pPostProcessPipeline->Render();
 	}
-
 
 	void RenderScheme::SetDeferredShadingEnabled(bool b)
 	{

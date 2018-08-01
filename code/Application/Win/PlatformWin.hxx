@@ -1,8 +1,9 @@
 #include "../Platform.h"
-//#include <windowsx.h>
-//#include <shellapi.h>
-#include "windows.h"
+#include <windows.h>
+#include "imgui.h"
+#include "imgui_impl_win32.h"
 
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace ma
 {
@@ -231,6 +232,12 @@ namespace ma
 
 	LRESULT CALLBACK WndProc(HWND hwnd, uint32_t message, WPARAM wParam, LPARAM lParam)
 	{
+		if (ImGui_ImplWin32_WndProcHandler(hwnd, message, wParam, lParam))
+			return true;
+
+		if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse)
+			return true;
+
 		Platform* pCurApp = reinterpret_cast<Platform*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 		
 		static bool shiftDown = false;
@@ -282,7 +289,7 @@ namespace ma
 			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_RELEASE_MIDDLE_BUTTON, LOWORD(lParam), HIWORD(lParam),0);
 			break;
 		case WM_MOUSEMOVE:
-			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_MOVE, LOWORD(lParam), HIWORD(lParam),0);
+			Game::GetInstance().mMouseEvent.trigger(Mouse::MOUSE_MOVE, LOWORD(lParam), HIWORD(lParam), 0);
 			break;
 		case WM_MOUSEWHEEL:
 			tagPOINT point;
@@ -443,15 +450,8 @@ namespace ma
 		
 		while(WM_QUIT != msg.message)
 		{
-			//if (GetActiveWindow() == m_windId)
-			//{
-				gotMsg = ::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) ? true : false;
-			//}
-			//else
-			//{
-			//	gotMsg = ::GetMessage(&msg, NULL, 0, 0) ? true : false;
-			//}
-			
+			gotMsg = ::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) ? true : false;
+
 			if (gotMsg)
 			{
 				::TranslateMessage(&msg);
@@ -463,16 +463,16 @@ namespace ma
 				{
 					Game::GetInstance().Init();
 
+					ImGui_ImplWin32_Init(m_windId);
+
 					m_bInit = true;
 				}
 
-				//Update();
+				ImGui_ImplWin32_NewFrame();
+
 				Game::GetInstance().Update();
 				
-				//if (GetActiveWindow() == m_windId)
-				//{
-					Game::GetInstance().Render();
-				//}
+				Game::GetInstance().Render();
 
 				output_all_code_time();
 			}

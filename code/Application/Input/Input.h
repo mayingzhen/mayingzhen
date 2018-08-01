@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace ma
 {
 	class APP_API Input

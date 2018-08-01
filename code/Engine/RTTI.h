@@ -11,7 +11,6 @@ namespace ma
 		SkyBox::RegisterAttribute();
 		Camera::RegisterAttribute();
 		Terrain::RegisterAttribute();
-		BlendState::RegisterAttribute();
 		DepthStencilState::RegisterAttribute();
 		RasterizerState::RegisterAttribute();
 		Technique::RegisterAttribute();

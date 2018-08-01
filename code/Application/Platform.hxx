@@ -2,6 +2,7 @@
 
 #if defined(_WIN32)
 #include "Win/PlatformWin.hxx"
+#include "Win/imgui_impl_win32.hxx"
 #elif defined(__APPLE__)
 #elif defined(__ANDROID__)
 #include "Android/PlatformAndroid.hxx"

@@ -23,6 +23,10 @@ namespace ma
 
 		static VkCullModeFlagBits get(CULL_MODE mode);
 
+		static VkBlendOp get(BLEND_OP op);
+
+		static VkBlendFactor get(BLEND blend);
+
 		static void GetBlend(BLEND_MODE mode, bool& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op);
 		static void GetBlendAlpha(BLEND_MODE mode, bool& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op);
 

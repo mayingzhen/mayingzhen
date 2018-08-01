@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/ois/Includes;../../extern/vld/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/ois/Includes;../../extern/vld/include;../../extern/imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;APP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -69,6 +69,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>..\..\extern\imgui\Debug\imgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -111,6 +112,9 @@
     <ClInclude Include="..\..\code\Application\Platform.h" />
     <ClInclude Include="..\..\code\Application\Platform.hxx" />
     <ClInclude Include="..\..\code\Application\stdAfx.h" />
+    <ClInclude Include="..\..\code\Application\ui.h" />
+    <ClInclude Include="..\..\code\Application\ui.hxx" />
+    <ClInclude Include="..\..\code\Application\Win\imgui_impl_win32.hxx" />
     <ClInclude Include="..\..\code\Application\Win\PlatformWin.hxx" />
   </ItemGroup>
   <ItemGroup>

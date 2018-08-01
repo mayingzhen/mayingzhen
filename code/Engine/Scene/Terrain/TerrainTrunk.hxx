@@ -351,7 +351,7 @@ namespace ma
 				Technique* pTech = pBorderMaterial->GetShadingTechnqiue();
 				
 				RefPtr<BlendState> pBlendState = CreateBlendState();
-				pBlendState->m_eBlendMode = BM_TRANSPARENT;
+				pBlendState->m_blendDesc[0].BlendEnable = true;
 				//pTech->SetBlendState(pBlendState.get());
 
 				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();

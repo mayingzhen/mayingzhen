@@ -80,7 +80,7 @@ namespace ma
 		uint32_t					m_nVertexStart;
 		uint32_t					m_nVertexCount;
 		uint32_t					m_nMateiralID;
-		std::vector<BoneIndex>	m_arrBonePalette;
+		std::vector<BoneIndex>		m_arrBonePalette;
 
 		SubMeshData()
 		{

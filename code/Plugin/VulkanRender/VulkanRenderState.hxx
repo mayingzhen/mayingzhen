@@ -10,7 +10,6 @@ namespace ma
 		rs.pNext = NULL;
 		rs.flags = 0;
 		rs.polygonMode = VK_POLYGON_MODE_FILL;
-		rs.cullMode = VK_CULL_MODE_BACK_BIT;
 		rs.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		rs.depthClampEnable = VK_FALSE;
 		rs.rasterizerDiscardEnable = VK_FALSE;
@@ -19,11 +18,13 @@ namespace ma
 		rs.depthBiasClamp = 0;
 		rs.depthBiasSlopeFactor = 0;
 		rs.lineWidth = 1.0f;
+
+		RT_StreamComplete();
 	}
 
 	void VulkanRasterizerStateObject::RT_StreamComplete()
 	{
-
+		rs.cullMode = VulkanMapping::get(m_eCullMode);
 	}
 
 	VulkanDepthStencilStateObject::VulkanDepthStencilStateObject()
@@ -57,47 +58,41 @@ namespace ma
 
 	VulkanBlendStateObject::VulkanBlendStateObject()
 	{
-		cb = {};
-		cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-		cb.flags = 0;
-		cb.pNext = NULL;
-		if (m_bColorWrite)
-		{
-			att_state[0].colorWriteMask = 0xf;
-			att_state[0].blendEnable = VK_FALSE;
-			att_state[0].alphaBlendOp = VK_BLEND_OP_ADD;
-			att_state[0].colorBlendOp = VK_BLEND_OP_ADD;
-			att_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-			att_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-			att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			cb.attachmentCount = 1;
-			cb.pAttachments = att_state;
-		}
+		m_cb = {};
+		m_cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+		m_cb.flags = 0;
+		m_cb.pNext = NULL;
 
-		cb.logicOpEnable = VK_FALSE;
-		cb.logicOp = VK_LOGIC_OP_NO_OP;
-		cb.blendConstants[0] = 1.0f;
-		cb.blendConstants[1] = 1.0f;
-		cb.blendConstants[2] = 1.0f;
-		cb.blendConstants[3] = 1.0f;
+		m_cb.logicOpEnable = VK_FALSE;
+		m_cb.logicOp = VK_LOGIC_OP_NO_OP;
+		m_cb.blendConstants[0] = 1.0f;
+		m_cb.blendConstants[1] = 1.0f;
+		m_cb.blendConstants[2] = 1.0f;
+		m_cb.blendConstants[3] = 1.0f;
+
+		RT_StreamComplete();
 	}
 
 	void VulkanBlendStateObject::RT_StreamComplete()
 	{
-		if (m_bColorWrite)
+		for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
-			att_state[0].colorWriteMask = 0xf;
-			att_state[0].blendEnable = VK_FALSE;
-			att_state[0].alphaBlendOp = VK_BLEND_OP_ADD;
-			att_state[0].colorBlendOp = VK_BLEND_OP_ADD;
-			att_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-			att_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-			att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			cb.attachmentCount = 1;
-			cb.pAttachments = att_state;
+			RENDER_TARGET_BLEND_DESC& desc = m_blendDesc[i];
+
+			m_att_state[i].colorWriteMask = desc.nColorWrite;
+			m_att_state[i].blendEnable = desc.BlendEnable;
+			
+			m_att_state[i].colorBlendOp = VulkanMapping::get(desc.BlendOp);
+			m_att_state[i].srcColorBlendFactor = VulkanMapping::get(desc.SrcBlend);
+			m_att_state[i].dstColorBlendFactor = VulkanMapping::get(desc.DestBlend);
+
+			m_att_state[i].alphaBlendOp = VulkanMapping::get(desc.BlendOpAlpha);
+			m_att_state[i].srcAlphaBlendFactor = VulkanMapping::get(desc.SrcBlendAlpha);
+			m_att_state[i].dstAlphaBlendFactor = VulkanMapping::get(desc.DestBlendAlpha);
 		}
+
+		m_cb.attachmentCount = MAX_RENDERTARGETS;
+		m_cb.pAttachments = m_att_state;
 	}
 }
 

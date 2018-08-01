@@ -1,9 +1,6 @@
-#ifndef	_Application_StdAfx__H__
-#define _Application_StdAfx__H__
-
+#pragma once
 
 #include "Common/Module.h"
 #include "Engine/Module.h"
 
-#endif
 

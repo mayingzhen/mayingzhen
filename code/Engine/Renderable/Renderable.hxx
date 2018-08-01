@@ -33,6 +33,7 @@ namespace ma
 
 		uint32_t nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
 		uint32_t nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+		uint32_t nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
 		pRenderCommand->SetTechnique(pTechnique);
 
@@ -40,7 +41,7 @@ namespace ma
 
 		pRenderCommand->SetIndexBuffer(this->m_pIndexBuffer.get());
 
-		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, 0, 1, this->m_ePrimitiveType);
+		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nVertexStart, 1, this->m_ePrimitiveType);
 	}
 
 }
