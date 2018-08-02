@@ -50,30 +50,32 @@ namespace ma
 
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
-			this->ClearConstBuffer((ShaderType)i);
+			ShaderType eType = (ShaderType)i;
 
-			for (uint32_t j = 0; j < pShader->GetConstBufferCount((ShaderType)i); ++j)
+			this->ClearConstBuffer(eType);
+
+			for (uint32_t j = 0; j < pShader->GetConstBufferCount(eType); ++j)
 			{
-				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex((ShaderType)i,j);
+				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex(eType,j);
 				RefPtr<VulkanConstantBuffer> pConstantBuffer = CloneConstBuffer(pShaderCS);
 				pConstantBuffer->SetParent(this);
 
-				this->AddConstBuffer((ShaderType)i,pConstantBuffer.get());
+				this->AddConstBuffer(eType,pConstantBuffer.get());
 			}
-		}
 
-		this->ClearSampler();
+			this->ClearSampler(eType);
 
-		for (uint32_t i = 0; i < pShader->GetSamplerCount(); ++i)
-		{
-			Uniform* pUniform = pShader->GetSamplerByIndex(i);
+			for (uint32_t j = 0; j < pShader->GetSamplerCount(eType); ++j)
+			{
+				Uniform* pUniform = pShader->GetSamplerByIndex(eType, j);
 
-			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
-			pUniformCopy->SetTechnique(this);
-			pUniformCopy->SetIndex(pUniform->GetIndex());
-			pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
+				RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
+				pUniformCopy->SetTechnique(this);
+				pUniformCopy->SetIndex(pUniform->GetIndex());
+				pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 
-			this->AddSampler(pUniformCopy.get());
+				this->AddSampler(eType,pUniformCopy.get());
+			}
 		}
 
 		BindUniform(NULL);
@@ -89,18 +91,27 @@ namespace ma
 		VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSet);
 		assert(res == VK_SUCCESS);
 
-		UpdateUniformDescriptorSets();
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		{
+			ShaderType eType = (ShaderType)i;
 
-		UpdateSamplerDescriptorSets();
+			UpdateUniformDescriptorSets(eType);
 
+			UpdateSamplerDescriptorSets(eType);
+		}
 	}
 
 	void VulkanTechnique::RT_SetSampler(Uniform* pUniform, SamplerState* pSampler)
 	{
-		UpdateSamplerDescriptorSets();
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		{
+			ShaderType eType = (ShaderType)i;
+
+			UpdateSamplerDescriptorSets(eType);
+		}
 	}
 
-	void VulkanTechnique::UpdateUniformDescriptorSets()
+	void VulkanTechnique::UpdateUniformDescriptorSets(ShaderType eType)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -108,12 +119,11 @@ namespace ma
 
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
-		//init_descriptor_set
 		{
 			std::vector<VkWriteDescriptorSet> vecVSwrite;
-			for (uint32_t i = 0; i < this->GetConstBufferCount(VS); ++i)
+			for (uint32_t i = 0; i < this->GetConstBufferCount(eType); ++i)
 			{
-				VulkanConstantBuffer* pConstBuffer = (VulkanConstantBuffer*)this->GetConstBufferByIndex(VS, i);
+				VulkanConstantBuffer* pConstBuffer = (VulkanConstantBuffer*)this->GetConstBufferByIndex(eType, i);
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
@@ -128,30 +138,9 @@ namespace ma
 
 			vkUpdateDescriptorSets(device->logicalDevice, vecVSwrite.size(), vecVSwrite.data(), 0, NULL);
 		}
-
-		// PS
-		{
-			std::vector<VkWriteDescriptorSet> vecPSwrite;
-			for (uint32_t i = 0; i < this->GetConstBufferCount(PS); ++i)
-			{
-				VulkanConstantBuffer* pConstBuffer = (VulkanConstantBuffer*)this->GetConstBufferByIndex(PS, i);
-				VkWriteDescriptorSet write = {};
-				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-				write.pNext = NULL;
-				write.dstSet = m_descriptorSet;
-				write.descriptorCount = 1;
-				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-				write.pBufferInfo = &pConstBuffer->m_descriptor;
-				write.dstArrayElement = 0;
-				write.dstBinding = pConstBuffer->GetBound();
-				vecPSwrite.push_back(write);
-			}
-
-			vkUpdateDescriptorSets(device->logicalDevice, vecPSwrite.size(), vecPSwrite.data(), 0, NULL);
-		}
 	}
 
-	void VulkanTechnique::UpdateSamplerDescriptorSets()
+	void VulkanTechnique::UpdateSamplerDescriptorSets(ShaderType eType)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -159,12 +148,13 @@ namespace ma
 
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
+		// Sampler
 		{
 			std::vector<VkWriteDescriptorSet> vec_write;
-			for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
+			for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
 			{
-				uint32_t nIndex = this->GetSamplerByIndex(i)->GetIndex();
-				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)GetActiveSampler(nIndex);
+				Uniform* pUniform = this->GetSamplerByIndex(eType, i);
+				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)GetActiveSampler(pUniform);
 				if (pSampler == NULL)
 					continue;
 
@@ -178,7 +168,7 @@ namespace ma
 				write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
 				write.pImageInfo = &pSampler->m_descriptor;
 				write.dstArrayElement = 0;
-				write.dstBinding = nIndex + pShader->m_samplershiftBinding[PS];
+				write.dstBinding = pUniform->GetIndex() + pShader->m_samplershiftBinding[eType];
 				vec_write.push_back(write);
 
 			}
@@ -186,12 +176,13 @@ namespace ma
 			vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 		}
 
+		// Texture
 		{
 			std::vector<VkWriteDescriptorSet> vec_write;
-			for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
+			for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
 			{
-				uint32_t nIndex = this->GetSamplerByIndex(i)->GetIndex();
-				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)this->GetActiveSampler(nIndex);
+				Uniform* pUniform = this->GetSamplerByIndex(eType, i);
+				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)this->GetActiveSampler(pUniform);
 				if (pSampler == NULL)
 					continue;
 
@@ -205,7 +196,7 @@ namespace ma
 				write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
 				write.pImageInfo = &pSampler->m_descriptor;
 				write.dstArrayElement = 0;
-				write.dstBinding = nIndex + pShader->m_texshiftBinding[PS];;
+				write.dstBinding = pUniform->GetIndex() + pShader->m_texshiftBinding[eType];
 				vec_write.push_back(write);
 			}
 

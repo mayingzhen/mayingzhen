@@ -8,7 +8,7 @@ namespace ma
 	{
 	public:
 
-		virtual void SetParameter(unsigned offset, unsigned size, const void* data) = 0;
+		virtual void	SetParameter(unsigned offset, unsigned size, const void* data) = 0;
 
 		uint32_t		GetSize() { return m_nSize; }
 		void		    SetSize(uint32_t nSize) { m_nSize = nSize; }

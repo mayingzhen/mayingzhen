@@ -1,5 +1,5 @@
 <Technique>
-	<Shader VSFile="Screen" PSFile="HDR/AdaptedLum">
+	<Shader VSFile="Screen.vert:main" PSFile="HDR/AdaptedLum.frag:main">
 		<VertexDeclaration>
 			<Element ClassName="VertexElement">
 				<Attribute Name="Stream" Type="short" Value="0"/>

@@ -18,7 +18,7 @@ namespace ma
 		Matrix4 matViewProj = GetRenderContext()->GetProjMatrix() * matView;
 		Matrix4 matInvViewProj = matViewProj.inverse();
 
-		pTech->SetValue(pTech->GetUniform("inv_mvp"), matInvViewProj);
+		pTech->SetValue(pTech->GetUniform(VS,"inv_mvp"), matInvViewProj);
 	}
 
 	void SkyBoxRenderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)

@@ -228,14 +228,8 @@ EXPORTS
 ?GetConstBufferCount@Technique@ma@@QAEIW4ShaderType@2@@Z
 ?GetConstBufferByIndex@Technique@ma@@QAEPAVConstantBuffer@2@W4ShaderType@2@I@Z
 ?CreateUniform@ma@@YA?AV?$RefPtr@VUniform@ma@@@1@PBD@Z
-?AddSampler@ShaderProgram@ma@@QAEXPAVUniform@2@@Z
-?GetSamplerCount@ShaderProgram@ma@@QAEIXZ
-?GetSamplerByIndex@ShaderProgram@ma@@QAEPAVUniform@2@I@Z
 ?SetName@ConstantBuffer@ma@@QAEXPBD@Z
 ?GetName@ConstantBuffer@ma@@QAEPBDXZ
-?AddSampler@Technique@ma@@QAEXPAVUniform@2@@Z
-?GetSamplerCount@Technique@ma@@QAEIXZ
-?GetSamplerByIndex@Technique@ma@@QAEPAVUniform@2@I@Z
 ?TechniqueStreamComplete@RenderSystem@ma@@QAEXPAVTechnique@2@@Z
 ?getNumFaces@ImageData@ma@@QBEIXZ
 ?GetStreanmStride@VertexDeclaration@ma@@QBEII@Z
@@ -244,7 +238,6 @@ EXPORTS
 ?Bind@Technique@ma@@UAEXPAVRenderable@2@@Z
 ?BindUniform@Technique@ma@@IAEXPAVRenderable@2@@Z
 ?ClearConstBuffer@Technique@ma@@IAEXW4ShaderType@2@@Z
-?ClearSampler@Technique@ma@@IAEXXZ
 ??0Texture@ma@@QAE@HHIW4PixelFormat@1@_NW4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z
 ?Init@Engine@ma@@QAEXPAX_N11@Z
 ?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBDABUShaderCreateInfo@1@@Z
@@ -265,7 +258,6 @@ EXPORTS
 ?GetUIBufeer@RenderSystem@ma@@QAEPAVParallHardWareBuffer@2@XZ
 ?SetValue@Technique@ma@@QAEXPAVUniform@2@ABVMatrix4@2@@Z
 ?SetValue@Technique@ma@@QAEXPAVUniform@2@ABVVector4@2@@Z
-?GetUniform@Technique@ma@@QAEPAVUniform@2@PBD@Z
 ?GetRTInstaneBuffer@RenderSystem@ma@@QAEPAVParallHardWareBuffer@2@XZ
 ?CreateMemoryStream@ma@@YA?AV?$RefPtr@VMemoryStream@ma@@@1@PBDPAXI_N@Z
 ?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@ABVImageData@1@_N1@Z
@@ -283,3 +275,12 @@ EXPORTS
 ?Render@Renderable@ma@@UAEXPAVTechnique@2@PAVRenderCommand@2@@Z
 ?GetRenderQueue@Scene@ma@@QAEPAVRenderQueue@2@XZ
 ?SetValue@Technique@ma@@QAEXPAVUniform@2@M@Z
+?AddSampler@Technique@ma@@QAEXW4ShaderType@2@PAVUniform@2@@Z
+?GetSamplerCount@Technique@ma@@QAEIW4ShaderType@2@@Z
+?GetSamplerByIndex@Technique@ma@@QAEPAVUniform@2@W4ShaderType@2@I@Z
+?GetActiveSampler@Technique@ma@@QAEPAVSamplerState@2@PAVUniform@2@@Z
+?ClearSampler@Technique@ma@@IAEXW4ShaderType@2@@Z
+?AddSampler@ShaderProgram@ma@@QAEXW4ShaderType@2@PAVUniform@2@@Z
+?GetSamplerCount@ShaderProgram@ma@@QAEIW4ShaderType@2@@Z
+?GetSamplerByIndex@ShaderProgram@ma@@QAEPAVUniform@2@W4ShaderType@2@I@Z
+?GetUniform@Technique@ma@@QAEPAVUniform@2@W4ShaderType@2@PBD@Z

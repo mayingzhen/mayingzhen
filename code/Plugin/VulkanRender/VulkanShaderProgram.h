@@ -19,9 +19,9 @@ namespace ma
 
 		void ParseShaderUniform(ShaderType eType, const vector<uint32_t>& vtx_spv);
 
-		void HlslToSpirv(const char* vshSource, uint32_t vshSize, ShaderType eType, std::vector<uint32_t>& vtx_spv);
+		void HlslToSpirv(const char* vshSource, uint32_t vshSize, const char* funName, ShaderType eType, std::vector<uint32_t>& vtx_spv);
 
-		void CreateShaderMode(const char* shSource, uint32_t shSize, ShaderType type);
+		void CreateShaderMode(const char* shSource, uint32_t shSize, const char* funName, ShaderType type);
 
 		void CreatePipelineLayout();
 

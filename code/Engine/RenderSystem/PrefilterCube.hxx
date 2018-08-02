@@ -38,8 +38,8 @@ namespace ma
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
-				info.m_strVSFile = "PrefilterCopySrc";
-				info.m_strPSFile = "PrefilterCopySrc";
+				info.m_strVSFile = "screen.vert:main";
+				info.m_strPSFile = "PrefilterCube.hlsl:CopySrcPS";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
 				m_pTechnique[face][0] = CreateTechnique("PrefilterCopySrc", info);
@@ -59,8 +59,8 @@ namespace ma
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
-				info.m_strVSFile = "PrefilterCubeSpecular";
-				info.m_strPSFile = "PrefilterCubeSpecular";
+				info.m_strVSFile = "screen.vert:main";
+				info.m_strPSFile = "PrefilterCube.hlsl:PrefilterCubeSpecularPS";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
 				m_pTechnique[face][level] = CreateTechnique("PrefilterCubeSpecular", info);
@@ -79,8 +79,8 @@ namespace ma
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
-				info.m_strVSFile = "PrefilterCubeDiffuse";
-				info.m_strPSFile = "PrefilterCubeDiffuse";
+				info.m_strVSFile = "screen.vert:main";
+				info.m_strPSFile = "PrefilterCube.hlsl:PrefilterCubeDiffusePS";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
 				m_pTechnique[face][m_nOutMipmaps - 1] = CreateTechnique("PrefilterCubeDiffuse", info);

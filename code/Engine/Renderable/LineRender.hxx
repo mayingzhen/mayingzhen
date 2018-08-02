@@ -28,8 +28,8 @@ namespace ma
 		pDSSate->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
         
 		ShaderCreateInfo shaderInfo;
-		shaderInfo.m_strVSFile = "line";
-		shaderInfo.m_strPSFile = "line";
+		shaderInfo.m_strVSFile = "line.hlsl:vs_main";
+		shaderInfo.m_strPSFile = "line.hlsl:ps_main";
 		shaderInfo.m_pVertexDecl = pVertexDec;
 		shaderInfo.m_pDSState = pDSSate;
 		shaderInfo.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();

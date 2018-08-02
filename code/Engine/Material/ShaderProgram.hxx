@@ -32,19 +32,19 @@ namespace ma
         GetRenderSystem()->ShaderStreamComplete(this);
 	}
 
-	void ShaderProgram::AddSampler(Uniform* pUniform)
+	void ShaderProgram::AddSampler(ShaderType eType, Uniform* pUniform)
 	{
-		m_vecPSSamplers.push_back(pUniform);
+		m_vecSamplers[eType].push_back(pUniform);
 	}
 
-	uint32_t ShaderProgram::GetSamplerCount()
+	uint32_t ShaderProgram::GetSamplerCount(ShaderType eType)
 	{
-		return m_vecPSSamplers.size();
+		return m_vecSamplers[eType].size();
 	}
 
-	Uniform* ShaderProgram::GetSamplerByIndex(uint32_t nIndex)
+	Uniform* ShaderProgram::GetSamplerByIndex(ShaderType eType, uint32_t nIndex)
 	{
-		return m_vecPSSamplers[nIndex].get();
+		return m_vecSamplers[eType][nIndex].get();
 	}
 
 	void ShaderProgram::AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer)

@@ -4,7 +4,7 @@ namespace ma
 {
 	Technique::Technique()
 	{
-		memset(m_arrSampler, 0, sizeof(m_arrSampler));
+
 	}
 
 	Technique::~Technique()
@@ -49,19 +49,19 @@ namespace ma
 					BindParametersUniform(pUniform, pMatParam->GetValue());
 				}
 			}
-		}
-		
-		for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
-		{
-			Uniform* pUniform = this->GetSamplerByIndex(i);
-			
-			pUniform->Bind(pRenderable);
 
-			Parameter* pMatParam = GetParameter(pUniform->GetName());
-			if (pMatParam == NULL)
-				continue;
+			for (uint32_t iSmpler = 0; iSmpler < m_vecSamplers[i].size(); ++iSmpler)
+			{
+				Uniform* pUniform = m_vecSamplers[i][iSmpler].get();
 
-			BindParametersUniform(pUniform, pMatParam->GetValue());
+				pUniform->Bind(pRenderable);
+
+				Parameter* pMatParam = GetParameter(pUniform->GetName());
+				if (pMatParam == NULL)
+					continue;
+
+				BindParametersUniform(pUniform, pMatParam->GetValue());
+			}
 		}
 	}
 
@@ -118,11 +118,6 @@ namespace ma
 		{
 			SamplerState* pTexture = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
 			this->SetValue(pUniform,pTexture);
-		}
-		else if (type == typeid(RefPtr<Texture>))
-		{
-			Texture* pTexture = any_cast<RefPtr<Texture>>(&anyValue)->get();
-			this->SetValue(pUniform, pTexture);
 		}
 		else if (type == typeid(RefPtr<UniformAnimation>))
 		{
@@ -361,50 +356,50 @@ namespace ma
 
 	void Technique::SetValue(Uniform* pUniform, int value)
 	{
-		SetValue(pUniform, (const float*)&value, sizeof(int));
+		SetValue(pUniform, (const uint8_t*)&value, sizeof(int));
 	}
 
 	void Technique::SetValue(Uniform* pUniform, float value)
 	{
-		SetValue(pUniform, (const float*)&value, sizeof(float));
+		SetValue(pUniform, (const uint8_t*)&value, sizeof(float));
 	}
 
 	void Technique::SetValue(Uniform* pUniform, const Vector2& value)
 	{
-		SetValue(pUniform, (const float*)&value, sizeof(Vector2));
+		SetValue(pUniform, (const uint8_t*)&value, sizeof(Vector2));
 	}
 
 	void Technique::SetValue(Uniform* pUniform, const Vector3& value)
 	{
-		SetValue(pUniform, (const float*)&value, sizeof(Vector3));
+		SetValue(pUniform, (const uint8_t*)&value, sizeof(Vector3));
 	}
 
 	void Technique::SetValue(Uniform* pUniform, const Vector4& value)
 	{
-		SetValue(pUniform, (const float*)&value, sizeof(Vector4));
+		SetValue(pUniform, (const uint8_t*)&value, sizeof(Vector4));
 	}
 
 	void Technique::SetValue(Uniform* pUniform, const Matrix4& value)
 	{
-		SetValue(pUniform, (const float*)&value, sizeof(Matrix4));
+		SetValue(pUniform, (const uint8_t*)&value, sizeof(Matrix4));
 	}
 
 	void Technique::SetValue(Uniform* pUniform, const Matrix4* values, uint32_t count)
 	{
-		SetValue(pUniform, (const float*)values, sizeof(Matrix4) * count);
+		SetValue(pUniform, (const uint8_t*)values, sizeof(Matrix4) * count);
 	}
 
 	void Technique::SetValue(Uniform* pUniform, const Vector4* values, uint32_t count)
 	{
-		SetValue(pUniform, (const float*)values, sizeof(Vector4) * count);
+		SetValue(pUniform, (const uint8_t*)values, sizeof(Vector4) * count);
 	}
 
 	void Technique::SetValue(Uniform* pUniform, const ColourValue& value)
 	{
-		SetValue(pUniform, (const float*)&value, sizeof(ColourValue));
+		SetValue(pUniform, (const uint8_t*)&value, sizeof(ColourValue));
 	}
 
-	void Technique::SetValue(Uniform* pUniform, const float* values, uint32_t nSize)
+	void Technique::SetValue(Uniform* pUniform, const uint8_t* values, uint32_t nSize)
 	{
 		ASSERT(pUniform);
 		if (pUniform == NULL)
@@ -415,28 +410,10 @@ namespace ma
 		GetRenderSystem()->SetUniformValue(pUniform, values, nSize);
 	}
 
-	void Technique::SetValue(Uniform* pUniform, Texture* pTexture)
-	{
-		if (m_arrSampler[pUniform->GetIndex()] == nullptr)
-		{
-			m_arrSampler[pUniform->GetIndex()] = CreateSamplerState(pTexture);
-		}
-		else if (m_arrSampler[pUniform->GetIndex()]->GetTexture() != pTexture)
-		{
-			m_arrSampler[pUniform->GetIndex()]->SetTexture(pTexture);
-		}
-
-		GetRenderSystem()->SetSampler(pUniform, m_arrSampler[pUniform->GetIndex()].get());
-	}
 
 	void Technique::SetValue(Uniform* pUniform, SamplerState* sampler)
 	{
-		if (m_arrSampler[pUniform->GetIndex()] != sampler)
-		{
-			m_arrSampler[pUniform->GetIndex()] = sampler;
-
-			GetRenderSystem()->SetSampler(pUniform, sampler);
-		}
+		SetActiveSampler(pUniform, sampler);
 	}
 
 	void Technique::AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer)
@@ -462,50 +439,67 @@ namespace ma
 		return m_vecConstBuffer[eType].clear();
 	}
 
-	void Technique::AddSampler(Uniform* pUniform)
+	void Technique::AddSampler(ShaderType eType,Uniform* pUniform)
 	{
-		m_vecPSSamplers.push_back(pUniform);
+		m_vecSamplers[eType].push_back(pUniform);
 	}
 
-	uint32_t Technique::GetSamplerCount()
+	uint32_t Technique::GetSamplerCount(ShaderType eType)
 	{
-		return m_vecPSSamplers.size();
+		return m_vecSamplers[eType].size();
 	}
 
-	Uniform* Technique::GetSamplerByIndex(uint32_t nIndex)
+	Uniform* Technique::GetSamplerByIndex(ShaderType eType,uint32_t nIndex)
 	{
-		return m_vecPSSamplers[nIndex].get();
+		return m_vecSamplers[eType][nIndex].get();
 	}
 
-	void Technique::ClearSampler()
+	void Technique::ClearSampler(ShaderType eType)
 	{
-		m_vecPSSamplers.clear();
+		m_vecSamplers[eType].clear();
 	}
 
-	Uniform* Technique::GetUniform(const char* pszName)
+	SamplerState* Technique::GetActiveSampler(Uniform* pUniform)
 	{
-		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		auto it = m_mapActiceSampler.find(pUniform);
+		if (it == m_mapActiceSampler.end())
+			return nullptr;
+
+		return it->second.get(); 
+	}
+
+	void Technique::SetActiveSampler(Uniform* pUniform, SamplerState* pSampler)
+	{
+		SamplerState* pActive = GetActiveSampler(pUniform);
+		if (pActive == pSampler)
+			return;
+
+		m_mapActiceSampler.insert(std::make_pair(pUniform, pSampler));
+
+		GetRenderSystem()->SetSampler(pUniform, pSampler);
+	}
+
+	Uniform* Technique::GetUniform(ShaderType eType, const char* pszName)
+	{
+		for (uint32_t iCB = 0; iCB < m_vecConstBuffer[eType].size(); ++iCB)
 		{
-			for (uint32_t iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
+			RefPtr<ConstantBuffer>& pCB = m_vecConstBuffer[eType][iCB];
+			for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
 			{
-				RefPtr<ConstantBuffer>& pCB = m_vecConstBuffer[i][iCB];
-				for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
-				{
-					Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
-					if (pUniform == NULL)
-						continue;
+				Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
+				if (pUniform == NULL)
+					continue;
 
-					if (strcmp(pszName, pUniform->GetName()) == 0)
-					{
-						return pUniform;
-					}
+				if (strcmp(pszName, pUniform->GetName()) == 0)
+				{
+					return pUniform;
 				}
 			}
 		}
 
-		for (uint32_t i = 0; i < m_vecPSSamplers.size(); ++i)
+		for (uint32_t iSampler = 0; iSampler < m_vecSamplers[eType].size(); ++iSampler)
 		{
-			Uniform* pUniform = m_vecPSSamplers[i].get();
+			Uniform* pUniform = m_vecSamplers[eType][iSampler].get();
 			if (pUniform == NULL)
 				continue;
 

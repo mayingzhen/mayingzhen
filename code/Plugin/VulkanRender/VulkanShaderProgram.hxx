@@ -175,7 +175,7 @@ namespace ma
 	}
 
 
-	void VulkanShaderProgram::HlslToSpirv(const char* vshSource, uint32_t vshSize, ShaderType eType, std::vector<uint32_t>& vtx_spv)
+	void VulkanShaderProgram::HlslToSpirv(const char* vshSource, uint32_t vshSize, const char* funName, ShaderType eType, std::vector<uint32_t>& vtx_spv)
 	{
 		//VS
 		EShLanguage stage = FindLanguage(eType);
@@ -190,7 +190,7 @@ namespace ma
 
 		shaderStrings[0] = vshSource;
 		shader.setStrings(shaderStrings, 1);
-		shader.setEntryPoint("main");
+		shader.setEntryPoint(funName);
 		shader.setAutoMapBindings(true);
 		shader.setHlslIoMapping(true);
 		shader.setShiftCbufferBinding(m_cbshiftBinding[eType]);
@@ -299,7 +299,7 @@ namespace ma
 		}
 	}
 
-	void VulkanShaderProgram::CreateShaderMode(const char* shSource, uint32_t shSize, ShaderType type)
+	void VulkanShaderProgram::CreateShaderMode(const char* shSource, uint32_t shSize, const char* funName, ShaderType type)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
@@ -310,9 +310,9 @@ namespace ma
 		m_shaderStages[type].pSpecializationInfo = NULL;
 		m_shaderStages[type].flags = 0;
 		m_shaderStages[type].stage = ToVkShader(type);
-		m_shaderStages[type].pName = "main";
+		m_shaderStages[type].pName = funName;
 
-		HlslToSpirv(shSource, shSize, type, vtx_spv);
+		HlslToSpirv(shSource, shSize, funName, type, vtx_spv);
 
 		ParseShaderUniform(type, vtx_spv);
 
@@ -628,7 +628,7 @@ namespace ma
 		pipelineCreateInfo.pViewportState = &vp;
 		pipelineCreateInfo.pDepthStencilState = &pVulkanDS->ds;
 		pipelineCreateInfo.pStages = this->m_shaderStages;
-		pipelineCreateInfo.stageCount = 2;
+		pipelineCreateInfo.stageCount = ShaderType_Number;
 		VulkanRenderPass* pVulkanRenderPass = (VulkanRenderPass*)this->GetRenderPass();
 		pipelineCreateInfo.renderPass = pVulkanRenderPass->m_impl;
 		pipelineCreateInfo.subpass = 0;
@@ -685,7 +685,7 @@ namespace ma
 			RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
 			pUniform->SetIndex(binding - m_texshiftBinding[eType]);
 
-			this->AddSampler(pUniform.get());
+			this->AddSampler(eType, pUniform.get());
 		}
 	}
 
@@ -699,15 +699,31 @@ namespace ma
 
 		const ShaderCreateInfo& info = this->GetShaderCreateInfo();
 
-		std::string strPathVS = strPath + info.m_strVSFile + ".vert";
-		std::string strPathFS = strPath + info.m_strPSFile + ".frag";
+		std::string strVSFunName = "vs_main";
+		std::string strPSFunName = "ps_main";
 
-		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), info.m_shaderMacro.c_str());
-		std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), info.m_shaderMacro.c_str());
+		{
+			std::vector<std::string> vecVSSplit = StringUtil::split(info.m_strVSFile, ":");
+			ASSERT(vecVSSplit.size() == 2);
+			std::string strPathVS = strPath + vecVSSplit[0];
+			strVSFunName = vecVSSplit[1];
 
-		CreateShaderMode(strVshSource.c_str(), strVshSource.length(), VS);
+			std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), info.m_shaderMacro.c_str());
 
-		CreateShaderMode(strFshSource.c_str(), strFshSource.length(), PS);
+			CreateShaderMode(strVshSource.c_str(), strVshSource.length(), strVSFunName.c_str(), VS);
+		}
+
+		{
+			std::vector<std::string> vecPSSplit = StringUtil::split(info.m_strPSFile, ":");
+			ASSERT(vecPSSplit.size() == 2);
+			std::string strPathPS = strPath + vecPSSplit[0];
+			strPSFunName = vecPSSplit[1];
+
+			std::string strPshSource = PrePareShaderSource(strPathPS.c_str(), info.m_shaderMacro.c_str());
+
+			CreateShaderMode(strPshSource.c_str(), strPshSource.length(), strPSFunName.c_str(), PS);
+		}
+		
 
 		CreatePipelineLayout();
 

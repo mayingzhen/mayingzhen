@@ -6,18 +6,21 @@ namespace ma
 	void SkinMeshRenderable::PreRender(Technique* pTech)
 	{
  		pTech->Bind(this);
+		
+		Uniform* pUniformBoneDQ = pTech->GetUniform(VS, "boneDQ");
+		Uniform* pUniformBoneMatrix = pTech->GetUniform(VS, "boneMatrix");
 
-		if (pTech->GetUniform("boneDQ"))
+		if (pUniformBoneDQ)
 		{
 			const DualQuaternion* pDQ = GetSkinDQ();
 			uint32_t nNumDQ = GetSkinDQCount();	
-			pTech->SetValue(pTech->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumDQ * 2 );
+			pTech->SetValue(pUniformBoneDQ, (const Vector4*)pDQ, nNumDQ * 2 );
 		}
 		else
 		{
 			const Matrix3x4* pMatrix = GetSkinMatrix();
 			uint32_t nNumMatrix = GetSkinMatrixCount();
-			pTech->SetValue(pTech->GetUniform("boneMatrix"), (const Vector4*)pMatrix, nNumMatrix * 3 );
+			pTech->SetValue(pUniformBoneMatrix, (const Vector4*)pMatrix, nNumMatrix * 3 );
 		}
 	}
 

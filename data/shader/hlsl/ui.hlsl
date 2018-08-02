@@ -1,13 +1,13 @@
 cbuffer vertexBuffer : register(b0) 
 {
-    float4x4 ProjectionMatrix; 
+    float4 uScaleTranslate;
 };
 
 struct VS_INPUT
 {
     float2 pos : POSITION;
+	float2 uv  : TEXCOORD0;
     float4 col : COLOR0;
-    float2 uv  : TEXCOORD0;
 };
             
 struct PS_INPUT
@@ -20,7 +20,7 @@ struct PS_INPUT
 PS_INPUT vs_main(VS_INPUT input)
 {
     PS_INPUT output;
-    output.pos = mul( ProjectionMatrix, float4(input.pos.xy, 0.f, 1.f));
+    output.pos = float4(input.pos.xy * uScaleTranslate.xy + uScaleTranslate.zw, 0.0, 1.0);
     output.col = input.col;
     output.uv  = input.uv;
     return output;

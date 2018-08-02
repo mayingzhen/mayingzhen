@@ -62,9 +62,9 @@ namespace ma
 		uint32_t			GetConstBufferCount(ShaderType eType);
 		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType,uint32_t nIndex);
 
-		void				AddSampler(Uniform* pUniform);
-		uint32_t			GetSamplerCount();
-		Uniform*			GetSamplerByIndex(uint32_t nIndex);
+		void				AddSampler(ShaderType eType, Uniform* pUniform);
+		uint32_t			GetSamplerCount(ShaderType eType);
+		Uniform*			GetSamplerByIndex(ShaderType eType, uint32_t nIndex);
 
 		virtual void		RT_StreamComplete() = 0;
 
@@ -75,7 +75,7 @@ namespace ma
 		VEC_CONSTBUFFER		m_vecConstBuffer[ShaderType_Number];
 
 		typedef std::vector< RefPtr<Uniform> > VEC_UNIFORM;
-		VEC_UNIFORM			m_vecPSSamplers;
+		VEC_UNIFORM			m_vecSamplers[ShaderType_Number];
 	};
 
 	RefPtr<ShaderProgram> CreateShaderProgram(const ShaderCreateInfo& createInfo);

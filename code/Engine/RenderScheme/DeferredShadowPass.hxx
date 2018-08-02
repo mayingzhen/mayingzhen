@@ -183,13 +183,13 @@ namespace ma
 
 			//ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
 
-			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisX"),shadowMapFru.m_vWBasisX);
-			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisY"),shadowMapFru.m_vWBasisY);
-			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
-			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoCamPos"),shadowMapFru.m_vShadowCamPos);
-			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
-			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
-			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
+// 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisX"),shadowMapFru.m_vWBasisX);
+// 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisY"),shadowMapFru.m_vWBasisY);
+// 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
+// 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoCamPos"),shadowMapFru.m_vShadowCamPos);
+// 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
+// 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
+// 			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
 			//ScreenQuad::Render(m_pDefferedShadow.get());
 		}
@@ -209,13 +209,13 @@ namespace ma
 // 			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
 // 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
 
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisX"), shadowMapNextFru.m_vWBasisX);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisY"), shadowMapNextFru.m_vWBasisY);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisZ"), shadowMapNextFru.m_vWBasisZ);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoCamPos"), shadowMapNextFru.m_vShadowCamPos);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_vNextViewPosVecLS"), shadowMapNextFru.m_viewPosVecLS);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("NextkernelRadius"),shadowMapNextFru.m_vkernelRadius);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tNextShadowMap"),shadowMapNextFru.GetShadowMap());
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisX"), shadowMapNextFru.m_vWBasisX);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisY"), shadowMapNextFru.m_vWBasisY);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisZ"), shadowMapNextFru.m_vWBasisZ);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoCamPos"), shadowMapNextFru.m_vShadowCamPos);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_vNextViewPosVecLS"), shadowMapNextFru.m_viewPosVecLS);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("NextkernelRadius"),shadowMapNextFru.m_vkernelRadius);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tNextShadowMap"),shadowMapNextFru.GetShadowMap());
 
 			float fNextSize = (float)shadowMapNextFru.GetShadowMap()->GetTexture()->GetWidth();
 			Vector4 vNextshadowMapTexelSize(fNextSize, 1.0f / fNextSize, 0, 0);
@@ -224,13 +224,13 @@ namespace ma
 			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("BlendInfo"), vBlendInfo);
 
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisX"), shadowMapFru.m_vWBasisX);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisY"), shadowMapFru.m_vWBasisY);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisZ"), shadowMapFru.m_vWBasisZ);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoCamPos"), shadowMapFru.m_vShadowCamPos);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisX"), shadowMapFru.m_vWBasisX);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisY"), shadowMapFru.m_vWBasisY);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisZ"), shadowMapFru.m_vWBasisZ);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoCamPos"), shadowMapFru.m_vShadowCamPos);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
+// 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
 			//ScreenQuad::Render(m_pDefferedShadow.get());
 		}

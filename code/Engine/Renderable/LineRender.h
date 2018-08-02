@@ -1,5 +1,4 @@
-#ifndef  _LineRender__H__
-#define  _LineRender__H__
+#pragma once
 
 namespace ma
 {
@@ -30,4 +29,4 @@ namespace ma
 
 }
 
-#endif
+

@@ -59,8 +59,8 @@ namespace ma
             RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 5);
             
 			ShaderCreateInfo info;
-			info.m_strVSFile = "mesh";
-			info.m_strPSFile = "mesh";
+			info.m_strVSFile = "mesh.hlsl:vs_main";
+			info.m_strPSFile = "mesh.hlsl:ps_main";
 			info.m_pVertexDecl = pDeclaration;
 			info.m_shaderMacro = strMacro;
 			info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
@@ -77,8 +77,8 @@ namespace ma
             RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vec_element.data(), vec_element.size());
             
 			ShaderCreateInfo info;
-			info.m_strVSFile = "mesh";
-			info.m_strPSFile = "mesh";
+			info.m_strVSFile = "mesh.hlsl:vs_main";
+			info.m_strPSFile = "mesh.hlsl:ps_main";
 			info.m_pVertexDecl = pDeclaration;
 			info.m_shaderMacro = strMacro;
 			info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();

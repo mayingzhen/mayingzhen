@@ -56,8 +56,8 @@ namespace ma
 		pRastate->m_eCullMode = CULL_FACE_SIDE_NONE;
 
 		ShaderCreateInfo info;
-		info.m_strVSFile = "ui";
-		info.m_strPSFile = "ui";
+		info.m_strVSFile = "ui.hlsl:vs_main";
+		info.m_strPSFile = "ui.hlsl:ps_main";
 		info.m_pVertexDecl = pDeclaration;
 		info.m_pBlendState = pBlendState;
 		info.m_pRSState = pRastate;
@@ -142,10 +142,10 @@ namespace ma
 			vScaleTrans.z = -1.0f - draw_data->DisplayPos.x * vScaleTrans.x;
 			vScaleTrans.w = -1.0f - draw_data->DisplayPos.y * vScaleTrans.y;
 
-			m_pTechUI->SetValue(m_pTechUI->GetUniform("uScaleTranslate"), vScaleTrans);
+			m_pTechUI->SetValue(m_pTechUI->GetUniform(VS,"uScaleTranslate"), vScaleTrans);
 		}
 
-		m_pTechUI->SetValue(m_pTechUI->GetUniform("texture0"), m_pFontSampler.get());
+		m_pTechUI->SetValue(m_pTechUI->GetUniform(PS,"texture0"), m_pFontSampler.get());
 
 		uint32_t nUsedCount = 0;
 		

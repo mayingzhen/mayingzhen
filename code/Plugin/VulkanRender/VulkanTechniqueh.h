@@ -19,9 +19,9 @@ namespace ma
 
 	private:
 		
-		void				UpdateUniformDescriptorSets();
+		void				UpdateUniformDescriptorSets(ShaderType eType);
 
-		void				UpdateSamplerDescriptorSets();
+		void				UpdateSamplerDescriptorSets(ShaderType eType);
 
 	public:
 

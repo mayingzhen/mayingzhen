@@ -19,9 +19,9 @@ namespace ma
 
 		gFilterCube.Init("env.dds");
 
-		//RefPtr<SceneNode> pSkyBoxNode = m_pScene->CreateSceneNode();
-		//RefPtr<SkyBox> pSkyBox = pSkyBoxNode->CreateComponent<SkyBox>();
-		//pSkyBox->SetCubeMap("env.dds");
+		RefPtr<SceneNode> pSkyBoxNode = m_pScene->CreateSceneNode();
+		RefPtr<SkyBox> pSkyBox = pSkyBoxNode->CreateComponent<SkyBox>();
+		pSkyBox->SetCubeMap("env.dds");
 
 		RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 
@@ -53,10 +53,10 @@ namespace ma
 
 		pSubMaterial->SetParameter("u_diff_spec_mip", Any(u_diff_spec_mip));
 		
-		Uniform* pUniformMetal = pTech->GetUniform("u_metalness");
+		Uniform* pUniformMetal = pTech->GetUniform(PS,"u_metalness");
 		pUniformMetal->SetMethodBinding( new MethodFunBinding<float>( [this](Renderable*){ return m_fMetalness; } ) );
 
-		Uniform* pUniformGloss = pTech->GetUniform("u_glossiness");
+		Uniform* pUniformGloss = pTech->GetUniform(PS, "u_glossiness");
 		pUniformGloss->SetMethodBinding(new MethodFunBinding<float>( [this](Renderable*){ return m_fGlossiness; } ) );
 
 		pMeshComp->SetMaterial(pMaterialInst.get());
@@ -76,9 +76,6 @@ namespace ma
 		GetUI()->SliderFloat("Glossiness", &m_fGlossiness, 0.0f, 1.0f);
 		//GetUI()->ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 		GetUI()->End();
-
-// 		m_pMaterial->SetParameter("u_metalness", Any(m_fMetalness));
-// 		m_pMaterial->SetParameter("u_glossiness", Any(m_fGlossiness));
 	}
 
 	void SampleIBL::PreRender()

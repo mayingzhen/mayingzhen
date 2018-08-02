@@ -59,20 +59,21 @@ namespace ma
 		void				SetValue(Uniform* pUniform, const Matrix4* values, uint32_t count);
 		void				SetValue(Uniform* pUniform, const Vector4* values, uint32_t count);
 		void				SetValue(Uniform* pUniform, const ColourValue& value);
-		void				SetValue(Uniform* pUniform, Texture* pTexture);
 		void				SetValue(Uniform* pUniform, SamplerState* sampler);
+		void				SetValue(Uniform* uniform, const uint8_t* values, uint32_t nSize);
 
-		Uniform*			GetUniform(const char* pszName);
+		Uniform*			GetUniform(ShaderType eType, const char* pszName);
 
 		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
 		uint32_t			GetConstBufferCount(ShaderType eType);
 		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, uint32_t nIndex);
 
-		void				AddSampler(Uniform* pUniform);
-		uint32_t			GetSamplerCount();
-		Uniform*			GetSamplerByIndex(uint32_t nIndex);
+		void				AddSampler(ShaderType eType, Uniform* pUniform);
+		uint32_t			GetSamplerCount(ShaderType eType);
+		Uniform*			GetSamplerByIndex(ShaderType eType, uint32_t nIndex);
 		
-		SamplerState*		GetActiveSampler(uint32_t nIndex) { return m_arrSampler[nIndex].get(); }
+		void				SetActiveSampler(Uniform* pUniform, SamplerState* pSampler);
+		SamplerState*		GetActiveSampler(Uniform* pUniform);
 
 		RefPtr<Technique>	CreateInstTech();
 
@@ -88,11 +89,9 @@ namespace ma
 
 		void				BindParametersUniform(Uniform* pUniform,const Any& anyValue);
 
-		void				SetValue(Uniform* uniform, const float* values, uint32_t nSize);
-
 		void				ClearConstBuffer(ShaderType eType);
 
-		void				ClearSampler();
+		void				ClearSampler(ShaderType eType);
 
 	private:
 		std::string						m_stName;
@@ -107,9 +106,11 @@ namespace ma
 		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
 		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
 
-		std::vector< RefPtr<Uniform> >  m_vecPSSamplers;
+		typedef std::vector< RefPtr<Uniform> > VEC_SAMPLER;
+		VEC_SAMPLER						m_vecSamplers[ShaderType_Number];
 
-		RefPtr<SamplerState>			m_arrSampler[MAX_TEXTURE_UNITS];
+		typedef std::map<Uniform*, RefPtr<SamplerState> > MAP_ACTIVESAMPLER;
+		MAP_ACTIVESAMPLER				m_mapActiceSampler;
 	};
 	
 	RefPtr<Technique> CreateTechnique();
