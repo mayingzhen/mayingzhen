@@ -102,15 +102,14 @@ namespace ma
 		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
 		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
 
-		if (m_prePipeline != pVulkanShader->m_pipeline)
+		if (m_prePipeline != pVulkanShader->m_graphicPip._Pipeline)
 		{
-			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_pipeline);
+			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_graphicPip._Pipeline);
 		
-			m_prePipeline = pVulkanShader->m_pipeline;
+			m_prePipeline = pVulkanShader->m_graphicPip._Pipeline;
 		}
 		
-
-		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_pipelineLayout, 0,
+		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_graphicPip._Layout, 0,
 			1, &pVulkanTech->m_descriptorSet, 0, NULL);
 	}
 
@@ -132,6 +131,72 @@ namespace ma
 			vecScissor[i] = scissor;
 		}
 		vkCmdSetScissor(m_vkCmdBuffer, firstScissor, scissorCount, &vecScissor[0]);
+	}
+
+
+	VulkanComputeCommad::VulkanComputeCommad()
+	{
+
+	}
+
+	VulkanComputeCommad::~VulkanComputeCommad()
+	{
+
+	}
+
+	void VulkanComputeCommad::Create(uint32_t queueFamilyIndex)
+	{
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
+
+		// Separate command pool as queue family for compute may be different than graphics
+		VkCommandPoolCreateInfo cmdPoolInfo = {};
+		cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+		cmdPoolInfo.queueFamilyIndex = vulkanDevice->queueFamilyIndices.compute;
+		cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+		VK_CHECK_RESULT(vkCreateCommandPool(vulkanDevice->logicalDevice, &cmdPoolInfo, nullptr, &m_vkCmdPool));
+
+		// Create a command buffer for compute operations
+		VkCommandBufferAllocateInfo cmdBufAllocateInfo =
+			vks::initializers::commandBufferAllocateInfo(
+				m_vkCmdPool,
+				VK_COMMAND_BUFFER_LEVEL_SECONDARY,
+				1);
+
+		VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, &m_vkCmdBuffer));
+
+	}
+
+	void VulkanComputeCommad::Begin()
+	{
+		VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
+
+		VK_CHECK_RESULT(vkBeginCommandBuffer(m_vkCmdBuffer, &cmdBufInfo));
+	}
+
+	void VulkanComputeCommad::End()
+	{
+		VK_CHECK_RESULT(vkEndCommandBuffer(m_vkCmdBuffer));
+	}
+
+	void VulkanComputeCommad::SetTechnique(Technique* pTech)
+	{
+		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
+		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
+
+		if (m_prePipeline != pVulkanShader->m_computePip._Pipeline)
+		{
+			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_computePip._Pipeline);
+
+			m_prePipeline = pVulkanShader->m_computePip._Pipeline;
+		}
+
+		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_computePip._Layout, 0,
+			1, &pVulkanTech->m_descriptorSet, 0, NULL);
+	}
+
+	void VulkanComputeCommad::Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
+	{
+		vkCmdDispatch(m_vkCmdBuffer, groupCountX, groupCountY, groupCountZ);
 	}
 
 }

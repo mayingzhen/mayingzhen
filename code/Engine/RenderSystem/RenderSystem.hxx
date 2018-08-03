@@ -299,6 +299,11 @@ namespace ma
 		m_pRenderThread->RC_SetSampler(pUniform, pSampler);
 	}
 
+	void RenderSystem::SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+	{
+		m_pRenderThread->RC_SetStorageBuffer(pUniform, pBuffer);
+	}
+
 	void RenderSystem::BeginProfile(const char* pszLale)
 	{
 		m_pRenderThread->RC_BeginProfile(pszLale);

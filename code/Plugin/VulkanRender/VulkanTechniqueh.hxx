@@ -111,6 +111,11 @@ namespace ma
 		}
 	}
 
+	void VulkanTechnique::RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+	{
+		UpdateComputeDescriptorSets(pBuffer);
+	}
+
 	void VulkanTechnique::UpdateUniformDescriptorSets(ShaderType eType)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
@@ -202,6 +207,27 @@ namespace ma
 
 			vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 		}
+	}
+
+	void VulkanTechnique::UpdateComputeDescriptorSets(HardwareBuffer* pBuffer)
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		VulkanVertexBuffer* pVKBuffer = dynamic_cast<VulkanVertexBuffer*>(pBuffer);
+		if (pVKBuffer == nullptr)
+			return;
+
+		vks::Buffer storageBuffer = pVKBuffer->m_vertexBuffer;
+		std::vector<VkWriteDescriptorSet> computeWriteDescriptorSets =
+		{
+			vks::initializers::writeDescriptorSet(
+				m_descriptorSet,
+				VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+				0,
+				&storageBuffer.descriptor)
+		};
+
+		vkUpdateDescriptorSets(device->logicalDevice, static_cast<uint32_t>(computeWriteDescriptorSets.size()), computeWriteDescriptorSets.data(), 0, NULL);
 	}
 }
 

@@ -479,6 +479,11 @@ namespace ma
 		GetRenderSystem()->SetSampler(pUniform, pSampler);
 	}
 
+	void Technique::SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+	{
+		GetRenderSystem()->SetStorageBuffer(pUniform, pBuffer);
+	}
+
 	Uniform* Technique::GetUniform(ShaderType eType, const char* pszName)
 	{
 		for (uint32_t iCB = 0; iCB < m_vecConstBuffer[eType].size(); ++iCB)

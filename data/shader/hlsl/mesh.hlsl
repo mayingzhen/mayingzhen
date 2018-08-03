@@ -3,8 +3,7 @@
 #include "lighting.h"
 
 #if USING_SHADOW != 0
-#include"shadowMap_vs.h"
-#include"shadowMap_ps.h"
+#include"shadowMap.h"
 #endif
 
 #ifdef DEFERREDSHADING 

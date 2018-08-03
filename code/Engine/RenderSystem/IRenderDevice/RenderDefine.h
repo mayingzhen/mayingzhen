@@ -301,6 +301,7 @@ namespace ma
 	{
 		VS = 0,
 		PS,
+		CS,
 		ShaderType_Number,
 	};
 

@@ -36,14 +36,14 @@ namespace ma
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
-		if (m_pipeline)
+		if (m_graphicPip._Pipeline)
 		{
-			vkDestroyPipeline(device->logicalDevice, m_pipeline, NULL);
+			vkDestroyPipeline(device->logicalDevice, m_graphicPip._Pipeline, NULL);
 		}
 
-		if (m_pipelineCache)
+		if (m_graphicPip._Cache)
 		{
-			vkDestroyPipelineCache(device->logicalDevice, m_pipelineCache, NULL);
+			vkDestroyPipelineCache(device->logicalDevice, m_graphicPip._Cache, NULL);
 		}
 
 		if (m_desc_pool)
@@ -153,23 +153,12 @@ namespace ma
 		{
 		case VS:
 			return EShLangVertex;
-
-			// 		case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:
-			// 			return EShLangTessControl;
-			// 
-			// 		case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
-			// 			return EShLangTessEvaluation;
-			// 
-			// 		case VK_SHADER_STAGE_GEOMETRY_BIT:
-			// 			return EShLangGeometry;
-
 		case PS:
 			return EShLangFragment;
-
-			// 		case VK_SHADER_STAGE_COMPUTE_BIT:
-			// 			return EShLangCompute;
-
+		case CS:
+			return EShLangCompute;
 		default:
+			ASSERT(false);
 			return EShLangVertex;
 		}
 	}
@@ -292,6 +281,10 @@ namespace ma
 		{
 			return VK_SHADER_STAGE_FRAGMENT_BIT;
 		}
+		else if (type == CS)
+		{
+			return VK_SHADER_STAGE_COMPUTE_BIT;
+		}
 		else
 		{
 			ASSERT(false);
@@ -299,8 +292,19 @@ namespace ma
 		}
 	}
 
-	void VulkanShaderProgram::CreateShaderMode(const char* shSource, uint32_t shSize, const char* funName, ShaderType type)
+	void VulkanShaderProgram::CreateShaderMode(const std::string& shaderFile, ShaderType type)
 	{
+		std::string strPath = GetRenderSystem()->GetShaderPath();
+
+		const ShaderCreateInfo& info = this->GetShaderCreateInfo();
+
+		std::vector<std::string> vecSplit = StringUtil::split(shaderFile, ":");
+		ASSERT(vecSplit.size() == 2);
+		std::string strPathFile = strPath + vecSplit[0];
+		m_strFunName[type] = vecSplit[1];
+
+		std::string strSource = PrePareShaderSource(strPathFile.c_str(), info.m_shaderMacro.c_str());
+
 		vks::VulkanDevice* device = GetVulkanDevice();
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
@@ -310,9 +314,9 @@ namespace ma
 		m_shaderStages[type].pSpecializationInfo = NULL;
 		m_shaderStages[type].flags = 0;
 		m_shaderStages[type].stage = ToVkShader(type);
-		m_shaderStages[type].pName = funName;
+		m_shaderStages[type].pName = m_strFunName[type].c_str();
 
-		HlslToSpirv(shSource, shSize, funName, type, vtx_spv);
+		HlslToSpirv(strSource.c_str(), strSource.length(), m_strFunName[type].c_str(), type, vtx_spv);
 
 		ParseShaderUniform(type, vtx_spv);
 
@@ -463,7 +467,7 @@ namespace ma
 		pPipelineLayoutCreateInfo.setLayoutCount = 1;
 		pPipelineLayoutCreateInfo.pSetLayouts = &m_desc_layout;
 
-		VK_CHECK_RESULT(vkCreatePipelineLayout(device->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout));
+		VK_CHECK_RESULT(vkCreatePipelineLayout(device->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_graphicPip._Layout));
 	}
 
 	void VulkanShaderProgram::CreatePipelineCache()
@@ -476,7 +480,7 @@ namespace ma
 		pipelineCache.initialDataSize = 0;
 		pipelineCache.pInitialData = NULL;
 		pipelineCache.flags = 0;
-		VK_CHECK_RESULT(vkCreatePipelineCache(device->logicalDevice, &pipelineCache, NULL, &m_pipelineCache));
+		VK_CHECK_RESULT(vkCreatePipelineCache(device->logicalDevice, &pipelineCache, NULL, &m_graphicPip._Cache));
 	}
 
 	void VulkanShaderProgram::CreateDescriptorPool()
@@ -505,7 +509,7 @@ namespace ma
 	}
 
 
-	void VulkanShaderProgram::CreatePipeline()
+	void VulkanShaderProgram::CreateGraphicsPipeline()
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -614,7 +618,7 @@ namespace ma
 		VkGraphicsPipelineCreateInfo pipelineCreateInfo;
 		pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 		pipelineCreateInfo.pNext = NULL;
-		pipelineCreateInfo.layout = m_pipelineLayout;
+		pipelineCreateInfo.layout = m_graphicPip._Layout;
 		pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 		pipelineCreateInfo.basePipelineIndex = 0;
 		pipelineCreateInfo.flags = 0;
@@ -628,12 +632,30 @@ namespace ma
 		pipelineCreateInfo.pViewportState = &vp;
 		pipelineCreateInfo.pDepthStencilState = &pVulkanDS->ds;
 		pipelineCreateInfo.pStages = this->m_shaderStages;
-		pipelineCreateInfo.stageCount = ShaderType_Number;
-		VulkanRenderPass* pVulkanRenderPass = (VulkanRenderPass*)this->GetRenderPass();
+		pipelineCreateInfo.stageCount = ShaderType_Number -1; // vs + ps
+ 		VulkanRenderPass* pVulkanRenderPass = (VulkanRenderPass*)this->GetRenderPass();
 		pipelineCreateInfo.renderPass = pVulkanRenderPass->m_impl;
 		pipelineCreateInfo.subpass = 0;
 
-		VK_CHECK_RESULT(vkCreateGraphicsPipelines(device->logicalDevice, m_pipelineCache, 1, &pipelineCreateInfo, NULL, &m_pipeline));
+		VK_CHECK_RESULT(vkCreateGraphicsPipelines(device->logicalDevice, m_graphicPip._Cache, 1, &pipelineCreateInfo, NULL, &m_graphicPip._Pipeline));
+	}
+
+	void VulkanShaderProgram::CreateComputePipeline()
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		VkPipelineCacheCreateInfo pipelineCache;
+		pipelineCache.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+		pipelineCache.pNext = NULL;
+		pipelineCache.initialDataSize = 0;
+		pipelineCache.pInitialData = NULL;
+		pipelineCache.flags = 0;
+		VK_CHECK_RESULT(vkCreatePipelineCache(device->logicalDevice, &pipelineCache, NULL, &m_computePip._Cache));
+
+		// Create pipeline		
+		VkComputePipelineCreateInfo computePipelineCreateInfo = vks::initializers::computePipelineCreateInfo(m_computePip._Layout, 0);
+		computePipelineCreateInfo.stage = this->m_shaderStages[CS];
+		VK_CHECK_RESULT(vkCreateComputePipelines(device->logicalDevice, m_computePip._Cache, 1, &computePipelineCreateInfo, nullptr, &m_computePip._Pipeline));
 	}
 
 
@@ -695,35 +717,11 @@ namespace ma
 
 		Destory();
 
-		std::string strPath = GetRenderSystem()->GetShaderPath();
-
 		const ShaderCreateInfo& info = this->GetShaderCreateInfo();
 
-		std::string strVSFunName = "vs_main";
-		std::string strPSFunName = "ps_main";
+		CreateShaderMode(info.m_strVSFile, VS);
 
-		{
-			std::vector<std::string> vecVSSplit = StringUtil::split(info.m_strVSFile, ":");
-			ASSERT(vecVSSplit.size() == 2);
-			std::string strPathVS = strPath + vecVSSplit[0];
-			strVSFunName = vecVSSplit[1];
-
-			std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), info.m_shaderMacro.c_str());
-
-			CreateShaderMode(strVshSource.c_str(), strVshSource.length(), strVSFunName.c_str(), VS);
-		}
-
-		{
-			std::vector<std::string> vecPSSplit = StringUtil::split(info.m_strPSFile, ":");
-			ASSERT(vecPSSplit.size() == 2);
-			std::string strPathPS = strPath + vecPSSplit[0];
-			strPSFunName = vecPSSplit[1];
-
-			std::string strPshSource = PrePareShaderSource(strPathPS.c_str(), info.m_shaderMacro.c_str());
-
-			CreateShaderMode(strPshSource.c_str(), strPshSource.length(), strPSFunName.c_str(), PS);
-		}
-		
+		CreateShaderMode(info.m_strPSFile, PS);
 
 		CreatePipelineLayout();
 
@@ -731,7 +729,14 @@ namespace ma
 
 		CreateDescriptorPool();
 
-		CreatePipeline();
+		CreateGraphicsPipeline();
+
+		if (!info.m_strCSFile.empty())
+		{
+			CreateShaderMode(info.m_strCSFile, CS);
+		
+			CreateComputePipeline();
+		}
 
 		SetResState(ResInited);
 	}

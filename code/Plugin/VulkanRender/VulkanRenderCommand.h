@@ -45,7 +45,31 @@ namespace ma
 		VkPipeline m_prePipeline;
 	};
 
+	class VulkanComputeCommad : public ComputeCommad
+	{
+	public:
 
+		VulkanComputeCommad();
+
+		~VulkanComputeCommad();
+
+		void Create(uint32_t queueFamilyIndex);
+
+		virtual	void Begin();
+
+		virtual void End();
+
+		virtual void SetTechnique(Technique* pTech);
+
+		virtual void Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
+
+	private:
+		VkCommandBuffer m_vkCmdBuffer;
+		VkCommandPool m_vkCmdPool;
+
+		VkPipeline m_prePipeline;
+	};
 }
+
 
 

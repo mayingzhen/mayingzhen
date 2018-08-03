@@ -62,6 +62,7 @@ namespace ma
 
 		void				SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);
 		void				SetSampler(Uniform* pUniform, SamplerState* pSampler);
+		void				SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
 
 		void				BeginProfile(const char* pszLale);
 		void				EndProfile();

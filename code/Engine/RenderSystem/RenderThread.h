@@ -33,11 +33,19 @@ namespace ma
 
 		eRC_SetUniformValue,
 		eRC_SetSampler,
+		eRC_SetStorageBuffer,
 		
 		eRC_SetPoolId,
 
 		eRC_BeginProfile,
 		eRC_EndProfile,
+	};
+
+	struct RenderCommad : public Referenced
+	{
+		std::function<void()> m_funtion;
+
+		virtual void Do() { m_funtion(); }
 	};
 
 
@@ -54,8 +62,6 @@ namespace ma
 		void	WaitFlushCond();
 		void	WaitFlushFinishedCond();
 		bool	CheckFlushCond();
-
-		bool	IsFailed();
 
 		// Command
 		void	AddCommand(ERenderCommand eRC);
@@ -113,11 +119,15 @@ namespace ma
 		
 		void	RC_SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);
 		void	RC_SetSampler(Uniform* pUniform, SamplerState* pSampler);
+		void	RC_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
 
 		void	RC_SetPoolId(uint32_t poolId);
 
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();
+
+		//void    RC_AddRenderCommad(std::function<void()> fun);
+		//void    RC_AddRenderCommad(RenderCommad* pCommad);
 
 	private:
 		bool			m_bMultithread;
@@ -135,6 +145,8 @@ namespace ma
 		std::thread		m_thread;
 
 		bool			m_bExit = false;
+
+		//std::vector< RefPtr<RenderCommad> > m_vecCommand[2];
 	};
     
     

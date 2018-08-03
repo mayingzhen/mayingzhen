@@ -25,6 +25,7 @@
 #include "Samples/Render/SampleShadowMap.hxx"
 #include "Samples/Render/SampleMaterial.hxx"
 #include "Samples/Render/SampleIBL.hxx"
+#include "Samples/Render/SampleComputeShader.hxx"
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
 // #include "Samples/Physics/SampleRigidBody.hxx"
 // #include "Samples/Physics/SampleCharaControl.hxx"
@@ -34,6 +35,7 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Animation/SampleAnimationIK.hxx"
+
 
 
 namespace ma
@@ -204,6 +206,10 @@ namespace ma
 		else if(strcmp(pSample,"SampleMaterial") == 0)
 		{
 			m_pCurSample = new SampleMaterial();
+		}
+		else if (strcmp(pSample, "SampleComputeShader") == 0)
+		{
+			m_pCurSample = new SampleComputeShader();
 		}
 		else if(strcmp(pSample,"SampleIBL") == 0)
 		{

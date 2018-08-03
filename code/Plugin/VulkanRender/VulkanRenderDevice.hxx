@@ -249,6 +249,35 @@ namespace ma
 
 		VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, &m_drawCmdBuffers));
 
+		if (1)
+		{
+			// Create a compute capable device queue
+			// The VulkanDevice::createLogicalDevice functions finds a compute capable queue and prefers queue families that only support compute
+			// Depending on the implementation this may result in different queue family indices for graphics and computes,
+			// requiring proper synchronization (see the memory barriers in buildComputeCommandBuffer)
+			vkGetDeviceQueue(vulkanDevice->logicalDevice, vulkanDevice->queueFamilyIndices.compute, 0, &m_computeQueue);
+
+			// Separate command pool as queue family for compute may be different than graphics
+			VkCommandPoolCreateInfo cmdPoolInfo = {};
+			cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+			cmdPoolInfo.queueFamilyIndex = vulkanDevice->queueFamilyIndices.compute;
+			cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+			VK_CHECK_RESULT(vkCreateCommandPool(vulkanDevice->logicalDevice, &cmdPoolInfo, nullptr, &m_vkComputeCmdPool));
+
+			// Create a command buffer for compute operations
+			VkCommandBufferAllocateInfo cmdBufAllocateInfo =
+				vks::initializers::commandBufferAllocateInfo(
+					m_vkComputeCmdPool,
+					VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+					1);
+
+			VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, &m_vkComputeCmdBuffer));
+
+			// Fence for compute CB sync
+			VkFenceCreateInfo fenceCreateInfo = vks::initializers::fenceCreateInfo(VK_FENCE_CREATE_SIGNALED_BIT);
+			VK_CHECK_RESULT(vkCreateFence(vulkanDevice->logicalDevice, &fenceCreateInfo, nullptr, &m_computeFence));
+		}
+
 		vks::debugmarker::setup(vulkanDevice->logicalDevice);
 
 		m_depthFormat = VK_FORMAT_D24_UNORM_S8_UINT;
@@ -439,8 +468,32 @@ namespace ma
 		return true;
 	}
 
+	void VulkanRenderDevice::BegineCompute()
+	{
+		VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
+
+		VK_CHECK_RESULT(vkBeginCommandBuffer(m_vkComputeCmdBuffer, &cmdBufInfo));
+	}
+
+	void VulkanRenderDevice::EndCompute()
+	{
+		VK_CHECK_RESULT(vkEndCommandBuffer(m_vkComputeCmdBuffer));
+
+		VkSubmitInfo computeSubmitInfo = vks::initializers::submitInfo();
+		computeSubmitInfo.commandBufferCount = 1;
+		computeSubmitInfo.pCommandBuffers = &m_vkComputeCmdBuffer;
+
+		VK_CHECK_RESULT(vkQueueSubmit(m_computeQueue, 1, &computeSubmitInfo, m_computeFence));
+
+		// Submit compute commands
+		vkWaitForFences(vulkanDevice->logicalDevice, 1, &m_computeFence, VK_TRUE, UINT64_MAX);
+		vkResetFences(vulkanDevice->logicalDevice, 1, &m_computeFence);
+	}
+
 	void VulkanRenderDevice::BeginRender()
 	{
+		BegineCompute();
+
 		// Acquire the next image from the swap chain
 		VkResult res = m_swapChain.acquireNextImage(m_presentComplete, &m_currentBuffer);
 		assert(res == VK_SUCCESS);
@@ -459,6 +512,8 @@ namespace ma
 
 	void VulkanRenderDevice::EndRender()
 	{
+		EndCompute();
+
 		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers));
 
 		// Command buffer to be sumitted to the queue

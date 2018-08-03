@@ -49,6 +49,9 @@ namespace ma
 		virtual	bool				Rest();
 		virtual void				BeginRender();
 		virtual void				EndRender();
+
+		virtual void				BegineCompute();
+		virtual void				EndCompute();
 		
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf);
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf);
@@ -128,6 +131,11 @@ namespace ma
 		VkPipelineCache m_pipelineCache;
 
 		std::vector<VkFramebuffer> m_frameBuffers;
+
+		VkCommandBuffer m_vkComputeCmdBuffer;
+		VkCommandPool m_vkComputeCmdPool;
+		VkFence m_computeFence;
+		VkQueue m_computeQueue;
 
 		struct
 		{

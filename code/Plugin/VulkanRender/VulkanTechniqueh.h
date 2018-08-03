@@ -17,11 +17,15 @@ namespace ma
 
 		virtual void		RT_SetSampler(Uniform* pUniform, SamplerState* pSampler);
 
+		virtual void		RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
+
 	private:
 		
 		void				UpdateUniformDescriptorSets(ShaderType eType);
 
 		void				UpdateSamplerDescriptorSets(ShaderType eType);
+
+		void				UpdateComputeDescriptorSets(HardwareBuffer* pBuffer);
 
 	public:
 

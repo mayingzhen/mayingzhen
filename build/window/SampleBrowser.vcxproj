@@ -103,6 +103,8 @@
     <ClInclude Include="..\..\Code\Samples\Animation\SampleAnimationTree.hxx" />
     <ClInclude Include="..\..\code\Samples\CameraController.h" />
     <ClInclude Include="..\..\code\Samples\CameraController.hxx" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleComputeShader.h" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleComputeShader.hxx" />
     <ClInclude Include="..\..\code\Samples\Render\SampleIBL.h" />
     <ClInclude Include="..\..\code\Samples\Render\SampleIBL.hxx" />
     <ClInclude Include="..\..\Code\Samples\Render\SampleLighting.h" />

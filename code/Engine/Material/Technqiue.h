@@ -29,6 +29,8 @@ namespace ma
 
 		virtual void		RT_SetSampler(Uniform* pUniform, SamplerState* pSampler) = 0;
 
+		virtual void		RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer) = 0;
+
 		const char*			GetTechName() const;
 		void				SetTechName(const char* pName);
 
@@ -74,6 +76,8 @@ namespace ma
 		
 		void				SetActiveSampler(Uniform* pUniform, SamplerState* pSampler);
 		SamplerState*		GetActiveSampler(Uniform* pUniform);
+
+		void				SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
 
 		RefPtr<Technique>	CreateInstTech();
 

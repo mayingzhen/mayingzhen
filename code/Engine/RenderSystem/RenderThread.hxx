@@ -18,8 +18,6 @@ namespace ma
 		m_nFlush = 0; 
 		
 		m_nMainThread = std::this_thread::get_id();
-		
-		m_bSuccessful = true;
 
 		m_bMultithread = false;
 	}
@@ -136,8 +134,6 @@ namespace ma
 
 		AddCommand(eRC_TechniqueStreamComplete);
 		AddPointer(pTech);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_TexStreamComplete(Texture* pTexture)
@@ -153,6 +149,7 @@ namespace ma
 		AddCommand(eRC_TexStreamComplete);
 		AddPointer(pTexture);
 	}
+
 
 	void RenderThread::RC_ShaderStreamComplete(ShaderProgram* pShader)
 	{
@@ -180,8 +177,6 @@ namespace ma
 
 		AddCommand(eRC_VertexDeclaComplete);
 		AddPointer(pDecl);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_HardwareBufferStreamComplete(HardwareBuffer* pHB)
@@ -196,8 +191,6 @@ namespace ma
 
 		AddCommand(eRC_HBStreamComplete);
 		AddPointer(pHB);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_RenderPassStreamComplete(RenderPass* pRenderPass)
@@ -212,8 +205,6 @@ namespace ma
 
 		AddCommand(eRC_RenderPassStreamComplete);
 		AddPointer(pRenderPass);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_Render()
@@ -290,6 +281,20 @@ namespace ma
 		AddPointer(pSampler);
 	}
 
+	void RenderThread::RC_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+	{
+		// job 线程也会调用到这边
+		if (IsRenderThread() || !IsMainThread())
+		{
+			pUniform->GetTechnique()->RT_SetStorageBuffer(pUniform, pBuffer);
+			return;
+		}
+
+		AddCommand(eRC_SetStorageBuffer);
+		AddPointer(pUniform);
+		AddPointer(pBuffer);
+	}
+
 	void RenderThread::RC_SetPoolId(uint32_t poolId)
 	{
 		if (IsRenderThread())
@@ -323,7 +328,27 @@ namespace ma
 		}
 	
 		AddCommand(eRC_EndProfile);
+
+		//RC_AddRenderCommad( []() { GetRenderDevice()->EndProfile(); } );
 	}
+
+// 	void RenderThread::RC_AddRenderCommad(std::function<void()> fun)
+// 	{
+// 		RenderCommad comd;
+// 		comd.m_funtion = fun;
+// 		RC_AddRenderCommad(&comd);
+// 	}
+// 
+// 	void RenderThread::RC_AddRenderCommad(RenderCommad* pCommad)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			pCommad->Do();
+// 			return;
+// 		}
+// 
+// 		m_vecCommand[m_nCurThreadFill].push_back(pCommad);
+// 	}
 
 	void RenderThread::ProcessCommands()
 	{
@@ -332,8 +357,14 @@ namespace ma
 		if (!CheckFlushCond())
 			return;
 
+// 		for (uint32_t i = 0; i < m_vecCommand[m_nCurThreadProcess].size(); ++i)
+// 		{
+// 			RenderCommad* pCommmad = m_vecCommand[m_nCurThreadProcess][i].get();
+// 			pCommmad->Do();
+// 		}
+// 		m_vecCommand[m_nCurThreadProcess].clear();
+
 		int n = 0;
-		m_bSuccessful = true;
 		while (n < (int)m_Commands[m_nCurThreadProcess].Num())
 		{
 			uint8_t nC = m_Commands[m_nCurThreadProcess][n++];
@@ -445,6 +476,13 @@ namespace ma
 					pUniform->GetTechnique()->RT_SetSampler(pUniform, pSampler);
 				}
 				break;
+			case eRC_SetStorageBuffer:
+				{
+					Uniform* pUniform = ReadCommand<Uniform*>(n);
+					HardwareBuffer* pBuffer = ReadCommand<HardwareBuffer*>(n);
+					pUniform->GetTechnique()->RT_SetStorageBuffer(pUniform, pBuffer);
+				}
+				break;
 			case  eRC_SetPoolId:
 				{
 					uint32_t nId = ReadCommand<uint32_t>(n);
@@ -514,12 +552,6 @@ namespace ma
 		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] = 0;
 
 		SignalFlushCond();
-	}
-
-
-	bool RenderThread::IsFailed()
-	{
-		return !m_bSuccessful;
 	}
 }
 

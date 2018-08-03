@@ -22,6 +22,7 @@ namespace ma
 
 		std::string						m_strVSFile;
 		std::string						m_strPSFile;
+		std::string						m_strCSFile;
 		std::string						m_shaderMacro;
 
 		bool operator < (const ShaderCreateInfo& other) const
@@ -31,6 +32,7 @@ namespace ma
 			CMPVAR(m_pVertexDecl->GetHash());
 			CMPVAR(m_strVSFile)
 			CMPVAR(m_strPSFile);
+			CMPVAR(m_strCSFile);
 			CMPVAR(m_shaderMacro);
 			CMPVAR(m_pBlendState.get());
 			CMPVAR(m_pDSState.get());

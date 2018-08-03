@@ -20,6 +20,21 @@ namespace ma
 
 		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType) = 0;
 	};
+
+	class ComputeCommad : public Referenced
+	{
+	public:
+
+		virtual	void Begin() = 0;
+
+		virtual void End() = 0;
+
+		virtual void SetStorgeBuffer(IndexBuffer* pIB) = 0;
+
+		virtual void SetTechnique(Technique* pTech) = 0;
+
+		virtual void Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) = 0;
+	};
 }
 
 

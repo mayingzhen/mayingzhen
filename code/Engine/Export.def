@@ -284,3 +284,4 @@ EXPORTS
 ?GetSamplerCount@ShaderProgram@ma@@QAEIW4ShaderType@2@@Z
 ?GetSamplerByIndex@ShaderProgram@ma@@QAEPAVUniform@2@W4ShaderType@2@I@Z
 ?GetUniform@Technique@ma@@QAEPAVUniform@2@W4ShaderType@2@PBD@Z
+?CreateVertexBuffer@RenderSystem@ma@@QAE?AV?$RefPtr@VVertexBuffer@ma@@@2@PAEIHW4HBU_USAGE@2@_N@Z
