@@ -53,7 +53,7 @@ namespace ma
 
 		~VulkanComputeCommad();
 
-		void Create(uint32_t queueFamilyIndex);
+		void Create();
 
 		virtual	void Begin();
 

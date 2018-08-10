@@ -190,6 +190,8 @@ namespace ma
 		pScene->GetRenderScheme()->Init();
 		pScene->GetRenderScheme()->Reset();
 		m_arrScene.push_back(pScene);
+
+		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
 	}
 
 	void RenderSystem::RT_Reset(uint32_t nWidth,uint32_t nHeight)

@@ -39,6 +39,7 @@ namespace ma
 		virtual Technique*			CreateTechnique();
 		virtual RenderPass*			CreateRenderPass();
 		virtual RenderCommand*		CreateRenderCommand();
+		virtual ComputeCommad*		CreateComputeCommand();
 
 		virtual Rectangle			GetViewport();
 		virtual RenderPass*			GetDefaultRenderPass();

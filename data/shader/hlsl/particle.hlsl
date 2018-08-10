@@ -1,43 +1,129 @@
+#include "common.h"
 
-// Attributes
-struct VS_IN
+struct PS_IN
 {
-   float2 a_position : POSITION;
-   
-   float4 a_gradientPos: TEXCOORD0;
+	float4 pos : SV_Position;
+	float4 clr : COLOR0;
+	float4 PosSS : TEXCOORD0;
+	float4 CenterView : TEXCOORD1;
+	float3 view_dir : TEXCOORD2;
+	float2 tex : TEXCOORD3;
 };
 
-
-// Varyings
-struct VS_OUT
+cbuffer ObjectVS : register(b5)
 {
-	float4 v_position : SV_POSITION;
+	float point_radius;
+	float4 init_pos_life;
+	float4x4 ps_model_mat;
+}
 
-	float4 Color : TEXCOORD0;
-	float4 GradientPos : TEXCOORD1;
-};
-
-
-
-VS_OUT vs_main(VS_IN In)
+void vs_main(float4 pos : POSITION,
+					out float4 CenterView_Life : SV_Position)
 {
-    VS_OUT Out = (VS_OUT)0;
-
-  	Out.Color = vec4(0.035);
-  	Out.GradientPos = inGradientPos.x;
-  	Out.v_position = vec4(inPos.xy, 1.0, 1.0);
-
-    return Out;
+	CenterView_Life = float4(mul(float4(pos.xyz, 1), g_matView).xyz, pos.w);
 }
 
 
-void ps_main(VS_OUT In,
-out float4 outColor : SV_TARGET 
-) 
+[maxvertexcount(4)]
+void gs_main(point float4 input[1] : SV_Position, inout TriangleStream<PS_IN> out_stream)
 {
-	float3 color = texture(samplerGradientRamp, vec2(inGradientPos, 0.0)).rgb;
-	outColor.rgb = texture(samplerColorMap, gl_PointCoord).rgb * color;
-	outColor.a = 1.0;
+	float4 CenterView_Life = input[0];
+
+	if (CenterView_Life.w > 0)
+	{
+		PS_IN gs_out;
+
+		for (int i = 0; i < 4; ++ i)
+		{
+			float2 tex = float2((i & 1) ? 1 : -1, (i & 2) ? -1 : 1);
+
+			float4 view_pos = float4(CenterView_Life.xyz, 1);
+			gs_out.CenterView = view_pos;
+			view_pos.xy += tex * point_radius;
+			gs_out.pos = mul(view_pos, g_matProj);
+			gs_out.clr = float4(1, 1, 1, CenterView_Life.w);
+			gs_out.PosSS = gs_out.pos;
+			gs_out.view_dir = view_pos.xyz;
+			gs_out.tex = tex * 0.5f + 0.5f;
+
+			out_stream.Append(gs_out);
+		}
+	}
 }
 
+Texture2D particle_tex : register(t0);
+SamplerState bilinear_sampler : register(s0);
 
+float4 ps_main(PS_IN ps_in) : SV_Target
+{
+	ps_in.CenterView /= ps_in.CenterView.w;
+	float3 intersect = ps_in.view_dir;
+	
+	float life = ps_in.clr.a;
+	float4 clr = particle_tex.Sample(bilinear_sampler, ps_in.tex);
+	
+	return clr;
+}
+
+RWStructuredBuffer<float4> particle_pos_rw_stru_buff : register( t0 );
+RWStructuredBuffer<float4> particle_vel_rw_stru_buff : register( t1 );
+
+StructuredBuffer<float4> particle_init_vel_buff : register( t2 );
+StructuredBuffer<float4> particle_birth_time_buff : register( t3 );
+
+[numthreads(256, 1, 1)]
+void cs_main(uint3 dtid : SV_DispatchThreadID)
+{
+	float4 out_pos;
+	float4 out_vel;
+
+	uint id = dtid.x;
+
+	float4 cur_pos = particle_pos_rw_stru_buff[id];
+
+	float accumulate_time = 0.33;
+	float elapse_time = 0.33;
+
+	if (cur_pos.w > 0)
+	{
+		float3 cur_vel = particle_vel_rw_stru_buff[id].xyz;
+
+		cur_vel += float3(0, -0.1f, 0) * elapse_time;
+		cur_pos.xyz += cur_vel * elapse_time;
+		cur_pos.w -= elapse_time;
+
+		float2 tex_pos = cur_pos.xz / 4 + 0.5;
+		tex_pos.y = 1 - tex_pos.y;
+		//float height = height_map_tex.SampleLevel(point_sampler, tex_pos, 0).r;
+		//if (cur_pos.y < height)
+		//{
+		//	cur_vel = reflect(cur_vel, decompress_normal(normal_map_tex.SampleLevel(normal_map_sampler, tex_pos, 0)).xzy) * 0.99f;
+		//}
+
+		out_pos = cur_pos;
+		out_vel = float4(cur_vel, 1);
+	}
+	else
+	{
+		float t = accumulate_time - particle_birth_time_buff[id].r;
+		if ((t > 0) && (t < elapse_time))
+		{
+			float4 pos = mul(float4(init_pos_life.xyz, 1), ps_model_mat);
+			pos /= pos.w;
+
+			float3 vel = particle_init_vel_buff[(id + uint((cur_pos.z * 256 + cur_pos.x) * 256)) & 0xFFFF].xyz;
+			vel = mul(vel, (float3x3)ps_model_mat);
+
+			out_pos = float4(pos.xyz, init_pos_life.w);
+			out_vel = float4(vel, 1);
+		}
+		else
+		{
+			out_pos = float4(0, 0, 0, -1);
+			out_vel = 0;
+		}
+	}
+
+	particle_pos_rw_stru_buff[id] = out_pos;
+	particle_vel_rw_stru_buff[id] = out_vel;
+}

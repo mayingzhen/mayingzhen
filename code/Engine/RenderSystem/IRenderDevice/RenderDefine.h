@@ -300,6 +300,7 @@ namespace ma
 	enum ShaderType
 	{
 		VS = 0,
+		GS,
 		PS,
 		CS,
 		ShaderType_Number,

@@ -23,7 +23,8 @@ namespace ma
 			m_cbshiftBinding[i] = offset;
 			m_texshiftBinding[i] = m_cbshiftBinding[i] + MAX_SHADER_PARAMETER_GROUPS;
 			m_samplershiftBinding[i] = m_texshiftBinding[i] + MAX_TEXTURE_UNITS;
-			offset = m_samplershiftBinding[i] + MAX_TEXTURE_UNITS;
+			m_uavshiftBinding[i] = m_samplershiftBinding[i] + MAX_TEXTURE_UNITS;
+			offset = m_uavshiftBinding[i] + MAX_TEXTURE_UNITS;
 		}
 	}
 
@@ -153,6 +154,8 @@ namespace ma
 		{
 		case VS:
 			return EShLangVertex;
+		case GS:
+			return EShLangGeometry;
 		case PS:
 			return EShLangFragment;
 		case CS:
@@ -185,6 +188,7 @@ namespace ma
 		shader.setShiftCbufferBinding(m_cbshiftBinding[eType]);
 		shader.setShiftTextureBinding(m_texshiftBinding[eType]);
 		shader.setShiftSamplerBinding(m_samplershiftBinding[eType]);
+		shader.setShiftUavBinding(m_uavshiftBinding[eType]);
 
 		if (!shader.parse(&Resources, 100, false, messages))
 		{
@@ -277,6 +281,10 @@ namespace ma
 		{
 			return VK_SHADER_STAGE_VERTEX_BIT;
 		}
+		else if (type == GS)
+		{
+			return VK_SHADER_STAGE_GEOMETRY_BIT;
+		}
 		else if (type == PS)
 		{
 			return VK_SHADER_STAGE_FRAGMENT_BIT;
@@ -292,7 +300,7 @@ namespace ma
 		}
 	}
 
-	void VulkanShaderProgram::CreateShaderMode(const std::string& shaderFile, ShaderType type)
+	VkPipelineShaderStageCreateInfo VulkanShaderProgram::CreateShaderMode(const std::string& shaderFile, ShaderType type)
 	{
 		std::string strPath = GetRenderSystem()->GetShaderPath();
 
@@ -309,12 +317,13 @@ namespace ma
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
 		std::vector<uint32_t> vtx_spv;
-		m_shaderStages[type].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		m_shaderStages[type].pNext = NULL;
-		m_shaderStages[type].pSpecializationInfo = NULL;
-		m_shaderStages[type].flags = 0;
-		m_shaderStages[type].stage = ToVkShader(type);
-		m_shaderStages[type].pName = m_strFunName[type].c_str();
+		VkPipelineShaderStageCreateInfo shaderStage;
+		shaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+		shaderStage.pNext = NULL;
+		shaderStage.pSpecializationInfo = NULL;
+		shaderStage.flags = 0;
+		shaderStage.stage = ToVkShader(type);
+		shaderStage.pName = m_strFunName[type].c_str();
 
 		HlslToSpirv(strSource.c_str(), strSource.length(), m_strFunName[type].c_str(), type, vtx_spv);
 
@@ -326,7 +335,9 @@ namespace ma
 		moduleCreateInfo.flags = 0;
 		moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(uint32_t);
 		moduleCreateInfo.pCode = vtx_spv.data();
-		VK_CHECK_RESULT(vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[type].module));
+		VK_CHECK_RESULT(vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &shaderStage.module));
+
+		return shaderStage;
 	}
 
 	void VulkanShaderProgram::CreatePipelineLayout()
@@ -381,83 +392,6 @@ namespace ma
 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout));
 		}
 
-// 		{
-// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-// 			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-// 			{
-// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
-// 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-// 					VK_SHADER_STAGE_VERTEX_BIT,
-// 					m_cbshiftBinding[VS] + i ) );
-// 			}
-// 
-// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-// 				setLayoutBindings.data(),
-// 				static_cast<uint32_t>(setLayoutBindings.size()));
-// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[VS]));
-// 		}
-
-// 		{
-// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-// 			for (uint32_t i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-// 			{
-// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
-// 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-// 					VK_SHADER_STAGE_FRAGMENT_BIT,
-// 					m_cbshiftBinding[PS] + i ) );
-// 			}
-// 
-// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-// 				setLayoutBindings.data(),
-// 				static_cast<uint32_t>(setLayoutBindings.size()));
-// 
-// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_uniform[PS]));
-// 		}
-
-// 		{
-// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-// 			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
-// 			{
-// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
-// 					VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
-// 					VK_SHADER_STAGE_VERTEX_BIT,
-// 					m_texshiftBinding[VS] + i ) );
-// 			}
-// 
-// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-// 				setLayoutBindings.data(),
-// 				static_cast<uint32_t>(setLayoutBindings.size()));
-// 
-// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_sampler[VS]));
-// 		}
-
-// 		{
-// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-// 			for (uint32_t i = 0; i < MAX_TEXTURE_UNITS/*pShader->GetSamplerCount()*/; ++i)
-// 			{
-// 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
-// 					VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
-// 					VK_SHADER_STAGE_FRAGMENT_BIT,
-// 					m_texshiftBinding[PS] + i ) );
-// 			}
-// 
-// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-// 				setLayoutBindings.data(),
-// 				static_cast<uint32_t>(setLayoutBindings.size()));
-// 
-// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout_sampler[PS]));
-// 		}
-
-// 		VkDescriptorSetLayout SetLayouts[4];
-// 		SetLayouts[0] = m_desc_layout_uniform[VS];
-// 		SetLayouts[1] = m_desc_layout_uniform[PS];
-// 		SetLayouts[2] = m_desc_layout_sampler[VS];
-// 		SetLayouts[3] = m_desc_layout_sampler[PS];
-
 		/* Now use the descriptor layout to create a pipeline layout */
 		VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
 		pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -488,7 +422,7 @@ namespace ma
 		vks::VulkanDevice* device = GetVulkanDevice();
 
 		// init_descriptor_pool
-		VkDescriptorPoolSize type_count[3];
+		VkDescriptorPoolSize type_count[4];
 		type_count[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 		type_count[0].descriptorCount = MAX_SHADER_PARAMETER_GROUPS * 2 * 1000;
 
@@ -498,11 +432,14 @@ namespace ma
 		type_count[2].type = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
 		type_count[2].descriptorCount = 16 * 1000;
 
+		type_count[3].type = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+		type_count[3].descriptorCount = 16 * 1000;
+
 		VkDescriptorPoolCreateInfo descriptor_pool = {};
 		descriptor_pool.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 		descriptor_pool.pNext = NULL;
 		descriptor_pool.maxSets = (MAX_SHADER_PARAMETER_GROUPS * 2 + 32) * 1000;
-		descriptor_pool.poolSizeCount = 3;
+		descriptor_pool.poolSizeCount = 4;
 		descriptor_pool.pPoolSizes = type_count;
 
 		VK_CHECK_RESULT(vkCreateDescriptorPool(device->logicalDevice, &descriptor_pool, NULL, &m_desc_pool));
@@ -631,8 +568,8 @@ namespace ma
 		pipelineCreateInfo.pDynamicState = &dynamicState;
 		pipelineCreateInfo.pViewportState = &vp;
 		pipelineCreateInfo.pDepthStencilState = &pVulkanDS->ds;
-		pipelineCreateInfo.pStages = this->m_shaderStages;
-		pipelineCreateInfo.stageCount = ShaderType_Number -1; // vs + ps
+		pipelineCreateInfo.pStages = m_shaderStages.data();
+		pipelineCreateInfo.stageCount = m_shaderStages.size();
  		VulkanRenderPass* pVulkanRenderPass = (VulkanRenderPass*)this->GetRenderPass();
 		pipelineCreateInfo.renderPass = pVulkanRenderPass->m_impl;
 		pipelineCreateInfo.subpass = 0;
@@ -640,9 +577,59 @@ namespace ma
 		VK_CHECK_RESULT(vkCreateGraphicsPipelines(device->logicalDevice, m_graphicPip._Cache, 1, &pipelineCreateInfo, NULL, &m_graphicPip._Pipeline));
 	}
 
-	void VulkanShaderProgram::CreateComputePipeline()
+	void VulkanShaderProgram::CreateComputePipeline(const VkPipelineShaderStageCreateInfo& stage)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
+
+		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
+
+		{
+			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
+
+
+			// u
+			for (uint32_t icb = 0; icb < MAX_TEXTURE_UNITS; ++icb)
+			{
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+					VK_SHADER_STAGE_COMPUTE_BIT,
+					m_uavshiftBinding[CS] + icb));
+			}
+
+			// t
+			for (uint32_t icb = 0; icb < MAX_TEXTURE_UNITS; ++icb)
+			{
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+					VK_SHADER_STAGE_COMPUTE_BIT,
+					m_texshiftBinding[CS] + icb));
+			}
+
+			for (uint32_t icb = 0; icb < MAX_SHADER_PARAMETER_GROUPS; ++icb)
+			{
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+					VK_SHADER_STAGE_COMPUTE_BIT,
+					m_cbshiftBinding[CS] + icb));
+			}
+
+			VkDescriptorSetLayoutCreateInfo descriptorLayout;
+			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
+				setLayoutBindings.data(),
+				static_cast<uint32_t>(setLayoutBindings.size()));
+			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout));
+		}
+
+		/* Now use the descriptor layout to create a pipeline layout */
+		VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
+		pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+		pPipelineLayoutCreateInfo.pNext = NULL;
+		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;// pPushConstantRanges.size();
+		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;// pPushConstantRanges.data();
+		pPipelineLayoutCreateInfo.setLayoutCount = 1;
+		pPipelineLayoutCreateInfo.pSetLayouts = &m_desc_layout;
+
+		VK_CHECK_RESULT(vkCreatePipelineLayout(device->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_computePip._Layout));
 
 		VkPipelineCacheCreateInfo pipelineCache;
 		pipelineCache.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
@@ -654,27 +641,32 @@ namespace ma
 
 		// Create pipeline		
 		VkComputePipelineCreateInfo computePipelineCreateInfo = vks::initializers::computePipelineCreateInfo(m_computePip._Layout, 0);
-		computePipelineCreateInfo.stage = this->m_shaderStages[CS];
+		computePipelineCreateInfo.stage = stage;
+		computePipelineCreateInfo.layout = m_computePip._Layout;
 		VK_CHECK_RESULT(vkCreateComputePipelines(device->logicalDevice, m_computePip._Cache, 1, &computePipelineCreateInfo, nullptr, &m_computePip._Pipeline));
 	}
 
 
 	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32_t>& vtx_spv)
 	{
-		spirv_cross::CompilerHLSL hlsl(vtx_spv.data(),vtx_spv.size());
-
+		
 		if (0)
 		{
+			spirv_cross::CompilerGLSL glsl(vtx_spv.data(), vtx_spv.size());
+
 			// Set some options.
-			spirv_cross::CompilerHLSL::Options options;
-			//options.vulkan_semantics = true;
-			hlsl.set_options(options);
+			spirv_cross::CompilerGLSL::Options options;
+			//options.version = 450;
+			options.vulkan_semantics = true;
+			glsl.set_options(options);
 
 			// Compile to GLSL, ready to give to GL driver.
-			std::string source = hlsl.compile();
+			std::string source = glsl.compile();
 
 			LogInfo("%s", source.c_str());
 		}
+
+		spirv_cross::CompilerHLSL hlsl(vtx_spv.data(), vtx_spv.size());
 
 		spirv_cross::ShaderResources resources = hlsl.get_shader_resources();
 		for (auto &resource : resources.uniform_buffers)
@@ -717,25 +709,32 @@ namespace ma
 
 		Destory();
 
-		const ShaderCreateInfo& info = this->GetShaderCreateInfo();
-
-		CreateShaderMode(info.m_strVSFile, VS);
-
-		CreateShaderMode(info.m_strPSFile, PS);
-
-		CreatePipelineLayout();
-
-		CreatePipelineCache();
-
 		CreateDescriptorPool();
 
-		CreateGraphicsPipeline();
+		const ShaderCreateInfo& info = this->GetShaderCreateInfo();
 
 		if (!info.m_strCSFile.empty())
 		{
-			CreateShaderMode(info.m_strCSFile, CS);
+			VkPipelineShaderStageCreateInfo stage = CreateShaderMode(info.m_strCSFile, CS);
 		
-			CreateComputePipeline();
+			CreateComputePipeline(stage);
+		}
+		else
+		{
+			m_shaderStages.push_back( CreateShaderMode(info.m_strVSFile, VS) );
+
+			m_shaderStages.push_back( CreateShaderMode(info.m_strPSFile, PS) );
+
+			if (!info.m_strGSFile.empty())
+			{
+				m_shaderStages.push_back( CreateShaderMode(info.m_strGSFile, GS) );
+			}
+
+			CreatePipelineLayout();
+
+			CreatePipelineCache();
+
+			CreateGraphicsPipeline();
 		}
 
 		SetResState(ResInited);

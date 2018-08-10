@@ -21,7 +21,7 @@ namespace ma
 
 		void HlslToSpirv(const char* vshSource, uint32_t vshSize, const char* funName, ShaderType eType, std::vector<uint32_t>& vtx_spv);
 
-		void CreateShaderMode(const std::string& shaderFile, ShaderType type);
+		VkPipelineShaderStageCreateInfo CreateShaderMode(const std::string& shaderFile, ShaderType type);
 
 		void CreatePipelineLayout();
 
@@ -31,7 +31,7 @@ namespace ma
 
 		void CreateGraphicsPipeline();
 
-		void CreateComputePipeline();
+		void CreateComputePipeline(const VkPipelineShaderStageCreateInfo& stage);
 
 	public:
 		VkDescriptorPool m_desc_pool = VK_NULL_HANDLE;
@@ -51,13 +51,14 @@ namespace ma
 
 		Pipeline m_computePip;
 
-		VkPipelineShaderStageCreateInfo m_shaderStages[ShaderType_Number];
+		std::vector<VkPipelineShaderStageCreateInfo> m_shaderStages;
 
 		std::string	m_strFunName[ShaderType_Number];
 
 		uint32_t m_cbshiftBinding[ShaderType_Number] = { 0 };
 		uint32_t m_texshiftBinding[ShaderType_Number] = { 0 };
 		uint32_t m_samplershiftBinding[ShaderType_Number] = { 0 };
+		uint32_t m_uavshiftBinding[ShaderType_Number] = { 0 };
 
 		friend class VulkanRenderDevice;
 	};

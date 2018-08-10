@@ -29,8 +29,6 @@ namespace ma
 
 		virtual void End() = 0;
 
-		virtual void SetStorgeBuffer(IndexBuffer* pIB) = 0;
-
 		virtual void SetTechnique(Technique* pTech) = 0;
 
 		virtual void Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) = 0;

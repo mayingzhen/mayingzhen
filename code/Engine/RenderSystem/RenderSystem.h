@@ -100,6 +100,8 @@ namespace ma
 		ParallHardWareBuffer* GetUIBufeer();
 		ParallHardWareBuffer* GetRIUIBuffer();
 
+		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
+
 		
 		void				UpdatePoolId();
 		int					GetPoolId();
@@ -128,6 +130,8 @@ namespace ma
 		Rectangle			m_curViewport;
 
 		RefPtr<RenderPass>	m_pDefaultRenderPass;
+
+		RefPtr<ComputeCommad> m_pComputeCommd;
 
 		void*				m_hWnd;
 

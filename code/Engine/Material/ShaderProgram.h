@@ -20,9 +20,11 @@ namespace ma
 
 		RefPtr<RenderPass>				m_pRenderPass;
 
+		std::string						m_strCSFile;
+
 		std::string						m_strVSFile;
 		std::string						m_strPSFile;
-		std::string						m_strCSFile;
+		std::string						m_strGSFile;
 		std::string						m_shaderMacro;
 
 		bool operator < (const ShaderCreateInfo& other) const
@@ -30,9 +32,10 @@ namespace ma
 #define CMPVAR(x) if (x != other.x) return x < other.x;
 
 			CMPVAR(m_pVertexDecl->GetHash());
+			CMPVAR(m_strCSFile);
 			CMPVAR(m_strVSFile)
 			CMPVAR(m_strPSFile);
-			CMPVAR(m_strCSFile);
+			CMPVAR(m_strGSFile);
 			CMPVAR(m_shaderMacro);
 			CMPVAR(m_pBlendState.get());
 			CMPVAR(m_pDSState.get());
