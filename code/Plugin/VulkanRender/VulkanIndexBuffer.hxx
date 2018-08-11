@@ -15,6 +15,9 @@ namespace ma
 
 	void* VulkanIndexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
+		if (m_indexBuffer.device == VK_NULL_HANDLE)
+			return NULL;
+
 		VK_CHECK_RESULT(m_indexBuffer.map(iLockSize, iOffsetBytes));
 
 		return m_indexBuffer.mapped;

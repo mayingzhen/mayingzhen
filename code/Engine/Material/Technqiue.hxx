@@ -46,7 +46,7 @@ namespace ma
 					if (pMatParam == NULL)
 						continue;
 
-					BindParametersUniform(pUniform, pMatParam->GetValue());
+					BindParametersUniform(pRenderable, pUniform, pMatParam->GetValue());
 				}
 			}
 
@@ -60,12 +60,12 @@ namespace ma
 				if (pMatParam == NULL)
 					continue;
 
-				BindParametersUniform(pUniform, pMatParam->GetValue());
+				BindParametersUniform(pRenderable, pUniform, pMatParam->GetValue());
 			}
 		}
 	}
 
-	void Technique::BindParametersUniform(Uniform* pUniform,const Any& anyValue)
+	void Technique::BindParametersUniform(Renderable* pRenderable,Uniform* pUniform,const Any& anyValue)
 	{
 		ASSERT(pUniform);
 		if (pUniform == NULL)
@@ -119,11 +119,16 @@ namespace ma
 			SamplerState* pTexture = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
 			this->SetValue(pUniform,pTexture);
 		}
+		else if (type == typeid(RefPtr<MethodBinding>))
+		{
+			MethodBinding* pMethod = any_cast<RefPtr<MethodBinding>>(&anyValue)->get();
+			pMethod->SetValue(pRenderable, this, pUniform);
+		}
 		else if (type == typeid(RefPtr<UniformAnimation>))
 		{
 			UniformAnimation* pUniformAnimation= any_cast< RefPtr<UniformAnimation> >(&anyValue)->get();
 	
-			this->BindParametersUniform(pUniform,pUniformAnimation->GetValue());
+			this->BindParametersUniform(pRenderable, pUniform,pUniformAnimation->GetValue());
 		}
 		else
 		{

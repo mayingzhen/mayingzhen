@@ -146,8 +146,6 @@ namespace ma
 
 		RefPtr<ParallHardWareBuffer> m_pInstanceBuffer[nNumParticleBuffer];
 
-		RefPtr<ParallHardWareBuffer> m_pUIBuffer[nNumParticleBuffer];
-
 		// these ids can be used for tripple (or more) buffered structures
 		// they are incremented in RenderWorld on the mainthread
 		// use m_nPoolIndex from the mainthread (or jobs which are synced before Renderworld)

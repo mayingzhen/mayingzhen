@@ -254,7 +254,7 @@ float4 IntegrateBRDF(float2 tex : TEXCOORD0) : SV_Target
 
 	float Vis = visibilityForLut(roughness, n_dot_v);
 
-	const uint NUM_SAMPLES = 1024;
+	const uint NUM_SAMPLES = 32;
 	for (uint i = 0; i < NUM_SAMPLES; ++i)
 	{
 		float2 xi = Hammersley2D(i, NUM_SAMPLES);

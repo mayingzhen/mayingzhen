@@ -29,7 +29,7 @@ namespace ma
 		//std::string strDownSampleTarget = std::string("DownSampleTarget") + StringConverter::toString(i);
 		//g_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), 1, 1, PF_FLOAT32_R);
 		
-		int iterations = 6;
+		uint32_t iterations = 6;
 		for (uint32_t i = 0; i < iterations; ++i)
 		{
 			std::string strDownSampleTarget = std::string("DownSampleTarget") + StringConverter::toString(i);

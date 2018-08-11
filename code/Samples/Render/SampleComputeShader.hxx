@@ -68,6 +68,14 @@ namespace ma
 		GetCamera()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
 		GetCameraControll()->Init();
 
+
+		{
+			SceneNode* pBox = m_pScene->CreateSceneNode();
+			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
+			pBoxMesh->SetSuportInstance(true);
+			pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
+		}
+
 		SceneNode* pBox = m_pScene->CreateSceneNode();
 		//ParticleComponent* pParticle = pBox->CreateComponent<ParticleComponent>();
 
@@ -118,6 +126,7 @@ namespace ma
 
 	void SampleComputeShader::PreRender()
 	{
+		//return;
 		ComputeCommad* pComputeCmd = GetRenderSystem()->GetComputeCommad();
 
 		pComputeCmd->Begin();

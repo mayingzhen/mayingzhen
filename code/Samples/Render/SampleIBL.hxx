@@ -50,18 +50,18 @@ namespace ma
 
 		int nMip = pEnv->GetTexture()->GetMipMapNumber();
 		Vector2 u_diff_spec_mip(nMip, nMip - 1);
-
 		pSubMaterial->SetParameter("u_diff_spec_mip", Any(u_diff_spec_mip));
 		
-		Uniform* pUniformMetal = pTech->GetUniform(PS,"u_metalness");
-		pUniformMetal->SetMethodBinding( new MethodFunBinding<float>( [this](Renderable*){ return m_fMetalness; } ) );
+		RefPtr<MethodBinding> pMetallness = new MethodFunBinding<float>([this](Renderable*) { return m_fMetalness; });
+		pSubMaterial->SetParameter("u_metalness",Any(pMetallness) );
 
-		Uniform* pUniformGloss = pTech->GetUniform(PS, "u_glossiness");
-		pUniformGloss->SetMethodBinding(new MethodFunBinding<float>( [this](Renderable*){ return m_fGlossiness; } ) );
+		RefPtr<MethodBinding> pGlossness = new MethodFunBinding<float>([this](Renderable*) { return m_fGlossiness; });
+		pSubMaterial->SetParameter("u_glossiness", Any(pGlossness) );
 
 		pMeshComp->SetMaterial(pMaterialInst.get());
 
 		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
+		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
 	}
 
 	void SampleIBL::UnLoad()

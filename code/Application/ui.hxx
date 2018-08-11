@@ -69,17 +69,19 @@ namespace ma
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 		size_t upload_size = width*height * 4 * sizeof(char);
 
-		ImageData data;
-		data.m_eFormat = PF_A8B8G8R8;
-		data.m_nWidth = width;
-		data.m_nHeight = height;
-		data.m_nSize = upload_size;
-		data.m_pMemory = CreateMemoryStream("", pixels, upload_size, true);
-		RefPtr<Texture> gFontTex = CreateTexture(data, false, true);
+		RefPtr<ImageData> data = new ImageData();
+		data->m_eFormat = PF_A8B8G8R8;
+		data->m_nWidth = width;
+		data->m_nHeight = height;
+		data->m_nSize = upload_size;
+		data->m_pMemory = CreateMemoryStream("", pixels, upload_size, true);
+		RefPtr<Texture> gFontTex = CreateTexture(data.get(), false, true);
 		m_pFontSampler = CreateSamplerState(gFontTex.get());
 
 		// Store our identifier
 		io.Fonts->TexID = (void *)(intptr_t)m_pFontSampler.get();
+
+		m_pUIBuffer = new TransientParallHardWareBuffer(sizeof(ImDrawVert), 1024, 1024);
 	}
 
 	void UI::Shutdown()
@@ -90,24 +92,30 @@ namespace ma
 
 	void UI::Update()
 	{
+		if (m_bInit)
+		{
+			m_pUIBuffer->BeginFrame();
+		}
+
 		ImGui::NewFrame();
 	}
 
 	UIRenderable* UI::GetRenderable(uint32_t nIndex)
 	{
-		if (nIndex >= m_vecRendeable.size())
+		std::vector< RefPtr<UIRenderable> >& vecRenderable = m_vecRendeable[GetRenderSystem()->CurThreadFill()];
+		if (nIndex >= vecRenderable.size())
 		{
 			UIRenderable* pRenderable = new UIRenderable();
 			pRenderable->m_pSubMeshData = CreateSubMeshData();
 			pRenderable->m_pSubMaterial = CreateSubMaterial();
 			pRenderable->m_pSubMaterial->SetShadingTechnqiue(m_pTechUI.get());
-			m_vecRendeable.push_back(pRenderable);
+			vecRenderable.push_back(pRenderable);
 
 			return pRenderable;
 		}
 		else
 		{
-			return m_vecRendeable[nIndex].get();
+			return vecRenderable[nIndex].get();
 		}
 
 	}
@@ -117,14 +125,16 @@ namespace ma
 		if (draw_data->TotalVtxCount <= 0)
 			return;
 
-		ParallHardWareBuffer* pUIHB = GetRenderSystem()->GetUIBufeer();
-		pUIHB->LockVideoMemory();
+		ParallHardWareBuffer* pUIHB = m_pUIBuffer->GetParallHardWareBuffer();
 
 		SubAllocVB subvb = pUIHB->AllocVertexBuffer(draw_data->TotalVtxCount);
 		SubAllocIB subib = pUIHB->AllocIndexBuffer(draw_data->TotalIdxCount);
 
 		ImDrawVert* vtx_dst = (ImDrawVert*)subvb.m_pVertices;
 		ImDrawIdx* idx_dst = (ImDrawIdx*)subib.m_pIndices;
+		if (vtx_dst == nullptr || idx_dst == nullptr)
+			return;
+
 		for (int n = 0; n < draw_data->CmdListsCount; n++)
 		{
 			const ImDrawList* cmd_list = draw_data->CmdLists[n];
@@ -133,7 +143,6 @@ namespace ma
 			vtx_dst += cmd_list->VtxBuffer.Size;
 			idx_dst += cmd_list->IdxBuffer.Size;
 		}
-		pUIHB->UnLockVideoMemory();
 
 		{
 			Vector4 vScaleTrans;
@@ -196,7 +205,14 @@ namespace ma
 	{
 		ImGui::Render();
 
-		RenderDrawData(ImGui::GetDrawData());
+		if (m_bInit)
+		{
+			RenderDrawData(ImGui::GetDrawData());
+
+			m_pUIBuffer->EndFrame();
+		}
+
+		m_bInit = true;
 	}
 
 	bool UI::Begin(const char* name, bool* p_open, int flags)

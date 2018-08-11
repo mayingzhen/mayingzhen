@@ -35,6 +35,16 @@ namespace ma
 
 	bool Texture::InitRes() 
 	{
+		const char* pszName = this->GetResPath();
+		void* pMemory = m_pDataStream->GetPtr();
+		uint32_t nSizeBytes = m_pDataStream->GetSize();
+
+		m_pImageData = new ImageData();
+		if (!BuildImageData(pszName, pMemory, nSizeBytes, *m_pImageData))
+		{
+			return false;
+		}
+
 		GetRenderSystem()->TexStreamComplete(this);	
 
 		return true;
@@ -43,22 +53,16 @@ namespace ma
 
 	bool Texture::RT_StreamComplete()
 	{
-		const char* pszName = this->GetResPath();
-		void* pMemory = m_pDataStream->GetPtr(); 
-		uint32_t nSizeBytes =m_pDataStream->GetSize();
-
-		ImageData imageData;
-		if (!BuildImageData(pszName, pMemory, nSizeBytes, imageData))
-		{
+		ASSERT(m_pImageData);
+		if (m_pImageData == NULL)
 			return false;
-		}
 
-		if (imageData.getNumFaces() == 6)
+		if (m_pImageData->getNumFaces() == 6)
 		{
 			m_eType = TEXTYPE_CUBE;
 		}
 
-		if ( !LoadFromImagData(imageData) )
+		if ( !LoadFromImagData(*m_pImageData) )
 		{
 			return false;
 		}
@@ -151,14 +155,13 @@ namespace ma
 		return g_pTextureManager->CreateTexture(pImagePath,bMipMap,bSRGB);
 	}
 
-	RefPtr<Texture> CreateTexture(const ImageData& imageData, bool bMipMap/* = true*/, bool bSRGB/* = true*/)
+	RefPtr<Texture> CreateTexture(ImageData* imageData, bool bMipMap/* = true*/, bool bSRGB/* = true*/)
 	{
 		RefPtr<Texture> pTextute = GetRenderDevice()->CreateTexture();
 		pTextute->SetMipMap(bMipMap);
 		pTextute->SetSRGB(bSRGB);
-		pTextute->LoadFromImagData(imageData);
-		//pTextute->Load(pImagePath);
-		//m_resMap[strKey] = pTextute;
+		pTextute->SetImageData(imageData);
+		GetRenderSystem()->TexStreamComplete(pTextute.get());
 		return pTextute;
 	}
 

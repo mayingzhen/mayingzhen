@@ -519,7 +519,7 @@ namespace ma
 
 	Vector3	SceneNode::GetForward() const
 	{
-		return GetMatrixWS().GetColumn(1);
+		return GetMatrixWS().GetColumn(2);
 	}
 
 	Vector3	SceneNode::GetRight() const
@@ -529,7 +529,7 @@ namespace ma
 
 	Vector3	SceneNode::GetUp() const
 	{
-		return GetMatrixWS().GetColumn(2);
+		return GetMatrixWS().GetColumn(1);
 	}
 
 	void  SceneNode::Forward(float x) 

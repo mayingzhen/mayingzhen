@@ -12,7 +12,7 @@ namespace ma
 	};
 
 
-	class ImageData
+	class ImageData : public Referenced
 	{
 	public:
 		ImageData();

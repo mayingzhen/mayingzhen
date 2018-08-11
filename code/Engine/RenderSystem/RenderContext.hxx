@@ -102,7 +102,7 @@ namespace ma
 		if (m_pCurScene == NULL)
 			return Vector3::ZERO;
 
-		return -m_pCurScene->GetMainDirLight()->GetSceneNode()->GetForward();
+		return m_pCurScene->GetMainDirLight()->GetSceneNode()->GetForward();
 	}
 
 

@@ -153,60 +153,41 @@ namespace ma
 
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
-		// Sampler
+		std::vector<VkWriteDescriptorSet> vec_write;
+		for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
 		{
-			std::vector<VkWriteDescriptorSet> vec_write;
-			for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
-			{
-				Uniform* pUniform = this->GetSamplerByIndex(eType, i);
-				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)GetActiveSampler(pUniform);
-				if (pSampler == NULL)
-					continue;
+			Uniform* pUniform = this->GetSamplerByIndex(eType, i);
+			VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)GetActiveSampler(pUniform);
+			if (pSampler == NULL)
+				continue;
 
-				pSampler->RT_StreamComplete();
+			pSampler->RT_StreamComplete();
 
-				VkWriteDescriptorSet write = {};
-				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-				write.pNext = NULL;
-				write.dstSet = m_descriptorSet;
-				write.descriptorCount = 1;
-				write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
-				write.pImageInfo = &pSampler->m_descriptor;
-				write.dstArrayElement = 0;
-				write.dstBinding = pUniform->GetIndex() + pShader->m_samplershiftBinding[eType];
-				vec_write.push_back(write);
+			VkWriteDescriptorSet writeSampler = {};
+			writeSampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			writeSampler.pNext = NULL;
+			writeSampler.dstSet = m_descriptorSet;
+			writeSampler.descriptorCount = 1;
+			writeSampler.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
+			writeSampler.pImageInfo = &pSampler->m_descriptor;
+			writeSampler.dstArrayElement = 0;
+			writeSampler.dstBinding = pUniform->GetIndex() + pShader->m_samplershiftBinding[eType];
+			vec_write.push_back(writeSampler);
 
-			}
+			VkWriteDescriptorSet writeTexture = {};
+			writeTexture.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			writeTexture.pNext = NULL;
+			writeTexture.dstSet = m_descriptorSet;
+			writeTexture.descriptorCount = 1;
+			writeTexture.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+			writeTexture.pImageInfo = &pSampler->m_descriptor;
+			writeTexture.dstArrayElement = 0;
+			writeTexture.dstBinding = pUniform->GetIndex() + pShader->m_texshiftBinding[eType];
+			vec_write.push_back(writeTexture);
 
-			vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 		}
 
-		// Texture
-		{
-			std::vector<VkWriteDescriptorSet> vec_write;
-			for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
-			{
-				Uniform* pUniform = this->GetSamplerByIndex(eType, i);
-				VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)this->GetActiveSampler(pUniform);
-				if (pSampler == NULL)
-					continue;
-
-				pSampler->RT_StreamComplete();
-
-				VkWriteDescriptorSet write = {};
-				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-				write.pNext = NULL;
-				write.dstSet = m_descriptorSet;
-				write.descriptorCount = 1;
-				write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
-				write.pImageInfo = &pSampler->m_descriptor;
-				write.dstArrayElement = 0;
-				write.dstBinding = pUniform->GetIndex() + pShader->m_texshiftBinding[eType];
-				vec_write.push_back(write);
-			}
-
-			vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
-		}
+		vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 	}
 
 	void VulkanTechnique::UpdateComputeDescriptorSets(HardwareBuffer* pBuffer)

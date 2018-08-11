@@ -37,8 +37,8 @@ namespace ma
 		virtual void	CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel) = 0;
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32_t nNumBytes, OUT ImageData& imageData);
-	
-		virtual bool	LoadFromImagData(const ImageData& imageData) = 0;
+
+		void			SetImageData(ImageData* pImageData) { m_pImageData = pImageData; }
 
 	protected:
 
@@ -49,6 +49,8 @@ namespace ma
 		virtual	bool	RT_CreateTexture() = 0;	
 
 		virtual bool	GenerateMipmaps() = 0;
+
+		virtual bool	LoadFromImagData(const ImageData& imageData) = 0;
 
 	protected:
 		int				m_nWidth;
@@ -61,12 +63,14 @@ namespace ma
 		bool			m_bMipMap;
 		bool			m_bSRGB;
 
+		RefPtr<ImageData> m_pImageData;
+
 		friend class	RenderThread;
 		friend class	TextureManager;
 	};
 
 	RefPtr<Texture> CreateTexture(const char* pImagePath,bool bMipMap = true,bool bSRGB = true);
-	RefPtr<Texture> CreateTexture(const ImageData& imageData, bool bMipMap = true, bool bSRGB = true);
+	RefPtr<Texture> CreateTexture(ImageData* imageData, bool bMipMap = true, bool bSRGB = true);
 
 	class SamplerState : public Object
 	{

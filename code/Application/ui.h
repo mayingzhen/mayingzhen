@@ -46,7 +46,11 @@ namespace ma
 
 		RefPtr<SamplerState> m_pFontSampler;
 
-		std::vector< RefPtr<UIRenderable> > m_vecRendeable;
+		std::vector< RefPtr<UIRenderable> > m_vecRendeable[2];
+
+		RefPtr<TransientParallHardWareBuffer> m_pUIBuffer;
+
+		bool m_bInit = false;
 	};
 
 	extern UI* g_pUI;

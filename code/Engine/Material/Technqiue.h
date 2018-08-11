@@ -91,7 +91,7 @@ namespace ma
 	protected:
 		void				BindUniform(Renderable* pRenderable);
 
-		void				BindParametersUniform(Uniform* pUniform,const Any& anyValue);
+		void				BindParametersUniform(Renderable* pRenderable,Uniform* pUniform,const Any& anyValue);
 
 		void				ClearConstBuffer(ShaderType eType);
 

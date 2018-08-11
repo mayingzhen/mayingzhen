@@ -79,4 +79,43 @@ namespace ma
 		bool m_bLocked;
 	};
 
+	class TransientParallHardWareBuffer : public Referenced
+	{
+	public:
+		enum { nNumBuffer = 4 };
+
+		TransientParallHardWareBuffer(uint32_t nVertexStride, uint32_t nNumVertice, uint32_t numIndexes)
+		{
+			for (uint32_t i = 0; i < nNumBuffer; ++i)
+			{
+				m_pBuffer[i] = new ParallHardWareBuffer(nVertexStride, nNumVertice, numIndexes);
+			}
+		}
+
+		void BeginFrame()
+		{
+			m_pBuffer[m_nFillIndex]->LockVideoMemory();
+		}
+
+		void EndFrame()
+		{
+			m_pBuffer[m_nFillIndex]->UnLockVideoMemory();
+
+			m_nProcessIndex = m_nFillIndex;
+			m_nFillIndex = (m_nProcessIndex + 1) % nNumBuffer;
+		}
+
+		ParallHardWareBuffer* GetParallHardWareBuffer()
+		{
+			return m_pBuffer[m_nFillIndex].get();
+		}
+		
+
+	private:
+		RefPtr<ParallHardWareBuffer> m_pBuffer[nNumBuffer];
+
+		uint32_t m_nFillIndex = 0;
+		uint32_t m_nProcessIndex = 0;
+	};
+
 }

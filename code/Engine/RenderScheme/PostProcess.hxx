@@ -137,8 +137,8 @@ namespace ma
 	void PostProcessPipeline::AddRenderPass(const char* pszName, float fScale, PixelFormat format, bool bSRGB)
 	{
 		Rectangle rect = GetRenderSystem()->GetViewPort();
-		int nWidth = fScale * rect.width();
-		int nHeight = fScale * rect.height();
+		int nWidth = (int)(fScale * rect.width());
+		int nHeight = (int)(fScale * rect.height());
 
 		AddRenderPass(pszName, nWidth, nHeight, format, bSRGB);
 	}

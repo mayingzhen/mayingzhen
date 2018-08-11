@@ -14,6 +14,9 @@ namespace ma
 
 	void* VulkanVertexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
+		if (m_vertexBuffer.device == VK_NULL_HANDLE)
+			return NULL;
+
 		VK_CHECK_RESULT(m_vertexBuffer.map(iLockSize, iOffsetBytes));
 		
 		return m_vertexBuffer.mapped;

@@ -23,7 +23,7 @@ namespace vks
 	*/
 	struct Buffer
 	{
-		VkDevice device;
+		VkDevice device = VK_NULL_HANDLE;
 		VkBuffer buffer = VK_NULL_HANDLE;
 		VkDeviceMemory memory = VK_NULL_HANDLE;
 		VkDescriptorBufferInfo descriptor;
@@ -56,6 +56,9 @@ namespace vks
 		*/
 		void unmap()
 		{
+			if (device == VK_NULL_HANDLE)
+				return;
+
 			if (mapped)
 			{
 				vkUnmapMemory(device, memory);
