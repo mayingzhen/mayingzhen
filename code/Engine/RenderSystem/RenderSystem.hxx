@@ -107,6 +107,16 @@ namespace ma
 		m_pRenderThread->RC_Render();
 	}
 
+	void RenderSystem::BegineCompute()
+	{
+		GetRenderDevice()->BegineCompute();
+	}
+
+	void RenderSystem::EndCompute()
+	{
+		GetRenderDevice()->EndCompute();
+	}
+
 	void RenderSystem::OnFlushFrame()
 	{
 		LineRender::OnFlushFrame();

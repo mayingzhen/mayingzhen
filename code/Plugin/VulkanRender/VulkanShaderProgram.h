@@ -36,10 +36,12 @@ namespace ma
 	public:
 		VkDescriptorPool m_desc_pool = VK_NULL_HANDLE;
 
-		VkDescriptorSetLayout m_desc_layout;
+		
 
 		struct Pipeline
 		{
+			VkDescriptorSetLayout m_desc_layout = VK_NULL_HANDLE;
+
 			VkPipelineCache _Cache = VK_NULL_HANDLE;
 
 			VkPipeline _Pipeline = VK_NULL_HANDLE;

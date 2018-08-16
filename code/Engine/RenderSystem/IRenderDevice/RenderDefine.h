@@ -386,22 +386,22 @@ namespace ma
         /** Static buffer which the application rarely modifies once created. Modifying 
         the contents of this buffer will involve a performance hit.
         */
-        HBU_STATIC = 1,
+        HBU_STATIC = 1, // 0x01
 
 	    /** Indicates the application would like to modify this buffer with the CPU
 	    fairly often. 
 	    Buffers created with this flag will typically end up in AGP memory rather 
 	    than video memory.
 	    */
-	    HBU_DYNAMIC = 2,
-
+	    HBU_DYNAMIC = 2, // 0x10
+ 
 	    /** Indicates the application will never read the contents of the buffer back, 
 	    it will only ever write data. Locking a buffer with this flag will ALWAYS 
 	    return a pointer to new, blank memory rather than the memory associated 
 	    with the contents of the buffer; this avoids DMA stalls because you can 
 	    write to a new memory area while the previous one is being used. 
 	    */
-	    HBU_WRITE_ONLY = 4,
+	    HBU_WRITE_ONLY = 4, //0x100
 
         /** Indicates that the application will be refilling the contents
         of the buffer regularly (not just updating, but generating the
@@ -411,20 +411,24 @@ namespace ma
         This option only really makes sense when combined with 
         HBU_DYNAMIC_WRITE_ONLY.
         */
-        HBU_DISCARDABLE = 8,
+        HBU_DISCARDABLE = 8, // 0x1000
 
 		/// Combination of HBU_STATIC and HBU_WRITE_ONLY
-		HBU_STATIC_WRITE_ONLY = 5, 
+		HBU_STATIC_WRITE_ONLY = 5,  // 0x101
 
 		/** Combination of HBU_DYNAMIC and HBU_WRITE_ONLY. If you use 
         this, strongly consider using HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE
         instead if you update the entire contents of the buffer very 
         regularly. 
         */
-		HBU_DYNAMIC_WRITE_ONLY = 6,
+		HBU_DYNAMIC_WRITE_ONLY = 6, // 0x110
 
         /// Combination of HBU_DYNAMIC, HBU_WRITE_ONLY and HBU_DISCARDABLE
-        HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14
+        HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14, // 0x1110
+
+		HBU_STORGE_BUFFER = 16, //0x10000
+
+		HBU_STORGE_VECTOR_BUFFER = 17 //0x10001
 
     };
 	

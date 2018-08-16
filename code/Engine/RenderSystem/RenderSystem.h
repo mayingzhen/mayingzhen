@@ -38,6 +38,9 @@ namespace ma
 		void				BegineRender();
 		void				EndRender();
 		void				Render();
+
+		void				BegineCompute();
+		void				EndCompute();
 	
 		Rectangle			GetViewPort() {return m_curViewport;}
 

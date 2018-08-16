@@ -22,7 +22,12 @@ namespace ma
 		RefPtr<VertexBuffer> m_pPosBuffer;
 		RefPtr<VertexBuffer> m_pVelBuffer;
 
-		RefPtr<Technique> m_pCSTech;
+		//RefPtr<Technique> m_pCSTech;
+		//RefPtr<SubMaterial> m_pCSMaterial;
+
+		RefPtr<SubMaterial> m_pMaterial;
+
+		float accumulate_time_ = 0;
 	};
 }
 

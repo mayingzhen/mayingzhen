@@ -497,8 +497,6 @@ namespace ma
 
 	void VulkanRenderDevice::BeginRender()
 	{
-		BegineCompute();
-
 		// Acquire the next image from the swap chain
 		VkResult res = m_swapChain.acquireNextImage(m_presentComplete, &m_currentBuffer);
 		assert(res == VK_SUCCESS);
@@ -517,8 +515,6 @@ namespace ma
 
 	void VulkanRenderDevice::EndRender()
 	{
-		EndCompute();
-
 		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers));
 
 		// Command buffer to be sumitted to the queue

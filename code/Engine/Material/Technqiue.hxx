@@ -26,33 +26,38 @@ namespace ma
 
 	void Technique::Bind(Renderable* pRenderable)
 	{
-		BindUniform(pRenderable);
+		BindUniform(pRenderable, VS);
+		BindUniform(pRenderable, GS);
+		BindUniform(pRenderable, PS);
 	}
 
-	void Technique::BindUniform(Renderable* pRenderable)
+	void Technique::BindCompute(Renderable* pRenderable)
 	{
-		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		BindUniform(pRenderable, CS);
+
+		for (auto &pUniform : m_vecStorgeBuffer)
 		{
-			for (uint32_t iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
+			pUniform->Bind(pRenderable);
+
+			Parameter* pMatParam = GetParameter(pUniform->GetName());
+			if (pMatParam == NULL)
+				continue;
+
+			const Any& anyValue = pMatParam->GetValue();
+			VertexBuffer* pStrorgeBuffer = any_cast<RefPtr<VertexBuffer>>(&anyValue)->get();
+			this->SetStorageBuffer(pUniform.get(), pStrorgeBuffer);
+		}
+	}
+
+	void Technique::BindUniform(Renderable* pRenderable, ShaderType eType)
+	{
+		VEC_CONSTBUFFER vecConstBuffer = m_vecConstBuffer[eType];
+		for (uint32_t iCB = 0; iCB < vecConstBuffer.size(); ++iCB)
+		{
+			RefPtr<ConstantBuffer>& pCB = vecConstBuffer[iCB];
+			for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
 			{
-				RefPtr<ConstantBuffer>& pCB = m_vecConstBuffer[i][iCB];
-				for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
-				{
-					Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
-
-					pUniform->Bind(pRenderable);
-
-					Parameter* pMatParam = GetParameter(pUniform->GetName());
-					if (pMatParam == NULL)
-						continue;
-
-					BindParametersUniform(pRenderable, pUniform, pMatParam->GetValue());
-				}
-			}
-
-			for (uint32_t iSmpler = 0; iSmpler < m_vecSamplers[i].size(); ++iSmpler)
-			{
-				Uniform* pUniform = m_vecSamplers[i][iSmpler].get();
+				Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
 
 				pUniform->Bind(pRenderable);
 
@@ -63,9 +68,25 @@ namespace ma
 				BindParametersUniform(pRenderable, pUniform, pMatParam->GetValue());
 			}
 		}
+
+		VEC_SAMPLER& vecSampler = m_vecSamplers[eType];
+		for (uint32_t iSmpler = 0; iSmpler < vecSampler.size(); ++iSmpler)
+		{
+			Uniform* pUniform = vecSampler[iSmpler].get();
+
+			pUniform->Bind(pRenderable);
+
+			Parameter* pMatParam = GetParameter(pUniform->GetName());
+			if (pMatParam == NULL)
+				continue;
+
+			const Any& anyValue = pMatParam->GetValue();
+			SamplerState* pTexture = any_cast<RefPtr<SamplerState>>(&anyValue)->get();
+			this->SetValue(pUniform, pTexture);
+		}
 	}
 
-	void Technique::BindParametersUniform(Renderable* pRenderable,Uniform* pUniform,const Any& anyValue)
+	void Technique::BindParametersUniform(Renderable* pRenderable, Uniform* pUniform, const Any& anyValue)
 	{
 		ASSERT(pUniform);
 		if (pUniform == NULL)
@@ -106,18 +127,23 @@ namespace ma
 		else if (type == typeid(ColourValue))
 		{
 			ColourValue cColor = any_cast<ColourValue>(anyValue);
-			Vector4 vColor(cColor.r,cColor.g,cColor.b,cColor.a);
-			this->SetValue(pUniform,vColor);
+			Vector4 vColor(cColor.r, cColor.g, cColor.b, cColor.a);
+			this->SetValue(pUniform, vColor);
 		}
 		else if (type == typeid(Matrix4))
 		{
 			const Matrix4* value = any_cast<Matrix4>(&anyValue);
 			this->SetValue(pUniform, *value);
 		}
+		else if (type == typeid(RefPtr<VertexBuffer>))
+		{
+			VertexBuffer* pStrorgeBuffer = any_cast<RefPtr<VertexBuffer>>(&anyValue)->get();
+			this->SetStorageBuffer(pUniform, pStrorgeBuffer);
+		}
 		else if (type == typeid(RefPtr<SamplerState>))
 		{
-			SamplerState* pTexture = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
-			this->SetValue(pUniform,pTexture);
+			SamplerState* pTexture = any_cast<RefPtr<SamplerState>>(&anyValue)->get();
+			this->SetValue(pUniform, pTexture);
 		}
 		else if (type == typeid(RefPtr<MethodBinding>))
 		{
@@ -126,9 +152,9 @@ namespace ma
 		}
 		else if (type == typeid(RefPtr<UniformAnimation>))
 		{
-			UniformAnimation* pUniformAnimation= any_cast< RefPtr<UniformAnimation> >(&anyValue)->get();
-	
-			this->BindParametersUniform(pRenderable, pUniform,pUniformAnimation->GetValue());
+			UniformAnimation* pUniformAnimation = any_cast<RefPtr<UniformAnimation>>(&anyValue)->get();
+
+			this->BindParametersUniform(pRenderable, pUniform, pUniformAnimation->GetValue());
 		}
 		else
 		{
@@ -136,12 +162,8 @@ namespace ma
 		}
 	}
 
-	void Technique::UnBind()
-	{
-		
-	}
 
-	void Technique::SetParameter(const char* pszName,const Any& value)	
+	void Technique::SetParameter(const char* pszName, const Any& value)
 	{
 		Parameter* pParame = GetParameter(pszName);
 		if (pParame)
@@ -196,7 +218,7 @@ namespace ma
 	void Technique::SetTechName(const char* pName)
 	{
 		m_stName = pName ? pName : "";
-	}	
+	}
 
 	const char*	Technique::GetShaderDefine() const
 	{
@@ -444,7 +466,7 @@ namespace ma
 		return m_vecConstBuffer[eType].clear();
 	}
 
-	void Technique::AddSampler(ShaderType eType,Uniform* pUniform)
+	void Technique::AddSampler(ShaderType eType, Uniform* pUniform)
 	{
 		m_vecSamplers[eType].push_back(pUniform);
 	}
@@ -454,7 +476,7 @@ namespace ma
 		return m_vecSamplers[eType].size();
 	}
 
-	Uniform* Technique::GetSamplerByIndex(ShaderType eType,uint32_t nIndex)
+	Uniform* Technique::GetSamplerByIndex(ShaderType eType, uint32_t nIndex)
 	{
 		return m_vecSamplers[eType][nIndex].get();
 	}
@@ -464,13 +486,37 @@ namespace ma
 		m_vecSamplers[eType].clear();
 	}
 
+	void Technique::AddStorgeBuffer(Uniform* pUniform)
+	{
+		m_vecStorgeBuffer.push_back(pUniform);
+	}
+
+	uint32_t Technique::GetStorgeBufferCount()
+	{
+		return m_vecStorgeBuffer.size();
+	}
+
+	Uniform* Technique::GetStorgeBufferByIndex(uint32_t nIndex)
+	{
+		ASSERT(nIndex < m_vecStorgeBuffer.size());
+		if (nIndex >= m_vecStorgeBuffer.size())
+			return NULL;
+
+		return m_vecStorgeBuffer[nIndex].get();
+	}
+
+	void Technique::ClearStorgeBuffer()
+	{
+		m_vecStorgeBuffer.clear();
+	}
+
 	SamplerState* Technique::GetActiveSampler(Uniform* pUniform)
 	{
 		auto it = m_mapActiceSampler.find(pUniform);
 		if (it == m_mapActiceSampler.end())
 			return nullptr;
 
-		return it->second.get(); 
+		return it->second.get();
 	}
 
 	void Technique::SetActiveSampler(Uniform* pUniform, SamplerState* pSampler)
@@ -541,7 +587,7 @@ namespace ma
 
 			const char* pszVSFile = pXmlShader->findAttribute("VSFile");
 			const char* pszPSFile = pXmlShader->findAttribute("PSFile");
-            
+
 			info.m_shaderMacro = m_strDefine;
 			info.m_strVSFile = pszVSFile;
 			info.m_strPSFile = pszPSFile;
@@ -581,7 +627,7 @@ namespace ma
 		}
 
 		info.m_pRenderPass = m_pRenderPass ? m_pRenderPass : GetRenderSystem()->GetDefaultRenderPass();
-	
+
 		m_pShaderProgram = CreateShaderProgram(info);
 
 		GetRenderSystem()->TechniqueStreamComplete(this);
@@ -589,7 +635,7 @@ namespace ma
 		return true;
 	}
 
-	bool Technique::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
+	bool Technique::Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc)
 	{
 		if (m_pShaderProgram == NULL)
 			return false;
@@ -601,15 +647,15 @@ namespace ma
 
 		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"), doc.allocate_string(info.m_strVSFile.c_str())));
 		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"), doc.allocate_string(info.m_strPSFile.c_str())));
-            
-        if (info.m_pVertexDecl)
-        {
+
+		if (info.m_pVertexDecl)
+		{
 			rapidxml::xml_node<>* pXmlVertexDeclaration = doc.allocate_node(rapidxml::node_element, doc.allocate_string("VertexDeclaration"));
-            pXmlShader->append_node(pXmlVertexDeclaration);
-                
+			pXmlShader->append_node(pXmlVertexDeclaration);
+
 			info.m_pVertexDecl->Export(pXmlVertexDeclaration, doc);
-        }
-		
+		}
+
 		rapidxml::xml_node<>* pXmlRenderState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RenderState"));
 		pXmlElem->append_node(pXmlRenderState);
 
@@ -620,7 +666,7 @@ namespace ma
 
 			info.m_pBlendState->Export(pXmlBlendState, doc);
 		}
-	
+
 		if (info.m_pDSState)
 		{
 			rapidxml::xml_node<>* pXmlDSState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("DepthStencilState"));

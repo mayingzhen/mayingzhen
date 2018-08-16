@@ -26,7 +26,9 @@ namespace ma
 
 		virtual void SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors);
 
-		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType);
+		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount);
+
+		virtual void Draw(uint32_t nVertexStart, uint32_t nVertexCount, uint32_t nInstanceCount);
 
 	public:
 		VkCommandBuffer m_vkCmdBuffer;
@@ -61,6 +63,8 @@ namespace ma
 
 		virtual void SetTechnique(Technique* pTech);
 
+		virtual void SetStorgeBuffer(VertexBuffer* pBuffer);
+
 		virtual void Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
 
 	private:
@@ -68,6 +72,8 @@ namespace ma
 		VkCommandPool m_vkCmdPool;
 
 		VkPipeline m_prePipeline;
+
+		vks::Buffer m_storageBuffer;
 	};
 }
 

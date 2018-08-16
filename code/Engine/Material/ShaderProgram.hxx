@@ -52,6 +52,25 @@ namespace ma
 		m_vecConstBuffer[eType].push_back(pConstBuffer);
 	}
 
+	void ShaderProgram::AddStorgeBuffer(Uniform* pUniform)
+	{
+		m_vecStorgeBuffer.push_back(pUniform);
+	}
+
+	uint32_t ShaderProgram::GetStorgeBufferCount()
+	{
+		return m_vecStorgeBuffer.size();
+	}
+
+	Uniform* ShaderProgram::GetStorgeBufferByIndex(uint32_t nIndex)
+	{
+		ASSERT(nIndex < m_vecStorgeBuffer.size());
+		if (nIndex >= m_vecStorgeBuffer.size())
+			return NULL;
+
+		return m_vecStorgeBuffer[nIndex].get();
+	}
+
 	uint32_t ShaderProgram::GetConstBufferCount(ShaderType eType)
 	{
 		return m_vecConstBuffer[eType].size();

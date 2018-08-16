@@ -27,6 +27,8 @@ namespace ma
 		std::string						m_strGSFile;
 		std::string						m_shaderMacro;
 
+		PRIMITIVE_TYPE					m_ePrimitiveType = PRIM_TRIANGLELIST;
+
 		bool operator < (const ShaderCreateInfo& other) const
 		{
 #define CMPVAR(x) if (x != other.x) return x < other.x;
@@ -71,6 +73,10 @@ namespace ma
 		uint32_t			GetSamplerCount(ShaderType eType);
 		Uniform*			GetSamplerByIndex(ShaderType eType, uint32_t nIndex);
 
+		void				AddStorgeBuffer(Uniform* pUniform);
+		uint32_t			GetStorgeBufferCount();
+		Uniform*			GetStorgeBufferByIndex(uint32_t nIndex);
+
 		virtual void		RT_StreamComplete() = 0;
 
 	private:
@@ -81,6 +87,8 @@ namespace ma
 
 		typedef std::vector< RefPtr<Uniform> > VEC_UNIFORM;
 		VEC_UNIFORM			m_vecSamplers[ShaderType_Number];
+
+		VEC_UNIFORM			m_vecStorgeBuffer;
 	};
 
 	RefPtr<ShaderProgram> CreateShaderProgram(const ShaderCreateInfo& createInfo);

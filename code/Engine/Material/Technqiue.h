@@ -23,7 +23,7 @@ namespace ma
 
 		virtual void		Bind(Renderable* pRenderable);
 
-		virtual void		UnBind();
+		virtual void		BindCompute(Renderable* pRenderable);
 
 		virtual void        RT_StreamComplete() = 0;
 
@@ -73,6 +73,10 @@ namespace ma
 		void				AddSampler(ShaderType eType, Uniform* pUniform);
 		uint32_t			GetSamplerCount(ShaderType eType);
 		Uniform*			GetSamplerByIndex(ShaderType eType, uint32_t nIndex);
+
+		void				AddStorgeBuffer(Uniform* pUniform);
+		uint32_t			GetStorgeBufferCount();
+		Uniform*			GetStorgeBufferByIndex(uint32_t nIndex);
 		
 		void				SetActiveSampler(Uniform* pUniform, SamplerState* pSampler);
 		SamplerState*		GetActiveSampler(Uniform* pUniform);
@@ -89,13 +93,15 @@ namespace ma
 		RefPtr<Technique>   Clone();
 
 	protected:
-		void				BindUniform(Renderable* pRenderable);
+		void				BindUniform(Renderable* pRenderable, ShaderType eType);
 
 		void				BindParametersUniform(Renderable* pRenderable,Uniform* pUniform,const Any& anyValue);
 
 		void				ClearConstBuffer(ShaderType eType);
 
 		void				ClearSampler(ShaderType eType);
+
+		void				ClearStorgeBuffer();
 
 	private:
 		std::string						m_stName;
@@ -112,6 +118,9 @@ namespace ma
 
 		typedef std::vector< RefPtr<Uniform> > VEC_SAMPLER;
 		VEC_SAMPLER						m_vecSamplers[ShaderType_Number];
+
+		typedef std::vector< RefPtr<Uniform> > VEC_STOREGEBUFFER;
+		VEC_STOREGEBUFFER				m_vecStorgeBuffer;
 
 		typedef std::map<Uniform*, RefPtr<SamplerState> > MAP_ACTIVESAMPLER;
 		MAP_ACTIVESAMPLER				m_mapActiceSampler;

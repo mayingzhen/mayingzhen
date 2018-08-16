@@ -31,17 +31,27 @@ namespace ma
 	{
 		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
 
-		uint32_t nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : this->m_pIndexBuffer->GetNumber();
+		uint32_t nIndexBufferNumber = m_pIndexBuffer ? m_pIndexBuffer->GetNumber() : 0;
+
+		uint32_t nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : nIndexBufferNumber;
 		uint32_t nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 		uint32_t nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
+		uint32_t nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : m_pVertexBuffer->GetNumber();
 
 		pRenderCommand->SetTechnique(pTechnique);
 
 		pRenderCommand->SetVertexBuffer(0, this->m_pVertexBuffer.get(), 0);
 
-		pRenderCommand->SetIndexBuffer(this->m_pIndexBuffer.get());
+		if (m_pIndexBuffer)
+		{
+			pRenderCommand->SetIndexBuffer(this->m_pIndexBuffer.get());
 
-		pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nVertexStart, 1, this->m_ePrimitiveType);
+			pRenderCommand->DrawIndex(nIndexStart, nIndexCount, nVertexStart, 1);
+		}
+		else
+		{
+			pRenderCommand->Draw(nVertexStart, nVertexCount, 1);
+		}
 	}
 
 }

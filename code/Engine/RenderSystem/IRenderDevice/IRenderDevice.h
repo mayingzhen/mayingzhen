@@ -50,6 +50,9 @@ namespace ma
 		virtual void				BeginRender() = 0;
 		virtual void				EndRender() = 0;
 
+		virtual void				BegineCompute() = 0;
+		virtual void				EndCompute() = 0;
+
 		virtual	void				BeginProfile(const char* pszLale) = 0;
 		virtual	void				EndProfile() = 0;
 

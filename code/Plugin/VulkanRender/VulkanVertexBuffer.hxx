@@ -40,6 +40,62 @@ namespace ma
 				&m_vertexBuffer,
 				static_cast<uint32_t>(m_Size)));
 		}
+		else if (GetUsage() == HBU_STORGE_BUFFER || GetUsage() == HBU_STORGE_VECTOR_BUFFER)
+		{
+			vks::Buffer vertexStaging;
+
+			VK_CHECK_RESULT(vulkanDevice->createBuffer(
+				VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+				&vertexStaging,
+				static_cast<uint32_t>(m_Size),
+				m_pData));
+			// Target
+			VkBufferUsageFlags usageFlags = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+			if (GetUsage() == HBU_STORGE_VECTOR_BUFFER)
+				usageFlags |= VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+			VK_CHECK_RESULT(vulkanDevice->createBuffer(
+				usageFlags,
+				VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+				&m_vertexBuffer,
+				static_cast<uint32_t>((uint32_t)(m_Size))));
+
+			VkCommandBuffer copyCmd = vulkanDevice->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, false);
+
+			// Copy
+			VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
+			VK_CHECK_RESULT(vkBeginCommandBuffer(copyCmd, &cmdBufInfo));
+
+			VkBufferCopy copyRegion = {};
+
+			copyRegion.size = m_Size;
+			vkCmdCopyBuffer(
+				copyCmd,
+				vertexStaging.buffer,
+				m_vertexBuffer.buffer,
+				1,
+				&copyRegion);
+
+			VK_CHECK_RESULT(vkEndCommandBuffer(copyCmd));
+
+			VkSubmitInfo submitInfo = {};
+			submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submitInfo.commandBufferCount = 1;
+			submitInfo.pCommandBuffers = &copyCmd;
+
+			VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
+
+			VK_CHECK_RESULT(vkQueueSubmit(pRender->m_queue, 1, &submitInfo, VK_NULL_HANDLE));
+			VK_CHECK_RESULT(vkQueueWaitIdle(pRender->m_queue));
+
+			//todo: fence
+			vertexStaging.destroy();
+
+			if (!m_bShadowData)
+			{
+				FreeData();
+			}
+		}
 		else
 		{
 			vks::Buffer vertexStaging;

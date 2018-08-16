@@ -21,15 +21,19 @@ namespace ma
 
 	private:
 		
-		void				UpdateUniformDescriptorSets(ShaderType eType);
+		void				UpdateGrapicUniformDescriptorSets(ShaderType eType);
 
-		void				UpdateSamplerDescriptorSets(ShaderType eType);
+		void				UpdateGrapicSamplerDescriptorSets(ShaderType eType);
 
-		void				UpdateComputeDescriptorSets(HardwareBuffer* pBuffer);
+		void				UpdateComputeUniformDescriptorSets();
+
+		void				UpdateComputeStogeBufferDescriptorSets(Uniform* pUniform, HardwareBuffer* pBuffer);
 
 	public:
 
-		VkDescriptorSet		m_descriptorSet;
+		VkDescriptorSet		m_grapicDescriptorSet;
+
+		VkDescriptorSet		m_computeDescriptorSet;
 	};
 
 

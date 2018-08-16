@@ -15,6 +15,9 @@ cbuffer ObjectVS : register(b5)
 	float point_radius;
 	float4 init_pos_life;
 	float4x4 ps_model_mat;
+	
+	float accumulate_time;
+	float elapse_time;
 }
 
 void vs_main(float4 pos : POSITION,
@@ -51,8 +54,8 @@ void gs_main(point float4 input[1] : SV_Position, inout TriangleStream<PS_IN> ou
 	}
 }
 
-Texture2D particle_tex : register(t0);
-SamplerState bilinear_sampler : register(s0);
+//Texture2D particle_tex : register(t0);
+//SamplerState bilinear_sampler : register(s0);
 
 float4 ps_main(PS_IN ps_in) : SV_Target
 {
@@ -60,7 +63,7 @@ float4 ps_main(PS_IN ps_in) : SV_Target
 	float3 intersect = ps_in.view_dir;
 	
 	float life = ps_in.clr.a;
-	float4 clr = particle_tex.Sample(bilinear_sampler, ps_in.tex);
+	float4 clr = float4(1.0,0.0,0.0,1.0);//particle_tex.Sample(bilinear_sampler, ps_in.tex);
 	
 	return clr;
 }
@@ -81,9 +84,6 @@ void cs_main(uint3 dtid : SV_DispatchThreadID)
 
 	float4 cur_pos = particle_pos_rw_stru_buff[id];
 
-	float accumulate_time = 0.33;
-	float elapse_time = 0.33;
-
 	if (cur_pos.w > 0)
 	{
 		float3 cur_vel = particle_vel_rw_stru_buff[id].xyz;
@@ -92,8 +92,8 @@ void cs_main(uint3 dtid : SV_DispatchThreadID)
 		cur_pos.xyz += cur_vel * elapse_time;
 		cur_pos.w -= elapse_time;
 
-		float2 tex_pos = cur_pos.xz / 4 + 0.5;
-		tex_pos.y = 1 - tex_pos.y;
+		//float2 tex_pos = cur_pos.xz / 4 + 0.5;
+		//tex_pos.y = 1 - tex_pos.y;
 		//float height = height_map_tex.SampleLevel(point_sampler, tex_pos, 0).r;
 		//if (cur_pos.y < height)
 		//{

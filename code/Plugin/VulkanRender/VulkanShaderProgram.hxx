@@ -357,6 +357,11 @@ namespace ma
 
 				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
 					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+					VK_SHADER_STAGE_GEOMETRY_BIT,
+					m_cbshiftBinding[GS] + icb));
+
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
 					VK_SHADER_STAGE_FRAGMENT_BIT,
 					m_cbshiftBinding[PS] + icb));
 			}
@@ -389,7 +394,7 @@ namespace ma
 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
 				setLayoutBindings.data(),
 				static_cast<uint32_t>(setLayoutBindings.size()));
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout));
+			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_graphicPip.m_desc_layout));
 		}
 
 		/* Now use the descriptor layout to create a pipeline layout */
@@ -399,7 +404,7 @@ namespace ma
 		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;// pPushConstantRanges.size();
 		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;// pPushConstantRanges.data();
 		pPipelineLayoutCreateInfo.setLayoutCount = 1;
-		pPipelineLayoutCreateInfo.pSetLayouts = &m_desc_layout;
+		pPipelineLayoutCreateInfo.pSetLayouts = &m_graphicPip.m_desc_layout;
 
 		VK_CHECK_RESULT(vkCreatePipelineLayout(device->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_graphicPip._Layout));
 	}
@@ -507,7 +512,7 @@ namespace ma
 		ia.pNext = NULL;
 		ia.flags = 0;
 		ia.primitiveRestartEnable = VK_FALSE;
-		ia.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+		ia.topology = VulkanMapping::GetPrimitiveType(info.m_ePrimitiveType);// VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
 		VkPipelineViewportStateCreateInfo vp = {};
 		vp.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -617,7 +622,7 @@ namespace ma
 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
 				setLayoutBindings.data(),
 				static_cast<uint32_t>(setLayoutBindings.size()));
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout));
+			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(device->logicalDevice, &descriptorLayout, nullptr, &m_computePip.m_desc_layout));
 		}
 
 		/* Now use the descriptor layout to create a pipeline layout */
@@ -627,7 +632,7 @@ namespace ma
 		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;// pPushConstantRanges.size();
 		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;// pPushConstantRanges.data();
 		pPipelineLayoutCreateInfo.setLayoutCount = 1;
-		pPipelineLayoutCreateInfo.pSetLayouts = &m_desc_layout;
+		pPipelineLayoutCreateInfo.pSetLayouts = &m_computePip.m_desc_layout;
 
 		VK_CHECK_RESULT(vkCreatePipelineLayout(device->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_computePip._Layout));
 
@@ -669,6 +674,20 @@ namespace ma
 		spirv_cross::CompilerHLSL hlsl(vtx_spv.data(), vtx_spv.size());
 
 		spirv_cross::ShaderResources resources = hlsl.get_shader_resources();
+
+		if (eType == CS)
+		{
+			for (auto &resource : resources.storage_buffers)
+			{
+				unsigned binding = hlsl.get_decoration(resource.id, spv::DecorationBinding);
+
+				RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
+				pUniform->SetIndex(binding);
+
+				this->AddStorgeBuffer(pUniform.get());
+			}
+		}
+
 		for (auto &resource : resources.uniform_buffers)
 		{
 			const spirv_cross::SPIRType& spType = hlsl.get_type(resource.type_id);
@@ -719,24 +738,22 @@ namespace ma
 		
 			CreateComputePipeline(stage);
 		}
-		else
+	
+		m_shaderStages.push_back( CreateShaderMode(info.m_strVSFile, VS) );
+
+		m_shaderStages.push_back( CreateShaderMode(info.m_strPSFile, PS) );
+
+		if (!info.m_strGSFile.empty())
 		{
-			m_shaderStages.push_back( CreateShaderMode(info.m_strVSFile, VS) );
-
-			m_shaderStages.push_back( CreateShaderMode(info.m_strPSFile, PS) );
-
-			if (!info.m_strGSFile.empty())
-			{
-				m_shaderStages.push_back( CreateShaderMode(info.m_strGSFile, GS) );
-			}
-
-			CreatePipelineLayout();
-
-			CreatePipelineCache();
-
-			CreateGraphicsPipeline();
+			m_shaderStages.push_back( CreateShaderMode(info.m_strGSFile, GS) );
 		}
 
+		CreatePipelineLayout();
+
+		CreatePipelineCache();
+
+		CreateGraphicsPipeline();
+	
 		SetResState(ResInited);
 	}
 

@@ -73,6 +73,9 @@ namespace ma
 
 	void VulkanRenderCommand::SetIndexBuffer(IndexBuffer* pIB)
 	{
+		if (pIB == NULL)
+			return;
+
 		if (m_pPreIB == pIB)
 			return;
 
@@ -110,12 +113,17 @@ namespace ma
 		}
 		
 		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_graphicPip._Layout, 0,
-			1, &pVulkanTech->m_descriptorSet, 0, NULL);
+			1, &pVulkanTech->m_grapicDescriptorSet, 0, NULL);
 	}
 
-	void VulkanRenderCommand::DrawIndex(uint32_t nIndexStart,uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType)
+	void VulkanRenderCommand::DrawIndex(uint32_t nIndexStart,uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount)
 	{
 		vkCmdDrawIndexed(m_vkCmdBuffer, nIndexCount, nInstanceCount, nIndexStart, nVertexStart, 0);
+	}
+
+	void VulkanRenderCommand::Draw(uint32_t nVertexStart, uint32_t nVertexCount, uint32_t nInstanceCount)
+	{
+		vkCmdDraw(m_vkCmdBuffer, nVertexCount, nInstanceCount, nVertexStart, 0);
 	}
 
 	void VulkanRenderCommand::SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors)
@@ -182,11 +190,63 @@ namespace ma
 // 		commandBufferBeginInfo.pInheritanceInfo = &inheritanceInfo;
 // 
 // 		VK_CHECK_RESULT(vkBeginCommandBuffer(m_vkCmdBuffer, &cmdBufInfo));
+
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
+
+		// Add memory barrier to ensure that the (graphics) vertex shader has fetched attributes before compute starts to write to the buffer
+		VkBufferMemoryBarrier bufferBarrier = vks::initializers::bufferMemoryBarrier();
+		bufferBarrier.buffer = m_storageBuffer.buffer;
+		bufferBarrier.size = m_storageBuffer.descriptor.range;
+		bufferBarrier.srcAccessMask = VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT;						// Vertex shader invocations have finished reading from the buffer
+		bufferBarrier.dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT;								// Compute shader wants to write to the buffer
+																								// Compute and graphics queue may have different queue families (see VulkanDevice::createLogicalDevice)
+																								// For the barrier to work across different queues, we need to set their family indices
+		bufferBarrier.srcQueueFamilyIndex = vulkanDevice->queueFamilyIndices.graphics;			// Required as compute and graphics queue may have different families
+		bufferBarrier.dstQueueFamilyIndex = vulkanDevice->queueFamilyIndices.compute;			// Required as compute and graphics queue may have different families
+
+// 		vkCmdPipelineBarrier(
+// 			m_vkCmdBuffer/*compute.commandBuffer*/,
+// 			VK_PIPELINE_STAGE_VERTEX_SHADER_BIT,
+// 			VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+// 			VK_FLAGS_NONE,
+// 			0, nullptr,
+// 			1, &bufferBarrier,
+// 			0, nullptr);
+
 	}
 
 	void VulkanComputeCommad::End()
 	{
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
+
+		VkBufferMemoryBarrier bufferBarrier = vks::initializers::bufferMemoryBarrier();
+		// Add memory barrier to ensure that compute shader has finished writing to the buffer
+		// Without this the (rendering) vertex shader may display incomplete results (partial data from last frame) 
+		bufferBarrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;								// Compute shader has finished writes to the buffer
+		bufferBarrier.dstAccessMask = VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT;						// Vertex shader invocations want to read from the buffer
+		bufferBarrier.buffer = m_storageBuffer.buffer;
+		bufferBarrier.size = m_storageBuffer.descriptor.range;
+		// Compute and graphics queue may have different queue families (see VulkanDevice::createLogicalDevice)
+		// For the barrier to work across different queues, we need to set their family indices
+		bufferBarrier.srcQueueFamilyIndex = vulkanDevice->queueFamilyIndices.compute;			// Required as compute and graphics queue may have different families
+		bufferBarrier.dstQueueFamilyIndex = vulkanDevice->queueFamilyIndices.graphics;			// Required as compute and graphics queue may have different families
+
+// 		vkCmdPipelineBarrier(
+// 			m_vkCmdBuffer/*compute.commandBuffer*/,
+// 			VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+// 			VK_PIPELINE_STAGE_VERTEX_SHADER_BIT,
+// 			VK_FLAGS_NONE,
+// 			0, nullptr,
+// 			1, &bufferBarrier,
+// 			0, nullptr);
+
 //		VK_CHECK_RESULT(vkEndCommandBuffer(m_vkCmdBuffer));
+	}
+
+	void VulkanComputeCommad::SetStorgeBuffer(VertexBuffer* pBuffer)
+	{
+		VulkanVertexBuffer* pVkBuffer = (VulkanVertexBuffer*)(pBuffer);
+		m_storageBuffer = pVkBuffer->m_vertexBuffer;
 	}
 
 	void VulkanComputeCommad::SetTechnique(Technique* pTech)
@@ -194,7 +254,7 @@ namespace ma
 		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
 		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
 
-		if (m_prePipeline != pVulkanShader->m_computePip._Pipeline)
+		//if (m_prePipeline != pVulkanShader->m_computePip._Pipeline)
 		{
 			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_computePip._Pipeline);
 
@@ -202,7 +262,7 @@ namespace ma
 		}
 
 		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_computePip._Layout, 0,
-			1, &pVulkanTech->m_descriptorSet, 0, NULL);
+			1, &pVulkanTech->m_computeDescriptorSet, 0, NULL);
 	}
 
 	void VulkanComputeCommad::Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)

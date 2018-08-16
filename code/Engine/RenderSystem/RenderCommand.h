@@ -18,7 +18,9 @@ namespace ma
 
 		virtual void SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors) = 0;
 
-		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount, PRIMITIVE_TYPE ePrType) = 0;
+		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount) = 0;
+
+		virtual void Draw(uint32_t nVertexStart, uint32_t nVertexCount, uint32_t nInstanceCount) = 0;
 	};
 
 	class ComputeCommad : public Referenced
@@ -30,6 +32,8 @@ namespace ma
 		virtual void End() = 0;
 
 		virtual void SetTechnique(Technique* pTech) = 0;
+
+		virtual void SetStorgeBuffer(VertexBuffer* pBuffer) = 0;
 
 		virtual void Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) = 0;
 	};

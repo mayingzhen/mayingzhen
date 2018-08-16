@@ -78,26 +78,65 @@ namespace ma
 			}
 		}
 
-		BindUniform(NULL);
+		this->ClearStorgeBuffer();
 
-		VkDescriptorSetAllocateInfo alloc_info[1];
-		alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-		alloc_info[0].pNext = NULL;
-		alloc_info[0].descriptorPool = pShader->m_desc_pool;
-		alloc_info[0].descriptorSetCount = 1;
-		alloc_info[0].pSetLayouts = &pShader->m_desc_layout;
+		for (uint32_t j = 0; j < pShader->GetStorgeBufferCount(); ++j)
+		{
+			Uniform* pUniform = pShader->GetStorgeBufferByIndex(j);
+			
+			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
+			pUniformCopy->SetTechnique(this);
+			pUniformCopy->SetIndex(pUniform->GetIndex());
+			pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 
-		vks::VulkanDevice* device = GetVulkanDevice();
-		VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_descriptorSet);
-		assert(res == VK_SUCCESS);
+			this->AddStorgeBuffer(pUniformCopy.get());
+		}
+
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		{
+			BindUniform(NULL, (ShaderType)i);
+		}
+
+		{
+			VkDescriptorSetAllocateInfo alloc_info[1];
+			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+			alloc_info[0].pNext = NULL;
+			alloc_info[0].descriptorPool = pShader->m_desc_pool;
+			alloc_info[0].descriptorSetCount = 1;
+			alloc_info[0].pSetLayouts = &pShader->m_graphicPip.m_desc_layout;
+
+			vks::VulkanDevice* device = GetVulkanDevice();
+			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_grapicDescriptorSet);
+			assert(res == VK_SUCCESS);
+		}
+
+		if (pShader->m_computePip._Pipeline != VK_NULL_HANDLE)
+		{
+			VkDescriptorSetAllocateInfo alloc_info[1];
+			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+			alloc_info[0].pNext = NULL;
+			alloc_info[0].descriptorPool = pShader->m_desc_pool;
+			alloc_info[0].descriptorSetCount = 1;
+			alloc_info[0].pSetLayouts = &pShader->m_computePip.m_desc_layout;
+
+			vks::VulkanDevice* device = GetVulkanDevice();
+			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_computeDescriptorSet);
+			assert(res == VK_SUCCESS);
+
+			UpdateComputeUniformDescriptorSets();
+		}
+
 
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
 			ShaderType eType = (ShaderType)i;
 
-			UpdateUniformDescriptorSets(eType);
+			if (eType == CS)
+				continue;
 
-			UpdateSamplerDescriptorSets(eType);
+			UpdateGrapicUniformDescriptorSets(eType);
+
+			UpdateGrapicSamplerDescriptorSets(eType);
 		}
 	}
 
@@ -107,16 +146,16 @@ namespace ma
 		{
 			ShaderType eType = (ShaderType)i;
 
-			UpdateSamplerDescriptorSets(eType);
+			UpdateGrapicSamplerDescriptorSets(eType);
 		}
 	}
 
 	void VulkanTechnique::RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
 	{
-		UpdateComputeDescriptorSets(pBuffer);
+		UpdateComputeStogeBufferDescriptorSets(pUniform, pBuffer);
 	}
 
-	void VulkanTechnique::UpdateUniformDescriptorSets(ShaderType eType)
+	void VulkanTechnique::UpdateGrapicUniformDescriptorSets(ShaderType eType)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -132,7 +171,7 @@ namespace ma
 				VkWriteDescriptorSet write = {};
 				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 				write.pNext = NULL;
-				write.dstSet = m_descriptorSet;
+				write.dstSet = m_grapicDescriptorSet;
 				write.descriptorCount = 1;
 				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				write.pBufferInfo = &pConstBuffer->m_descriptor;
@@ -145,7 +184,7 @@ namespace ma
 		}
 	}
 
-	void VulkanTechnique::UpdateSamplerDescriptorSets(ShaderType eType)
+	void VulkanTechnique::UpdateGrapicSamplerDescriptorSets(ShaderType eType)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -166,7 +205,7 @@ namespace ma
 			VkWriteDescriptorSet writeSampler = {};
 			writeSampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 			writeSampler.pNext = NULL;
-			writeSampler.dstSet = m_descriptorSet;
+			writeSampler.dstSet = m_grapicDescriptorSet;
 			writeSampler.descriptorCount = 1;
 			writeSampler.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
 			writeSampler.pImageInfo = &pSampler->m_descriptor;
@@ -177,7 +216,7 @@ namespace ma
 			VkWriteDescriptorSet writeTexture = {};
 			writeTexture.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 			writeTexture.pNext = NULL;
-			writeTexture.dstSet = m_descriptorSet;
+			writeTexture.dstSet = m_grapicDescriptorSet;
 			writeTexture.descriptorCount = 1;
 			writeTexture.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
 			writeTexture.pImageInfo = &pSampler->m_descriptor;
@@ -190,25 +229,56 @@ namespace ma
 		vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 	}
 
-	void VulkanTechnique::UpdateComputeDescriptorSets(HardwareBuffer* pBuffer)
+	void VulkanTechnique::UpdateComputeUniformDescriptorSets()
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
+
+		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
+
+		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
+
+		{
+			std::vector<VkWriteDescriptorSet> vecVSwrite;
+			for (uint32_t i = 0; i < this->GetConstBufferCount(CS); ++i)
+			{
+				VulkanConstantBuffer* pConstBuffer = (VulkanConstantBuffer*)this->GetConstBufferByIndex(CS, i);
+				VkWriteDescriptorSet write = {};
+				write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+				write.pNext = NULL;
+				write.dstSet = m_computeDescriptorSet;
+				write.descriptorCount = 1;
+				write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+				write.pBufferInfo = &pConstBuffer->m_descriptor;
+				write.dstArrayElement = 0;
+				write.dstBinding = pConstBuffer->GetBound();
+				vecVSwrite.push_back(write);
+			}
+
+			vkUpdateDescriptorSets(device->logicalDevice, vecVSwrite.size(), vecVSwrite.data(), 0, NULL);
+		}
+	}
+
+	void VulkanTechnique::UpdateComputeStogeBufferDescriptorSets(Uniform* pUniform, HardwareBuffer* pBuffer)
+	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
 		VulkanVertexBuffer* pVKBuffer = dynamic_cast<VulkanVertexBuffer*>(pBuffer);
 		if (pVKBuffer == nullptr)
 			return;
 
 		vks::Buffer storageBuffer = pVKBuffer->m_vertexBuffer;
-		std::vector<VkWriteDescriptorSet> computeWriteDescriptorSets =
-		{
-			vks::initializers::writeDescriptorSet(
-				m_descriptorSet,
+		std::vector<VkWriteDescriptorSet> vec_write;
+		VkWriteDescriptorSet write = vks::initializers::writeDescriptorSet(
+				m_computeDescriptorSet,
 				VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
 				0,
-				&storageBuffer.descriptor)
-		};
+				&storageBuffer.descriptor);
+		write.dstBinding = pUniform->GetIndex();
+		vec_write.push_back(write);
 
-		vkUpdateDescriptorSets(device->logicalDevice, static_cast<uint32_t>(computeWriteDescriptorSets.size()), computeWriteDescriptorSets.data(), 0, NULL);
+		vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 	}
 }
 

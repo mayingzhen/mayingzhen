@@ -207,7 +207,6 @@ EXPORTS
 ?CreateVertexDeclaration@RenderSystem@ma@@QAE?AV?$RefPtr@VVertexDeclaration@ma@@@2@PAUVertexElement@2@I@Z
 ??0Technique@ma@@QAE@XZ
 ??1Technique@ma@@UAE@XZ
-?UnBind@Technique@ma@@UAEXXZ
 ?Import@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
 ?Export@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z
 ?GetPixelBox@ImageData@ma@@QBE?AVPixelBox@2@II@Z
@@ -236,7 +235,6 @@ EXPORTS
 ?GetElementCount@VertexDeclaration@ma@@QAEII@Z
 ?GetElement@VertexDeclaration@ma@@QAEABUVertexElement@2@II@Z
 ?Bind@Technique@ma@@UAEXPAVRenderable@2@@Z
-?BindUniform@Technique@ma@@IAEXPAVRenderable@2@@Z
 ?ClearConstBuffer@Technique@ma@@IAEXW4ShaderType@2@@Z
 ??0Texture@ma@@QAE@HHIW4PixelFormat@1@_NW4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z
 ?Init@Engine@ma@@QAEXPAX_N11@Z
@@ -287,3 +285,21 @@ EXPORTS
 ??0ParallHardWareBuffer@ma@@QAE@III@Z
 ?GetParameter@SubMaterial@ma@@QAEPAVParameter@2@PBD@Z
 ?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PAVImageData@1@_N1@Z
+?AddStorgeBuffer@Technique@ma@@QAEXPAVUniform@2@@Z
+?ClearStorgeBuffer@Technique@ma@@IAEXXZ
+?AddStorgeBuffer@ShaderProgram@ma@@QAEXPAVUniform@2@@Z
+?GetStorgeBufferCount@ShaderProgram@ma@@QAEIXZ
+?GetStorgeBufferByIndex@ShaderProgram@ma@@QAEPAVUniform@2@I@Z
+??0RenderComponent@ma@@QAE@XZ
+?RenderShadow@RenderComponent@ma@@UAEXPAVRenderQueue@2@@Z
+?SetAABB@RenderComponent@ma@@QAEXABVAABB@2@@Z
+?SetNeedChange@RenderComponent@ma@@UAEXW4CHANGE_TYPE@2@@Z
+?OnAddToSceneNode@RenderComponent@ma@@UAEXPAVSceneNode@2@@Z
+?OnRemoveFromSceneNode@RenderComponent@ma@@UAEXPAVSceneNode@2@@Z
+?UpdateWorldBoundingBox@RenderComponent@ma@@MAEXXZ
+?BegineCompute@RenderSystem@ma@@QAEXXZ
+?EndCompute@RenderSystem@ma@@QAEXXZ
+?SetStorageBuffer@Technique@ma@@QAEXPAVUniform@2@PAVHardwareBuffer@2@@Z
+?GetShadingInstTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
+?BindCompute@Technique@ma@@UAEXPAVRenderable@2@@Z
+?BindUniform@Technique@ma@@IAEXPAVRenderable@2@W4ShaderType@2@@Z
