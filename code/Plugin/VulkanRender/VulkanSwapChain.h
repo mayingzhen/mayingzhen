@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <vector>
 #ifdef _WIN32
-#include <windows.h>
 #include <fcntl.h>
 #include <io.h>
 #else

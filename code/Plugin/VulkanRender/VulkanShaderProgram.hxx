@@ -215,13 +215,13 @@ namespace ma
 
 		glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
 
-		/*
+		
 		program.buildReflection();
 		program.dumpReflection();
 
 		int nNumUniformBlock = program.getNumLiveUniformBlocks();
 
-		std::vector<VulkanConstantBuffer*> vecCB(nNumUniformBlock);
+		std::vector< VulkanConstantBuffer* > vecCB(nNumUniformBlock);
 
 		for (int iBlock = 0; iBlock < nNumUniformBlock; ++iBlock)
 		{
@@ -230,14 +230,24 @@ namespace ma
 			const glslang::TType* type = program.getUniformBlockTType(iBlock);
 			int binding = type->getQualifier().layoutBinding;
 
-			RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
-			this->AddConstBuffer(eType, pConstantBuffer.get());
+			if (size == 0)
+			{
+				RefPtr<Uniform> pUniform = CreateUniform(pszName);
+				pUniform->SetIndex(binding);
 
-			pConstantBuffer->SetName(pszName);
-			pConstantBuffer->SetBound(binding);
-			pConstantBuffer->SetSize(size);
+				this->AddStorgeBuffer(pUniform.get());
+			}
+			else
+			{
+				RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
+				this->AddConstBuffer(eType, pConstantBuffer.get());
 
-			vecCB[iBlock] = pConstantBuffer.get();
+				pConstantBuffer->SetName(pszName);
+				pConstantBuffer->SetBound(binding);
+				pConstantBuffer->SetSize(size);
+
+				vecCB[iBlock] = pConstantBuffer.get();
+			}
 		}
 
 		int nNumUniformVar = program.getNumLiveUniformVariables();
@@ -246,7 +256,20 @@ namespace ma
 			const char* pszName = program.getUniformName(iVar);
 			int offset = program.getUniformBufferOffset(iVar);
 			int arraySize = program.getUniformArraySize(iVar);
+			int nBinding = program.getUniformBinding(iVar);
 			const glslang::TType* type = program.getUniformTType(iVar);
+			ASSERT(type);
+			if (type == NULL)
+				continue;
+
+			if (type->isTexture())
+			{
+				RefPtr<Uniform> pUniform = CreateUniform(pszName);
+				pUniform->SetIndex(nBinding - m_texshiftBinding[eType]);
+				this->AddSampler(eType, pUniform.get());
+				continue;
+			}
+
 			int size = 0;
 			if (type->getBasicType() == glslang::EbtFloat)
 			{
@@ -265,14 +288,15 @@ namespace ma
 				ASSERT(blockIndex < nNumUniformBlock);
 
 				VulkanConstantBuffer* pConstantBuffer = vecCB[blockIndex];
-
-				Uniform* pUniform = pConstantBuffer->AddUniform(pszName);
-				pUniform->SetIndex(-1);
-				pUniform->SetOffset(offset);
-				pUniform->SetSize(size);
+				if (pConstantBuffer)
+				{
+					Uniform* pUniform = pConstantBuffer->AddUniform(pszName);
+					pUniform->SetIndex(-1);
+					pUniform->SetOffset(offset);
+					pUniform->SetSize(size);
+				}
 			}
 		}
-		*/
 	}
 
 	VkShaderStageFlagBits ToVkShader(ShaderType type)
@@ -654,7 +678,8 @@ namespace ma
 
 	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32_t>& vtx_spv)
 	{
-		
+		return;
+
 		if (0)
 		{
 			spirv_cross::CompilerGLSL glsl(vtx_spv.data(), vtx_spv.size());
@@ -671,15 +696,15 @@ namespace ma
 			LogInfo("%s", source.c_str());
 		}
 
-		spirv_cross::CompilerHLSL hlsl(vtx_spv.data(), vtx_spv.size());
+		spirv_cross::CompilerGLSL glsl(vtx_spv.data(), vtx_spv.size());
 
-		spirv_cross::ShaderResources resources = hlsl.get_shader_resources();
+		spirv_cross::ShaderResources resources = glsl.get_shader_resources();
 
 		if (eType == CS)
 		{
 			for (auto &resource : resources.storage_buffers)
 			{
-				unsigned binding = hlsl.get_decoration(resource.id, spv::DecorationBinding);
+				unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
 
 				RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
 				pUniform->SetIndex(binding);
@@ -690,9 +715,9 @@ namespace ma
 
 		for (auto &resource : resources.uniform_buffers)
 		{
-			const spirv_cross::SPIRType& spType = hlsl.get_type(resource.type_id);
-			size_t size_ = hlsl.get_declared_struct_size(spType);
-			unsigned binding = hlsl.get_decoration(resource.id, spv::DecorationBinding);
+			const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
+			size_t size_ = glsl.get_declared_struct_size(spType);
+			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
 			RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
 			pConstantBuffer->SetName(resource.name.c_str());
 			pConstantBuffer->SetBound(binding);
@@ -700,9 +725,9 @@ namespace ma
 			this->AddConstBuffer(eType, pConstantBuffer.get());
 			for (uint32_t i = 0; i < spType.member_types.size(); ++i)
 			{
-				std::string str = hlsl.get_member_name(spType.self, i);
-				size_t offset = hlsl.type_struct_member_offset(spType, i);
-				size_t size = hlsl.get_declared_struct_member_size(spType, i);
+				std::string str = glsl.get_member_name(spType.self, i);
+				size_t offset = glsl.type_struct_member_offset(spType, i);
+				size_t size = glsl.get_declared_struct_member_size(spType, i);
 
 				Uniform* pUniform = pConstantBuffer->AddUniform(str.c_str());
 				pUniform->SetIndex(i);
@@ -713,7 +738,7 @@ namespace ma
 
 		for (auto &resource : resources.separate_images)
 		{
-			unsigned binding = hlsl.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
 
 			RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
 			pUniform->SetIndex(binding - m_texshiftBinding[eType]);

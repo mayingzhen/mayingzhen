@@ -23,7 +23,6 @@
 #include <stdexcept>
 #include <fstream>
 #if defined(_WIN32)
-#include <windows.h>
 #include <fcntl.h>
 #include <io.h>
 #elif defined(__ANDROID__)

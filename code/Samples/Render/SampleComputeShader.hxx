@@ -91,7 +91,7 @@ namespace ma
 		m_pScene->SetAmbientColor(Vector3(0.5, 0.5, 0.5));
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
 
-		if (0)
+		if (1)
 		{
 			SceneNode* pBox = m_pScene->CreateSceneNode();
 			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
