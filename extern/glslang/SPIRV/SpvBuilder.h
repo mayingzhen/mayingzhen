@@ -1,6 +1,7 @@
 //
 // Copyright (C) 2014-2015 LunarG, Inc.
 // Copyright (C) 2015-2016 Google, Inc.
+// Copyright (C) 2017 ARM Limited.
 //
 // All rights reserved.
 //
@@ -55,22 +56,35 @@
 #include <set>
 #include <sstream>
 #include <stack>
+#include <unordered_map>
 
 namespace spv {
 
 class Builder {
 public:
-    Builder(unsigned int userNumber, SpvBuildLogger* logger);
+    Builder(unsigned int spvVersion, unsigned int userNumber, SpvBuildLogger* logger);
     virtual ~Builder();
 
     static const int maxMatrixSize = 4;
+
+    unsigned int getSpvVersion() const { return spvVersion; }
 
     void setSource(spv::SourceLanguage lang, int version)
     {
         source = lang;
         sourceVersion = version;
     }
+    void setSourceFile(const std::string& file)
+    {
+        Instruction* fileString = new Instruction(getUniqueId(), NoType, OpString);
+        fileString->addStringOperand(file.c_str());
+        sourceFileStringId = fileString->getResultId();
+        strings.push_back(std::unique_ptr<Instruction>(fileString));
+    }
+    void setSourceText(const std::string& text) { sourceText = text; }
     void addSourceExtension(const char* ext) { sourceExtensions.push_back(ext); }
+    void addModuleProcessed(const std::string& p) { moduleProcesses.push_back(p.c_str()); }
+    void setEmitOpLines() { emitOpLines = true; }
     void addExtension(const char* ext) { extensions.insert(ext); }
     Id import(const char*);
     void setMemoryModel(spv::AddressingModel addr, spv::MemoryModel mem)
@@ -91,6 +105,12 @@ public:
         uniqueId += numIds;
         return id;
     }
+
+    // Log the current line, and if different than the last one,
+    // issue a new OpLine, using the current file name.
+    void setLine(int line);
+    // Low-level OpLine. See setLine() for a layered helper.
+    void addLine(Id fileName, int line, int column);
 
     // For creating new types (will return old type if the requested one was already made).
     Id makeVoidType();
@@ -133,7 +153,7 @@ public:
     bool isAggregate(Id resultId)    const { return isAggregateType(getTypeId(resultId)); }
     bool isSampledImage(Id resultId) const { return isSampledImageType(getTypeId(resultId)); }
 
-    bool isBoolType(Id typeId)         const { return groupedTypes[OpTypeBool].size() > 0 && typeId == groupedTypes[OpTypeBool].back()->getResultId(); }
+    bool isBoolType(Id typeId)               { return groupedTypes[OpTypeBool].size() > 0 && typeId == groupedTypes[OpTypeBool].back()->getResultId(); }
     bool isIntType(Id typeId)          const { return getTypeClass(typeId) == OpTypeInt && module.getInstruction(typeId)->getImmediateOperand(1) != 0; }
     bool isUintType(Id typeId)         const { return getTypeClass(typeId) == OpTypeInt && module.getInstruction(typeId)->getImmediateOperand(1) == 0; }
     bool isFloatType(Id typeId)        const { return getTypeClass(typeId) == OpTypeFloat; }
@@ -195,15 +215,18 @@ public:
 
     // For making new constants (will return old constant if the requested one was already made).
     Id makeBoolConstant(bool b, bool specConstant = false);
+    Id makeInt8Constant(int i, bool specConstant = false)        { return makeIntConstant(makeIntType(8),  (unsigned)i, specConstant); }
+    Id makeUint8Constant(unsigned u, bool specConstant = false)  { return makeIntConstant(makeUintType(8),           u, specConstant); }
+    Id makeInt16Constant(int i, bool specConstant = false)       { return makeIntConstant(makeIntType(16),  (unsigned)i, specConstant); }
+    Id makeUint16Constant(unsigned u, bool specConstant = false) { return makeIntConstant(makeUintType(16),           u, specConstant); }
     Id makeIntConstant(int i, bool specConstant = false)         { return makeIntConstant(makeIntType(32),  (unsigned)i, specConstant); }
     Id makeUintConstant(unsigned u, bool specConstant = false)   { return makeIntConstant(makeUintType(32),           u, specConstant); }
     Id makeInt64Constant(long long i, bool specConstant = false)            { return makeInt64Constant(makeIntType(64),  (unsigned long long)i, specConstant); }
     Id makeUint64Constant(unsigned long long u, bool specConstant = false)  { return makeInt64Constant(makeUintType(64),                     u, specConstant); }
     Id makeFloatConstant(float f, bool specConstant = false);
     Id makeDoubleConstant(double d, bool specConstant = false);
-#ifdef AMD_EXTENSIONS
     Id makeFloat16Constant(float f16, bool specConstant = false);
-#endif
+    Id makeFpConstant(Id type, double d, bool specConstant = false);
 
     // Turn the array of constants into a proper spv constant of the requested type.
     Id makeCompositeConstant(Id type, const std::vector<Id>& comps, bool specConst = false);
@@ -213,9 +236,11 @@ public:
     void addExecutionMode(Function*, ExecutionMode mode, int value1 = -1, int value2 = -1, int value3 = -1);
     void addName(Id, const char* name);
     void addMemberName(Id, int member, const char* name);
-    void addLine(Id target, Id fileName, int line, int column);
     void addDecoration(Id, Decoration, int num = -1);
+    void addDecoration(Id, Decoration, const char*);
+    void addDecorationId(Id id, Decoration, Id idDecoration);
     void addMemberDecoration(Id, unsigned int member, Decoration, int num = -1);
+    void addMemberDecoration(Id, unsigned int member, Decoration, const char*);
 
     // At the end of what block do the next create*() instructions go?
     void setBuildPoint(Block* bp) { buildPoint = bp; }
@@ -229,7 +254,7 @@ public:
     // Return the function, pass back the entry.
     // The returned pointer is only valid for the lifetime of this builder.
     Function* makeFunctionEntry(Decoration precision, Id returnType, const char* name, const std::vector<Id>& paramTypes,
-                                const std::vector<Decoration>& precisions, Block **entry = 0);
+                                const std::vector<std::vector<Decoration>>& precisions, Block **entry = 0);
 
     // Create a return. An 'implicit' return is one not appearing in the source
     // code.  In the case of an implicit return, no post-return block is inserted.
@@ -270,13 +295,14 @@ public:
 
     void createNoResultOp(Op);
     void createNoResultOp(Op, Id operand);
-    void createNoResultOp(Op, const std::vector<Id>& operands);
+    void createNoResultOp(Op, const std::vector<IdImmediate>& operands);
     void createControlBarrier(Scope execution, Scope memory, MemorySemanticsMask);
     void createMemoryBarrier(unsigned executionScope, unsigned memorySemantics);
     Id createUnaryOp(Op, Id typeId, Id operand);
     Id createBinOp(Op, Id typeId, Id operand1, Id operand2);
     Id createTriOp(Op, Id typeId, Id operand1, Id operand2, Id operand3);
     Id createOp(Op, Id typeId, const std::vector<Id>& operands);
+    Id createOp(Op, Id typeId, const std::vector<IdImmediate>& operands);
     Id createFunctionCall(spv::Function*, const std::vector<spv::Id>&);
     Id createSpecConstantOp(Op, Id typeId, const std::vector<spv::Id>& operands, const std::vector<unsigned>& literals);
 
@@ -311,7 +337,7 @@ public:
     // Generally, the type of 'scalar' does not need to be the same type as the components in 'vector'.
     // The type of the created vector is a vector of components of the same type as the scalar.
     //
-    // Note: One of the arguments will change, with the result coming back that way rather than 
+    // Note: One of the arguments will change, with the result coming back that way rather than
     // through the return value.
     void promoteScalar(Decoration precision, Id& left, Id& right);
 
@@ -367,7 +393,7 @@ public:
     // Helper to use for building nested control flow with if-then-else.
     class If {
     public:
-        If(Id condition, Builder& builder);
+        If(Id condition, unsigned int ctrl, Builder& builder);
         ~If() {}
 
         void makeBeginElse();
@@ -379,6 +405,7 @@ public:
 
         Builder& builder;
         Id condition;
+        unsigned int control;
         Function* function;
         Block* headerBlock;
         Block* thenBlock;
@@ -398,7 +425,7 @@ public:
     // Returns the right set of basic blocks to start each code segment with, so that the caller's
     // recursion stack can hold the memory for it.
     //
-    void makeSwitch(Id condition, int numSegments, const std::vector<int>& caseValues,
+    void makeSwitch(Id condition, unsigned int control, int numSegments, const std::vector<int>& caseValues,
                     const std::vector<int>& valueToSegment, int defaultSegment, std::vector<Block*>& segmentBB); // return argument
 
     // Add a branch to the innermost switch's merge block.
@@ -513,19 +540,22 @@ public:
     // push new swizzle onto the end of any existing swizzle, merging into a single swizzle
     void accessChainPushSwizzle(std::vector<unsigned>& swizzle, Id preSwizzleBaseType);
 
-    // push a variable component selection onto the access chain; supporting only one, so unsided
+    // push a dynamic component selection onto the access chain, only applicable with a
+    // non-trivial swizzle or no swizzle
     void accessChainPushComponent(Id component, Id preSwizzleBaseType)
     {
-        accessChain.component = component;
-        if (accessChain.preSwizzleBaseType == NoType)
-            accessChain.preSwizzleBaseType = preSwizzleBaseType;
+        if (accessChain.swizzle.size() != 1) {
+            accessChain.component = component;
+            if (accessChain.preSwizzleBaseType == NoType)
+                accessChain.preSwizzleBaseType = preSwizzleBaseType;
+        }
     }
 
     // use accessChain and swizzle to store value
     void accessChainStore(Id rvalue);
 
     // use accessChain and swizzle to load an r-value
-    Id accessChainLoad(Decoration precision, Id ResultType);
+    Id accessChainLoad(Decoration precision, Decoration nonUniform, Id ResultType);
 
     // get the direct pointer for an l-value
     Id accessChainGetLValue();
@@ -534,14 +564,20 @@ public:
     // based on the type of the base and the chain of dereferences.
     Id accessChainGetInferredType();
 
-    // Remove OpDecorate instructions whose operands are defined in unreachable
-    // blocks.
-    void eliminateDeadDecorations();
+    // Add capabilities, extensions, remove unneeded decorations, etc., 
+    // based on the resulting SPIR-V.
+    void postProcess();
+
+    // Hook to visit each instruction in a block in a function
+    void postProcess(Instruction& inst);
+    // Hook to visit each instruction in a reachable block in a function.
+    void postProcessReachable(Instruction& inst);
+
     void dump(std::vector<unsigned int>&) const;
 
     void createBranch(Block* block);
     void createConditionalBranch(Id condition, Block* thenBlock, Block* elseBlock);
-    void createLoopMerge(Block* mergeBlock, Block* continueBlock, unsigned int control);
+    void createLoopMerge(Block* mergeBlock, Block* continueBlock, unsigned int control, unsigned int dependencyLength);
 
     // Sets to generate opcode for specialization constants.
     void setToSpecConstCodeGenMode() { generatingOpCodeForSpecConst = true; }
@@ -553,20 +589,30 @@ public:
  protected:
     Id makeIntConstant(Id typeId, unsigned value, bool specConstant);
     Id makeInt64Constant(Id typeId, unsigned long long value, bool specConstant);
-    Id findScalarConstant(Op typeClass, Op opcode, Id typeId, unsigned value) const;
-    Id findScalarConstant(Op typeClass, Op opcode, Id typeId, unsigned v1, unsigned v2) const;
-    Id findCompositeConstant(Op typeClass, const std::vector<Id>& comps) const;
+    Id findScalarConstant(Op typeClass, Op opcode, Id typeId, unsigned value);
+    Id findScalarConstant(Op typeClass, Op opcode, Id typeId, unsigned v1, unsigned v2);
+    Id findCompositeConstant(Op typeClass, const std::vector<Id>& comps);
+    Id findStructConstant(Id typeId, const std::vector<Id>& comps);
     Id collapseAccessChain();
+    void remapDynamicSwizzle();
     void transferAccessChainSwizzle(bool dynamic);
     void simplifyAccessChainSwizzle();
     void createAndSetNoPredecessorBlock(const char*);
     void createSelectionMerge(Block* mergeBlock, unsigned int control);
+    void dumpSourceInstructions(std::vector<unsigned int>&) const;
     void dumpInstructions(std::vector<unsigned int>&, const std::vector<std::unique_ptr<Instruction> >&) const;
+    void dumpModuleProcesses(std::vector<unsigned int>&) const;
 
+    unsigned int spvVersion;     // the version of SPIR-V to emit in the header
     SourceLanguage source;
     int sourceVersion;
+    spv::Id sourceFileStringId;
+    std::string sourceText;
+    int currentLine;
+    bool emitOpLines;
     std::set<std::string> extensions;
     std::vector<const char*> sourceExtensions;
+    std::vector<const char*> moduleProcesses;
     AddressingModel addressModel;
     MemoryModel memoryModel;
     std::set<spv::Capability> capabilities;
@@ -579,19 +625,20 @@ public:
     AccessChain accessChain;
 
     // special blocks of instructions for output
+    std::vector<std::unique_ptr<Instruction> > strings;
     std::vector<std::unique_ptr<Instruction> > imports;
     std::vector<std::unique_ptr<Instruction> > entryPoints;
     std::vector<std::unique_ptr<Instruction> > executionModes;
     std::vector<std::unique_ptr<Instruction> > names;
-    std::vector<std::unique_ptr<Instruction> > lines;
     std::vector<std::unique_ptr<Instruction> > decorations;
     std::vector<std::unique_ptr<Instruction> > constantsTypesGlobals;
     std::vector<std::unique_ptr<Instruction> > externals;
     std::vector<std::unique_ptr<Function> > functions;
 
      // not output, internally used for quick & dirty canonical (unique) creation
-    std::vector<Instruction*> groupedConstants[OpConstant];  // all types appear before OpConstant
-    std::vector<Instruction*> groupedTypes[OpConstant];
+    std::unordered_map<unsigned int, std::vector<Instruction*>> groupedConstants;       // map type opcodes to constant inst.
+    std::unordered_map<unsigned int, std::vector<Instruction*>> groupedStructConstants; // map struct-id to constant instructions
+    std::unordered_map<unsigned int, std::vector<Instruction*>> groupedTypes;           // map type opcodes to type instructions
 
     // stack of switches
     std::stack<Block*> switchMerges;
@@ -599,7 +646,7 @@ public:
     // Our loop stack.
     std::stack<LoopBlocks> loops;
 
-    // The stream for outputing warnings and errors.
+    // The stream for outputting warnings and errors.
     SpvBuildLogger* logger;
 };  // end Builder class
 

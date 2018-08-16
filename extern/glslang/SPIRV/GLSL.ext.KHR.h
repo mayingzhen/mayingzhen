@@ -27,12 +27,8 @@
 #ifndef GLSLextKHR_H
 #define GLSLextKHR_H
 
-enum BuiltIn;
-enum Op;
-enum Capability;
-
 static const int GLSLextKHRVersion = 100;
-static const int GLSLextKHRRevision = 1;
+static const int GLSLextKHRRevision = 2;
 
 static const char* const E_SPV_KHR_shader_ballot                = "SPV_KHR_shader_ballot";
 static const char* const E_SPV_KHR_subgroup_vote                = "SPV_KHR_subgroup_vote";
@@ -40,6 +36,8 @@ static const char* const E_SPV_KHR_device_group                 = "SPV_KHR_devic
 static const char* const E_SPV_KHR_multiview                    = "SPV_KHR_multiview";
 static const char* const E_SPV_KHR_shader_draw_parameters       = "SPV_KHR_shader_draw_parameters";
 static const char* const E_SPV_KHR_16bit_storage                = "SPV_KHR_16bit_storage";
+static const char* const E_SPV_KHR_8bit_storage                 = "SPV_KHR_8bit_storage";
 static const char* const E_SPV_KHR_storage_buffer_storage_class = "SPV_KHR_storage_buffer_storage_class";
+static const char* const E_SPV_KHR_post_depth_coverage          = "SPV_KHR_post_depth_coverage";
 
 #endif  // #ifndef GLSLextKHR_H

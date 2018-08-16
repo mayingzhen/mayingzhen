@@ -57,19 +57,26 @@ class TObjectReflection {
 public:
     TObjectReflection(const TString& pName, const TType& pType, int pOffset, int pGLDefineType, int pSize, int pIndex) :
         name(pName), offset(pOffset),
-        glDefineType(pGLDefineType), size(pSize), index(pIndex), counterIndex(-1), type(pType.clone()) { }
+        glDefineType(pGLDefineType), size(pSize), index(pIndex), counterIndex(-1), stages(EShLanguageMask(0)), type(pType.clone()) { }
 
-    void dump() const {
-        printf("%s: offset %d, type %x, size %d, index %d, binding %d",
-               name.c_str(), offset, glDefineType, size, index, getBinding() );
+    const TType* getType() const { return type; }
+    int getBinding() const
+    {
+        if (type == nullptr || !type->getQualifier().hasBinding())
+            return -1;
+        return type->getQualifier().layoutBinding;
+    }
+    void dump() const
+    {
+        printf("%s: offset %d, type %x, size %d, index %d, binding %d, stages %d",
+               name.c_str(), offset, glDefineType, size, index, getBinding(), stages );
 
         if (counterIndex != -1)
             printf(", counter %d", counterIndex);
 
         printf("\n");
     }
-
-    const TType* const getType() const { return type; }
+    static TObjectReflection badReflection() { return TObjectReflection(); }
 
     TString name;
     int offset;
@@ -77,16 +84,9 @@ public:
     int size;         // data size in bytes for a block, array size for a (non-block) object that's an array
     int index;
     int counterIndex;
-
-    static TObjectReflection badReflection() { return TObjectReflection(); }
+    EShLanguageMask stages;
 
 protected:
-    int getBinding() const {
-        if (type == nullptr || type->getQualifier().layoutBinding == TQualifier::layoutBindingEnd)
-            return -1;
-        return type->getQualifier().layoutBinding;
-    }
-
     TObjectReflection() : offset(-1), glDefineType(-1), size(-1), index(-1), type(nullptr) { }
 
     const TType* type;
@@ -157,7 +157,8 @@ public:
 protected:
     friend class glslang::TReflectionTraverser;
 
-    void buildCounterIndices();
+    void buildCounterIndices(const TIntermediate&);
+    void buildUniformStageMask(const TIntermediate& intermediate);
     void buildAttributeReflection(EShLanguage, const TIntermediate&);
 
     // Need a TString hash: typedef std::unordered_map<TString, int> TNameToIndex;

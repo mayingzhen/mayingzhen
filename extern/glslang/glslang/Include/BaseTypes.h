@@ -1,6 +1,7 @@
 //
 // Copyright (C) 2002-2005  3Dlabs Inc. Ltd.
 // Copyright (C) 2012-2013 LunarG, Inc.
+// Copyright (C) 2017 ARM Limited.
 //
 // All rights reserved.
 //
@@ -46,9 +47,11 @@ enum TBasicType {
     EbtVoid,
     EbtFloat,
     EbtDouble,
-#ifdef AMD_EXTENSIONS
     EbtFloat16,
-#endif
+    EbtInt8,
+    EbtUint8,
+    EbtInt16,
+    EbtUint16,
     EbtInt,
     EbtUint,
     EbtInt64,
@@ -137,6 +140,8 @@ enum TBuiltInVariable {
     EbvLocalInvocationId,
     EbvGlobalInvocationId,
     EbvLocalInvocationIndex,
+    EbvNumSubgroups,
+    EbvSubgroupID,
     EbvSubGroupSize,
     EbvSubGroupInvocation,
     EbvSubGroupEqMask,
@@ -144,6 +149,13 @@ enum TBuiltInVariable {
     EbvSubGroupGtMask,
     EbvSubGroupLeMask,
     EbvSubGroupLtMask,
+    EbvSubgroupSize2,
+    EbvSubgroupInvocation2,
+    EbvSubgroupEqMask2,
+    EbvSubgroupGeMask2,
+    EbvSubgroupGtMask2,
+    EbvSubgroupLeMask2,
+    EbvSubgroupLtMask2,
     EbvVertexId,
     EbvInstanceId,
     EbvVertexIndex,
@@ -189,10 +201,12 @@ enum TBuiltInVariable {
     EbvFragColor,
     EbvFragData,
     EbvFragDepth,
+    EbvFragStencilRef,
     EbvSampleId,
     EbvSamplePosition,
     EbvSampleMask,
     EbvHelperInvocation,
+
 #ifdef AMD_EXTENSIONS
     EbvBaryCoordNoPersp,
     EbvBaryCoordNoPerspCentroid,
@@ -212,13 +226,13 @@ enum TBuiltInVariable {
     EbvSecondaryViewportMaskNV,
     EbvPositionPerViewNV,
     EbvViewportMaskPerViewNV,
+    EbvFragFullyCoveredNV,
 #endif 
 
     // HLSL built-ins that live only temporarily, until they get remapped
     // to one of the above.
     EbvFragDepthGreater,
     EbvFragDepthLesser,
-    EbvStencilRef,
     EbvGsOutputStream,
     EbvOutputPatch,
     EbvInputPatch,
@@ -325,10 +339,12 @@ __inline const char* GetBuiltInVariableString(TBuiltInVariable v)
     case EbvFragColor:            return "FragColor";
     case EbvFragData:             return "FragData";
     case EbvFragDepth:            return "FragDepth";
+    case EbvFragStencilRef:       return "FragStencilRef";
     case EbvSampleId:             return "SampleId";
     case EbvSamplePosition:       return "SamplePosition";
     case EbvSampleMask:           return "SampleMaskIn";
     case EbvHelperInvocation:     return "HelperInvocation";
+
 #ifdef AMD_EXTENSIONS
     case EbvBaryCoordNoPersp:           return "BaryCoordNoPersp";
     case EbvBaryCoordNoPerspCentroid:   return "BaryCoordNoPerspCentroid";
@@ -348,6 +364,7 @@ __inline const char* GetBuiltInVariableString(TBuiltInVariable v)
     case EbvSecondaryViewportMaskNV:    return "SecondaryViewportMaskNV";
     case EbvPositionPerViewNV:          return "PositionPerViewNV";
     case EbvViewportMaskPerViewNV:      return "ViewportMaskPerViewNV";
+    case EbvFragFullyCoveredNV:         return "FragFullyCoveredNV";
 #endif 
     default:                      return "unknown built-in variable";
     }
@@ -364,13 +381,82 @@ enum TPrecisionQualifier {
 
 __inline const char* GetPrecisionQualifierString(TPrecisionQualifier p)
 {
-    switch(p) {
+    switch (p) {
     case EpqNone:   return "";        break;
     case EpqLow:    return "lowp";    break;
     case EpqMedium: return "mediump"; break;
     case EpqHigh:   return "highp";   break;
     default:        return "unknown precision qualifier";
     }
+}
+
+__inline bool isTypeSignedInt(TBasicType type)
+{
+    switch (type) {
+    case EbtInt8:
+    case EbtInt16:
+    case EbtInt:
+    case EbtInt64:
+        return true;
+    default:
+        return false;
+    }
+}
+
+__inline bool isTypeUnsignedInt(TBasicType type)
+{
+    switch (type) {
+    case EbtUint8:
+    case EbtUint16:
+    case EbtUint:
+    case EbtUint64:
+        return true;
+    default:
+        return false;
+    }
+}
+
+__inline bool isTypeInt(TBasicType type)
+{
+    return isTypeSignedInt(type) || isTypeUnsignedInt(type);
+}
+
+__inline bool isTypeFloat(TBasicType type)
+{
+    switch (type) {
+    case EbtFloat:
+    case EbtDouble:
+    case EbtFloat16:
+        return true;
+    default:
+        return false;
+    }
+}
+
+__inline int getTypeRank(TBasicType type) {
+    int res = -1;
+    switch(type) {
+    case EbtInt8:
+    case EbtUint8:
+        res = 0;
+        break;
+    case EbtInt16:
+    case EbtUint16:
+        res = 1;
+        break;
+    case EbtInt:
+    case EbtUint:
+        res = 2;
+        break;
+    case EbtInt64:
+    case EbtUint64:
+        res = 3;
+        break;
+    default:
+        assert(false);
+        break;
+    }
+    return res;
 }
 
 } // end namespace glslang

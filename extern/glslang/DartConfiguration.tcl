@@ -4,17 +4,20 @@
 
 
 # Configuration directories and files
-SourceDirectory: /Volumes/mydemon_git/mayingzhen/extern/glslang
-BuildDirectory: /Volumes/mydemon_git/mayingzhen/extern/glslang
+SourceDirectory: E:/work/mydemon_git/mayingzhen/extern/glslang
+BuildDirectory: E:/work/mydemon_git/mayingzhen/extern/glslang
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: myzdeMac-mini.local
+Site: HIH-D-5428
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Darwin-clang++
+BuildName: Win32-MSBuild
+
+# Subprojects
+LabelsForSubprojects: 
 
 # Submission information
 IsCDash: 
@@ -27,14 +30,14 @@ DropSitePassword:
 DropSiteMode: 
 DropMethod: http
 TriggerSite: 
-ScpCommand: /usr/bin/scp
+ScpCommand: SCPCOMMAND-NOTFOUND
 
 # Dashboard start time
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/Applications/CMake.app/Contents/bin/cmake" "/Volumes/mydemon_git/mayingzhen/extern/glslang"
-MakeCommand: /Applications/CMake.app/Contents/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
+ConfigureCommand: "D:/Program Files/CMake/bin/cmake.exe" "E:/work/mydemon_git/mayingzhen/extern/glslang"
+MakeCommand: "D:\Program Files\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -46,12 +49,12 @@ CVSCommand: CVSCOMMAND-NOTFOUND
 CVSUpdateOptions: -d -A -P
 
 # Subversion options
-SVNCommand: /usr/bin/svn
+SVNCommand: SVNCOMMAND-NOTFOUND
 SVNOptions: 
 SVNUpdateOptions: 
 
 # Git options
-GITCommand: /usr/bin/git
+GITCommand: D:/Program Files/Git/cmd/git.exe
 GITInitSubmodules: 
 GITUpdateOptions: 
 GITUpdateCustom: 
@@ -69,8 +72,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-CompilerVersion: 8.1.0.8020042
+Compiler: F:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe
+CompilerVersion: 19.0.24215.1
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
@@ -83,7 +86,7 @@ MemoryCheckCommandOptions:
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: /usr/bin/gcov
+CoverageCommand: COVERAGE_COMMAND-NOTFOUND
 CoverageExtraFlags: -l
 
 # Cluster commands
