@@ -114,6 +114,8 @@
 #include "Engine/Scene/SkyBox.hxx"
 #include "Engine/Renderable/SkyBoxRenderable.hxx"
 
+#include "Engine/Scene/ParticleComponent.hxx"
+
 #include "Engine/Profile/CodeTimer.hxx"
 
 

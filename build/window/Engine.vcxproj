@@ -272,6 +272,8 @@
     <ClInclude Include="..\..\code\Engine\Scene\OctreeNode.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\ParallelCull.h" />
     <ClInclude Include="..\..\code\Engine\Scene\ParallelCull.hxx" />
+    <ClInclude Include="..\..\code\Engine\Scene\ParticleComponent.h" />
+    <ClInclude Include="..\..\code\Engine\Scene\ParticleComponent.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\RenderComponent.h" />
     <ClInclude Include="..\..\code\Engine\Scene\RenderComponent.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\Scene.h" />

@@ -205,7 +205,7 @@ namespace ma
 		bufferBarrier.dstQueueFamilyIndex = vulkanDevice->queueFamilyIndices.compute;			// Required as compute and graphics queue may have different families
 
 // 		vkCmdPipelineBarrier(
-// 			m_vkCmdBuffer/*compute.commandBuffer*/,
+// 			m_vkCmdBuffer,
 // 			VK_PIPELINE_STAGE_VERTEX_SHADER_BIT,
 // 			VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
 // 			VK_FLAGS_NONE,
@@ -232,7 +232,7 @@ namespace ma
 		bufferBarrier.dstQueueFamilyIndex = vulkanDevice->queueFamilyIndices.graphics;			// Required as compute and graphics queue may have different families
 
 // 		vkCmdPipelineBarrier(
-// 			m_vkCmdBuffer/*compute.commandBuffer*/,
+// 			m_vkCmdBuffer,
 // 			VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
 // 			VK_PIPELINE_STAGE_VERTEX_SHADER_BIT,
 // 			VK_FLAGS_NONE,
@@ -240,7 +240,7 @@ namespace ma
 // 			1, &bufferBarrier,
 // 			0, nullptr);
 
-//		VK_CHECK_RESULT(vkEndCommandBuffer(m_vkCmdBuffer));
+		//VK_CHECK_RESULT(vkEndCommandBuffer(m_vkCmdBuffer));
 	}
 
 	void VulkanComputeCommad::SetStorgeBuffer(VertexBuffer* pBuffer)

@@ -87,6 +87,7 @@
 
 #include "Engine/Scene/SkyBox.h"
 
+#include "Engine/Scene/ParticleComponent.h"
 
 #include "Engine/Profile/CodeTimer.h"
 

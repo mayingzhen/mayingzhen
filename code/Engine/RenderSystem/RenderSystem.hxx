@@ -207,10 +207,14 @@ namespace ma
 	void RenderSystem::RT_BeginRender()
 	{
         GetRenderDevice()->BeginRender();
+
+		GetRenderDevice()->BegineCompute();
 	}
 
 	void RenderSystem::RT_EndRender()
 	{
+		GetRenderDevice()->EndCompute();
+
 		GetRenderDevice()->EndRender();
 
 		// we render directly to a video memory buffer
