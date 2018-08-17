@@ -222,20 +222,41 @@ namespace ma
 
 	void RenderThread::RC_CreateShader(ShaderProgram* pShader)
 	{
-		if (IsRenderThread())
-		{
-			pShader->RT_StreamComplete();
-			return;
-		}
+// 		if (IsRenderThread())
+// 		{
+// 			pShader->RT_StreamComplete();
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_CreateShader);
+// 		AddPointer(pShader);
 
-		AddCommand(eRC_CreateShader);
-		AddPointer(pShader);
+		RC_AddRenderCommad( [pShader]() {
+				pShader->RT_StreamComplete();
+		});
 	}
 
 	void RenderThread::RC_CreateTexture(Texture* pRenderTarget)
 	{
-		if (IsRenderThread())
-		{
+// 		if (IsRenderThread())
+// 		{
+// 			if (pRenderTarget->GetType() == TEXTYPE_CUBE)
+// 			{
+// 				pRenderTarget->RT_CreateCubeTexture();
+// 			}
+// 			else
+// 			{
+// 				pRenderTarget->RT_CreateTexture();
+// 			}
+// 			
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_CreateTexture);
+// 		AddPointer(pRenderTarget);
+
+		RC_AddRenderCommad( 
+			[pRenderTarget]() {
 			if (pRenderTarget->GetType() == TEXTYPE_CUBE)
 			{
 				pRenderTarget->RT_CreateCubeTexture();
@@ -244,12 +265,7 @@ namespace ma
 			{
 				pRenderTarget->RT_CreateTexture();
 			}
-			
-			return;
-		}
-
-		AddCommand(eRC_CreateTexture);
-		AddPointer(pRenderTarget);
+		});
 	}
 
 	void RenderThread::RC_SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize)
@@ -265,6 +281,17 @@ namespace ma
 		AddCommand(eRC_SetUniformValue);
 		AddPointer(pUniform);
 		AddData(data, nSize);
+
+		uint8_t* pCopyData = (uint8_t*)data;
+		if (!IsRenderThread() && IsMainThread())
+		{
+			pCopyData = AddData(data, nSize);
+		}
+
+		RC_AddRenderCommad( [pUniform,pCopyData,nSize]() {
+			ASSERT(nSize <= pUniform->GetSize());
+			pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), pCopyData);
+			} );
 	}
 
 	void RenderThread::RC_SetSampler(Uniform* pUniform, SamplerState* pSampler)
@@ -309,46 +336,53 @@ namespace ma
 
 	void RenderThread::RC_BeginProfile(const char* pszLale)
 	{
-		if (IsRenderThread())
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->BeginProfile(pszLale);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_BeginProfile);
+// 		AddData(pszLale,strlen(pszLale));
+
+		const char* pszParamLable = pszLale;
+		if (!IsRenderThread())
 		{
-			GetRenderDevice()->BeginProfile(pszLale);
-			return;
+			pszParamLable = (const char*)AddData(pszLale, strlen(pszLale));
 		}
 
-		AddCommand(eRC_BeginProfile);
-		AddData(pszLale,strlen(pszLale));
+		RC_AddRenderCommad( [pszParamLable]() { GetRenderDevice()->BeginProfile(pszParamLable); } );
+
 	}
 
 	void RenderThread::RC_EndProfile()
 	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->EndProfile();
-			return;
-		}
-	
-		AddCommand(eRC_EndProfile);
-
-		//RC_AddRenderCommad( []() { GetRenderDevice()->EndProfile(); } );
-	}
-
-// 	void RenderThread::RC_AddRenderCommad(std::function<void()> fun)
-// 	{
-// 		RenderCommad comd;
-// 		comd.m_funtion = fun;
-// 		RC_AddRenderCommad(&comd);
-// 	}
-// 
-// 	void RenderThread::RC_AddRenderCommad(RenderCommad* pCommad)
-// 	{
 // 		if (IsRenderThread())
 // 		{
-// 			pCommad->Do();
+// 			GetRenderDevice()->EndProfile();
 // 			return;
 // 		}
-// 
-// 		m_vecCommand[m_nCurThreadFill].push_back(pCommad);
-// 	}
+// 	
+// 		AddCommand(eRC_EndProfile);
+
+		RC_AddRenderCommad( []() { GetRenderDevice()->EndProfile(); } );
+	}
+
+	void RenderThread::RC_AddRenderCommad(std::function<void()> fun)
+	{
+		if (IsRenderThread())
+		{
+			fun();
+			return;
+		}
+		else
+		{
+			RenderCommad comd;
+			comd.m_funtion = fun;
+
+			m_vecCommand[m_nCurThreadFill].emplace_back(comd);
+		}
+	}
 
 	void RenderThread::ProcessCommands()
 	{
@@ -357,12 +391,12 @@ namespace ma
 		if (!CheckFlushCond())
 			return;
 
-// 		for (uint32_t i = 0; i < m_vecCommand[m_nCurThreadProcess].size(); ++i)
-// 		{
-// 			RenderCommad* pCommmad = m_vecCommand[m_nCurThreadProcess][i].get();
-// 			pCommmad->Do();
-// 		}
-// 		m_vecCommand[m_nCurThreadProcess].clear();
+		for (uint32_t i = 0; i < m_vecCommand[m_nCurThreadProcess].size(); ++i)
+		{
+			RenderCommad* pCommmad = m_vecCommand[m_nCurThreadProcess][i].get();
+			pCommmad->Do();
+		}
+		m_vecCommand[m_nCurThreadProcess].clear();
 
 		int n = 0;
 		while (n < (int)m_Commands[m_nCurThreadProcess].Num())

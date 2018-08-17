@@ -41,7 +41,7 @@ namespace ma
 		eRC_EndProfile,
 	};
 
-	struct RenderCommad : public Referenced
+	struct RenderCommad /*: public Referenced*/
 	{
 		std::function<void()> m_funtion;
 
@@ -75,7 +75,7 @@ namespace ma
 		void	AddColor(const ColourValue& cVal);
 		void	AddMatrix4(const Matrix4& cVal);
 		void	AddPointer(const void *pVal);
-		void	AddData(const void *pData, int nLen);
+		uint8_t *	AddData(const void *pData, int nLen);
 
 		template<class T>
 		void	ReadData(int &nIndex,T& data, uint32_t& nSize);
@@ -126,7 +126,7 @@ namespace ma
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();
 
-		//void    RC_AddRenderCommad(std::function<void()> fun);
+		void    RC_AddRenderCommad(std::function<void()> fun);
 		//void    RC_AddRenderCommad(RenderCommad* pCommad);
 
 	private:
@@ -146,7 +146,7 @@ namespace ma
 
 		bool			m_bExit = false;
 
-		//std::vector< RefPtr<RenderCommad> > m_vecCommand[2];
+		std::vector< RenderCommad > m_vecCommand[2];
 	};
     
     
@@ -214,11 +214,12 @@ namespace ma
 		*(const void **)(m_Commands[m_nCurThreadFill].Grow(sizeof(void *))) = pVal;
 	}
     
-	inline void RenderThread::AddData(const void *pData, int nLen)
+	inline uint8_t * RenderThread::AddData(const void *pData, int nLen)
 	{
 		AddDWORD(nLen);
 		uint8_t *pDst = m_Commands[m_nCurThreadFill].Grow(nLen);
 		memcpy(pDst, pData, nLen);
+		return pDst;
 	}
 
 	template<class T>
