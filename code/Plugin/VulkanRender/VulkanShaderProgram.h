@@ -17,8 +17,6 @@ namespace ma
 
 		void Destory();
 
-		void ParseShaderUniform(ShaderType eType, const vector<uint32_t>& vtx_spv);
-
 		void HlslToSpirv(const char* vshSource, uint32_t vshSize, const char* funName, ShaderType eType, std::vector<uint32_t>& vtx_spv);
 
 		VkPipelineShaderStageCreateInfo CreateShaderMode(const std::string& shaderFile, ShaderType type);

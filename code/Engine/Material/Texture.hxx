@@ -44,10 +44,21 @@ namespace ma
 		{
 			return false;
 		}
-
-		GetRenderSystem()->TexStreamComplete(this);	
+		
+		SetImageData(m_pImageData.get());
 
 		return true;
+	}
+
+	void Texture::SetImageData(ImageData* pImageData)
+	{
+		m_pImageData = pImageData;
+
+		m_nWidth = m_pImageData->m_nWidth;
+		m_nHeight = m_pImageData->m_nHeight;
+		m_nMipLevels = std::max<uint32_t>(1, m_pImageData->m_nNumMipmaps);
+
+		GetRenderSystem()->TexStreamComplete(this);
 	}
 
 
@@ -67,7 +78,7 @@ namespace ma
 			return false;
 		}
 
-		m_pDataStream = NULL;
+		m_pImageData = NULL;
 
 		return true;
 	}
@@ -161,7 +172,6 @@ namespace ma
 		pTextute->SetMipMap(bMipMap);
 		pTextute->SetSRGB(bSRGB);
 		pTextute->SetImageData(imageData);
-		GetRenderSystem()->TexStreamComplete(pTextute.get());
 		return pTextute;
 	}
 

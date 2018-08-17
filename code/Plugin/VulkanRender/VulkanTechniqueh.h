@@ -23,7 +23,7 @@ namespace ma
 		
 		void				UpdateGrapicUniformDescriptorSets(ShaderType eType);
 
-		void				UpdateGrapicSamplerDescriptorSets(ShaderType eType);
+		void				UpdateGrapicSamplerDescriptorSets(ShaderType eType,Uniform* pUniform, SamplerState* pSampler);
 
 		void				UpdateComputeUniformDescriptorSets();
 
@@ -31,9 +31,9 @@ namespace ma
 
 	public:
 
-		VkDescriptorSet		m_grapicDescriptorSet;
+		VkDescriptorSet		m_grapicDescriptorSet = VK_NULL_HANDLE;
 
-		VkDescriptorSet		m_computeDescriptorSet;
+		VkDescriptorSet		m_computeDescriptorSet = VK_NULL_HANDLE;
 	};
 
 

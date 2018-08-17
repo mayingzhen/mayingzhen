@@ -234,10 +234,6 @@ namespace ma
 
 	bool VulkanTexture::LoadFromImagData(const ImageData& imageData)
 	{
-		// Set desired texture size and properties from images[0]
-		m_nWidth = imageData.m_nWidth;
-		m_nHeight = imageData.m_nHeight;
-
 		// Get source image format and adjust if required
 		m_eFormat = VulkanMapping::_getClosestSupportedPF(imageData.m_eFormat);
 		if (m_eFormat != imageData.m_eFormat)
@@ -251,13 +247,6 @@ namespace ma
 		//size_t imageMips = imageData.num_mipmaps;
 
 		bool bAutoMipMap = m_bMipMap;
-
-		if (imageData.m_nNumMipmaps > 0)
-		{
-			m_nMipLevels = imageData.m_nNumMipmaps;
-			// Disable flag for auto mip generation
-			//bAutoMipMap  = false;
-		}
 
 		vks::VulkanDevice* device = GetVulkanDevice();
 

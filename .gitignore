@@ -155,3 +155,8 @@ ShaderCach
 /build/Android/Engine/libs/armeabi
 /build/Android/VulkanRender/libs/armeabi-v7a
 /build/IOS/MetalRender.xcodeproj/project.xcworkspace
+baseResults
+Test
+gtests
+CMakeFiles
+/extern/glslang/StandAlone

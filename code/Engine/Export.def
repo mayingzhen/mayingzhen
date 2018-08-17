@@ -274,7 +274,6 @@ EXPORTS
 ?AddSampler@Technique@ma@@QAEXW4ShaderType@2@PAVUniform@2@@Z
 ?GetSamplerCount@Technique@ma@@QAEIW4ShaderType@2@@Z
 ?GetSamplerByIndex@Technique@ma@@QAEPAVUniform@2@W4ShaderType@2@I@Z
-?GetActiveSampler@Technique@ma@@QAEPAVSamplerState@2@PAVUniform@2@@Z
 ?ClearSampler@Technique@ma@@IAEXW4ShaderType@2@@Z
 ?AddSampler@ShaderProgram@ma@@QAEXW4ShaderType@2@PAVUniform@2@@Z
 ?GetSamplerCount@ShaderProgram@ma@@QAEIW4ShaderType@2@@Z
@@ -299,7 +298,8 @@ EXPORTS
 ?UpdateWorldBoundingBox@RenderComponent@ma@@MAEXXZ
 ?BegineCompute@RenderSystem@ma@@QAEXXZ
 ?EndCompute@RenderSystem@ma@@QAEXXZ
-?SetStorageBuffer@Technique@ma@@QAEXPAVUniform@2@PAVHardwareBuffer@2@@Z
 ?GetShadingInstTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
 ?BindCompute@Technique@ma@@UAEXPAVRenderable@2@@Z
 ?BindUniform@Technique@ma@@IAEXPAVRenderable@2@W4ShaderType@2@@Z
+?ReLoad@Technique@ma@@QAEXXZ
+?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z

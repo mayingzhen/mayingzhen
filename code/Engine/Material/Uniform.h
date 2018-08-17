@@ -68,6 +68,9 @@ namespace ma
 		void		        SetMethodBinding(MethodBinding* pMethod) { m_pMethod = pMethod; }
 		MethodBinding*      GetMethodBinding() { return m_pMethod.get(); }
 
+		ShaderType			GetShaderType() { return m_eType; }
+		void				SetShaderType(ShaderType eType) { m_eType = eType; }
+
 	private:
 		std::string		    m_name;
 		uint32_t			m_index = 0;
@@ -76,6 +79,8 @@ namespace ma
 		uint32_t			m_nOffSetInCB = 0;
 		uint32_t			m_nSizeInCB = 0;
 		Technique*		    m_pTech = NULL;
+
+		ShaderType			m_eType;
 
 		RefPtr<MethodBinding>  m_pMethod;
 	};

@@ -38,7 +38,7 @@ namespace ma
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32_t nNumBytes, OUT ImageData& imageData);
 
-		void			SetImageData(ImageData* pImageData) { m_pImageData = pImageData; }
+		void			SetImageData(ImageData* pImageData);
 
 	protected:
 
@@ -55,7 +55,7 @@ namespace ma
 	protected:
 		int				m_nWidth;
 		int				m_nHeight;
-		uint32_t		m_nMipLevels;
+		uint32_t		m_nMipLevels = 1.0;
 		TEXTURE_USAGE	m_eUsage;
 		PixelFormat		m_eFormat;
 		TEXTURE_TYPE	m_eType;

@@ -214,10 +214,9 @@ namespace ma
 		}
 
 		glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
-
-		
+	
 		program.buildReflection();
-		program.dumpReflection();
+		//program.dumpReflection();
 
 		int nNumUniformBlock = program.getNumLiveUniformBlocks();
 
@@ -233,6 +232,7 @@ namespace ma
 			if (size == 0)
 			{
 				RefPtr<Uniform> pUniform = CreateUniform(pszName);
+				pUniform->SetShaderType(eType);
 				pUniform->SetIndex(binding);
 
 				this->AddStorgeBuffer(pUniform.get());
@@ -265,13 +265,15 @@ namespace ma
 			if (type->isTexture())
 			{
 				RefPtr<Uniform> pUniform = CreateUniform(pszName);
+				pUniform->SetShaderType(eType);
 				pUniform->SetIndex(nBinding - m_texshiftBinding[eType]);
 				this->AddSampler(eType, pUniform.get());
 				continue;
 			}
 
 			int size = 0;
-			if (type->getBasicType() == glslang::EbtFloat)
+			if (type->getBasicType() == glslang::EbtFloat ||
+				type->getBasicType() == glslang::EbtInt)
 			{
 				if (type->getMatrixCols() * type->getMatrixRows() > 0)
 				{
@@ -291,8 +293,10 @@ namespace ma
 				if (pConstantBuffer)
 				{
 					Uniform* pUniform = pConstantBuffer->AddUniform(pszName);
+					pUniform->SetShaderType(eType);
 					pUniform->SetIndex(-1);
 					pUniform->SetOffset(offset);
+					ASSERT(size > 0);
 					pUniform->SetSize(size);
 				}
 			}
@@ -350,8 +354,6 @@ namespace ma
 		shaderStage.pName = m_strFunName[type].c_str();
 
 		HlslToSpirv(strSource.c_str(), strSource.length(), m_strFunName[type].c_str(), type, vtx_spv);
-
-		ParseShaderUniform(type, vtx_spv);
 
 		VkShaderModuleCreateInfo moduleCreateInfo;
 		moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -675,11 +677,9 @@ namespace ma
 		VK_CHECK_RESULT(vkCreateComputePipelines(device->logicalDevice, m_computePip._Cache, 1, &computePipelineCreateInfo, nullptr, &m_computePip._Pipeline));
 	}
 
-
+	/*
 	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32_t>& vtx_spv)
 	{
-		return;
-
 		if (0)
 		{
 			spirv_cross::CompilerGLSL glsl(vtx_spv.data(), vtx_spv.size());
@@ -746,6 +746,7 @@ namespace ma
 			this->AddSampler(eType, pUniform.get());
 		}
 	}
+	*/
 
 	void VulkanShaderProgram::RT_StreamComplete()
 	{

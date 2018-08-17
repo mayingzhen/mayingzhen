@@ -378,7 +378,7 @@ namespace ma
 
 		m_strDefine = strFinal;
 
-		this->ReLoad();
+		//this->ReLoad();
 	}
 
 	void Technique::SetValue(Uniform* pUniform, int value)
@@ -468,6 +468,7 @@ namespace ma
 
 	void Technique::AddSampler(ShaderType eType, Uniform* pUniform)
 	{
+		ASSERT(eType == pUniform->GetShaderType());
 		m_vecSamplers[eType].push_back(pUniform);
 	}
 
@@ -510,23 +511,8 @@ namespace ma
 		m_vecStorgeBuffer.clear();
 	}
 
-	SamplerState* Technique::GetActiveSampler(Uniform* pUniform)
-	{
-		auto it = m_mapActiceSampler.find(pUniform);
-		if (it == m_mapActiceSampler.end())
-			return nullptr;
-
-		return it->second.get();
-	}
-
 	void Technique::SetActiveSampler(Uniform* pUniform, SamplerState* pSampler)
 	{
-		SamplerState* pActive = GetActiveSampler(pUniform);
-		if (pActive == pSampler)
-			return;
-
-		m_mapActiceSampler.insert(std::make_pair(pUniform, pSampler));
-
 		GetRenderSystem()->SetSampler(pUniform, pSampler);
 	}
 
@@ -730,6 +716,8 @@ namespace ma
 
 	void Technique::ReLoad()
 	{
+		GetRenderSystem()->FlushAndWait(); // TechniqueStreamComplete 可能还在RenderThread
+
 		ShaderCreateInfo info = m_pShaderProgram->GetShaderCreateInfo();
 		info.m_shaderMacro = m_strDefine;
 

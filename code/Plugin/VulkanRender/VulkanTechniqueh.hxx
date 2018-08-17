@@ -35,6 +35,7 @@ namespace ma
 			Uniform* pUniform = src->GetUniformByIndex(i);
 
 			RefPtr<Uniform> pUniformCopy = pConstantBuffer->AddUniform(pUniform->GetName());
+			pUniformCopy->SetShaderType(pUniform->GetShaderType());
 			pUniformCopy->SetIndex(pUniform->GetIndex());
 			pUniformCopy->SetSize(pUniform->GetSize());
 			pUniformCopy->SetOffset(pUniform->GetOffset());
@@ -70,6 +71,7 @@ namespace ma
 				Uniform* pUniform = pShader->GetSamplerByIndex(eType, j);
 
 				RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
+				pUniformCopy->SetShaderType(pUniform->GetShaderType());
 				pUniformCopy->SetTechnique(this);
 				pUniformCopy->SetIndex(pUniform->GetIndex());
 				pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
@@ -85,16 +87,12 @@ namespace ma
 			Uniform* pUniform = pShader->GetStorgeBufferByIndex(j);
 			
 			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
+			pUniformCopy->SetShaderType(pUniform->GetShaderType());
 			pUniformCopy->SetTechnique(this);
 			pUniformCopy->SetIndex(pUniform->GetIndex());
 			pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 
 			this->AddStorgeBuffer(pUniformCopy.get());
-		}
-
-		for (uint32_t i = 0; i < ShaderType_Number; ++i)
-		{
-			BindUniform(NULL, (ShaderType)i);
 		}
 
 		{
@@ -126,6 +124,10 @@ namespace ma
 			UpdateComputeUniformDescriptorSets();
 		}
 
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		{
+			BindUniform(NULL, (ShaderType)i);
+		}
 
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
@@ -135,19 +137,13 @@ namespace ma
 				continue;
 
 			UpdateGrapicUniformDescriptorSets(eType);
-
-			UpdateGrapicSamplerDescriptorSets(eType);
 		}
 	}
 
 	void VulkanTechnique::RT_SetSampler(Uniform* pUniform, SamplerState* pSampler)
 	{
-		for (uint32_t i = 0; i < ShaderType_Number; ++i)
-		{
-			ShaderType eType = (ShaderType)i;
-
-			UpdateGrapicSamplerDescriptorSets(eType);
-		}
+		ShaderType eType = pUniform->GetShaderType();
+		UpdateGrapicSamplerDescriptorSets(eType, pUniform, pSampler);
 	}
 
 	void VulkanTechnique::RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
@@ -184,7 +180,7 @@ namespace ma
 		}
 	}
 
-	void VulkanTechnique::UpdateGrapicSamplerDescriptorSets(ShaderType eType)
+	void VulkanTechnique::UpdateGrapicSamplerDescriptorSets(ShaderType eType, Uniform* pUniform, SamplerState* pSampler)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -193,14 +189,16 @@ namespace ma
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
 
 		std::vector<VkWriteDescriptorSet> vec_write;
-		for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
 		{
-			Uniform* pUniform = this->GetSamplerByIndex(eType, i);
-			VulkanSamplerStateObject* pSampler = (VulkanSamplerStateObject*)GetActiveSampler(pUniform);
-			if (pSampler == NULL)
-				continue;
+ 			VulkanSamplerStateObject* pVkSampler = (VulkanSamplerStateObject*)pSampler;
 
-			pSampler->RT_StreamComplete();
+			if (!pVkSampler->GetTexture()->IsReady())
+				return;
+
+			pVkSampler->RT_StreamComplete();
+
+			if (pVkSampler->m_descriptor.imageView == 0)
+				return;
 
 			VkWriteDescriptorSet writeSampler = {};
 			writeSampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -208,7 +206,7 @@ namespace ma
 			writeSampler.dstSet = m_grapicDescriptorSet;
 			writeSampler.descriptorCount = 1;
 			writeSampler.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
-			writeSampler.pImageInfo = &pSampler->m_descriptor;
+			writeSampler.pImageInfo = &pVkSampler->m_descriptor;
 			writeSampler.dstArrayElement = 0;
 			writeSampler.dstBinding = pUniform->GetIndex() + pShader->m_samplershiftBinding[eType];
 			vec_write.push_back(writeSampler);
@@ -219,7 +217,7 @@ namespace ma
 			writeTexture.dstSet = m_grapicDescriptorSet;
 			writeTexture.descriptorCount = 1;
 			writeTexture.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
-			writeTexture.pImageInfo = &pSampler->m_descriptor;
+			writeTexture.pImageInfo = &pVkSampler->m_descriptor;
 			writeTexture.dstArrayElement = 0;
 			writeTexture.dstBinding = pUniform->GetIndex() + pShader->m_texshiftBinding[eType];
 			vec_write.push_back(writeTexture);

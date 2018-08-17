@@ -79,7 +79,6 @@ namespace ma
 		Uniform*			GetStorgeBufferByIndex(uint32_t nIndex);
 		
 		void				SetActiveSampler(Uniform* pUniform, SamplerState* pSampler);
-		SamplerState*		GetActiveSampler(Uniform* pUniform);
 
 		void				SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
 
@@ -121,9 +120,6 @@ namespace ma
 
 		typedef std::vector< RefPtr<Uniform> > VEC_STOREGEBUFFER;
 		VEC_STOREGEBUFFER				m_vecStorgeBuffer;
-
-		typedef std::map<Uniform*, RefPtr<SamplerState> > MAP_ACTIVESAMPLER;
-		MAP_ACTIVESAMPLER				m_mapActiceSampler;
 	};
 	
 	RefPtr<Technique> CreateTechnique();

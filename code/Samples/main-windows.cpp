@@ -10,11 +10,11 @@ int main(int argc, char* argv[])
 {
 	Setting set;
 	set.eRenderType = RenderDevice_VULKAN;
-	set.bRenderThread = false;
+	set.bRenderThread = true;
 	set.bDataThread = false;
 	set.bJobScheduler = false;
 
-	SampleBrowser sampleBrowser("SampleBrowser", set, "SampleComputeShader");
+	SampleBrowser sampleBrowser("SampleBrowser", set, "SampleIBL");
 
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
