@@ -573,8 +573,11 @@ namespace ma
 
 			const char* pszVSFile = pXmlShader->findAttribute("VSFile");
 			const char* pszPSFile = pXmlShader->findAttribute("PSFile");
+			const char* pszMacro = pXmlShader->findAttribute("Macro");
 
-			info.m_shaderMacro = m_strDefine;
+			info.m_shaderMacro = pszMacro ? pszMacro : "";
+			info.m_shaderMacro += m_strDefine;
+
 			info.m_strVSFile = pszVSFile;
 			info.m_strPSFile = pszPSFile;
 			info.m_pVertexDecl = pDeclaration;
@@ -631,8 +634,9 @@ namespace ma
 
 		const ShaderCreateInfo& info = m_pShaderProgram->GetShaderCreateInfo();
 
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"), doc.allocate_string(info.m_strVSFile.c_str())));
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"), doc.allocate_string(info.m_strPSFile.c_str())));
+		rapidxml::append_attribute(pXmlShader, doc, "VSFile", info.m_strVSFile.c_str());
+		rapidxml::append_attribute(pXmlShader, doc, "PSFile", info.m_strPSFile.c_str());
+		rapidxml::append_attribute(pXmlShader, doc, "Macro", info.m_shaderMacro.c_str());
 
 		if (info.m_pVertexDecl)
 		{

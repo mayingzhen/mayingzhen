@@ -1,5 +1,4 @@
-#ifndef  _SkinMeshComponent__H__
-#define  _SkinMeshComponent__H__
+#pragma once
 
 #include "Engine/Scene/MeshComponent.h"
 
@@ -23,4 +22,3 @@ namespace ma
 	RefPtr<SkinMeshComponent> CreateSkinMeshComponent();
 }
 
-#endif

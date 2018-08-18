@@ -54,6 +54,8 @@ namespace ma
 
 		virtual bool				IsReady();
 
+		virtual RefPtr<MeshRenderable>	CreateMeshRenderable();
+
 		void						CreateRenderable(VEC_RENDERABLE& arrRenderable);
 
 	protected:

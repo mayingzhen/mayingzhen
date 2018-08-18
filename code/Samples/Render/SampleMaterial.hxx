@@ -10,9 +10,8 @@ namespace ma
 	{
 		//GetCamera()->LookAt(Vector3(0, 10, 0), Vector3(0, 0, 0));
 
-		Vector3 vEyePos = Vector3(0, -10, 10);
-		Vector3 VAtPos = Vector3(0, 0, 0);
-		GetCamera()->LookAt(vEyePos, VAtPos);
+		GetCamera()->LookAt(Vector3(0, -10, 10), Vector3(0, 0, 0));
+		GetCameraControll()->Init();
 
 		if (1)
 		{
@@ -123,7 +122,7 @@ namespace ma
 		
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10,0,10),Vector3(0,0,0));
 		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
-		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
+		m_pScene->SetAmbientColor(Vector3(0.5,0.5,0.5));
 	}
 
 	void SampleMaterial::UnLoad()

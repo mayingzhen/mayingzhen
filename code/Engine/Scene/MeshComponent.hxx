@@ -123,6 +123,11 @@ namespace ma
 		RenderComponent::Update();
 	}
 
+	RefPtr<MeshRenderable> MeshComponent::CreateMeshRenderable()
+	{
+		return new MeshRenderable();
+	}
+
 	void MeshComponent::CreateRenderable(VEC_RENDERABLE& arrRenderable)
 	{
 		ASSERT(m_pMaterial && m_pMesData);
@@ -133,7 +138,7 @@ namespace ma
 
 		for (uint32_t iSub = 0; iSub < m_pMesData->GetSubMeshNumber(); ++iSub)
 		{
-			RefPtr<MeshRenderable> pRenderable = new MeshRenderable();
+			RefPtr<MeshRenderable> pRenderable = CreateMeshRenderable();
 
 			pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
 			pRenderable->m_pVertexBuffer = m_pMesData->GetVertexBuffer();
