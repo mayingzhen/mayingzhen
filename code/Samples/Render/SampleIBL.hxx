@@ -1,5 +1,6 @@
 #include "Samples/Render/SampleIBL.h"
 #include "Application/ui.h"
+#include "nativefiledialog/src/include/nfd.h"
 
 namespace ma
 {
@@ -19,9 +20,9 @@ namespace ma
 
 		//gFilterCube.Init("env.dds");
 
-// 		RefPtr<SceneNode> pSkyBoxNode = m_pScene->CreateSceneNode();
-// 		RefPtr<SkyBox> pSkyBox = pSkyBoxNode->CreateComponent<SkyBox>();
-// 		pSkyBox->SetCubeMap("env.dds");
+		RefPtr<SceneNode> pSkyBoxNode = m_pScene->CreateSceneNode();
+		RefPtr<SkyBox> pSkyBox = pSkyBoxNode->CreateComponent<SkyBox>();
+		pSkyBox->SetCubeMap("env.dds");
 
 		RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 
@@ -30,9 +31,6 @@ namespace ma
 
 		RefPtr<MeshComponent> pMeshComp = pShpere->CreateComponent<MeshComponent>();
 		pMeshComp->Load("Fbx/shpere.skn","Fbx/Box.mtl");
-
-		//RefPtr<Material> pMaterial = CreateMaterial("Fbx/Box.mtl");
-		//RefPtr<Material> pMaterialInst = pMaterial->Clone();
 
 		SubMaterial* pSubMaterial = pMeshComp->GetSubMaterial(0);
 
@@ -53,13 +51,20 @@ namespace ma
 		Vector2 u_diff_spec_mip(nMip, nMip - 1);
 		pSubMaterial->SetParameter("u_diff_spec_mip", Any(u_diff_spec_mip));
 		
-		RefPtr<MethodBinding> pMetallness = new MethodFunBinding<float>([this](Renderable*) { return m_fMetalness; });
-		pSubMaterial->SetParameter("u_metalness",Any(pMetallness) );
+		RefPtr<MethodBinding> pMethodMetallness = new MethodFunBinding<float>([this](Renderable*) { return m_fMetalness; });
+		pSubMaterial->SetParameter("u_metalness",Any(pMethodMetallness) );
 
-		RefPtr<MethodBinding> pGlossness = new MethodFunBinding<float>([this](Renderable*) { return m_fGlossiness; });
-		pSubMaterial->SetParameter("u_glossiness", Any(pGlossness) );
+		RefPtr<MethodBinding> pMethodGlossness = new MethodFunBinding<float>([this](Renderable*) { return m_fGlossiness; });
+		pSubMaterial->SetParameter("u_glossiness", Any(pMethodGlossness) );
 
-		//pMeshComp->SetMaterial(pMaterialInst.get());
+		RefPtr<MethodBinding> pMethodDiffuseColor = new MethodFunBinding<Vector4>([this](Renderable*) { return m_cColor; });
+		pSubMaterial->SetParameter("u_cDiffuseColor", Any(pMethodDiffuseColor));
+
+		const Any& anyValue = pSubMaterial->GetParameter("u_texture")->GetValue();
+		m_pDiffuseTexture = any_cast< RefPtr<SamplerState> >(anyValue);
+
+		RefPtr<MethodBinding> pMethodDiffuseTexture = new MethodFunBinding< SamplerState* >([this](Renderable*) {return m_pDiffuseTexture.get();});
+		pSubMaterial->SetParameter("u_texture", Any(pMethodDiffuseTexture));
 
 		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
@@ -70,12 +75,48 @@ namespace ma
 
 	}
 
+	std::string PathAbsoluteToRelative(std::string strPathIn)
+	{
+		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();
+		StaticFunc::StrFormatPath(strDir, false);
+
+		StaticFunc::StrFormatPath(strPathIn, false);
+
+		size_t nFind = strPathIn.find(strDir);
+		if (nFind != std::string::npos)
+		{
+			return strPathIn.substr(nFind + strDir.length());
+		}
+		else
+		{
+			return "";
+		}
+	}
+
 	void SampleIBL::Update()
 	{
 		GetUI()->Begin("Material"); 
 		GetUI()->SliderFloat("Metalness", &m_fMetalness, 0.0f, 1.0f);           
 		GetUI()->SliderFloat("Glossiness", &m_fGlossiness, 0.0f, 1.0f);
-		//GetUI()->ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+		GetUI()->ColorEdit4("diffuseColor", (float*)&m_cColor); // Edit 4 floats representing a color
+
+		if (GetUI()->Button("diffuseTexutrePath:"))
+		{
+			nfdchar_t* outPath = NULL;
+			nfdresult_t result = NFD_OpenDialog(NULL, NULL, &outPath);
+			if (result == NFD_OKAY) 
+			{
+				std::string strTexture = PathAbsoluteToRelative(outPath);
+				free(outPath);
+
+				if (!strTexture.empty())
+				{
+					m_pDiffuseTexture = CreateSamplerState(strTexture.c_str());
+				}
+	
+			}
+		}
+
 		GetUI()->End();
 	}
 

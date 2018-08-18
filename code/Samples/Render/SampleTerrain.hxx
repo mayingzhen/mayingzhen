@@ -43,8 +43,8 @@ namespace ma
                 RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
                 
 				ShaderCreateInfo info;
-				info.m_strVSFile = "terrain";
-				info.m_strPSFile = "terrain";
+				info.m_strVSFile = "terrain.hlsl:vs_main";
+				info.m_strPSFile = "terrain.hlsl:ps_main";
 				info.m_pVertexDecl = pDeclaration;
 				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", info);
 

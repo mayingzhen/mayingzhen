@@ -2,6 +2,7 @@
 
 struct ImDrawData;
 
+
 namespace ma
 {
 	class UIRenderable;
@@ -34,6 +35,7 @@ namespace ma
 		bool ComboBox(const char* caption, int32_t* itemindex, std::vector<std::string> items);
 		bool Button(const char* caption);
 		void Text(const char* formatstr, ...);
+		bool ColorEdit4(const char* label, float col[4], int flags = 0);
 		float GetFramerate();
 
 	private:

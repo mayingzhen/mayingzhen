@@ -303,3 +303,4 @@ EXPORTS
 ?BindUniform@Technique@ma@@IAEXPAVRenderable@2@W4ShaderType@2@@Z
 ?ReLoad@Technique@ma@@QAEXXZ
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z
+?GetValue@Parameter@ma@@QBEABVAny@2@XZ

@@ -43,21 +43,23 @@ namespace ma
 			Vector3 vAngele = rota.EulerAngles();
 		}
 
+		float fMoveSpeed = m_fMoveSpeed * dwElapsed;
+
 		if (GetInput()->IsKeyDown(Keyboard::KEY_W))
 		{
-			m_pCamera->Translate(Vector3::UNIT_Z * m_fMoveSpeed * dwElapsed);
+			m_pCamera->Forward(-fMoveSpeed);
 		}
 		else if (GetInput()->IsKeyDown(Keyboard::KEY_S))
 		{
-			m_pCamera->Translate(-Vector3::UNIT_Z * m_fMoveSpeed * dwElapsed);
+			m_pCamera->Forward(fMoveSpeed);
 		}
 		else if (GetInput()->IsKeyDown(Keyboard::KEY_A))
 		{
-			m_pCamera->Translate(Vector3::UNIT_X * m_fMoveSpeed * dwElapsed);
+			m_pCamera->Right(-fMoveSpeed);
 		}
 		else if (GetInput()->IsKeyDown(Keyboard::KEY_D))
 		{
-			m_pCamera->Translate(-Vector3::UNIT_X * m_fMoveSpeed * dwElapsed);
+			m_pCamera->Right(fMoveSpeed);
  		}
 	}
 

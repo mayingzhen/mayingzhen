@@ -606,28 +606,6 @@ wstring StaticFunc::AnsiToUnicode(const char* pszAnisi)
 }
 
 // ---------------------------------------------------------------------
-// ini∂¡»°
-// ---------------------------------------------------------------------
-int StaticFunc::GetIniInt(const char* pszFileName, const char* pszTitle, const char* pszKey)
-{
-    #ifdef WIN32
-	int nReturn = ::GetPrivateProfileInt(pszTitle, pszKey, 0, pszFileName);
-	return nReturn;
-#else
-    return 0;
-#endif
-}
-
-string StaticFunc::GetIniString(const char* pszFileName, const char* pszTitle, const char* pszKey)
-{
-	char szValue[MAX_STR_NAME] = "";
-#ifdef WIN32
-	::GetPrivateProfileString(pszTitle, pszKey, NULL, szValue, sizeof(szValue), pszFileName);
-#endif
-	return szValue;
-}
-
-// ---------------------------------------------------------------------
 // º”√‹
 // ---------------------------------------------------------------------
 string StaticFunc::GetMd5(const string& strBuffer)

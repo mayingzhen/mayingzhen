@@ -23,6 +23,10 @@ namespace ma
 		float m_fMetalness = 0.0;
 
 		float m_fGlossiness = 0.0;
+
+		Vector4 m_cColor = Vector4(1.0);
+
+		RefPtr<SamplerState> m_pDiffuseTexture;
 	};
 }
 

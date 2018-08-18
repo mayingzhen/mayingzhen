@@ -12,14 +12,13 @@ namespace ma
 
 		~ArchiveManager();
 		
-		//RefPtr<Stream>			Open(const char* pszFile, bool readOnly = true);
 		Stream*					Open(const char* pszFile, bool readOnly = true);
 		void					Close(Stream* pStream);
 
 		RefPtr<MemoryStream>	ReadAll(const char* pszFile);
 
 		void					AddArchive(Archive* pArchive);
-		uint32_t					GetArchiveNumber();
+		uint32_t				GetArchiveNumber();
 		Archive*				GetArchiveByIndex(uint32_t index);
 
 		bool					Exists(const char* pszFile) const;

@@ -1,5 +1,4 @@
-#ifndef  _RESOURCE_MANAGER__H__
-#define  _RESOURCE_MANAGER__H__
+#pragma once
 
 namespace ma
 {
@@ -55,5 +54,3 @@ namespace ma
 	};
 }
 
-
-#endif

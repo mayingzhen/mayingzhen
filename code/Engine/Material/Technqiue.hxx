@@ -43,9 +43,7 @@ namespace ma
 			if (pMatParam == NULL)
 				continue;
 
-			const Any& anyValue = pMatParam->GetValue();
-			VertexBuffer* pStrorgeBuffer = any_cast<RefPtr<VertexBuffer>>(&anyValue)->get();
-			this->SetStorageBuffer(pUniform.get(), pStrorgeBuffer);
+			BindParametersUniform(pRenderable, pUniform.get(), pMatParam->GetValue());
 		}
 	}
 
@@ -79,10 +77,8 @@ namespace ma
 			Parameter* pMatParam = GetParameter(pUniform->GetName());
 			if (pMatParam == NULL)
 				continue;
-
-			const Any& anyValue = pMatParam->GetValue();
-			SamplerState* pTexture = any_cast<RefPtr<SamplerState>>(&anyValue)->get();
-			this->SetValue(pUniform, pTexture);
+			
+			BindParametersUniform(pRenderable, pUniform, pMatParam->GetValue());
 		}
 	}
 

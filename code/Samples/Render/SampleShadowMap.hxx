@@ -11,14 +11,15 @@ namespace ma
 	{
 		//GetInput()->AddKeyListener(this);
 
-        Vector3 lookAtPos(100,0,0);
-        Vector3 eyePos = Vector3(100,-60,360);
-        GetCamera()->LookAt(eyePos,lookAtPos);
+		Vector3 lookAtPos(100, 0, 0);
+		Vector3 eyePos = Vector3(100, 360, -60);
+		GetCamera()->LookAt(eyePos, lookAtPos);
+		GetCameraControll()->Init();
 
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
 		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
 		m_pScene->GetMainDirLight()->SetSplitPosParam(Vector4(500.0f));
-		m_pScene->GetMainDirLight()->SetShadowEnabled(true);
+		//m_pScene->GetMainDirLight()->SetShadowEnabled(true);
 		m_pScene->SetAmbientColor(Vector3(0.0, 0.0, 0.0));
 
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
@@ -31,7 +32,7 @@ namespace ma
 			pCharMagic->SetScale(Vector3(0.01f));
 			float x = Math::RangeRandom(0, nCount);
 			float y = Math::RangeRandom(0, nCount);
-			pCharMagic->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
+			pCharMagic->SetPos(Vector3(x, m_pTerrain->GetHeight(x, y), y));
 			SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 			pMeshComp->SetShadowCaster(true);
 			//AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
@@ -60,7 +61,7 @@ namespace ma
 			pCharMagic->SetScale(Vector3(0.01f));
 			float x = Math::RangeRandom(0, 150);
 			float y = Math::RangeRandom(0, 150);
-			pCharMagic->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
+			pCharMagic->SetPos(Vector3(x, m_pTerrain->GetHeight(x, y), y));
 			pCharMagic->SetPos(Vector3(1.5f, 2.0f, m_pTerrain->GetHeight(1.50f, 2.0f)));
 // 			SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 // 			pMeshComp->SetShadowCaster(true);
@@ -76,7 +77,7 @@ namespace ma
 			pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
 			float x = Math::RangeRandom(0, 150);
 			float y = Math::RangeRandom(0, 150);
-			pBox->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
+			pBox->SetPos(Vector3(x, m_pTerrain->GetHeight(x, y), y));
 		}
 
 
@@ -121,13 +122,13 @@ namespace ma
 	{
 		if (evt != Keyboard::KEY_PRESS)
 			return;
-
-		if (key == Keyboard::KEY_S)
-		{
-			RefPtr<DirectonalLight> pSunLight = m_pScene->GetMainDirLight();
-
-			pSunLight->SetShadowEnabled( !pSunLight->GetShadowEnabled() );
-		}
+// 
+// 		if (key == Keyboard::KEY_S)
+// 		{
+// 			RefPtr<DirectonalLight> pSunLight = m_pScene->GetMainDirLight();
+// 
+// 			pSunLight->SetShadowEnabled( !pSunLight->GetShadowEnabled() );
+// 		}
 	}
 
 }

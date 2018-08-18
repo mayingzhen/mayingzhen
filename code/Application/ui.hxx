@@ -81,7 +81,7 @@ namespace ma
 		// Store our identifier
 		io.Fonts->TexID = (void *)(intptr_t)m_pFontSampler.get();
 
-		m_pUIBuffer = new TransientParallHardWareBuffer(sizeof(ImDrawVert), 1024, 1024);
+		m_pUIBuffer = new TransientParallHardWareBuffer(sizeof(ImDrawVert), 1024 * 10, 1024 * 10);
 	}
 
 	void UI::Shutdown()
@@ -280,6 +280,11 @@ namespace ma
 		va_start(args, formatstr);
 		ImGui::TextV(formatstr, args);
 		va_end(args);
+	}
+
+	bool UI::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlags flags/* = 0*/)
+	{
+		return ImGui::ColorEdit4(label, col, flags);
 	}
 
 	float UI::GetFramerate()

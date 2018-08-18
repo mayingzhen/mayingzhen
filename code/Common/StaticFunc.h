@@ -102,13 +102,6 @@ public:
 	static std::wstring AnsiToUnicode(const char* pszAnisi);
 
 // ---------------------------------------------------------------------
-// ini∂¡»°
-// ---------------------------------------------------------------------
-public:
-	static int GetIniInt(const char* pszFileName, const char* pszTitle, const char* pszKey);
-	static std::string GetIniString(const char* pszFileName, const char* pszTitle, const char* pszKey);
-
-// ---------------------------------------------------------------------
 // º”√‹
 // ---------------------------------------------------------------------
 public:
