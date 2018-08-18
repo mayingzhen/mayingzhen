@@ -47,6 +47,16 @@ namespace ma
 		SetMaxSplitCount(m_nMaxSplitCount);
 	}
 
+	void DirectonalLight::Update()
+	{
+		Light::Update();
+	}
+
+	void DirectonalLight::Render(RenderQueue* pRenderQueue)
+	{
+		Light::Render(pRenderQueue);
+	}
+
 	void DirectonalLight::SetShadowEnabled(bool b)
 	{
 		if (b == m_bShadowEnable)
@@ -111,14 +121,14 @@ namespace ma
 		m_nCurSplitCount = 0;
 		m_curSplitPos[GetRenderSystem()->CurThreadFill()] = m_SplitPosParam;
 
-		// Simple Shadow
-		// 		if (m_nMaxSplitCount == 1)
-		// 		{
-		// 			m_nCurSplitCount = 1;
-		// 			m_curSplitPos[GetRenderSystem()->CurThreadFill()].x = pCamera->GetFarClip(); // For Depth bias
-		// 			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
-		// 			return;
-		// 		}
+		//Simple Shadow
+		if (m_nMaxSplitCount == 1)
+		{
+ 			m_nCurSplitCount = 1;
+ 			m_curSplitPos[GetRenderSystem()->CurThreadFill()].x = pCamera->GetFarClip(); // For Depth bias
+ 			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
+ 			return;
+ 		}
 
 		UpdateViewMinMaxZ(pCamera);
 
@@ -160,13 +170,13 @@ namespace ma
 		if (!m_bShadowEnable)
 			return;	
 
-		//Update(pCamera);
-		
+		UpdateShadowMap(pCamera);
+
 		for (int i = 0; i < m_nCurSplitCount; ++i)
 		{
 			m_SpitFrustum[i].Render(pCamera);
 		}
-	}
+ 	}
 
 	void DirectonalLight::Clear(Camera* pCamera)
 	{

@@ -192,9 +192,6 @@ namespace ma
 		{
  			VulkanSamplerStateObject* pVkSampler = (VulkanSamplerStateObject*)pSampler;
 
-			if (!pVkSampler->GetTexture()->IsReady())
-				return;
-
 			pVkSampler->RT_StreamComplete();
 
 			if (pVkSampler->m_descriptor.imageView == 0)

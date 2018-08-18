@@ -436,6 +436,9 @@ namespace ma
 
 	void Technique::SetValue(Uniform* pUniform, SamplerState* sampler)
 	{
+		if (sampler == nullptr)
+			return;
+
 		SetActiveSampler(pUniform, sampler);
 	}
 

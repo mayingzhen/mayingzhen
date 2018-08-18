@@ -215,13 +215,15 @@ namespace ma
 		Texture* pRT = m_arrColor.empty() ? m_pDepthStencil.get() : m_arrColor[0].m_pTexture.get();
 		ASSERT(pRT);
 
+		int nMip = m_arrColor.empty() ? 0 : m_arrColor[0].m_nMip;
+
 		// Create frame buffer
 		VkFramebufferCreateInfo fbufCreateInfo = vks::initializers::framebufferCreateInfo();
 		fbufCreateInfo.renderPass = m_impl;
 		fbufCreateInfo.attachmentCount = vecImagView.size();
 		fbufCreateInfo.pAttachments = vecImagView.data();
-		fbufCreateInfo.width = pRT->GetWidth() >> m_arrColor[0].m_nMip;
-		fbufCreateInfo.height = pRT->GetHeight() >> m_arrColor[0].m_nMip;
+		fbufCreateInfo.width = pRT->GetWidth() >> nMip;
+		fbufCreateInfo.height = pRT->GetHeight() >> nMip;
 		fbufCreateInfo.layers = 1;
 
 		VK_CHECK_RESULT(vkCreateFramebuffer(device->logicalDevice, &fbufCreateInfo, nullptr, &m_frameBuffer));

@@ -19,7 +19,7 @@ namespace ma
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
 		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
 		m_pScene->GetMainDirLight()->SetSplitPosParam(Vector4(500.0f));
-		//m_pScene->GetMainDirLight()->SetShadowEnabled(true);
+		m_pScene->GetMainDirLight()->SetShadowEnabled(true);
 		m_pScene->SetAmbientColor(Vector3(0.0, 0.0, 0.0));
 
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
@@ -47,7 +47,7 @@ namespace ma
 			pBoxMesh->SetShadowCaster(true);
 			float x = Math::RangeRandom(0, nCount);
 			float y = Math::RangeRandom(0, nCount);
-			pBox->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
+			pBox->SetPos(Vector3(x, m_pTerrain->GetHeight(x, y), y));
 		}
 
 		m_pTerrain->mLoadOverEvent.notify(this, &SampleShadowMap::OnTerrainLoadOver);

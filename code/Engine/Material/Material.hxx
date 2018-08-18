@@ -45,8 +45,8 @@ namespace ma
 			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
 
 			ShaderCreateInfo info;
-			info.m_strVSFile = "ShadowDepth";
-			info.m_strPSFile = "ShadowDepth";
+			info.m_strVSFile = "ShadowDepth.hlsl:vs_main";
+			info.m_strPSFile = "ShadowDepth.hlsl:ps_main";
 			info.m_shaderMacro = strShaderMacro;
 			info.m_pVertexDecl = pDeclaration;
 			info.m_pBlendState = pBlendSate;

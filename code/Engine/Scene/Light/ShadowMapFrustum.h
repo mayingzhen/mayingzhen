@@ -1,6 +1,4 @@
-#ifndef  _ShadowMapFrustum__H__
-#define  _ShadowMapFrustum__H__
-
+#pragma once
 
 namespace ma
 {
@@ -103,5 +101,3 @@ namespace ma
 
 	};
 }
-
-#endif

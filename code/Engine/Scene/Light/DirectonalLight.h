@@ -19,6 +19,10 @@ namespace ma
 
 		DECL_OBJECT(DirectonalLight);
 
+		virtual	void		Update();
+
+		virtual void		Render(RenderQueue* pRenderQueue);
+
 		void				SetShadowEnabled(bool b);
 		bool				GetShadowEnabled() {return m_bShadowEnable;}
 
