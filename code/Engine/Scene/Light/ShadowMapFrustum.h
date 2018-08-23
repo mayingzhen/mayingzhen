@@ -97,7 +97,5 @@ namespace ma
 		float				m_fShadowFarDist;
 
 		Light*				m_pParent;
-
-
 	};
 }

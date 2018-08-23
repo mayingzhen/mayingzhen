@@ -14,7 +14,6 @@ namespace ma
 		Vector3 lookAtPos(100, 0, 0);
 		Vector3 eyePos = Vector3(100, 360, -60);
 		GetCamera()->LookAt(eyePos, lookAtPos);
-		GetCameraControll()->Init();
 
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
 		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));

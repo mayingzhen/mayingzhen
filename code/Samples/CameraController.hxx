@@ -14,22 +14,26 @@ namespace ma
 
 		m_pCamera = pCamera;
 
+		Quaternion rot = m_pCamera->GetRotationWS();
+		Vector3 vAngele = rot.EulerAngles();
+		pitch_ = vAngele.x;
+		yaw_ = vAngele.y;
+
 	}
 
 	CameraController::~CameraController()
 	{
 	}
 
-	void CameraController::Init()
-	{
+	void CameraController::Update()
+    {
+		float dwElapsed = GetTimer()->GetFrameDeltaTime();
+
 		Quaternion rot = m_pCamera->GetRotationWS();
 		Vector3 vAngele = rot.EulerAngles();
 		pitch_ = vAngele.x;
 		yaw_ = vAngele.y;
-	}
 
-	void CameraController::Process(float dwElapsed)
-    {
 		if (GetInput()->IsMouseButtonDown(MB_Left))
 		{
 			Vector2 mouseMove = GetInput()->GetMouseMove();

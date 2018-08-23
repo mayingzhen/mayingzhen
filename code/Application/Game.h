@@ -1,5 +1,4 @@
-#ifndef __GameBase_h__
-#define __GameBase_h__
+#pragma once
 
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
@@ -59,4 +58,4 @@ namespace ma
 }
 
 
-#endif
+

@@ -38,7 +38,6 @@ namespace ma
 	void SampleComputeShader::Load()
 	{
 		GetCamera()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
-		GetCameraControll()->Init();
 
 		m_pScene->SetAmbientColor(Vector3(0.5, 0.5, 0.5));
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));

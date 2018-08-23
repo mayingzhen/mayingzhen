@@ -11,7 +11,6 @@ namespace ma
 		//GetCamera()->LookAt(Vector3(0, 10, 0), Vector3(0, 0, 0));
 
 		GetCamera()->LookAt(Vector3(0, -10, 10), Vector3(0, 0, 0));
-		GetCameraControll()->Init();
 
 		if (1)
 		{

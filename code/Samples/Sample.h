@@ -23,8 +23,6 @@ namespace ma
 
 		virtual void		PostRender() {}
 
-		CameraController*	GetCameraControll();
-
 		Camera*				GetCamera();
 
 		Scene*				GetScene() {return m_pScene.get();}

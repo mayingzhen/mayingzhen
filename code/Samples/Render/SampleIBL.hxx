@@ -14,7 +14,6 @@ namespace ma
 	{
 
 		GetCamera()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
-		GetCameraControll()->Init();
 
 		//CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl", "IBL");
 

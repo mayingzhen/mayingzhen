@@ -30,8 +30,6 @@ namespace ma
 		virtual void		OnPreRender(Scene* pScene);
 		virtual void		OnPosRender(Scene* pScene);
 
-		CameraController*	GetCameraController() {return m_pCameraControl;}
-
 		Camera*				GetCamera();
 
 	private:
@@ -48,8 +46,6 @@ namespace ma
 
 		bool				m_bPause;
 		bool				m_bStepOneFrame;
-
-		CameraController*	m_pCameraControl;
         
         std::string         m_strSample;
 	};

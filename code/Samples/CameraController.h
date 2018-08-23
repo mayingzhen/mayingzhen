@@ -1,20 +1,16 @@
-#ifndef __CameraController_H__
-#define __CameraController_H__
-
+#pragma once
 
 namespace ma
 {
 
-	class CameraController
+	class CameraController : public Component
 	{
 
 	public:
 		CameraController(Camera* pCamObj);
 		~CameraController();
 
-		void Init();
-
-		void Process(float dwElapsed);
+		virtual	void Update();
 
 	private:
 		float m_fMoveSpeed = 0.0f;
@@ -28,7 +24,6 @@ namespace ma
 	};
 }
 
-#endif 
 
 
 

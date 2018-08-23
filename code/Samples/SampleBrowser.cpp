@@ -54,7 +54,6 @@ namespace ma
 		m_bPause = false;
 		m_bStepOneFrame = false;
 		m_pCurSample = NULL;
-		m_pCameraControl = NULL;
 	}
 
 	SampleBrowser::~SampleBrowser()
@@ -136,8 +135,6 @@ namespace ma
 // #endif
 		}
 		m_pCurSample = NULL;
-
-		SAFE_DELETE(m_pCameraControl);
 		
 // 		if (GetPhysicsSystem())
 // 			GetPhysicsSystem()->Shoutdown();
@@ -172,8 +169,6 @@ namespace ma
 		
 		Scene* pScene = GetRenderSystem()->GetScene();
 		pScene->SetCallback(this);
-
-		m_pCameraControl = new CameraController( pScene->GetCamera() );
 
 		RunSample(m_strSample.c_str());
 
@@ -264,9 +259,6 @@ namespace ma
 			GetInput()->InjectInputEnd();
 
 		Game::Update();
-
-		if (m_pCameraControl)
-			m_pCameraControl->Process(GetTimer()->GetFrameDeltaTime());
 
 		if (m_bPause && !m_bStepOneFrame)
 		{

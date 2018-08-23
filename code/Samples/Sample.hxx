@@ -7,6 +7,9 @@ namespace ma
 		m_pScene = GetRenderSystem()->GetScene();
 		m_pCamera = m_pScene->GetCamera();
 
+		RefPtr<CameraController> pCameraController = new CameraController(m_pCamera.get());
+		m_pCamera->AddComponent(pCameraController.get());
+
 		Rectangle viewPort = GetRenderSystem()->GetViewPort();
 		int nWndWidth = 800;//viewPort.width();
 		int nWndHeigh = 600;//viewPort.height();
@@ -23,11 +26,6 @@ namespace ma
 	Sample::~Sample()
 	{
 		Game::GetInstance().mkeyEvent.remove(this,&Sample::keyEvent);
-	}
-
-	CameraController* Sample::GetCameraControll()
-	{
-		return GetSampleBrowser()->GetCameraController();
 	}
 
 	Camera*	Sample::GetCamera()
