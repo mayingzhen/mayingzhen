@@ -121,6 +121,7 @@ float3 LightBRDF(float glossiness,
 	float ndotv = max(0,dot(vWorldNormal, vView)); 
 	float vdoth = max(0,dot(vView, vHalf)); 
 
+	diffColor += float3(0.001);
 	finalLight = diffColor * ndotl * LightColor.rgb * fShadowMapShadow * ao;
 	
 //#ifdef SPEC	
@@ -134,6 +135,7 @@ float3 LightBRDF(float glossiness,
 
 	return finalLight;
 }
+
 
 #ifdef IBL
 float3 GlobalIBL(float glossiness, float3 diffColor,float3 specColor,float3 vWorldNormal,float3 vView)

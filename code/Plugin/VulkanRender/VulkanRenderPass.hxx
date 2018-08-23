@@ -67,7 +67,10 @@ namespace ma
 		VulkanRenderDevice* pRenderDevice = (VulkanRenderDevice*)GetRenderDevice();
 		VkCommandBuffer vkMainCmd = pRenderDevice->m_drawCmdBuffers;
 
-		vkCmdExecuteCommands(vkMainCmd, m_vecActiceCmd.size(), m_vecActiceCmd.data());
+		if (!m_vecActiceCmd.empty())
+		{
+			vkCmdExecuteCommands(vkMainCmd, m_vecActiceCmd.size(), m_vecActiceCmd.data());
+		}
 
 		vkCmdEndRenderPass(vkMainCmd);
 

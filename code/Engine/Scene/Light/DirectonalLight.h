@@ -1,5 +1,4 @@
-#ifndef __RenderShadowCSM_H__
-#define __RenderShadowCSM_H__
+#pragma once
 
 #include "ShadowMapFrustum.h"
 
@@ -103,5 +102,3 @@ namespace ma
 	RefPtr<DirectonalLight> CreateDirectonalLight();
 
 }
-
-#endif

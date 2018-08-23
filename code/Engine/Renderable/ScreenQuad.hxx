@@ -31,6 +31,15 @@ namespace ma
 		quadVerts[2].texCoords = Vector2(1.0f, 0.0f);
 		quadVerts[3].texCoords = Vector2(1.0f, 1.0f);
 
+		RenderDeviceType type = GetRenderDevice()->GetRenderDeviceType();
+		if (type == RenderDevice_VULKAN)
+		{
+			quadVerts[0].texCoords = Vector2(0.0f, 1.0f);
+			quadVerts[1].texCoords = Vector2(0.0f, 0.0f);
+			quadVerts[2].texCoords = Vector2(1.0f, 1.0f);
+			quadVerts[3].texCoords = Vector2(1.0f, 0.0f);
+		}
+
 		uint16_t indices[6];
 		indices[0] = 0;
 		indices[1] = 2;

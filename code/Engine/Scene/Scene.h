@@ -79,6 +79,8 @@ namespace ma
 
 		void					AddRenderLight(Light* pLight);
 
+		void					AddRenderPass(RenderPass* pRenderPass);
+
 	private:
 		RefPtr<SceneNode>		m_pRootNode;
 
@@ -87,17 +89,20 @@ namespace ma
 		std::string				m_sName;
 
 		RefPtr<RenderScheme>	m_pRenderScheme;
+
+		typedef std::vector<RefPtr<RenderPass> > VEC_RENDERPASS;
+		VEC_RENDERPASS			m_vecRenderPass;
 		
 		RefPtr<Camera>			m_pCamera;
 
-		typedef vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
+		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
 
-		typedef vector< RefPtr<Component> > VEC_COMP;
+		typedef std::vector< RefPtr<Component> > VEC_COMP;
 		VEC_COMP				m_vecParallelUpdate;
 		VEC_COMP				m_vecParallelShow;
 
-		typedef vector< RefPtr<Light> > VEC_LIGHT;
+		typedef std::vector< RefPtr<Light> > VEC_LIGHT;
 		VEC_LIGHT				m_vecRenderLight;
 
 		RenderQueue*			m_pRenderQueue[2];

@@ -46,6 +46,9 @@ namespace ma
 
 		void				SetDefaultRenderPass(RenderPass* pRenderPass);
 		RenderPass*			GetDefaultRenderPass();
+
+		void				SetBackBufferRenderPass(RenderPass* pRenderPass);
+		RenderPass*			GetBackBufferRenderPass();
 		
 		void*				GetMainWnd() {return m_hWnd;}
 		
@@ -87,9 +90,6 @@ namespace ma
 		const char*			GetShaderGlobaMacroByIndex(uint32_t i, OUT const char*& pszValue) const;
 		
 		void				ReloadShader();
-
-		ColourValue			GetClearColor() const { return m_cClearClor;}
-		void				SetClearColor(const ColourValue& cColor) { m_cClearClor = cColor;}
 		
 		enum { nNumParticleBuffer = 3 };
 		void				LockParticleVideoMemory(uint32_t nId);
@@ -99,9 +99,6 @@ namespace ma
 
 		ParallHardWareBuffer*GetInstanceBuffer();
 		ParallHardWareBuffer*GetRTInstaneBuffer();
-
-		ParallHardWareBuffer* GetUIBufeer();
-		ParallHardWareBuffer* GetRIUIBuffer();
 
 		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
 
@@ -134,6 +131,8 @@ namespace ma
 
 		RefPtr<RenderPass>	m_pDefaultRenderPass;
 
+		RefPtr<RenderPass>	m_pBackBufferRenderPass;
+
 		RefPtr<ComputeCommad> m_pComputeCommd;
 
 		void*				m_hWnd;
@@ -157,9 +156,7 @@ namespace ma
 		uint32_t				m_nPoolIndex;
 		uint32_t				m_nPoolIndexRT;
 
-		bool				m_bThread;
-		ColourValue			m_cClearClor;
-
+		bool					m_bThread;
 	};
 
 	extern RenderSystem* g_pRenderSystem;

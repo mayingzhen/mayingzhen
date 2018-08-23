@@ -21,51 +21,76 @@ namespace ma
 		Shoutdown();
 	}
 
-	void SetupGlow()
+	void SetupGlow(PostProcess* pGlow)
 	{
-		RefPtr<PostProcess> pGlow = new PostProcess();
-		g_pPostProcessPipeline->AddPostProcess(pGlow.get());
 
-		//std::string strDownSampleTarget = std::string("DownSampleTarget") + StringConverter::toString(i);
-		//g_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), 1, 1, PF_FLOAT32_R);
-		
+		float fScale = 0.5f;
 		uint32_t iterations = 6;
 		for (uint32_t i = 0; i < iterations; ++i)
 		{
 			std::string strDownSampleTarget = std::string("DownSampleTarget") + StringConverter::toString(i);
-			g_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), 1, 1, PF_FLOAT32_R);
+			g_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), fScale, PF_A8R8G8B8);
 
 			std::string strUpSampleTarget = std::string("UpSampleTarget") + StringConverter::toString(i);
-			g_pPostProcessPipeline->AddRenderPass(strUpSampleTarget.c_str(), 1, 1, PF_FLOAT32_R);
+			g_pPostProcessPipeline->AddRenderPass(strUpSampleTarget.c_str(), fScale, PF_A8R8G8B8);
+
+			fScale = fScale * 0.5f;
 		}
 
-		//DownSample
 		std::string strInput = "[StageInput]";
-		for (uint32_t i = 0; i < iterations; ++i)
+		std::string strOuput = "DownSampleTarget0";
+
+		// Prefilter
+		RefPtr<PostProcessStep> pPrefilter = new PostProcessStep();
+		pPrefilter->SetName("BloomPrefilter");
+		pPrefilter->SetInput("_MainTex", strInput.c_str());
+		pPrefilter->SetInput("_AutoExposureTex", "IllumAdjust");
+		pPrefilter->SetOutput(strOuput.c_str());
+		pPrefilter->SetTechnique("shader/prefilter.tech");
+		pGlow->AddStep(pPrefilter.get());
+
+
+		Vector4 _Threshold = Vector4(1.0f);
+		pPrefilter->GetMaterial()->SetParameter("_Threshold", Any(_Threshold));
+
+		Vector4 _Params = Vector4(1.0f);
+		pPrefilter->GetMaterial()->SetParameter("_Params", Any(_Params));
+
+		strInput = strOuput;
+
+		//DownSample
+		for (uint32_t i = 1; i < iterations; ++i)
 		{
-			std::string strOuput = std::string("DownSampleTarget") + StringConverter::toString(i);
+			std::string strOuputDownSample = std::string("DownSampleTarget") + StringConverter::toString(i);
 
 			RefPtr<PostProcessStep> pDownSample = new PostProcessStep();
-			pDownSample->SetInput("tSrcColor", strInput.c_str());
-			pDownSample->SetOutput(strOuput.c_str());
+			pDownSample->SetName(strOuputDownSample.c_str());
+			pDownSample->SetInput("_MainTex", strOuput.c_str());
+			pDownSample->SetOutput(strOuputDownSample.c_str());
 			pDownSample->SetTechnique("shader/downsample.tech");
 			pGlow->AddStep(pDownSample.get());
 
-			strInput = strOuput;
+			strInput = strOuputDownSample;
 		}
 
 		//UpSample
 		for (int i = iterations - 2; i >= 0; i--)
 		{
-			std::string strOuput = std::string("UpSampleTarget") + StringConverter::toString(i);
+			std::string strOuputUpSample = std::string("UpSampleTarget") + StringConverter::toString(i);
+			
+			std::string strBloom = std::string("UpSampleTarget") + StringConverter::toString(i + 1);
 
 			RefPtr<PostProcessStep> pUpSample = new PostProcessStep();
-			pUpSample->SetInput("tSrcColor", strInput.c_str());
-			pUpSample->SetOutput(strOuput.c_str());
+			pUpSample->SetName(strOuputUpSample.c_str());
+			pUpSample->SetInput("_MainTex", strInput.c_str());
+			pUpSample->SetInput("_BloomTex", strBloom.c_str());
+			pUpSample->SetOutput(strOuputUpSample.c_str());
 			pUpSample->SetTechnique("shader/upsample.tech");
 			pGlow->AddStep(pUpSample.get());
 
-			strInput = strOuput;
+			pUpSample->GetMaterial()->SetParameter("_SampleScale", Any(1.0f));
+
+			strInput = strOuputUpSample;
 		}
 
 	}
@@ -81,52 +106,73 @@ namespace ma
 		}
 
 		RefPtr<PostProcess> pHDR = new PostProcess();
+		pHDR->SetName("HDR");
 		g_pPostProcessPipeline->AddPostProcess(pHDR.get());
 
+	
 		{
 			RefPtr<PostProcessStep> pStepLog = new PostProcessStep();
-			pStepLog->SetInput("g_TexSrc", "[StageInput]");
+			pStepLog->SetName("SumLuminanceLog");
+			pStepLog->SetInput("tSrcColor", "[StageInput]");
 			pStepLog->SetOutput("IllumLumLog3");
 			pStepLog->SetTechnique("shader/SumLuminanceLog.tech");
+			Vector4 texSize = Vector4(800.0f, 600.0f, 1.0f / 800.0f, 1.0f / 600.0f);
+			pStepLog->GetMaterial()->SetParameter("inputTexSize", Any(texSize));
 			pHDR->AddStep(pStepLog.get());
 		}
 
 		{
 			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep();
+			pStepIterative->SetName("SumLuminanceIterative1");
 			pStepIterative->SetInput("tSrcColor", "IllumLumLog3");
 			pStepIterative->SetOutput("IllumLumLog2");
 			pStepIterative->SetTechnique("shader/SumLuminanceIterative.tech");
+			Vector4 texSize = Vector4(64.0f, 64.0f, 1.0f / 64.0f, 1.0f / 64.0f);
+			pStepIterative->GetMaterial()->SetParameter("inputTexSize", Any(texSize));
 			pHDR->AddStep(pStepIterative.get());
 		}
 
 		{
 			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep();
-			pStepIterative->SetInput("g_TextureSrc", "IllumLumLog2");
+			pStepIterative->SetName("SumLuminanceIterative2");
+			pStepIterative->SetInput("tSrcColor", "IllumLumLog2");
 			pStepIterative->SetOutput("IllumLumLog1");
 			pStepIterative->SetTechnique("shader/SumLuminanceIterative.tech");
+			Vector4 texSize = Vector4(16.0f, 16.0f, 1.0f / 16.0f, 1.0f / 16.0f);
+			pStepIterative->GetMaterial()->SetParameter("inputTexSize", Any(texSize));
 			pHDR->AddStep(pStepIterative.get());
 		}
 
+
 		{
 			RefPtr<PostProcessStep> pStepFinal = new PostProcessStep();
-			pStepFinal->SetInput("g_TextureSrc", "IllumLumLog1");
-			pStepFinal->SetInput("g_TexLumLast", "IllumLast");
+			pStepFinal->SetName("SumLuminanceFinal");
+			pStepFinal->SetInput("tSrcColor", "IllumLumLog1");
+			pStepFinal->SetInput("g_Texturelast", "IllumLast");
 			pStepFinal->SetOutput("IllumAdjust");
 			pStepFinal->SetTechnique("shader/SumLuminanceFinal.tech");
+			Vector4 texSize = Vector4(4.0f, 4.0f, 1.0f / 4.0f, 1.0f / 4.0f);
+			pStepFinal->GetMaterial()->SetParameter("inputTexSize", Any(texSize));
+			pStepFinal->GetMaterial()->SetParameter("AdaptationRate", Any(0.5f));
 			pHDR->AddStep(pStepFinal.get());
 		}
 
 		{
 			RefPtr<PostProcessStep> pCopy = new PostProcessStep();
+			pCopy->SetName("copy");
 			pCopy->SetInput("tSrcColor", "IllumAdjust");
 			pCopy->SetOutput("IllumLast");
 			pCopy->SetTechnique("shader/copy.tech");
 			pHDR->AddStep(pCopy.get());
 		}
 
+		SetupGlow(pHDR.get());
+
 		{
 			RefPtr<PostProcessStep> pStepToneMap = new PostProcessStep();
+			pStepToneMap->SetName("ToneMap");
 			pStepToneMap->SetInput("gTex_Scene", "[StageInput]");
+			pStepToneMap->SetInput("gTexBloom", "UpSampleTarget0");
 			pStepToneMap->SetInput("gTex_Lum", "IllumAdjust");
 			pStepToneMap->SetOutput("[StageOutput]");
 			pStepToneMap->SetTechnique("shader/ToneMaping.tech");
@@ -136,9 +182,11 @@ namespace ma
 
 	void RenderScheme::Reset()
 	{	
-		m_pShadingPass = GetRenderSystem()->GetDefaultRenderPass();
+		m_pBackBaufferPass = GetRenderSystem()->GetDefaultRenderPass();
 
-		if (0)
+		m_pShadingPass = m_pBackBaufferPass;
+
+		if (1)
 		{
 			RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
 
@@ -150,9 +198,13 @@ namespace ma
 
 			GetRenderSystem()->RenderPassStreamComplete(pHDRPass.get());
 			
-			SetupHDR();
+			if (0)
+			{
+				SetupHDR();
+				g_pPostProcessPipeline->SaveToXML("postprocess.xml");
+			}
 
-			SetupGlow();
+			g_pPostProcessPipeline->LoadFromXML("postprocess.xml");
 
 			g_pPostProcessPipeline->Setup(pHDRPass.get(), GetRenderSystem()->GetDefaultRenderPass());
 
@@ -192,15 +244,18 @@ namespace ma
 			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_SkyBox, RP_Shading);
 		}
 
+		m_pShadingPass->End();
+
 		g_pPostProcessPipeline->Render();
+
+		//m_pBackBaufferPass->Begine();
 
 		{
 			RENDER_PROFILE(RL_UI);
-			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_UI, RP_Shading);
+			pRenderQueue->RenderObjList(m_pBackBaufferPass.get(), RL_UI, RP_Shading);
 		}
 
-		m_pShadingPass->End();
-
+		m_pBackBaufferPass->End();
 	}
 
 	void RenderScheme::SetDeferredShadingEnabled(bool b)

@@ -17,10 +17,15 @@ namespace ma
 
 		void SetTechnique(const char* pszTech);
 
+		SubMaterial* GetMaterial() { return m_pMaterial.get(); }
+
 		RenderPass* GetRenderPass() { return m_pRenderPass.get(); }
 
-		void Import(rapidxml::xml_node<>* pXmlElem, Resource* pParent);
+		void Import(rapidxml::xml_node<>* pXmlElem);
 		void Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
+
+		const char* GetName();
+		void		SetName(const char* pszName);
 
 	protected:
 		std::string m_strName;
@@ -30,21 +35,25 @@ namespace ma
 
 		std::map<std::string,std::string> m_strInTexture;
 
-		std::string m_strTech;
 		RefPtr<SubMaterial> m_pMaterial;
 	};
 
 	class PostProcess : public Referenced
 	{
 	public:
-		void	Setup(RenderPass* pInFB,RenderPass* pOutFB);
+		void		Setup(RenderPass* pInFB,RenderPass* pOutFB);
 
-		void	Render();
+		void		Render();
 
-		void	AddStep(PostProcessStep* pStep);
+		void		AddStep(PostProcessStep* pStep);
 
-		void	Import(rapidxml::xml_node<>* pXmlElem);
-		void	Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
+		PostProcessStep* GetStep(const char* pszName);
+
+		void		Import(rapidxml::xml_node<>* pXmlElem);
+		void		Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
+
+		const char* GetName();
+		void		SetName(const char* pszName);
 
 	private:
 		std::vector< RefPtr<PostProcessStep> > m_vecStep;
@@ -70,6 +79,7 @@ namespace ma
 		void		AddRenderPass(const char* pszName, float fScale, PixelFormat format, bool bSRGB = false);
 
 		void		AddPostProcess(PostProcess* pPostProcess);
+		PostProcess* GetPostProcess(const char* pszName);
 
 		bool		Import(rapidxml::xml_node<>* pXmlElem);
 		bool		Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
@@ -86,15 +96,15 @@ namespace ma
 			float m_fScale = 0.0f;
 			int m_nWidth;
 			int m_nHight;
+			bool m_sRGB = false;
+			RefPtr<RenderPass> m_pRenderPass;
 		};
 		std::vector<TextureInfo> m_vecTextureInfo;
-
-		typedef std::map<std::string, RefPtr<RenderPass> > MAP_RENDERPASS;
-		MAP_RENDERPASS m_mapRenderPass;
 
 		RefPtr<RenderPass> m_pTempRenderPass;
 	};
 
 	extern PostProcessPipeline* g_pPostProcessPipeline;
+	PostProcessPipeline* GetPostProcess();
 }
 

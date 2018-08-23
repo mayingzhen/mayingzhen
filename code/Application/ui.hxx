@@ -61,6 +61,7 @@ namespace ma
 		info.m_pVertexDecl = pDeclaration;
 		info.m_pBlendState = pBlendState;
 		info.m_pRSState = pRastate;
+		info.m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
 		m_pTechUI = CreateTechnique("ui", info);
 
 		// CreateFontTexture

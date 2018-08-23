@@ -50,5 +50,33 @@ namespace ma
 
 		Rectangle					m_viewPort;
 	};
+
+	class CommandBuffer
+	{
+	public:
+		void AddRenderObj(int nBatchIndex, Renderable* pRenderObj)
+		{
+
+		}
+
+		void Render()
+		{
+			m_pRenderPass->Begine();
+
+// 			for (uint32_t i = 0; i < m_arrRenderList.size(); ++i)
+// 			{
+// 				m_arrRenderList[i]->PrepareRender(eRPType);
+// 				m_arrRenderList[i]->Render(m_pRenderPass.get(), eRPType, eRLType);
+// 			}
+
+			m_pRenderPass->End();
+		}
+
+	private:
+		RefPtr<RenderPass>	m_pRenderPass;
+
+		//RenderQueue*		m_pRenderQueue[2];
+		std::vector< RefPtr<BatchRenderable> > m_arrRenderList;
+	};
 }
 

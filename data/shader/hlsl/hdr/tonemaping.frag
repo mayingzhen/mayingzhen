@@ -9,14 +9,8 @@ uniform SamplerState gSam_Lum : register (s0);
 uniform Texture2D gTex_Scene : register (t1);
 uniform SamplerState gSam_Scene : register (s1);
 
-uniform Texture2D gTex_Bright0 : register (t2);
-uniform SamplerState gSam_Bright0 : register (s2);
-
-uniform Texture2D gTex_Bright1 : register (t3);
-uniform SamplerState gSam_Bright1 : register (s3);
-
-uniform Texture2D gTex_Bright2 : register (t4);
-uniform SamplerState gSam_Bright2 : register (s4);
+uniform Texture2D gTexBloom : register (t2);
+uniform SamplerState gSamBloom : register (s2);
 
 uniform float gExposure;
 uniform float4 gBloomWeight;
@@ -59,35 +53,43 @@ float3 BlurShift(float3 vSample, float fLum)
 	return lerp(vSample, vRodColor, fBlueShiftCoefficient) ;
 }
 
+float3 ToneMap_Hejl2015(float3 hdr)
+{
+	float WhitePoint_Hejl = 11.2;
+    float4 vh = float4(hdr, WhitePoint_Hejl);
+    float4 va = (1.435 * vh) + 0.05;
+    float4 vf = ((vh * va + 0.004) / ((vh * (va + 0.55) + 0.0491))) - 0.0821;
+    return vf.xyz / vf.www;
+}
+
+
 float4 main(PS_IN In) : SV_TARGET
 {
-	float adaptedLum = gTex_Lum.Sample(gSam_Lum, float2(0.5, 0.5)).r;
+	float avgLuminance = gTex_Lum.Sample(gSam_Lum, float2(0.5, 0.5)).r;
+	avgLuminance = max(avgLuminance, 0.001);
+
+	float keyValue = 0.12;
+	//keyValue = 1.03 - 2.0 / ( log2(avgLuminance + 1.0) + 2.0 );
+
+	float ExposureValue = keyValue / avgLuminance;
+	//ExposureValue = gExposure;
+
 	float3 texColor = gTex_Scene.Sample(gSam_Scene, In.uv).rgb;
-	float3 texBright0 = gTex_Bright0.Sample(gSam_Bright0, In.uv).rgb * gBloomWeight.x;
-	float3 texBright1 = gTex_Bright1.Sample(gSam_Bright1, In.uv).rgb * gBloomWeight.y;
-	float3 texBright2 = gTex_Bright2.Sample(gSam_Bright2, In.uv).rgb * gBloomWeight.z;
-	
-	float3 texBright = texBright0 + texBright1 + texBright2;
-	
-	//texColor += texBright;
+	float3 texBright0 = gTexBloom.Sample(gSamBloom, In.uv).rgb ;//* gBloomWeight.x;
 
-	//texColor = BlurShift(texColor, adaptedLum);
-	
-	texColor *= 1.0;//gExposure / (adaptedLum + 0.001f);
+	texColor += texBright0;
 
-	float3 curr = Uncharted2Tonemap(texColor);
-	
-	const float W = 11.2;
-	
-	float3 whiteScale = 1.0f / Uncharted2Tonemap(W);
-	float3 color = curr*whiteScale;
+	float3 color = ToneMap_Hejl2015(texColor * ExposureValue);
+
 	
 	//color += texBright;
 	
-	float3 retColor = pow(color,1/2.2);
+	//float3 retColor = pow(color,1/2.2);
 	
-	return float4(retColor,1);
+	return float4(color,1);
 }
+
+
 
 
 

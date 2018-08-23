@@ -57,6 +57,8 @@ namespace ma
 
 		RefPtr<RenderPass>		m_pShadingPass;
 
+		RefPtr<RenderPass>		m_pBackBaufferPass;
+
 		RefPtr<RenderPass>		m_pLinearDepthPass;
 
 		Scene*					m_pScene;

@@ -723,6 +723,7 @@ namespace ma
 
 		ShaderCreateInfo info = m_pShaderProgram->GetShaderCreateInfo();
 		info.m_shaderMacro = m_strDefine;
+		info.m_pRenderPass = m_pRenderPass;
 
 		m_pShaderProgram = CreateShaderProgram(info);
 

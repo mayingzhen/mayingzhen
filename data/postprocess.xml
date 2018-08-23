@@ -1,0 +1,149 @@
+<Object>
+	<RenderTargetList>
+		<RenderTarget name="IllumAdjust" format="PF_FLOAT32_R" srgb="false" width="1" height="1"/>
+		<RenderTarget name="IllumLast" format="PF_FLOAT32_R" srgb="false" width="1" height="1"/>
+		<RenderTarget name="IllumLumLog1" format="PF_FLOAT32_R" srgb="false" width="4" height="4"/>
+		<RenderTarget name="IllumLumLog2" format="PF_FLOAT32_R" srgb="false" width="16" height="16"/>
+		<RenderTarget name="IllumLumLog3" format="PF_FLOAT32_R" srgb="false" width="64" height="64"/>
+		<RenderTarget name="DownSampleTarget0" format="PF_A8R8G8B8" srgb="false" scale="0.5"/>
+		<RenderTarget name="UpSampleTarget0" format="PF_A8R8G8B8" srgb="false" scale="0.5"/>
+		<RenderTarget name="DownSampleTarget1" format="PF_A8R8G8B8" srgb="false" scale="0.25"/>
+		<RenderTarget name="UpSampleTarget1" format="PF_A8R8G8B8" srgb="false" scale="0.25"/>
+		<RenderTarget name="DownSampleTarget2" format="PF_A8R8G8B8" srgb="false" scale="0.125"/>
+		<RenderTarget name="UpSampleTarget2" format="PF_A8R8G8B8" srgb="false" scale="0.125"/>
+		<RenderTarget name="DownSampleTarget3" format="PF_A8R8G8B8" srgb="false" scale="0.0625"/>
+		<RenderTarget name="UpSampleTarget3" format="PF_A8R8G8B8" srgb="false" scale="0.0625"/>
+		<RenderTarget name="DownSampleTarget4" format="PF_A8R8G8B8" srgb="false" scale="0.03125"/>
+		<RenderTarget name="UpSampleTarget4" format="PF_A8R8G8B8" srgb="false" scale="0.03125"/>
+		<RenderTarget name="DownSampleTarget5" format="PF_A8R8G8B8" srgb="false" scale="0.015625"/>
+		<RenderTarget name="UpSampleTarget5" format="PF_A8R8G8B8" srgb="false" scale="0.015625"/>
+	</RenderTargetList>
+	<PostProcesslist>
+		<PostProcess Name="HDR">
+			<Step Name="SumLuminanceLog" TargetName="IllumLumLog3">
+				<InTexture ParamName="tSrcColor" TextureName="[StageInput]"/>
+				<Material>
+					<ShadingTech TechName="shader/SumLuminanceLog.tech" TechMarco=""/>
+					<Parameters Name="inputTexSize" Type="Vector4" Value="800 600 0.00125 0.00166667"/>
+				</Material>
+			</Step>
+			<Step Name="SumLuminanceIterative1" TargetName="IllumLumLog2">
+				<InTexture ParamName="tSrcColor" TextureName="IllumLumLog3"/>
+				<Material>
+					<ShadingTech TechName="shader/SumLuminanceIterative.tech" TechMarco=""/>
+					<Parameters Name="inputTexSize" Type="Vector4" Value="64 64 0.015625 0.015625"/>
+				</Material>
+			</Step>
+			<Step Name="SumLuminanceIterative2" TargetName="IllumLumLog1">
+				<InTexture ParamName="tSrcColor" TextureName="IllumLumLog2"/>
+				<Material>
+					<ShadingTech TechName="shader/SumLuminanceIterative.tech" TechMarco=""/>
+					<Parameters Name="inputTexSize" Type="Vector4" Value="16 16 0.0625 0.0625"/>
+				</Material>
+			</Step>
+			<Step Name="SumLuminanceFinal" TargetName="IllumAdjust">
+				<InTexture ParamName="g_Texturelast" TextureName="IllumLast"/>
+				<InTexture ParamName="tSrcColor" TextureName="IllumLumLog1"/>
+				<Material>
+					<ShadingTech TechName="shader/SumLuminanceFinal.tech" TechMarco=""/>
+					<Parameters Name="inputTexSize" Type="Vector4" Value="4 4 0.25 0.25"/>
+					<Parameters Name="AdaptationRate" Type="float" Value="0.5"/>
+				</Material>
+			</Step>
+			<Step Name="copy" TargetName="IllumLast">
+				<InTexture ParamName="tSrcColor" TextureName="IllumAdjust"/>
+				<Material>
+					<ShadingTech TechName="shader/copy.tech" TechMarco=""/>
+				</Material>
+			</Step>
+			<Step Name="BloomPrefilter" TargetName="DownSampleTarget0">
+				<InTexture ParamName="_AutoExposureTex" TextureName="IllumAdjust"/>
+				<InTexture ParamName="_MainTex" TextureName="[StageInput]"/>
+				<Material>
+					<ShadingTech TechName="shader/prefilter.tech" TechMarco=""/>
+					<Parameters Name="_Threshold" Type="Vector4" Value="1 1 1 1"/>
+					<Parameters Name="_Params" Type="Vector4" Value="1 1 1 1"/>
+				</Material>
+			</Step>
+			<Step Name="DownSampleTarget1" TargetName="DownSampleTarget1">
+				<InTexture ParamName="_MainTex" TextureName="DownSampleTarget0"/>
+				<Material>
+					<ShadingTech TechName="shader/downsample.tech" TechMarco=""/>
+				</Material>
+			</Step>
+			<Step Name="DownSampleTarget2" TargetName="DownSampleTarget2">
+				<InTexture ParamName="_MainTex" TextureName="DownSampleTarget0"/>
+				<Material>
+					<ShadingTech TechName="shader/downsample.tech" TechMarco=""/>
+				</Material>
+			</Step>
+			<Step Name="DownSampleTarget3" TargetName="DownSampleTarget3">
+				<InTexture ParamName="_MainTex" TextureName="DownSampleTarget0"/>
+				<Material>
+					<ShadingTech TechName="shader/downsample.tech" TechMarco=""/>
+				</Material>
+			</Step>
+			<Step Name="DownSampleTarget4" TargetName="DownSampleTarget4">
+				<InTexture ParamName="_MainTex" TextureName="DownSampleTarget0"/>
+				<Material>
+					<ShadingTech TechName="shader/downsample.tech" TechMarco=""/>
+				</Material>
+			</Step>
+			<Step Name="DownSampleTarget5" TargetName="DownSampleTarget5">
+				<InTexture ParamName="_MainTex" TextureName="DownSampleTarget0"/>
+				<Material>
+					<ShadingTech TechName="shader/downsample.tech" TechMarco=""/>
+				</Material>
+			</Step>
+			<Step Name="UpSampleTarget4" TargetName="UpSampleTarget4">
+				<InTexture ParamName="_BloomTex" TextureName="UpSampleTarget5"/>
+				<InTexture ParamName="_MainTex" TextureName="DownSampleTarget5"/>
+				<Material>
+					<ShadingTech TechName="shader/upsample.tech" TechMarco=""/>
+					<Parameters Name="_SampleScale" Type="float" Value="1"/>
+				</Material>
+			</Step>
+			<Step Name="UpSampleTarget3" TargetName="UpSampleTarget3">
+				<InTexture ParamName="_BloomTex" TextureName="UpSampleTarget4"/>
+				<InTexture ParamName="_MainTex" TextureName="UpSampleTarget4"/>
+				<Material>
+					<ShadingTech TechName="shader/upsample.tech" TechMarco=""/>
+					<Parameters Name="_SampleScale" Type="float" Value="1"/>
+				</Material>
+			</Step>
+			<Step Name="UpSampleTarget2" TargetName="UpSampleTarget2">
+				<InTexture ParamName="_BloomTex" TextureName="UpSampleTarget3"/>
+				<InTexture ParamName="_MainTex" TextureName="UpSampleTarget3"/>
+				<Material>
+					<ShadingTech TechName="shader/upsample.tech" TechMarco=""/>
+					<Parameters Name="_SampleScale" Type="float" Value="1"/>
+				</Material>
+			</Step>
+			<Step Name="UpSampleTarget1" TargetName="UpSampleTarget1">
+				<InTexture ParamName="_BloomTex" TextureName="UpSampleTarget2"/>
+				<InTexture ParamName="_MainTex" TextureName="UpSampleTarget2"/>
+				<Material>
+					<ShadingTech TechName="shader/upsample.tech" TechMarco=""/>
+					<Parameters Name="_SampleScale" Type="float" Value="1"/>
+				</Material>
+			</Step>
+			<Step Name="UpSampleTarget0" TargetName="UpSampleTarget0">
+				<InTexture ParamName="_BloomTex" TextureName="UpSampleTarget1"/>
+				<InTexture ParamName="_MainTex" TextureName="UpSampleTarget1"/>
+				<Material>
+					<ShadingTech TechName="shader/upsample.tech" TechMarco=""/>
+					<Parameters Name="_SampleScale" Type="float" Value="1"/>
+				</Material>
+			</Step>
+			<Step Name="ToneMap" TargetName="[StageOutput]">
+				<InTexture ParamName="gTexBloom" TextureName="UpSampleTarget0"/>
+				<InTexture ParamName="gTex_Lum" TextureName="IllumAdjust"/>
+				<InTexture ParamName="gTex_Scene" TextureName="[StageInput]"/>
+				<Material>
+					<ShadingTech TechName="shader/ToneMaping.tech" TechMarco=""/>
+				</Material>
+			</Step>
+		</PostProcess>
+	</PostProcesslist>
+</Object>
+

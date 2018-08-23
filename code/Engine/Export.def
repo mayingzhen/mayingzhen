@@ -304,3 +304,7 @@ EXPORTS
 ?ReLoad@Technique@ma@@QAEXXZ
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z
 ?GetValue@Parameter@ma@@QBEABVAny@2@XZ
+?GetBackBufferRenderPass@RenderSystem@ma@@QAEPAVRenderPass@2@XZ
+?GetStep@PostProcess@ma@@QAEPAVPostProcessStep@2@PBD@Z
+?GetPostProcess@PostProcessPipeline@ma@@QAEPAVPostProcess@2@PBD@Z
+?GetPostProcess@ma@@YAPAVPostProcessPipeline@1@XZ

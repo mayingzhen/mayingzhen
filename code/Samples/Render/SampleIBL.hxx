@@ -18,11 +18,27 @@ namespace ma
 
 		//CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl", "IBL");
 
-		//gFilterCube.Init("env.dds");
+		//gFilterCube.Init("cube02.dds");
+
+		{
+			PostProcessPipeline* pPostProcess = GetPostProcess();
+			PostProcess* pHDR = pPostProcess->GetPostProcess("HDR");
+
+			PostProcessStep* pStepTonemap = pHDR->GetStep("ToneMap");
+			SubMaterial* pToneMapMaterial = pStepTonemap->GetMaterial();
+			RefPtr<MethodBinding> pMethodExpos = new MethodFunBinding<float>([this](Renderable*) { return m_fExporse; });
+			pToneMapMaterial->SetParameter("gExposure", Any(pMethodExpos));
+
+			PostProcessStep* pStepPrefiter = pHDR->GetStep("BloomPrefilter");
+			SubMaterial* pFilterMaterial = pStepPrefiter->GetMaterial();
+			RefPtr<MethodBinding> pMethodParam = new MethodFunBinding<Vector4>([this](Renderable*) { return Vector4(m_fParam); });
+			pFilterMaterial->SetParameter("_Threshold", Any(pMethodParam));
+		}
+
 
 		RefPtr<SceneNode> pSkyBoxNode = m_pScene->CreateSceneNode();
 		RefPtr<SkyBox> pSkyBox = pSkyBoxNode->CreateComponent<SkyBox>();
-		pSkyBox->SetCubeMap("env.dds");
+		pSkyBox->SetCubeMap("cube02.dds");
 
 		RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 
@@ -118,6 +134,12 @@ namespace ma
 		}
 
 		GetUI()->End();
+
+		GetUI()->Begin("HDR");
+		GetUI()->SliderFloat("Exporse", &m_fExporse, 0.0f, 10.0f);
+		GetUI()->SliderFloat("Param", &m_fParam, 0.0f, 20.0f);
+		GetUI()->End();
+
 	}
 
 	void SampleIBL::PreRender()

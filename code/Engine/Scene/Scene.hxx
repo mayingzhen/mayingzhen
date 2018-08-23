@@ -78,6 +78,11 @@ namespace ma
 		m_vecRenderLight.push_back(pLight);
 	}
 
+	void Scene::AddRenderPass(RenderPass* pRenderPass)
+	{
+		m_vecRenderPass.push_back(pRenderPass);
+	}
+
 	void Scene::Update()
 	{
 		profile_code();
@@ -172,20 +177,25 @@ namespace ma
 			return;
 
 		GetRenderContext()->SetCurScene(this);
-	
-		GetRenderSystem()->BegineRender();
-
-		m_pMainDirLight->RenderShadowMap(m_pCamera.get());
 
 		GetRenderContext()->SetCamera(m_pCamera.get());
+	
+		GetRenderSystem()->BegineRender();
 
 		if (m_pCallback)
 		{
 			m_pCallback->OnPreRender(this);
 		}
 
-		m_pRenderScheme->Render();
+// 		for (uint32_t i = 0; i < m_vecRenderPass.size(); ++i)
+// 		{
+// 			m_vecRenderPass[i]->Render();
+// 		}
 
+		m_pMainDirLight->RenderShadowMap(m_pCamera.get());
+
+		m_pRenderScheme->Render();
+ 
 		if (m_pCallback)
 		{
 			m_pCallback->OnPosRender(this);
@@ -202,6 +212,3 @@ namespace ma
 	}
 
 }
-
-
-

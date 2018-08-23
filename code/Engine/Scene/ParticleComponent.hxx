@@ -26,8 +26,6 @@ namespace ma
 
 		pComputeCmd->Begin();
 
-		//Technique* pTech = m_pMaterial->GetShadingTechnqiue();
-
 		pTechnique->BindCompute(this);
 
 		pComputeCmd->SetTechnique(pTechnique);

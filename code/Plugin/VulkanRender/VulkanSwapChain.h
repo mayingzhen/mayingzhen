@@ -245,21 +245,21 @@ public:
 		{
 			// iterate over the list of available surface format and
 			// check for the presence of VK_FORMAT_B8G8R8A8_UNORM
-			bool found_B8G8R8A8_UNORM = false;
+			bool found_B8G8R8A8_SRGB = false;
 			for (auto&& surfaceFormat : surfaceFormats)
 			{
-				if (surfaceFormat.format == VK_FORMAT_B8G8R8A8_UNORM)
+				if (surfaceFormat.format == VK_FORMAT_B8G8R8A8_SRGB)
 				{
 					colorFormat = surfaceFormat.format;
 					colorSpace = surfaceFormat.colorSpace;
-					found_B8G8R8A8_UNORM = true;
+					found_B8G8R8A8_SRGB = true;
 					break;
 				}
 			}
 
 			// in case VK_FORMAT_B8G8R8A8_UNORM is not available
 			// select the first available color format
-			if (!found_B8G8R8A8_UNORM)
+			if (!found_B8G8R8A8_SRGB)
 			{
 				colorFormat = surfaceFormats[0].format;
 				colorSpace = surfaceFormats[0].colorSpace;

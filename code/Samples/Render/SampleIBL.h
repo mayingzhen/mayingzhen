@@ -27,6 +27,9 @@ namespace ma
 		Vector4 m_cColor = Vector4(1.0);
 
 		RefPtr<SamplerState> m_pDiffuseTexture;
+
+		float m_fExporse = 0.5f;
+		float m_fParam = 2.0f;
 	};
 }
 

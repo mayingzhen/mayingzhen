@@ -35,7 +35,6 @@ namespace ma
 		m_nPoolIndexRT = 0;
 
 		m_bThread = false;
-		m_cClearClor = ColourValue::Black;
 	}
 
 	RenderSystem::~RenderSystem()
@@ -185,6 +184,7 @@ namespace ma
 		m_curViewport = GetRenderDevice()->GetViewport();
 
 		m_pDefaultRenderPass = GetRenderDevice()->GetDefaultRenderPass();
+		m_pBackBufferRenderPass = m_pDefaultRenderPass;
 	
 		LineRender::Init();
 		ScreenQuad::Init();
@@ -267,6 +267,16 @@ namespace ma
 	RenderPass* RenderSystem::GetDefaultRenderPass()
 	{
 		return m_pDefaultRenderPass.get();
+	}
+
+	void RenderSystem::SetBackBufferRenderPass(RenderPass* pRenderPass)
+	{
+		m_pBackBufferRenderPass = pRenderPass;
+	}
+
+	RenderPass*	RenderSystem::GetBackBufferRenderPass()
+	{
+		return m_pBackBufferRenderPass.get();
 	}
 	
 	void RenderSystem::TechniqueStreamComplete(Technique* pTech)

@@ -40,17 +40,28 @@ namespace ma
 		return true;
 	}
 
-
 	VkFormat GetSRGBFormat(VkFormat format)
 	{
-		if (format == VK_FORMAT_B8G8R8A8_UNORM)
-			return VK_FORMAT_B8G8R8A8_SNORM;
+		if (format == VK_FORMAT_R8G8B8A8_UNORM)
+			return VK_FORMAT_R8G8B8A8_SRGB;
+		else if (format == VK_FORMAT_B8G8R8A8_UNORM)
+			return VK_FORMAT_B8G8R8A8_SRGB;
 		else if (format == VK_FORMAT_BC1_RGB_UNORM_BLOCK)
 			return VK_FORMAT_BC1_RGB_SRGB_BLOCK;
+		else if (format == VK_FORMAT_BC1_RGBA_UNORM_BLOCK)
+			return VK_FORMAT_BC1_RGBA_SRGB_BLOCK;
 		else if (format == VK_FORMAT_BC2_UNORM_BLOCK)
 			return VK_FORMAT_BC2_SRGB_BLOCK;
 		else if (format == VK_FORMAT_BC3_UNORM_BLOCK)
 			return VK_FORMAT_BC3_SRGB_BLOCK;
+		else if (format == VK_FORMAT_BC4_UNORM_BLOCK)
+			return VK_FORMAT_BC4_SNORM_BLOCK;
+		else if (format == VK_FORMAT_BC5_UNORM_BLOCK)
+			return VK_FORMAT_BC5_SNORM_BLOCK;
+		else if (format == VK_FORMAT_BC6H_UFLOAT_BLOCK)
+			return VK_FORMAT_BC6H_SFLOAT_BLOCK;
+		else if (format == VK_FORMAT_BC7_UNORM_BLOCK)
+			return VK_FORMAT_BC7_SRGB_BLOCK;
 		else
 			return format;
 	}
@@ -249,6 +260,10 @@ namespace ma
 			tem.bulkPixelConversion(m_eFormat);
 		}
 		m_vkformat = VulkanMapping::_getPF(m_eFormat);
+		if (m_bSRGB)
+		{
+			m_vkformat = GetSRGBFormat(m_vkformat);
+		}
 
 		// The custom mipmaps in the image have priority over everything
 		//size_t imageMips = imageData.num_mipmaps;
