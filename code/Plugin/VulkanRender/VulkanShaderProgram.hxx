@@ -483,8 +483,8 @@ namespace ma
 
 		const ShaderCreateInfo& info = this->GetShaderCreateInfo();
 
-		VulkanBlendStateObject bs;
-		VulkanBlendStateObject* pVulkanBS = (VulkanBlendStateObject*)(info.m_pBlendState.get());
+		VulkanBlendState bs;
+		VulkanBlendState* pVulkanBS = (VulkanBlendState*)(info.m_pBlendState.get());
 		if (pVulkanBS)
 		{
 			pVulkanBS->RT_StreamComplete();
@@ -496,8 +496,8 @@ namespace ma
 
 		pVulkanBS->m_cb.attachmentCount = GetRenderPass()->m_arrColor.size();
 
-		VulkanDepthStencilStateObject ds;
-		VulkanDepthStencilStateObject* pVulkanDS = (VulkanDepthStencilStateObject*)(info.m_pDSState.get());
+		VulkanDepthStencilState ds;
+		VulkanDepthStencilState* pVulkanDS = (VulkanDepthStencilState*)(info.m_pDSState.get());
 		if (pVulkanDS)
 		{
 			pVulkanDS->RT_StreamComplete();
@@ -507,8 +507,8 @@ namespace ma
 			pVulkanDS = &ds;
 		}
 
-		VulkanRasterizerStateObject rs;
-		VulkanRasterizerStateObject* pVulkanRS = (VulkanRasterizerStateObject*)(info.m_pRSState.get());
+		VulkanRasterizerState rs;
+		VulkanRasterizerState* pVulkanRS = (VulkanRasterizerState*)(info.m_pRSState.get());
 		if (pVulkanRS)
 		{
 			pVulkanRS->RT_StreamComplete();
@@ -676,77 +676,6 @@ namespace ma
 		computePipelineCreateInfo.layout = m_computePip._Layout;
 		VK_CHECK_RESULT(vkCreateComputePipelines(device->logicalDevice, m_computePip._Cache, 1, &computePipelineCreateInfo, nullptr, &m_computePip._Pipeline));
 	}
-
-	/*
-	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32_t>& vtx_spv)
-	{
-		if (0)
-		{
-			spirv_cross::CompilerGLSL glsl(vtx_spv.data(), vtx_spv.size());
-
-			// Set some options.
-			spirv_cross::CompilerGLSL::Options options;
-			//options.version = 450;
-			options.vulkan_semantics = true;
-			glsl.set_options(options);
-
-			// Compile to GLSL, ready to give to GL driver.
-			std::string source = glsl.compile();
-
-			LogInfo("%s", source.c_str());
-		}
-
-		spirv_cross::CompilerGLSL glsl(vtx_spv.data(), vtx_spv.size());
-
-		spirv_cross::ShaderResources resources = glsl.get_shader_resources();
-
-		if (eType == CS)
-		{
-			for (auto &resource : resources.storage_buffers)
-			{
-				unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-
-				RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
-				pUniform->SetIndex(binding);
-
-				this->AddStorgeBuffer(pUniform.get());
-			}
-		}
-
-		for (auto &resource : resources.uniform_buffers)
-		{
-			const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
-			size_t size_ = glsl.get_declared_struct_size(spType);
-			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-			RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
-			pConstantBuffer->SetName(resource.name.c_str());
-			pConstantBuffer->SetBound(binding);
-			pConstantBuffer->SetSize(size_);
-			this->AddConstBuffer(eType, pConstantBuffer.get());
-			for (uint32_t i = 0; i < spType.member_types.size(); ++i)
-			{
-				std::string str = glsl.get_member_name(spType.self, i);
-				size_t offset = glsl.type_struct_member_offset(spType, i);
-				size_t size = glsl.get_declared_struct_member_size(spType, i);
-
-				Uniform* pUniform = pConstantBuffer->AddUniform(str.c_str());
-				pUniform->SetIndex(i);
-				pUniform->SetOffset(offset);
-				pUniform->SetSize(size);
-			}
-		}
-
-		for (auto &resource : resources.separate_images)
-		{
-			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-
-			RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
-			pUniform->SetIndex(binding - m_texshiftBinding[eType]);
-
-			this->AddSampler(eType, pUniform.get());
-		}
-	}
-	*/
 
 	void VulkanShaderProgram::RT_StreamComplete()
 	{

@@ -33,7 +33,7 @@ namespace ma
 
 		DECL_OBJECT(DepthStencilState);
 
-		static void	RegisterAttribute();
+		static void		RegisterAttribute();
 
 		virtual void	RT_StreamComplete() { ASSERT(false); };
 
@@ -45,6 +45,7 @@ namespace ma
 		StencilOperation	m_eDepthFailOp;
 		uint32_t            m_nStencilMask;
 		uint32_t			m_nStencilWriteMask;
+		uint32_t			m_nStencilRef;
 
 		bool				m_bDepthWrite;
 		CompareFunction		m_eDepthCheckMode;

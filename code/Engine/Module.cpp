@@ -84,6 +84,7 @@
 
 #include "Engine/RenderScheme/RenderScheme.hxx"
 #include "Engine/RenderScheme/PostProcess.hxx"
+#include "Engine/RenderScheme/DeferredShadowPass.hxx"
 
 
 // Scene

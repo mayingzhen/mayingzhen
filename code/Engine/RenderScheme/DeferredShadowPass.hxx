@@ -83,15 +83,32 @@ namespace ma
 		m_pRenderable->m_pSubMeshData = CreateSubMeshData();
 		m_pRenderable->m_pSubMeshData->m_nIndexCount = indBuff.size();
 		m_pRenderable->m_pSubMeshData->m_nVertexCount = vertBuff.size();
-
-		VertexElement element[1];
-		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		//m_pRenderable->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1); 
 	}
 
 	void DeferredShadow::Init()
 	{
-		//m_pFrustumVolume = CreateTechnique("frustumclipvolume","volume","volume","");
+		VertexElement element[1];
+		element[0] = VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0);
+		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1);
+
+		ShaderCreateInfo info;
+		info.m_pRenderPass = m_pShadowPass;
+		info.m_strVSFile = "volume.hlsl:vs_main";
+		info.m_strPSFile = "volume.hlsl:ps_main";
+		info.m_pVertexDecl = pDeclaration;
+
+		uint32_t stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
+
+		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i) // ´ÓºóÍùÇ°
+		{
+			RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+			pDSState->m_bStencil = true;
+			pDSState->m_nStencilRef = stenCillUse;
+
+			info.m_pDSState = pDSState;
+
+			m_pFrustumVolume[i]  = CreateTechnique("shader/mesh.tech", info);
+		}
 
 		//m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 		//RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
@@ -113,19 +130,17 @@ namespace ma
 		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT16_R,false);
 
 		m_pShadowSampler = CreateSamplerState(m_pShadowTex.get(),CLAMP,TFO_POINT,false);
+
+		m_pShadowPass = GetRenderDevice()->CreateRenderPass();
+		m_pShadowPass->AttachColor(0, m_pShadowTex.get(), 0, 0);
+		GetRenderSystem()->RenderPassStreamComplete(m_pShadowPass.get());
 	}
 
 	void DeferredShadow::Render()
 	{
 		RENDER_PROFILE(DeferredShadow);
 
-		//RefPtr<Texture> pPreTarget = GetRenderSystem()->GetRenderTarget(0);
-
-// 		FrameBuffer fb;
-// 		fb.AttachColor(0,m_pShadowTex.get());
-// 		GetRenderSystem()->SetFrameBuffer(&fb);
-
-		//GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::White,1,0);
+		m_pShadowPass->Begine();
 		
 		m_pFrustumVolume->Bind(NULL);
 
@@ -247,6 +262,8 @@ namespace ma
 
 			//ScreenQuad::Render(m_pScreen.get());	
 		//}
+
+		m_pShadowPass->End();
 	}
 
 	void DeferredShadow::Shoutdown()

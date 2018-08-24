@@ -9,8 +9,6 @@ namespace ma
 
 	void SampleShadowMap::Load()
 	{
-		//GetInput()->AddKeyListener(this);
-
 		Vector3 lookAtPos(100, 0, 0);
 		Vector3 eyePos = Vector3(100, 360, -60);
 		GetCamera()->LookAt(eyePos, lookAtPos);

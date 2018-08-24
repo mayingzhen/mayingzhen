@@ -77,17 +77,17 @@ namespace ma
 
 	BlendState*	VulkanRenderDevice::CreateBlendState()
 	{
-		return new VulkanBlendStateObject();
+		return new VulkanBlendState();
 	}
 
 	DepthStencilState*	VulkanRenderDevice::CreateDepthStencilState()
 	{
-		return new VulkanDepthStencilStateObject();
+		return new VulkanDepthStencilState();
 	}
 
 	RasterizerState* VulkanRenderDevice::CreateRasterizerState()
 	{
-		return new VulkanRasterizerStateObject();
+		return new VulkanRasterizerState();
 	}
 
 	SamplerState* VulkanRenderDevice::CreateSamplerState()

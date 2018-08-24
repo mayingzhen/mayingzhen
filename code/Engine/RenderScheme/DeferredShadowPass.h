@@ -24,7 +24,9 @@ namespace ma
 		RefPtr<Texture>		m_pShadowTex;	
 		RefPtr<SamplerState> m_pShadowSampler;
 
-		RefPtr<Technique>	m_pFrustumVolume;
+		RefPtr<RenderPass>	m_pShadowPass;
+
+		RefPtr<Technique>	m_pFrustumVolume[4];
 		RefPtr<Technique>	m_pDefferedShadow;
 
 		RefPtr<Technique>	m_pBlendMaterial;

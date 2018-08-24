@@ -2,10 +2,10 @@
 
 namespace ma
 {
-	class VulkanRasterizerStateObject : public RasterizerState
+	class VulkanRasterizerState : public RasterizerState
 	{
 	public:
-		VulkanRasterizerStateObject();
+		VulkanRasterizerState();
 
 		virtual void	RT_StreamComplete();
 
@@ -13,10 +13,10 @@ namespace ma
 		VkPipelineRasterizationStateCreateInfo rs;
 	};
 
-	class VulkanDepthStencilStateObject : public DepthStencilState
+	class VulkanDepthStencilState : public DepthStencilState
 	{
 	public:
-		VulkanDepthStencilStateObject();
+		VulkanDepthStencilState();
 
 		virtual void	RT_StreamComplete();
 
@@ -24,10 +24,10 @@ namespace ma
 		VkPipelineDepthStencilStateCreateInfo ds;
 	};
 
-	class VulkanBlendStateObject : public BlendState
+	class VulkanBlendState : public BlendState
 	{
 	public:
-		VulkanBlendStateObject();
+		VulkanBlendState();
 
 		virtual void	RT_StreamComplete();
 

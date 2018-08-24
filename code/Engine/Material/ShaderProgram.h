@@ -14,7 +14,6 @@ namespace ma
 		RefPtr<BlendState>				m_pBlendState;
 
 		RefPtr<DepthStencilState>		m_pDSState;
-		uint32_t						m_nStencilRef;
 
 		RefPtr<RasterizerState>			m_pRSState;
 

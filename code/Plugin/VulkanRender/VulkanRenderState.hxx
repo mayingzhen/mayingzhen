@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	VulkanRasterizerStateObject::VulkanRasterizerStateObject()
+	VulkanRasterizerState::VulkanRasterizerState()
 	{
 		rs.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 		rs.pNext = NULL;
@@ -22,12 +22,12 @@ namespace ma
 		RT_StreamComplete();
 	}
 
-	void VulkanRasterizerStateObject::RT_StreamComplete()
+	void VulkanRasterizerState::RT_StreamComplete()
 	{
 		rs.cullMode = VulkanMapping::get(m_eCullMode);
 	}
 
-	VulkanDepthStencilStateObject::VulkanDepthStencilStateObject()
+	VulkanDepthStencilState::VulkanDepthStencilState()
 	{
 		ds.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 		ds.pNext = NULL;
@@ -48,15 +48,27 @@ namespace ma
 		ds.maxDepthBounds = 0;
 		ds.stencilTestEnable = VK_FALSE;
 		ds.front = ds.back;
+
+		RT_StreamComplete();
 	}
 
-	void VulkanDepthStencilStateObject::RT_StreamComplete()
+	void VulkanDepthStencilState::RT_StreamComplete()
 	{
 		ds.depthWriteEnable = m_bDepthWrite;
 		ds.depthCompareOp = VulkanMapping::get(m_eDepthCheckMode);
+		
+		ds.stencilTestEnable = m_bStencil;
+		ds.back.failOp = VulkanMapping::get(m_eStencilFail); 
+		ds.back.passOp = VulkanMapping::get(m_eStencilPass); 
+		ds.back.compareOp = VulkanMapping::get(m_eStencilfunc);
+		ds.back.compareMask = m_nStencilMask;
+		ds.back.reference = m_nStencilRef;
+		ds.back.depthFailOp = VulkanMapping::get(m_eDepthFailOp); 
+		ds.back.writeMask = m_nStencilWriteMask;
+		ds.front = ds.back;
 	}
 
-	VulkanBlendStateObject::VulkanBlendStateObject()
+	VulkanBlendState::VulkanBlendState()
 	{
 		m_cb = {};
 		m_cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -73,7 +85,7 @@ namespace ma
 		RT_StreamComplete();
 	}
 
-	void VulkanBlendStateObject::RT_StreamComplete()
+	void VulkanBlendState::RT_StreamComplete()
 	{
 		for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
 		{

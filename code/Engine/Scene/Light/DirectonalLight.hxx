@@ -15,7 +15,7 @@ namespace ma
 		m_eLightType = LIGHT_DIRECTIONAL;
 		m_bShadowEnable = false;
 		m_nCurSplitCount = 0;
-		m_nMaxSplitCount = 1;
+		m_nMaxSplitCount = 4;
 		m_nShadowMapSize = 512;
 		m_SplitPosParam = Vector4(30.0f,60.0f,120.0f,270.0f);
 		m_curSplitPos[0] = m_SplitPosParam;
