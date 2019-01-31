@@ -10,6 +10,11 @@ namespace ma
 	
 	ShaderProgram::~ShaderProgram()
 	{
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		{
+			m_vecConstBuffer[i].clear();
+			m_vecSamplers[i].clear();
+		}
 	}
 
 	void ShaderProgram::CreateFromFile(const ShaderCreateInfo& createInfo)

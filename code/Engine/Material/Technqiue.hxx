@@ -9,7 +9,11 @@ namespace ma
 
 	Technique::~Technique()
 	{
-
+		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		{
+			m_vecConstBuffer[i].clear();
+			m_vecSamplers[i].clear();
+		}
 	}
 
 	void Technique::RegisterAttribute()

@@ -142,7 +142,6 @@ namespace ma
 
 		m_pShadowPass->Begine();
 		
-		m_pFrustumVolume->Bind(NULL);
 
 		float fBlendValue = 0.8f;
 		
@@ -155,6 +154,8 @@ namespace ma
 			if ( !shadowMapFru.GetDraw() )
 				continue;
 
+			m_pFrustumVolume[i]->Bind(NULL);
+
 			// This frustum
 			{
 // 				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 2) << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
@@ -163,7 +164,7 @@ namespace ma
 				//ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
 
 				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
-				m_pFrustumVolume->SetValue(m_pFrustumVolume->GetUniform("matFrustum"), matFrum );
+				m_pFrustumVolume[i]->SetValue(m_pFrustumVolume[i]->GetUniform(VS,"matFrustum"), matFrum );
 
 				//GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 			}
@@ -179,7 +180,7 @@ namespace ma
 				Matrix4 matBlend = Matrix4::IDENTITY;
 				matBlend.setScale(Vector3(fBlendValue,fBlendValue,1.0f));
 				matFrum = matFrum * matBlend;
-				m_pFrustumVolume->SetValue(m_pFrustumVolume->GetUniform("matFrustum"), matFrum );
+				m_pFrustumVolume[i]->SetValue(m_pFrustumVolume[i]->GetUniform(VS,"matFrustum"), matFrum );
 
 				//GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 			}
@@ -234,10 +235,10 @@ namespace ma
 
 			float fNextSize = (float)shadowMapNextFru.GetShadowMap()->GetTexture()->GetWidth();
 			Vector4 vNextshadowMapTexelSize(fNextSize, 1.0f / fNextSize, 0, 0);
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_NextshadowMapTexelSize"),vNextshadowMapTexelSize);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform(VS,"g_NextshadowMapTexelSize"),vNextshadowMapTexelSize);
 
 			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
-			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("BlendInfo"), vBlendInfo);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform(VS,"BlendInfo"), vBlendInfo);
 
 // 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisX"), shadowMapFru.m_vWBasisX);
 // 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisY"), shadowMapFru.m_vWBasisY);

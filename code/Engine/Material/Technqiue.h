@@ -15,7 +15,7 @@ namespace ma
 	public:
 		Technique();
 
-		~Technique();
+		virtual ~Technique();
 
 		DECL_OBJECT(Technique);
 

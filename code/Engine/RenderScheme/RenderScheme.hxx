@@ -237,6 +237,10 @@ namespace ma
 		{
 			RENDER_PROFILE(RL_Terrain);
 			pRenderQueue->RenderObjList(m_pShadingPass.get(),RL_Terrain,RP_Shading);
+
+			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_TerrainBorder, RP_Shading);
+
+			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_TerrainSkirt, RP_Shading);
 		}
 
 		{

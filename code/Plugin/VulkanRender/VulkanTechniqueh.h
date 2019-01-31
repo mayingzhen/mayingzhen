@@ -11,7 +11,7 @@ namespace ma
 
 		VulkanTechnique();
 
-		~VulkanTechnique();
+		virtual ~VulkanTechnique();
 
 		virtual void		RT_StreamComplete();
 

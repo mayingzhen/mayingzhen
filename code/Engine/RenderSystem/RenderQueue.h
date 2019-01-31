@@ -10,6 +10,8 @@ namespace ma
 	{
 		RL_Mesh,
 		RL_Terrain,
+		RL_TerrainBorder,
+		RL_TerrainSkirt,
 		RL_SkyBox,
 		RL_MeshTrans,
 		RL_UI,

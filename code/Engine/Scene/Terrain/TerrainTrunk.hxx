@@ -33,7 +33,7 @@ namespace ma
 
 		for (uint32_t i = 0; i < lod.m_vecBorder.size(); ++i)
 		{
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecBorder[i].get());
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBorder, lod.m_vecBorder[i].get());
 		}
 
 
@@ -44,7 +44,7 @@ namespace ma
 			uint32_t west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < west)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[west].skirt[West].get());
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[west].skirt[West].get());
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace ma
 			uint32_t east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < east)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[east].skirt[East].get());
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[east].skirt[East].get());
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace ma
 			uint32_t north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
 			if (m_uLodIndex < north)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[north].skirt[North].get());
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[north].skirt[North].get());
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace ma
 			uint32_t south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
 			if (m_uLodIndex < south)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecSkirt[south].skirt[South].get());
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[south].skirt[South].get());
 			}
 		}
 	}
@@ -208,7 +208,7 @@ namespace ma
 
 			lod.m_vecBody.clear();
 
-			set<uint8_t>& setMatIDTemp = m_vecSetMatIDTemp[m];
+			std::set<uint8_t>& setMatIDTemp = m_vecSetMatIDTemp[m];
 
 			if (setMatIDTemp.size() == 1)
 			{	
@@ -233,10 +233,10 @@ namespace ma
 					if (iMatID == (uint8_t)-1)
 						continue;
 
-					vector<uint16_t> bodyIBList;
+					std::vector<uint16_t> bodyIBList;
 
-					vector<uint16_t>& pIBData = m_vecIBDataTemp[m]; 
-					vector<TERRAIN_VERTEX>& pVBData = m_vecVBDataTemp[m];
+					std::vector<uint16_t>& pIBData = m_vecIBDataTemp[m];
+					std::vector<TERRAIN_VERTEX>& pVBData = m_vecVBDataTemp[m];
 
 					for (uint32_t i = 0; i < pIBData.size(); i += 3)
 					{
@@ -292,10 +292,10 @@ namespace ma
 			if (m_vecSetMatIDTemp[m].size() <= 1)
 				continue;
 
-			vector< vector<uint16_t> > borderIBList; 
+			std::vector< std::vector<uint16_t> > borderIBList;
 
-			vector<uint16_t> pIBData = m_vecIBDataTemp[m]; 
-			vector<TERRAIN_VERTEX>& pVBData = m_vecVBDataTemp[m];
+			std::vector<uint16_t> pIBData = m_vecIBDataTemp[m];
+			std::vector<TERRAIN_VERTEX>& pVBData = m_vecVBDataTemp[m];
 
 			for (uint32_t i = 0; i < pIBData.size(); i += 3)
 			{
@@ -330,13 +330,13 @@ namespace ma
 				}
 			}
 
-			map< uint8_t, RefPtr<IndexBuffer> > matAddIdToIB;
+			std::map< uint8_t, RefPtr<IndexBuffer> > matAddIdToIB;
 			for (uint32_t i = 0; i < borderIBList.size(); ++i)
 			{
 				if (borderIBList[i].empty())
 					continue;
 
-				vector<uint16_t>& indexList  = borderIBList[i];
+				std::vector<uint16_t>& indexList  = borderIBList[i];
 
 				RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
 					(uint8_t*)&indexList[0],sizeof(uint16_t) * indexList.size(),sizeof(uint16_t));
@@ -344,20 +344,24 @@ namespace ma
 				matAddIdToIB[i] = pIB;
 			}
 
-			map< uint8_t, RefPtr<IndexBuffer> >::iterator it = matAddIdToIB.begin();
+			std::map< uint8_t, RefPtr<IndexBuffer> >::iterator it = matAddIdToIB.begin();
 			for (; it != matAddIdToIB.end(); ++it)
 			{
-				RefPtr<SubMaterial> pBorderMaterial = m_pTerrain->GetMaterialByID(it->first)->Clone();
-				Technique* pTech = pBorderMaterial->GetShadingTechnqiue();
-				
-				RefPtr<BlendState> pBlendState = CreateBlendState();
-				pBlendState->m_blendDesc[0].BlendEnable = true;
-				//pTech->SetBlendState(pBlendState.get());
+				RefPtr<SubMaterial> pMaterial = m_pTerrain->GetMaterialByID(it->first);
+				Technique* pTech = pMaterial->GetShadingTechnqiue();
 
-				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
-				pDSState->m_bDepthWrite = false;
-				pDSState->m_eDepthCheckMode = CMPF_EQUAL;
-				//pTech->SetDepthStencilState(pDSState.get());
+				ShaderCreateInfo shaderCreate = pTech->GetShaderProgram()->GetShaderCreateInfo();
+				
+				shaderCreate.m_pBlendState = CreateBlendState();
+				shaderCreate.m_pBlendState->m_blendDesc[0].BlendEnable = true;
+
+				shaderCreate.m_pDSState = CreateDepthStencilState();
+				shaderCreate.m_pDSState->m_bDepthWrite = false;
+				shaderCreate.m_pDSState->m_eDepthCheckMode = CMPF_EQUAL;
+
+				RefPtr<Technique> pBorderTech = CreateTechnique("", shaderCreate);
+				RefPtr<SubMaterial> pBorderMaterial = pMaterial->Clone();
+				pBorderMaterial->SetShadingTechnqiue(pBorderTech.get());
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
@@ -393,10 +397,17 @@ namespace ma
 
 				SkitIB& skitIB = m_vecSkirt[m][n];
 
-				RefPtr<SubMaterial> pSkirtMaterial = lod.m_vecBody[0]->GetMaterial()->Clone();
-				RefPtr<RasterizerState> pRSState = CreateRasterizerState();
-				pRSState->m_eCullMode = CULL_FACE_SIDE_NONE;
-				//pSkirtMaterial->GetShadingTechnqiue()->SetRasterizerState(pRSState.get());
+				RefPtr<SubMaterial> pMaterial = lod.m_vecBody[0]->GetMaterial();
+				RefPtr<Technique> pTech = pMaterial->GetShadingTechnqiue();
+				
+				ShaderCreateInfo shaderCreate = pTech->GetShaderProgram()->GetShaderCreateInfo();
+
+				shaderCreate.m_pRSState = CreateRasterizerState();
+				shaderCreate.m_pRSState->m_eCullMode = CULL_FACE_SIDE_NONE;
+				
+				RefPtr<SubMaterial> pSkirtMaterial = pMaterial->Clone();
+				RefPtr<Technique> pSkirtTech = CreateTechnique("", shaderCreate);
+				pSkirtMaterial->SetShadingTechnqiue(pSkirtTech.get());
 
 				for (uint32_t i = 0; i < SideNum; ++i)
 				{
@@ -453,7 +464,7 @@ namespace ma
 	{
 		uint32_t nIndexCount = (nCellAmountSelf + nCellAmountConnect)*3;
 
-		vector<uint16_t> pIndexData;
+		std::vector<uint16_t> pIndexData;
 		pIndexData.resize(nIndexCount);
 
 		ASSERT(nCellAmountSelf%nCellAmountConnect == 0);
@@ -461,7 +472,7 @@ namespace ma
 
 		int baseIndex = 0;
 
-		vector<uint16_t> indexList;
+		std::vector<uint16_t> indexList;
 
 		for (int i = 0;i< nCellAmountConnect + 1;++i)
 		{

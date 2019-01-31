@@ -170,8 +170,6 @@
     <ClInclude Include="..\..\code\Engine\RenderScheme\DeferredShadingPass.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\DeferredShadowPass.h" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\DeferredShadowPass.hxx" />
-    <ClInclude Include="..\..\code\Engine\RenderScheme\LinearizeDepth.h" />
-    <ClInclude Include="..\..\code\Engine\RenderScheme\LinearizeDepth.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\PostProcess.h" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\PostProcess.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderScheme\RenderPass.h" />
@@ -300,14 +298,6 @@
     <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixEvent.h" />
     <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixThread.h" />
     <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixThread.hxx" />
-    <ClInclude Include="..\..\code\Engine\Thread\Thread.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\Thread.hxx" />
-    <ClInclude Include="..\..\code\Engine\Thread\ThreadPool.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\ThreadPool.hxx" />
-    <ClInclude Include="..\..\code\Engine\Thread\winThread\WinCriticalSection.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\winThread\WinEvent.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\winThread\WinThread.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\winThread\WinThread.hxx" />
     <ClInclude Include="..\..\code\Engine\Time\Animatable.h" />
     <ClInclude Include="..\..\code\Engine\Time\Animatable.hxx" />
     <ClInclude Include="..\..\code\Engine\Time\Timer.h" />
