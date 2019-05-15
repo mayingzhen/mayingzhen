@@ -55,13 +55,9 @@ namespace ma
 
 	void PostProcessStep::Render()
 	{
-		//m_pRenderPass->Begine();
-
 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
 
-		ScreenQuad::Render(pTech.get(), m_pRenderPass->GetThreadCommand(0, (RenderListType)0));
-
-		//m_pRenderPass->End();
+		ScreenQuad::Render(pTech.get(), m_pRenderPass->GetThreadCommand(0, 0));
 	}
 
 	const char* PostProcessStep::GetName()
@@ -147,9 +143,6 @@ namespace ma
 			m_vecStep[i]->GetRenderPass()->Begine();
 
 			m_vecStep[i]->Render();
-
-			if (i == m_vecStep.size() - 1)
-				break;
 
 			m_vecStep[i]->GetRenderPass()->End();
 		}
@@ -427,8 +420,8 @@ namespace ma
 	}
 
 	PostProcessPipeline* g_pPostProcessPipeline = NULL;
-	PostProcessPipeline* GetPostProcess() 
+	PostProcessPipeline* GetPostProcess()
 	{
-		return g_pPostProcessPipeline; 
+		return g_pPostProcessPipeline;
 	}
 }

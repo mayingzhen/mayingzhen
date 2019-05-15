@@ -10,6 +10,7 @@ namespace ma
 	class AlchemyAo;
 	class FrameBuffer;
 	class Scene;
+	class PostProcessStep;
 
 	class RenderScheme : public Referenced
 	{
@@ -59,7 +60,11 @@ namespace ma
 
 		RefPtr<RenderPass>		m_pBackBaufferPass;
 
+		RefPtr<RenderPass>		m_pTemPass;
+
 		RefPtr<RenderPass>		m_pLinearDepthPass;
+
+		RefPtr<PostProcessStep> m_lastStep;
 
 		Scene*					m_pScene;
 	};

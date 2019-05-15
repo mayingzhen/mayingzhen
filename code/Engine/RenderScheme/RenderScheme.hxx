@@ -186,6 +186,7 @@ namespace ma
 
 		m_pShadingPass = m_pBackBaufferPass;
 
+
 		if (1)
 		{
 			RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
@@ -206,13 +207,25 @@ namespace ma
 
 			g_pPostProcessPipeline->LoadFromXML("postprocess.xml");
 
-			g_pPostProcessPipeline->Setup(pHDRPass.get(), GetRenderSystem()->GetDefaultRenderPass());
+			m_pTemPass = GetRenderDevice()->CreateRenderPass();
+			pTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8);
+			m_pTemPass->AttachColor(0, pTex.get(), 0, 0);
+
+			g_pPostProcessPipeline->Setup(pHDRPass.get(), m_pTemPass.get());
+
+
+			m_lastStep = new PostProcessStep();
+			m_lastStep->SetName("copy");
+			m_lastStep->SetInput("tSrcColor", "[StageInput]");
+			m_lastStep->SetOutput("[StageOutput]");
+			m_lastStep->SetTechnique("shader/copy.tech");
+			m_lastStep->Setup(m_pTemPass.get(), GetRenderSystem()->GetDefaultRenderPass());
+			
 
 			GetRenderSystem()->SetDefaultRenderPass(pHDRPass.get());
 			GetRenderSystem()->ReloadShader();
 
 			m_pShadingPass = pHDRPass;
-
 		}
 	}
 
@@ -229,35 +242,17 @@ namespace ma
 
 		m_pShadingPass->Begine();
 
-		{
-			RENDER_PROFILE(RL_Mesh);
-			pRenderQueue->RenderObjList(m_pShadingPass.get(),RL_Mesh,RP_Shading);
-		}
-
-		{
-			RENDER_PROFILE(RL_Terrain);
-			pRenderQueue->RenderObjList(m_pShadingPass.get(),RL_Terrain,RP_Shading);
-
-			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_TerrainBorder, RP_Shading);
-
-			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_TerrainSkirt, RP_Shading);
-		}
-
-		{
-			RENDER_PROFILE(RL_SkyBox);
-			pRenderQueue->RenderObjList(m_pShadingPass.get(), RL_SkyBox, RP_Shading);
-		}
+		pRenderQueue->Render(m_pShadingPass.get(), RL_Mesh, RL_MeshTrans);
 
 		m_pShadingPass->End();
 
 		g_pPostProcessPipeline->Render();
 
-		//m_pBackBaufferPass->Begine();
+		m_pBackBaufferPass->Begine();
 
-		{
-			RENDER_PROFILE(RL_UI);
-			pRenderQueue->RenderObjList(m_pBackBaufferPass.get(), RL_UI, RP_Shading);
-		}
+		m_lastStep->Render();
+
+		pRenderQueue->Render(m_pBackBaufferPass.get(), RL_UI, RL_LAST);
 
 		m_pBackBaufferPass->End();
 	}

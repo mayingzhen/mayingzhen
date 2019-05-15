@@ -33,11 +33,11 @@ namespace ma
 // 		pLayerNode->AddLayer(m_pClip120.get());
 // 		pLayerNode->AddLayer(m_pClip602.get());
 
-		RefPtr<AnimClipNode> pClip602 = CreateClipNode("magician/602/bip01.ska","602");
-		RefPtr<AnimClipNode> pClip120 = CreateClipNode("magician/120/bip01.ska","120");
-
-		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip602.get());
-		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip120.get());
+// 		RefPtr<AnimClipNode> pClip602 = CreateClipNode("magician/602/bip01.ska","602");
+// 		RefPtr<AnimClipNode> pClip120 = CreateClipNode("magician/120/bip01.ska","120");
+// 
+// 		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip602.get());
+// 		pAnimComp->GetAnimationSet()->AddSkelAnim(pClip120.get());
 
 		{
 			RefPtr<StateMachineNode> pStateMachineNode = CreateStateMachineNode();
@@ -61,10 +61,10 @@ namespace ma
 			pStateMachineNode->SaveToXML("test.xml");
 		}
 
-		RefPtr<StateMachineNode> pStateMachineNodeLoad = CreateStateMachineNode();
-		pStateMachineNodeLoad->LoadFromXML("test.xml");
-
-		pAnimComp->SetAnimationTree(pStateMachineNodeLoad.get(),true);
+// 		RefPtr<StateMachineNode> pStateMachineNodeLoad = CreateStateMachineNode();
+// 		pStateMachineNodeLoad->LoadFromXML("test.xml");
+// 
+// 		pAnimComp->SetAnimationTree(pStateMachineNodeLoad.get(),true);
 
 	}
 

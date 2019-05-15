@@ -91,21 +91,9 @@ namespace ma
 		
 		void				ReloadShader();
 		
-		enum { nNumParticleBuffer = 3 };
-		void				LockParticleVideoMemory(uint32_t nId);
-		void				UnLockParticleVideoMemory(uint32_t nId);
-		ParallHardWareBuffer*GetParticleBuffer();
-		ParallHardWareBuffer*GetRTParticleBuffer();
-
-		ParallHardWareBuffer*GetInstanceBuffer();
-		ParallHardWareBuffer*GetRTInstaneBuffer();
+		RefPtr<TransientParallHardWareBuffer> CreateTransientParallHardWareBuffer(uint32_t nVertexStride, uint32_t nNumVertice, uint32_t numIndexes);
 
 		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
-
-		
-		void				UpdatePoolId();
-		int					GetPoolId();
-		int					GetPooIdRT();	
 
 	protected: 
 		void				RT_Init(void* wndhandle);
@@ -114,13 +102,10 @@ namespace ma
  		void				RT_BeginRender();
  		void				RT_EndRender();
 		void				RT_Render();
-		void				RT_SetPoolId(uint32_t poolId);
 
 		void				InitGlobeMarco();
 
 		void				InitCachState();
-
-		void				InitParticleVideoMemory();
 		
 	protected:
 		RenderContext*		m_pRenderContext;
@@ -144,17 +129,7 @@ namespace ma
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro
 		bool				m_bNeedReloadShader;
 
-		RefPtr<ParallHardWareBuffer> m_pParticleBuffer[nNumParticleBuffer];
-
-		RefPtr<ParallHardWareBuffer> m_pInstanceBuffer[nNumParticleBuffer];
-
-		// these ids can be used for tripple (or more) buffered structures
-		// they are incremented in RenderWorld on the mainthread
-		// use m_nPoolIndex from the mainthread (or jobs which are synced before Renderworld)
-		// and m_nPoolIndexRT from the renderthread
-		// right now the particle are using this id
-		uint32_t				m_nPoolIndex;
-		uint32_t				m_nPoolIndexRT;
+		std::vector< RefPtr<TransientParallHardWareBuffer> > m_vecDyHBuffer;
 
 		bool					m_bThread;
 	};

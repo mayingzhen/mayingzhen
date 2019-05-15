@@ -8,32 +8,32 @@ namespace ma
 
 	}
 
-	class PreDepth : public CommandBuffer
-	{
-	public:
-		void Create()
-		{
+// 	class PreDepth : public CommandBuffer
+// 	{
+// 	public:
+// 		void Create()
+// 		{
+// 
+// 		}
+// 
+// 		void Update()
+// 		{
+// 
+// 		}
+// 
+// 		void Render()
+// 		{
+// 
+// 		}
+// 
+// 	private:
+// 		//RefPtr<Texture> 
+// 	};
 
-		}
-
-		void Update()
-		{
-
-		}
-
-		void Render()
-		{
-
-		}
-
-	private:
-		//RefPtr<Texture> 
-	};
-
-	class Shading : public CommandBuffer
-	{
-
-	};
+// 	class Shading : public CommandBuffer
+// 	{
+// 
+// 	};
 
 	void SampleComputeShader::Load()
 	{

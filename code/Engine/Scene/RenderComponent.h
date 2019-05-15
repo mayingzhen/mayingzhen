@@ -1,6 +1,4 @@
-#ifndef  _RenderComponent__H__
-#define  _RenderComponent__H__
-
+#pragma once
 
 namespace ma
 {
@@ -14,6 +12,19 @@ namespace ma
 		ACT_SELF_MATRIX = 0x01,
 		ACT_SELF_CUSTOM = 0x02,//自定义包围盒
 		ACT_NOTIFY = 0x04,
+	};
+
+	enum RenderListType
+	{
+		RL_Mesh,
+		RL_Terrain,
+		RL_TerrainBorder,
+		RL_TerrainSkirt,
+		RL_SkyBox,
+		RL_MeshTrans,
+		RL_UI,
+		RL_LAST,
+		RL_Count,
 	};
 
 	class RenderComponent : public Component
@@ -77,5 +88,4 @@ namespace ma
 	};
 }
 
-#endif // _RenderComponent__H__
 

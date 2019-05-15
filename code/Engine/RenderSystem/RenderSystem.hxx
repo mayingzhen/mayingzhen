@@ -31,9 +31,6 @@ namespace ma
 
 		m_hWnd = NULL;
 
-		m_nPoolIndex = 0;
-		m_nPoolIndexRT = 0;
-
 		m_bThread = false;
 	}
 
@@ -75,15 +72,11 @@ namespace ma
 
 	void RenderSystem::Update()
 	{
-		profile_code();
-
 		if (m_bNeedReloadShader)
 		{
 			g_pMaterialManager->ReLoad();
 			m_bNeedReloadShader = false;
 		}
-
-		UpdatePoolId();
 
 		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
 		{
@@ -93,11 +86,21 @@ namespace ma
 
 	void RenderSystem::BegineRender()
 	{
+		for (auto& it : m_vecDyHBuffer)
+		{
+			it->BeginFrame();
+		}
+
 		m_pRenderThread->RC_BeginRender();
 	}
 
 	void RenderSystem::EndRender()
 	{
+		for (auto& it : m_vecDyHBuffer)
+		{
+			it->EndFrame();
+		}
+
 		m_pRenderThread->RC_EndRender();
 	}
 
@@ -134,21 +137,6 @@ namespace ma
 		ScreenQuad::Shoutdown();
 		UnitSphere::Shoutdown();
 
-		for (int i = 0; i < nNumParticleBuffer; ++i)
-		{
-			if (m_pParticleBuffer[i])
-			{
-				m_pParticleBuffer[i]->UnLockVideoMemory();
-				m_pParticleBuffer[i] = NULL;
-			}
-
-			if (m_pInstanceBuffer[i])
-			{
-				m_pInstanceBuffer[i]->UnLockVideoMemory();
-				m_pInstanceBuffer[i] = NULL;
-			}
-		}
-
 		GetRenderDevice()->Shoutdown();
 
 		m_hWnd = NULL;
@@ -178,8 +166,6 @@ namespace ma
 		InitGlobeMarco();
 
 		InitCachState();
-
-		InitParticleVideoMemory();
 
 		m_curViewport = GetRenderDevice()->GetViewport();
 
@@ -216,12 +202,6 @@ namespace ma
 		GetRenderDevice()->EndCompute();
 
 		GetRenderDevice()->EndRender();
-
-		// we render directly to a video memory buffer
-		// we need to unlock it here in case we renderered a frame without any particles
-		// lock the VMEM buffer for the next frame here (to prevent a lock in the mainthread)
-		// NOTE: main thread is already working on buffer+1 and we want to prepare the next one => hence buffer+2
-		LockParticleVideoMemory( (m_nPoolIndexRT + (nNumParticleBuffer - 1) ) % nNumParticleBuffer );	
 
 		OnFlushFrame();
 	}
@@ -358,8 +338,6 @@ namespace ma
 			pVD->AddElement(arrElememt[i]);	
 		}
 
-		//m_pRenderThread->RC_VertexDeclaComplete(pVD);
-
 		return pVD;
 	}
 
@@ -432,99 +410,11 @@ namespace ma
 		m_bNeedReloadShader = true;
 	}
 
-	struct UIVertex
+	RefPtr<TransientParallHardWareBuffer> RenderSystem::CreateTransientParallHardWareBuffer(uint32_t nVertexStride, uint32_t nNumVertice, uint32_t numIndexes)
 	{
-		Vector2 m_pos;
-		Vector2 m_uv;
-		uint32_t m_color;
-	};
-
-	void RenderSystem::InitParticleVideoMemory()
-	{
-		for (uint32_t i = 0; i < nNumParticleBuffer; ++i)
-		{
-			//m_pParticleBuffer[i] = new ParallHardWareBuffer(sizeof(ParticleSystemRenderable::VERTEX), 7680 * 4, 7680 * 6);
-			//m_pParticleBuffer[i]->LockVideoMemory(); 
-
-			m_pInstanceBuffer[i] = new ParallHardWareBuffer(sizeof(InstanceRenderable::InstaceData), 1024, 0);
-			m_pInstanceBuffer[i]->LockVideoMemory();
-		}
-	}
-
-	ParallHardWareBuffer* RenderSystem::GetParticleBuffer()
-	{
-		uint32_t nIndex = m_nPoolIndex % nNumParticleBuffer;
-		return m_pParticleBuffer[nIndex].get();
-	}
-
-	ParallHardWareBuffer* RenderSystem::GetRTParticleBuffer()
-	{
-		uint32_t nIndex = m_nPoolIndexRT % nNumParticleBuffer;
-		return m_pParticleBuffer[nIndex].get();
-	}
-
-	ParallHardWareBuffer* RenderSystem::GetInstanceBuffer()
-	{
-		uint32_t nIndex = m_nPoolIndex % nNumParticleBuffer;
-		return m_pInstanceBuffer[nIndex].get();
-	}
-
-	ParallHardWareBuffer* RenderSystem::GetRTInstaneBuffer()
-	{
-		uint32_t nIndex = m_nPoolIndexRT % nNumParticleBuffer;
-		return m_pInstanceBuffer[nIndex].get();
-	}
-
-	void RenderSystem::LockParticleVideoMemory(uint32_t nId)
-	{
-		profile_code();
-
-		// unlock the particle VMEM buffer in case no particel were rendered(and thus no unlock was called)
-		UnLockParticleVideoMemory(nId);	
-
-		// lock video memory vertex/index buffer and expose base pointer and offset
-		if(m_pParticleBuffer[nId])
-		{
-			m_pParticleBuffer[nId]->LockVideoMemory();
-		}
-
-		if (m_pInstanceBuffer[nId])
-		{
-			m_pInstanceBuffer[nId]->LockVideoMemory();
-		}
-	}
-
-	void RenderSystem::UnLockParticleVideoMemory(uint32_t nId)
-	{
-		if(m_pParticleBuffer[nId])
-		{
-			m_pParticleBuffer[nId]->UnLockVideoMemory();
-		}
-
-		if (m_pInstanceBuffer[nId])
-		{
-			m_pInstanceBuffer[nId]->UnLockVideoMemory();
-		}
-	}
-
-	void RenderSystem::RT_SetPoolId(uint32_t poolId)
-	{
-		m_nPoolIndexRT = poolId; 
-	}
-
-	void RenderSystem::UpdatePoolId()
-	{
-		m_pRenderThread->RC_SetPoolId(++m_nPoolIndex);
-	}
-
-	int RenderSystem::GetPoolId()
-	{
-		return m_nPoolIndex;
-	}
-
-	int	RenderSystem::GetPooIdRT()
-	{
-		return m_nPoolIndexRT;
+		RefPtr<TransientParallHardWareBuffer> pBufferr = new TransientParallHardWareBuffer(nVertexStride, nNumVertice, numIndexes);
+		m_vecDyHBuffer.push_back(pBufferr);
+		return pBufferr;
 	}
 
 }

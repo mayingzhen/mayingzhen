@@ -67,34 +67,6 @@ namespace ma
 		return m_pShadingTech.get();
 	}
 
-	Technique* SubMaterial::GetShadingInstTechnqiue()
-	{
-		if (m_pShadingInstTech == NULL)
-		{
-			m_pShadingInstTech = m_pShadingTech->CreateInstTech();
-
-			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
-			{
-				m_pShadingInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
-			}
-		}
-		return m_pShadingInstTech.get();
-	}
-
-	Technique* SubMaterial::GetShadowDepthInstTechnqiue()
-	{
-		if (m_pShadowDepthInstTech == NULL)
-		{
-			m_pShadowDepthInstTech = m_pShadowDepthTech->CreateInstTech();
-
-			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
-			{
-				m_pShadingInstTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
-			}
-		}
-		return m_pShadowDepthInstTech.get();
-	}
-
 	void SubMaterial::Import(rapidxml::xml_node<>* pXmlElem,Resource* pParent)
 	{
 		rapidxml::xml_node<>* pXmlShadingTech = pXmlElem->first_node("ShadingTech");
@@ -200,19 +172,9 @@ namespace ma
 			m_pShadingTech->SetParameter(pszName, value);
 		}
 
-		if (m_pShadingInstTech)
-		{
-			m_pShadingInstTech->SetParameter(pszName, value);
-		}
-
 		if (m_pShadowDepthTech)
 		{
 			m_pShadowDepthTech->SetParameter(pszName, value);
-		}
-
-		if (m_pShadowDepthInstTech)
-		{
-			m_pShadowDepthInstTech->SetParameter(pszName, value);
 		}
 	}
 
@@ -235,8 +197,6 @@ namespace ma
 
 	void SubMaterial::ReLoad()
 	{
-		m_pShadingInstTech = NULL;
-		m_pShadowDepthInstTech = NULL;
 		m_pShadowDepthTech = NULL;
 
 		m_pShadingTech->ReLoad();

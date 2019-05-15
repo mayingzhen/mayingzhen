@@ -242,12 +242,6 @@ namespace ma
 		});
 	}
 
-	void RenderThread::RC_SetPoolId(uint32_t poolId)
-	{
-		RC_AddRenderCommad([poolId]() {
-			GetRenderSystem()->RT_SetPoolId(poolId);
-		});
-	}
 
 	void RenderThread::RC_BeginProfile(const char* pszLale)
 	{
@@ -274,7 +268,7 @@ namespace ma
 		if (IsRenderThread())
 		{
 			fun();
-			return false;
+			return true;
 		}
 		else
 		{

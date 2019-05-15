@@ -31,7 +31,7 @@ namespace ma
 
 	void SkyBox::Render(RenderQueue* pRenderQueue)
 	{
-		m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_SkyBox, m_pRenderable.get());
+		pRenderQueue->AddRenderObj(RL_SkyBox, m_pRenderable.get(), m_pRenderable->GetMaterial()->GetShadingTechnqiue());
 	}
 
 	void SkyBox::SetCubeMap(const char* pszCubeMap)

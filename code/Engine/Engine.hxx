@@ -16,7 +16,6 @@ namespace ma
 	Engine::Engine()
 	{
 		g_pTimer = new Time();
-		g_pCodeTimerManager = new CodeTimerManager();
 		
 		g_pObjectFactoryManager = new ObjectFactoryManager();	
 		g_pAttributeManager = new AttributeManager();
@@ -33,13 +32,10 @@ namespace ma
 		g_pRenderSystem = new RenderSystem();
 
 		g_pJobScheduler = new JobScheduler();
-
-		//MT::g_pTaskScheduler = new MT::TaskScheduler();
 	}
 
 	Engine::~Engine()
 	{
-		//SAFE_DELETE(MT::g_pTaskScheduler);
 		SAFE_DELETE(g_pJobScheduler);
 
 		SAFE_DELETE(g_pRenderSystem);
@@ -56,7 +52,6 @@ namespace ma
 		SAFE_DELETE(g_pAttributeManager);
 		SAFE_DELETE(g_pObjectFactoryManager);
 
-		SAFE_DELETE(g_pCodeTimerManager);
 		SAFE_DELETE(g_pTimer);
 	}
 

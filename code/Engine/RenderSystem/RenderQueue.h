@@ -1,29 +1,12 @@
 #pragma once
 
+#include "BatchRenderable.h"
+
 namespace ma
 {
-	class BatchRenderable;
 	class Renderable;
 	class RenderPass;
-
-	enum RenderListType
-	{
-		RL_Mesh,
-		RL_Terrain,
-		RL_TerrainBorder,
-		RL_TerrainSkirt,
-		RL_SkyBox,
-		RL_MeshTrans,
-		RL_UI,
-		RL_Count,
-	};
-
-	enum RenderPassType
-	{
-		RP_ShadowDepth,
-		RP_Shading,
-		RP_Count,
-	};
+	class Technique;
 
 	class RenderQueue
 	{
@@ -32,13 +15,16 @@ namespace ma
 
 		~RenderQueue();
 
-		void					AddRenderObj(RenderListType eRLType,Renderable* pRenderObj);	
+		void					AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech);
 
-		void					RenderObjList(RenderPass* pPass, RenderListType eRLType, RenderPassType eRPType);
+		void					Render(RenderPass* pPass, int stageBegin, int stageEnd);
 
 		void					Clear();
 	
 	private:
-		BatchRenderable*		m_arrRenderList[RL_Count];
+
+		std::map<int, BatchRenderable> m_mapRenderList;
+
 	};
 }
+

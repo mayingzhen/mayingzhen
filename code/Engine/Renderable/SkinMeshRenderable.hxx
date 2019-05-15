@@ -66,8 +66,6 @@ namespace ma
 
 	void SkinMeshRenderable::SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32_t nCount)
 	{
-		profile_code();
-
 		int index = GetRenderSystem()->CurThreadFill();
 		VEC_DQ& arrSkinDQ = m_arrSkinDQ[index];
 		VEC_MATRIX& arrSkinMatrix = m_arrSkinMatrix[index];

@@ -34,8 +34,6 @@ namespace ma
 
 	void AnimClipNode::EvaluateAnimation(AnimationNodeOutput &output, float fWeight)
 	{
-		profile_code();
-
 		if (m_pAnimation == NULL)
 			return;
 

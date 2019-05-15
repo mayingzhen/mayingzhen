@@ -75,8 +75,6 @@ namespace ma
 
 	void Game::Update()
 	{
-		profile_code();
-
 		if (m_bOnWindowSized)
 		{
 			m_bOnWindowSized = false;

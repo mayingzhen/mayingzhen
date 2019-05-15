@@ -6,37 +6,32 @@ namespace ma
 {
 	RenderQueue::RenderQueue()	
 	{
-		for (size_t i = 0; i < RL_Count; i++)
-		{
-			m_arrRenderList[i] = new BatchRenderable();
-		}
 	}
 
 	RenderQueue::~RenderQueue()
 	{
-		for (uint32_t i = 0; i < RL_Count; ++i)
+	}
+
+	void RenderQueue::AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech)
+	{
+		m_mapRenderList[stage].AddRenderObj(pRenderObj, pTech);
+	}
+
+	void RenderQueue::Render(RenderPass* pPass, int stageBegin, int stageEnd)
+	{
+		auto bi = m_mapRenderList.lower_bound(stageBegin);
+		auto ei = m_mapRenderList.lower_bound(stageEnd);
+		for (auto it = bi; it != ei; ++it)
 		{
-			SAFE_DELETE(m_arrRenderList[i]);
+			it->second.PrepareRender();
+
+			it->second.Render(pPass, it->first);
 		}
-	}
-
-	void RenderQueue::AddRenderObj(RenderListType eRLType,Renderable* pRenderObj)
-	{
-		m_arrRenderList[eRLType]->AddRenderObj(pRenderObj);
-	}
-
-	void RenderQueue::RenderObjList(RenderPass* pPass, RenderListType eRLType, RenderPassType eRPType)
-	{
-		m_arrRenderList[eRLType]->PrepareRender(eRPType);
-		m_arrRenderList[eRLType]->Render(pPass,eRPType, eRLType);
 	}
 
 	void RenderQueue::Clear()
 	{
-		for (uint32_t i = 0; i < RL_Count; ++i)
-		{
-			m_arrRenderList[i]->Clear();
-		}
+		m_mapRenderList.clear();
 	}
 }
 

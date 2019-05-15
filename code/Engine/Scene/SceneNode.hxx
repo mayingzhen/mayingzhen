@@ -156,9 +156,10 @@ namespace ma
 	{
 		RefPtr<SceneNode> pClone = CreateSceneNode();
 		
-// 		TiXmlElement xmlEle("");
-// 		this->Export(&xmlEle);
-// 		pClone->Import(&xmlEle);
+		rapidxml::xml_document<> doc;
+		rapidxml::xml_node<>* pXmlNode = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Node"));
+		this->Export(pXmlNode, doc);
+		pClone->Import(pXmlNode);
 
 		return pClone;
 	}

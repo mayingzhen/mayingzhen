@@ -43,7 +43,7 @@ namespace ma
 			int nCellAmountSelf,int nCellAmountConnect,
 			int nSelfStart,int nSelfStep);
 
-		void UpdateRenderable();
+		void UpdateRenderable(RenderQueue* pRenderQueue);
 
 		void AddToIBList( vector< vector<uint16_t> >& vecIBList, uint8_t matID, uint16_t triangle[3]);
 

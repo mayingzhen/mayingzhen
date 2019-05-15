@@ -18,7 +18,7 @@ namespace ma
 	{
 	}
 
-	void TerrainTrunk::UpdateRenderable()
+	void TerrainTrunk::UpdateRenderable(RenderQueue* pRenderQueue)
 	{
 		ASSERT(m_uLodIndex >= 0 && m_uLodIndex < m_vecLodRenderable.size());
 		if (m_uLodIndex < 0 || m_uLodIndex >= m_vecLodRenderable.size())
@@ -28,12 +28,18 @@ namespace ma
 
 		for (uint32_t i = 0; i < lod.m_vecBody.size(); ++i)
 		{
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, lod.m_vecBody[i].get());
+			Renderable* pRenderObj = lod.m_vecBody[i].get();
+			Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+
+			pRenderQueue->AddRenderObj(RL_Terrain, pRenderObj, pTech);
 		}
 
 		for (uint32_t i = 0; i < lod.m_vecBorder.size(); ++i)
 		{
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBorder, lod.m_vecBorder[i].get());
+			Renderable* pRenderObj = lod.m_vecBorder[i].get();
+			Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+
+			pRenderQueue->AddRenderObj(RL_TerrainBorder, pRenderObj, pTech);
 		}
 
 
@@ -44,7 +50,10 @@ namespace ma
 			uint32_t west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < west)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[west].skirt[West].get());
+				Renderable* pRenderObj = lod.m_vecSkirt[west].skirt[West].get();
+				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+
+				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
 			}
 		}
 
@@ -53,7 +62,10 @@ namespace ma
 			uint32_t east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < east)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[east].skirt[East].get());
+				Renderable* pRenderObj = lod.m_vecSkirt[east].skirt[East].get();
+				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+
+				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
 			}
 		}
 
@@ -62,7 +74,10 @@ namespace ma
 			uint32_t north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
 			if (m_uLodIndex < north)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[north].skirt[North].get());
+				Renderable* pRenderObj = lod.m_vecSkirt[north].skirt[North].get();
+				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+
+				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
 			}
 		}
 
@@ -71,7 +86,10 @@ namespace ma
 			uint32_t south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
 			if (m_uLodIndex < south)
 			{
-				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainSkirt, lod.m_vecSkirt[south].skirt[South].get());
+				Renderable* pRenderObj = lod.m_vecSkirt[south].skirt[South].get();
+				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+
+				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
 			}
 		}
 	}
@@ -98,7 +116,7 @@ namespace ma
 			m_uLodIndex = 0;
 		}
 
-		UpdateRenderable();
+		UpdateRenderable(pRenderQueue);
 	}
 
 	bool TerrainTrunk::Init(int i, int j)

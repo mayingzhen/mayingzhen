@@ -17,8 +17,6 @@ namespace ma
 
 	void Animation::SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
-		profile_code();
-		
 		if (m_bCompress)
 		{
 			m_arrScaleTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vScale);

@@ -154,7 +154,7 @@ namespace ma
 
 	void ParticleComponent::Render(RenderQueue* pRenderQueue)
 	{
-		pRenderQueue->AddRenderObj(RL_Mesh, m_pRenderable.get());
+		pRenderQueue->AddRenderObj(RL_Mesh, m_pRenderable.get(), m_pRenderable->GetMaterial()->GetShadingTechnqiue());
 	}
 
 	RefPtr<ParticleComponent> CreateParticleComponent()

@@ -89,8 +89,6 @@
 
 #include "Engine/Scene/ParticleComponent.h"
 
-#include "Engine/Profile/CodeTimer.h"
-
 #include "Engine/Engine.h"
 
 #include "WarningSuffix.h"

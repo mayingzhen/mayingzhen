@@ -11,8 +11,6 @@ namespace ma
 
 	void DecomposeFrame( float frame,const std::vector<uint32_t>& keyFrame,uint32_t& key0,uint32_t& key1,float& factor )
 	{
-		profile_code();
-
 		//ASSERT(keyFrame.size() > 0);
 		WrapFrameClamp(frame,(float)keyFrame.back());
 		std::vector<uint32_t>::const_iterator iter = std::lower_bound(keyFrame.begin(),keyFrame.end(),(uint32_t)(frame+1.0f));
@@ -92,8 +90,6 @@ namespace ma
 
 	void Vector3Track::SampleFrame( float frame,Vector3& val ) const
 	{
-		profile_code();
-
 		uint32_t key0;
 		uint32_t key1;
 		float factor; 
@@ -182,8 +178,6 @@ namespace ma
 
 	void QuaternionTrack::SampleFrame( float frame,Quaternion& val ) const
 	{
-		profile_code();
-
 		uint32_t key0;
 		uint32_t key1;
 		float factor; 

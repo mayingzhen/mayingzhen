@@ -146,8 +146,6 @@
     <ClInclude Include="..\..\code\Engine\Material\UniformAnimation.h" />
     <ClInclude Include="..\..\code\Engine\Material\UniformAnimation.hxx" />
     <ClInclude Include="..\..\Code\Engine\Module.h" />
-    <ClInclude Include="..\..\code\Engine\Profile\CodeTimer.h" />
-    <ClInclude Include="..\..\code\Engine\Profile\CodeTimer.hxx" />
     <ClInclude Include="..\..\code\Engine\Renderable\LineRender.h" />
     <ClInclude Include="..\..\code\Engine\Renderable\LineRender.hxx" />
     <ClInclude Include="..\..\code\Engine\Renderable\MeshBatch.h" />
@@ -294,10 +292,6 @@
     <ClInclude Include="..\..\code\Engine\Thread\JobScheduler.hxx" />
     <ClInclude Include="..\..\code\Engine\Thread\MSemaphore.h" />
     <ClInclude Include="..\..\code\Engine\Thread\MSemaphore.hxx" />
-    <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixCriticalSection.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixEvent.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixThread.h" />
-    <ClInclude Include="..\..\code\Engine\Thread\pthread\PosixThread.hxx" />
     <ClInclude Include="..\..\code\Engine\Time\Animatable.h" />
     <ClInclude Include="..\..\code\Engine\Time\Animatable.hxx" />
     <ClInclude Include="..\..\code\Engine\Time\Timer.h" />
@@ -307,7 +301,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\code\Engine\Export.def" />
-    <None Include="..\..\code\Engine\Profile\CodeTimer.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Engine\Module.cpp" />

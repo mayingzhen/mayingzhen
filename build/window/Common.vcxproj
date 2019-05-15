@@ -78,10 +78,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml.hpp" />
-    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml_iterators.hpp" />
-    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml_print.hpp" />
-    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml_utils.hpp" />
     <ClInclude Include="..\..\Code\Common\Assert.h" />
     <ClInclude Include="..\..\Code\Common\Assert.hxx" />
     <ClInclude Include="..\..\Code\Common\BaseType.h" />
@@ -129,8 +125,6 @@
     <ClInclude Include="..\..\code\Common\Math\Polygon.hxx" />
     <ClInclude Include="..\..\code\Common\Math\Quaternion.h" />
     <ClInclude Include="..\..\code\Common\Math\Quaternion.hxx" />
-    <ClInclude Include="..\..\code\Common\Math\Randomizer.h" />
-    <ClInclude Include="..\..\code\Common\Math\Randomizer.hxx" />
     <ClInclude Include="..\..\code\Common\Math\Ray.h" />
     <ClInclude Include="..\..\code\Common\Math\RotationalSpline.h" />
     <ClInclude Include="..\..\code\Common\Math\RotationalSpline.hxx" />

@@ -473,8 +473,6 @@ namespace ma
 				Game::GetInstance().Update();
 				
 				Game::GetInstance().Render();
-
-				output_all_code_time();
 			}
 		}
 	}

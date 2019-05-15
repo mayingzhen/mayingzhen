@@ -3,31 +3,49 @@
 namespace ma
 {
 	class InstanceRenderable;
+	class Renderable;
+	class Technique;
+	class RenderPass;
+	class RenderCommand;
+
+	struct RenderItem
+	{
+		Renderable* m_renderable = nullptr;
+		Technique* m_tech = nullptr;
+	};
 
 	class BatchRenderable
 	{
 	public:
 		BatchRenderable();
 
-		virtual void	AddRenderObj(Renderable* pRenderObj);
+		virtual void	AddRenderObj(Renderable* pRenderObj, Technique* pTech);
 
-		virtual void	PrepareRender(RenderPassType eRPType);
+		virtual void	PrepareRender();
 
-		virtual void	Render(RenderPass* pPass, RenderPassType eRPType, RenderListType eRLType);
+		virtual void	Render(RenderPass* pPass, int stage);
 
 		virtual void	Clear();
 
-	private:
-		void			PrepareInstance(RenderPassType eRPType);
-
-		void			PrepareInstance(const std::vector<Renderable*>& batch, RenderPassType eRPType);
-
 	protected:
-		typedef std::vector<Renderable*> VEC_RENDERABLE;
+		void			PrepareInstance();
+
+		void			PrepareInstance(const std::vector<RenderItem>& batch);
+
+		void			ParallelRender(RenderCommand* pCommand, RenderItem* pNodeStart, uint32_t nNodeCount);
+		
+	private:
+
+		typedef std::vector<RenderItem> VEC_RENDERABLE;
 		VEC_RENDERABLE		m_arrRenderList;
 
-		typedef std::vector< RefPtr<InstanceRenderable> > VEC_INSRENDERABLE;
-		VEC_INSRENDERABLE	m_arrInsRenderList;
+		struct InstRenderItem
+		{
+			RefPtr<InstanceRenderable> m_renderable;
+			RefPtr<Technique> m_tech;
+		};
+		typedef std::vector<InstRenderItem> VEC_INSTRENDERABLE;
+		VEC_INSTRENDERABLE	m_arrInsRenderList;
 
 		VEC_RENDERABLE		m_arrNoInsRenderList;
 

@@ -117,8 +117,6 @@
 
 #include "Engine/Scene/ParticleComponent.hxx"
 
-#include "Engine/Profile/CodeTimer.hxx"
-
 
 #include "Engine/Engine.hxx"
 

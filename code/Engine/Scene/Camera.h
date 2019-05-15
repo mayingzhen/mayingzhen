@@ -1,5 +1,4 @@
-#ifndef  _Camera__H__
-#define  _Camera__H__
+#pragma once
 
 namespace ma
 {
@@ -70,5 +69,3 @@ namespace ma
 	
 	RefPtr<Camera> CreateCamera();
 }
-
-#endif

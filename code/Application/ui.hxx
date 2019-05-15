@@ -194,7 +194,7 @@ namespace ma
 					pRenderable->m_scissor = scissor;
 
 					RenderQueue* pRendeQueue = GetRenderSystem()->GetScene()->GetRenderQueue();
-					pRendeQueue->AddRenderObj(RL_UI, pRenderable);
+					pRendeQueue->AddRenderObj(RL_UI, pRenderable, pRenderable->GetMaterial()->GetShadingTechnqiue());
 				}
 				idx_offset += pcmd->ElemCount;
 			}

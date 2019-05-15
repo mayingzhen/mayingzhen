@@ -10,27 +10,27 @@ namespace ma
 		{
 		}
 
-		bool operator()(const Renderable* a, const Renderable* b) const
+		bool operator()(const RenderItem& a, const RenderItem& b) const
 		{
-			long i = long(a->GetMaterial()->GetShadingTechnqiue()->GetShaderProgram()) - long(b->GetMaterial()->GetShadingTechnqiue()->GetShaderProgram());
+			long i = long(a.m_tech->GetShaderProgram()) - long(b.m_tech->GetShaderProgram());
 			if (i<0)
 				return true;
 			else if(i>0)
 				return false;
 
-			i = long(a->m_pVertexBuffer.get()) - long(b->m_pVertexBuffer.get());
+			i = long(a.m_renderable->m_pVertexBuffer.get()) - long(b.m_renderable->m_pVertexBuffer.get());
 			if (i < 0)
 				return true;
 			else if (i > 0)
 				return false;
 
-			i = long(a->m_pIndexBuffer.get()) - long(b->m_pIndexBuffer.get());
+			i = long(a.m_renderable->m_pIndexBuffer.get()) - long(b.m_renderable->m_pIndexBuffer.get());
 			if (i < 0)
 				return true;
 			else if (i > 0)
 				return false;
 
-			i = long(a->GetMaterial()->GetShadingTechnqiue()) - long(b->GetMaterial()->GetShadingTechnqiue());
+			i = long(a.m_tech) - long(b.m_tech);
 			if (i<0)
 				return true;
 			else if(i>0)
@@ -45,12 +45,15 @@ namespace ma
 
 	}
 
-	void BatchRenderable::AddRenderObj(Renderable* pRenderObj) 
+	void BatchRenderable::AddRenderObj(Renderable* pRenderObj, Technique* pTech)
 	{
-		m_arrRenderList.push_back(pRenderObj);
+		RenderItem item;
+		item.m_renderable = pRenderObj;
+		item.m_tech = pTech;
+		m_arrRenderList.push_back(item);
 	}
 
-	void BatchRenderable::PrepareInstance(const std::vector<Renderable*>& batch, RenderPassType eRPType)
+	void BatchRenderable::PrepareInstance(const std::vector<RenderItem>& batch)
 	{
 		//ASSERT(!batch.empty());
 		if (batch.empty())
@@ -63,16 +66,13 @@ namespace ma
 		}
 
 		RefPtr<InstanceRenderable> pInstanceRenderable;
+		RefPtr<Technique> pInstanceTech;
 
 		for (uint32_t i = 0; i < batch.size(); ++i)
 		{
-			SubMaterial* pMaterial = batch[i]->GetMaterial();
-			Technique* pTech = pMaterial->GetShadingInstTechnqiue();
-			if (eRPType == RP_ShadowDepth)
-			{
-				pTech = pMaterial->GetShadowDepthInstTechnqiue();
-			}
-			if (!pTech || !batch[i]->m_bSuportInstace)
+			Renderable* pRenderable = batch[i].m_renderable;
+			Technique* pTech = batch[i].m_tech;
+			if (!pTech || !pRenderable->m_bSuportInstace)
 			{
 				m_arrNoInsRenderList.push_back(batch[i]);
 				continue;
@@ -81,9 +81,10 @@ namespace ma
 			if (pInstanceRenderable == NULL)
 			{
 				pInstanceRenderable = new InstanceRenderable();
+				pInstanceTech = pTech->CreateInstTech();
 			}
 
-			pInstanceRenderable->AddRenderable(batch[i]);
+			pInstanceRenderable->AddRenderable(pRenderable);
 		}
 
 		if (pInstanceRenderable == NULL)
@@ -91,10 +92,13 @@ namespace ma
 
 		pInstanceRenderable->Create();
 
-		m_arrInsRenderList.push_back(pInstanceRenderable);
+		InstRenderItem instItem;
+		instItem.m_renderable = pInstanceRenderable;
+		instItem.m_tech = pInstanceTech;
+		m_arrInsRenderList.push_back(instItem);
 	}
 
-	void BatchRenderable::PrepareInstance(RenderPassType eRPType)
+	void BatchRenderable::PrepareInstance()
 	{
 		if (m_arrRenderList.empty())
 			return;
@@ -106,44 +110,43 @@ namespace ma
 
 		for (auto iter = m_arrRenderList.begin(); iter != m_arrRenderList.end(); ++iter)
 		{
-			Renderable* pRenderable = *iter;
+			Renderable* pRenderable = iter->m_renderable;
+			Technique* pTech = iter->m_tech;
 			
-			SubMaterial* pMaterial = pRenderable->GetMaterial();
-			Technique* pTech = pMaterial->GetShadingTechnqiue();
-			if (eRPType == RP_ShadowDepth)
-			{
-				pTech = pMaterial->GetShadowDepthTechnqiue();
-			}
 			ShaderProgram* pShader = pTech->GetShaderProgram();
 			VertexBuffer* pVB = pRenderable->m_pVertexBuffer.get();
 
 			if ((pPreShader && pShader != pPreShader) || (pPreVB && pPreVB != pVB))
 			{
-				this->PrepareInstance(m_batchTemp, eRPType);
+				this->PrepareInstance(m_batchTemp);
 
 				m_batchTemp.clear();
 			}
 
-			m_batchTemp.push_back(pRenderable);
+			m_batchTemp.push_back(*iter);
 
 			pPreShader = pShader;
 			pPreVB = pVB;
 		}
 
-		this->PrepareInstance(m_batchTemp, eRPType);
+		this->PrepareInstance(m_batchTemp);
 
 		m_batchTemp.clear();
 	}
 
-	void BatchRenderable::PrepareRender(RenderPassType eRPType)
+	void BatchRenderable::PrepareRender()
 	{
 		std::sort(m_arrRenderList.begin(), m_arrRenderList.end(), SortDescendingLess());
 
-		PrepareInstance(eRPType);
+		PrepareInstance();
 
 		for (uint32_t i = 0; i < m_arrInsRenderList.size(); ++i)
 		{
-			m_arrPrePareRenderList.push_back(m_arrInsRenderList[i].get());
+			RenderItem item;
+			item.m_renderable = m_arrInsRenderList[i].m_renderable.get();
+			item.m_tech = m_arrInsRenderList[i].m_tech.get();
+
+			m_arrPrePareRenderList.push_back(item);
 		}
 
 		for (uint32_t i = 0; i < m_arrNoInsRenderList.size(); ++i)
@@ -152,53 +155,23 @@ namespace ma
 		}
 	}
 
-	Technique* GetTechnique(Renderable* pRenderable, RenderPassType eRPType, bool bInstance)
-	{
-		SubMaterial* pMaterial = pRenderable->GetMaterial();
-
-		Technique* pTech = NULL;
-
-		if (eRPType == RP_Shading)
-		{
-			pTech = pMaterial->GetShadingTechnqiue();
-			if (bInstance)
-			{
-				pTech = pMaterial->GetShadingInstTechnqiue();
-			}
-		}
-		else if (eRPType == RP_ShadowDepth)
-		{
-			pTech = pMaterial->GetShadowDepthTechnqiue();
-			if (bInstance)
-			{
-				pTech = pMaterial->GetShadowDepthInstTechnqiue();
-			}
-		}
-
-		return pTech;
-	}
-
-	void ParallelRender(RenderCommand* pCommand, Renderable** pNodeStart, uint32_t nNodeCount,
-		RenderPassType eRPType, uint32_t nStartIndex, uint32_t nIntanceListCount)
+	void BatchRenderable::ParallelRender(RenderCommand* pCommand, RenderItem* pNodeStart, uint32_t nNodeCount)
 	{
 		pCommand->Begin();
 
 		for (uint32_t i = 0; i < nNodeCount; ++i)
 		{
-			Renderable* pRenderable = pNodeStart[i];
+			RenderItem& pRenderItem = pNodeStart[i];
 
-			bool bInstance = nStartIndex + i < nIntanceListCount;
-
-			Technique* pTech = GetTechnique(pRenderable, eRPType, bInstance);
-			pRenderable->PreRender(pTech);
-
-			pRenderable->Render(pTech, pCommand);
+			pRenderItem.m_renderable->PreRender(pRenderItem.m_tech);
+			
+			pRenderItem.m_renderable->Render(pRenderItem.m_tech, pCommand);
 		}
 
 		pCommand->End();
 	}
 
-	void BatchRenderable::Render(RenderPass* pPass, RenderPassType eRPType, RenderListType eRLType)
+	void BatchRenderable::Render(RenderPass* pPass, int stage)
 	{
 		if (m_arrPrePareRenderList.empty())
 			return;
@@ -226,12 +199,12 @@ namespace ma
 
 				uint32_t nCount = nEndIndex - nStartIndex + 1;
 
-				Renderable** ppNodeStart = &(m_arrPrePareRenderList[nStartIndex]);
+				RenderItem* ppNodeStart = &(m_arrPrePareRenderList[nStartIndex]);
 
-				RenderCommand* pCommand = pPass->GetThreadCommand(iJob, eRLType);
+				RenderCommand* pCommand = pPass->GetThreadCommand(iJob, stage);
 
 				GetJobScheduler()->SubmitJob(jobGroup, 	[=] () {
-					ParallelRender(pCommand, ppNodeStart, nCount, eRPType, nStartIndex, m_arrInsRenderList.size());
+					ParallelRender(pCommand, ppNodeStart, nCount);
 				} );
 			}
 
@@ -239,11 +212,11 @@ namespace ma
 		}
 		else
 		{
-			RenderCommand* pCommand = pPass->GetThreadCommand(0,eRLType);
-			Renderable** ppNodeStart = &(m_arrPrePareRenderList[0]);
+			RenderCommand* pCommand = pPass->GetThreadCommand(0, stage);
+			RenderItem* ppNodeStart = &(m_arrPrePareRenderList[0]);
 			uint32_t nCount = m_arrPrePareRenderList.size();
 
-			ParallelRender(pCommand, ppNodeStart, nCount, eRPType, 0, m_arrInsRenderList.size());
+			ParallelRender(pCommand, ppNodeStart, nCount);
 		}
 	}
 

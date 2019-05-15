@@ -255,7 +255,6 @@ EXPORTS
 ?GetIndexBuffer@ParallHardWareBuffer@ma@@QAEPAVIndexBuffer@2@XZ
 ?SetValue@Technique@ma@@QAEXPAVUniform@2@ABVMatrix4@2@@Z
 ?SetValue@Technique@ma@@QAEXPAVUniform@2@ABVVector4@2@@Z
-?GetRTInstaneBuffer@RenderSystem@ma@@QAEPAVParallHardWareBuffer@2@XZ
 ?CreateMemoryStream@ma@@YA?AV?$RefPtr@VMemoryStream@ma@@@1@PBDPAXI_N@Z
 ?SetValue@Technique@ma@@QAEXPAVUniform@2@PAVSamplerState@2@@Z
 ??0ImageData@ma@@QAE@XZ
@@ -265,7 +264,6 @@ EXPORTS
 ?Export@BlendState@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z
 ?CreateBlendState@ma@@YA?AV?$RefPtr@VBlendState@ma@@@1@XZ
 ?CreateRasterizerState@ma@@YA?AV?$RefPtr@VRasterizerState@ma@@@1@XZ
-?AddRenderObj@RenderQueue@ma@@QAEXW4RenderListType@2@PAVRenderable@2@@Z
 ??0Renderable@ma@@QAE@XZ
 ?PreRender@Renderable@ma@@UAEXPAVTechnique@2@@Z
 ?Render@Renderable@ma@@UAEXPAVTechnique@2@PAVRenderCommand@2@@Z
@@ -298,7 +296,6 @@ EXPORTS
 ?UpdateWorldBoundingBox@RenderComponent@ma@@MAEXXZ
 ?BegineCompute@RenderSystem@ma@@QAEXXZ
 ?EndCompute@RenderSystem@ma@@QAEXXZ
-?GetShadingInstTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
 ?BindCompute@Technique@ma@@UAEXPAVRenderable@2@@Z
 ?BindUniform@Technique@ma@@IAEXPAVRenderable@2@W4ShaderType@2@@Z
 ?ReLoad@Technique@ma@@QAEXXZ
@@ -308,3 +305,5 @@ EXPORTS
 ?GetStep@PostProcess@ma@@QAEPAVPostProcessStep@2@PBD@Z
 ?GetPostProcess@PostProcessPipeline@ma@@QAEPAVPostProcess@2@PBD@Z
 ?GetPostProcess@ma@@YAPAVPostProcessPipeline@1@XZ
+?AddRenderObj@RenderQueue@ma@@QAEXHPAVRenderable@2@PAVTechnique@2@@Z
+?CreateTransientParallHardWareBuffer@RenderSystem@ma@@QAE?AV?$RefPtr@VTransientParallHardWareBuffer@ma@@@2@III@Z

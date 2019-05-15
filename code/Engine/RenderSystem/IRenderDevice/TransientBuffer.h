@@ -89,6 +89,7 @@ namespace ma
 			for (uint32_t i = 0; i < nNumBuffer; ++i)
 			{
 				m_pBuffer[i] = new ParallHardWareBuffer(nVertexStride, nNumVertice, numIndexes);
+				m_pBuffer[i]->LockVideoMemory();
 			}
 		}
 
@@ -108,6 +109,11 @@ namespace ma
 		ParallHardWareBuffer* GetParallHardWareBuffer()
 		{
 			return m_pBuffer[m_nFillIndex].get();
+		}
+
+		ParallHardWareBuffer* GetRTParallHardWareBuffer()
+		{
+			return m_pBuffer[m_nProcessIndex].get();
 		}
 		
 

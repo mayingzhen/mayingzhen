@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void Create();
 
-		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, RenderListType eRLType);
+		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, int stage);
 
 		void InitRenderCommamd();
 
@@ -33,6 +33,8 @@ namespace ma
 		std::vector<VkClearValue> m_vecClearValues;
 
 		std::vector<VkCommandBuffer> m_vecActiceCmd;
+
+		int m_nMaxStageCount = 0;
 
 		std::vector< RefPtr<VulkanRenderCommand> > m_arrRenderCommand;
 	};

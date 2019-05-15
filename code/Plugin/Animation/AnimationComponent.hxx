@@ -185,8 +185,6 @@ namespace ma
 
 	void AnimationComponent::EvaluateAnimation()
 	{
-		profile_code();
-
 		const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();
 		if (pRefPose == NULL)
 			return;

@@ -193,7 +193,9 @@ namespace ma
 		{
 			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			pRenderQueue->AddRenderObj(RL_Mesh, m_arrRenderable[i].get());
+			Renderable* pRenderObj = m_arrRenderable[i].get();
+
+			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj, pRenderObj->GetMaterial()->GetShadingTechnqiue());
 		}
 	}
 
@@ -204,7 +206,9 @@ namespace ma
 
 		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
  		{
- 			pRenderQueue->AddRenderObj(RL_Mesh, m_arrRenderable[i].get());
+			Renderable* pRenderObj = m_arrRenderable[i].get();
+
+ 			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj, pRenderObj->GetMaterial()->GetShadowDepthTechnqiue());
  		}
 	}
 

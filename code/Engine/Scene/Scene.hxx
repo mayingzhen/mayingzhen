@@ -85,8 +85,6 @@ namespace ma
 
 	void Scene::Update()
 	{
-		profile_code();
-
 		if (m_pCamera == NULL || m_pCullTree == NULL)
 			return;
 
@@ -186,11 +184,6 @@ namespace ma
 		{
 			m_pCallback->OnPreRender(this);
 		}
-
-// 		for (uint32_t i = 0; i < m_vecRenderPass.size(); ++i)
-// 		{
-// 			m_vecRenderPass[i]->Render();
-// 		}
 
 		m_pMainDirLight->RenderShadowMap(m_pCamera.get());
 

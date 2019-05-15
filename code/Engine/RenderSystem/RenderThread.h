@@ -65,7 +65,6 @@ namespace ma
 		void	RC_SetSampler(Uniform* pUniform, SamplerState* pSampler);
 		void	RC_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
 
-		void	RC_SetPoolId(uint32_t poolId);
 
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();

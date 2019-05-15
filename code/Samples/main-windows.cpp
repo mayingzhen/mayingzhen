@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	set.bDataThread = false;
 	set.bJobScheduler = false;
 
-	SampleBrowser sampleBrowser("SampleBrowser", set, "SampleTerrain");
+	SampleBrowser sampleBrowser("SampleBrowser", set, "SampleMaterial");
 
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();

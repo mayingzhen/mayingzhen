@@ -366,7 +366,7 @@ namespace ma
 		m_pShadowMapFB->Begine();
 
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];
-		pRenderQueue->RenderObjList(m_pShadowMapFB.get(),RL_Mesh,RP_ShadowDepth);
+		pRenderQueue->Render(m_pShadowMapFB.get(),RL_Mesh, RL_MeshTrans);
 
 		m_pShadowMapFB->End();
 

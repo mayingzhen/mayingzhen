@@ -18,8 +18,6 @@ namespace ma
 
 	void SkinMeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32_t nCount)
 	{
-		profile_code();
-		
 		uint32_t nLod = 0;
 		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
 		{
