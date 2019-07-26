@@ -1,11 +1,11 @@
-project(engine)
+project(Engine)
 
-message(STATUS "Configuring engine")
+message(STATUS "Configuring Engine")
 
 set(SOURCE_FILES
 		Module.h
 		Module.cpp 
-		Engine.def)
+		Export.def)
 
 include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../"
@@ -20,17 +20,14 @@ include_directories(
 if (WIN32)
 	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
-	link_directories(
-		"${CMAKE_CURRENT_SOURCE_DIR}/../../extern_vs/Win32/Debug"
-	)
-
-	target_link_libraries(${PROJECT_NAME} common FreeImage.lib zziplib.lib zlib.lib)
+	target_link_libraries(${PROJECT_NAME} Common FreeImage zziplib zlib)
 	
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /bigobj")
 else (WIN32)
 	add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
-	target_link_libraries(${PROJECT_NAME} common FreeImage zziplib zlib log android)
+	target_link_libraries(${PROJECT_NAME} Common FreeImage zziplib zlib log android)
 endif()
 
 

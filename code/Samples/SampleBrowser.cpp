@@ -6,7 +6,7 @@
 #include "BulletPhysics/Module.h"
 
 #if defined(_WIN32)
-#include "MonoScript/Module.h"
+//#include "MonoScript/Module.h"
 #include "D3D11Render/Module.h"
 #endif
 
@@ -19,7 +19,7 @@
 
 #if defined(_WIN32)
 //#include "Samples/Serialize/SampleFbxImport.hxx"
-#include "Samples/Script/SampleMonoScript.hxx"
+//#include "Samples/Script/SampleMonoScript.hxx"
 #endif
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
@@ -68,7 +68,7 @@ namespace ma
 
 #if defined(_WIN32)
         VulkanRenderModuleInit();
-		MonoScriptModuleInit();
+		//MonoScriptModuleInit();
 		//FBXImporterModuleInit();
 #elif defined(__APPLE__) 
         MetalRenderModuleInit();
@@ -85,7 +85,7 @@ namespace ma
         
 #if defined(_WIN32)
         VulkanRenderModuleShutdown();
-		MonoScriptModuleShutdown();
+		//MonoScriptModuleShutdown();
 		//FBXImporterModuleShutdown();
 #elif defined(__APPLE__) 
         MetalRenderModuleShutdown();
@@ -140,8 +140,8 @@ namespace ma
 // 			GetPhysicsSystem()->Shoutdown();
         
 #if defined(_WIN32)
-		if (GetScriptSystem())
-			GetScriptSystem()->Shoutdown();
+		//if (GetScriptSystem())
+		//	GetScriptSystem()->Shoutdown();
 #endif
         
 		Game::Shutdown();
@@ -161,8 +161,8 @@ namespace ma
 // 			GetPhysicsSystem()->Init();
         
 #if defined(_WIN32)
-		if (GetScriptSystem())
-			GetScriptSystem()->Init();
+		//if (GetScriptSystem())
+		//	GetScriptSystem()->Init();
 #endif
 			
 		void* hWnd = Platform::GetInstance().GetWindId();
@@ -184,11 +184,11 @@ namespace ma
 // 			m_pCurSample = new SampleFbxImport();
 // 		}
 //		else 
-		if (strcmp(pSample,"SampleMonoScript") == 0)
-		{
-			m_pCurSample = new SampleMonoScript();
-		}
-		else
+// 		if (strcmp(pSample,"SampleMonoScript") == 0)
+// 		{
+// 			m_pCurSample = new SampleMonoScript();
+// 		}
+//		else
 #endif
         if (strcmp(pSample,"SampleLighting") == 0)
 		{

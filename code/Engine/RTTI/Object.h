@@ -26,12 +26,12 @@ namespace ma
 		virtual bool			Import(rapidxml::xml_node<>* pXmlObject);
 		virtual bool			Export(rapidxml::xml_node<>* pXmlObject,rapidxml::xml_document<>& doc);		
 
-		bool					SetAttribute(uint32_t index, const Any& value);
+		bool					SetAttribute(size_t index, const Any& value);
 		bool					SetAttribute(const char* name, const Any& value);
 
 		Any						GetAttribute(unsigned index) const;
 		Any						GetAttribute(const char* name) const;
-		uint32_t				GetNumAttributes() const;
+		size_t					GetNumAttributes() const;
 		const AttributeInfo*	GetAttributeInfoByName(const char* strName) const;
 
 	protected:

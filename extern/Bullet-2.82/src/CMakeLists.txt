@@ -19,3 +19,5 @@ include_directories(
 if (WIN32)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "extern") 

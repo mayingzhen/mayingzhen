@@ -1,5 +1,4 @@
-#ifndef  _VertexDeclaration__H__
-#define  _VertexDeclaration__H__
+#pragma once
 
 #include "RenderDefine.h"
 
@@ -62,5 +61,3 @@ namespace ma
 	RefPtr<VertexDeclaration> CreateVertexDeclaration();
 
 }
-
-#endif

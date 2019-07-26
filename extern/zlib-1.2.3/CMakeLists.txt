@@ -18,3 +18,5 @@ if (WIN32)
 
 	add_definitions(-DWIN32)
 endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "extern") 

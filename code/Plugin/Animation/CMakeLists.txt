@@ -27,5 +27,5 @@ else (WIN32)
 endif()
 
 
-target_link_libraries(${PROJECT_NAME} common engine)
+target_link_libraries(${PROJECT_NAME} Common Engine)
 

@@ -17,7 +17,7 @@ namespace ma
 		unsigned long long GetSizeInBytesMemHeap() const;
 	protected:
 		int m_nClassSize;
-		long m_lMaxAllocsInHeap;
+		size_t m_lMaxAllocsInHeap;
 		char m_strName[32];
 		std::list<void*> m_vecFree;
 	};

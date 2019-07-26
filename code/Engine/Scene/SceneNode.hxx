@@ -564,38 +564,6 @@ namespace ma
 		tsfWS.m_vScale = GetScaleWS();
 
  		SetTransformWS(tsfWS);
-		
-// 		Vector3 vUp = Vector3::UNIT_Y;
-// 
-// 		Vector3 lookDir = vAt - vEye;
-// 		if (lookDir == Vector3::ZERO)
-// 			return;
-// 		
-// 		Quaternion rot = Quaternion::IDENTITY;
-// 
-// 		Vector3 forward = lookDir.normalisedCopy();
-// 
-// 		Vector3 v = forward.crossProduct(vUp);
-// 		// If direction & upDirection are parallel and crossproduct becomes zero, use FromRotationTo() fallback
-// 		if (v.squaredLength() >= 1e-6f)
-// 		{
-// 			v.normalise();
-// 			Vector3 up = v.crossProduct(forward);
-// 			Vector3 right = up.crossProduct(forward);
-// 			rot.FromAxes(right, up, forward);
-// 		}
-// 		else
-// 		{
-// 			ASSERT(false);
-// 		}
-// 
-// 
-// 		Transform tsfWS;
-// 		tsfWS.m_vPos = vEye;
-// 		tsfWS.m_qRot = rot;
-// 		tsfWS.m_vScale = GetScaleWS();
-// 
-//  		SetTransformWS(tsfWS);
 	}
 
 	void SceneNode::LookAt(const Vector3& vTarget)

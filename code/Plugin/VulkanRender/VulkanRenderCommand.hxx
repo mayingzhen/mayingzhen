@@ -63,7 +63,7 @@ namespace ma
 		m_pPreIB = NULL;
 		memset(m_pPreVB, 0, sizeof(m_pPreVB));
 		memset(m_preVBOffset, 0, sizeof(m_preVBOffset));
-		m_prePipeline = -1;
+		m_prePipeline = VK_NULL_HANDLE;
 	}
 
 	void VulkanRenderCommand::End()

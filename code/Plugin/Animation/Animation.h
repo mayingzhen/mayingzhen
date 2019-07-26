@@ -1,5 +1,4 @@
-#ifndef  _Animation__H__
-#define  _Animation__H__
+#pragma once
 
 
 #include "Animation/Track.h"
@@ -53,4 +52,3 @@ namespace ma
 	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile);
 }
 
-#endif

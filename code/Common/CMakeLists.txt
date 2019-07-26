@@ -1,6 +1,6 @@
-project(common)
+project(Common)
 
-message(STATUS "Configuring common")
+message(STATUS "Configuring Common")
 
 set(SOURCE_FILES
 		Module.h

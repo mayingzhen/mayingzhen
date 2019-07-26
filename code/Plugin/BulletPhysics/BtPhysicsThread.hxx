@@ -44,17 +44,7 @@ namespace ma
 	{
 		while(!m_bEnd)
 		{
-#ifdef WIN32
-// 			MSG msg;
-// 			while (PeekMessage(&msg, Platform::GetInstance().GetWindId(), 0, 0, PM_REMOVE))
-// 			{
-// 				TranslateMessage(&msg);
-// 				DispatchMessage(&msg);
-// 			}
-			Sleep(1);
-#else
-			::usleep(1);
-#endif
+			std::this_thread::yield();
 		}
 	}
 }

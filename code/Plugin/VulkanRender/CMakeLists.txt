@@ -34,7 +34,7 @@ if(WIN32)
 
 	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 	
-	target_link_libraries(${PROJECT_NAME} engine common glslang SPIRV-Cross vulkan-1.lib)
+	target_link_libraries(${PROJECT_NAME} Engine Common glslang SPIRV-Cross vulkan-1.lib)
 
 else(WIN32)
 	add_definitions(-D__STDC_LIMIT_MACROS)
@@ -43,9 +43,10 @@ else(WIN32)
 
 	add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
-	target_link_libraries(${PROJECT_NAME} engine common glslang SPIRV-Cross)
+	target_link_libraries(${PROJECT_NAME} Engine Common glslang SPIRV-Cross)
 
 endif(WIN32)
+
 
 
 

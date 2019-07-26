@@ -1,6 +1,6 @@
 #include "Samples/Render/SampleIBL.h"
 #include "Application/ui.h"
-#include "nativefiledialog/src/include/nfd.h"
+//#include "nativefiledialog/src/include/nfd.h"
 
 namespace ma
 {
@@ -115,6 +115,7 @@ namespace ma
 		GetUI()->SliderFloat("Glossiness", &m_fGlossiness, 0.0f, 1.0f);
 		GetUI()->ColorEdit4("diffuseColor", (float*)&m_cColor); // Edit 4 floats representing a color
 
+		/*
 		if (GetUI()->Button("diffuseTexutrePath:"))
 		{
 			nfdchar_t* outPath = NULL;
@@ -131,6 +132,7 @@ namespace ma
 	
 			}
 		}
+		*/
 
 		GetUI()->End();
 

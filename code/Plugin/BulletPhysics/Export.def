@@ -1,16 +1,3 @@
 EXPORTS
 
-?SetSize@BoxCollisionShape@ma@@QAEXABVVector3@2@@Z
-?RayCastCloseGameObj@PhysicsSystem@ma@@QAEPAVSceneNode@2@ABVVector3@2@0HAAV42@@Z
-?GetPhysicsSystem@ma@@YAPAVPhysicsSystem@1@XZ
-?SetTransformLS@CollisionShape@ma@@QAEXABUTransform@2@@Z
-?SetGravity@PhysicsSystem@ma@@QAEXABVVector3@2@@Z
-?BtPhysicsModuleInit@@YAXXZ
-?BtPhysicsModuleShutdown@@YAXXZ
-?Shoutdown@PhysicsSystem@ma@@QAEXXZ
-?Stop@PhysicsSystem@ma@@QAEXXZ
-?Init@PhysicsSystem@ma@@QAEXXZ
-?Start@PhysicsSystem@ma@@QAEXXZ
-?BeginUpdate@PhysicsSystem@ma@@QAEXXZ
-?EndUpdate@PhysicsSystem@ma@@QAEXXZ
-?DebugRender@PhysicsSystem@ma@@QAEXXZ
+

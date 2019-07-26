@@ -1,14 +1,4 @@
 ﻿cmake_minimum_required(VERSION 2.8)
-#set(CMAKE_LEGACY_CYGWIN_WIN32 0)
-#set (CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_CURRENT_LIST_DIR}/CMake/NeoXOverrideOptions.cmake")
-
-# Use relative paths
-# This is mostly to reduce path size for command-line limits on windows
-#if(WIN32)
-  # This seems to break Xcode projects so definitely don't enable on Apple builds
-#  set(CMAKE_USE_RELATIVE_PATHS true)
-#  set(CMAKE_SUPPRESS_REGENERATION true)
-#endif()
 
 # 配置类型只支持Debug和带调试信息的Release
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
@@ -35,28 +25,28 @@ add_subdirectory(Plugin/VulkanRender)
 add_subdirectory(Plugin/BulletPhysics)
 
 if (WIN32)
-	add_subdirectory(Plugin/MonoScript)
-	add_dependencies(MonoScript common engine)
+	#add_subdirectory(Plugin/MonoScript)
+	#add_dependencies(MonoScript Common Engine)
 endif()
 
 add_subdirectory(Application)
 
 add_subdirectory(Samples)
 
-add_dependencies(engine common)
+add_dependencies(Engine Common)
 
-add_dependencies(Animation common engine)
+add_dependencies(Animation Common Engine)
 
-add_dependencies(VulkanRender common engine)
+add_dependencies(VulkanRender Common Engine)
 
-add_dependencies(BulletPhysics common engine)
+add_dependencies(BulletPhysics Common Engine)
 
-add_dependencies(Application common engine)
+add_dependencies(Application Common Engine)
 
-add_dependencies(SampleBrowser Application common engine)
+add_dependencies(SampleBrowser Application Common Engine)
 
 if (WIN32)
-	set_target_properties(common engine Application MonoScript BulletPhysics VulkanRender Animation SampleBrowser
+	set_target_properties(Common Engine Application BulletPhysics VulkanRender Animation SampleBrowser
 		PROPERTIES
 		ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/win32"
 		RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/win32"

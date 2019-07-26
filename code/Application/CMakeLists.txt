@@ -10,11 +10,9 @@ set(SOURCE_FILES
 include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../"
 	"${CMAKE_CURRENT_SOURCE_DIR}/../../extern/include"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../../extern/imgui"
 )
 
-link_directories(
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../extern_vs/Win32/Debug"
-)
 
 if (WIN32)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
@@ -27,7 +25,7 @@ else (WIN32)
 endif()
 
 
-target_link_libraries(${PROJECT_NAME} common engine)
+target_link_libraries(${PROJECT_NAME} Common Engine imgui)
 
 
 add_definitions(-D_USRDLL)

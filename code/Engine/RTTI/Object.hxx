@@ -179,7 +179,7 @@ namespace ma
 		if (!attributes || attributes->empty())
 			return false;
 
-		for (uint32_t i = 0; i < attributes->size(); ++i)
+		for (size_t i = 0; i < attributes->size(); ++i)
 		{
 			RefPtr<AttributeInfo> attribute = attributes->at(i);
 
@@ -238,7 +238,7 @@ namespace ma
 	const AttributeInfo* Object::GetAttributeInfoByName(const char* strName) const
 	{
 		const VEC_ATTR* attributes = GetAttributes();
-		for (uint32_t i = 0; i < attributes->size(); ++i)
+		for (size_t i = 0; i < attributes->size(); ++i)
 		{
 			RefPtr<AttributeInfo> pAtt = attributes->at(i);
 			if (string(pAtt->GetName()) == strName)
@@ -248,7 +248,7 @@ namespace ma
 		return NULL;
 	}
 
-	bool Object::SetAttribute(unsigned index, const Any& value)
+	bool Object::SetAttribute(size_t index, const Any& value)
 	{
 		const VEC_ATTR* attributes = GetAttributes();
 		if (!attributes)
@@ -330,7 +330,7 @@ namespace ma
 		return ret;
 	}
 
-	uint32_t Object::GetNumAttributes() const
+	size_t Object::GetNumAttributes() const
 	{
 		const VEC_ATTR* attributes = GetAttributes();
 		return attributes ? attributes->size() : 0;

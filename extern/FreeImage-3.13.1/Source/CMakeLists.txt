@@ -68,3 +68,5 @@ if (WIN32)
 	add_definitions(-DFREEIMAGE_LIB)
 	add_definitions(-DLIBRAW_NODLL)
 endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "extern") 

@@ -1,5 +1,4 @@
-#ifndef  _CullTree__H__
-#define  _CullTree__H__
+#pragma once
 
 namespace ma
 {
@@ -24,4 +23,3 @@ namespace ma
 	};
 }
 
-#endif

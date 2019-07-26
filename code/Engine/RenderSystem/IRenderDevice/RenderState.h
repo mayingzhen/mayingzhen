@@ -133,7 +133,7 @@ namespace ma
  
         bool operator < (const BlendState& other) const
         {
-			for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
+			for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
 			{
 #define CMPVAR(x) if (x != other.x) return x < other.x;
 				CMPVAR(m_blendDesc[i].BlendEnable);

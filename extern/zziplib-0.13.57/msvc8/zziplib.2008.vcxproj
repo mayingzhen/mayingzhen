@@ -139,7 +139,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -148,17 +148,12 @@
       <AdditionalIncludeDirectories>C:\lib\zziplib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
-      <OutputFile>zziplibd.lib</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)..\lib\$(Configuration)\" /y
-mkdir "$(SolutionDir)..\include\zzip"
-copy "$(ProjectDir)..\zzip\zzip.h" "$(SolutionDir)..\include\zzip" /y
-copy "$(ProjectDir)..\zzip\types.h" "$(SolutionDir)..\include\zzip" /y
-copy "$(ProjectDir)..\zzip\conf.h" "$(SolutionDir)..\include\zzip" /y
-copy "$(ProjectDir)..\zzip\_msvc.h" "$(SolutionDir)..\include\zzip" /y
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -172,7 +167,7 @@ copy "$(ProjectDir)..\zzip\_msvc.h" "$(SolutionDir)..\include\zzip" /y
       <AdditionalIncludeDirectories>..;..\..\zlib-1.2.3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>

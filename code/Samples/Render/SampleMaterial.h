@@ -1,5 +1,4 @@
-#ifndef _Sample_Material_H_
-#define _Sample_Material_H_
+#pragma once
 
 namespace ma
 {
@@ -19,5 +18,4 @@ namespace ma
 }
 
 
-#endif
 

@@ -28,7 +28,6 @@ THE SOFTWARE.
 //#include "StableHeaders.h"
 
 #include "Math.h"
-#include "asm_math.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -163,12 +162,12 @@ namespace ma
 	//-----------------------------------------------------------------------
 	float Math::InvSqrt(float fValue)
 	{
-		return float(asm_rsq(fValue));
+		return float( 1.0f / std::sqrt(fValue) );
 	}
     //-----------------------------------------------------------------------
     float Math::UnitRandom ()
     {
-        return asm_rand() / asm_rand_max();
+		return (float)std::rand() / (float)RAND_MAX;
     }
     
     //-----------------------------------------------------------------------

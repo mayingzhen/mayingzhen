@@ -10,7 +10,7 @@ namespace ma
 
 	inline btQuaternion ToBulletUnit(const Quaternion& q)
 	{
-	 	return btQuaternion(q.x,q.y,q.z,q.w);
+	 	return btQuaternion(q._x,q._y,q._z,q._w);
 	}
 
 	inline btTransform ToBulletUnit(const Transform& tsf)

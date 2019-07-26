@@ -1,5 +1,4 @@
-#ifndef  _RenderDefine__H__
-#define  _RenderDefine__H__
+#pragma once
 
 namespace ma
 {
@@ -452,5 +451,3 @@ namespace ma
 	static const int MAX_TEXTURE_UNITS = 8;
 
 }
-
-#endif

@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+
 project(SampleBrowser)
 
 message(STATUS "Configuring SampleBrowser")
@@ -27,7 +29,7 @@ link_directories(
 if(WIN32)
 	add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
 
-	target_link_libraries(${PROJECT_NAME} common engine VulkanRender MonoScript Animation BulletPhysics Application)
+	target_link_libraries(${PROJECT_NAME} Common Engine VulkanRender Animation BulletPhysics Application)
 
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 	add_definitions(-DWIN32)
@@ -42,6 +44,6 @@ if(WIN32)
 else(WIN32)
 	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
-	target_link_libraries(${PROJECT_NAME} common engine VulkanRender Animation BulletPhysics Application)
+	target_link_libraries(${PROJECT_NAME} Common Engine VulkanRender Animation BulletPhysics Application)
 endif(WIN32)
 

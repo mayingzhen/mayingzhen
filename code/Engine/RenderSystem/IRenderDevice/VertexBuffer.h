@@ -1,5 +1,4 @@
-#ifndef  _VertexBuffer__H__
-#define  _VertexBuffer__H__
+#pragma once
 
 #include "HardwareBuffer.h"
 
@@ -11,5 +10,3 @@ namespace ma
 
 	};
 }
-
-#endif

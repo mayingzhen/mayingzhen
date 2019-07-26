@@ -23,7 +23,7 @@ namespace ma
 			StaticFunc::DebugMsg("heap of class %s destroyed, with max alloc(%ld).", m_strName, m_lMaxAllocsInHeap);
 		}
 
-		long nAllocs = m_lMaxAllocsInHeap - m_vecFree.size();
+		size_t nAllocs = m_lMaxAllocsInHeap - m_vecFree.size();
 		if (nAllocs > 0)
 		{
 			StaticFunc::DebugMsg("CMemHeap::~CMemHeap() [%s] have [%d] memm trunk not realse", m_strName, nAllocs);

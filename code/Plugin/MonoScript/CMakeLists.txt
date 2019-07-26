@@ -32,7 +32,7 @@ endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
-target_link_libraries(${PROJECT_NAME} common engine ${EXTERN_LINK_LIB})
+target_link_libraries(${PROJECT_NAME} Common Engine ${EXTERN_LINK_LIB})
 
 
 add_definitions(-DUSRDLL)

@@ -210,7 +210,7 @@ string StaticFunc::GetCurrentDir()
 string StaticFunc::GetFilePath(const string& strFile)
 {
 	string strPath;
-	int index = strFile.find_last_of( "\\" );
+	size_t index = strFile.find_last_of( "\\" );
 	if ( index == -1 )
 		index = strFile.find_last_of( "/" );
 	if ( index==-1 )
@@ -225,9 +225,9 @@ string StaticFunc::GetFilePath(const string& strFile)
 string StaticFunc::GetFileDir(const string& strFile)
 {
     string strPath;
-    int index1 = strFile.find_last_of( "\\" );
-    int index2 = strFile.find_last_of( "/" );
-    int index = /*std::*/max(index1,index2);
+	size_t index1 = strFile.find_last_of( "\\" );
+	size_t index2 = strFile.find_last_of( "/" );
+	size_t index = std::max<size_t>(index1,index2);
     if (index == -1)
     {
         return "";
@@ -241,7 +241,7 @@ string StaticFunc::GetFileDir(const string& strFile)
 string StaticFunc::GetBaseName(const string& strFile)
 {
 	string strFileName;
-	int index = strFile.find_last_of( "\\" );
+	size_t index = strFile.find_last_of( "\\" );
 	if ( index == -1 )
 		index = strFile.find_last_of( "/" );
 	if ( index==-1 )
@@ -278,7 +278,7 @@ string StaticFunc::GetFileExt(const string& strFile)
 {
 	string strFileExt;
 
-	int index = strFile.find_last_of(".");
+	size_t index = strFile.find_last_of(".");
 	if (index>=0)
 	{
 		strFileExt = strFile.substr(index+1, strFile.size()-index);
@@ -291,7 +291,7 @@ string StaticFunc::ReplaceFileExt(const string& strFile,const string& strNewExt)
 {
 	string strNewFile = strFile;
 
-	int index = strNewFile.find_last_of(".");
+	size_t index = strNewFile.find_last_of(".");
 	if (index>=0)
 	{
 		strNewFile = strNewFile.replace(index + 1, strNewFile.size() - index,strNewExt);
@@ -306,7 +306,7 @@ string StaticFunc::ToLowerCase(const string& strFile)
 	string strLower;
 	strLower.assign(strFile.size(), 0);
 
-	for(uint32_t i = 0; i < strFile.size(); i++) 
+	for(size_t i = 0; i < strFile.size(); i++) 
 	{	
 		if(strFile[i] >= 'A' && strFile[i] <= 'Z') 
 		{
@@ -328,7 +328,7 @@ string StaticFunc::ToLowerCase(const string& strFile)
 void StaticFunc::MakeDir( const char* pszPath )
 {
 	string strPath = pszPath;
-	for(uint32_t i = 0; i < strPath.size(); i++) 
+	for(size_t i = 0; i < strPath.size(); i++) 
 	{	
 		if(strPath[i] == '\\') { strPath[i] = '/'; }
 	}
@@ -338,7 +338,7 @@ void StaticFunc::MakeDir( const char* pszPath )
 		strPath += "/";
 	}
 
-	int nR = 0;
+	size_t nR = 0;
 	do 
 	{
 		nR = strPath.find_first_of('/', nR);
@@ -376,7 +376,7 @@ bool StaticFunc::IsFileExist( const char* fullFilePath )
 
 void StrRemoveChar(string& str, char ch )
 {
-    int len = str.length();
+	size_t len = str.length();
     if ( len == 0 )
         return;
     int begin = 0;
@@ -386,7 +386,7 @@ void StrRemoveChar(string& str, char ch )
         if ( buf[begin] != ch )
             break;
     }
-    int end = len-1;
+	size_t end = len-1;
     for ( ; end>=0; end-- )
     {
         if ( buf[end] != ch )
@@ -404,9 +404,9 @@ void StaticFunc::StrRemoveSpaces(string& str)
 
 void StaticFunc::StrSplit(const string& strSource, const string& delimiter, OUT std::vector<string>& vecResult)
 {
-    int nL = 0;
+	size_t nL = 0;
     string strCell = "";
-    int i = 0;
+	size_t i = 0;
 
     while (i < (int)strSource.size())
     {
@@ -483,10 +483,10 @@ string StaticFunc::ToString(int n)
 
  void StaticFunc::StrFormatPath(IN OUT string& str, bool url)
  {
-     uint32_t len = str.length();
+	 size_t len = str.length();
      if ( url )
      {
-         for ( uint32_t i=0; i<len; i++ )
+         for ( size_t i=0; i<len; i++ )
          {
              if ( str[i] == '\\' )
                  str[i] = '/';
@@ -497,7 +497,7 @@ string StaticFunc::ToString(int n)
      }
      else
      {
-         for ( uint32_t i=0; i<len; i++ )
+         for ( size_t i=0; i<len; i++ )
          {
              if ( str[i] == '/' )
                  str[i] = '\\';
@@ -579,10 +579,10 @@ string StaticFunc::ToString(int n)
 string StaticFunc::UnicodeToAnsi(const wchar_t* pszUnicode)
 {
 #ifdef WIN32
-	uint32_t unLenW = wcslen(pszUnicode);
-	uint32_t unLen = MAX_STR;
+	size_t unLenW = wcslen(pszUnicode);
+	int unLen = MAX_STR;
 	char szBuf[MAX_STR] = "";
-	unLen = WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, pszUnicode, unLenW, szBuf, unLen, NULL, NULL);
+	unLen = WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, pszUnicode, (int)unLenW, szBuf, unLen, NULL, NULL);
 	szBuf[unLen] = '\0';
 	return szBuf;
 #else
@@ -594,10 +594,10 @@ string StaticFunc::UnicodeToAnsi(const wchar_t* pszUnicode)
 wstring StaticFunc::AnsiToUnicode(const char* pszAnisi)
 {
 #ifdef WIN32
-	uint32_t unLen = strlen(pszAnisi);
-	uint32_t unLenW = MAX_STR;
+	size_t unLen = strlen(pszAnisi);
+	int unLenW = MAX_STR;
 	wchar_t szBuf[MAX_STR] = L"";
-	unLenW = MultiByteToWideChar(CP_ACP, 0, pszAnisi, unLen, szBuf, unLenW);
+	unLenW = MultiByteToWideChar(CP_ACP, 0, pszAnisi, (int)unLen, szBuf, unLenW);
 	szBuf[unLenW] = '\0';
 	return szBuf;
 #else

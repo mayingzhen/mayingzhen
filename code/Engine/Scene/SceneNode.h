@@ -79,7 +79,7 @@ namespace ma
 
 		void				Translate(const Vector3& vDir);
 
-		virtual void		LookAt(const Vector3& vPos, const Vector3& vTarget);
+		void				LookAt(const Vector3& vPos, const Vector3& vTarget);
 		void				LookAt(const Vector3& vTarget);
 
 		const Transform&    GetTransformWS();

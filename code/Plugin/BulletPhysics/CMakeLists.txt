@@ -15,13 +15,6 @@ include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern/Bullet-2.82/src"
 )
 
-link_directories(
-	"${CMAKE_CURRENT_SOURCE_DIR}/../../../extern_vs/Win32/Debug"
-)
-
-#set(EXTERN_LINK_LIB
-#	Bullet.lib
-#)
 
 if (WIN32)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
@@ -35,7 +28,7 @@ endif()
 
 
 
-target_link_libraries(${PROJECT_NAME} common engine Bullet)
+target_link_libraries(${PROJECT_NAME} Common Engine Bullet)
 
 
 add_definitions(-DUSRDLL)
