@@ -172,7 +172,7 @@ namespace ma
 		if (m_pMesData == nullptr || !m_pMesData->IsReady())
 			return false;
 
-		if (m_pMaterial == NULL || !m_pMaterial->IsReady())
+		if (m_pMaterial == nullptr || !m_pMaterial->IsReady())
 			return false;
 
 		CreateRenderable(m_arrRenderable);

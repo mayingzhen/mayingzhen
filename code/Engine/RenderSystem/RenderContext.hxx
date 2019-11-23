@@ -20,9 +20,6 @@ namespace ma
 		m_fNear[1] = 0;
 		m_fFar[0] = 0;
 		m_fFar[1] = 0;
-
-		m_pCurScene = NULL;
-		m_pCurLight = NULL;
 	}
 
 	void RenderContext::SetCamera(Camera* pCamera)
@@ -82,28 +79,44 @@ namespace ma
 
 	Vector3	RenderContext::GetAmbientColor() const
 	{
-		if (m_pCurScene == NULL)
-			return Vector3::ZERO;
-
-		return m_pCurScene->GetAmbientColor();
+		//ASSERT(false);
+		return Vector3::ZERO;
+// 		if (m_pCurScene == NULL)
+// 			return Vector3::ZERO;
+// 
+// 		return m_pCurScene->GetAmbientColor();
 	}
 
 	Vector3	RenderContext::GetDirLightColor() const
 	{
-		if (m_pCurScene == NULL)
-			return Vector3::ZERO;
-
-		ColourValue color = m_pCurScene->GetMainDirLight()->GetLightColor();
-		return Vector3(color.r,color.g,color.b);
+		//ASSERT(false);
+		return Vector3::ZERO;
+// 		if (m_pCurScene == NULL)
+// 			return Vector3::ZERO;
+// 
+// 		ColourValue color = m_pCurScene->GetMainDirLight()->GetLightColor();
+// 		return Vector3(color.r,color.g,color.b);
 	}
 
 	Vector3	RenderContext::GetDirLightDir() const
 	{
-		if (m_pCurScene == NULL)
-			return Vector3::ZERO;
+		//ASSERT(false);
+		return Vector3::ZERO;
 
-		return m_pCurScene->GetMainDirLight()->GetSceneNode()->GetForward();
+// 		if (m_pCurScene == NULL)
+// 			return Vector3::ZERO;
+// 
+// 		return m_pCurScene->GetMainDirLight()->GetSceneNode()->GetForward();
 	}
 
+	void RenderContext::AddLight(Light* pLight)
+	{
+
+	}
+
+	void RenderContext::Clear()
+	{
+
+	}
 
 }

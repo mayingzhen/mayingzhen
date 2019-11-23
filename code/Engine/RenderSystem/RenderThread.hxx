@@ -61,10 +61,10 @@ namespace ma
 	}
 
 
-	void RenderThread::RC_Init(void* wndhandle)
+	void RenderThread::RC_Init(void* wndhandle,uint32_t nWidth, uint32_t nHeight)
 	{
-		RC_AddRenderCommad([wndhandle]() {
-			GetRenderSystem()->RT_Init(wndhandle);
+		RC_AddRenderCommad([wndhandle, nWidth, nHeight]() {
+			GetRenderSystem()->RT_Init(wndhandle, nWidth, nHeight);
 		});
 
 		if (IsRenderThread())
@@ -109,6 +109,8 @@ namespace ma
 		RC_AddRenderCommad([]() {
 			GetRenderSystem()->RT_EndRender();
 		});
+
+		FlushFrame();
 	}
 
 	void RenderThread::RC_TechniqueStreamComplete(Technique* pTech)

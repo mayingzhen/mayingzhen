@@ -5,9 +5,8 @@
 
 namespace ma
 {
-	RenderScheme::RenderScheme(Scene* pScene)
+	RenderScheme::RenderScheme()
 	{
-		m_pScene = pScene;
 		g_pPostProcessPipeline = new PostProcessPipeline();
 	}
 
@@ -236,10 +235,8 @@ namespace ma
 		m_pDiffuseTex = NULL;
 	}
 
-	void RenderScheme::Render()
+	void RenderScheme::Render(RenderQueue* pRenderQueue)
 	{
-		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
-
 		m_pShadingPass->Begine();
 
 		pRenderQueue->Render(m_pShadingPass.get(), RL_Mesh, RL_MeshTrans);

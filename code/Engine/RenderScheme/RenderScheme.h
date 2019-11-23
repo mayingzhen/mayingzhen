@@ -7,7 +7,6 @@ namespace ma
 	class DeferredShadow;
 	class HDRPostProcess;
 	class SMAAPostProcess;
-	class AlchemyAo;
 	class FrameBuffer;
 	class Scene;
 	class PostProcessStep;
@@ -15,7 +14,7 @@ namespace ma
 	class RenderScheme : public Referenced
 	{
 	public:
-		RenderScheme(Scene* pScene);
+		RenderScheme();
 
 		~RenderScheme();
 
@@ -25,7 +24,7 @@ namespace ma
 
 		void	Shoutdown();
 
-		void	Render();
+		void	Render(RenderQueue* pRenderQueue);
 
 		DeferredShadow*	GetDeferredShadow() const { return m_pDeferredShadow.get(); }
 		DeferredShading* GetDeferredShading() const { return m_pDeferredShading.get(); }
@@ -65,8 +64,6 @@ namespace ma
 		RefPtr<RenderPass>		m_pLinearDepthPass;
 
 		RefPtr<PostProcessStep> m_lastStep;
-
-		Scene*					m_pScene;
 	};
 
 }

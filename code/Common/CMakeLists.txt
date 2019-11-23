@@ -2,8 +2,22 @@ project(Common)
 
 message(STATUS "Configuring Common")
 
+file(GLOB_RECURSE Math ${CMAKE_CURRENT_SOURCE_DIR}/Math/*.h*)
+source_group("Math" FILES ${Math})
+
+file(GLOB_RECURSE Profiler ${CMAKE_CURRENT_SOURCE_DIR}/Profiler/*.h*)
+source_group("Profiler" FILES ${Profiler})
+
+file(GLOB_RECURSE RapidXml ${CMAKE_CURRENT_SOURCE_DIR}/RapidXml/*.h*)
+source_group("RapidXml" FILES ${RapidXml})
+
+file(GLOB Common ${CMAKE_CURRENT_SOURCE_DIR}/*.h*)
+
 set(SOURCE_FILES
-		Module.h
+		${Math}
+		${Profiler}
+		${RapidXml}
+		${Common}
 		Module.cpp
 		)
 

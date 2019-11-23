@@ -13,11 +13,6 @@ namespace ma
 		m_pRootNode->AddChild(m_pCamera.get());
 
 		m_pCullTree = new ParallelCull();
-
-		m_pRenderQueue[0] = new RenderQueue();
-		m_pRenderQueue[1] = new RenderQueue();
-
-		m_pRenderScheme = new RenderScheme(this);
 		
 		m_viwMinZ = 0.0f;
 		m_viwMaxZ = 0.0f;
@@ -29,12 +24,13 @@ namespace ma
 		pMainLightNode->AddComponent(m_pMainDirLight.get());
 
 		m_cAmbientColor = Vector3::ZERO;
+
+		m_renderQueue[0] = new RenderQueue();
+		m_renderQueue[1] = new RenderQueue();
 	}
 
 	Scene::~Scene()
 	{
-		SAFE_DELETE(m_pRenderQueue[0]);
-		SAFE_DELETE(m_pRenderQueue[1]);
 	}
 
 	void Scene::Reset(uint32_t nWidth,uint32_t nHeight)
@@ -44,8 +40,6 @@ namespace ma
 		float fNearClip = m_pCamera->GetNearClip();
 		float fFarClip = m_pCamera->GetFarClip();
 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
-
-		m_pRenderScheme->Reset();
 	}
 
 	SceneNode* Scene::CreateSceneNode()
@@ -78,9 +72,9 @@ namespace ma
 		m_vecRenderLight.push_back(pLight);
 	}
 
-	void Scene::AddRenderPass(RenderPass* pRenderPass)
+	RenderQueue* Scene::GetRenderQueue()
 	{
-		m_vecRenderPass.push_back(pRenderPass);
+		return m_renderQueue[GetRenderSystem()->CurThreadFill()].get();
 	}
 
 	void Scene::Update()
@@ -116,12 +110,36 @@ namespace ma
 			}
 			m_vecParallelUpdate.clear();
 		}
+		else
+		{
+			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
+			{
+				Component* pComp = m_vecParallelUpdate[i].get();
+				pComp->ParallelUpdate();
+			}
+
+			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
+			{
+				Component* pComp = m_vecParallelUpdate[i].get();
+				pComp->EndParallelUpdate();
+			}
+		}
 		
+		if (m_pCallback)
+		{
+			m_pCallback->OnPostUpdate(this);
+		}
+	}
+
+	void Scene::Render()
+	{
+		RenderQueue* pRenderQueue = m_renderQueue[GetRenderSystem()->CurThreadFill()].get();
+
 		m_arrRenderComp.clear();
 
 		typedef vector<RenderComponent*> VEC_OBJ;
 		static VEC_OBJ vecObj;
-		m_pCullTree->FindObjectsIn(&m_pCamera->GetFrustum(),-1,vecObj);
+		m_pCullTree->FindObjectsIn(&m_pCamera->GetFrustum(), -1, vecObj);
 
 		uint32_t nNodeCount = vecObj.size();
 		m_arrRenderComp.resize(nNodeCount);
@@ -130,9 +148,13 @@ namespace ma
 			m_arrRenderComp[mm] = vecObj[mm];
 		}
 		vecObj.clear();
-		
-		RenderQueue* pRenderQueue = GetRenderQueue();
+
 		pRenderQueue->Clear();
+
+		pRenderQueue->SetCamera(m_pCamera.get());
+
+		RenderPass* pRP = g_pRenderSystem->GetDefaultRenderPass();
+		GetRenderSystem()->AddRenderStep(pRenderQueue, pRP);
 
 		for (uint32_t i = 0; i < m_arrRenderComp.size(); ++i)
 		{
@@ -149,54 +171,22 @@ namespace ma
 				Component* pComp = m_vecParallelUpdate[i].get();
 				Camera* pCamera = m_pCamera.get();
 
-				GetJobScheduler()->SubmitJob(jobGroup, 
+				GetJobScheduler()->SubmitJob(jobGroup,
 					[pComp, pCamera]() { pComp->ParallelShow(pCamera); }
 				);
 			}
 			GetJobScheduler()->WaitForGroup(jobGroup);
 			m_vecParallelShow.clear();
 		}
-
-		if (m_pCallback)
+		else
 		{
-			m_pCallback->OnPostUpdate(this);
+			for (uint32_t i = 0; i < m_vecParallelShow.size(); ++i)
+			{
+				Component* pComp = m_vecParallelUpdate[i].get();
+				Camera* pCamera = m_pCamera.get();
+				pComp->ParallelShow(pCamera);
+			}
 		}
-	}
-
-	RenderQueue* Scene::GetRenderQueue()
-	{
-		int index = GetRenderSystem()->GetThreadList();
-		return m_pRenderQueue[index];
-	}
-
-	void Scene::Render()
-	{
-		if (m_pCamera == NULL)
-			return;
-
-		GetRenderContext()->SetCurScene(this);
-
-		GetRenderContext()->SetCamera(m_pCamera.get());
-	
-		GetRenderSystem()->BegineRender();
-
-		if (m_pCallback)
-		{
-			m_pCallback->OnPreRender(this);
-		}
-
-		m_pMainDirLight->RenderShadowMap(m_pCamera.get());
-
-		m_pRenderScheme->Render();
- 
-		if (m_pCallback)
-		{
-			m_pCallback->OnPosRender(this);
-		}
-
-		GetRenderSystem()->EndRender();
-
-		m_vecRenderLight.clear();
 	}
 
 	RefPtr<Scene> CreateScene()

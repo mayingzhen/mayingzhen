@@ -13,8 +13,8 @@ namespace ma
 		GetCamera()->LookAt(vEyePos,VAtPos);
 	
 
-		RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
-		pRenderScheme->SetDeferredShadingEnabled(!pRenderScheme->GetDeferredShadingEnabled());
+		//RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
+		//pRenderScheme->SetDeferredShadingEnabled(!pRenderScheme->GetDeferredShadingEnabled());
 
 		//RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 		//m_pScene->GetRootNode()->AddChild(pTerrain.get());
@@ -87,8 +87,8 @@ namespace ma
 
 		if (key == Keyboard::KEY_D)
 		{
-			RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
-			pRenderScheme->SetDeferredShadingEnabled(!pRenderScheme->GetDeferredShadingEnabled());
+			//RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
+			//pRenderScheme->SetDeferredShadingEnabled(!pRenderScheme->GetDeferredShadingEnabled());
 		}
 	}
 }

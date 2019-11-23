@@ -81,10 +81,8 @@ EXPORTS
 ?GetShadingTechnqiue@SubMaterial@ma@@QEAAPEAVTechnique@2@XZ
 ?SetShadingTechnqiue@SubMaterial@ma@@QEAAXPEAVTechnique@2@@Z
 ?CreateSubMaterial@ma@@YA?AV?$RefPtr@VSubMaterial@ma@@@1@XZ
-?GetRenderQueue@Scene@ma@@QEAAPEAVRenderQueue@2@XZ
 ??0Engine@ma@@QEAA@XZ
 ??1Engine@ma@@QEAA@XZ
-?Init@Engine@ma@@QEAAXPEAX_N11@Z
 ?Reset@Engine@ma@@QEAAXII@Z
 ?Shutdown@Engine@ma@@QEAAXXZ
 ?Update@Engine@ma@@QEAAXXZ
@@ -220,3 +218,4 @@ EXPORTS
 ?CreateTerrain@ma@@YA?AV?$RefPtr@VTerrain@ma@@@1@XZ
 ?CreateTerrain@ma@@YA?AV?$RefPtr@VTerrain@ma@@@1@PEBD@Z
 ?SetCubeMap@SkyBox@ma@@QEAAXPEBD@Z
+?Init@Engine@ma@@QEAAXPEAXHH_N11@Z

@@ -30,9 +30,10 @@ namespace ma
 		}
 		ASSERT(m_pRenderPass);
 
-		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
-		pTech->SetRenderPass(m_pRenderPass.get());
-		pTech->ReLoad();
+// 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
+// 		pTech->SetRenderPass(m_pRenderPass.get());
+// 		pTech->ReLoad();
+		SetTechnique(m_pMaterial->GetShadingTechnqiue()->GetTechName());
 
 		for (auto it = m_strInTexture.begin(); it != m_strInTexture.end(); ++it)
 		{

@@ -12,7 +12,7 @@ namespace ma
 	class RenderScheme;
 	class RenderComponent;
 	class Texture;
-	class RenderQueue;
+	//class RenderQueue;
 	class DirectonalLight;
 
 
@@ -36,9 +36,9 @@ namespace ma
 
 		~Scene();
 
-		void					Render();
+		void					Update();
 
-		void					Update();	
+		void					Render();
 
 		void					Reset(uint32_t nWidth,uint32_t nHeight);
 
@@ -53,12 +53,8 @@ namespace ma
 		void					SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 		Camera*					GetCamera() const {return m_pCamera.get();}
 
-		RenderScheme*			GetRenderScheme() const { return m_pRenderScheme.get(); }
-
 		uint32_t				GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
 		RenderComponent*		GetVisibleNodeByIndex(uint32_t index) const {return m_arrRenderComp[index].get();}
-
-		RenderQueue*			GetRenderQueue();
 
 		void					SetCallback(CCallback* pCallback){m_pCallback = pCallback;}
 		CCallback*				GetCallback() const{return m_pCallback;}
@@ -79,7 +75,7 @@ namespace ma
 
 		void					AddRenderLight(Light* pLight);
 
-		void					AddRenderPass(RenderPass* pRenderPass);
+		RenderQueue*			GetRenderQueue();
 
 	private:
 		RefPtr<SceneNode>		m_pRootNode;
@@ -87,11 +83,6 @@ namespace ma
 		RefPtr<CullTree>		m_pCullTree;
 
 		std::string				m_sName;
-
-		RefPtr<RenderScheme>	m_pRenderScheme;
-
-		typedef std::vector<RefPtr<RenderPass> > VEC_RENDERPASS;
-		VEC_RENDERPASS			m_vecRenderPass;
 		
 		RefPtr<Camera>			m_pCamera;
 
@@ -104,8 +95,6 @@ namespace ma
 
 		typedef std::vector< RefPtr<Light> > VEC_LIGHT;
 		VEC_LIGHT				m_vecRenderLight;
-
-		RenderQueue*			m_pRenderQueue[2];
 		
 		float					m_viwMinZ;
 		float					m_viwMaxZ;
@@ -114,6 +103,8 @@ namespace ma
 
 		Vector3					m_cAmbientColor;
 		RefPtr<DirectonalLight> m_pMainDirLight;
+
+		RefPtr<RenderQueue>		m_renderQueue[2];
 	};
 
 	RefPtr<Scene> CreateScene();

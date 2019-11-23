@@ -2,14 +2,13 @@
 
 #include "RenderThread.h"
 #include "Engine/RenderScheme/RenderScheme.h"
+#include "Engine/RenderSystem/RenderQueue.h"
 
 namespace ma
 {
 	class Camera;
 	class RenderThread;
-	class RenderQueue;
 	class RenderPass;
-	class RenderContext;
 	class RenderScheme;
 	class Scene;
 	class Uniform;
@@ -18,6 +17,12 @@ namespace ma
 	class BlendState;
 	class RasterizerState;
 	class DepthStencilState;
+
+	struct RenderStep
+	{
+		RefPtr<RenderQueue> m_pRenderQueue;
+		RefPtr<RenderPass> m_pRenderPass;
+	};
 
 
 	class  RenderSystem 
@@ -32,7 +37,7 @@ namespace ma
 		void				Update();
 
 		// Render Command
-		void				Init(void* wndhandle,bool bThread);
+		void				Init(void* wndhandle, int width, int height, bool bThread);
 		void				Reset(uint32_t nWidth, uint32_t nHeight);
 		void				Shoutdown();
 		void				BegineRender();
@@ -95,8 +100,10 @@ namespace ma
 
 		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
 
+		void				AddRenderStep(RenderQueue* pQueue, RenderPass* pPass);
+
 	protected: 
-		void				RT_Init(void* wndhandle);
+		void				RT_Init(void* wndhandle, int width, int height);
 		void				RT_Reset(uint32_t nWidth,uint32_t nHeight);
 		void				RT_ShutDown();
  		void				RT_BeginRender();
@@ -108,8 +115,6 @@ namespace ma
 		void				InitCachState();
 		
 	protected:
-		RenderContext*		m_pRenderContext;
-
  		RenderThread*		m_pRenderThread;
  		
 		Rectangle			m_curViewport;
@@ -122,8 +127,11 @@ namespace ma
 
 		void*				m_hWnd;
 
-		typedef std::vector< RefPtr<Scene> > VEC_SCENE;
-		VEC_SCENE			m_arrScene;
+		RefPtr<Scene>		m_scene;
+		
+		RefPtr<RenderScheme> m_pRenderScheme;
+
+		std::vector<RenderStep> m_renderStepList[2];
 				
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro

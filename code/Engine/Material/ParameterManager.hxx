@@ -57,28 +57,34 @@ namespace ma
 			return GetRenderContext()->GetDirLightDir(); });
 
 		AddFunMethodBinding<SamplerState*>("tDeviceDepthMapSampler", [](Renderable*)->SamplerState* {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return NULL;
-			return pCurScene->GetRenderScheme()->GetSceneDepth(); 
+			ASSERT(false);
+			return NULL;
+			//return pCurScene->GetRenderScheme()->GetSceneDepth(); 
 		} );
 
 		AddFunMethodBinding<SamplerState*>("g_tShadowMap", [](Renderable*)->SamplerState* {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;// GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return NULL;
 			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMap(); 
 		});
 
 		AddFunMethodBinding<Matrix4>("g_matShadow", [](Renderable*) {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;// GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return Matrix4::IDENTITY;
 			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 		});
 
 		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*) {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;// GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return Matrix4::IDENTITY;
 
@@ -86,7 +92,8 @@ namespace ma
 		});
 
 		AddFunMethodBinding<Vector4>("g_shadowMapTexelSize", [](Renderable*) {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return Vector4::ZERO;
 
@@ -96,7 +103,8 @@ namespace ma
 		});
 
 		AddFunMethodBinding<Vector4>("g_ShadowDepthFade", [](Renderable*) {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return Vector4::ZERO;
 
@@ -104,19 +112,25 @@ namespace ma
 		});
 
 		AddFunMethodBinding<SamplerState*>("TextureSceneDiffuse", [](Renderable*)->SamplerState* {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return NULL;
 
-			return pCurScene->GetRenderScheme()->GetSceneDiffuse();
+			ASSERT(false);
+			return NULL;
+			//return pCurScene->GetRenderScheme()->GetSceneDiffuse();
 		});
 
 		AddFunMethodBinding<SamplerState*>("TextureSceneNormal", [](Renderable*)->SamplerState* {
-			Scene* pCurScene = GetRenderContext()->GetCurScene();
+			ASSERT(false);
+			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
 			if (pCurScene == NULL)
 				return NULL;
 
-			return pCurScene->GetRenderScheme()->GetSceneNormal();
+			ASSERT(false);
+			return NULL;
+			//return pCurScene->GetRenderScheme()->GetSceneNormal();
 		});
 	}
 

@@ -121,7 +121,7 @@ namespace ma
 
 	}
 
-	void UI::RenderDrawData(ImDrawData* draw_data)
+	void UI::RenderDrawData(ImDrawData* draw_data, RenderQueue* pRendeQueue)
 	{
 		if (draw_data->TotalVtxCount <= 0)
 			return;
@@ -193,7 +193,6 @@ namespace ma
 					
 					pRenderable->m_scissor = scissor;
 
-					RenderQueue* pRendeQueue = GetRenderSystem()->GetScene()->GetRenderQueue();
 					pRendeQueue->AddRenderObj(RL_UI, pRenderable, pRenderable->GetMaterial()->GetShadingTechnqiue());
 				}
 				idx_offset += pcmd->ElemCount;
@@ -208,7 +207,7 @@ namespace ma
 
 		if (m_bInit)
 		{
-			RenderDrawData(ImGui::GetDrawData());
+			RenderDrawData(ImGui::GetDrawData(), nullptr);
 
 			m_pUIBuffer->EndFrame();
 		}

@@ -1,8 +1,6 @@
 #include "RenderSystem.h"
 #include "RenderThread.h"
-#include "RenderQueue.h"
 #include "RenderContext.h"
-#include "../RenderScheme/RenderScheme.h"
 #include "../Renderable/ScreenQuad.h"
 #include "../Renderable/UnitSphere.h"
 #include "../Material/ShaderProgram.h"
@@ -22,9 +20,6 @@ namespace ma
 
 	RenderSystem::RenderSystem()
 	{
-		m_pRenderContext = new RenderContext();
-		SetRenderContext(m_pRenderContext);
-
 		m_pRenderThread = new RenderThread();
 
 		m_bNeedReloadShader = false;
@@ -36,17 +31,15 @@ namespace ma
 
 	RenderSystem::~RenderSystem()
 	{
-		SAFE_DELETE(m_pRenderContext);
-
 		SAFE_DELETE(m_pRenderThread);
 	}
 
 	Scene* RenderSystem::GetScene(int index)
 	{
-		return m_arrScene[index].get();
+		return m_scene.get();
 	}
 
-	void RenderSystem::Init(void* wndhandle, bool bThread)
+	void RenderSystem::Init(void* wndhandle, int width, int height, bool bThread)
 	{
 		m_bThread = bThread;
 		if (bThread)
@@ -54,7 +47,7 @@ namespace ma
 			m_pRenderThread->Start();
 		}
 
-		m_pRenderThread->RC_Init(wndhandle);
+		m_pRenderThread->RC_Init(wndhandle,width,height);
 	}
 
 	void RenderSystem::Reset(uint32_t nWidth, uint32_t nHeight)
@@ -78,14 +71,13 @@ namespace ma
 			m_bNeedReloadShader = false;
 		}
 
-		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
-		{
-			m_arrScene[i]->Update();
-		}
+		m_scene->Update();
 	}
 
 	void RenderSystem::BegineRender()
 	{
+		m_renderStepList[CurThreadFill()].clear();
+
 		for (auto& it : m_vecDyHBuffer)
 		{
 			it->BeginFrame();
@@ -106,7 +98,15 @@ namespace ma
 
 	void RenderSystem::Render()
 	{
-		m_pRenderThread->RC_Render();
+		this->BegineRender();
+
+		m_scene->Render();
+
+		m_pRenderThread->RC_AddRenderCommad( []() {
+			GetRenderSystem()->RT_Render();
+		});
+
+		this->EndRender();
 	}
 
 	void RenderSystem::BegineCompute()
@@ -127,11 +127,7 @@ namespace ma
 
 	void RenderSystem::RT_ShutDown()
 	{	
-		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
-		{
-			m_arrScene[i] = NULL;
-		}
-		m_arrScene.clear();
+		m_scene = nullptr;
 
 		LineRender::Shoutdown();
 		ScreenQuad::Shoutdown();
@@ -157,7 +153,7 @@ namespace ma
 	}
 
 
-	void RenderSystem::RT_Init(void* wndhandle)
+	void RenderSystem::RT_Init(void* wndhandle, int width, int height)
 	{
 		m_hWnd = wndhandle;
 
@@ -176,18 +172,24 @@ namespace ma
 		ScreenQuad::Init();
 		UnitSphere::Init();
 
-		Scene* pScene = new Scene("defaultScene");
-		pScene->GetRenderScheme()->Init();
-		pScene->GetRenderScheme()->Reset();
-		m_arrScene.push_back(pScene);
+		m_scene = new Scene("defaultScene");
+
+		m_pRenderScheme = new RenderScheme();
+		m_pRenderScheme->Init();
+		m_pRenderScheme->Reset();
 
 		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
+
+		RenderQueue* pRQ = m_scene->GetRenderQueue();
+		SetRenderContext(pRQ->GetRenderContext());
 	}
 
 	void RenderSystem::RT_Reset(uint32_t nWidth,uint32_t nHeight)
 	{
 		// Reset Main Scene
-		m_arrScene[0]->Reset(nWidth,nHeight);
+		m_scene->Reset(nWidth,nHeight);
+
+		m_pRenderScheme->Reset();
 	}
 
 	void RenderSystem::RT_BeginRender()
@@ -206,11 +208,24 @@ namespace ma
 		OnFlushFrame();
 	}
 
+	//MICROPROFILE_DECLARE(RT_Render);
+
 	void RenderSystem::RT_Render()
 	{
-		for (uint32_t i = 0; i < m_arrScene.size(); ++i)
+		SYSTRACE(RT_Render);
+
+		for (auto& renderStep : m_renderStepList[CurThreadProcess()])
 		{
-			m_arrScene[i]->Render();
+			RenderQueue* cur_renderQueue = renderStep.m_pRenderQueue.get();
+			RenderPass*  cur_renderPass = renderStep.m_pRenderPass.get();
+
+ 			SetRenderContext(cur_renderQueue->GetRenderContext());
+
+			cur_renderPass->Begine();
+ 		
+			cur_renderQueue->Render(cur_renderPass);
+
+			cur_renderPass->End();
 		}
 	}
 
@@ -399,7 +414,7 @@ namespace ma
 			return NULL;
 		}
 
-		MAP_STR_STR::const_iterator iter = m_mapMacros.begin();
+		auto iter = m_mapMacros.begin();
 		std::advance(iter, i);
 		pszValue = iter->second.c_str();
 		return iter->first.c_str();
@@ -417,6 +432,15 @@ namespace ma
 		return pBufferr;
 	}
 
+	void RenderSystem::AddRenderStep(RenderQueue* pQueue, RenderPass* pPass)
+	{
+		m_renderStepList[CurThreadFill()].emplace_back();
+		RenderStep& step = m_renderStepList[CurThreadFill()].back();
+		step.m_pRenderQueue = pQueue;
+		step.m_pRenderPass = pPass;
+	}
+
 }
+
 
 

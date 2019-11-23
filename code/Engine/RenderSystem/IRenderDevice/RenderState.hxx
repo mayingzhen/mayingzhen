@@ -46,7 +46,6 @@ namespace ma
 		ENUM_ATTRIBUTE(DepthStencilState, "StencilPass", m_eStencilPass, StencilOperation, strStencilOperation, SOP_KEEP, AM_DEFAULT);
 		ENUM_ATTRIBUTE(DepthStencilState, "StencilFail ", m_eStencilFail, StencilOperation, strStencilOperation, SOP_KEEP, AM_DEFAULT);
 		ENUM_ATTRIBUTE(DepthStencilState, "DepthFailOp", m_eDepthFailOp, StencilOperation, strStencilOperation, SOP_KEEP, AM_DEFAULT);
-		//ATTRIBUTE(DepthStencilState, "StencilRefValue", m_nStencilRefValue, uint32_t, -1, AM_DEFAULT);
 		ATTRIBUTE(DepthStencilState, "StencilMask", m_nStencilMask, uint32_t, -1, AM_DEFAULT);
 		ATTRIBUTE(DepthStencilState, "WriteMask", m_nStencilWriteMask, uint32_t, -1, AM_DEFAULT);
 	}

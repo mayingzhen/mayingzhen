@@ -1,19 +1,17 @@
-#ifndef  _RenderContext__H__
-#define  _RenderContext__H__
+#pragma once
 
 
 namespace ma
 {
-	class RenderContext
+	class Light;
+	class Camera;
+
+	class RenderContext : public Referenced
 	{
 	public:
 		RenderContext();
 
-		void					SetCurLight(Light* pLight) {m_pCurLight = pLight;}
-		Light*					GetCurLight() {return m_pCurLight;}
-
-		void					SetCurScene(Scene* pScene) { m_pCurScene = pScene; }
-		Scene*					GetCurScene() { return m_pCurScene; }
+		void					AddLight(Light* pLight);
 		
 		void					SetCamera(Camera* pCamera); 
 
@@ -32,14 +30,14 @@ namespace ma
 		Vector3					GetDirLightColor() const;
 		Vector3					GetDirLightDir() const;
 
+		void					Clear();
+
 	protected:
 		MatViewProj				m_matViewProj[2];
 
 		float					m_fNear[2];
 		float					m_fFar[2];
 		Vector3					m_vEyeWordPos[2];
-
-		Scene*					m_pCurScene;
 
 		Light*					m_pCurLight;
 	};
@@ -49,4 +47,3 @@ namespace ma
 	void			SetRenderContext(RenderContext* pRenderContext);
 }
 
-#endif

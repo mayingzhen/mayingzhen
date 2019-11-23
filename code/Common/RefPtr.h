@@ -1,5 +1,4 @@
-#ifndef _MaRefPtr__
-#define _MaRefPtr__ 
+#pragma once
 
 
 #include "Referenced.h"
@@ -124,4 +123,3 @@ namespace ma
 
 }
 
-#endif

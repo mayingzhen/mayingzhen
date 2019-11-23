@@ -39,7 +39,7 @@ namespace ma
 		float GetFramerate();
 
 	private:
-		void RenderDrawData(ImDrawData* draw_data);
+		void RenderDrawData(ImDrawData* draw_dat, RenderQueue* pRendeQueue);
 
 		UIRenderable* GetRenderable(uint32_t nIndex);
 

@@ -41,8 +41,6 @@ namespace ma
 
 	ShadowMapFrustum::~ShadowMapFrustum()
 	{
-		SAFE_DELETE(m_pRenderQueue[0]);
-		SAFE_DELETE(m_pRenderQueue[1]);
 	}
 
 	void ShadowMapFrustum::CreateShadowMap(int nSize)
@@ -118,7 +116,7 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadFill()];
+		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 		pRenderQueue->Clear();
 
 		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
@@ -127,10 +125,8 @@ namespace ma
 
 		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1,m_arrCaster);
 		
-		for (VEC_CASTER::iterator iter = m_arrCaster.begin();iter != m_arrCaster.end();++iter)
+		for (auto pRenderComp : m_arrCaster)
 		{
-			RenderComponent* pRenderComp = (*iter);
-
 			if (!pRenderComp->GetShadowCaster())
 				continue;
 
@@ -344,7 +340,7 @@ namespace ma
 		m_matLightViewProj[GetRenderSystem()->CurThreadFill()] = m_matCrop * m_matLightProj * m_matLightView;
 		m_matShadow[GetRenderSystem()->CurThreadFill()] = m_matTexAdjust * m_matLightViewProj[GetRenderSystem()->CurThreadFill()];
 
-		if (pCamera->GetScene()->GetRenderScheme()->GetDeferredShadingEnabled())
+		//if (pCamera->GetScene()->GetRenderScheme()->GetDeferredShadingEnabled())
 		{
 			Rectangle rect = GetRenderSystem()->GetViewPort();
 			ProjectScreenToWorldExpansionBasis(m_matShadow[GetRenderSystem()->CurThreadFill()],*pCamera,rect.width(),rect.height(),
@@ -363,12 +359,15 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		m_pShadowMapFB->Begine();
+		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+		GetRenderSystem()->AddRenderStep(pRenderQueue, m_pShadowMapFB.get());
 
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];
-		pRenderQueue->Render(m_pShadowMapFB.get(),RL_Mesh, RL_MeshTrans);
-
-		m_pShadowMapFB->End();
+// 		m_pShadowMapFB->Begine();
+// 
+// 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];
+// 		pRenderQueue->Render(m_pShadowMapFB.get(),RL_Mesh, RL_MeshTrans);
+// 
+// 		m_pShadowMapFB->End();
 
 	}
 

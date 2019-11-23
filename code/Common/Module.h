@@ -60,6 +60,8 @@
 #include "RapidXml/rapidxml_print.hpp"
 #include "RapidXml/rapidxml_utils.hpp"
 
+#include "Profiler/systrace.h"
+
 #ifdef _DEBUG
 //#include "vld.h"
 #endif

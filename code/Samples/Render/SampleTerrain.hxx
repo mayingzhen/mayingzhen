@@ -16,7 +16,7 @@ namespace ma
 
 		//GetResourceSystem()->SetDataThreadEnable(true);
 
-		RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
+		//RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
 		//pRenderScheme->SetDeferredShadingEnabled(true);
 
 		if (1)

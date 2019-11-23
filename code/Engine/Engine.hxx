@@ -1,8 +1,11 @@
 #include "Engine.h"
 #include <thread>
+#include "Scene/SoftwareRasterizer/Rasterizer.h"
 
 namespace ma
 {
+	Rasterizer* g_rasterizer = nullptr;
+
 	Engine* g_pEngine = NULL;
 	void SetEngine(Engine* pEngine)
 	{
@@ -55,13 +58,13 @@ namespace ma
 		SAFE_DELETE(g_pTimer);
 	}
 
-	void Engine::Init(void* hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler)
+	void Engine::Init(void* hWnd, int width, int height, bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
 		CImageCodec::Startup();
 
 		EngineRTTIInit();
 
-		g_pRenderSystem->Init(hWnd,bRenderThread);
+		g_pRenderSystem->Init(hWnd, width, height, bRenderThread);
 
 		if (bDataThread)
 		{
@@ -73,6 +76,9 @@ namespace ma
 		{
 			GetJobScheduler()->CreateThreads(std::thread::hardware_concurrency() - 1,16);
 		}
+
+		//g_rasterizer = new Rasterizer(width, height);
+
 	}
 
 	void Engine::Reset(uint32_t nWidth, uint32_t nHeight)
@@ -101,8 +107,13 @@ namespace ma
 		CImageCodec::Shutdown();
 	}
 
+	//MICROPROFILE_DECLARE(Engine_Update);
+	//MICROPROFILE_DECLARE(Engine_Render);
+
 	void Engine::Update()
 	{
+		SYSTRACE(Engine_Update);
+
 		if (GetTimer())
 			GetTimer()->UpdateFrame();
 
@@ -114,6 +125,8 @@ namespace ma
 
 	void Engine::Render()
 	{
+		SYSTRACE(Engine_Render);
+
 		g_pRenderSystem->Render();
 	}
 

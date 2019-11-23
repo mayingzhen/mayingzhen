@@ -50,8 +50,13 @@ namespace ma
 
 	void Game::Init()
 	{
+		SYSTRACE_INIT();
+
 		void* hWnd = Platform::GetInstance().GetWindId();
-		GetEngine()->Init(hWnd, m_setting.bRenderThread, m_setting.bDataThread, m_setting.bJobScheduler);
+		int windth = 800;
+		int height = 600;
+		Platform::GetInstance().SetWindowSize(windth, height);
+		GetEngine()->Init(hWnd, windth, height, m_setting.bRenderThread, m_setting.bDataThread, m_setting.bJobScheduler);
 
 		g_pUI->Init();
 	}
@@ -75,6 +80,8 @@ namespace ma
 
 	void Game::Update()
 	{
+		//MicroProfileFlip(nullptr);
+
 		if (m_bOnWindowSized)
 		{
 			m_bOnWindowSized = false;

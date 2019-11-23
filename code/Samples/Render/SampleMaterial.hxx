@@ -135,12 +135,12 @@ namespace ma
 
 		if (key == Keyboard::KEY_A)
 		{
-			RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
+			//RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
 			//pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
 		}
 		else if (key == Keyboard::KEY_D)
 		{
-			RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
+			//RenderScheme* pRenderScheme = m_pScene->GetRenderScheme();
 			//pRenderScheme->SetDeferredShadingEnabled( !pRenderScheme->GetDeferredShadingEnabled() );
 		}
 	}

@@ -163,14 +163,16 @@ namespace ma
 		float fadeRange = fadeEnd - fadeStart;
 
 		m_vShadowDepthFade[GetRenderSystem()->CurThreadFill()] = Vector4(0, 0, fadeStart, 1.0f / fadeRange);
+
+		UpdateShadowMap(pCamera);
+
+		RenderShadowMap(pCamera);
 	}
 
 	void DirectonalLight::RenderShadowMap(Camera* pCamera)
 	{
 		if (!m_bShadowEnable)
 			return;	
-
-		UpdateShadowMap(pCamera);
 
 		for (int i = 0; i < m_nCurSplitCount; ++i)
 		{

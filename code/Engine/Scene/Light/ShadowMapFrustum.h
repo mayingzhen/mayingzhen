@@ -5,7 +5,7 @@ namespace ma
 	class Light;
 	class Texture;
 	class RenderPass;
-	class RenderQueue;
+	//class RenderQueue;
 
 	enum Shadow_Blur
 	{
@@ -62,7 +62,7 @@ namespace ma
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
 
-		RenderQueue*		m_pRenderQueue[2];
+		RefPtr<RenderQueue>	m_pRenderQueue[2];
 
 		AABB				m_sceneAABB;
 

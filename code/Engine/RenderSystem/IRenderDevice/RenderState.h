@@ -11,7 +11,7 @@ namespace ma
 
 		DECL_OBJECT(RasterizerState);
 
-		static void	RegisterAttribute();
+		static void		RegisterAttribute();
 
 		virtual void	RT_StreamComplete() { ASSERT(false); }
 

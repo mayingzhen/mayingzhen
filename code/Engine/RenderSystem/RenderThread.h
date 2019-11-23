@@ -45,7 +45,7 @@ namespace ma
 		int		CurThreadFill() const;
 		int		CurThreadProcess() const;
 
-		void	RC_Init(void* wndhandle);
+		void	RC_Init(void* wndhandle,uint32_t nWidth, uint32_t nHeight);
 		void	RC_Reset(uint32_t nWidth,uint32_t nHeight);
 		void	RC_ShutDown();
 		void	RC_BeginRender();
