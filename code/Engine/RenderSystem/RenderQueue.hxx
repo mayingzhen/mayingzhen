@@ -29,13 +29,24 @@ namespace ma
 
 	void RenderQueue::Render(RenderPass* pPass, int stageBegin, int stageEnd)
 	{
-		auto bi = m_mapRenderList.lower_bound(stageBegin);
-		auto ei = m_mapRenderList.lower_bound(stageEnd);
-		for (auto it = bi; it != ei; ++it)
+		if (stageBegin == stageEnd)
 		{
+			auto it = m_mapRenderList.lower_bound(stageBegin);
+
 			it->second.PrepareRender();
 
 			it->second.Render(pPass, it->first);
+		}
+		else
+		{
+			auto bi = m_mapRenderList.lower_bound(stageBegin);
+			auto ei = m_mapRenderList.lower_bound(stageEnd);
+			for (auto it = bi; it != ei; ++it)
+			{
+				it->second.PrepareRender();
+
+				it->second.Render(pPass, it->first);
+			}
 		}
 	}
 
@@ -51,6 +62,9 @@ namespace ma
 		m_vEyeWordPos = pCamera->GetPosWS();
 		m_fFar = pCamera->GetFarClip();
 		m_fNear = pCamera->GetNearClip();
+
+		if (m_renderContext)
+			m_renderContext->SetCamera(pCamera);
 	}
 
 	void RenderQueue::AddLight(Light* pLight)

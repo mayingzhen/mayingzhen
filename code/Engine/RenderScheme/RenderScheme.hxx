@@ -186,7 +186,7 @@ namespace ma
 		m_pShadingPass = m_pBackBaufferPass;
 
 
-		if (1)
+		if (0)
 		{
 			RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
 

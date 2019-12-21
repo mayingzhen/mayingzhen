@@ -362,6 +362,8 @@ namespace ma
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 		GetRenderSystem()->AddRenderStep(pRenderQueue, m_pShadowMapFB.get());
 
+		pRenderQueue->SetCamera(pCamera);
+
 // 		m_pShadowMapFB->Begine();
 // 
 // 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];

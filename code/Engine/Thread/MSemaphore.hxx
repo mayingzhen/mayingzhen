@@ -24,10 +24,10 @@ class SemaphorePrivate
 {
 
 public:
-	SemaphorePrivate(const char* pName)
+	SemaphorePrivate(const char* pName, int initcount)
 	{
 		m_strName = pName ? pName : "";
-		m_Semaphore = CreateSemaphore( NULL, 0, 256, NULL );
+		m_Semaphore = CreateSemaphore( NULL, initcount, 256, NULL );
 	}
 
 	~SemaphorePrivate()
@@ -71,14 +71,14 @@ class SemaphorePrivate
 {
 
 public:
-	SemaphorePrivate(const char* pName)
+	SemaphorePrivate(const char* pName, int initcount)
 	{
         m_strName = pName ? pName : "";
 		
 		char name[32];
 		snprintf(name, 32, "%d-%d", this,  getpid());
 
-        m_pSemaphore = sem_open(name, O_CREAT, S_IRUSR | S_IWUSR, 0);
+        m_pSemaphore = sem_open(name, O_CREAT, S_IRUSR | S_IWUSR, initcount);
 
         if (m_pSemaphore == SEM_FAILED)
         {
@@ -196,9 +196,9 @@ private:
 };
 #endif
 
-Semaphore::Semaphore(const char* pName)
+Semaphore::Semaphore(const char* pName,int initcount)
 {
-	_private = new SemaphorePrivate(pName);
+	_private = new SemaphorePrivate(pName, initcount);
 }
 
 Semaphore::~Semaphore()

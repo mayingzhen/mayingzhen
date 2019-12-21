@@ -5,6 +5,9 @@
 #include <unistd.h>
 #endif
 
+#include "RingBuffer.h"
+#include "Thread/Event.h"
+
 namespace ma
 {
 	class Uniform;
@@ -14,6 +17,30 @@ namespace ma
 
 	struct CommadInfo 
 	{
+		CommadInfo(std::function<void()> fun)
+		{
+			m_funtion = fun;
+		}
+
+		void* operator new(size_t Size, const RingBuffer::AllocationContext& Allocation)
+		{
+			return Allocation.GetAllocation();
+		}
+
+		void operator delete(void *p, const RingBuffer::AllocationContext& Allocation) {}
+
+		void operator delete(void *p) {}
+
+		virtual ~CommadInfo() {}
+
+		virtual uint32_t Execute() 
+		{
+			m_funtion(); 
+			return sizeof(*this);
+		}
+
+	public:
+
 		std::function<void()> m_funtion;
 	};
 
@@ -25,12 +52,6 @@ namespace ma
 
 		~RenderThread();
 
-		// flushCond
-		void	SignalFlushFinishedCond();
-		void	SignalFlushCond();
-		void	WaitFlushCond();
-		void	WaitFlushFinishedCond();
-		bool	CheckFlushCond();
 
 		void	ThreadLoop();
 		void	Start();
@@ -38,7 +59,6 @@ namespace ma
 
 		void	FlushFrame();
 		void	FlushAndWait();
-		void	ProcessCommands();
 		int		GetThreadList();
 		bool	IsRenderThread();
 		bool	IsMainThread();
@@ -82,17 +102,19 @@ namespace ma
 		int				m_nCurThreadProcess;
 		int				m_nCurThreadFill;
 
-		volatile int	m_nFlush;
-
 		std::thread::id	m_nMainThread;
 		
 		std::thread		m_thread;
 
 		bool			m_bExit = false;
 
-		std::vector< CommadInfo > m_vecCommand[2];
-
 		TArray<uint8_t>	m_CommandData[2]; // m_nCurThreadFill shows which commands are filled by main thread
+
+		RingBuffer		m_render_command_buffer;
+
+		Semaphore		m_frame_sema;
+
+		Event			m_flush_event;
 	};
     
 	inline uint8_t * RenderThread::AddData(const void *pData, int nLen)
@@ -100,40 +122,6 @@ namespace ma
 		uint8_t *pDst = m_CommandData[m_nCurThreadFill].Grow(nLen);
 		memcpy(pDst, pData, nLen);
 		return pDst;
-	}
-
-	inline void RenderThread::SignalFlushFinishedCond()
-	{
-		m_nFlush = 0;
-	}
-
-	inline void RenderThread::SignalFlushCond()
-	{
-		m_nFlush = 1;
-	}
-
-	inline void RenderThread::WaitFlushCond() // wait maiThread
-	{
-		while (!*(volatile int*)&m_nFlush)
-		{
-			if (m_bExit)
-				break;
-
-			std::this_thread::yield();
-		}
-	}
-
-	inline void RenderThread::WaitFlushFinishedCond() // wait RenderThread
-	{
-		while(*(volatile int*)&m_nFlush)
-		{
-			std::this_thread::yield();
-		}
-	}
-
-	inline bool RenderThread::CheckFlushCond()
-	{
-		return *(int*)&m_nFlush != 0;
 	}
 
 	inline int RenderThread::GetThreadList()
@@ -160,5 +148,6 @@ namespace ma
 	{
 		return m_nCurThreadProcess;
 	}
+
 }
 

@@ -13,6 +13,7 @@
 #include "Engine/Time/Animatable.hxx"
 
 
+#include "Engine/Thread/Event.hxx"
 #include "Engine/Thread/MSemaphore.hxx"
 #include "Engine/Thread/JobScheduler.hxx"
 
@@ -58,6 +59,7 @@
 
 
 #include "Engine/RenderSystem/RenderSystem.hxx"
+#include "Engine/RenderSystem/RingBuffer.hxx"
 #include "Engine/RenderSystem/RenderThread.hxx"
 #include "Engine/RenderSystem/BatchRenderable.hxx"
 #include "Engine/RenderSystem/InstanceRenderable.hxx"

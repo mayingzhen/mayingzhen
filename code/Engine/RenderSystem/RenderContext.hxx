@@ -90,7 +90,7 @@ namespace ma
 	Vector3	RenderContext::GetDirLightColor() const
 	{
 		//ASSERT(false);
-		return Vector3::ZERO;
+		return Vector3::UNIT_SCALE;
 // 		if (m_pCurScene == NULL)
 // 			return Vector3::ZERO;
 // 
@@ -101,7 +101,7 @@ namespace ma
 	Vector3	RenderContext::GetDirLightDir() const
 	{
 		//ASSERT(false);
-		return Vector3::ZERO;
+		return Vector3::UNIT_SCALE;
 
 // 		if (m_pCurScene == NULL)
 // 			return Vector3::ZERO;

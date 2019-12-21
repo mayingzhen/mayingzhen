@@ -156,6 +156,7 @@ namespace ma
 		RenderPass* pRP = g_pRenderSystem->GetDefaultRenderPass();
 		GetRenderSystem()->AddRenderStep(pRenderQueue, pRP);
 
+
 		for (uint32_t i = 0; i < m_arrRenderComp.size(); ++i)
 		{
 			m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());

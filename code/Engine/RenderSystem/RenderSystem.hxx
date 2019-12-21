@@ -76,6 +76,8 @@ namespace ma
 
 	void RenderSystem::BegineRender()
 	{
+		m_pRenderThread->FlushFrame();
+
 		m_renderStepList[CurThreadFill()].clear();
 
 		for (auto& it : m_vecDyHBuffer)
@@ -214,7 +216,9 @@ namespace ma
 	{
 		SYSTRACE(RT_Render);
 
-		for (auto& renderStep : m_renderStepList[CurThreadProcess()])
+		uint32_t nCurProcess = CurThreadProcess();
+
+		for (auto& renderStep : m_renderStepList[nCurProcess])
 		{
 			RenderQueue* cur_renderQueue = renderStep.m_pRenderQueue.get();
 			RenderPass*  cur_renderPass = renderStep.m_pRenderPass.get();

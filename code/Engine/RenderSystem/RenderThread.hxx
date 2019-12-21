@@ -1,5 +1,6 @@
 #include "RenderThread.h"
 #include "RenderCommand.h"
+#include "RingBuffer.h"
 
 namespace ma
 {
@@ -10,12 +11,13 @@ namespace ma
 	}
 #endif
 	
-	RenderThread::RenderThread()
+	RenderThread::RenderThread():
+		m_render_command_buffer(1024 * 800, 16),
+		m_frame_sema("frame-sema",1)
 	{
 		m_nCurThreadFill = 0;
 		m_nCurThreadProcess = 0;
-		
-		m_nFlush = 0; 
+	
 		
 		m_nMainThread = std::this_thread::get_id();
 
@@ -37,26 +39,42 @@ namespace ma
 
 	void RenderThread::Stop()
 	{
-		SignalFlushFinishedCond();
+		FlushAndWait();
 
 		m_thread.join();
 	}
 
 	void RenderThread::ThreadLoop()
 	{
+		void* read_pointer = NULL;
+		uint32_t num_read_bytes = 0;
+
 		while (!m_bExit)
 		{
-			uint64_t nTime = GetTimer()->GetMillisceonds();
-			WaitFlushCond();
-			uint64_t nTimeAfterWait = GetTimer()->GetMillisceonds();
-			uint64_t nTimeWaitForMain = nTimeAfterWait - nTime;
-			//LogInfo("fTimeWaitForMain = %d",nTimeWaitForMain);
-			//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
-			ProcessCommands();
-			uint64_t nTimeAfterProcess = GetTimer()->GetMillisceonds();
-			uint64_t nTimeProcessedRT = nTimeAfterProcess - nTimeAfterWait;
-			LogInfo("fTimeProcessedRT = %d",nTimeProcessedRT);
-			//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
+			// Command processing loop.
+			uint32_t count = 0;
+			while (m_render_command_buffer.BeginRead(read_pointer, num_read_bytes))
+			{
+				// Process one render command.
+				CommadInfo* Command = (CommadInfo*)read_pointer;
+
+				ASSERT(Command != NULL);
+				uint32_t command_size = Command->Execute();
+
+				//if (Command->IsFrameDelimiter())
+				//{
+				//	RenderingThread::s_frame_sema.Up();
+				//}
+
+				Command->~CommadInfo();
+				m_render_command_buffer.FinishRead(command_size);
+			}
+
+			while (!m_bExit && !m_render_command_buffer.BeginRead(read_pointer, num_read_bytes))
+			{
+				// Wait for up to 16ms for rendering commands.
+				m_render_command_buffer.WaitForRead(1);
+			}
 		}
 	}
 
@@ -110,7 +128,9 @@ namespace ma
 			GetRenderSystem()->RT_EndRender();
 		});
 
-		FlushFrame();
+		RC_AddRenderCommad( [this]() {
+			m_frame_sema.Signal();
+		});
 	}
 
 	void RenderThread::RC_TechniqueStreamComplete(Technique* pTech)
@@ -177,7 +197,7 @@ namespace ma
 		if (IsRenderThread())
 			return;
 
-		FlushFrame();
+		//FlushFrame();
 	}
 
 	void RenderThread::RC_CreateShader(ShaderProgram* pShader)
@@ -274,75 +294,53 @@ namespace ma
 		}
 		else
 		{
-			CommadInfo comd;
-			comd.m_funtion = fun;
-
-			m_vecCommand[m_nCurThreadFill].emplace_back(comd);
+			RingBuffer::AllocationContext AllocationContext(m_render_command_buffer,sizeof(CommadInfo));
+			if (AllocationContext.GetAllocatedSize() < sizeof(CommadInfo))
+			{
+				ASSERT(false);
+			}
+			else
+			{
+				new(AllocationContext) CommadInfo(fun);
+			}
 
 			return true;
 		}
-	}
-
-	void RenderThread::ProcessCommands()
-	{
-		ASSERT(std::this_thread::get_id() == m_thread.get_id());
-
-		if (!CheckFlushCond())
-			return;
-
-		for (uint32_t i = 0; i < m_vecCommand[m_nCurThreadProcess].size(); ++i)
-		{
-			CommadInfo& pCommmad = m_vecCommand[m_nCurThreadProcess][i];
-			pCommmad.m_funtion();
-		}
-		m_vecCommand[m_nCurThreadProcess].clear();
-
-		SignalFlushFinishedCond();
 	}
 
 
 	// Flush current frame and wait for result
 	void RenderThread::FlushAndWait()
 	{
-		if (!m_bMultithread)
-			return;
+ 		if (!m_bMultithread)
+ 			return;
+ 
+		RC_AddRenderCommad( [this]() {
+			m_flush_event.Signal();
+		});
 
-		WaitFlushFinishedCond();
-
-		int nCurProcess = m_nCurThreadProcess;
-		m_nCurThreadProcess = m_nCurThreadFill;
-
-		SignalFlushCond();
-
-		WaitFlushFinishedCond();
-
-		m_nCurThreadProcess = nCurProcess;
-		m_CommandData[m_nCurThreadFill].SetUse(0);
+		m_flush_event.Wait(-1);
+		m_flush_event.Reset();
 	}
 
 
 	// Flush current frame without waiting (should be called from main thread)
 	void RenderThread::FlushFrame()
 	{
-		//FUNCTION_PROFILER_FAST( GetISystem(),PROFILE_RENDERER,g_bProfilerEnabled );
-
 		if (!m_bMultithread)
 			return;
 
-		uint64_t nTime = GetTimer()->GetMillisceonds();
-		WaitFlushFinishedCond();
-		uint64_t nTimeWaitForRender = GetTimer()->GetMillisceonds() - nTime;
-		//LogInfo("fTimeWaitForRender = %d",nTimeWaitForRender);
-		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
-		
-		m_nCurThreadProcess = m_nCurThreadFill;
-		m_nCurThreadFill = (m_nCurThreadProcess+1) & 1;
+		m_frame_sema.WaitForSignal();
+
+		uint32_t nCurThreadFill = m_nCurThreadFill;
+		RC_AddRenderCommad([this, nCurThreadFill]() {
+			ASSERT((m_nCurThreadProcess + 1) % 2 == nCurThreadFill);
+			m_nCurThreadProcess = nCurThreadFill;
+		});
+
+		m_nCurThreadFill = (m_nCurThreadFill + 1) % 2;
 
 		m_CommandData[m_nCurThreadFill].SetUse(0);
-		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] = 0;
-		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] = 0;
-
-		SignalFlushCond();
 	}
 }
 
