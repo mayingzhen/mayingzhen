@@ -16,65 +16,52 @@ namespace ma
 
 	RenderContext::RenderContext()
 	{
-		m_fNear[0] = 0;
-		m_fNear[1] = 0;
-		m_fFar[0] = 0;
-		m_fFar[1] = 0;
+
 	}
 
 	void RenderContext::SetCamera(Camera* pCamera)
 	{
-		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView( pCamera->GetMatView() );
-		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj( pCamera->GetMatProj() );
-		m_vEyeWordPos[GetRenderSystem()->CurThreadFill()] = pCamera->GetPosWS();
+		m_matViewProj.SetMatView( pCamera->GetMatView() );
+		m_matViewProj.SetMatProj( pCamera->GetMatProj() );
+		m_vEyeWordPos = pCamera->GetPosWS();
 
-		m_fFar[GetRenderSystem()->CurThreadFill()] = pCamera->GetFarClip();
-		m_fNear[GetRenderSystem()->CurThreadFill()] = pCamera->GetNearClip();
-	}
-
-	void RenderContext::SetViewMatrix(const Matrix4& matView) 
-	{
-		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView(matView);
+		m_fFar = pCamera->GetFarClip();
+		m_fNear = pCamera->GetNearClip();
 	}
 
 	const Matrix4& RenderContext::GetViewMatrix() const
 	{
-		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatView();
+		return m_matViewProj.GetMatView();
 	}
 
 	const Matrix4& RenderContext::GetViewMatrixInv() const
 	{
-		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatViewInv();
-	}
-
-	void RenderContext::SetProjMatrix(const Matrix4& matProj) 
-	{
-		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj(matProj);
+		return m_matViewProj.GetMatViewInv();
 	}
 
 	const Matrix4& RenderContext::GetProjMatrix() const 
 	{
-		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatProj();
+		return m_matViewProj.GetMatProj();
 	}
 
 	const Matrix4& RenderContext::GetViewProjMatrix() const
 	{
-		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatViewProj();
+		return m_matViewProj.GetMatViewProj();
 	}
 
 	const Vector3& RenderContext::GetEyeWorldPos() const
 	{
-		return m_vEyeWordPos[GetRenderSystem()->CurThreadProcess()];
+		return m_vEyeWordPos;
 	}
 
 	float RenderContext::GetNearClip() 
 	{
-		return m_fNear[GetRenderSystem()->CurThreadProcess()];
+		return m_fNear;
 	}
 
 	float RenderContext::GetFarClip() 
 	{
-		return m_fFar[GetRenderSystem()->CurThreadProcess()];
+		return m_fFar;
 	}
 
 	Vector3	RenderContext::GetAmbientColor() const

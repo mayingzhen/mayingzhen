@@ -2,10 +2,11 @@ project(VulkanRender)
 
 message(STATUS "Configuring VulkanRender")
 
+file(GLOB vulkan ${CMAKE_CURRENT_SOURCE_DIR}/*.h*)
+
 set(SOURCE_FILES
-		Module.h
+		${vulkan}
 		Module.cpp
-		stdafx.h
 		stdafx.cpp
 		)
 

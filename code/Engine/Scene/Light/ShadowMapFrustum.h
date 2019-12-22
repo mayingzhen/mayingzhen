@@ -62,7 +62,7 @@ namespace ma
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
 
-		RefPtr<RenderQueue>	m_pRenderQueue[2];
+		RefPtr<RenderStep> m_shadowMapRender;
 
 		AABB				m_sceneAABB;
 

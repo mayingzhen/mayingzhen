@@ -18,12 +18,6 @@ namespace ma
 	class RasterizerState;
 	class DepthStencilState;
 
-	struct RenderStep
-	{
-		RefPtr<RenderQueue> m_pRenderQueue;
-		RefPtr<RenderPass> m_pRenderPass;
-	};
-
 
 	class  RenderSystem 
 	{
@@ -102,6 +96,10 @@ namespace ma
 
 		void				AddRenderStep(RenderQueue* pQueue, RenderPass* pPass);
 
+		void				AddRenderStep(RefPtr<RenderStep> renderstep);
+
+		RenderStep*			GetBaseRender() { return m_pRenderScheme.get(); }
+
 	protected: 
 		void				RT_Init(void* wndhandle, int width, int height);
 		void				RT_Reset(uint32_t nWidth,uint32_t nHeight);
@@ -129,9 +127,9 @@ namespace ma
 
 		RefPtr<Scene>		m_scene;
 		
-		RefPtr<RenderScheme> m_pRenderScheme;
+		RefPtr<RenderStep> m_pRenderScheme;
 
-		std::vector<RenderStep> m_renderStepList[2];
+		std::vector< RefPtr<RenderStep> > m_renderStepList[2];
 				
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro

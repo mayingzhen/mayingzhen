@@ -5,9 +5,28 @@
 
 namespace ma
 {
+
+	void RenderStep::Render()
+	{
+		RenderQueue* cur_renderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+		RenderPass*  cur_renderPass = m_pRenderPass.get();
+
+		SetRenderContext(cur_renderQueue->GetRenderContext());
+
+		cur_renderPass->Begine();
+
+		cur_renderQueue->Render(cur_renderPass);
+
+		cur_renderPass->End();
+	}
+
 	RenderScheme::RenderScheme()
 	{
 		g_pPostProcessPipeline = new PostProcessPipeline();
+
+		Init();
+
+		Reset();
 	}
 
 	RenderScheme::~RenderScheme()
@@ -186,7 +205,7 @@ namespace ma
 		m_pShadingPass = m_pBackBaufferPass;
 
 
-		if (0)
+		if (1)
 		{
 			RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
 
@@ -209,6 +228,7 @@ namespace ma
 			m_pTemPass = GetRenderDevice()->CreateRenderPass();
 			pTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8);
 			m_pTemPass->AttachColor(0, pTex.get(), 0, 0);
+			GetRenderSystem()->RenderPassStreamComplete(m_pTemPass.get());
 
 			g_pPostProcessPipeline->Setup(pHDRPass.get(), m_pTemPass.get());
 
@@ -235,8 +255,10 @@ namespace ma
 		m_pDiffuseTex = NULL;
 	}
 
-	void RenderScheme::Render(RenderQueue* pRenderQueue)
+	void RenderScheme::Render()
 	{
+		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+
 		m_pShadingPass->Begine();
 
 		pRenderQueue->Render(m_pShadingPass.get(), RL_Mesh, RL_MeshTrans);

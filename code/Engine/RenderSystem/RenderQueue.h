@@ -39,12 +39,6 @@ namespace ma
 
 		RefPtr<RenderContext> m_renderContext;
 
-		// CameraInfo
-		MatViewProj				m_matViewProj;
-		float					m_fNear;
-		float					m_fFar;
-		Vector3					m_vEyeWordPos;
-
 		// Light
 		std::vector< RefPtr<Light> > m_vecLight;
 

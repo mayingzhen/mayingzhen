@@ -2,8 +2,26 @@ project(Application)
 
 message(STATUS "Configuring Application")
 
+file(GLOB_RECURSE Android ${CMAKE_CURRENT_SOURCE_DIR}/Android/*.h*)
+source_group("Android" FILES ${Android})
+
+file(GLOB_RECURSE Input ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.h*)
+source_group("Input" FILES ${Input})
+
+file(GLOB_RECURSE iOS ${CMAKE_CURRENT_SOURCE_DIR}/iOS/*.h*)
+source_group("iOS" FILES ${iOS})
+
+file(GLOB_RECURSE Win ${CMAKE_CURRENT_SOURCE_DIR}/Win/*.h*)
+source_group("Win" FILES ${Win})
+
+file(GLOB Application ${CMAKE_CURRENT_SOURCE_DIR}/*.h*)
+
 set(SOURCE_FILES
-		Module.h
+		${Android}
+		${Input}
+		${iOS}
+		${Win}
+		${Application}
 		Module.cpp
 		)
 

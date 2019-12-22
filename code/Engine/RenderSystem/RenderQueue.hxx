@@ -57,14 +57,10 @@ namespace ma
 
 	void RenderQueue::SetCamera(Camera* pCamera)
 	{
-		m_matViewProj.SetMatView(pCamera->GetMatView());
-		m_matViewProj.SetMatProj(pCamera->GetMatProj());
-		m_vEyeWordPos = pCamera->GetPosWS();
-		m_fFar = pCamera->GetFarClip();
-		m_fNear = pCamera->GetNearClip();
-
 		if (m_renderContext)
+		{
 			m_renderContext->SetCamera(pCamera);
+		}
 	}
 
 	void RenderQueue::AddLight(Light* pLight)

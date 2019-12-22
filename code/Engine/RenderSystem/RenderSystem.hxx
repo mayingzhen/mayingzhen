@@ -11,6 +11,7 @@
 
 namespace ma
 {
+
 	RenderSystem* g_pRenderSystem = NULL;
 
 	RenderSystem* GetRenderSystem()
@@ -177,12 +178,12 @@ namespace ma
 		m_scene = new Scene("defaultScene");
 
 		m_pRenderScheme = new RenderScheme();
-		m_pRenderScheme->Init();
-		m_pRenderScheme->Reset();
+		m_pRenderScheme->m_pRenderPass = m_pDefaultRenderPass;
+
 
 		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
 
-		RenderQueue* pRQ = m_scene->GetRenderQueue();
+		RenderQueue* pRQ = m_pRenderScheme->m_pRenderQueue[0].get();
 		SetRenderContext(pRQ->GetRenderContext());
 	}
 
@@ -218,18 +219,9 @@ namespace ma
 
 		uint32_t nCurProcess = CurThreadProcess();
 
-		for (auto& renderStep : m_renderStepList[nCurProcess])
+		for (auto& render_step : m_renderStepList[nCurProcess])
 		{
-			RenderQueue* cur_renderQueue = renderStep.m_pRenderQueue.get();
-			RenderPass*  cur_renderPass = renderStep.m_pRenderPass.get();
-
- 			SetRenderContext(cur_renderQueue->GetRenderContext());
-
-			cur_renderPass->Begine();
- 		
-			cur_renderQueue->Render(cur_renderPass);
-
-			cur_renderPass->End();
+			render_step->Render();
 		}
 	}
 
@@ -438,10 +430,15 @@ namespace ma
 
 	void RenderSystem::AddRenderStep(RenderQueue* pQueue, RenderPass* pPass)
 	{
-		m_renderStepList[CurThreadFill()].emplace_back();
-		RenderStep& step = m_renderStepList[CurThreadFill()].back();
-		step.m_pRenderQueue = pQueue;
-		step.m_pRenderPass = pPass;
+		//m_renderStepList[CurThreadFill()].emplace_back();
+		//RenderStep& step = m_renderStepList[CurThreadFill()].back();
+		//step.m_pRenderQueue = pQueue;
+		//step.m_pRenderPass = pPass;
+	}
+
+	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
+	{
+		m_renderStepList[CurThreadFill()].push_back(renderstep);
 	}
 
 }

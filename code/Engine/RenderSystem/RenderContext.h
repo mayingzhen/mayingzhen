@@ -15,10 +15,8 @@ namespace ma
 		
 		void					SetCamera(Camera* pCamera); 
 
-		void					SetViewMatrix(const Matrix4& matView);
 		const Matrix4&			GetViewMatrix() const;
 		const Matrix4&			GetViewMatrixInv() const;
-		void					SetProjMatrix(const Matrix4& matProj);
 		const Matrix4&			GetProjMatrix() const;
 		const Matrix4&			GetViewProjMatrix() const;
 		const Vector3&			GetEyeWorldPos() const;
@@ -33,11 +31,11 @@ namespace ma
 		void					Clear();
 
 	protected:
-		MatViewProj				m_matViewProj[2];
+		MatViewProj				m_matViewProj;
 
-		float					m_fNear[2];
-		float					m_fFar[2];
-		Vector3					m_vEyeWordPos[2];
+		float					m_fNear = 0.0f;
+		float					m_fFar = 0.0f;
+		Vector3					m_vEyeWordPos = Vector3::ZERO;
 
 		Light*					m_pCurLight;
 	};

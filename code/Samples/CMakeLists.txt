@@ -4,9 +4,23 @@ project(SampleBrowser)
 
 message(STATUS "Configuring SampleBrowser")
 
+file(GLOB_RECURSE Animation ${CMAKE_CURRENT_SOURCE_DIR}/Animation/*.h*)
+source_group("Animation" FILES ${Animation})
+
+file(GLOB_RECURSE Render ${CMAKE_CURRENT_SOURCE_DIR}/Render/*.h*)
+source_group("Render" FILES ${Render})
+
+file(GLOB_RECURSE Serialize ${CMAKE_CURRENT_SOURCE_DIR}/Serialize/*.h*)
+source_group("Serialize" FILES ${Serialize})
+
+file(GLOB Sampler ${CMAKE_CURRENT_SOURCE_DIR}/*.h*)
+
 set(SOURCE_FILES
+		${Animation}
+		${Render}
+		${Serialize}
+		${Sampler}
 		SampleBrowser.cpp
-		SampleBrowser.h
 		main-windows.cpp
 		)
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/RenderSystem/RenderSystem.h"
+
 namespace ma
 {
 	class RenderPass;
@@ -11,7 +13,23 @@ namespace ma
 	class Scene;
 	class PostProcessStep;
 
-	class RenderScheme : public Referenced
+	struct RenderStep : public Referenced
+	{
+		RenderStep()
+		{
+			m_pRenderQueue[0] = new RenderQueue;
+			m_pRenderQueue[1] = new RenderQueue;
+		}
+
+		virtual void Render();
+
+		virtual void Reset() {}
+
+		RefPtr<RenderQueue> m_pRenderQueue[2];
+		RefPtr<RenderPass> m_pRenderPass;
+	};
+
+	class RenderScheme : public RenderStep
 	{
 	public:
 		RenderScheme();
@@ -24,7 +42,7 @@ namespace ma
 
 		void	Shoutdown();
 
-		void	Render(RenderQueue* pRenderQueue);
+		void	Render();
 
 		DeferredShadow*	GetDeferredShadow() const { return m_pDeferredShadow.get(); }
 		DeferredShading* GetDeferredShading() const { return m_pDeferredShading.get(); }

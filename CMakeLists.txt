@@ -9,7 +9,7 @@ set(CMAKE_MODULE_PATH
   "${CMAKE_SOURCE_DIR}/CMake"
 )
 
-# 工程名为NeoX
+# 工程名为
 project(myz)
 
 add_subdirectory(extern)

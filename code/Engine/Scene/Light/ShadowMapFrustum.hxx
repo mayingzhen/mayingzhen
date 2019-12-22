@@ -33,10 +33,10 @@ namespace ma
 		m_viewPosVecLS = Vector4::ZERO;
 		m_vkernelRadius = Vector2(2.0f,2.0f);
 
-		m_pRenderQueue[0] = new RenderQueue();
-		m_pRenderQueue[1] = new RenderQueue();
-
+		
 		m_pShadowMapFB = GetRenderDevice()->CreateRenderPass();
+		m_shadowMapRender = new RenderStep();
+		m_shadowMapRender->m_pRenderPass = m_pShadowMapFB;
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
@@ -116,7 +116,7 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+		RenderQueue* pRenderQueue = m_shadowMapRender->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 		pRenderQueue->Clear();
 
 		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
@@ -359,23 +359,20 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
-		GetRenderSystem()->AddRenderStep(pRenderQueue, m_pShadowMapFB.get());
+		RenderQueue* pRenderQueue = m_shadowMapRender->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+
+		GetRenderSystem()->AddRenderStep(m_shadowMapRender);
 
 		pRenderQueue->SetCamera(pCamera);
-
-// 		m_pShadowMapFB->Begine();
-// 
-// 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()];
-// 		pRenderQueue->Render(m_pShadowMapFB.get(),RL_Mesh, RL_MeshTrans);
-// 
-// 		m_pShadowMapFB->End();
-
 	}
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)
 	{
-		m_pRenderQueue[GetRenderSystem()->CurThreadFill()]->Clear();
+		//m_pRenderQueue[GetRenderSystem()->CurThreadFill()]->Clear();
+		//RenderQueue* pRenderQueue = m_shadowMapRender->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+
+		//pRenderQueue-
+
 		m_casterAABB.setNull();
 		m_arrCaster.clear();	
 		m_sceneAABB.setNull();

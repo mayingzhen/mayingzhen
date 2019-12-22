@@ -60,7 +60,7 @@ namespace ma
 			g_pInstanceBuffer = GetRenderSystem()->CreateTransientParallHardWareBuffer(sizeof(InstanceRenderable::InstaceData), 1024, 0);
 		}
 
-		m_subVB = g_pInstanceBuffer->GetParallHardWareBuffer()->AllocVertexBuffer(m_arrInstanceData.size());
+		m_subVB = g_pInstanceBuffer->GetRTParallHardWareBuffer()->AllocVertexBuffer(m_arrInstanceData.size());
 		memcpy(m_subVB.m_pVertices, m_arrInstanceData.data(), m_arrInstanceData.size() * sizeof(InstaceData));
 
 	}

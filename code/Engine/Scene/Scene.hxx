@@ -24,9 +24,6 @@ namespace ma
 		pMainLightNode->AddComponent(m_pMainDirLight.get());
 
 		m_cAmbientColor = Vector3::ZERO;
-
-		m_renderQueue[0] = new RenderQueue();
-		m_renderQueue[1] = new RenderQueue();
 	}
 
 	Scene::~Scene()
@@ -70,11 +67,6 @@ namespace ma
 	void Scene::AddRenderLight(Light* pLight)
 	{
 		m_vecRenderLight.push_back(pLight);
-	}
-
-	RenderQueue* Scene::GetRenderQueue()
-	{
-		return m_renderQueue[GetRenderSystem()->CurThreadFill()].get();
 	}
 
 	void Scene::Update()
@@ -133,7 +125,9 @@ namespace ma
 
 	void Scene::Render()
 	{
-		RenderQueue* pRenderQueue = m_renderQueue[GetRenderSystem()->CurThreadFill()].get();
+		RenderStep* render_step = GetRenderSystem()->GetBaseRender();
+
+		RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 
 		m_arrRenderComp.clear();
 
@@ -153,8 +147,7 @@ namespace ma
 
 		pRenderQueue->SetCamera(m_pCamera.get());
 
-		RenderPass* pRP = g_pRenderSystem->GetDefaultRenderPass();
-		GetRenderSystem()->AddRenderStep(pRenderQueue, pRP);
+		GetRenderSystem()->AddRenderStep(render_step);
 
 
 		for (uint32_t i = 0; i < m_arrRenderComp.size(); ++i)

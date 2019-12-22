@@ -75,8 +75,6 @@ namespace ma
 
 		void					AddRenderLight(Light* pLight);
 
-		RenderQueue*			GetRenderQueue();
-
 	private:
 		RefPtr<SceneNode>		m_pRootNode;
 
@@ -103,8 +101,6 @@ namespace ma
 
 		Vector3					m_cAmbientColor;
 		RefPtr<DirectonalLight> m_pMainDirLight;
-
-		RefPtr<RenderQueue>		m_renderQueue[2];
 	};
 
 	RefPtr<Scene> CreateScene();
