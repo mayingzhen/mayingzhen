@@ -53,6 +53,7 @@ namespace ma
 	void RenderQueue::Clear()
 	{
 		m_mapRenderList.clear();
+		m_vecLight.clear();
 	}
 
 	void RenderQueue::SetCamera(Camera* pCamera)
@@ -65,7 +66,13 @@ namespace ma
 
 	void RenderQueue::AddLight(Light* pLight)
 	{
-		m_vecLight.push_back(pLight);
+		m_vecLight.emplace_back();
+		LightInfo& info = m_vecLight.back();
+		info.m_eType = pLight->GetLightType();
+		info.m_cLightColor = pLight->GetLightColor();
+		info.m_fLightIntensity = pLight->GetLightIntensity();
+		info.m_vDir = pLight->GetSceneNode()->GetForward();
+		info.m_vPos = pLight->GetSceneNode()->GetPosWS();
 	}
 }
 

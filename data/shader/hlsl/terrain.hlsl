@@ -162,16 +162,16 @@ out DRMRTOut mrtOut
 	obj_to_tangent[2] = normalize(In.oNormal.xyz);
 #endif
 		
-    // Ï¸½ÚÍ¼
+    // Ï¸ï¿½ï¿½Í¼
 #if LAYER==1
 	#ifdef PARALLAXMAPPING 
 		float3 toEye = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
-        float height = tBumpMap0.Sample(sBumpMap0, In.DetailUV.xy).a;		//´Óalpha·ÖÁ¿µÃµ½¸ß¶ÈÐÅÏ¢  
-        height = (height - 1.f) * g_heightScale;                 //¸ß¶È±¶Ôö£¨ÏòÄÚ£©  
+        float height = tBumpMap0.Sample(sBumpMap0, In.DetailUV.xy).a;		//ï¿½ï¿½alphaï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ß¶ï¿½ï¿½ï¿½Ï¢  
+        height = (height - 1.f) * g_heightScale;                 //ï¿½ß¶È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½  
         float3x3 W2T = transpose(obj_to_tangent);  
-        float3 toEyeTangent = mul(toEye, W2T);                          //ÊÀ½ç -> ÇÐÏß¿Õ¼ä  
-        float2 offset = toEyeTangent.xy * height;                       //Í¨¹ýÊÀ½ç¿Õ¼äÄÚ×ø±êµÄoffset»ñÈ¡ÎÆÀíoffset   
-        In.DetailUV.xy += offset;                                              //ÎÆÀí×ø±êÆ«ÒÆ  
+        float3 toEyeTangent = mul(toEye, W2T);                          //ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ß¿Õ¼ï¿½  
+        float2 offset = toEyeTangent.xy * height;                       //Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½offsetï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½offset   
+        In.DetailUV.xy += offset;                                              //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½  
 	#endif
 	
 	#ifdef BUMPMAP
@@ -197,7 +197,7 @@ out DRMRTOut mrtOut
 	float3 vNormal = oWorldNormal;
 	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
 
-		// ÒõÓ°
+		// ï¿½ï¿½Ó°
 	float fShadowMapShadow = 1.0;
 #if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
 	#ifdef RECEIVESHADOW
@@ -217,7 +217,7 @@ out DRMRTOut mrtOut
 #if DEFERREDSHADING == 0
 	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow,1.0);
 #else
-	FinalMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
+	EnCodeMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
 #endif
 	
 }

@@ -28,12 +28,13 @@ namespace ma
 
 		~RenderSystem();
 
-		void				Update();
-
 		// Render Command
 		void				Init(void* wndhandle, int width, int height, bool bThread);
 		void				Reset(uint32_t nWidth, uint32_t nHeight);
 		void				Shoutdown();
+
+		void				Update();
+
 		void				BegineRender();
 		void				EndRender();
 		void				Render();
@@ -127,6 +128,8 @@ namespace ma
 
 		RefPtr<Scene>		m_scene;
 		
+		bool				m_bDefferedRender = true;
+
 		RefPtr<RenderStep> m_pRenderScheme;
 
 		std::vector< RefPtr<RenderStep> > m_renderStepList[2];

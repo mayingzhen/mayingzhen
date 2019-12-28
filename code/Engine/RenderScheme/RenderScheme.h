@@ -45,35 +45,53 @@ namespace ma
 		void	Render();
 
 		DeferredShadow*	GetDeferredShadow() const { return m_pDeferredShadow.get(); }
-		DeferredShading* GetDeferredShading() const { return m_pDeferredShading.get(); }
-		
-		SamplerState* GetSceneDiffuse() const {return m_pDiffTempSampler.get();}
-		SamplerState* GetSceneDepth() const {return m_pDepthSampler.get();}
-		SamplerState* GetSceneNormal() const {return m_pNormalSampler.get();}
 
-		void SetDeferredShadingEnabled(bool b);
-		bool GetDeferredShadingEnabled() const;
-		
+	private:
+
+		void SetupBasePass();
+
+		void SetupLightPass();
+
+		void SetupHDRPass();
+
+		void BasePass();
+
+		void LightPass();
+
+		void HDRPass();
+
 	private:
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
-		RefPtr<DeferredShading>	m_pDeferredShading;
 
-		RefPtr<Texture>			m_pDiffuseTex;
 		RefPtr<RenderPass>		m_pHDRFB;
 
+		
+		//Gbuffer
 		RefPtr<Texture>			m_pDepthTex;
-		RefPtr<Texture>			m_pLinearDepthTex;
-		RefPtr<Texture>			m_pDiffTemp;
+		RefPtr<SamplerState>	m_pDepthSampler;
+
+		RefPtr<Texture>			m_pBaseColor;
+		RefPtr<SamplerState>	m_pBaseSampler;
+
 		RefPtr<Texture>			m_pNormalTex;
+		RefPtr<SamplerState>	m_pNormalSampler;
+
+		RefPtr<Texture>			m_pLinearDepthTex;
+
+		RefPtr<Texture>			m_pHDRColorTex;
 
 		RefPtr<Technique>		m_pTecLinearDepth;
-
-		RefPtr<SamplerState>	m_pDepthSampler;
 		RefPtr<SamplerState>	m_pLinearDepthSampler;
-		RefPtr<SamplerState>	m_pNormalSampler;
-		RefPtr<SamplerState>	m_pDiffTempSampler;
 
-		RefPtr<RenderPass>		m_pShadingPass;
+		RefPtr<Technique>		m_pAmbientLight;
+
+		RefPtr<Technique>		m_pDirLight;
+
+		RefPtr<Technique>		m_pPointLight;
+
+		RefPtr<RenderPass>		m_pGbufferPass;
+
+		RefPtr<RenderPass>		m_pLightPass;
 
 		RefPtr<RenderPass>		m_pBackBaufferPass;
 
@@ -82,6 +100,8 @@ namespace ma
 		RefPtr<RenderPass>		m_pLinearDepthPass;
 
 		RefPtr<PostProcessStep> m_lastStep;
+
+		bool					m_bHDREnable = true;
 	};
 
 }

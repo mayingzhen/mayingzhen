@@ -149,6 +149,8 @@ namespace ma
 		m_mapMacros["ENCODENORMAL"] = "1";
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
+
+		m_mapMacros["DEFERREDSHADING"] = m_bDefferedRender ? "1" : "0";
 	}
 
 	void RenderSystem::InitCachState()
@@ -177,7 +179,14 @@ namespace ma
 
 		m_scene = new Scene("defaultScene");
 
-		m_pRenderScheme = new RenderScheme();
+		if (m_bDefferedRender)
+		{
+			m_pRenderScheme = new RenderScheme();
+		}
+		else
+		{
+			m_pRenderScheme = new RenderStep();
+		}
 		m_pRenderScheme->m_pRenderPass = m_pDefaultRenderPass;
 
 

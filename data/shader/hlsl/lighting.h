@@ -121,7 +121,7 @@ float3 LightBRDF(float glossiness,
 	float ndotv = max(0,dot(vWorldNormal, vView)); 
 	float vdoth = max(0,dot(vView, vHalf)); 
 
-	diffColor += float3(0.001);
+	diffColor += float3(0.001f,0.001f,0.001f);
 	finalLight = diffColor * ndotl * LightColor.rgb * fShadowMapShadow * ao;
 	
 //#ifdef SPEC	
@@ -180,17 +180,17 @@ float3 ForwardPixelLighting(float metalness,float glossiness,float3 vWorldNormal
 	finalLight = MainLight;
 
 #ifndef IBL 
-	finalLight += skyLightColor * albedo * ao;
+	//finalLight += skyLightColor * albedo * ao;
 #endif
 
-// µÚ¶þÕµ·½Ïò¹â£¨Ö»¼ÆËãÂþ·´Éä£©
+// ï¿½Ú¶ï¿½Õµï¿½ï¿½ï¿½ï¿½â£¨Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä£©
 #ifdef DIRLIGHTING1
-	float ndotl1 = clamp(dot(vWorldNormal, normalize(-vDirLight1)), 0, 1);
-	finalLight += albedo * ndotl1 * cDirLight1.rgb*cDirLight1.a * ao;
+	//float ndotl1 = clamp(dot(vWorldNormal, normalize(-vDirLight1)), 0, 1);
+	//finalLight += albedo * ndotl1 * cDirLight1.rgb*cDirLight1.a * ao;
 #endif
 	
 #ifdef IBL
-    finalLight += GlobalIBL(glossiness, diffColor,specColor,vWorldNormal,vView);
+    //finalLight += GlobalIBL(glossiness, diffColor,specColor,vWorldNormal,vView);
 #endif
 
 	return finalLight;
@@ -215,7 +215,7 @@ void InitMRTOutPut(inout DRMRTOut mrtOut)
 #endif
 }
 
-void FinalMRTOutPut(float metalness,
+void EnCodeMRTOutPut(float metalness,
 					float glossiness,
 					float3 albedo,
 					float3 vWorldNormal,
@@ -234,3 +234,6 @@ void FinalMRTOutPut(float metalness,
 #endif
 
 }
+
+
+

@@ -66,14 +66,9 @@ namespace ma
 		void					AddParallelUpdate(Component* pComponent);
 		void					AddParallelShow(Component* pComponent);
 
-		uint32_t				GetVisibleLightNum() const {return (uint32_t)m_vecRenderLight.size();}
-		Light*					GetVisibleLightByIndex(uint32_t index) {return m_vecRenderLight[index].get();}
-
 		const Vector3&			GetAmbientColor() const{return m_cAmbientColor;}
 		void					SetAmbientColor(const Vector3& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
 		DirectonalLight*		GetMainDirLight() {return m_pMainDirLight.get();}
-
-		void					AddRenderLight(Light* pLight);
 
 	private:
 		RefPtr<SceneNode>		m_pRootNode;

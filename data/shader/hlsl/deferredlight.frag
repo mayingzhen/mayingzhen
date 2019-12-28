@@ -1,14 +1,17 @@
 #include "common.h"
 #include "depth.h"
+#include "lighting.h"
+
+//#define DIRECT_LIGHT 1
 
 cbuffer ObjectPS : register(b5)
 {
 	#ifdef POINT_LIGHT   
-	uniform float4 light_pos_es_radius;
+	uniform float4 light_pos_radius;
 	#endif
 
 	#ifdef DIRECT_LIGHT
-	uniform float3 light_dir_es;
+	uniform float3 light_dir;
 	#endif
 
 	float4 light_color ;
@@ -41,34 +44,37 @@ struct PS_OUT
 
 
 
-void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float specPower,out float specIntensity)
+void GetPosNormalShiness(VS_OUT In,out float3 pos,out float3 normal,out float metalness,out float glossiness,out float3 albedo)
 {
    float depth = GetLinearDepth(In.oTc); 
    
    float3 view_dir = normalize(In.oViewDir.xyz);
-   pos_es = view_dir * (depth / -view_dir.z); 
+   float3 pos_es = view_dir * (depth / -view_dir.z); 
+
+   pos = mul(float4(pos_es,1.0),g_matViewInv).xyz;
    
    float4 SrcNormal = u_textureSceneNormal.Sample(s_textureSceneNormal, In.oTc);
-   
-#ifdef ENCODENORMAL 
-   normal = DecodeNormal(SrcNormal.xy);
-   specIntensity = SrcNormal.z;
-#else   
-   normal = SrcNormal.xyz;
-   specIntensity = 0.0f;
-#endif 
+
+   float4 baseColor = u_textureSceneDiffuse.Sample(s_textureSceneDiffuse, In.oTc); 
+
+ 	metalness = baseColor.w;
+
+	glossiness = SrcNormal.w;
  
-   specPower = SrcNormal.w  * 255.0f;
+   albedo = baseColor.rgb;
+
+   normal = SrcNormal.xyz * 2.0f - 1.0f;
+   normal = normalize(normal);
 }
 
-void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shiness,out float3 Diffuse,out float3 Specular)
+void GetDiffuseSpecular(float3 lightVec, float3 pos, float3 normal,float shiness,out float3 Diffuse,out float3 Specular)
 {
 	Diffuse = 0;
 	Specular = 0;
 	
    float3 vNormal = normalize(normal);
    float3 vLight  = normalize(lightVec);   
-   float3 vView   = -normalize(pos_es.xyz);
+   float3 vView   = -normalize(pos.xyz);
    float3 vHalfDir = normalize(vView + vLight);
    
    float4 light = lit( dot( vNormal, vLight ), dot( vNormal, vHalfDir ), shiness );   
@@ -77,7 +83,7 @@ void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shin
    float3 cSpecular = light.z * light_color;
 
 #ifdef POINT_LIGHT      
-   float attenuation = saturate(1.0f - length(lightVec)/light_pos_es_radius.w); 
+   float attenuation = saturate(1.0f - length(lightVec)/light_pos_radius.w); 
 #else 
    float attenuation = 1.0f; 
 #endif       
@@ -92,27 +98,32 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 {
    pOut = (PS_OUT)0;
    
-   float3 pos_es;
-   float3 normal;
-   float specPower;
-   float specIntensity;
-   GetPosNormalShiness(In,pos_es,normal,specPower,specIntensity);
+   float3 vWorldPos;
+   float3 vWorldNormal;
+   float metalness;
+   float glossiness;
+   float3 albedo;
+   GetPosNormalShiness(In,vWorldPos,vWorldNormal,metalness,glossiness,albedo);
+
+   float3 vView = normalize(g_vEyeWorldPos.xyz - vWorldPos.xyz);
+
+   float3 vlightVec = float3(0.0f,0.0f,0.0f); 
 
 #ifdef POINT_LIGHT   
-   float3 vlightVec = light_pos_es_radius.xyz - pos_es.xyz;
+   vlightVec = light_pos_radius.xyz - vWorldPos.xyz;
 #else 
 #ifdef DIRECT_LIGHT
-   float3 vlightVec = light_dir_es.xyz;      
+   vlightVec = light_dir.xyz;      
 #endif
 #endif  
+   
+   float3 diffColor = albedo.rgb * (1.0 - metalness);
+	float3 specColor = lerp(0.04, albedo.rgb, metalness); 
 
-	float3 	Diffuse = 0;
-	float3 	Specular = 0;
-   GetDiffuseSpecular(vlightVec,pos_es,normal,specPower,Diffuse,Specular);
-	
-   float4 mdiffuse = u_textureSceneDiffuse.Sample(s_textureSceneDiffuse, In.oTc);  		 
+	float3 light = LightBRDF(glossiness,light_color.xyz,vlightVec.xyz,
+		vWorldNormal.xyz,vView.xyz,diffColor,specColor,1.0f,1.0f);
 
-   pOut.flagColor.xyz = Diffuse * mdiffuse.xyz + Specular * specIntensity;
+   pOut.flagColor.xyz = light;
    pOut.flagColor.w = 1.0;
 }
 #endif

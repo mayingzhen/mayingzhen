@@ -12,6 +12,16 @@ namespace ma
 	class Light;
 	class RenderContext;
 
+	struct LightInfo
+	{
+		uint32_t m_eType;
+		ColourValue	m_cLightColor;
+		float	m_fLightIntensity;
+		Vector3	m_vDir;
+		Vector3 m_vPos;
+		float m_fRadius = 0.0f;
+	};
+
 	class RenderQueue : public Referenced
 	{
 	public:
@@ -33,6 +43,8 @@ namespace ma
 
 		RenderContext*			GetRenderContext() { return m_renderContext.get(); }
 
+		std::vector< LightInfo >& GetRenderLights() { return m_vecLight; }
+
 	private:
 
 		std::map<int, BatchRenderable> m_mapRenderList;
@@ -40,7 +52,7 @@ namespace ma
 		RefPtr<RenderContext> m_renderContext;
 
 		// Light
-		std::vector< RefPtr<Light> > m_vecLight;
+		std::vector< LightInfo > m_vecLight;
 
 	};
 }

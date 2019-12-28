@@ -162,8 +162,6 @@ EXPORTS
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PEBD@Z
 ?AddArchive@ArchiveManager@ma@@QEAAXPEAVArchive@2@@Z
 ?SetSaveDir@ArchiveManager@ma@@QEAAXPEBD@Z
-?SetDeferredShadingEnabled@RenderScheme@ma@@QEAAX_N@Z
-?GetDeferredShadingEnabled@RenderScheme@ma@@QEBA_NXZ
 ?GetDefaultRenderPass@RenderSystem@ma@@QEAAPEAVRenderPass@2@XZ
 ?Render@PrefilterCube@ma@@QEAAXXZ
 ?DrawWireSphere@LineRender@ma@@SAXAEBVMatrix4@2@MVColourValue@2@@Z

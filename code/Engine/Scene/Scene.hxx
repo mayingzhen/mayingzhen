@@ -64,11 +64,6 @@ namespace ma
 		m_vecParallelShow.push_back(pComponent);
 	}
 
-	void Scene::AddRenderLight(Light* pLight)
-	{
-		m_vecRenderLight.push_back(pLight);
-	}
-
 	void Scene::Update()
 	{
 		if (m_pCamera == NULL || m_pCullTree == NULL)

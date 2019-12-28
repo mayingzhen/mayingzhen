@@ -1,5 +1,4 @@
 #include "ParameterManager.h"
-#include "../RenderScheme/DeferredShadingPass.h"
 #include "../RenderScheme/DeferredShadowPass.h"
 
 namespace ma
@@ -56,15 +55,6 @@ namespace ma
 		AddFunMethodBinding<Vector3>("g_vDirLight", [](Renderable*) {
 			return GetRenderContext()->GetDirLightDir(); });
 
-		AddFunMethodBinding<SamplerState*>("tDeviceDepthMapSampler", [](Renderable*)->SamplerState* {
-			ASSERT(false);
-			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
-			if (pCurScene == NULL)
-				return NULL;
-			ASSERT(false);
-			return NULL;
-			//return pCurScene->GetRenderScheme()->GetSceneDepth(); 
-		} );
 
 		AddFunMethodBinding<SamplerState*>("g_tShadowMap", [](Renderable*)->SamplerState* {
 			ASSERT(false);
@@ -111,27 +101,6 @@ namespace ma
 			return Vector4::ZERO;//pCurScene->GetSunShaow()->GetShadowDepthFade();
 		});
 
-		AddFunMethodBinding<SamplerState*>("TextureSceneDiffuse", [](Renderable*)->SamplerState* {
-			ASSERT(false);
-			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
-			if (pCurScene == NULL)
-				return NULL;
-
-			ASSERT(false);
-			return NULL;
-			//return pCurScene->GetRenderScheme()->GetSceneDiffuse();
-		});
-
-		AddFunMethodBinding<SamplerState*>("TextureSceneNormal", [](Renderable*)->SamplerState* {
-			ASSERT(false);
-			Scene* pCurScene = nullptr;//GetRenderContext()->GetCurScene();
-			if (pCurScene == NULL)
-				return NULL;
-
-			ASSERT(false);
-			return NULL;
-			//return pCurScene->GetRenderScheme()->GetSceneNormal();
-		});
 	}
 
 	ParameterManager::~ParameterManager()

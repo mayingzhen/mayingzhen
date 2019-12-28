@@ -14,7 +14,6 @@ namespace ma
 	
 
 		//RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
-		//pRenderScheme->SetDeferredShadingEnabled(!pRenderScheme->GetDeferredShadingEnabled());
 
 		//RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 		//m_pScene->GetRootNode()->AddChild(pTerrain.get());

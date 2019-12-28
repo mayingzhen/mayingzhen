@@ -15,7 +15,7 @@ namespace ma
 
 	void Light::Render(RenderQueue* pRenderQueue)
 	{
-		m_pSceneNode->GetScene()->AddRenderLight(this);
+		pRenderQueue->AddLight(this);
 	}
 
 	void PointLight::SetRadius(float fRadius) 

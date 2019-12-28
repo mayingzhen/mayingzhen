@@ -17,7 +17,7 @@ namespace ma
 	{
 	public:
 
-		void AttachColor(int index, Texture* pColor, int level, int face) 
+		void AttachColor(int index, Texture* pColor, int level = 0, int face = 0, ColourValue cClearColor = ColourValue::Black)
 		{
 			m_arrColor.resize(index + 1);
 
@@ -26,7 +26,12 @@ namespace ma
 			m_arrColor[index].m_nFace = face;
 		}
 
-		void AttachDepthStencil(Texture* pDepthStencil) { m_pDepthStencil = pDepthStencil; }
+		void AttachDepthStencil(Texture* pDepthStencil, float fClearDepth = 1.0f, uint32_t nClearStencil = 0) 
+		{
+			m_pDepthStencil = pDepthStencil; 
+			m_fClearDepth = 1.0f;
+			m_nClearStencil = nClearStencil;
+		}
 
 		void SetViewPort(const Rectangle& viewPort) { m_viewPort = viewPort; }
 		const Rectangle&  GetViewPort() const { return m_viewPort; }
@@ -51,32 +56,5 @@ namespace ma
 		Rectangle					m_viewPort;
 	};
 
-// 	class CommandBuffer
-// 	{
-// 	public:
-// 		void AddRenderObj(int nBatchIndex, Renderable* pRenderObj)
-// 		{
-// 
-// 		}
-// 
-// 		void Render()
-// 		{
-// 			m_pRenderPass->Begine();
-// 
-// // 			for (uint32_t i = 0; i < m_arrRenderList.size(); ++i)
-// // 			{
-// // 				m_arrRenderList[i]->PrepareRender(eRPType);
-// // 				m_arrRenderList[i]->Render(m_pRenderPass.get(), eRPType, eRLType);
-// // 			}
-// 
-// 			m_pRenderPass->End();
-// 		}
-// 
-// 	private:
-// 		RefPtr<RenderPass>	m_pRenderPass;
-// 
-// 		//RenderQueue*		m_pRenderQueue[2];
-// 		std::vector< RefPtr<BatchRenderable> > m_arrRenderList;
-// 	};
 }
 

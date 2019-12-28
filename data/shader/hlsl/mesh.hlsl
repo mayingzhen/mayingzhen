@@ -175,7 +175,7 @@ out DRMRTOut mrtOut
 #if DEFERREDSHADING == 0
 	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow,1.0);
 #else
-	FinalMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
+	EnCodeMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
 #endif
 
 }
