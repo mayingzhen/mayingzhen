@@ -20,18 +20,12 @@ namespace ma
 	}
 
 
-	/**
-	 * A ring buffer for use with two threads: a reading thread and a writing thread.
-	 */
+
 	class RingBuffer
 	{
 	public:
 
-		/**
-		 * Minimal initialization constructor.
-		 * @param buffer_size - The size of the data buffer to allocate.
-		 * @param in_alignment - m_alignment of each allocation unit (in uint8_ts)
-		 */
+
 		RingBuffer(uint32_t buffer_size, uint32_t in_alignment = 1);
 
 		/**
@@ -87,9 +81,6 @@ namespace ma
 		void WaitForRead(uint32_t wait_time = -1);
 
 	private:
-		// Buffer Size in uint8_ts
-		//uint32_t m_buffer_size;
-
 		// The data buffer.
 		uint8_t* m_data;
 

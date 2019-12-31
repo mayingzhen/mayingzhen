@@ -107,7 +107,11 @@ namespace ma
 
 				pRenderPass->Begine();
 
+				pCommand->Begin();
+
 				ScreenQuad::Render(PrefilterCopySrc.get(), pCommand);
+
+				pCommand->End();
 
 				pRenderPass->End();
 			}
@@ -121,7 +125,11 @@ namespace ma
 
 				pRenderPass->Begine();
 
+				pCommand->Begin();
+
 				ScreenQuad::Render(PrefilterCubeSpecular.get(), pCommand);
+
+				pCommand->End();
 
 				pRenderPass->End();
 			}

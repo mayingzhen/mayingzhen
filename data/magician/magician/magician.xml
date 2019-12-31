@@ -5,8 +5,8 @@
 	<Attribute Name="Rotation" Type="Quaternion" Value="1 0 0 0"/>
 	<Attribute Name="Scale" Type="Vector3" Value="1 1 1"/>
 	<Component ClassName="SkinMeshComponent">
-		<Attribute Name="MatPath" Type="string" Value="magician/magician/Body.mtl"/>
-		<LodMeshData MeshData="magician/magician/Body.skn"/>
+		<Attribute Name="MtgPath" Type="string" Value="magician/magician/Body.mtl"/>
+    <Attribute Name="MesPath" Type="string" Value="magician/magician/Body.skn"/>
 	</Component>
 	<Component ClassName="AnimationComponent">
 		<Attribute Name="AnimSetPath" Type="string" Value="magician/magician/body.aniset"/>

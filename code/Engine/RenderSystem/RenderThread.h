@@ -22,12 +22,12 @@ namespace ma
 			m_funtion = fun;
 		}
 
-		void* operator new(size_t Size, const RingBuffer::AllocationContext& Allocation)
+		void* operator new(size_t Size, void* pAllocation)
 		{
-			return Allocation.GetAllocation();
+			return pAllocation;
 		}
 
-		void operator delete(void *p, const RingBuffer::AllocationContext& Allocation) {}
+		void operator delete(void *p, void* pAllocation) {}
 
 		void operator delete(void *p) {}
 

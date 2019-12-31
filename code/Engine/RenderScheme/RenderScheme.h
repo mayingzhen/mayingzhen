@@ -63,9 +63,6 @@ namespace ma
 	private:
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
 
-		RefPtr<RenderPass>		m_pHDRFB;
-
-		
 		//Gbuffer
 		RefPtr<Texture>			m_pDepthTex;
 		RefPtr<SamplerState>	m_pDepthSampler;
@@ -101,7 +98,7 @@ namespace ma
 
 		RefPtr<PostProcessStep> m_lastStep;
 
-		bool					m_bHDREnable = true;
+		bool					m_bHDREnable = false;
 	};
 
 }

@@ -5,7 +5,7 @@ namespace ma
 {
 
 
-#define Align(in_size, alignment) ( ((in_size)+(alignment)-1) & ~((alignment)-1) )
+	#define Align(in_size, alignment) ( ((in_size)+(alignment)-1) & ~((alignment)-1) )
 
 	RingBuffer::RingBuffer(uint32_t buffer_size, uint32_t in_alignment)
 		: /*m_buffer_size(buffer_size), */m_is_writing(false)

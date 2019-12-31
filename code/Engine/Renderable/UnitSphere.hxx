@@ -11,6 +11,8 @@ namespace ma
 		matTras.setScale(Vector3(fRadius ,fRadius ,fRadius));
 
 		gpSphere->SetWorldMatrix(matTras);
+
+		gpSphere->PreRender(pTech);
 		
 		gpSphere->Render(pTech, pComomnd);
 	}
@@ -48,50 +50,6 @@ namespace ma
 			SphereTessR(v01,  v1, v12, depth-1, indBuff, vertBuff);
 			SphereTessR(v12, v02, v01, depth-1, indBuff, vertBuff);
 			SphereTessR(v12,  v2, v02, depth-1, indBuff, vertBuff);
-		}
-	}
-
-	void SphereTess(Vector3& v0, Vector3& v1, Vector3& v2, vector<uint16_t>& indBuff, vector<Vector3>& vertBuff)
-	{
-		int depth;
-		Vector3 w0, w1, w2;
-		int i, j, k;
-
-		Vector3 vert;
-
-		int nVertCount = vertBuff.size();
-
-		depth = 2;
-		for (i = 0; i < depth; i++) 
-		{
-			for (j = 0; i+j < depth; j++) 
-			{
-				k = depth - i - j;
-
-				{
-					w0 = ((float)i * v0 + (float)j * v1 + (float)k * v2) / (float)depth;
-					w1 = ((float)(i + 1) * v0 + (float)j * v1 + ((float)k - 1) * v2)
-						/ (float)depth;
-					w2 = ((float)i * v0 + ((float)j + 1) * v1 + ((float)k - 1) * v2)
-						/ (float)depth;
-				}
-
-				w0.normalise();
-				w1.normalise();
-				w2.normalise();
-
-				vert = w1;
-				vertBuff.push_back(vert);
-				indBuff.push_back(nVertCount++);
-
-				vert = w0;
-				vertBuff.push_back(vert);
-				indBuff.push_back(nVertCount++);
-
-				vert = w2;
-				vertBuff.push_back(vert);
-				indBuff.push_back(nVertCount++);
-			}
 		}
 	}
 
@@ -152,19 +110,10 @@ namespace ma
 		}
 
 		gpSphere = new Renderable();
-		
-		VertexElement element[1];
-		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		//gpSphere->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1);
+
 		gpSphere->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8_t*)&vertBuff[0],vertBuff.size() * sizeof(Vector3),sizeof(Vector3));
 		gpSphere->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8_t*)&indBuff[0],vertBuff.size() * sizeof(uint16_t),sizeof(uint16_t));
 		gpSphere->m_ePrimitiveType = PRIM_TRIANGLELIST;
-
-		gpSphere->m_pSubMeshData = CreateSubMeshData();
-		gpSphere->m_pSubMeshData->m_nIndexStart = 0;
-		gpSphere->m_pSubMeshData->m_nIndexCount = indBuff.size();
-		gpSphere->m_pSubMeshData->m_nVertexStart = 0;
-		gpSphere->m_pSubMeshData->m_nVertexCount = vertBuff.size();
 
 		return;
 	}

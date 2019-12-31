@@ -61,11 +61,6 @@ namespace ma
 				ASSERT(Command != NULL);
 				uint32_t command_size = Command->Execute();
 
-				//if (Command->IsFrameDelimiter())
-				//{
-				//	RenderingThread::s_frame_sema.Up();
-				//}
-
 				Command->~CommadInfo();
 				m_render_command_buffer.FinishRead(command_size);
 			}
@@ -295,15 +290,14 @@ namespace ma
 		else
 		{
 			RingBuffer::AllocationContext AllocationContext(m_render_command_buffer,sizeof(CommadInfo));
+			ASSERT(AllocationContext.GetAllocatedSize() >= sizeof(CommadInfo));
 			if (AllocationContext.GetAllocatedSize() < sizeof(CommadInfo))
 			{
-				ASSERT(false);
+				return false;
 			}
-			else
-			{
-				new(AllocationContext) CommadInfo(fun);
-			}
-
+		
+			new(AllocationContext.GetAllocation()) CommadInfo(fun);
+		
 			return true;
 		}
 	}

@@ -201,8 +201,8 @@ namespace ma
 
 	void RenderScheme::SetupBasePass()
 	{
-		m_pBaseColor = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8);
-		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8);
+		m_pBaseColor = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
+		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
 
 		m_pGbufferPass = GetRenderDevice()->CreateRenderPass();
 		m_pGbufferPass->AttachDepthStencil(m_pDepthTex.get());
@@ -242,6 +242,9 @@ namespace ma
 		pBS->m_blendDesc[0].SrcBlend = BLEND_ONE;
 		pBS->m_blendDesc[0].DestBlend = BLEND_ONE;
 
+		RefPtr<RasterizerState> pRS = CreateRasterizerState();
+		pRS->m_eCullMode = CULL_FACE_SIDE_NONE;
+
 		RefPtr<VertexDeclaration> pDec = CreateVertexDeclaration();
 		pDec->AddElement(VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0));
 		pDec->AddElement(VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0));
@@ -257,6 +260,7 @@ namespace ma
 			Info.m_shaderMacro = "AMBIENT_LIGHT";
 
 			m_pAmbientLight = CreateTechnique("shader/ambientlight.tech", Info);
+			m_pAmbientLight->SaveToXML("shader/m_pAmbientLight.tech");
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pAmbientLight.get());
 		}
@@ -266,15 +270,20 @@ namespace ma
 			Info.m_pBlendState = pBS;
 
 			m_pDirLight = CreateTechnique("shader/dirlight.tech", Info);
+			m_pDirLight->SaveToXML("shader/dirlight.tech");
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pDirLight.get());
 		}
 
 		{
+			Info.m_pVertexDecl = CreateVertexDeclaration();
+			Info.m_pVertexDecl->AddElement(VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0));
+
 			Info.m_shaderMacro = "POINT_LIGHT";
 			Info.m_pBlendState = pBS;
 
 			m_pPointLight = CreateTechnique("shader/pointlight.tech", Info);
+			m_pPointLight->SaveToXML("shader/pointlight.tech");
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pPointLight.get());
 		}
@@ -363,6 +372,8 @@ namespace ma
 
 		RenderCommand* pCommand = m_pLightPass->GetThreadCommand(0, 0);
 
+		pCommand->Begin();
+
 		Vector3 cAmbientColor = Vector3::ZERO;//= m_pScene->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
 		ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
@@ -402,6 +413,8 @@ namespace ma
 				UnitSphere::Render(m_pPointLight.get(), light.m_vPos, light.m_fRadius, pCommand);
 			}
 		}
+
+		pCommand->End();
 
 		m_pLightPass->End();
 	}

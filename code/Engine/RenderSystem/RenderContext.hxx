@@ -88,7 +88,7 @@ namespace ma
 	Vector3	RenderContext::GetDirLightDir() const
 	{
 		//ASSERT(false);
-		return Vector3::UNIT_SCALE;
+		return Vector3::UNIT_SCALE.normalisedCopy();
 
 // 		if (m_pCurScene == NULL)
 // 			return Vector3::ZERO;

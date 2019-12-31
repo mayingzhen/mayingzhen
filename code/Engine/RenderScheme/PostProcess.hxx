@@ -58,7 +58,13 @@ namespace ma
 	{
 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
 
-		ScreenQuad::Render(pTech.get(), m_pRenderPass->GetThreadCommand(0, 0));
+		RenderCommand* pCommand = m_pRenderPass->GetThreadCommand(0, 0);
+
+		pCommand->Begin();
+
+		ScreenQuad::Render(pTech.get(), pCommand);
+
+		pCommand->End();
 	}
 
 	const char* PostProcessStep::GetName()

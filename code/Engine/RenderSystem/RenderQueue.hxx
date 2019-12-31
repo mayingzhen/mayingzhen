@@ -73,6 +73,11 @@ namespace ma
 		info.m_fLightIntensity = pLight->GetLightIntensity();
 		info.m_vDir = pLight->GetSceneNode()->GetForward();
 		info.m_vPos = pLight->GetSceneNode()->GetPosWS();
+		if (pLight->GetLightType() == LIGHT_POINT)
+		{
+			PointLight* pPointLight = (PointLight*)(pLight);
+			info.m_fRadius = pPointLight->GetRadius();
+		}
 	}
 }
 
