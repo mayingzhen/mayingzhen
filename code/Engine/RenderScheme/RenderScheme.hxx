@@ -255,6 +255,7 @@ namespace ma
 		Info.m_pRenderPass = m_pLightPass;
 		Info.m_pDSState = pDS;
 		Info.m_pVertexDecl = pDec;
+		Info.m_pRSState = pRS;
 
 		{
 			Info.m_shaderMacro = "AMBIENT_LIGHT";
