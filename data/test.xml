@@ -1,0 +1,16 @@
+<StateMachineNode ClassName="StateMachineNode" startState="120">
+	<State AnimName="602">
+		<Transition ClassName="MachineTransition">
+			<Attribute Name="dstState" Type="string" Value="602"/>
+			<Condition mode="Greater" param="To120" threshold="1"/>
+		</Transition>
+	</State>
+	<State AnimName="120">
+		<Transition ClassName="MachineTransition">
+			<Attribute Name="dstState" Type="string" Value=""/>
+			<Attribute Name="blendTime" Type="float" Value="-4.31602e+08"/>
+			<Condition mode="Less" param="To120" threshold="1"/>
+		</Transition>
+	</State>
+</StateMachineNode>
+
