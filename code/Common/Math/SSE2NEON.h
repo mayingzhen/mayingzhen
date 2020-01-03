@@ -513,6 +513,32 @@ FORCE_INLINE __m128i _mm_xor_si128(__m128i a, __m128i b)
 	return vreinterpretq_m128i_s32( veorq_s32(vreinterpretq_s32_m128i(a), vreinterpretq_s32_m128i(b)) );
 }
 
+// Moves the upper two values of B into the lower two values of A.
+//
+//   r3 := a3
+//   r2 := a2
+//   r1 := b3
+//   r0 := b2
+FORCE_INLINE __m128 _mm_movehl_ps(__m128 __A, __m128 __B)
+{
+    float32x2_t a32 = vget_high_f32(vreinterpretq_f32_m128(__A));
+    float32x2_t b32 = vget_high_f32(vreinterpretq_f32_m128(__B));
+    return vreinterpretq_m128_f32(vcombine_f32(b32, a32));
+}
+
+// Moves the lower two values of B into the upper two values of A.
+//
+//   r3 := b1
+//   r2 := b0
+//   r1 := a1
+//   r0 := a0
+FORCE_INLINE __m128 _mm_movelh_ps(__m128 __A, __m128 __B)
+{
+    float32x2_t a10 = vget_low_f32(vreinterpretq_f32_m128(__A));
+    float32x2_t b10 = vget_low_f32(vreinterpretq_f32_m128(__B));
+    return vreinterpretq_m128_f32(vcombine_f32(a10, b10));
+}
+
 // NEON does not provide this method
 // Creates a 4-bit mask from the most significant bits of the four single-precision, floating-point values. https://msdn.microsoft.com/en-us/library/vstudio/4490ys29(v=vs.100).aspx
 FORCE_INLINE int _mm_movemask_ps(__m128 a)

@@ -18,7 +18,7 @@ namespace ma
         
         virtual void End();
         
-        virtual RenderCommand* GetThreadCommand(uint32_t nIndex, RenderListType eRLType);
+        virtual RenderCommand* GetThreadCommand(uint32_t nIndex, int stage);
         
 	public:
 

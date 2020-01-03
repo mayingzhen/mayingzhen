@@ -68,20 +68,22 @@ include_directories(
 )
 
 
-
-
 if (WIN32)
 	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
-	target_link_libraries(${PROJECT_NAME} Common FreeImage zziplib zlib)
-	
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /bigobj")
 else (WIN32)
 	add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
-
-	target_link_libraries(${PROJECT_NAME} Common FreeImage zziplib zlib log android)
 endif()
+
+target_link_libraries(${PROJECT_NAME} Common FreeImage zziplib zlib)
+
+if (ANDROID)
+	target_link_libraries(${PROJECT_NAME} log android)
+endif()
+
+target_precompile_headers(${PROJECT_NAME} PUBLIC stdafx.h)
 
 
 

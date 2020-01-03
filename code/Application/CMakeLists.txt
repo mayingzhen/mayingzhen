@@ -8,8 +8,9 @@ source_group("Android" FILES ${Android})
 file(GLOB_RECURSE Input ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.h*)
 source_group("Input" FILES ${Input})
 
-file(GLOB_RECURSE iOS ${CMAKE_CURRENT_SOURCE_DIR}/iOS/*.h*)
-source_group("iOS" FILES ${iOS})
+file(GLOB_RECURSE iOS_h ${CMAKE_CURRENT_SOURCE_DIR}/iOS/*.h*)
+file(GLOB_RECURSE iOS_mm ${CMAKE_CURRENT_SOURCE_DIR}/iOS/*.mm)
+source_group("iOS" FILES ${iOS_h} ${iOiOS_mm})
 
 file(GLOB_RECURSE Win ${CMAKE_CURRENT_SOURCE_DIR}/Win/*.h*)
 source_group("Win" FILES ${Win})
@@ -19,7 +20,8 @@ file(GLOB Application ${CMAKE_CURRENT_SOURCE_DIR}/*.h*)
 set(SOURCE_FILES
 		${Android}
 		${Input}
-		${iOS}
+		${iOS_h}
+		${iOS_mm}
 		${Win}
 		${Application}
 		Module.cpp
@@ -43,8 +45,9 @@ else (WIN32)
 endif()
 
 
-target_link_libraries(${PROJECT_NAME} Common Engine imgui)
+target_precompile_headers(${PROJECT_NAME} PUBLIC stdafx.h)
 
+target_link_libraries(${PROJECT_NAME} Common Engine imgui)
 
 add_definitions(-D_USRDLL)
 add_definitions(-DAPP_EXPORTS)

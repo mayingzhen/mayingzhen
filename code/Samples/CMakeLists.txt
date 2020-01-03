@@ -39,25 +39,34 @@ link_directories(
 )
 
 
+if (WIN32)
+	add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
+	target_link_libraries(${PROJECT_NAME} Common Engine VulkanRender Animation BulletPhysics Application)
+elseif(IOS)
+	add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES})
+	target_link_libraries(${PROJECT_NAME} Common Engine MetalRender Animation BulletPhysics Application)
+	target_link_libraries(${PROJECT_NAME} "-framework Metal" "-framework CoreMotion")
+elseif (ANDROID)
+	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+	target_link_libraries(${PROJECT_NAME} Common Engine VulkanRender Animation BulletPhysics Application)
+endif()
+
 
 if(WIN32)
-	add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
-
-	target_link_libraries(${PROJECT_NAME} Common Engine VulkanRender Animation BulletPhysics Application)
-
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 	add_definitions(-DWIN32)
 
-   set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
-   set_target_properties(${PROJECT_NAME}  PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
-   set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
-   set_target_properties(${PROJECT_NAME}  PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
-   set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
-   set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
-
-else(WIN32)
-	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
-
-	target_link_libraries(${PROJECT_NAME} Common Engine VulkanRender Animation BulletPhysics Application)
+	set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
+	set_target_properties(${PROJECT_NAME}  PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
+	set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
+	set_target_properties(${PROJECT_NAME}  PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
+	set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
+	set_target_properties(${PROJECT_NAME}  PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 endif(WIN32)
+
+if(IOS)	
+	set_target_properties(${PROJECT_NAME}  PROPERTIES MACOSX_BUNDLE YES)
+	set_target_properties(${PROJECT_NAME}  PROPERTIES XCODE_ATTRIBUTE_PRODUCT_NAME "TestApp")
+	set_target_properties(${PROJECT_NAME}  PROPERTIES XCODE_ATTRIBUTE_BUNDLE_IDENTIFIER "com.myz.TestApp")
+endif()
 

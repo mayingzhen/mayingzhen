@@ -179,7 +179,7 @@ namespace ma
 
 				VertexElement& ele = m_arrStreamElement[i][j];
 
-				char buf[MAX_PATH] = { 0 };
+				char buf[1024] = { 0 };
 				sprintf(buf, "%d,%d,%s,%s,%d", 
 					ele.Stream, 
 					ele.Offset, 

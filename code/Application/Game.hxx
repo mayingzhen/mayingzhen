@@ -50,7 +50,7 @@ namespace ma
 
 	void Game::Init()
 	{
-		SYSTRACE_INIT();
+		//SYSTRACE_INIT();
 
 		void* hWnd = Platform::GetInstance().GetWindId();
 		int windth = 800;

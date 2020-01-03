@@ -43,6 +43,8 @@ namespace ma
 		if (vshSource == NULL || fshSource == NULL)
 			return;
 
+        const ShaderCreateInfo& info = this->GetShaderCreateInfo();
+        
 		if (vshSize > 0)
 		{
             MTLCompileOptions* options = [[[MTLCompileOptions alloc] init] autorelease];
@@ -56,7 +58,7 @@ namespace ma
             //ASSERT(library != nil);
             if (library == nil && ns_error != nil)
             {
-                LogError("Shader vs %s compile error: %s", this->GetVSFile(), ns_error.localizedDescription.UTF8String);
+                LogError("Shader vs %s compile error: %s", info.m_strVSFile.c_str(), ns_error.localizedDescription.UTF8String);
             }
             
             m_pVertexShader = [library newFunctionWithName:@"main0"];
@@ -93,7 +95,7 @@ namespace ma
             //ASSERT(library != nil);
             if (library == nil && ns_error != nil)
             {
-                LogError("Shader vs %s compile error: %s", this->GetPSFile(), ns_error.localizedDescription.UTF8String);
+                LogError("Shader vs %s compile error: %s", info.m_strPSFile.c_str(), ns_error.localizedDescription.UTF8String);
             }
             
             m_pPiexelShader = [library newFunctionWithName:@"main0"];
@@ -142,6 +144,13 @@ namespace ma
                     pPreUniform->SetSize(arg.bufferDataSize - pPreUniform->GetOffset());
                 }
             }
+            else if (arg.type == MTLArgumentTypeTexture)
+            {
+                RefPtr<Uniform> pUniform = CreateUniform(arg.name.UTF8String);
+                pUniform->SetIndex(arg.index);
+                
+                this->AddSampler(VS,pUniform.get());
+            }
         }
         
         for (MTLArgument *arg in pReflection.fragmentArguments)
@@ -184,7 +193,7 @@ namespace ma
                 RefPtr<Uniform> pUniform = CreateUniform(arg.name.UTF8String);
                 pUniform->SetIndex(arg.index);
                 
-                this->AddSampler(pUniform.get());
+                this->AddSampler(PS,pUniform.get());
             }
         }
 	}
@@ -450,11 +459,13 @@ namespace ma
         
         std::string strPath = GetRenderSystem()->GetShaderPath();
         
-        std::string strPathVS = strPath + GetVSFile() + ".vert";
-        std::string strPathFS = strPath + GetPSFile() + ".frag";
+        const ShaderCreateInfo& info = this->GetShaderCreateInfo();
         
-        std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), GetShaderMacro());
-        std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), GetShaderMacro());
+        std::string strPathVS = strPath + info.m_strVSFile + ".vert";
+        std::string strPathFS = strPath + info.m_strPSFile + ".frag";
+        
+        std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), info.m_shaderMacro.c_str());
+        std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), info.m_shaderMacro.c_str());
         
         std::string strMslVSSource = HlslToMsl(strVshSource.c_str(), strVshSource.size(), VS);
         std::string strMslFSSource = HlslToMsl(strFshSource.c_str(), strFshSource.size(), PS);

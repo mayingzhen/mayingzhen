@@ -2,6 +2,8 @@
 #define __Platform_h__
 
 
+#include <string>
+
 namespace ma
 {
     

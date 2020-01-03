@@ -162,7 +162,7 @@ namespace ma
 	//-----------------------------------------------------------------------
 	float Math::InvSqrt(float fValue)
 	{
-		return float( 1.0f / std::sqrt(fValue) );
+		return float( 1.0f / sqrtf(fValue) );
 	}
     //-----------------------------------------------------------------------
     float Math::UnitRandom ()

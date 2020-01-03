@@ -1,7 +1,7 @@
-#include "Export.h"
+#include "Application/Export.h"
 #include "View.h"
-#include "Platform.h"
-#include "Game.h"
+#include "Application/Platform.h"
+#include "Application/Game.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -63,13 +63,13 @@
         CGFloat scale = [[UIScreen mainScreen] scale];
         CALayer* layer = (CALayer *)self.layer;
         layer.opaque = TRUE;
-        if ([layer isKindOfClass:[CAEAGLLayer class]])
-        {
-            CAEAGLLayer* eaglLayer = (CAEAGLLayer*)layer;
-            eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
-                                        kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-        }
+        //if ([layer isKindOfClass:[CAEAGLLayer class]])
+        //{
+        //    CAEAGLLayer* eaglLayer = (CAEAGLLayer*)layer;
+        //    eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+        //                                [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
+        //                                kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+        //}
 
         self.contentScaleFactor = scale;
         layer.contentsScale = scale;

@@ -121,11 +121,11 @@
 
 
 //SoftwareRasterizer
-#include "Engine/Scene/SoftwareRasterizer/Occluder.hxx"
-#include "Engine/Scene/SoftwareRasterizer/QuadDecomposition.hxx"
-#include "Engine/Scene/SoftwareRasterizer/SurfaceAreaHeuristic.hxx"
-#include "Engine/Scene/SoftwareRasterizer/Rasterizer.hxx"
-#include "Engine/Scene/SoftwareRasterizer/OccluderComponent.hxx"
+//#include "Engine/Scene/SoftwareRasterizer/Occluder.hxx"
+//#include "Engine/Scene/SoftwareRasterizer/QuadDecomposition.hxx"
+//#include "Engine/Scene/SoftwareRasterizer/SurfaceAreaHeuristic.hxx"
+//#include "Engine/Scene/SoftwareRasterizer/Rasterizer.hxx"
+//#include "Engine/Scene/SoftwareRasterizer/OccluderComponent.hxx"
 
 
 #include "Engine/Engine.hxx"

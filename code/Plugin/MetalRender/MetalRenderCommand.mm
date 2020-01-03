@@ -9,6 +9,7 @@
 #include "MetalPipeline.h"
 #include "MetalSamplerState.h"
 #include "MetalTexture.h"
+#include "MetalShaderProgram.h"
 
 namespace ma
 {
@@ -71,7 +72,9 @@ namespace ma
     {
         MetalTechnique* pVulkanTech = (MetalTechnique*)(pTech);
         
-        MetalDepthStencilStateObject* pDSState = (MetalDepthStencilStateObject*)pTech->GetDepthStencilState();
+        MetalShaderProgram* pShader = (MetalShaderProgram*)pTech->GetShaderProgram();
+        
+        MetalDepthStencilStateObject* pDSState = (MetalDepthStencilStateObject*)(pShader->GetShaderCreateInfo().m_pDSState.get());
         if (pDSState->m_pMetalDSState == nil)
         {
             pDSState->RT_StreamComplete();
@@ -84,7 +87,7 @@ namespace ma
             m_preDS = pDSState->m_pMetalDSState;
         }
         
-        MetalRasterizerStateObject* pRSState = (MetalRasterizerStateObject*)pTech->GetRasterizerState();
+        MetalRasterizerStateObject* pRSState = (MetalRasterizerStateObject*)(pShader->GetShaderCreateInfo().m_pRSState.get());
         MTLCullMode eCull = MetalMapping::get(pRSState->m_eCullMode);
         [m_encoder setCullMode:eCull];
         [m_encoder setFrontFacingWinding:MTLWindingCounterClockwise];
@@ -106,6 +109,7 @@ namespace ma
             }
         }
         
+        /*
         for (uint32_t i = 0; i < pTech->GetSamplerCount(); ++i)
         {
             uint32_t nIndex = pTech->GetSamplerByIndex(i)->GetIndex();
@@ -131,10 +135,18 @@ namespace ma
                 m_preSampler[nIndex] = pMetalSampler->m_pImpl;
             }
         }
+         */
     }
-    
-    void MetalRenderCommand::DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nInstanceCount,PRIMITIVE_TYPE ePrType)
+
+
+    void MetalRenderCommand::SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors)
     {
+        
+    }
+
+    void MetalRenderCommand::DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount)
+    {
+        PRIMITIVE_TYPE ePrType = PRIM_TRIANGLELIST;
         MTLPrimitiveType ePrimitiveType = MetalMapping::GetPrimitiveType(ePrType);
         
         MetalIndexBuffer* pMetalIndexBuffer = (MetalIndexBuffer*)(m_pCurIB);
@@ -143,6 +155,11 @@ namespace ma
         MTLIndexType ibType = pMetalIndexBuffer->GetIndexType() == INDEX_TYPE_U16 ? MTLIndexTypeUInt16 : MTLIndexTypeUInt32;
     
         [m_encoder drawIndexedPrimitives:ePrimitiveType indexCount:nIndexCount indexType:ibType indexBuffer:ib indexBufferOffset:nIndexStart instanceCount:nInstanceCount];
+    }
+
+    void MetalRenderCommand::Draw(uint32_t nVertexStart, uint32_t nVertexCount, uint32_t nInstanceCount)
+    {
+        
     }
 }
 

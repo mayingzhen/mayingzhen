@@ -17,6 +17,8 @@ namespace ma
 
 		virtual void		RT_StreamComplete();
 
+        virtual void        RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
+
 	public:
         RefPtr<MetalPipeline> m_pPipline;
 	};

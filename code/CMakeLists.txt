@@ -7,12 +7,7 @@ set(CMAKE_MODULE_PATH
   "${CMAKE_SOURCE_DIR}/CMake"
 )
 
-# 工程名为NeoX
 project(myz)
-
-#include(NeoXCommon)
-
-#include(NeoXMinimum)
 
 add_subdirectory(Common)
 
@@ -20,7 +15,11 @@ add_subdirectory(Engine)
 
 add_subdirectory(Plugin/Animation)
 
-add_subdirectory(Plugin/VulkanRender)
+if (IOS)
+	add_subdirectory(Plugin/MetalRender)
+else()
+	add_subdirectory(Plugin/VulkanRender)
+endif()
 
 add_subdirectory(Plugin/BulletPhysics)
 
@@ -37,7 +36,11 @@ add_dependencies(Engine Common)
 
 add_dependencies(Animation Common Engine)
 
-add_dependencies(VulkanRender Common Engine)
+if (IOS)
+	add_dependencies(MetalRender Common Engine)
+else()
+	add_dependencies(VulkanRender Common Engine)
+endif()
 
 add_dependencies(BulletPhysics Common Engine)
 

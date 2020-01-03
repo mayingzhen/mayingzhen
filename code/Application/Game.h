@@ -3,6 +3,8 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 
+#include "Engine/Module.h"
+
 
 namespace ma
 {	

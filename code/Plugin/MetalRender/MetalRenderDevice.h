@@ -77,6 +77,7 @@ namespace ma
         virtual Technique*			CreateTechnique();
         virtual RenderPass*			CreateRenderPass();
         virtual RenderCommand*		CreateRenderCommand();
+        virtual ComputeCommad*      CreateComputeCommand();
 
 		virtual Rectangle			GetViewport();
         virtual RenderPass*			GetDefaultRenderPass();
@@ -87,6 +88,9 @@ namespace ma
 		virtual	bool				Rest();
 		virtual void				BeginRender();
 		virtual void				EndRender();
+        
+        virtual void                BegineCompute();
+        virtual void                EndCompute();
 		
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf);
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf);

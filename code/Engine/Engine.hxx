@@ -1,10 +1,10 @@
 #include "Engine.h"
 #include <thread>
-#include "Scene/SoftwareRasterizer/Rasterizer.h"
+//#include "Scene/SoftwareRasterizer/Rasterizer.h"
 
 namespace ma
 {
-	Rasterizer* g_rasterizer = nullptr;
+	//Rasterizer* g_rasterizer = nullptr;
 
 	Engine* g_pEngine = NULL;
 	void SetEngine(Engine* pEngine)

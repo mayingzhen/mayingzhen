@@ -1,5 +1,5 @@
-#include "Export.h"
-#include "Platform.h"
+#include "Application/Export.h"
+#include "Application/Platform.h"
 #include "AppDelegate.h"
 
 
@@ -52,6 +52,11 @@ namespace ma
             w = height;
             h = width;
         }
+	}
+
+	void Platform::SetWindowSize(int w, int h)
+	{
+		
 	}
 }
 

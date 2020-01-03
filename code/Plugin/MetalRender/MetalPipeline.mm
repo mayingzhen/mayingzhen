@@ -23,7 +23,7 @@ namespace ma
     {
         MetalShaderProgram* pShader = (MetalShaderProgram*)pTech->GetShaderProgram();
         
-        MetalVertexDeclaration* pMetalVertexDec = (MetalVertexDeclaration*)( pShader->GetVertexDeclaration() );
+        MetalVertexDeclaration* pMetalVertexDec = (MetalVertexDeclaration*)( pShader->GetShaderCreateInfo().m_pVertexDecl.get() );
         ASSERT(pMetalVertexDec);
         if (pMetalVertexDec)
         {
@@ -33,7 +33,7 @@ namespace ma
             }
         }
         
-        MetalRenderPass* pRenderPass = (MetalRenderPass*)pTech->GetRenderPass();
+        MetalRenderPass* pRenderPass = (MetalRenderPass*)( pShader->GetShaderCreateInfo().m_pRenderPass.get() );
         
         //MetalBlendStateObject* pBlendState = (MetalBlendStateObject*)pTech->GetBlendState();
         
@@ -124,8 +124,8 @@ namespace ma
     {
         InfoKey key;
         key.m_pShader = pTech->GetShaderProgram();
-        key.m_pBlendState = pTech->GetBlendState();
-        key.m_pDSState = pTech->GetDepthStencilState();
+        key.m_pBlendState = pTech->GetShaderProgram()->GetShaderCreateInfo().m_pBlendState.get();
+        key.m_pDSState = pTech->GetShaderProgram()->GetShaderCreateInfo().m_pDSState.get();
         auto it = g_mapPiplinePool.find(key);
         if (it != g_mapPiplinePool.end())
         {

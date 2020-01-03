@@ -17,6 +17,12 @@ add_subdirectory(extern)
 add_subdirectory(code)
 
 add_dependencies(Engine zlib zziplib FreeImage)
-add_dependencies(VulkanRender glslang SPIRV-Cross)
+
 add_dependencies(BulletPhysics Bullet)
+
+if (IOS)
+  #add_dependencies(MetalRender glslang SPIRV-Cross)
+else(IOS)
+  add_dependencies(VulkanRender glslang SPIRV-Cross)
+endif(IOS)
 

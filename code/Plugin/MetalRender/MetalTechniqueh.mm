@@ -47,57 +47,74 @@ namespace ma
     {
         
     }
-    
+
+    void MetalTechnique::RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+    {
+        
+    }
+
 	void MetalTechnique::RT_StreamComplete()
 	{
-        MetalRasterizerStateObject* rs = (MetalRasterizerStateObject*)this->GetRasterizerState();
-
-        MetalBlendStateObject* bs = (MetalBlendStateObject*)this->GetBlendState();
-        
-        MetalDepthStencilStateObject* ds = (MetalDepthStencilStateObject*)this->GetDepthStencilState();
-        
-        rs->RT_StreamComplete();
-        
-        bs->RT_StreamComplete();
-        
-        ds->RT_StreamComplete();
-        
         MetalShaderProgram* pShader = (MetalShaderProgram*)this->GetShaderProgram();
+        
+        MetalRasterizerStateObject* rs = (MetalRasterizerStateObject*)pShader->GetShaderCreateInfo().m_pRSState.get();
+        
+        MetalBlendStateObject* bs = (MetalBlendStateObject*)pShader->GetShaderCreateInfo().m_pBlendState.get();
+        
+        MetalDepthStencilStateObject* ds = (MetalDepthStencilStateObject*)pShader->GetShaderCreateInfo().m_pDSState.get();
+        
+        if (rs)
+        {
+            rs->RT_StreamComplete();
+        }
+        
+        if (bs)
+        {
+            bs->RT_StreamComplete();
+        }
+        
+        if (ds)
+        {
+            ds->RT_StreamComplete();
+        }
         
         m_pPipline = CreateMetalPipeline(this);
 
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
-			for (uint32_t j = 0; j < pShader->GetConstBufferCount((ShaderType)i); ++j)
+            ShaderType eType = (ShaderType)i;
+            
+			for (uint32_t j = 0; j < pShader->GetConstBufferCount(eType); ++j)
 			{
 				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex((ShaderType)i,j);
                 RefPtr<MetalConstantBuffer> pConstantBuffer = CloneConstBuffer(pShaderCS);
 				pConstantBuffer->SetParent(this);
 				this->AddConstBuffer((ShaderType)i,pConstantBuffer.get());
 			}
-		}
 
-		for (uint32_t i = 0; i < pShader->GetSamplerCount(); ++i)
-		{
-			Uniform* pUniform = pShader->GetSamplerByIndex(i);
+            for (uint32_t i = 0; i < pShader->GetSamplerCount(eType); ++i)
+            {
+                Uniform* pUniform = pShader->GetSamplerByIndex(eType,i);
 
-			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
-			pUniformCopy->SetTechnique(this);
-			pUniformCopy->SetIndex(pUniform->GetIndex());
+                RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
+                pUniformCopy->SetTechnique(this);
+                pUniformCopy->SetIndex(pUniform->GetIndex());
+                pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 
-			this->AddSampler(pUniformCopy.get());
-		}
+                this->AddSampler(eType,pUniformCopy.get());
+            }
 
-		BindUniform(nullptr);
+            BindUniform(nullptr,eType);
         
-        for (uint32_t i = 0; i < this->GetSamplerCount(); ++i)
-        {
-            uint32_t nIndex = this->GetSamplerByIndex(i)->GetIndex();
-            MetalSamplerStateObject* pSampler = (MetalSamplerStateObject*)this->GetActiveSampler(nIndex);
-            if (pSampler == NULL)
-                continue;
+            for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
+            {
+                uint32_t nIndex = this->GetSamplerByIndex(eType,i)->GetIndex();
+                //MetalSamplerStateObject* pSampler = (MetalSamplerStateObject*)this->GetActiveSampler((ShaderType)shader,nIndex);
+               // if (pSampler == NULL)
+               //     continue;
             
-            pSampler->RT_StreamComplete();
+                //pSampler->RT_StreamComplete();
+            }
         }
 
 		return;
