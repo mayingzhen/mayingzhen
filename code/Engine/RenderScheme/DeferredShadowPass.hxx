@@ -107,7 +107,7 @@ namespace ma
 
 			info.m_pDSState = pDSState;
 
-			m_pFrustumVolume[i]  = CreateTechnique("shader/mesh.tech", info);
+			m_pFrustumVolume[i]  = CreateTechnique(info);
 		}
 
 		//m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");

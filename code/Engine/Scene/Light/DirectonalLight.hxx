@@ -12,6 +12,11 @@ namespace ma
 
 	DirectonalLight::DirectonalLight()
 	{
+		if (GetRenderSystem()->GetDefferedLightRenderPass())
+		{
+			m_pTech = CreateTechnique("shader/dirlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
+		}
+
 		m_eLightType = LIGHT_DIRECTIONAL;
 		m_bShadowEnable = false;
 		m_nCurSplitCount = 0;

@@ -65,7 +65,7 @@ namespace ma
 		info.m_pBlendState = pBlendState;
 		info.m_pRSState = pRastate;
 		info.m_ePrimitiveType = PRIM_POINTLIST;
-		RefPtr<Technique> pTech = CreateTechnique("Particle", info);
+		RefPtr<Technique> pTech = CreateTechnique(info);
 
 		pSubMaterial->SetShadingTechnqiue(pTech.get());
 

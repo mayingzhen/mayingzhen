@@ -49,6 +49,6 @@ namespace ma
 
 		m_descriptor.sampler = m_sampler;
 		m_descriptor.imageView = pTex->GetShaderView();
-		m_descriptor.imageLayout = pTex->m_imageLayout;
+		m_descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;// pTex->m_imageLayout;
 	}
 }

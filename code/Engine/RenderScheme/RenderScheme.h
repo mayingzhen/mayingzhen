@@ -80,12 +80,6 @@ namespace ma
 		RefPtr<Technique>		m_pTecLinearDepth;
 		RefPtr<SamplerState>	m_pLinearDepthSampler;
 
-		RefPtr<Technique>		m_pAmbientLight;
-
-		RefPtr<Technique>		m_pDirLight;
-
-		RefPtr<Technique>		m_pPointLight;
-
 		RefPtr<RenderPass>		m_pGbufferPass;
 
 		RefPtr<RenderPass>		m_pLightPass;

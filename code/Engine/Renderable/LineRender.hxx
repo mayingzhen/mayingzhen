@@ -32,9 +32,9 @@ namespace ma
 		shaderInfo.m_strPSFile = "line.hlsl:ps_main";
 		shaderInfo.m_pVertexDecl = pVertexDec;
 		shaderInfo.m_pDSState = pDSSate;
-		shaderInfo.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
+		shaderInfo.m_pRenderPass = GetRenderSystem()->GetBaseRenderPass();
  
-		gpLinTech = CreateTechnique("line", shaderInfo);
+		gpLinTech = CreateTechnique(shaderInfo);
 
 		gpMeshBatch = new MeshBatch(pVertexDec->GetStreanmStride(0),PRIM_LINELIST, true, 1024);
 	}

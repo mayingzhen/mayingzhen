@@ -53,10 +53,8 @@ namespace ma
 
 	void Technique::BindUniform(Renderable* pRenderable, ShaderType eType)
 	{
-		VEC_CONSTBUFFER vecConstBuffer = m_vecConstBuffer[eType];
-		for (uint32_t iCB = 0; iCB < vecConstBuffer.size(); ++iCB)
+		for (auto &pCB : m_vecConstBuffer[eType])
 		{
-			RefPtr<ConstantBuffer>& pCB = vecConstBuffer[iCB];
 			for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
 			{
 				Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
@@ -71,18 +69,15 @@ namespace ma
 			}
 		}
 
-		VEC_SAMPLER& vecSampler = m_vecSamplers[eType];
-		for (uint32_t iSmpler = 0; iSmpler < vecSampler.size(); ++iSmpler)
+		for (auto &pSampler : m_vecSamplers[eType])
 		{
-			Uniform* pUniform = vecSampler[iSmpler].get();
+			pSampler->Bind(pRenderable);
 
-			pUniform->Bind(pRenderable);
-
-			Parameter* pMatParam = GetParameter(pUniform->GetName());
+			Parameter* pMatParam = GetParameter(pSampler->GetName());
 			if (pMatParam == NULL)
 				continue;
 			
-			BindParametersUniform(pRenderable, pUniform, pMatParam->GetValue());
+			BindParametersUniform(pRenderable, pSampler.get(), pMatParam->GetValue());
 		}
 	}
 
@@ -618,7 +613,7 @@ namespace ma
 			}
 		}
 
-		info.m_pRenderPass = m_pRenderPass ? m_pRenderPass : GetRenderSystem()->GetDefaultRenderPass();
+		info.m_pRenderPass = m_pRenderPass ? m_pRenderPass : GetRenderSystem()->GetBaseRenderPass();
 
 		m_pShaderProgram = CreateShaderProgram(info);
 
@@ -711,7 +706,7 @@ namespace ma
 		instInfo.m_pVertexDecl = pDeclaration;
 		instInfo.m_pRenderPass = pShader->GetRenderPass();
 
-		RefPtr<Technique> pInstTech = CreateTechnique("instance.tech", instInfo);
+		RefPtr<Technique> pInstTech = CreateTechnique(instInfo);
 
 		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 		{
@@ -768,10 +763,10 @@ namespace ma
 		return pTech;
 	}
 
-	RefPtr<Technique> CreateTechnique(const char* pTechName, const ShaderCreateInfo& info)
+	RefPtr<Technique> CreateTechnique(const ShaderCreateInfo& info)
 	{
 		Technique* pTech = GetRenderDevice()->CreateTechnique();
-		pTech->SetTechName(pTechName);
+		//pTech->SetTechName(pTechName);
 
 		RefPtr<ShaderProgram> pShader = CreateShaderProgram(info);
 

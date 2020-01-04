@@ -546,7 +546,7 @@ namespace ma
 	}
 
 
-	RenderPass* VulkanRenderDevice::GetDefaultRenderPass()
+	RenderPass* VulkanRenderDevice::GetBackBufferRenderPass()
 	{
 		return m_pDefaultPass.get();
 	}

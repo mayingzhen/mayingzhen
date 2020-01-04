@@ -42,7 +42,7 @@ namespace ma
 	private:
 
 		virtual Rectangle			GetViewport() = 0;
-		virtual RenderPass*			GetDefaultRenderPass() = 0;
+		virtual RenderPass*			GetBackBufferRenderPass() = 0;
 
 		virtual	void				Init(void* wndhandle) = 0;
 		virtual void				Shoutdown() = 0;

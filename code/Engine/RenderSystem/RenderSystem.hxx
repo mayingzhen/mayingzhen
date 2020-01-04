@@ -170,14 +170,12 @@ namespace ma
 
 		m_curViewport = GetRenderDevice()->GetViewport();
 
-		m_pDefaultRenderPass = GetRenderDevice()->GetDefaultRenderPass();
-		m_pBackBufferRenderPass = m_pDefaultRenderPass;
+		m_pBaseRenderPass = GetRenderDevice()->GetBackBufferRenderPass();
+		m_pBackBufferRenderPass = m_pBaseRenderPass;
 	
 		LineRender::Init();
 		ScreenQuad::Init();
 		UnitSphere::Init();
-
-		m_scene = new Scene("defaultScene");
 
 		if (m_bDefferedRender)
 		{
@@ -187,13 +185,14 @@ namespace ma
 		{
 			m_pRenderScheme = new RenderStep();
 		}
-		m_pRenderScheme->m_pRenderPass = m_pDefaultRenderPass;
-
+		m_pRenderScheme->m_pRenderPass = m_pBackBufferRenderPass;
 
 		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
 
 		RenderQueue* pRQ = m_pRenderScheme->m_pRenderQueue[0].get();
 		SetRenderContext(pRQ->GetRenderContext());
+
+		m_scene = new Scene("defaultScene");
 	}
 
 	void RenderSystem::RT_Reset(uint32_t nWidth,uint32_t nHeight)
@@ -259,14 +258,24 @@ namespace ma
 		return pTarget;
 	}
 
-	void RenderSystem::SetDefaultRenderPass(RenderPass* pRenderPass)
+	void RenderSystem::SetDefferedLightRenderPass(RenderPass* pRenderPass)
 	{
-		m_pDefaultRenderPass = pRenderPass;
+		m_pDefferedLightPass = pRenderPass;
 	}
 
-	RenderPass* RenderSystem::GetDefaultRenderPass()
+	RenderPass* RenderSystem::GetDefferedLightRenderPass()
 	{
-		return m_pDefaultRenderPass.get();
+		return m_pDefferedLightPass.get();
+	}
+
+	void RenderSystem::SetBaseRenderPass(RenderPass* pRenderPass)
+	{
+		m_pBaseRenderPass = pRenderPass;
+	}
+
+	RenderPass* RenderSystem::GetBaseRenderPass()
+	{
+		return m_pBaseRenderPass.get();
 	}
 
 	void RenderSystem::SetBackBufferRenderPass(RenderPass* pRenderPass)

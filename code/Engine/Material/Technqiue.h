@@ -124,5 +124,5 @@ namespace ma
 	
 	RefPtr<Technique> CreateTechnique();
 	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine, RenderPass* pPass);
-	RefPtr<Technique> CreateTechnique(const char* pTechName, const ShaderCreateInfo& info);
+	RefPtr<Technique> CreateTechnique(const ShaderCreateInfo& info);
 }

@@ -41,13 +41,15 @@ namespace ma
 		ColourValue					m_cLightColor;
 
 		float						m_fLightIntensity;
+
+		RefPtr<Technique>			m_pTech;
 	};
 
 	class PointLight : public Light
 	{
 	
 	public:
-		PointLight() {m_eLightType = LIGHT_POINT;}
+		PointLight();
 
 		DECL_OBJECT(PointLight)
 
@@ -67,7 +69,7 @@ namespace ma
 	{
 	
 	public:
-		SpotLight()	{m_eLightType = LIGHT_SPOT;}
+		SpotLight();
 
 		DECL_OBJECT(SpotLight)
 

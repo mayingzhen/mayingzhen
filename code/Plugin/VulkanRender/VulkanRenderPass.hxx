@@ -93,13 +93,13 @@ namespace ma
 		std::vector<VkAttachmentReference> vecColorReference;
 		for (uint32_t i = 0; i < m_arrColor.size(); ++i)
 		{
-			Texture* pTexture = m_arrColor[i].m_pTexture.get();
+			VulkanTexture* pTexture = (VulkanTexture*)m_arrColor[i].m_pTexture.get();
 			if (pTexture == NULL)
 				continue;
 
 			// Color attachment
 			VkAttachmentDescription color = {};
-			color.format = VulkanMapping::_getPF( pTexture->GetFormat() );
+			color.format = pTexture->m_vkformat;
 			color.samples = VK_SAMPLE_COUNT_1_BIT;
 			color.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 			color.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -125,16 +125,18 @@ namespace ma
 
 		if (m_pDepthStencil)
 		{
+			VulkanTexture* pTexture = (VulkanTexture*)m_pDepthStencil.get();
+
 			// Depth attachment
 			VkAttachmentDescription ds = {};
-			ds.format = VulkanMapping::_getPF( m_pDepthStencil->GetFormat() );
+			ds.format = pTexture->m_vkformat;
 			ds.samples = VK_SAMPLE_COUNT_1_BIT;
 			ds.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 			ds.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 			ds.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 			ds.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 			ds.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-			ds.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL; // Attachment will be transitioned to shader read at render pass end
+			ds.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL; // Attachment will be transitioned to shader read at render pass end
 
 			vecAttachments.push_back(ds);
 			

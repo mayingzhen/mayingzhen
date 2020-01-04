@@ -15,7 +15,17 @@ namespace ma
 
 	void Light::Render(RenderQueue* pRenderQueue)
 	{
-		pRenderQueue->AddLight(this);
+		pRenderQueue->AddLight(this,m_pTech.get());
+	}
+
+	PointLight::PointLight()
+	{
+		if (GetRenderSystem()->GetDefferedLightRenderPass())
+		{
+			m_pTech = CreateTechnique("shader/pointlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
+		}
+		
+		m_eLightType = LIGHT_POINT;
 	}
 
 	void PointLight::SetRadius(float fRadius) 
@@ -28,6 +38,12 @@ namespace ma
 	RefPtr<PointLight> CreatePointLight()
 	{
 		return new PointLight;
+	}
+
+
+	SpotLight::SpotLight()
+	{
+
 	}
 
 }

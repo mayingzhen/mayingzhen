@@ -233,62 +233,65 @@ namespace ma
 		{
 			m_pLightPass = GetRenderSystem()->GetBackBufferRenderPass();
 		}
-	
-		RefPtr<DepthStencilState> pDS = CreateDepthStencilState();
-		pDS->m_bDepthWrite = false;
 
-		RefPtr<BlendState> pBS = CreateBlendState();
-		pBS->m_blendDesc[0].BlendEnable = true;
-		pBS->m_blendDesc[0].SrcBlend = BLEND_ONE;
-		pBS->m_blendDesc[0].DestBlend = BLEND_ONE;
-
-		RefPtr<RasterizerState> pRS = CreateRasterizerState();
-		pRS->m_eCullMode = CULL_FACE_SIDE_NONE;
-
-		RefPtr<VertexDeclaration> pDec = CreateVertexDeclaration();
-		pDec->AddElement(VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0));
-		pDec->AddElement(VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0));
-
-		ShaderCreateInfo Info;
-		Info.m_strVSFile = "deferredlight.vert:main";
-		Info.m_strPSFile = "deferredlight.frag:main";
-		Info.m_pRenderPass = m_pLightPass;
-		Info.m_pDSState = pDS;
-		Info.m_pVertexDecl = pDec;
-		Info.m_pRSState = pRS;
-
+		// Setup Tech
+		if (0)
 		{
-			Info.m_shaderMacro = "AMBIENT_LIGHT";
+			RefPtr<DepthStencilState> pDS = CreateDepthStencilState();
+			pDS->m_bDepthWrite = false;
 
-			m_pAmbientLight = CreateTechnique("shader/ambientlight.tech", Info);
-			m_pAmbientLight->SaveToXML("shader/m_pAmbientLight.tech");
+			RefPtr<BlendState> pBS = CreateBlendState();
+			pBS->m_blendDesc[0].BlendEnable = true;
+			pBS->m_blendDesc[0].SrcBlend = BLEND_ONE;
+			pBS->m_blendDesc[0].DestBlend = BLEND_ONE;
 
-			GetRenderSystem()->TechniqueStreamComplete(m_pAmbientLight.get());
+			RefPtr<RasterizerState> pRS = CreateRasterizerState();
+			pRS->m_eCullMode = CULL_FACE_SIDE_NONE;
+
+			RefPtr<VertexDeclaration> pDec = CreateVertexDeclaration();
+			pDec->AddElement(VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0));
+			pDec->AddElement(VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0));
+
+			ShaderCreateInfo Info;
+			Info.m_strVSFile = "deferredlight.vert:main";
+			Info.m_strPSFile = "deferredlight.frag:main";
+			Info.m_pRenderPass = m_pLightPass;
+			Info.m_pDSState = pDS;
+			Info.m_pVertexDecl = pDec;
+			Info.m_pRSState = pRS;
+
+			{
+				Info.m_shaderMacro = "AMBIENT_LIGHT";
+
+				RefPtr<Technique> pAmbientLight = CreateTechnique(Info);
+				pAmbientLight->SaveToXML("shader/m_pAmbientLight.tech");
+
+				GetRenderSystem()->TechniqueStreamComplete(pAmbientLight.get());
+			}
+
+			{
+				Info.m_shaderMacro = "DIRECT_LIGHT";
+				Info.m_pBlendState = pBS;
+
+				RefPtr<Technique> pDirLight = CreateTechnique(Info);
+				pDirLight->SaveToXML("shader/dirlight.tech");
+
+				GetRenderSystem()->TechniqueStreamComplete(pDirLight.get());
+			}
+
+			{
+				Info.m_pVertexDecl = CreateVertexDeclaration();
+				Info.m_pVertexDecl->AddElement(VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0));
+
+				Info.m_shaderMacro = "POINT_LIGHT";
+				Info.m_pBlendState = pBS;
+
+				RefPtr<Technique> pPointLight = CreateTechnique(Info);
+				pPointLight->SaveToXML("shader/pointlight.tech");
+
+				GetRenderSystem()->TechniqueStreamComplete(pPointLight.get());
+			}
 		}
-
-		{
-			Info.m_shaderMacro = "DIRECT_LIGHT";
-			Info.m_pBlendState = pBS;
-
-			m_pDirLight = CreateTechnique("shader/dirlight.tech", Info);
-			m_pDirLight->SaveToXML("shader/dirlight.tech");
-
-			GetRenderSystem()->TechniqueStreamComplete(m_pDirLight.get());
-		}
-
-		{
-			Info.m_pVertexDecl = CreateVertexDeclaration();
-			Info.m_pVertexDecl->AddElement(VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0));
-
-			Info.m_shaderMacro = "POINT_LIGHT";
-			Info.m_pBlendState = pBS;
-
-			m_pPointLight = CreateTechnique("shader/pointlight.tech", Info);
-			m_pPointLight->SaveToXML("shader/pointlight.tech");
-
-			GetRenderSystem()->TechniqueStreamComplete(m_pPointLight.get());
-		}
-
 	}
 
 	void RenderScheme::SetupHDRPass()
@@ -321,12 +324,12 @@ namespace ma
 		m_lastStep->SetInput("tSrcColor", "[StageInput]");
 		m_lastStep->SetOutput("[StageOutput]");
 		m_lastStep->SetTechnique("shader/copy.tech");
-		m_lastStep->Setup(m_pTemPass.get(), GetRenderSystem()->GetDefaultRenderPass());
+		m_lastStep->Setup(m_pTemPass.get(), GetRenderSystem()->GetBaseRenderPass());
 	}
 
 	void RenderScheme::Reset()
 	{	
-		m_pBackBaufferPass = GetRenderSystem()->GetDefaultRenderPass();
+		m_pBackBaufferPass = GetRenderSystem()->GetBaseRenderPass();
 
 		m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8);
 
@@ -343,7 +346,8 @@ namespace ma
 
 		SetupHDRPass();
 
-		GetRenderSystem()->SetDefaultRenderPass(m_pGbufferPass.get());
+		GetRenderSystem()->SetBaseRenderPass(m_pGbufferPass.get());
+		GetRenderSystem()->SetDefferedLightRenderPass(m_pLightPass.get());
 		GetRenderSystem()->ReloadShader();
 	}
 
@@ -376,30 +380,30 @@ namespace ma
 		pCommand->Begin();
 
 		Vector3 cAmbientColor = Vector3::ZERO;//= m_pScene->GetAmbientColor();
-		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
-		ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
+		//m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
+		//ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
 
 		for (auto& light : pRenderQueue->GetRenderLights())
 		{
 			if (light.m_eType == LIGHT_DIRECTIONAL)
 			{
-				Uniform* pUniformDir = m_pDirLight->GetUniform(PS, "light_dir");
-				Uniform* pUniformColor = m_pDirLight->GetUniform(PS, "light_color");
+				Uniform* pUniformDir = light.m_pTech->GetUniform(PS, "light_dir");
+				Uniform* pUniformColor = light.m_pTech->GetUniform(PS, "light_color");
 
-				m_pDirLight->SetValue(pUniformDir, Vector3::UNIT_SCALE.normalisedCopy());//light.m_vDir);
-				m_pDirLight->SetValue(pUniformColor, light.m_cLightColor);
+				light.m_pTech->SetValue(pUniformDir, Vector3::UNIT_SCALE.normalisedCopy());//light.m_vDir);
+				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
 
-				ScreenQuad::Render(m_pDirLight.get(), pCommand);
+				ScreenQuad::Render(light.m_pTech.get(), pCommand);
 			}
 			else if (light.m_eType == LIGHT_POINT)
 			{
-				Uniform* pUniformColor = m_pPointLight->GetUniform(PS, "light_color");
-				Uniform* pUniformPosRadius = m_pPointLight->GetUniform(PS, "light_pos_radius");
+				Uniform* pUniformColor = light.m_pTech->GetUniform(PS, "light_color");
+				Uniform* pUniformPosRadius = light.m_pTech->GetUniform(PS, "light_pos_radius");
 
 				Vector4 vPosRadius(light.m_vPos, light.m_fRadius);
 
-				m_pPointLight->SetValue(pUniformColor, light.m_cLightColor);
-				m_pPointLight->SetValue(pUniformPosRadius, vPosRadius);
+				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
+				light.m_pTech->SetValue(pUniformPosRadius, vPosRadius);
 
 				//float cameraToCenter = vPosES.length();
 				//if (cameraToCenter < pPointLight->GetRadius())
@@ -411,7 +415,7 @@ namespace ma
 					//m_pPointLight->m_eCullMode = CULL_FACE_SIDE_BACK;
 				}
 
-				UnitSphere::Render(m_pPointLight.get(), light.m_vPos, light.m_fRadius, pCommand);
+				UnitSphere::Render(light.m_pTech.get(), light.m_vPos, light.m_fRadius, pCommand);
 			}
 		}
 

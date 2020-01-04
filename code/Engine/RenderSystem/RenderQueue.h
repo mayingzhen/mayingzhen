@@ -20,6 +20,7 @@ namespace ma
 		Vector3	m_vDir;
 		Vector3 m_vPos;
 		float m_fRadius = 0.0f;
+		RefPtr<Technique> m_pTech;
 	};
 
 	class RenderQueue : public Referenced
@@ -39,7 +40,7 @@ namespace ma
 		
 		void					SetCamera(Camera* pCamera);
 
-		void					AddLight(Light* pLight);
+		void					AddLight(Light* pLight, Technique* pTech);
 
 		RenderContext*			GetRenderContext() { return m_renderContext.get(); }
 

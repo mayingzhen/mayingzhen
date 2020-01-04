@@ -61,8 +61,8 @@ namespace ma
 			info.m_strPSFile = "mesh.hlsl:ps_main";
 			info.m_pVertexDecl = pDeclaration;
 			info.m_shaderMacro = strMacro;
-			info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
-			pShadingTech = CreateTechnique("shader/skinmesh.tech", info);
+			info.m_pRenderPass = GetRenderSystem()->GetBaseRenderPass();
+			pShadingTech = CreateTechnique(info);
 
 			pShadingTech->SaveToXML("shader/skinmesh.tech");
 		}
@@ -79,8 +79,8 @@ namespace ma
 			info.m_strPSFile = "mesh.hlsl:ps_main";
 			info.m_pVertexDecl = pDeclaration;
 			info.m_shaderMacro = strMacro;
-			info.m_pRenderPass = GetRenderSystem()->GetDefaultRenderPass();
-			pShadingTech = CreateTechnique("shader/mesh.tech", info);
+			info.m_pRenderPass = GetRenderSystem()->GetBaseRenderPass();
+			pShadingTech = CreateTechnique(info);
 
 			pShadingTech->SaveToXML("shader/mesh.tech");
 		}

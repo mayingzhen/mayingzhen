@@ -377,7 +377,7 @@ namespace ma
 				shaderCreate.m_pDSState->m_bDepthWrite = false;
 				shaderCreate.m_pDSState->m_eDepthCheckMode = CMPF_EQUAL;
 
-				RefPtr<Technique> pBorderTech = CreateTechnique("", shaderCreate);
+				RefPtr<Technique> pBorderTech = CreateTechnique(shaderCreate);
 				RefPtr<SubMaterial> pBorderMaterial = pMaterial->Clone();
 				pBorderMaterial->SetShadingTechnqiue(pBorderTech.get());
 
@@ -424,7 +424,7 @@ namespace ma
 				shaderCreate.m_pRSState->m_eCullMode = CULL_FACE_SIDE_NONE;
 				
 				RefPtr<SubMaterial> pSkirtMaterial = pMaterial->Clone();
-				RefPtr<Technique> pSkirtTech = CreateTechnique("", shaderCreate);
+				RefPtr<Technique> pSkirtTech = CreateTechnique(shaderCreate);
 				pSkirtMaterial->SetShadingTechnqiue(pSkirtTech.get());
 
 				for (uint32_t i = 0; i < SideNum; ++i)

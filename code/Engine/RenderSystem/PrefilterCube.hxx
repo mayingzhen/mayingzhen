@@ -42,7 +42,7 @@ namespace ma
 				info.m_strPSFile = "PrefilterCube.hlsl:CopySrcPS";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
-				m_pTechnique[face][0] = CreateTechnique("PrefilterCopySrc", info);
+				m_pTechnique[face][0] = CreateTechnique(info);
 				m_pRendePass[face][0] = pRenderPass;
 
 				m_pTechnique[face][0]->SetParameter("tSkyBoxCube", Any(pInSampler));
@@ -63,7 +63,7 @@ namespace ma
 				info.m_strPSFile = "PrefilterCube.hlsl:PrefilterCubeSpecularPS";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
-				m_pTechnique[face][level] = CreateTechnique("PrefilterCubeSpecular", info);
+				m_pTechnique[face][level] = CreateTechnique(info);
 				m_pRendePass[face][level] = pRenderPass;
 
 				m_pTechnique[face][level]->SetParameter("tSkyBoxCube", Any(pInSampler));
@@ -83,7 +83,7 @@ namespace ma
 				info.m_strPSFile = "PrefilterCube.hlsl:PrefilterCubeDiffusePS";
 				info.m_pVertexDecl = pDeclaration;
 				info.m_pRenderPass = pRenderPass.get();
-				m_pTechnique[face][m_nOutMipmaps - 1] = CreateTechnique("PrefilterCubeDiffuse", info);
+				m_pTechnique[face][m_nOutMipmaps - 1] = CreateTechnique(info);
 				m_pRendePass[face][m_nOutMipmaps - 1] = pRenderPass;
 
 				m_pTechnique[face][m_nOutMipmaps - 1]->SetParameter("tSkyBoxCube", Any(pInSampler));
@@ -182,7 +182,7 @@ namespace ma
 		info.m_strPSFile = "PrefilterBrdf";
 		info.m_pVertexDecl = pDeclaration;
 		info.m_pRenderPass = pRenderPass.get();
-		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf", info);
+		RefPtr<Technique> pPrefilterBrdf = CreateTechnique(info);
 
 		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
 

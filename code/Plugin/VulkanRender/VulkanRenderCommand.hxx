@@ -105,15 +105,15 @@ namespace ma
 		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
 		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
 
+		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_graphicPip._Layout, 0,
+			1, &pVulkanTech->m_grapicDescriptorSet, 0, NULL);
+
 		if (m_prePipeline != pVulkanShader->m_graphicPip._Pipeline)
 		{
 			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_graphicPip._Pipeline);
 		
 			m_prePipeline = pVulkanShader->m_graphicPip._Pipeline;
 		}
-		
-		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pVulkanShader->m_graphicPip._Layout, 0,
-			1, &pVulkanTech->m_grapicDescriptorSet, 0, NULL);
 	}
 
 	void VulkanRenderCommand::DrawIndex(uint32_t nIndexStart,uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount)

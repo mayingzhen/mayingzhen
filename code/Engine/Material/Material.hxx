@@ -51,7 +51,7 @@ namespace ma
 			info.m_pVertexDecl = pDeclaration;
 			info.m_pBlendState = pBlendSate;
 			info.m_pRenderPass = shadowMap.GetShadowMapFrameBuffer();
-			m_pShadowDepthTech = CreateTechnique("ShadowDepth", info);
+			m_pShadowDepthTech = CreateTechnique(info);
 
 			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 			{
@@ -101,7 +101,7 @@ namespace ma
 
 		if (m_pShadingTech)
 		{
-			m_pShadingTech->GetShaderProgram()->SetRenderPass(GetRenderSystem()->GetDefaultRenderPass());
+			m_pShadingTech->GetShaderProgram()->SetRenderPass(GetRenderSystem()->GetBaseRenderPass());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadingTech.get());
 		}

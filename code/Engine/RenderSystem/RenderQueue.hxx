@@ -64,7 +64,7 @@ namespace ma
 		}
 	}
 
-	void RenderQueue::AddLight(Light* pLight)
+	void RenderQueue::AddLight(Light* pLight, Technique* pTech)
 	{
 		m_vecLight.emplace_back();
 		LightInfo& info = m_vecLight.back();
@@ -73,6 +73,7 @@ namespace ma
 		info.m_fLightIntensity = pLight->GetLightIntensity();
 		info.m_vDir = pLight->GetSceneNode()->GetForward();
 		info.m_vPos = pLight->GetSceneNode()->GetPosWS();
+		info.m_pTech = pTech;
 		if (pLight->GetLightType() == LIGHT_POINT)
 		{
 			PointLight* pPointLight = (PointLight*)(pLight);

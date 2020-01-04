@@ -5,7 +5,7 @@ namespace ma
 	SkyBoxRenderable::SkyBoxRenderable()
 	{
 		m_pSubMaterial = CreateSubMaterial();
-		RefPtr<Technique> pTech = CreateTechnique("shader/SkyBox.tech", "", GetRenderSystem()->GetDefaultRenderPass());
+		RefPtr<Technique> pTech = CreateTechnique("shader/SkyBox.tech", "", GetRenderSystem()->GetBaseRenderPass());
 		m_pSubMaterial->SetShadingTechnqiue(pTech.get());
 	}
 

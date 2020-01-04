@@ -44,8 +44,11 @@ namespace ma
 	
 		Rectangle			GetViewPort() {return m_curViewport;}
 
-		void				SetDefaultRenderPass(RenderPass* pRenderPass);
-		RenderPass*			GetDefaultRenderPass();
+		void				SetDefferedLightRenderPass(RenderPass* pRenderPass);
+		RenderPass*			GetDefferedLightRenderPass();
+
+		void				SetBaseRenderPass(RenderPass* pRenderPass);
+		RenderPass*			GetBaseRenderPass();
 
 		void				SetBackBufferRenderPass(RenderPass* pRenderPass);
 		RenderPass*			GetBackBufferRenderPass();
@@ -118,7 +121,9 @@ namespace ma
  		
 		Rectangle			m_curViewport;
 
-		RefPtr<RenderPass>	m_pDefaultRenderPass;
+		RefPtr<RenderPass>	m_pDefferedLightPass;
+
+		RefPtr<RenderPass>	m_pBaseRenderPass;
 
 		RefPtr<RenderPass>	m_pBackBufferRenderPass;
 
@@ -130,7 +135,7 @@ namespace ma
 		
 		bool				m_bDefferedRender = true;
 
-		RefPtr<RenderStep> m_pRenderScheme;
+		RefPtr<RenderStep>  m_pRenderScheme;
 
 		std::vector< RefPtr<RenderStep> > m_renderStepList[2];
 				

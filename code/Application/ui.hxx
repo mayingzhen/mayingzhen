@@ -62,7 +62,7 @@ namespace ma
 		info.m_pBlendState = pBlendState;
 		info.m_pRSState = pRastate;
 		info.m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
-		m_pTechUI = CreateTechnique("ui", info);
+		m_pTechUI = CreateTechnique(info);
 
 		// CreateFontTexture
 		unsigned char* pixels;

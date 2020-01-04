@@ -77,7 +77,6 @@ EXPORTS
 ?SetValue@Technique@ma@@QEAAXPEAVUniform@2@AEBVVector4@2@@Z
 ?SetValue@Technique@ma@@QEAAXPEAVUniform@2@PEAVSamplerState@2@@Z
 ?GetUniform@Technique@ma@@QEAAPEAVUniform@2@W4ShaderType@2@PEBD@Z
-?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PEBDAEBUShaderCreateInfo@1@@Z
 ?GetShadingTechnqiue@SubMaterial@ma@@QEAAPEAVTechnique@2@XZ
 ?SetShadingTechnqiue@SubMaterial@ma@@QEAAXPEAVTechnique@2@@Z
 ?CreateSubMaterial@ma@@YA?AV?$RefPtr@VSubMaterial@ma@@@1@XZ
@@ -162,7 +161,7 @@ EXPORTS
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PEBD@Z
 ?AddArchive@ArchiveManager@ma@@QEAAXPEAVArchive@2@@Z
 ?SetSaveDir@ArchiveManager@ma@@QEAAXPEBD@Z
-?GetDefaultRenderPass@RenderSystem@ma@@QEAAPEAVRenderPass@2@XZ
+?GetBaseRenderPass@RenderSystem@ma@@QEAAPEAVRenderPass@2@XZ
 ?Render@PrefilterCube@ma@@QEAAXXZ
 ?DrawWireSphere@LineRender@ma@@SAXAEBVMatrix4@2@MVColourValue@2@@Z
 ?GetStep@PostProcess@ma@@QEAAPEAVPostProcessStep@2@PEBD@Z
@@ -217,3 +216,4 @@ EXPORTS
 ?CreateTerrain@ma@@YA?AV?$RefPtr@VTerrain@ma@@@1@PEBD@Z
 ?SetCubeMap@SkyBox@ma@@QEAAXPEBD@Z
 ?Init@Engine@ma@@QEAAXPEAXHH_N11@Z
+?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@AEBUShaderCreateInfo@1@@Z

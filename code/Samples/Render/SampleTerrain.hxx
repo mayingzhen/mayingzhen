@@ -45,7 +45,7 @@ namespace ma
 				info.m_strVSFile = "terrain.hlsl:vs_main";
 				info.m_strPSFile = "terrain.hlsl:ps_main";
 				info.m_pVertexDecl = pDeclaration;
-				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", info);
+				RefPtr<Technique> pShadingTech = CreateTechnique(info);
 
 				pShadingTech->SaveToXML("shader/terrain.tech");
 			}
