@@ -20,12 +20,14 @@ file(GLOB Application ${CMAKE_CURRENT_SOURCE_DIR}/*.h*)
 set(SOURCE_FILES
 		${Android}
 		${Input}
-		${iOS_h}
-		${iOS_mm}
 		${Win}
 		${Application}
 		Module.cpp
 		)
+
+if (ios)
+	set(SOURCE_FILES ${iOS_h} ${iOS_mm})
+endif()
 
 include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../"
