@@ -140,7 +140,7 @@ namespace ma
 	{
 		RENDER_PROFILE(DeferredShadow);
 
-		m_pShadowPass->Begine();
+		m_pShadowPass->Begine(Rectangle());
 		
 
 		float fBlendValue = 0.8f;
@@ -219,6 +219,8 @@ namespace ma
 			if ( !shadowMapFru.GetDraw() )
 				continue;
 
+			RenderPass* shadowMapPass = m_ShadowLight->GetShadowMapPass();
+
 			ShadowMapFrustum& shadowMapNextFru = m_ShadowLight->GetShadowMapFrustum(i + 1);
 
 // 			uint32_t refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
@@ -233,7 +235,7 @@ namespace ma
 // 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("NextkernelRadius"),shadowMapNextFru.m_vkernelRadius);
 // 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tNextShadowMap"),shadowMapNextFru.GetShadowMap());
 
-			float fNextSize = (float)shadowMapNextFru.GetShadowMap()->GetTexture()->GetWidth();
+			float fNextSize = shadowMapPass->m_pDepthStencil->GetWidth();
 			Vector4 vNextshadowMapTexelSize(fNextSize, 1.0f / fNextSize, 0, 0);
 			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform(VS,"g_NextshadowMapTexelSize"),vNextshadowMapTexelSize);
 

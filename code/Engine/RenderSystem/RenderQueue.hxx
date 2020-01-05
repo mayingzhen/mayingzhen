@@ -7,7 +7,7 @@ namespace ma
 {
 	RenderQueue::RenderQueue()	
 	{
-		m_renderContext = new RenderContext();
+		m_renderContext = new SceneContext();
 	}
 
 	RenderQueue::~RenderQueue()
@@ -61,6 +61,14 @@ namespace ma
 		if (m_renderContext)
 		{
 			m_renderContext->SetCamera(pCamera);
+		}
+	}
+
+	void RenderQueue::SetMainLight(Light* pMainLight, ColourValue cAmbient)
+	{
+		if (m_renderContext)
+		{
+			m_renderContext->SetMainLight(pMainLight, cAmbient);
 		}
 	}
 

@@ -12,7 +12,7 @@ namespace ma
 		~VulkanRenderPass();
 
 	public:
-		virtual void Begine();
+		virtual void Begine(const Rectangle& viewPort);
 
 		virtual void End();
 
@@ -29,6 +29,8 @@ namespace ma
 		VkRenderPass m_impl = 0;
 
 		VkFramebuffer m_frameBuffer = 0;
+
+		Rectangle m_viewPort;
 
 		std::vector<VkClearValue> m_vecClearValues;
 

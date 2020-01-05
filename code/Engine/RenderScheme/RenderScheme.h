@@ -27,6 +27,7 @@ namespace ma
 
 		RefPtr<RenderQueue> m_pRenderQueue[2];
 		RefPtr<RenderPass> m_pRenderPass;
+		Rectangle m_veiwPort;
 	};
 
 	class RenderScheme : public RenderStep

@@ -25,6 +25,8 @@ namespace ma
 
 		m_bNeedReloadShader = false;
 
+		m_bDefferedRender = false;
+
 		m_hWnd = NULL;
 
 		m_bThread = false;
@@ -190,7 +192,7 @@ namespace ma
 		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
 
 		RenderQueue* pRQ = m_pRenderScheme->m_pRenderQueue[0].get();
-		SetRenderContext(pRQ->GetRenderContext());
+		SetSceneContext(pRQ->GetSceneContext());
 
 		m_scene = new Scene("defaultScene");
 	}

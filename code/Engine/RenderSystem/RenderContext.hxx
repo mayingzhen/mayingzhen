@@ -2,24 +2,24 @@
 
 namespace ma
 {
-	RenderContext* gpRenderContext = NULL;
+	SceneContext* gpRenderContext = NULL;
 
-	RenderContext* GetRenderContext()
+	SceneContext* GetSceneContext()
 	{
 		return gpRenderContext;
 	}
 
-	void SetRenderContext(RenderContext* pRenderContext)
+	void SetSceneContext(SceneContext* pRenderContext)
 	{
 		gpRenderContext = pRenderContext;
 	}
 
-	RenderContext::RenderContext()
+	SceneContext::SceneContext()
 	{
 
 	}
 
-	void RenderContext::SetCamera(Camera* pCamera)
+	void SceneContext::SetCamera(Camera* pCamera)
 	{
 		m_matViewProj.SetMatView( pCamera->GetMatView() );
 		m_matViewProj.SetMatProj( pCamera->GetMatProj() );
@@ -29,81 +29,65 @@ namespace ma
 		m_fNear = pCamera->GetNearClip();
 	}
 
-	const Matrix4& RenderContext::GetViewMatrix() const
+	void SceneContext::SetMainLight(Light* pMianLight, ColourValue cAmbientColor)
+	{
+		if (pMianLight)
+		{
+			m_cMianLightColor = pMianLight->GetLightColor();
+			m_vMainLightDir = pMianLight->GetSceneNode()->GetForward().normalisedCopy();
+		}
+
+		m_cAmbientColor = cAmbientColor;
+	}
+
+	const Matrix4& SceneContext::GetViewMatrix() const
 	{
 		return m_matViewProj.GetMatView();
 	}
 
-	const Matrix4& RenderContext::GetViewMatrixInv() const
+	const Matrix4& SceneContext::GetViewMatrixInv() const
 	{
 		return m_matViewProj.GetMatViewInv();
 	}
 
-	const Matrix4& RenderContext::GetProjMatrix() const 
+	const Matrix4& SceneContext::GetProjMatrix() const 
 	{
 		return m_matViewProj.GetMatProj();
 	}
 
-	const Matrix4& RenderContext::GetViewProjMatrix() const
+	const Matrix4& SceneContext::GetViewProjMatrix() const
 	{
 		return m_matViewProj.GetMatViewProj();
 	}
 
-	const Vector3& RenderContext::GetEyeWorldPos() const
+	const Vector3& SceneContext::GetEyeWorldPos() const
 	{
 		return m_vEyeWordPos;
 	}
 
-	float RenderContext::GetNearClip() 
+	float SceneContext::GetNearClip() 
 	{
 		return m_fNear;
 	}
 
-	float RenderContext::GetFarClip() 
+	float SceneContext::GetFarClip() 
 	{
 		return m_fFar;
 	}
 
-	Vector3	RenderContext::GetAmbientColor() const
+	Vector3	SceneContext::GetAmbientColor() const
 	{
-		//ASSERT(false);
-		return Vector3::ZERO;
-// 		if (m_pCurScene == NULL)
-// 			return Vector3::ZERO;
-// 
-// 		return m_pCurScene->GetAmbientColor();
+		return Vector3(m_cAmbientColor.r, m_cAmbientColor.g, m_cAmbientColor.b);
 	}
 
-	Vector3	RenderContext::GetDirLightColor() const
+	Vector3	SceneContext::GetDirLightColor() const
 	{
-		//ASSERT(false);
-		return Vector3::UNIT_SCALE;
-// 		if (m_pCurScene == NULL)
-// 			return Vector3::ZERO;
-// 
-// 		ColourValue color = m_pCurScene->GetMainDirLight()->GetLightColor();
-// 		return Vector3(color.r,color.g,color.b);
+		return Vector3(m_cMianLightColor.r, m_cMianLightColor.g, m_cMianLightColor.b);
 	}
 
-	Vector3	RenderContext::GetDirLightDir() const
+	Vector3	SceneContext::GetDirLightDir() const
 	{
-		//ASSERT(false);
-		return Vector3::UNIT_SCALE.normalisedCopy();
-
-// 		if (m_pCurScene == NULL)
-// 			return Vector3::ZERO;
-// 
-// 		return m_pCurScene->GetMainDirLight()->GetSceneNode()->GetForward();
-	}
-
-	void RenderContext::AddLight(Light* pLight)
-	{
-
-	}
-
-	void RenderContext::Clear()
-	{
-
+		return m_vMainLightDir;
 	}
 
 }

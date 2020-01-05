@@ -42,7 +42,6 @@ namespace ma
 			pBlendSate->m_blendDesc[0].nColorWrite = 0;
 
 			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
-			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
 
 			ShaderCreateInfo info;
 			info.m_strVSFile = "ShadowDepth.hlsl:vs_main";
@@ -50,7 +49,7 @@ namespace ma
 			info.m_shaderMacro = strShaderMacro;
 			info.m_pVertexDecl = pDeclaration;
 			info.m_pBlendState = pBlendSate;
-			info.m_pRenderPass = shadowMap.GetShadowMapFrameBuffer();
+			info.m_pRenderPass = pDirLight->GetShadowMapPass();
 			m_pShadowDepthTech = CreateTechnique(info);
 
 			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
@@ -109,8 +108,7 @@ namespace ma
 		if (m_pShadowDepthTech)
 		{
 			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
-			ShadowMapFrustum& shadowMap = pDirLight->GetShadowMapFrustum(0);
-			m_pShadowDepthTech->GetShaderProgram()->SetRenderPass(shadowMap.GetShadowMapFrameBuffer());
+			m_pShadowDepthTech->GetShaderProgram()->SetRenderPass(pDirLight->GetShadowMapPass());
 
 			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
 		}

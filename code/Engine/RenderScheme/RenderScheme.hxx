@@ -11,9 +11,9 @@ namespace ma
 		RenderQueue* cur_renderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 		RenderPass*  cur_renderPass = m_pRenderPass.get();
 
-		SetRenderContext(cur_renderQueue->GetRenderContext());
+		SetSceneContext(cur_renderQueue->GetSceneContext());
 
-		cur_renderPass->Begine();
+		cur_renderPass->Begine(m_veiwPort);
 
 		cur_renderQueue->Render(cur_renderPass);
 
@@ -24,7 +24,7 @@ namespace ma
 	{
 		g_pPostProcessPipeline = new PostProcessPipeline();
 
-		SetRenderContext(m_pRenderQueue[0]->GetRenderContext());
+		SetSceneContext(m_pRenderQueue[0]->GetSceneContext());
 
 		Init();
 
@@ -362,7 +362,7 @@ namespace ma
 	{
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 
-		m_pGbufferPass->Begine();
+		m_pGbufferPass->Begine(Rectangle());
 
 		pRenderQueue->Render(m_pGbufferPass.get(), RL_Mesh, RL_MeshTrans);
 
@@ -373,7 +373,7 @@ namespace ma
 	{
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 
-		m_pLightPass->Begine();
+		m_pLightPass->Begine(Rectangle());
 
 		RenderCommand* pCommand = m_pLightPass->GetThreadCommand(0, 0);
 
@@ -433,7 +433,7 @@ namespace ma
 
 		g_pPostProcessPipeline->Render();
 
-		m_pBackBaufferPass->Begine();
+		m_pBackBaufferPass->Begine(Rectangle());
 
 		m_lastStep->Render();
 

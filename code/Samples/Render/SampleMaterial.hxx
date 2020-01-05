@@ -121,7 +121,7 @@ namespace ma
 		
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10,0,10),Vector3(0,0,0));
 		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
-		m_pScene->SetAmbientColor(Vector3(0.5,0.5,0.5));
+		m_pScene->SetAmbientColor(ColourValue(0.5,0.5,0.5));
 	}
 
 	void SampleMaterial::UnLoad()

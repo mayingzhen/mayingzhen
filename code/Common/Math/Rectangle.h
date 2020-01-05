@@ -21,10 +21,10 @@ namespace ma
 
 		Rectangle()
 		{
-			left = 0;
-			top = 0;
-			right = 0.0;
-			bottom = 0.0;
+			left = 0.0f;
+			top = 0.0f;
+			right = 0.0f;
+			bottom = 0.0f;
 		}
 
 		Rectangle(float fLeft,float fTop,float fRight,float fBottom)
@@ -34,6 +34,8 @@ namespace ma
 			right = fRight;
 			bottom = fBottom;
 		}
+
+		bool IsEmpty() const {return left == 0.0f && top == 0.0f && right == 0.0f && bottom == 0.0f;}
 
 		float offsetX() const { return left; }
 		float offsetY() const { return top; }

@@ -63,12 +63,11 @@ struct VS_OUT
 
 #ifdef DEFERREDSHADING 
    float3 viewNormal :TEXCOORD3;	
-#else  
+#endif
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
 	float2 oRandDirTC : TEXCOORD4;
 	float4 oShadowPos : TEXCOORD5;
-#endif
 #endif  
    
 #ifdef COLOR      
@@ -128,7 +127,7 @@ VS_OUT vs_main(VS_IN In)
 #endif
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-	GetShadowPos(Out.WorldPos.xyz,Out.oShadowPos);
+	Out.oShadowPos = GetShadowPos(Out.WorldPos.xyz);
 	#if SHADOW_BLUR == 2 	
 	GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
 	#endif	
@@ -164,7 +163,7 @@ out DRMRTOut mrtOut
 			#if SHADOW_BLUR == 2
 				RandDirTC = In.oRandDirTC;
 			#endif
-		fShadowMapShadow = DoShadowMapping(ShadowPos,RandDirTC,oWorldPos.w);
+		fShadowMapShadow = DoShadowMapping(ShadowPos,RandDirTC,In.WorldPos.w);
 	#endif		
 #endif
 	    

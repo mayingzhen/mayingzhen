@@ -21,9 +21,7 @@ namespace ma
 		
 		~ShadowMapFrustum();
 
-		void				CreateShadowMap(int nSize);	
-
-		SamplerState*		GetShadowMap() const; 
+		void				InitShadowMap(Rectangle viewPort, RenderPass* pSMPass);	
 
 		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);	
 		void				Render(Camera* pCamera);
@@ -36,8 +34,6 @@ namespace ma
 		const Matrix4&		GetShadowMatrix() const {return m_matShadow[GetRenderSystem()->CurThreadProcess()];}
 
 		bool				GetDraw() {return m_bDraw[GetRenderSystem()->CurThreadProcess()];}
-
-		RenderPass*			GetShadowMapFrameBuffer() {return m_pShadowMapFB.get();}
 
 	private:
 		void				UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar);
@@ -72,12 +68,6 @@ namespace ma
 
 		float				m_fConstantBias[2];
 		float				m_fSlopeScaleBias[2];
-
-		Rectangle			m_viewport;	
-		
-		RefPtr<RenderPass>	m_pShadowMapFB;
-		RefPtr<Texture>		m_pShdowMapDepth;
-		RefPtr<SamplerState> m_pShadowMapSampler;
 
 		Shadow_Blur			m_eShadowBleurLevel;
 

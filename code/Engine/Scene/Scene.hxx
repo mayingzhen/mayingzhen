@@ -23,7 +23,7 @@ namespace ma
 		m_pMainDirLight = CreateDirectonalLight();
 		pMainLightNode->AddComponent(m_pMainDirLight.get());
 
-		m_cAmbientColor = Vector3::ZERO;
+		m_cAmbientColor = ColourValue::Black;
 	}
 
 	Scene::~Scene()
@@ -74,8 +74,6 @@ namespace ma
 			m_pCallback->OnPreUpdate(this);
 		}
 
-		m_pMainDirLight->UpdateShadowMap(m_pCamera.get());
-
 		m_pRootNode->Update();
 		
 		if (GetJobScheduler()->GetNumThreads() > 0)
@@ -111,7 +109,7 @@ namespace ma
 				pComp->EndParallelUpdate();
 			}
 		}
-		
+
 		if (m_pCallback)
 		{
 			m_pCallback->OnPostUpdate(this);
@@ -141,6 +139,7 @@ namespace ma
 		pRenderQueue->Clear();
 
 		pRenderQueue->SetCamera(m_pCamera.get());
+		pRenderQueue->SetMainLight(m_pMainDirLight.get(), m_cAmbientColor);
 
 		GetRenderSystem()->AddRenderStep(render_step);
 
@@ -176,6 +175,10 @@ namespace ma
 				pComp->ParallelShow(pCamera);
 			}
 		}
+
+		m_pMainDirLight->UpdateShadowMap(m_pCamera.get());
+
+		m_pMainDirLight->RenderShadowMap(m_pCamera.get());
 	}
 
 	RefPtr<Scene> CreateScene()

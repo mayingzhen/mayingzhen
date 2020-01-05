@@ -105,7 +105,7 @@ namespace ma
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
 
-				pRenderPass->Begine();
+				pRenderPass->Begine(Rectangle());
 
 				pCommand->Begin();
 
@@ -123,7 +123,7 @@ namespace ma
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
 
-				pRenderPass->Begine();
+				pRenderPass->Begine(Rectangle());
 
 				pCommand->Begin();
 
@@ -141,7 +141,7 @@ namespace ma
 
 				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
 
-				pRenderPass->Begine();
+				pRenderPass->Begine(Rectangle());
 
 				ScreenQuad::Render(PrefilterCubeDiffuse.get(), pCommand);
 
@@ -186,7 +186,7 @@ namespace ma
 
 		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
 
-		pRenderPass->Begine();
+		pRenderPass->Begine(Rectangle());
 
 		pCommand->Begin();
 

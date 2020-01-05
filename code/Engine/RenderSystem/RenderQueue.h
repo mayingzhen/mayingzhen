@@ -10,7 +10,7 @@ namespace ma
 	class Technique;
 	class Camera;
 	class Light;
-	class RenderContext;
+	class SceneContext;
 
 	struct LightInfo
 	{
@@ -31,30 +31,31 @@ namespace ma
 		~RenderQueue();
 
 		void					AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech);
+		
+		void					SetCamera(Camera* pCamera);
+
+		void					SetMainLight(Light* pMainLight, ColourValue cAmbient);
+
+		void					AddLight(Light* pLight, Technique* pTech);
+
+		SceneContext*			GetSceneContext() { return m_renderContext.get(); }
+
+		std::vector< LightInfo >& GetRenderLights() { return m_vecLight; }
 
 		void					Render(RenderPass* pPass);
 
 		void					Render(RenderPass* pPass, int stageBegin, int stageEnd);
 
 		void					Clear();
-		
-		void					SetCamera(Camera* pCamera);
-
-		void					AddLight(Light* pLight, Technique* pTech);
-
-		RenderContext*			GetRenderContext() { return m_renderContext.get(); }
-
-		std::vector< LightInfo >& GetRenderLights() { return m_vecLight; }
 
 	private:
 
 		std::map<int, BatchRenderable> m_mapRenderList;
 
-		RefPtr<RenderContext> m_renderContext;
+		RefPtr<SceneContext> m_renderContext;
 
 		// Light
 		std::vector< LightInfo > m_vecLight;
-
 	};
 }
 

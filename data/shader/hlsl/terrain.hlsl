@@ -107,9 +107,9 @@ VS_OUTPUT vs_main(const VS_INPUT In)
 	Out.oNormal.w = fWeight;
 
 #if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
-	GetShadowPos(Out.WorldPos.xyz,Out.oShadowPos);
+	Out.oShadowPos = GetShadowPos(Out.WorldPos.xyz);
 	#if SHADOW_BLUR == 2 	
-	GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
+		GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
 	#endif	
 #endif
 

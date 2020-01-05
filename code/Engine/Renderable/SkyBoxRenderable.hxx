@@ -13,9 +13,9 @@ namespace ma
 	{
 		pTech->Bind(this);
 
-		Matrix4 matView = GetRenderContext()->GetViewMatrix();
+		Matrix4 matView = GetSceneContext()->GetViewMatrix();
 		matView.setTrans(Vector3::ZERO);
-		Matrix4 matViewProj = GetRenderContext()->GetProjMatrix() * matView;
+		Matrix4 matViewProj = GetSceneContext()->GetProjMatrix() * matView;
 		Matrix4 matInvViewProj = matViewProj.inverse();
 
 		pTech->SetValue(pTech->GetUniform(VS,"inv_mvp"), matInvViewProj);

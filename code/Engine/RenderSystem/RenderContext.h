@@ -6,14 +6,14 @@ namespace ma
 	class Light;
 	class Camera;
 
-	class RenderContext : public Referenced
+	class SceneContext : public Referenced
 	{
 	public:
-		RenderContext();
-
-		void					AddLight(Light* pLight);
+		SceneContext();
 		
 		void					SetCamera(Camera* pCamera); 
+
+		void					SetMainLight(Light* pMianLight, ColourValue cAmbientColor);
 
 		const Matrix4&			GetViewMatrix() const;
 		const Matrix4&			GetViewMatrixInv() const;
@@ -28,8 +28,6 @@ namespace ma
 		Vector3					GetDirLightColor() const;
 		Vector3					GetDirLightDir() const;
 
-		void					Clear();
-
 	protected:
 		MatViewProj				m_matViewProj;
 
@@ -37,11 +35,14 @@ namespace ma
 		float					m_fFar = 0.0f;
 		Vector3					m_vEyeWordPos = Vector3::ZERO;
 
-		Light*					m_pCurLight;
+		Vector3					m_vMainLightDir;
+		ColourValue				m_cMianLightColor;
+		ColourValue				m_cAmbientColor;
+
 	};
 
-	RenderContext*	GetRenderContext();
+	SceneContext*	GetSceneContext();
 
-	void			SetRenderContext(RenderContext* pRenderContext);
+	void			SetSceneContext(SceneContext* pRenderContext);
 }
 

@@ -15,9 +15,9 @@ void GetRandDirTC(float fDistance, out float2 randDirTC)
 }
 #endif
 
-void GetShadowPos(float3 iWordPos, out float4 shadowPos)
+float4 GetShadowPos(float3 iWordPos)
 {
-	shadowPos = mul(float4(iWordPos, 1.0), g_matShadow);
+	return mul(float4(iWordPos, 1.0), g_matShadow);
 }
 
 

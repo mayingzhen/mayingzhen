@@ -118,8 +118,6 @@ namespace ma
 
 	void DirectonalLight::UpdateShadowMap(Camera* pCamera)
 	{
-		//m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_LIGHT, m_arrLodRenderable[m_nLod][i].get());
-
 		if (!m_bShadowEnable)
 			return;
 
@@ -168,10 +166,6 @@ namespace ma
 		float fadeRange = fadeEnd - fadeStart;
 
 		m_vShadowDepthFade[GetRenderSystem()->CurThreadFill()] = Vector4(0, 0, fadeStart, 1.0f / fadeRange);
-
-		UpdateShadowMap(pCamera);
-
-		RenderShadowMap(pCamera);
 	}
 
 	void DirectonalLight::RenderShadowMap(Camera* pCamera)
@@ -193,6 +187,29 @@ namespace ma
 		}
 	}
 
+	void DirectonalLight::CreateShadowMap()
+	{
+		uint32_t width = m_nMaxSplitCount * m_nShadowMapSize;
+		uint32_t height = m_nShadowMapSize;
+		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();
+
+		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(width, height, shadowMapDepthFormat);
+
+		m_pShadowMapPass = GetRenderDevice()->CreateRenderPass();
+		m_pShadowMapPass->AttachDepthStencil(m_pShdowMapDepth.get());
+		GetRenderSystem()->RenderPassStreamComplete(m_pShadowMapPass.get());
+
+		m_pShadowMapSampler = CreateSamplerState(m_pShdowMapDepth.get(), CLAMP, TFO_SHADOWCOMPARE, false);
+
+		for (int i = 0; i < m_nMaxSplitCount; ++i)
+		{
+			Rectangle viewPort = Rectangle(1.0f + i * m_nShadowMapSize, 1.0f,
+				(i + 1) * m_nShadowMapSize - 2.0f, m_nShadowMapSize - 2.0f);
+			m_SpitFrustum[i].InitShadowMap(viewPort, m_pShadowMapPass.get());
+			m_SpitFrustum[i].m_pParent = this;
+		}
+	}
+
 	void DirectonalLight::SetMaxSplitCount(int nMaxSplitCount)
 	{
 		assert(nMaxSplitCount > 0 && nMaxSplitCount <= MAX_FRUSTUM_SPLIT_NUM);
@@ -201,11 +218,7 @@ namespace ma
 		
 		m_nMaxSplitCount = nMaxSplitCount;
 
-		for (int i = 0; i < nMaxSplitCount; ++i)
-		{
-			m_SpitFrustum[i].CreateShadowMap(m_nShadowMapSize);
-			m_SpitFrustum[i].m_pParent = this;
-		}
+		CreateShadowMap();
 	}
 
 	void DirectonalLight::UpdateViewMinMaxZ(Camera* pCamera)
@@ -258,11 +271,7 @@ namespace ma
 
 		m_nShadowMapSize = nSize;
 
-		for (int i = 0; i < m_nMaxSplitCount; ++i)
-		{
-			m_SpitFrustum[i].CreateShadowMap(m_nShadowMapSize);
-			m_SpitFrustum[i].m_pParent = this;
-		}
+		CreateShadowMap();
 	}
 
 	void DirectonalLight::GetDepthBiasParams(float& fConstantBias, float& fSlopeScaleBias) const

@@ -81,7 +81,7 @@ namespace ma
 		RefPtr<MethodBinding> pMethodDiffuseTexture = new MethodFunBinding< SamplerState* >([this](Renderable*) {return m_pDiffuseTexture.get();});
 		pSubMaterial->SetParameter("u_texture", Any(pMethodDiffuseTexture));
 
-		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
+		m_pScene->SetAmbientColor(ColourValue(0.0,0.0,0.0));
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
 	}
 

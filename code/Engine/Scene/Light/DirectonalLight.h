@@ -68,8 +68,12 @@ namespace ma
 
 		ShadowMapFrustum&	GetShadowMapFrustum(int index) {return m_SpitFrustum[index];}
 
+		RenderPass*			GetShadowMapPass() { return m_pShadowMapPass.get(); }
+
 	private:
 		void				UpdateViewMinMaxZ(Camera* pCamera);
+
+		void				CreateShadowMap();
 
 	private:
 		int					m_nCurSplitCount;
@@ -97,6 +101,10 @@ namespace ma
 		Shadow_Blur			m_eShadowBleurLevel;
 
 		bool				m_bShadowEnable;
+
+		RefPtr<RenderPass>	m_pShadowMapPass;
+		RefPtr<Texture>		m_pShdowMapDepth;
+		RefPtr<SamplerState> m_pShadowMapSampler;
 	};
 
 	RefPtr<DirectonalLight> CreateDirectonalLight();

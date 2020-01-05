@@ -33,12 +33,9 @@ namespace ma
 			m_nClearStencil = nClearStencil;
 		}
 
-		void SetViewPort(const Rectangle& viewPort) { m_viewPort = viewPort; }
-		const Rectangle&  GetViewPort() const { return m_viewPort; }
-
 		virtual void Create() = 0;
 
-		virtual void Begine() = 0;
+		virtual void Begine(const Rectangle& viewPort) = 0;
 
 		virtual void End() = 0;
 
@@ -52,8 +49,6 @@ namespace ma
 		uint32_t					m_nClearStencil = 0;
 		
 		std::vector<RenderSurface>	m_arrColor;
-
-		Rectangle					m_viewPort;
 	};
 
 }

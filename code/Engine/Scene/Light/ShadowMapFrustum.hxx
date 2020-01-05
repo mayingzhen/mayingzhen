@@ -13,8 +13,6 @@ namespace ma
 		m_bDraw[0] = true;
 		m_bDraw[1] = true;
 
-		m_viewport = Rectangle(0,0,0,0);
-
 		m_matLightView = Matrix4::IDENTITY;
 		m_matLightProj = Matrix4::IDENTITY;
 		m_matLightViewProj[0] = Matrix4::IDENTITY;
@@ -34,38 +32,20 @@ namespace ma
 		m_vkernelRadius = Vector2(2.0f,2.0f);
 
 		
-		m_pShadowMapFB = GetRenderDevice()->CreateRenderPass();
 		m_shadowMapRender = new RenderStep();
-		m_shadowMapRender->m_pRenderPass = m_pShadowMapFB;
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
 	{
 	}
 
-	void ShadowMapFrustum::CreateShadowMap(int nSize)
+	void ShadowMapFrustum::InitShadowMap(Rectangle viewPort, RenderPass* pSMPass)
 	{
-		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
+		m_shadowMapRender->m_pRenderPass = pSMPass;
 
-		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();	
-		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat);
-		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
-		m_pShadowMapFB->SetViewPort(m_viewport);
-		GetRenderSystem()->RenderPassStreamComplete(m_pShadowMapFB.get());
+		m_shadowMapRender->m_veiwPort = viewPort;
 
-		m_matTexAdjust = CalculateTexAdjustMatrix(m_pShdowMapDepth.get(),m_viewport);
-
-		m_pShadowMapSampler = GetRenderDevice()->CreateSamplerState();
-		m_pShadowMapSampler->SetWrapMode(CLAMP);
-		m_pShadowMapSampler->SetTexture( m_pShdowMapDepth.get() );
-		m_pShadowMapSampler->SetFilterMode(TFO_SHADOWCOMPARE);
-		m_pShadowMapSampler->SetSRGB(false);
-		
-	}
-
-	SamplerState* ShadowMapFrustum::GetShadowMap() const 
-	{
-		return m_pShadowMapSampler.get();
+		m_matTexAdjust = CalculateTexAdjustMatrix(pSMPass->m_pDepthStencil.get(), viewPort);
 	}
 
 	Matrix4 ShadowMapFrustum::CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort)
@@ -288,7 +268,7 @@ namespace ma
 	void ProjectScreenToWorldExpansionBasis(const Matrix4& mShadowTexGen, const Camera& cam, float fViewWidth, float fViewHeight, 
 		Vector4& vWBasisX, Vector4& vWBasisY, Vector4& vWBasisZ, Vector4& vCamPos)
 	{
-		ASSERT(false);
+		//ASSERT(false);
 
 		Matrix4 camMatrix = cam.GetMatrixWS();
 		//camMatrix = cam.GetViewMatrixInv();
@@ -361,18 +341,13 @@ namespace ma
 
 		RenderQueue* pRenderQueue = m_shadowMapRender->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 
-		GetRenderSystem()->AddRenderStep(m_shadowMapRender);
-
 		pRenderQueue->SetCamera(pCamera);
+
+		GetRenderSystem()->AddRenderStep(m_shadowMapRender);
 	}
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)
 	{
-		//m_pRenderQueue[GetRenderSystem()->CurThreadFill()]->Clear();
-		//RenderQueue* pRenderQueue = m_shadowMapRender->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
-
-		//pRenderQueue-
-
 		m_casterAABB.setNull();
 		m_arrCaster.clear();	
 		m_sceneAABB.setNull();

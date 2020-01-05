@@ -42,22 +42,24 @@ namespace ma
 		return pRenderCmd;
 	}
 
-	void VulkanRenderPass::Begine()
+	void VulkanRenderPass::Begine(const Rectangle& viewPort)
 	{
 		VulkanRenderDevice* pRenderDevice = (VulkanRenderDevice*)GetRenderDevice();
 		VkCommandBuffer vkMainCmd = pRenderDevice->m_drawCmdBuffers;
 
 		Create();
 
+		Rectangle area = viewPort.IsEmpty() ? viewPort : m_viewPort;
+
 		VkRenderPassBeginInfo rp_begin = {};
 		rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		rp_begin.pNext = NULL;
 		rp_begin.renderPass = m_impl;
 		rp_begin.framebuffer = m_frameBuffer;
-		rp_begin.renderArea.offset.x = (int)m_viewPort.offsetX();
-		rp_begin.renderArea.offset.y = (int)m_viewPort.offsetY();
-		rp_begin.renderArea.extent.width = (uint32_t)m_viewPort.width();
-		rp_begin.renderArea.extent.height = (uint32_t)m_viewPort.height();
+		rp_begin.renderArea.offset.x = (int)area.offsetX();
+		rp_begin.renderArea.offset.y = (int)area.offsetY();
+		rp_begin.renderArea.extent.width = (uint32_t)area.width();
+		rp_begin.renderArea.extent.height = (uint32_t)area.height();
 		rp_begin.clearValueCount = m_vecClearValues.size();
 		rp_begin.pClearValues = m_vecClearValues.data();
 

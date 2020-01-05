@@ -66,8 +66,8 @@ namespace ma
 		void					AddParallelUpdate(Component* pComponent);
 		void					AddParallelShow(Component* pComponent);
 
-		const Vector3&			GetAmbientColor() const{return m_cAmbientColor;}
-		void					SetAmbientColor(const Vector3& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
+		const ColourValue&		GetAmbientColor() const{return m_cAmbientColor;}
+		void					SetAmbientColor(const ColourValue& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
 		DirectonalLight*		GetMainDirLight() {return m_pMainDirLight.get();}
 
 	private:
@@ -94,7 +94,7 @@ namespace ma
 			
 		CCallback*				m_pCallback;
 
-		Vector3					m_cAmbientColor;
+		ColourValue				m_cAmbientColor;
 		RefPtr<DirectonalLight> m_pMainDirLight;
 	};
 
