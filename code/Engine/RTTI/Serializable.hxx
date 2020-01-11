@@ -17,6 +17,8 @@ namespace ma
 
 	void Serializable::SaveToXML(const char* pszXMLFile)
 	{
+		m_strPath = pszXMLFile;
+
 		string strFullName = GetArchiveMananger()->GetSaveDir();
 		strFullName += pszXMLFile;
 		strFullName = StringUtil::standardiseDir(strFullName);
@@ -31,6 +33,7 @@ namespace ma
 
 	void Serializable::LoadFromXML(const char* pszXMlFile)
 	{
+		m_strPath = pszXMlFile;
 		m_pXMlFile = CreateXmlFile(pszXMlFile);
 		IsReady();
 	}

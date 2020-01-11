@@ -33,7 +33,7 @@ namespace ma
 // 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
 // 		pTech->SetRenderPass(m_pRenderPass.get());
 // 		pTech->ReLoad();
-		SetTechnique(m_pMaterial->GetShadingTechnqiue()->GetTechName());
+		SetTechnique(m_pMaterial->GetShadingTechnqiue()->GetResPath());
 
 		for (auto it = m_strInTexture.begin(); it != m_strInTexture.end(); ++it)
 		{

@@ -121,7 +121,7 @@ namespace ma
 			rapidxml::xml_node<>* pXmlShadingTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ShadingTech"));
 			pXmlElem->append_node(pXmlShadingTech);
 
-			const char* pszName = m_pShadingTech->GetTechName();
+			const char* pszName = m_pShadingTech->GetResPath();
 			const char* pszMacro = m_pShadingTech->GetShaderDefine();
 
 			rapidxml::append_attribute(pXmlShadingTech, doc, "TechName", pszName);
@@ -133,7 +133,7 @@ namespace ma
 			rapidxml::xml_node<>* pXmlShadowDepthTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ShadowDepthTech"));
 			pXmlElem->append_node(pXmlShadowDepthTech);
 			
-			const char* pszName = m_pShadowDepthTech->GetTechName();
+			const char* pszName = m_pShadowDepthTech->GetResPath();
 			const char* pszMacro = m_pShadowDepthTech->GetShaderDefine();
 
 			rapidxml::append_attribute(pXmlShadowDepthTech, doc, "TechName", pszName);

@@ -205,16 +205,6 @@ namespace ma
 		return &m_arrParameters[nIndex];
 	}
 
-	const char*	Technique::GetTechName() const
-	{
-		return m_stName.c_str();
-	}
-
-	void Technique::SetTechName(const char* pName)
-	{
-		m_stName = pName ? pName : "";
-	}
-
 	const char*	Technique::GetShaderDefine() const
 	{
 		return m_strDefine.c_str();
@@ -755,7 +745,6 @@ namespace ma
 	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine, RenderPass* pPass)
 	{
 		Technique* pTech = GetRenderDevice()->CreateTechnique();
-		pTech->SetTechName(pszXMLFile);
 		pTech->SetShaderDefine(pDefine);
 		pTech->SetRenderPass(pPass);
 		pTech->LoadFromXML(pszXMLFile);
@@ -766,7 +755,6 @@ namespace ma
 	RefPtr<Technique> CreateTechnique(const ShaderCreateInfo& info)
 	{
 		Technique* pTech = GetRenderDevice()->CreateTechnique();
-		//pTech->SetTechName(pTechName);
 
 		RefPtr<ShaderProgram> pShader = CreateShaderProgram(info);
 

@@ -31,9 +31,6 @@ namespace ma
 
 		virtual void		RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer) = 0;
 
-		const char*			GetTechName() const;
-		void				SetTechName(const char* pName);
-
 		const char*			GetShaderDefine() const;
 		void				SetShaderDefine(const char* pszDefine);
 
@@ -103,7 +100,6 @@ namespace ma
 		void				ClearStorgeBuffer();
 
 	private:
-		std::string						m_stName;
 		std::string						m_strDefine;
 
 		RefPtr<RenderPass>				m_pRenderPass;

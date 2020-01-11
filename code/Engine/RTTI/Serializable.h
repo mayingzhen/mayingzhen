@@ -24,7 +24,10 @@ namespace ma
 
 		XmlFile*				GetXMLFile() {return m_pXMlFile.get();}
 
+		const char*				GetResPath() { return m_strPath.c_str(); }
+
 	protected:
+		std::string				m_strPath;
 		RefPtr<XmlFile>			m_pXMlFile;
 		bool					m_bXMLLoadOver;
 	};
