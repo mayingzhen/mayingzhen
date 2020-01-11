@@ -49,7 +49,7 @@ namespace ma
 
 		Create();
 
-		Rectangle area = viewPort.IsEmpty() ? viewPort : m_viewPort;
+		Rectangle area = viewPort.IsEmpty() ? m_viewPort : viewPort;
 
 		VkRenderPassBeginInfo rp_begin = {};
 		rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;

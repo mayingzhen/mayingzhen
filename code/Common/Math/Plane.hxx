@@ -119,7 +119,7 @@ namespace ma {
 	{
 		Vector3 kEdge1 = rkPoint1 - rkPoint0;
 		Vector3 kEdge2 = rkPoint2 - rkPoint0;
-		normal = kEdge1.crossProduct(kEdge2);
+		normal = kEdge2.crossProduct(kEdge1);//kEdge1.crossProduct(kEdge2);
 		normal.normalise();
 		d = -normal.dotProduct(rkPoint0);
 	}

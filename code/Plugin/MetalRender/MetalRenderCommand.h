@@ -47,10 +47,24 @@ namespace ma
         uint32_t m_nPreVBOffset[MAX_VB] = {0};
         id<MTLDepthStencilState> m_preDS = 0;
         id<MTLRenderPipelineState> m_prePipeline = 0;
-        id<MTLTexture> m_preTexture[16];
-        id<MTLSamplerState> m_preSampler[16];
+        id<MTLTexture> m_preTexture[ShaderType_Number][16] = {0};
+        id<MTLSamplerState> m_preSampler[ShaderType_Number][16] = {0};
 	};
 
+	class MetalComputeCommad : public ComputeCommad
+	{
+ public:
+
+		virtual	void Begin();
+
+		virtual void End();
+
+		virtual void SetTechnique(Technique* pTech);
+
+		virtual void SetStorgeBuffer(VertexBuffer* pBuffer);
+
+		virtual void Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
+	};
 
 }
 

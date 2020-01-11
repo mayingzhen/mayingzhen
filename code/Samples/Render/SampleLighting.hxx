@@ -8,7 +8,7 @@ namespace ma
 
 	void SampleLighting::Load()
 	{
-		Vector3 vEyePos = Vector3(0, -6, 2);
+		Vector3 vEyePos = Vector3(0, 0, -10);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->LookAt(vEyePos,VAtPos);
 	
@@ -22,7 +22,7 @@ namespace ma
 		pSceneNode->SetScale(Vector3(0.01f));
 		m_pScene->GetRootNode()->AddChild(pSceneNode.get());
 		
-		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(0,10,0),Vector3(1.0,1.0,1.0));
+		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10),Vector3(1.0,1.0,1.0));
 		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0f,1.0f,1.0f,1.0f));
 
 		// Light
@@ -34,7 +34,7 @@ namespace ma
 			m_pPointLight->GetSceneNode()->Translate(Vector3(2, 0, 1));
 			m_pPointLight->SetLightColor(ColourValue::White);
 			m_pPointLight->SetLightIntensity(2.0f);
-			m_pPointLight->SetRadius(10);
+			m_pPointLight->SetRadius(2);
  
 			SceneNode* pDirLight = m_pScene->CreateSceneNode(); 
 			m_pDirectLight = CreateDirectonalLight();

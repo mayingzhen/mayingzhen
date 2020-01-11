@@ -559,16 +559,17 @@ namespace ma
 		return rect;
 	}
 
+	//D3DXMatrixPerspectiveFovLH
 	Matrix4 VulkanRenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
 		float yScale = 1.0f / Math::Tan(fovy * 0.5f);
 		float xScale = yScale / Aspect;
-		float zScale = zf / (zn - zf);
+		float zScale = zf / (zf - zn);
 
 		out[0][0] = xScale; out[0][1] = 0.f;    out[0][2] = 0.f;    out[0][3] = 0.f;
 		out[1][0] = 0.f;    out[1][1] = yScale; out[1][2] = 0.f;    out[1][3] = 0.f;
-		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = zScale; out[2][3] = zn * zScale;
-		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;     out[3][3] = 0.f;
+		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = zScale; out[2][3] = -zn * zScale;
+		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = 1.0f;   out[3][3] = 0.f;
 
 		//Vulkan clip space has inverted Y
 		Matrix4 Clip = Matrix4::IDENTITY;

@@ -14,7 +14,7 @@ namespace ma
 
         virtual void Create();
         
-        virtual void Begine();
+        virtual void Begine(const Rectangle& viewPort);
         
         virtual void End();
         

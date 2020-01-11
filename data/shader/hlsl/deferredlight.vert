@@ -36,7 +36,7 @@ void main(
    vOut.pos =  mul(float4(pos.xyz ,1),g_matWorldViewProj);
    vOut.oViewDir =  mul(float4(pos.xyz ,1),g_matWorldView);
    vOut.oTc = vOut.pos.xy / vOut.pos.w * 0.5f;
-   vOut.oTc.y *= -1;
+   //vOut.oTc.y *= -1;
    vOut.oTc += 0.5f;
 #endif
 }

@@ -1,3 +1,4 @@
+
 #include "MetalRenderCommand.h"
 #include "MetalIndexBuffer.h"
 #include "MetalVertexBuffer.h"
@@ -37,11 +38,8 @@ namespace ma
         memset(m_nPreVBOffset,0,sizeof(m_nPreVBOffset));
         m_preDS = 0;
         m_prePipeline = 0;
-        for(uint32_t i = 0; i < 16; ++i)
-        {
-            m_preTexture[i] = 0;
-            m_preSampler[i] = 0;
-        }
+        memset(m_preTexture,0,sizeof(m_preTexture));
+        memset(m_preSampler,0,sizeof(m_preSampler));
     }
 
 	void MetalRenderCommand::End()
@@ -101,41 +99,57 @@ namespace ma
         
         for (uint32_t i = 0; i < ShaderType_Number; ++i)
         {
-            for (uint32_t j = 0; j < pTech->GetConstBufferCount((ShaderType)i); ++j)
+            ShaderType eShader = (ShaderType)i;
+            for (uint32_t j = 0; j < pTech->GetConstBufferCount(eShader); ++j)
             {
-                ConstantBuffer* pCB = pTech->GetConstBufferByIndex((ShaderType)i,j);
+                ConstantBuffer* pCB = pTech->GetConstBufferByIndex(eShader, j);
                 MetalConstantBuffer* pMlCB = (MetalConstantBuffer*)pCB;
                 pMlCB->Apply(m_encoder,i != VS);
             }
-        }
-        
-        /*
-        for (uint32_t i = 0; i < pTech->GetSamplerCount(); ++i)
-        {
-            uint32_t nIndex = pTech->GetSamplerByIndex(i)->GetIndex();
-            MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pTech->GetActiveSampler(nIndex);
-            if (pMetalSampler == NULL)
+    
+            MetalTechnique* pMetalTech = (MetalTechnique*)(pTech);
+            for (uint32_t i = 0; i < pMetalTech->GetSamplerCount(eShader); ++i)
             {
-                continue;
-            }
-            
-            MetalTexture* pMetalTexure = (MetalTexture*)(pMetalSampler->GetTexture());
-            
-            if (m_preTexture[nIndex] != pMetalTexure->GetNative())
-            {
-                [m_encoder setFragmentTexture:pMetalTexure->GetNative() atIndex:nIndex];
+                Uniform* pUniform = pTech->GetSamplerByIndex(eShader,i);
+                MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pMetalTech->GetActiveSampler(pUniform);
+                if (pMetalSampler == NULL)
+                {
+                    continue;
+                }
                 
-                m_preTexture[nIndex] = pMetalTexure->GetNative();
-            }
+                uint32_t nIndex = pUniform->GetIndex();
+            
+                MetalTexture* pMetalTexure = (MetalTexture*)(pMetalSampler->GetTexture());
+            
+                if (m_preTexture[eShader][nIndex] != pMetalTexure->GetNative())
+                {
+                    if (eShader == VS)
+                    {
+                        [m_encoder setVertexTexture:pMetalTexure->GetNative() atIndex:nIndex];
+                    }
+                    else if (eShader == PS)
+                    {
+                        [m_encoder setFragmentTexture:pMetalTexure->GetNative() atIndex:nIndex];
+                    }
+                    
+                    m_preTexture[eShader][nIndex] = pMetalTexure->GetNative();
+                }
          
-            if (m_preSampler[nIndex] != pMetalSampler->m_pImpl)
-            {
-                [m_encoder setFragmentSamplerState:pMetalSampler->m_pImpl atIndex:nIndex];
+                if (m_preSampler[eShader][nIndex] != pMetalSampler->m_pImpl)
+                {
+                    if (eShader == VS)
+                    {
+                        [m_encoder setVertexSamplerState:pMetalSampler->m_pImpl atIndex:nIndex];
+                    }
+                    else if (eShader == PS)
+                    {
+                        [m_encoder setFragmentTexture:pMetalTexure->GetNative() atIndex:nIndex];
+                    }
                 
-                m_preSampler[nIndex] = pMetalSampler->m_pImpl;
+                    m_preSampler[eShader][nIndex] = pMetalSampler->m_pImpl;
+                }
             }
         }
-         */
     }
 
 
@@ -160,6 +174,31 @@ namespace ma
     void MetalRenderCommand::Draw(uint32_t nVertexStart, uint32_t nVertexCount, uint32_t nInstanceCount)
     {
         
+    }
+
+    void MetalComputeCommad::Begin()
+    {
+
+    }
+
+    void MetalComputeCommad::End()
+    {
+
+    }
+
+    void MetalComputeCommad::SetTechnique(Technique* pTech)
+    {
+
+    }
+
+	void MetalComputeCommad::SetStorgeBuffer(VertexBuffer* pBuffer)
+    {
+
+    }
+
+	void MetalComputeCommad::Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
+    {
+
     }
 }
 

@@ -11,6 +11,8 @@ namespace ma
 		Camera::RegisterAttribute();
 		Terrain::RegisterAttribute();
 		ParticleComponent::RegisterAttribute();
+		RENDER_TARGET_BLEND_DESC::RegisterAttribute();
+		BlendState::RegisterAttribute();
 		DepthStencilState::RegisterAttribute();
 		RasterizerState::RegisterAttribute();
 		Technique::RegisterAttribute();

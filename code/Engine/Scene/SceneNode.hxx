@@ -555,7 +555,7 @@ namespace ma
 
 	void SceneNode::LookAt(const Vector3& vEye, const Vector3& vAt)
 	{
-		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye, vAt, Vector3::UNIT_Y);
+		Matrix4 matView = Math::MakeLookAtMatrixLH(vEye, vAt, Vector3::UNIT_Y);
 		Matrix4 matWorld = matView.inverse();
 
 		Transform tsfWS;

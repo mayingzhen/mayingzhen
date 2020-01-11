@@ -25,7 +25,7 @@ namespace ma
 
 		m_bNeedReloadShader = false;
 
-		m_bDefferedRender = false;
+		m_bDefferedRender = true;
 
 		m_hWnd = NULL;
 

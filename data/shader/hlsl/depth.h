@@ -24,7 +24,7 @@ float GetLinearDepth(float2 tc)
 #else 
 	float q = g_vCameraNearFar.y / (g_vCameraNearFar.y - g_vCameraNearFar.x); 
 	float depth = tDeviceDepthMapSampler.Sample(sDeviceDepthMapSampler, tc).r;
-	depth = g_vCameraNearFar.x / (q - depth);
+	depth = g_vCameraNearFar.x * q / (q - depth);
 	return depth;
 #endif
 }

@@ -49,7 +49,7 @@ void GetPosNormalShiness(VS_OUT In,out float3 pos,out float3 normal,out float me
    float depth = GetLinearDepth(In.oTc); 
    
    float3 view_dir = normalize(In.oViewDir.xyz);
-   float3 pos_es = view_dir * (depth / -view_dir.z); 
+   float3 pos_es = view_dir * (depth / view_dir.z); 
 
    pos = mul(float4(pos_es,1.0),g_matViewInv).xyz;
    
@@ -65,31 +65,6 @@ void GetPosNormalShiness(VS_OUT In,out float3 pos,out float3 normal,out float me
 
    normal = SrcNormal.xyz * 2.0f - 1.0f;
    normal = normalize(normal);
-}
-
-void GetDiffuseSpecular(float3 lightVec, float3 pos, float3 normal,float shiness,out float3 Diffuse,out float3 Specular)
-{
-	Diffuse = 0;
-	Specular = 0;
-	
-   float3 vNormal = normalize(normal);
-   float3 vLight  = normalize(lightVec);   
-   float3 vView   = -normalize(pos.xyz);
-   float3 vHalfDir = normalize(vView + vLight);
-   
-   float4 light = lit( dot( vNormal, vLight ), dot( vNormal, vHalfDir ), shiness );   
-   
-   float3 cDiffUse = light.y * light_color;
-   float3 cSpecular = light.z * light_color;
-
-#ifdef POINT_LIGHT      
-   float attenuation = saturate(1.0f - length(lightVec)/light_pos_radius.w); 
-#else 
-   float attenuation = 1.0f; 
-#endif       
-
-  Diffuse.xyz = attenuation * cDiffUse;
-  Specular.xyz = attenuation * cSpecular;
 }
 
 
@@ -111,17 +86,22 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 
 #ifdef POINT_LIGHT   
    vlightVec = light_pos_radius.xyz - vWorldPos.xyz;
+   float attenuation = saturate(1.0f - length(vlightVec) / light_pos_radius.w); 
 #else 
 #ifdef DIRECT_LIGHT
-   vlightVec = light_dir.xyz;      
+   vlightVec = light_dir.xyz;
+   float attenuation = 1.0f;       
 #endif
 #endif  
+
+   vlightVec = normalize(vlightVec);
+
    
    float3 diffColor = albedo.rgb * (1.0 - metalness);
 	float3 specColor = lerp(0.04, albedo.rgb, metalness); 
 
 	float3 light = LightBRDF(glossiness,light_color.xyz,vlightVec.xyz,
-		vWorldNormal.xyz,vView.xyz,diffColor,specColor,1.0f,1.0f);
+		vWorldNormal.xyz,vView.xyz,diffColor,specColor,1.0f,1.0f) * attenuation;
 
    pOut.flagColor.xyz = light;
    pOut.flagColor.w = 1.0;

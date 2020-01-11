@@ -24,7 +24,7 @@ namespace ma
 
 	}
 
-	void MetalRenderPass::Begine()
+	void MetalRenderPass::Begine(const Rectangle& viewPort)
 	{
         MetalRenderDevice* pMetalRender = (MetalRenderDevice*)GetRenderDevice();
         

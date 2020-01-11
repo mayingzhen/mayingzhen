@@ -11,9 +11,7 @@
 			<Attribute Name="StencilMask" Type="uint32_t" Value="4294967295"/>
 			<Attribute Name="WriteMask" Type="uint32_t" Value="4294967295"/>
 		</DepthStencilState>
-		<RasterizerState ClassName="RasterizerState">
-			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_NONE"/>
-		</RasterizerState>
+		<RasterizerState ClassName="RasterizerState"/>
 	</RenderState>
 </Technique>
 

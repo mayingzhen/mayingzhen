@@ -73,36 +73,76 @@ namespace ma
 
 	enum BLEND
 	{
-		BLEND_ZERO = 1,
-		BLEND_ONE = 2,
-		BLEND_SRC_COLOR = 3,
-		BLEND_INV_SRC_COLOR = 4,
-		BLEND_SRC_ALPHA = 5,
-		BLEND_INV_SRC_ALPHA = 6,
-		BLEND_DEST_ALPHA = 7,
-		BLEND_INV_DEST_ALPHA = 8,
-		BLEND_DEST_COLOR = 9,
-		BLEND_INV_DEST_COLOR = 10,
-		BLEND_SRC_ALPHA_SAT = 11,
-		BLEND_BLEND_FACTOR = 14,
-		BLEND_INV_BLEND_FACTOR = 15,
-		BLEND_SRC1_COLOR = 16,
-		BLEND_INV_SRC1_COLOR = 17,
-		BLEND_SRC1_ALPHA = 18,
-		BLEND_INV_SRC1_ALPHA = 19
+		BLEND_ZERO,
+		BLEND_ONE,
+		BLEND_SRC_COLOR,
+		BLEND_INV_SRC_COLOR,
+		BLEND_SRC_ALPHA,
+		BLEND_INV_SRC_ALPHA,
+		BLEND_DEST_ALPHA ,
+		BLEND_INV_DEST_ALPHA ,
+		BLEND_DEST_COLOR,
+		BLEND_INV_DEST_COLOR,
+		BLEND_SRC_ALPHA_SAT,
+		BLEND_BLEND_FACTOR,
+		BLEND_INV_BLEND_FACTOR,
+		BLEND_SRC1_COLOR,
+		BLEND_INV_SRC1_COLOR,
+		BLEND_SRC1_ALPHA ,
+		BLEND_INV_SRC1_ALPHA
 	};
+
+	static const char* strBLEND[] = 
+	{
+		"BLEND_ZERO",
+		"BLEND_ONE",
+		"BLEND_SRC_COLOR",
+		"BLEND_INV_SRC_COLOR",
+		"BLEND_SRC_ALPHA",
+		"BLEND_INV_SRC_ALPHA",
+		"BLEND_DEST_ALPHA",
+		"BLEND_INV_DEST_ALPHA",
+		"BLEND_DEST_COLOR",
+		"BLEND_INV_DEST_COLOR",
+		"BLEND_SRC_ALPHA_SAT",
+		"BLEND_BLEND_FACTOR",
+		"BLEND_INV_BLEND_FACTOR",
+		"BLEND_SRC1_COLOR",
+		"BLEND_INV_SRC1_COLOR",
+		"BLEND_SRC1_ALPHA",
+		"BLEND_INV_SRC1_ALPHA",
+		0
+	};
+	//static_assert(sizeof(strBLEND) == BLEND_INV_SRC1_ALPHA + 1);
 
 	enum BLEND_OP
 	{
-		BLEND_OP_ADD = 1,
-		BLEND_OP_SUBTRACT = 2,
-		BLEND_OP_REV_SUBTRACT = 3,
-		BLEND_OP_MIN = 4,
-		BLEND_OP_MAX = 5
+		BLEND_OP_ADD,
+		BLEND_OP_SUBTRACT,
+		BLEND_OP_REV_SUBTRACT,
+		BLEND_OP_MIN,
+		BLEND_OP_MAX
 	};
 
-	struct RENDER_TARGET_BLEND_DESC
+	static const char* strBLEND_OP[] =
 	{
+		"BLEND_OP_ADD",
+		"BLEND_OP_SUBTRACT",
+		"BLEND_OP_REV_SUBTRACT",
+		"BLEND_OP_MIN",
+		"BLEND_OP_MAX",
+		0
+	};
+
+	class RENDER_TARGET_BLEND_DESC : public Object
+	{
+	public:
+		RENDER_TARGET_BLEND_DESC();
+
+		DECL_OBJECT(RENDER_TARGET_BLEND_DESC);
+
+		static void		RegisterAttribute();
+
 		bool BlendEnable = false;
 		BLEND SrcBlend = BLEND_SRC_ALPHA;
 		BLEND DestBlend = BLEND_INV_SRC_ALPHA;
@@ -111,6 +151,37 @@ namespace ma
 		BLEND DestBlendAlpha = BLEND_INV_SRC_ALPHA;
 		BLEND_OP BlendOpAlpha = BLEND_OP_ADD;
 		uint8_t nColorWrite = 0xF;
+
+		bool operator < (const RENDER_TARGET_BLEND_DESC& other) const
+		{
+			#define CMPVAR(x) if (x != other.x) return x < other.x;
+			CMPVAR(BlendEnable);
+			CMPVAR(SrcBlend);
+			CMPVAR(DestBlend);
+			CMPVAR(BlendOp);
+			CMPVAR(SrcBlendAlpha);
+			CMPVAR(DestBlendAlpha);
+			CMPVAR(BlendOpAlpha);
+			CMPVAR(nColorWrite);
+			#undef CMPVAR
+
+			return false;
+		}
+
+		bool operator == (const RENDER_TARGET_BLEND_DESC& other) const
+		{
+			if (*this < other)
+				return false;
+			else if (other < *this)
+				return false;
+			else
+				return true;
+		}
+
+		bool operator != (const RENDER_TARGET_BLEND_DESC& other) const
+		{
+			return !(*this == other);
+		}
 	};
 
 
@@ -121,6 +192,8 @@ namespace ma
 		BlendState();
 
 		DECL_OBJECT(BlendState);
+
+		static void		RegisterAttribute();
 
 		virtual bool	Import(rapidxml::xml_node<>* pXmlObject);
 		virtual bool	Export(rapidxml::xml_node<>* pXmlObject, rapidxml::xml_document<>& doc);
@@ -135,16 +208,8 @@ namespace ma
         {
 			for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
 			{
-#define CMPVAR(x) if (x != other.x) return x < other.x;
-				CMPVAR(m_blendDesc[i].BlendEnable);
-				CMPVAR(m_blendDesc[i].SrcBlend);
-				CMPVAR(m_blendDesc[i].DestBlend);
-				CMPVAR(m_blendDesc[i].BlendOp);
-				CMPVAR(m_blendDesc[i].SrcBlendAlpha);
-				CMPVAR(m_blendDesc[i].DestBlendAlpha);
-				CMPVAR(m_blendDesc[i].BlendOpAlpha);
-				CMPVAR(m_blendDesc[i].nColorWrite);
-#undef CMPVAR
+				if (m_blendDesc[i] != other.m_blendDesc[i])
+					return m_blendDesc[i] < other.m_blendDesc[i];
 			}
 
 			return false;

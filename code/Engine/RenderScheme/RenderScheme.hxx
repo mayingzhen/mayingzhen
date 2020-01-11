@@ -235,7 +235,7 @@ namespace ma
 		}
 
 		// Setup Tech
-		if (0)
+		if (1)
 		{
 			RefPtr<DepthStencilState> pDS = CreateDepthStencilState();
 			pDS->m_bDepthWrite = false;
@@ -246,7 +246,7 @@ namespace ma
 			pBS->m_blendDesc[0].DestBlend = BLEND_ONE;
 
 			RefPtr<RasterizerState> pRS = CreateRasterizerState();
-			pRS->m_eCullMode = CULL_FACE_SIDE_NONE;
+			pRS->m_eCullMode = CULL_FACE_SIDE_BACK;
 
 			RefPtr<VertexDeclaration> pDec = CreateVertexDeclaration();
 			pDec->AddElement(VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0));
@@ -404,16 +404,6 @@ namespace ma
 
 				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
 				light.m_pTech->SetValue(pUniformPosRadius, vPosRadius);
-
-				//float cameraToCenter = vPosES.length();
-				//if (cameraToCenter < pPointLight->GetRadius())
-				{
-					//m_pPointLight->m_eCullMode = CULL_FACE_SIDE_FRONT;	
-				}
-				//else
-				{
-					//m_pPointLight->m_eCullMode = CULL_FACE_SIDE_BACK;
-				}
 
 				UnitSphere::Render(light.m_pTech.get(), light.m_vPos, light.m_fRadius, pCommand);
 			}

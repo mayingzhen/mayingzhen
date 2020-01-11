@@ -45,12 +45,30 @@ namespace ma
 
     void MetalTechnique::RT_SetSampler(ma::Uniform *pUniform, ma::SamplerState *pSampler)
     {
-        
+        m_activeSamplers[pUniform] = pSampler;
     }
 
     void MetalTechnique::RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
     {
+        m_activeStorageBuffers[pUniform] = pBuffer;
+    }
+
+    SamplerState* MetalTechnique::GetActiveSampler(Uniform* pUniform)
+    {
+        auto it = m_activeSamplers.find(pUniform);
+        if (it == m_activeSamplers.end())
+            return nullptr;
         
+        return it->second.get();
+    }
+
+    HardwareBuffer* MetalTechnique::GetActiveStorageBuffer(Uniform* pUniform)
+    {
+        auto it = m_activeStorageBuffers.find(pUniform);
+        if (it == m_activeStorageBuffers.end())
+            return nullptr;
+    
+        return it->second.get();
     }
 
 	void MetalTechnique::RT_StreamComplete()

@@ -55,17 +55,71 @@ namespace ma
 		return GetRenderDevice()->CreateDepthStencilState();
 	}
 
+	RENDER_TARGET_BLEND_DESC::RENDER_TARGET_BLEND_DESC()
+	{
+
+	}
+
+
+	void RENDER_TARGET_BLEND_DESC::RegisterAttribute()
+	{
+		ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "BlendEnable", BlendEnable, bool, false, AM_DEFAULT);
+		ENUM_ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "SrcBlend", SrcBlend, BLEND, strBLEND, BLEND_SRC_ALPHA, AM_DEFAULT);
+		ENUM_ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "DestBlend", DestBlend, BLEND, strBLEND, BLEND_INV_SRC_ALPHA, AM_DEFAULT);
+		ENUM_ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "BlendOp", BlendOp, BLEND_OP, strBLEND_OP, BLEND_OP_ADD, AM_DEFAULT);
+		ENUM_ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "SrcBlendAlpha", SrcBlendAlpha, BLEND, strBLEND, BLEND_SRC_ALPHA, AM_DEFAULT);
+		ENUM_ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "DestBlendAlpha", DestBlendAlpha, BLEND, strBLEND, BLEND_INV_SRC_ALPHA, AM_DEFAULT);
+		ENUM_ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "BlendOpAlpha", BlendOpAlpha, BLEND_OP, strBLEND_OP, BLEND_OP_ADD, AM_DEFAULT);
+		ATTRIBUTE(RENDER_TARGET_BLEND_DESC, "nColorWrite", nColorWrite, int, 0xF, AM_DEFAULT);
+	}
+
 	BlendState::BlendState()
 	{
 	}
 
+	void BlendState::RegisterAttribute()
+	{
+
+	}
+
 	bool BlendState::Import(rapidxml::xml_node<>* pXmlObject)
 	{
+		rapidxml::xml_node<>* pXmlSubDesc = pXmlObject->first_node("RENDER_TARGET_BLEND_DESC");
+		while (pXmlSubDesc)
+		{
+			const char* pszIndex = pXmlSubDesc->findAttribute("Index");
+			ASSERT(pszIndex);
+			int Index = StringConverter::parseInt(pszIndex);
+			ASSERT(Index >= 0 && Index < MAX_RENDERTARGETS);
+			if (Index >= 0 && Index < MAX_RENDERTARGETS)
+			{
+				m_blendDesc[Index].Import(pXmlSubDesc);
+			}
+
+			pXmlSubDesc = pXmlSubDesc->next_sibling("RENDER_TARGET_BLEND_DESC");
+		}
+
 		return true;
 	}
 
 	bool BlendState::Export(rapidxml::xml_node<>* pXmlObject, rapidxml::xml_document<>& doc)
 	{
+		RENDER_TARGET_BLEND_DESC desc_default;
+		for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
+		{
+			if (m_blendDesc[i] == desc_default)
+			{
+				continue;
+			}
+
+			rapidxml::xml_node<>* pXmlSubDesc = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RENDER_TARGET_BLEND_DESC"));
+			pXmlSubDesc->append_attribute(doc.allocate_attribute(doc.allocate_string("Index"), doc.allocate_string(StringConverter::toString(i).c_str())));
+
+			m_blendDesc[i].Export(pXmlSubDesc, doc);
+
+			pXmlObject->append_node(pXmlSubDesc);
+		}
+
 		return true;
 	}
 

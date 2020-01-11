@@ -10,7 +10,7 @@ namespace ma
 	CameraController::CameraController(Camera* pCamera)
 	{
 		m_fMoveSpeed = 20.f;
-		m_fRotateSpeed = 0.1f;
+		m_fRotateSpeed = 0.4f;
 
 		m_pCamera = pCamera;
 
@@ -51,11 +51,11 @@ namespace ma
 
 		if (GetInput()->IsKeyDown(Keyboard::KEY_W))
 		{
-			m_pCamera->Forward(-fMoveSpeed);
+			m_pCamera->Forward(fMoveSpeed);
 		}
 		else if (GetInput()->IsKeyDown(Keyboard::KEY_S))
 		{
-			m_pCamera->Forward(fMoveSpeed);
+			m_pCamera->Forward(-fMoveSpeed);
 		}
 		else if (GetInput()->IsKeyDown(Keyboard::KEY_A))
 		{

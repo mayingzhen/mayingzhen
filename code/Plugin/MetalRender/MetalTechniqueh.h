@@ -18,9 +18,17 @@ namespace ma
 		virtual void		RT_StreamComplete();
 
         virtual void        RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
+        
+        SamplerState*       GetActiveSampler(Uniform* pUniform);
+        
+        HardwareBuffer*     GetActiveStorageBuffer(Uniform* pUniform);
 
 	public:
         RefPtr<MetalPipeline> m_pPipline;
+        
+        std::map<Uniform*, RefPtr<SamplerState> > m_activeSamplers;
+        
+        std::map<Uniform*, RefPtr<HardwareBuffer> > m_activeStorageBuffers;
 	};
 
 }

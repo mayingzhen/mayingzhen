@@ -80,7 +80,7 @@ namespace ma
         virtual ComputeCommad*      CreateComputeCommand();
 
 		virtual Rectangle			GetViewport();
-        virtual RenderPass*			GetDefaultRenderPass();
+        virtual RenderPass*			GetBackBufferRenderPass();
 
 
 		virtual	void				Init(void* wndhandle);
