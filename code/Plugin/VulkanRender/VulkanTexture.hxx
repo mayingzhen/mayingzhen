@@ -442,7 +442,7 @@ namespace ma
 
 		CreateShaderView();
 
-		m_eResState = ResInited;
+		m_eResState = ResReady;
 
 		return true;
 

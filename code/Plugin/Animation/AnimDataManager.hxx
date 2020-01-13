@@ -12,7 +12,7 @@ AnimDataManager::~AnimDataManager(void)
 {
 }
 
-RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSkeleton)
+RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSkeleton,const RES_CALL_BACK& call_back)
 {
 	string strSkaFile = pszFile;
 	strSkaFile = StringUtil::replaceAll(strSkaFile, "\\", "/");
@@ -41,8 +41,15 @@ RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSke
 		return res;
 	}
 
-	//if (iterRes->second)
-	//	iterRes->second->SetFreeTime(0);
+	if (iterRes->second->GetResState() <= ResLoadIng)
+	{
+		iterRes->second->AddCallBack(call_back);
+	}
+	else
+	{
+		call_back(iterRes->second.get());
+	}
+
 	return iterRes->second;
 }
 

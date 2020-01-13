@@ -296,6 +296,9 @@ namespace ma
 
 	void RenderScheme::SetupHDRPass()
 	{
+		if (!m_bHDREnable)
+			return;
+
 		RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
 
 		pHDRPass->AttachColor(0, m_pHDRColorTex.get(), 0, 0);

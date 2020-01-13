@@ -49,6 +49,6 @@ namespace ma
 	};
 
 	RefPtr<Animation> CreateAnimation();
-	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile);
+	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile, const RES_CALL_BACK& call_back = nullptr);
 }
 

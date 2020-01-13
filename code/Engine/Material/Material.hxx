@@ -73,8 +73,9 @@ namespace ma
 		{
 			const char* pszTechName = pXmlShadingTech->findAttribute("TechName");
 			const char* pszTechMacro = pXmlShadingTech->findAttribute("TechMarco");
+			RenderPass* pRenderPass = GetRenderSystem()->GetBaseRenderPass();
 
-			m_pShadingTech = CreateTechnique(pszTechName, pszTechMacro, nullptr);
+			m_pShadingTech = CreateTechnique(pszTechName, pszTechMacro, pRenderPass);
 		}
 
 		rapidxml::xml_node<>* pXmlShadowDepthTech = pXmlElem->first_node("ShadowDepthTech");
@@ -83,7 +84,10 @@ namespace ma
 			const char* pszTechName = pXmlShadingTech->findAttribute("TechName");
 			const char* pszTechMacro = pXmlShadingTech->findAttribute("TechMarco");
 
-			m_pShadowDepthTech = CreateTechnique(pszTechName, pszTechMacro, nullptr);
+			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
+			RenderPass* pRenderPass = pDirLight->GetShadowMapPass();
+
+			m_pShadowDepthTech = CreateTechnique(pszTechName, pszTechMacro, pRenderPass);
 		}
 
 		rapidxml::xml_node<>* pXmlParameter = pXmlElem->first_node("Parameters");
@@ -96,21 +100,6 @@ namespace ma
 			SetParameter(parameter.GetName(),parameter.GetValue());
 			
 			pXmlParameter = pXmlParameter->next_sibling("Parameters");
-		}
-
-		if (m_pShadingTech)
-		{
-			m_pShadingTech->GetShaderProgram()->SetRenderPass(GetRenderSystem()->GetBaseRenderPass());
-
-			GetRenderSystem()->TechniqueStreamComplete(m_pShadingTech.get());
-		}
-
-		if (m_pShadowDepthTech)
-		{
-			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
-			m_pShadowDepthTech->GetShaderProgram()->SetRenderPass(pDirLight->GetShadowMapPass());
-
-			GetRenderSystem()->TechniqueStreamComplete(m_pShadowDepthTech.get());
 		}
 	}
 
@@ -300,7 +289,7 @@ namespace ma
 
 		pClonMaterial->Import(pRoot);
 
-		pClonMaterial->SetResState(ResInited);
+		pClonMaterial->SetResState(ResReady);
 
 		return pClonMaterial;
 	}
@@ -312,9 +301,9 @@ namespace ma
 		return new Material();
 	}
 
-	RefPtr<Material> CreateMaterial(const char* pszPath)
+	RefPtr<Material> CreateMaterial(const char* pszPath, const RES_CALL_BACK& call_back)
 	{
-		return g_pMaterialManager->CreateResource(pszPath);
+		return g_pMaterialManager->CreateResource(pszPath, call_back);
 	}
 
 

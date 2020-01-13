@@ -71,7 +71,7 @@ namespace ma
 
 	extern ResourceSystem<Skeleton>* g_pSkeletonManager;
 
-	RefPtr<Skeleton> CreateSkeleton(const char* pszFile);
+	RefPtr<Skeleton> CreateSkeleton(const char* pszFile, const RES_CALL_BACK& call_back = nullptr);
 	RefPtr<Skeleton> CreateSkeleton();
 }
 

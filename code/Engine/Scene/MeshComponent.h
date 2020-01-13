@@ -67,7 +67,7 @@ namespace ma
 
 		bool						m_bSuportInstance = false;
 
-		bool						m_bOnLoadOver = false;
+		//bool						m_bOnLoadOver = false;
 	};
 
 	RefPtr<MeshComponent> CreateMeshComponent();

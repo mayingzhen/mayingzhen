@@ -256,9 +256,9 @@ namespace ma
 
 	ResourceSystem<Skeleton>* g_pSkeletonManager = NULL;
 
-	RefPtr<Skeleton> CreateSkeleton(const char* pszFile)
+	RefPtr<Skeleton> CreateSkeleton(const char* pszFile, const RES_CALL_BACK& call_back)
 	{
-		return g_pSkeletonManager->CreateResource(pszFile);
+		return g_pSkeletonManager->CreateResource(pszFile, call_back);
 	}
 
 	RefPtr<Skeleton> CreateSkeleton()

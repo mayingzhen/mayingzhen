@@ -70,7 +70,7 @@ namespace ma
 	};
 
 	RefPtr<Material> CreateMaterial();
-	RefPtr<Material> CreateMaterial(const char* pszPath);
+	RefPtr<Material> CreateMaterial(const char* pszPath,const RES_CALL_BACK& call_back = nullptr);
 
 	extern ResourceSystem<Material>* g_pMaterialManager;
 

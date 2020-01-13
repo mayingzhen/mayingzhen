@@ -30,7 +30,8 @@ namespace ma
 		 rapidxml::xml_document<>	m_doc;
 	};
 
-	RefPtr<XmlFile> CreateXmlFile(const char* pszFile);
+	RefPtr<XmlFile> CreateXmlFile(const char* pszFile, const RES_CALL_BACK& = nullptr);
+	RefPtr<XmlFile> CreateXmlFileSync(const char* pszFile);
 
 	extern ResourceSystem<XmlFile>* g_pXmlFileManager;
 }

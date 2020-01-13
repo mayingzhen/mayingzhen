@@ -1,6 +1,6 @@
 EXPORTS
 
-?CreateSkeleton@ma@@YA?AV?$RefPtr@VSkeleton@ma@@@1@PEBD@Z
+?CreateSkeleton@ma@@YA?AV?$RefPtr@VSkeleton@ma@@@1@PEBDAEBV?$function@$$A6AXPEAVResource@ma@@@Z@std@@@Z
 ?CreateAnimation@ma@@YA?AV?$RefPtr@VAnimation@ma@@@1@XZ
 ?AddSkelAnim@AnimationSet@ma@@QEAAXPEAVAnimTreeNode@2@@Z
 ?CreateAnimationSet@ma@@YA?AV?$RefPtr@VAnimationSet@ma@@@1@XZ

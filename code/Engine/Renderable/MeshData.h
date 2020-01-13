@@ -162,7 +162,7 @@ namespace ma
 
 	};
 	
-	RefPtr<MeshData> CreateMeshData(const char* pszFile);
+	RefPtr<MeshData> CreateMeshData(const char* pszFile,const RES_CALL_BACK& call_back = nullptr);
 	RefPtr<MeshData> CreateMeshData();
 
 	extern ResourceSystem<MeshData>* g_pMeshManager;

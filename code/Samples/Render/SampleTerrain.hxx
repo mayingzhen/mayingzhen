@@ -33,18 +33,24 @@ namespace ma
 			//Vector2 u_diff_spec_mip(nMip - 1, nMip - 2);
 			//float u_mip_bias = nMip / -2.0f;
 
-			if(1)
+			if(0)
 			{
                 VertexElement element[3];
                 element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
                 element[1] = VertexElement(0, 8, DT_SHORT2N, DU_TEXCOORD, 0);
                 element[2] = VertexElement(0, 12, DT_UBYTE4N, DU_TANGENT, 0);
                 RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
+
+				RefPtr<RasterizerState> rs = CreateRasterizerState();
+				rs->m_eCullMode = CULL_FACE_SIDE_FRONT;
                 
 				ShaderCreateInfo info;
 				info.m_strVSFile = "terrain.hlsl:vs_main";
 				info.m_strPSFile = "terrain.hlsl:ps_main";
 				info.m_pVertexDecl = pDeclaration;
+				info.m_pRenderPass = GetRenderSystem()->GetBaseRenderPass();
+				info.m_pRSState = rs;
+
 				RefPtr<Technique> pShadingTech = CreateTechnique(info);
 
 				pShadingTech->SaveToXML("shader/terrain.tech");

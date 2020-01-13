@@ -510,9 +510,9 @@ namespace ma
 		return new MeshData;
 	}
 
-	RefPtr<MeshData> CreateMeshData(const char* pszFile)
+	RefPtr<MeshData> CreateMeshData(const char* pszFile, const RES_CALL_BACK& call_back)
 	{
-		return g_pMeshManager->CreateResource(pszFile);
+		return g_pMeshManager->CreateResource(pszFile, call_back);
 	}
 
 

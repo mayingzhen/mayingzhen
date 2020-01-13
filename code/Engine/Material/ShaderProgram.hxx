@@ -19,7 +19,7 @@ namespace ma
 
 	void ShaderProgram::CreateFromFile(const ShaderCreateInfo& createInfo)
 	{
-		if (m_eResState == ResInited)
+		if (m_eResState == ResReady)
 		{
 			m_createInfo = createInfo;
 			
@@ -32,7 +32,7 @@ namespace ma
 			m_createInfo.m_pRenderPass = GetRenderSystem()->GetBaseRenderPass();
 		}
         
-		m_eResState = ResLoaded;
+		m_eResState = ResLoadIng;
         
         GetRenderSystem()->ShaderStreamComplete(this);
 	}

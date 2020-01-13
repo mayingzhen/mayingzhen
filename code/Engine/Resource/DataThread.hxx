@@ -60,7 +60,7 @@ namespace ma
 		while (!queloaded.empty())
 		{
 			RefPtr<Resource> resData = queloaded.front();
-			resData->IsReady();
+			resData->CreateFromMemeory();
 			if (resData->GetResState() == ResReady || resData->GetResState() == ResLoadError)
 			{
 				queloaded.pop_front();

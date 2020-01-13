@@ -11,14 +11,15 @@ public:
 	AnimDataManager(void);
 	~AnimDataManager(void);
 
-	RefPtr<Animation> Open(const char* pszFile, const char* pszSkeleton);
+	RefPtr<Animation> Open(const char* pszFile, const char* pszSkeleton, const RES_CALL_BACK& call_back = nullptr);
 	void Clear(bool bRemoveAll);
     //void FreeTick(bool bForceRelease, uint32_t nResTime);
 
 private:
-	RefPtr<Animation> CreateRes(const char* pszFile, const char* pszSkeleton)
+	RefPtr<Animation> CreateRes(const char* pszFile, const char* pszSkeleton,const RES_CALL_BACK& call_back = nullptr)
 	{
 		RefPtr<Animation> pAnimData = new Animation();
+		pAnimData->AddCallBack(call_back);
 		pAnimData->Load(pszFile,pszSkeleton);
 		return pAnimData;
 	}

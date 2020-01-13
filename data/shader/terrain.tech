@@ -6,6 +6,10 @@
 			<Element Value="0,12,DT_UBYTE4N,DU_TANGENT,0"/>
 		</VertexDeclaration>
 	</Shader>
-	<RenderState/>
+	<RenderState>
+		<RasterizerState ClassName="RasterizerState">
+			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_FRONT"/>
+		</RasterizerState>
+	</RenderState>
 </Technique>
 

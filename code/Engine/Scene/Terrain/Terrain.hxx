@@ -120,16 +120,16 @@ namespace ma
 		}
 	}
 
-	TerrainTrunk* Terrain::GetTerrainTrunkByPos( float x, float y )
+	TerrainTrunk* Terrain::GetTerrainTrunkByPos( float x, float z )
 	{
 		int nx = 0;
-		int ny = 0;
-		bool bRes = WorldToCell(x,y,nx,ny);
+		int nz = 0;
+		bool bRes = WorldToCell(x,z,nx,nz);
 		ASSERT(bRes);
 		if (!bRes)
 			return NULL;
 
-		return this->GetTerrainTrunkByIndex(nx, ny);
+		return this->GetTerrainTrunkByIndex(nx, nz);
 	}
 
 	TerrainTrunk* Terrain::GetTerrainTrunkByVertex(int nXVert, int nYVert)
@@ -154,18 +154,6 @@ namespace ma
 		ASSERT(pTerrainTrunk->GetIndexX() == i && pTerrainTrunk->GetIndexY() == j);
 		return pTerrainTrunk;
 	}
-
-	void Terrain::BuildVertexDeclaration()
-	{
-		VertexElement element[3];
-		element[0] = VertexElement(0,0,DT_SHORT4N,DU_POSITION,0);
-		element[1] = VertexElement(0,8,DT_SHORT2N,DU_TEXCOORD,0);
-		element[2] = VertexElement(0,12,DT_UBYTE4N,DU_TANGENT,0);
-		m_pVertexDecl = GetRenderSystem()->CreateVertexDeclaration(element,3);
-
-		ASSERT(sizeof(TERRAIN_VERTEX) == m_pVertexDecl->GetStreanmStride(0));
-	}
-
 
 	const char* Terrain::GetHeightMap() const
 	{
@@ -252,8 +240,6 @@ namespace ma
 			m_vBlendOffset = Vector2(0.5f / m_pBlendMap->GetWidth(), 0.5f / m_pBlendMap->GetHeight());
 		}
 
-		BuildVertexDeclaration();
-
 		BuildTrunks();
 
 		ClearTempData();
@@ -266,15 +252,15 @@ namespace ma
 
 	float Terrain::GetHeight(int nXVert, int nYVert) const
 	{
-		return m_vStartpoint.z + m_vecHeight[this->CalcIndex(nXVert, nYVert)] * m_fHeightSpacing / 65535.0f;
+		return m_vStartpoint.y + m_vecHeight[this->CalcIndex(nXVert, nYVert)] * m_fHeightSpacing / 65535.0f;
 	}
 
-	float Terrain::GetHeight( float fX, float fY ) const
+	float Terrain::GetHeight( float fX, float fZ ) const
 	{
 		fX = (fX - m_vStartpoint.x)/m_fCellSpacing;
-		fY = (fY - m_vStartpoint.y)/m_fCellSpacing;
+		fZ = (fZ - m_vStartpoint.z)/m_fCellSpacing;
 		int i = (int)fX;
-		int j = (int)fY;
+		int j = (int)fZ;
 		if (i < 0 || i >= m_nXCellsAmount || j < 0 || j >= m_nYCellsAmount)
 		{
 			i = (i<0?0:i);
@@ -302,7 +288,7 @@ namespace ma
 		float fHeight3 = this->GetHeight(i+1, j+1);
 
 		float u = fX - (int)fX;
-		float v = fY - (int)fY;
+		float v = fZ - (int)fZ;
 
 		if (u + v < 1.0f)// ио╠ъ
 		{
@@ -376,10 +362,10 @@ namespace ma
 		// Linear search - Loop until find a point inside and outside the terrain 
 		Vector3 lastRayPosition = vPosition; 
 		vPosition += rayStep;
-		float height = GetHeight(vPosition.x, vPosition.y); 
+		float height = GetHeight(vPosition.x, vPosition.z); 
 
 		int nTimes = 0;
-		while (vPosition.z > height) 
+		while (vPosition.y > height) 
 		{
 			lastRayPosition = vPosition; 
 			vPosition += rayStep; 
@@ -396,19 +382,19 @@ namespace ma
 					return false;
 			}
 
-			if (vPosition.y < m_vStartpoint.y)
+			if (vPosition.z < m_vStartpoint.z)
 			{
-				if (rayStep.y <= 0)
+				if (rayStep.z <= 0)
 					return false;
 			}
 
-			if (vPosition.y > m_vStartpoint.y+m_nYCellsAmount*m_fCellSpacing)
+			if (vPosition.z > m_vStartpoint.z+m_nYCellsAmount*m_fCellSpacing)
 			{
-				if (rayStep.y >= 0)
+				if (rayStep.z >= 0)
 					return false;
 			}
 
-			height = this->GetHeight(vPosition.x, vPosition.y); 
+			height = this->GetHeight(vPosition.x, vPosition.z); 
 
 			if (nTimes++ > 2000)
 			{
@@ -439,10 +425,10 @@ namespace ma
 		return false; 
 	}
 
-	bool Terrain::WorldToCell( float fX, float fY, OUT int& i, OUT int& j ) const
+	bool Terrain::WorldToCell( float fX, float fZ, OUT int& i, OUT int& j ) const
 	{
 		i = (int)::floorf((fX - m_vStartpoint.x)/m_fCellSpacing);
-		j = (int)::floorf((fY - m_vStartpoint.y)/m_fCellSpacing);
+		j = (int)::floorf((fZ - m_vStartpoint.y)/m_fCellSpacing);
 
 		if (i < 0 || i >= m_nXCellsAmount || j < 0 || j >= m_nYCellsAmount)
 		{

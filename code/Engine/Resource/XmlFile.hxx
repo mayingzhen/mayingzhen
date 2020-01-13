@@ -63,9 +63,14 @@ namespace ma
 
 	ResourceSystem<XmlFile>* g_pXmlFileManager = NULL;
 
-	RefPtr<XmlFile> CreateXmlFile(const char* pszFile)
+	RefPtr<XmlFile> CreateXmlFile(const char* pszFile, const RES_CALL_BACK& fCallback)
 	{
-		return g_pXmlFileManager->CreateResource(pszFile);
+		return g_pXmlFileManager->CreateResource(pszFile, fCallback);
+	}
+
+	RefPtr<XmlFile> CreateXmlFileSync(const char* pszFile)
+	{
+		return g_pXmlFileManager->CreateResourceSync(pszFile);
 	}
 
 	

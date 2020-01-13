@@ -6,7 +6,7 @@ namespace ma
 {
 	MeshComponent::MeshComponent()
 	{
-		m_bOnLoadOver = false;
+
 	}
 
 	MeshComponent::~MeshComponent()
@@ -28,7 +28,7 @@ namespace ma
 		
 		SetMeshFile(pszSknPath);
 
-		return IsReady();
+		return true;
 	}
 
 	MeshData* MeshComponent::GetMeshData()
@@ -43,10 +43,11 @@ namespace ma
 
 	void MeshComponent::SetMeshFile(const char* pFile)
 	{
-		m_pMesData = CreateMeshData(pFile);
-
-		m_bOnLoadOver = false;
-		IsReady();
+		CreateMeshData(pFile, [this](Resource* res) {
+				m_pMesData = (MeshData*)res;
+				this->IsReady(); 
+			}
+		);
 	}
 
 	const char*	 MeshComponent::GetMaterialFile() const
@@ -56,17 +57,17 @@ namespace ma
 
 	void MeshComponent::SetMaterialFile(const char* pFile)
 	{
-		RefPtr<Material> pMaterilaTemp = CreateMaterial(pFile);
-		RefPtr<Material> pMaterila = pMaterilaTemp->Clone();
-		SetMaterial(pMaterila.get());
+		CreateMaterial(pFile, [this](Resource* res) {
+				RefPtr<Material> pMaterila = (Material*)res;
+				m_pMaterial = pMaterila->Clone();
+				this->IsReady();
+			}
+		);
 	}
 
 	void MeshComponent::SetMaterial(Material* pMaterial)
 	{
 		m_pMaterial = pMaterial;
-
-		m_bOnLoadOver = false;
-		IsReady();
 	}
 
 	uint32_t MeshComponent::GetRenderableCount() const
@@ -118,7 +119,8 @@ namespace ma
 
 	void MeshComponent::Update()
 	{
-		IsReady();
+		if (m_pMesData == nullptr || m_pMaterial == nullptr)
+			return;
 
 		RenderComponent::Update();
 	}
@@ -166,49 +168,47 @@ namespace ma
 
 	bool MeshComponent::IsReady()
 	{
-		if (m_bOnLoadOver)
-			return true;
-
-		if (m_pMesData == nullptr || !m_pMesData->IsReady())
-			return false;
-
-		if (m_pMaterial == nullptr || !m_pMaterial->IsReady())
+		if (m_pMaterial == nullptr || m_pMesData == nullptr)
 			return false;
 
 		CreateRenderable(m_arrRenderable);
 
 		SetAABB(m_pMesData->GetBoundingAABB());
 
-		m_bOnLoadOver = true;
-		
 		return true;
 	}
 
 	void MeshComponent::Render(RenderQueue* pRenderQueue)
 	{
-		if (!m_bOnLoadOver)
-			return;
-
 		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
 		{
 			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
 			Renderable* pRenderObj = m_arrRenderable[i].get();
 
-			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj, pRenderObj->GetMaterial()->GetShadingTechnqiue());
+			Technique* Tech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+			if (Tech == nullptr)
+			{
+				continue;
+			}
+
+			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj, Tech);
 		}
 	}
 
 	void MeshComponent::RenderShadow(RenderQueue* pRenderQueue)
 	{
-		if (!m_bOnLoadOver)
-			return;
-
 		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
  		{
 			Renderable* pRenderObj = m_arrRenderable[i].get();
 
- 			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj, pRenderObj->GetMaterial()->GetShadowDepthTechnqiue());
+			Technique* Tech = pRenderObj->GetMaterial()->GetShadowDepthTechnqiue();
+			if (Tech == nullptr)
+			{
+				continue;
+			}
+
+ 			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj, Tech);
  		}
 	}
 

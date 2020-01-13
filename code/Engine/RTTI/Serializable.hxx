@@ -8,7 +8,6 @@ namespace ma
 
 	Serializable::Serializable()
 	{
-		m_bXMLLoadOver = false;
 	}
 
 	Serializable::~Serializable()
@@ -31,29 +30,36 @@ namespace ma
 		out << doc;
 	}
 
-	void Serializable::LoadFromXML(const char* pszXMlFile)
+	void Serializable::LoadFromXML(const char* pszXMlFile, const RES_CALL_BACK& call_back)
 	{
 		m_strPath = pszXMlFile;
-		m_pXMlFile = CreateXmlFile(pszXMlFile);
-		IsReady();
+		CreateXmlFile(pszXMlFile, [this,call_back](Resource* res) {
+			m_pXMlFile = (XmlFile*)(res);
+			rapidxml::xml_document<>& doc = m_pXMlFile->GetDoc();
+			rapidxml::xml_node<>* pXmlRoot = doc.first_node(/*this->GetTypeName()*/);
+			ASSERT(pXmlRoot);
+			this->Import(pXmlRoot);
+			if (call_back)
+			{
+				call_back(res);
+			}
+		});
 	}
 
-	bool Serializable::IsReady()
+	void Serializable::LoadFromXMLSync(const char* pszXMlFile)
 	{
-		if (m_bXMLLoadOver)
-			return true;
-
-		if (m_pXMlFile == NULL || !m_pXMlFile->IsReady())
-			return false;
+		m_strPath = pszXMlFile;
+		m_pXMlFile = CreateXmlFileSync(pszXMlFile);
 		
 		rapidxml::xml_document<>& doc = m_pXMlFile->GetDoc();
 		rapidxml::xml_node<>* pXmlRoot = doc.first_node(/*this->GetTypeName()*/);
 		ASSERT(pXmlRoot);
 		this->Import(pXmlRoot);
+	}
 
-		m_bXMLLoadOver = true;
-
-		return true;
+	bool Serializable::IsReady()
+	{
+		return m_pXMlFile != nullptr;
 	}
 
 }

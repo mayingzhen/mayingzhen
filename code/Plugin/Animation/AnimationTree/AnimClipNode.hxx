@@ -100,10 +100,10 @@ namespace ma
 
 		Skeleton* pSkeleton = m_animator->GetSkeleton();
 
-		ASSERT(pSkeleton && pSkeleton->IsReady());
+		ASSERT(pSkeleton && pSkeleton->GetResState() == ResReady);
 		m_pSkeleton = pSkeleton;
 
-		m_pAnimation = CreateAnimation(m_strSkaName.c_str(), pSkeleton->GetResPath());
+		m_pAnimation = CreateAnimation(m_strSkaName.c_str(), pSkeleton->GetResPath(), [this](Resource*) {this->IsReady();});
 
 		m_bLoadOver = false;
 		IsReady();
@@ -136,11 +136,13 @@ namespace ma
 		if (m_pAnimation == NULL || m_pSkeleton == NULL)
 			return false;
 
-		if (!m_pAnimation->IsReady() )
-			return false;
+// 		if (!m_pAnimation->IsReady() )
+// 			return false;
+// 
+// 		if (!m_pSkeleton->IsReady() )
+// 			return false;
 
-		if (!m_pSkeleton->IsReady() )
-			return false;
+		ASSERT(m_pSkeleton->GetResState() == ResReady);
 
 		m_NodeLink.Build(m_pSkeleton.get(),m_pAnimation.get());
 

@@ -18,7 +18,8 @@ namespace ma
 		virtual ~Serializable();
 
 		void					SaveToXML(const char* pszXMLFile);
-		void					LoadFromXML(const char* pszXMlFile);
+		void					LoadFromXML(const char* pszXMlFile,const RES_CALL_BACK& call_back = nullptr);
+		void					LoadFromXMLSync(const char* pszXMlFile);
 
 		bool					IsReady();
 
@@ -29,7 +30,6 @@ namespace ma
 	protected:
 		std::string				m_strPath;
 		RefPtr<XmlFile>			m_pXMlFile;
-		bool					m_bXMLLoadOver;
 	};
 }
 

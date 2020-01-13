@@ -22,9 +22,6 @@ namespace ma
 
 		m_sResPath = pFilePath;
 
- 		if (m_eResState == ResInited)
- 			return true;
-
 		if (m_eResState != ResUnLoad)
 			return false;
 		
@@ -43,20 +40,19 @@ namespace ma
 		}
 	}
 
-	void Resource::LoadSync(const char* pFilePath)
+	bool Resource::LoadSync(const char* pFilePath)
 	{
 		ASSERT(pFilePath);
 		if (pFilePath == NULL)
-			return;
+			return false;
 
 		m_sResPath = pFilePath;
-
-		if (m_eResState == ResInited)
-			return;
 
 		LoadFileToMemeory();
 
 		CreateFromMemeory();
+
+		return true;
 	}
 
 	bool Resource::SaveToFile(const char* pszPath)
@@ -74,20 +70,17 @@ namespace ma
         ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 		{
-            
 			m_eResState = ResLoadError;
 			return false;
 		}
-
-		m_eResState = ResLoaded;
 
 		return true;
 	}
 
 	bool Resource::CreateFromMemeory()
 	{
-		ASSERT(m_eResState == ResLoaded);
-		if (m_eResState != ResLoaded)
+		ASSERT(m_eResState == ResLoadIng);
+		if (m_eResState != ResLoadIng)
 			return false;
 
 		ASSERT(m_pDataStream);
@@ -97,11 +90,26 @@ namespace ma
 		bool bInit = InitRes();
         ASSERT(bInit);
 
-		this->SetResState(ResInited);
+		m_eResState = ResReady;
+
+		for (auto& call_back : m_listCallBack)
+		{
+			if (call_back)
+			{
+				call_back(this);
+			}
+		}
+		m_listCallBack.clear();
 				
 		return true;
 	}
 
+	bool Resource::IsReady()
+	{
+		return m_eResState == ResReady;
+	}
+
+	/*
 	bool Resource::IsReady()
 	{
 		switch(m_eResState)
@@ -161,14 +169,20 @@ namespace ma
 
 		return false;
 	}
+	*/
 
-	void Resource::AddRes(Resource* pRes)
+// 	void Resource::AddRes(Resource* pRes)
+// 	{
+// 		ASSERT(pRes);
+// 		if (pRes == NULL)
+// 			return;
+// 
+// 		m_lstChild.push_back(pRes);
+// 	}
+
+	void Resource::AddCallBack(const RES_CALL_BACK& fCallBack)
 	{
-		ASSERT(pRes);
-		if (pRes == NULL)
-			return;
-
-		m_lstChild.push_back(pRes);
+		m_listCallBack.push_back(fCallBack);
 	}
 
 	RefPtr<Resource> CreateResource(const char* pszPath)

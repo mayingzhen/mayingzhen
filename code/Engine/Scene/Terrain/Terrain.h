@@ -64,15 +64,13 @@ namespace ma
 		bool GetTriFlip(int nXVert,int nYVert) const;
 		void SetTriFlip(int nXVert,int nYVert,bool bFlip);
 
-		VertexDeclaration* GetVertexDeclaration() const {return m_pVertexDecl.get();}
-
 		int GetXCellAmount() const {return m_nXCellsAmount;}
 		int GetYCellAmount() const {return m_nYCellsAmount;}
 		Vector2 GetCellAmount() const {return Vector2(m_nXCellsAmount,m_nYCellsAmount);}
 
 		uint32_t GetNumLod() const {return m_uNumLods;}
 
-		TerrainTrunk* GetTerrainTrunkByPos(float x, float y);
+		TerrainTrunk* GetTerrainTrunkByPos(float x, float z);
 		TerrainTrunk* GetTerrainTrunkByIndex(uint32_t i, uint32_t j);
 		TerrainTrunk* GetTerrainTrunkByVertex(int nXVert, int nYVert);
 		uint32_t GetNumTerrainTrunks() const{return m_vecTrunk.size();}
@@ -109,7 +107,6 @@ namespace ma
 	private:
 		void SetScene(Scene* pScene);
 		void BuildTrunks();
-		void BuildVertexDeclaration();
 
 		void ClearTempData();
 
@@ -154,8 +151,6 @@ namespace ma
 		Vector2 m_vBlendOffset;
 
 		bool m_bLoadOver;
-
-		RefPtr<VertexDeclaration> m_pVertexDecl;
 
 		friend class TerrainTrunk;
 

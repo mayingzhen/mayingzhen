@@ -708,6 +708,9 @@ namespace ma
 
 	void Technique::ReLoad()
 	{
+		if (m_pShaderProgram == nullptr)
+			return;
+
 		GetRenderSystem()->FlushAndWait(); // TechniqueStreamComplete 可能还在RenderThread
 
 		ShaderCreateInfo info = m_pShaderProgram->GetShaderCreateInfo();
@@ -747,8 +750,8 @@ namespace ma
 		Technique* pTech = GetRenderDevice()->CreateTechnique();
 		pTech->SetShaderDefine(pDefine);
 		pTech->SetRenderPass(pPass);
-		pTech->LoadFromXML(pszXMLFile);
-		pTech->IsReady();
+		pTech->LoadFromXMLSync(pszXMLFile);
+		GetRenderSystem()->TechniqueStreamComplete(pTech); 
 		return pTech;
 	}
 

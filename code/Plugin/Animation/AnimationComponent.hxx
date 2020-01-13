@@ -39,10 +39,27 @@ namespace ma
 
 	void AnimationComponent::SetSkeletonPath(const char* pSkePath)
 	{
-		m_pSkeleton = CreateSkeleton(pSkePath);
+		CreateSkeleton(pSkePath, [this](Resource* res) {
+			m_pSkeleton = (Skeleton*)(res);
+			const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();
+			m_pose = pRefPose->Clone();
+			uint32_t nBone = m_pSkeleton->GetBoneNumer();
+			m_arrSkinMatrix = new Matrix3x4[nBone];
+			for (uint32_t i = 0; i < nBone; ++i)
+			{
+				m_arrSkinMatrix[i] = Matrix4::IDENTITY;
+			}
 
-		m_bLoadOver = false;
-		IsReady();
+			// allocate memory on demand
+			if (m_treeOutput == NULL)
+			{
+				m_treeOutput = new AnimationNodeOutput();
+				m_treeOutput->Init(m_pSkeleton->GetBoneNumer());
+			}
+		});
+
+		//m_bLoadOver = false;
+		//IsReady();
 	}
 
 	const char* AnimationComponent::GetAnimSetPath() const
@@ -84,24 +101,24 @@ namespace ma
 		if ( m_pAnimSet == NULL || !m_pAnimSet->IsReady() )
 			return false;
 
-		if (m_pose == NULL)
-		{
-			const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
-			m_pose = pRefPose ? pRefPose->Clone() : NULL;
-			uint32_t nBone = m_pSkeleton->GetBoneNumer();
-			m_arrSkinMatrix = new Matrix3x4[nBone];
-			for (uint32_t i = 0; i < nBone; ++i)
-			{
-				m_arrSkinMatrix[i] = Matrix4::IDENTITY;
-			}
-		}
+// 		if (m_pose == NULL)
+// 		{
+// 			const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
+// 			m_pose = pRefPose ? pRefPose->Clone() : NULL;
+// 			uint32_t nBone = m_pSkeleton->GetBoneNumer();
+// 			m_arrSkinMatrix = new Matrix3x4[nBone];
+// 			for (uint32_t i = 0; i < nBone; ++i)
+// 			{
+// 				m_arrSkinMatrix[i] = Matrix4::IDENTITY;
+// 			}
+// 		}
 
 		// allocate memory on demand
-		if (m_treeOutput == NULL)
-		{
-			m_treeOutput = new AnimationNodeOutput();
-			m_treeOutput->Init(m_pSkeleton->GetBoneNumer());
-		}
+// 		if (m_treeOutput == NULL)
+// 		{
+// 			m_treeOutput = new AnimationNodeOutput();
+// 			m_treeOutput->Init(m_pSkeleton->GetBoneNumer());
+// 		}
 
 		m_bLoadOver = true;
 
@@ -110,6 +127,9 @@ namespace ma
 
 	void AnimationComponent::Update()
 	{
+		if (m_pSkeleton == nullptr)
+			return;
+
 		float fTimeElepse = GetTimer()->GetFrameDeltaTime();
 
 		if (m_rootNode)

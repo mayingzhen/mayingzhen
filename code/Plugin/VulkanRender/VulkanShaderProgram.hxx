@@ -679,7 +679,7 @@ namespace ma
 
 	void VulkanShaderProgram::RT_StreamComplete()
 	{
-		ASSERT(GetResState() == ResLoaded);
+		ASSERT(GetResState() == ResLoadIng);
 
 		Destory();
 
@@ -709,7 +709,7 @@ namespace ma
 
 		CreateGraphicsPipeline();
 	
-		SetResState(ResInited);
+		SetResState(ResReady);
 	}
 
 }

@@ -52,7 +52,7 @@ namespace ma
 				m_anyValue = Any(pSamplerState);
 				if (pParent)
 				{
-					pParent->AddRes(pSamplerState->GetTexture());
+					//pParent->AddRes(pSamplerState->GetTexture());
 				}
 			}
 			else if (strcmp(pszType,"UniformAnimation"))
