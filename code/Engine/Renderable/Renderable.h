@@ -16,6 +16,8 @@ namespace ma
 
 		virtual void					Render(Technique* pTechnique, RenderCommand* pRenderCommand);
 
+		virtual void					Compute(Technique* pTechnique, ComputeCommad* pComputeCmd);
+
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;
 

@@ -78,7 +78,7 @@ namespace ma
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void	RC_RenderPassStreamComplete(RenderPass* pRenderPass);
 		void	RC_Render();
-		void	RC_CreateShader(ShaderProgram* pShader);
+
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		
 		void	RC_SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);

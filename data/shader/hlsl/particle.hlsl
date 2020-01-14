@@ -54,8 +54,8 @@ void gs_main(point float4 input[1] : SV_Position, inout TriangleStream<PS_IN> ou
 	}
 }
 
-//Texture2D particle_tex : register(t0);
-//SamplerState bilinear_sampler : register(s0);
+Texture2D particle_tex : register(t0);
+SamplerState bilinear_sampler : register(s0);
 
 float4 ps_main(PS_IN ps_in) : SV_Target
 {
@@ -63,7 +63,7 @@ float4 ps_main(PS_IN ps_in) : SV_Target
 	float3 intersect = ps_in.view_dir;
 	
 	float life = ps_in.clr.a;
-	float4 clr = float4(1.0,0.0,0.0,1.0);//particle_tex.Sample(bilinear_sampler, ps_in.tex);
+	float4 clr = particle_tex.Sample(bilinear_sampler, ps_in.tex);
 	
 	return clr;
 }

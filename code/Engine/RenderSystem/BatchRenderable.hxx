@@ -220,6 +220,14 @@ namespace ma
 		}
 	}
 
+	void BatchRenderable::Compute(ComputeCommad* pCommand)
+	{
+		for (auto& item : m_arrRenderList)
+		{
+			item.m_renderable->Compute(item.m_tech, pCommand);
+		}
+	}
+
 	void BatchRenderable::Clear()
 	{
 		m_arrRenderList.clear();

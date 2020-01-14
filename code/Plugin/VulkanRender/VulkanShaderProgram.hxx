@@ -474,6 +474,8 @@ namespace ma
 		descriptor_pool.pPoolSizes = type_count;
 
 		VK_CHECK_RESULT(vkCreateDescriptorPool(device->logicalDevice, &descriptor_pool, NULL, &m_desc_pool));
+
+		ASSERT(m_desc_pool != VK_NULL_HANDLE);
 	}
 
 

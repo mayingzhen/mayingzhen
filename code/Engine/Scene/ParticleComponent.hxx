@@ -7,11 +7,8 @@ namespace ma
 #define PARTICLE_COUNT 256 * 1024
 #define max_num_particles_  65536
 
-
 	void ParticleRenderable::PreRender(Technique* pTech)
 	{
-		Compute(pTech, GetRenderSystem()->GetComputeCommad());
-
 		pTech->Bind(this);
 	}
 
@@ -24,7 +21,7 @@ namespace ma
 	{
 		//pComputeCmd->SetStorgeBuffer(m_pPosBuffer.get());
 
-		pComputeCmd->Begin();
+		//pComputeCmd->Begin();
 
 		pTechnique->BindCompute(this);
 
@@ -32,7 +29,7 @@ namespace ma
 
 		pComputeCmd->Dispatch((max_num_particles_ + 255) / 256, 1, 1);
 
-		pComputeCmd->End();
+		//pComputeCmd->End();
 	}
 
 
@@ -46,8 +43,9 @@ namespace ma
 
 		RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
 
-		VertexElement element[1];
-		element[0] = VertexElement(0, 0, DT_FLOAT4, DU_POSITION, 0);
+		VertexElement element[2];
+		element[0] = VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0);
+		element[1] = VertexElement(0, 12, DT_FLOAT2, DU_TEXCOORD, 0);
 		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 1);
 
 		RefPtr<BlendState> pBlendState = CreateBlendState();
@@ -55,6 +53,9 @@ namespace ma
 
 		RefPtr<RasterizerState> pRastate = CreateRasterizerState();
 		pRastate->m_eCullMode = CULL_FACE_SIDE_NONE;
+
+		RefPtr<DepthStencilState> pDS = CreateDepthStencilState();
+		pDS->m_bDepthWrite = false;
 
 		ShaderCreateInfo info;
 		info.m_strVSFile = "particle.hlsl:vs_main";
@@ -64,7 +65,18 @@ namespace ma
 		info.m_pVertexDecl = pDeclaration.get();
 		info.m_pBlendState = pBlendState;
 		info.m_pRSState = pRastate;
+		info.m_pDSState = pDS;
 		info.m_ePrimitiveType = PRIM_POINTLIST;
+
+		if (GetRenderSystem()->GetDefferedLightRenderPass())
+		{
+			info.m_pRenderPass = GetRenderSystem()->GetDefferedLightRenderPass();
+		}
+		else
+		{
+			info.m_pRenderPass = GetRenderSystem()->GetBaseRenderPass();
+		}
+
 		RefPtr<Technique> pTech = CreateTechnique(info);
 
 		pSubMaterial->SetShadingTechnqiue(pTech.get());
@@ -154,7 +166,17 @@ namespace ma
 
 	void ParticleComponent::Render(RenderQueue* pRenderQueue)
 	{
-		pRenderQueue->AddRenderObj(RL_Mesh, m_pRenderable.get(), m_pRenderable->GetMaterial()->GetShadingTechnqiue());
+		Technique* pTech = m_pRenderable->GetMaterial()->GetShadingTechnqiue();
+
+		pRenderQueue->AddComputeObj(m_pRenderable.get(), pTech);
+		pRenderQueue->AddRenderObj(RL_MeshTrans, m_pRenderable.get(), pTech);
+	}
+
+	void ParticleComponent::SetTexture(const char* pszPath)
+	{
+		m_pSampler = CreateSamplerState(pszPath);
+
+		m_pRenderable->m_pSubMaterial->SetParameter("particle_tex",Any(m_pSampler));
 	}
 
 	RefPtr<ParticleComponent> CreateParticleComponent()

@@ -204,14 +204,14 @@ namespace ma
 		bufferBarrier.srcQueueFamilyIndex = vulkanDevice->queueFamilyIndices.graphics;			// Required as compute and graphics queue may have different families
 		bufferBarrier.dstQueueFamilyIndex = vulkanDevice->queueFamilyIndices.compute;			// Required as compute and graphics queue may have different families
 
-// 		vkCmdPipelineBarrier(
-// 			m_vkCmdBuffer,
-// 			VK_PIPELINE_STAGE_VERTEX_SHADER_BIT,
-// 			VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-// 			VK_FLAGS_NONE,
-// 			0, nullptr,
-// 			1, &bufferBarrier,
-// 			0, nullptr);
+		vkCmdPipelineBarrier(
+			m_vkCmdBuffer,
+			VK_PIPELINE_STAGE_VERTEX_SHADER_BIT,
+			VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+			VK_FLAGS_NONE,
+			0, nullptr,
+			1, &bufferBarrier,
+			0, nullptr);
 
 	}
 
@@ -235,7 +235,7 @@ namespace ma
 // 			m_vkCmdBuffer,
 // 			VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
 // 			VK_PIPELINE_STAGE_VERTEX_SHADER_BIT,
-// 			VK_FLAGS_NONE,
+// 			VK_FLAGS_NON
 // 			0, nullptr,
 // 			1, &bufferBarrier,
 // 			0, nullptr);

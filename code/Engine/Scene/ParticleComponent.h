@@ -9,7 +9,7 @@ namespace ma
 
 		virtual void	Render(Technique* pTechnique, RenderCommand* pRenderCommand);
 
-		void			Compute(Technique* pTechnique, ComputeCommad* pComputeCmd);
+		virtual void	Compute(Technique* pTechnique, ComputeCommad* pComputeCmd);
 	};
 
 	class ParticleComponent : public RenderComponent
@@ -26,6 +26,8 @@ namespace ma
 
 		virtual void		Render(RenderQueue* pRenderQueue);
 
+		void				SetTexture(const char* pszPath);
+
 	private:
 		RefPtr<ParticleRenderable>	m_pRenderable;
 
@@ -34,6 +36,8 @@ namespace ma
 
 		RefPtr<VertexBuffer>		m_pPosBuffer;
 		RefPtr<VertexBuffer>		m_pVelBuffer;
+
+		RefPtr<SamplerState>		m_pSampler;
 
 		float accumulate_time_ = 0;
 	};

@@ -19,6 +19,11 @@ namespace ma
 		m_mapRenderList[stage].AddRenderObj(pRenderObj, pTech);
 	}
 
+	void RenderQueue::AddComputeObj(Renderable* pRenderObj, Technique* pTech)
+	{
+		m_compute.AddRenderObj(pRenderObj, pTech);
+	}
+
 	void RenderQueue::Render(RenderPass* pPass)
 	{
 		for (auto& it : m_mapRenderList)
@@ -32,6 +37,10 @@ namespace ma
 		if (stageBegin == stageEnd)
 		{
 			auto it = m_mapRenderList.lower_bound(stageBegin);
+			if (it == m_mapRenderList.end())
+			{
+				return;
+			}
 
 			it->second.PrepareRender();
 
@@ -50,10 +59,24 @@ namespace ma
 		}
 	}
 
+	void RenderQueue::Compute()
+	{
+		ComputeCommad* pCommand = GetRenderSystem()->GetComputeCommad();
+
+		//pCommand->Begin();
+		GetRenderSystem()->BegineCompute();
+
+		m_compute.Compute(GetRenderSystem()->GetComputeCommad());
+
+		//pCommand->End();
+		GetRenderSystem()->EndCompute();
+	}
+
 	void RenderQueue::Clear()
 	{
 		m_mapRenderList.clear();
 		m_vecLight.clear();
+		m_compute.Clear();
 	}
 
 	void RenderQueue::SetCamera(Camera* pCamera)

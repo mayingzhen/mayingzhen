@@ -8,33 +8,6 @@ namespace ma
 
 	}
 
-// 	class PreDepth : public CommandBuffer
-// 	{
-// 	public:
-// 		void Create()
-// 		{
-// 
-// 		}
-// 
-// 		void Update()
-// 		{
-// 
-// 		}
-// 
-// 		void Render()
-// 		{
-// 
-// 		}
-// 
-// 	private:
-// 		//RefPtr<Texture> 
-// 	};
-
-// 	class Shading : public CommandBuffer
-// 	{
-// 
-// 	};
-
 	void SampleComputeShader::Load()
 	{
 		GetCamera()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
@@ -52,6 +25,7 @@ namespace ma
 
 		SceneNode* pParticleNode = m_pScene->CreateSceneNode();
 		ParticleComponent* pParticle = pParticleNode->CreateComponent<ParticleComponent>();
+		pParticle->SetTexture("explosion.png");
 
 	}
 

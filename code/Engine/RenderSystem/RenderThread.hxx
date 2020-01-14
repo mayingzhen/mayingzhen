@@ -195,13 +195,6 @@ namespace ma
 		//FlushFrame();
 	}
 
-	void RenderThread::RC_CreateShader(ShaderProgram* pShader)
-	{
-		RC_AddRenderCommad( [pShader]() {
-				pShader->RT_StreamComplete();
-		});
-	}
-
 	void RenderThread::RC_CreateTexture(Texture* pRenderTarget)
 	{
 		RC_AddRenderCommad( 

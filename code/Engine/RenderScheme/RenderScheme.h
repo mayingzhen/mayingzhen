@@ -55,6 +55,8 @@ namespace ma
 
 		void SetupHDRPass();
 
+		void ComputePass();
+
 		void BasePass();
 
 		void LightPass();
@@ -86,8 +88,6 @@ namespace ma
 		RefPtr<RenderPass>		m_pLightPass;
 
 		RefPtr<RenderPass>		m_pBackBaufferPass;
-
-		RefPtr<RenderPass>		m_pTemPass;
 
 		RefPtr<RenderPass>		m_pLinearDepthPass;
 

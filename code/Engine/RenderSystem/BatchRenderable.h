@@ -7,6 +7,7 @@ namespace ma
 	class Technique;
 	class RenderPass;
 	class RenderCommand;
+	class ComputeCommad;
 
 	struct RenderItem
 	{
@@ -24,6 +25,8 @@ namespace ma
 		virtual void	PrepareRender();
 
 		virtual void	Render(RenderPass* pPass, int stage);
+
+		virtual void	Compute(ComputeCommad* pCommand);
 
 		virtual void	Clear();
 

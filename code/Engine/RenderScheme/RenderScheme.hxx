@@ -227,6 +227,7 @@ namespace ma
 		{
 			m_pLightPass = GetRenderDevice()->CreateRenderPass();
 			m_pLightPass->AttachColor(0, m_pHDRColorTex.get());
+			m_pLightPass->AttachDepthStencil(m_pDepthTex.get());
 			GetRenderSystem()->RenderPassStreamComplete(m_pLightPass.get());
 		}
 		else
@@ -314,12 +315,12 @@ namespace ma
 
 		g_pPostProcessPipeline->LoadFromXML("postprocess.xml");
 
-		m_pTemPass = GetRenderDevice()->CreateRenderPass();
+		RefPtr<RenderPass> pTemPass = GetRenderDevice()->CreateRenderPass();
 		RefPtr<Texture> pTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8);
-		m_pTemPass->AttachColor(0, pTex.get(), 0, 0);
-		GetRenderSystem()->RenderPassStreamComplete(m_pTemPass.get());
+		pTemPass->AttachColor(0, pTex.get(), 0, 0);
+		GetRenderSystem()->RenderPassStreamComplete(pTemPass.get());
 
-		g_pPostProcessPipeline->Setup(pHDRPass.get(), m_pTemPass.get());
+		g_pPostProcessPipeline->Setup(pHDRPass.get(), pTemPass.get());
 
 
 		m_lastStep = new PostProcessStep();
@@ -327,7 +328,7 @@ namespace ma
 		m_lastStep->SetInput("tSrcColor", "[StageInput]");
 		m_lastStep->SetOutput("[StageOutput]");
 		m_lastStep->SetTechnique("shader/copy.tech");
-		m_lastStep->Setup(m_pTemPass.get(), GetRenderSystem()->GetBaseRenderPass());
+		m_lastStep->Setup(pTemPass.get(), GetRenderSystem()->GetBaseRenderPass());
 	}
 
 	void RenderScheme::Reset()
@@ -361,13 +362,21 @@ namespace ma
 		m_pBaseColor = NULL;
 	}
 
+	void RenderScheme::ComputePass()
+	{
+		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+
+		pRenderQueue->Compute();
+	}
+
+
 	void RenderScheme::BasePass()
 	{
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 
 		m_pGbufferPass->Begine(Rectangle());
 
-		pRenderQueue->Render(m_pGbufferPass.get(), RL_Mesh, RL_MeshTrans);
+		pRenderQueue->Render(m_pGbufferPass.get(), RL_SkyBox, RL_Terrain);
 
 		m_pGbufferPass->End();
 	}
@@ -414,6 +423,8 @@ namespace ma
 
 		pCommand->End();
 
+		pRenderQueue->Render(m_pLightPass.get(), RL_MeshTrans, RL_MeshTrans);
+
 		m_pLightPass->End();
 	}
 
@@ -438,6 +449,8 @@ namespace ma
 
 	void RenderScheme::Render()
 	{
+		ComputePass();
+
 		BasePass();
 
 		LightPass();

@@ -31,6 +31,8 @@ namespace ma
 		~RenderQueue();
 
 		void					AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech);
+
+		void					AddComputeObj(Renderable* pRenderObj, Technique* pTech);
 		
 		void					SetCamera(Camera* pCamera);
 
@@ -46,6 +48,8 @@ namespace ma
 
 		void					Render(RenderPass* pPass, int stageBegin, int stageEnd);
 
+		void					Compute();
+
 		void					Clear();
 
 	private:
@@ -56,6 +60,8 @@ namespace ma
 
 		// Light
 		std::vector< LightInfo > m_vecLight;
+
+		BatchRenderable		m_compute;
 	};
 }
 

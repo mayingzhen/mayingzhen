@@ -11,7 +11,7 @@ namespace ma
 		m_vecClearValues[0].color = { { 0.025f, 0.025f, 0.025f, 1.0f } };
 		m_vecClearValues[1].depthStencil = { 1.0f, 0 };
 
-		m_nMaxStageCount = 7;
+		m_nMaxStageCount = RL_Count;
 
 		uint32_t numThreads = std::thread::hardware_concurrency();
 		m_arrRenderCommand.resize(numThreads * m_nMaxStageCount);
