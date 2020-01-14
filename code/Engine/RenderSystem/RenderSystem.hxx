@@ -83,21 +83,11 @@ namespace ma
 
 		m_renderStepList[CurThreadFill()].clear();
 
-		for (auto& it : m_vecDyHBuffer)
-		{
-			it->BeginFrame();
-		}
-
 		m_pRenderThread->RC_BeginRender();
 	}
 
 	void RenderSystem::EndRender()
 	{
-		for (auto& it : m_vecDyHBuffer)
-		{
-			it->EndFrame();
-		}
-
 		m_pRenderThread->RC_EndRender();
 	}
 
@@ -320,6 +310,11 @@ namespace ma
 		m_pRenderThread->RC_RenderPassStreamComplete(pRenderPass);
 	}
 
+	void RenderSystem::UpdteHardwareBuffer(HardwareBuffer* pHB, const void* data, uint32_t nSize)
+	{
+		m_pRenderThread->RC_UpdateHardwareBuffer(pHB, data, nSize);
+	}
+
 	void RenderSystem::SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize)
 	{
 		m_pRenderThread->RC_SetUniformValue(pUniform,data,nSize);
@@ -439,13 +434,6 @@ namespace ma
 	void RenderSystem::ReloadShader()
 	{
 		m_bNeedReloadShader = true;
-	}
-
-	RefPtr<TransientParallHardWareBuffer> RenderSystem::CreateTransientParallHardWareBuffer(uint32_t nVertexStride, uint32_t nNumVertice, uint32_t numIndexes)
-	{
-		RefPtr<TransientParallHardWareBuffer> pBufferr = new TransientParallHardWareBuffer(nVertexStride, nNumVertice, numIndexes);
-		m_vecDyHBuffer.push_back(pBufferr);
-		return pBufferr;
 	}
 
 	void RenderSystem::AddRenderStep(RenderQueue* pQueue, RenderPass* pPass)

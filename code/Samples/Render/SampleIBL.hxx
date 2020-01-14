@@ -22,16 +22,18 @@ namespace ma
 		{
 			PostProcessPipeline* pPostProcess = GetPostProcess();
 			PostProcess* pHDR = pPostProcess->GetPostProcess("HDR");
+			if (pHDR)
+			{
+				PostProcessStep* pStepTonemap = pHDR->GetStep("ToneMap");
+				SubMaterial* pToneMapMaterial = pStepTonemap->GetMaterial();
+				RefPtr<MethodBinding> pMethodExpos = new MethodFunBinding<float>([this](Renderable*) { return m_fExporse; });
+				pToneMapMaterial->SetParameter("gExposure", Any(pMethodExpos));
 
-			PostProcessStep* pStepTonemap = pHDR->GetStep("ToneMap");
-			SubMaterial* pToneMapMaterial = pStepTonemap->GetMaterial();
-			RefPtr<MethodBinding> pMethodExpos = new MethodFunBinding<float>([this](Renderable*) { return m_fExporse; });
-			pToneMapMaterial->SetParameter("gExposure", Any(pMethodExpos));
-
-			PostProcessStep* pStepPrefiter = pHDR->GetStep("BloomPrefilter");
-			SubMaterial* pFilterMaterial = pStepPrefiter->GetMaterial();
-			RefPtr<MethodBinding> pMethodParam = new MethodFunBinding<Vector4>([this](Renderable*) { return Vector4(m_fParam); });
-			pFilterMaterial->SetParameter("_Threshold", Any(pMethodParam));
+				PostProcessStep* pStepPrefiter = pHDR->GetStep("BloomPrefilter");
+				SubMaterial* pFilterMaterial = pStepPrefiter->GetMaterial();
+				RefPtr<MethodBinding> pMethodParam = new MethodFunBinding<Vector4>([this](Renderable*) { return Vector4(m_fParam); });
+				pFilterMaterial->SetParameter("_Threshold", Any(pMethodParam));
+			}
 		}
 
 

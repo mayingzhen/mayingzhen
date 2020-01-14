@@ -19,6 +19,9 @@ namespace ma
 		m_nIndexOffset = 0;
 		m_nIndexBufferAvailableMemory = sizeof(uint16_t) * numIndexes;
 
+		m_pVertexMemory.resize(nVertexStride * nNumVertice);
+		m_pIndexMemory.resize(sizeof(uint16_t) * numIndexes);
+
 		m_bLocked = false;
 	}
 
@@ -40,11 +43,13 @@ namespace ma
 	void ParallHardWareBuffer::LockVideoMemory()
 	{
 		// lock video memory vertex/index buffer and expose base pointer and offset
-		if(m_pVertexBuffer)
-			m_pVertexVideoMemoryBase = (uint8_t*)m_pVertexBuffer->Lock(LOCK_DISCARD);
+		//if(m_pVertexBuffer)
+		//	m_pVertexVideoMemoryBase = (uint8_t*)m_pVertexBuffer->Lock(LOCK_DISCARD);
+		m_pVertexVideoMemoryBase = (uint8_t*)m_pVertexMemory.data();
 
-		if(m_pIndexBuffer)
-			m_pIndexVideoMemoryBase = (uint8_t*)m_pIndexBuffer->Lock(LOCK_DISCARD);
+		//if(m_pIndexBuffer)
+		//	m_pIndexVideoMemoryBase = (uint8_t*)m_pIndexBuffer->Lock(LOCK_DISCARD);
+		m_pIndexVideoMemoryBase = (uint8_t*)m_pIndexMemory.data();
 
 		m_nVertexOffset = 0;
 		m_nIndexOffset = 0;	
@@ -55,11 +60,13 @@ namespace ma
 	void ParallHardWareBuffer::UnLockVideoMemory()
 	{
 		// unlock vertex/index buffer
-		if(m_pVertexBuffer)
-			m_pVertexBuffer->Unlock();
+		//if(m_pVertexBuffer)
+		//	m_pVertexBuffer->Unlock();
+		GetRenderSystem()->UpdteHardwareBuffer(m_pVertexBuffer.get(), m_pVertexMemory.data(), m_pVertexMemory.size());
 
-		if(m_pIndexBuffer)
-			m_pIndexBuffer->Unlock();
+		//if(m_pIndexBuffer)
+		//	m_pIndexBuffer->Unlock();
+		GetRenderSystem()->UpdteHardwareBuffer(m_pIndexBuffer.get(), m_pIndexMemory.data(), m_pIndexMemory.size());
 
 		m_pVertexVideoMemoryBase = NULL;
 		m_pIndexVideoMemoryBase = NULL;

@@ -36,7 +36,7 @@ namespace ma
 	{
 		if (stageBegin == stageEnd)
 		{
-			auto it = m_mapRenderList.lower_bound(stageBegin);
+			auto it = m_mapRenderList.find(stageBegin);
 			if (it == m_mapRenderList.end())
 			{
 				return;

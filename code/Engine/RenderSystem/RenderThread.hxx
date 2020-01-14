@@ -210,6 +210,21 @@ namespace ma
 		});
 	}
 
+	void RenderThread::RC_UpdateHardwareBuffer(HardwareBuffer* pHB, const void* data, uint32_t nSize)
+	{
+		uint8_t* pCopyData = (uint8_t*)data;
+		if (!IsRenderThread() && IsMainThread()) // job 线程也会调用到这边
+		{
+			pCopyData = AddData(data, nSize);
+		}
+
+		RC_AddRenderCommad([pHB, pCopyData, nSize]() {
+			uint8_t* pDest = (uint8_t*)pHB->Lock(LOCK_DISCARD);
+			memcpy(pDest, pCopyData, nSize);
+			pHB->Unlock();
+		});
+	}
+
 	void RenderThread::RC_SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize)
 	{
 		uint8_t* pCopyData = (uint8_t*)data;

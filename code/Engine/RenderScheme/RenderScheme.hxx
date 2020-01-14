@@ -425,6 +425,11 @@ namespace ma
 
 		pRenderQueue->Render(m_pLightPass.get(), RL_MeshTrans, RL_MeshTrans);
 
+		if (!m_bHDREnable)
+		{
+			pRenderQueue->Render(m_pLightPass.get(), RL_UI, RL_UI);
+		}
+
 		m_pLightPass->End();
 	}
 

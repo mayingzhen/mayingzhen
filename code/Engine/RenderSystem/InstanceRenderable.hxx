@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	RefPtr<TransientParallHardWareBuffer> g_pInstanceBuffer;
+	RefPtr<ParallHardWareBuffer> g_pInstanceBuffer;
 
 	void InstanceRenderable::PreRender(Technique* pTech)
 	{
@@ -24,7 +24,7 @@ namespace ma
 
 		pRenderCommand->SetVertexBuffer(0, this->m_pVertexBuffer.get(),0);
 
-		VertexBuffer* pInstanceBuffer = g_pInstanceBuffer->GetParallHardWareBuffer()->GetVertexBuffer();
+		VertexBuffer* pInstanceBuffer = g_pInstanceBuffer->GetVertexBuffer();
 		uint32_t nOffset = m_subVB.m_nFirstVertex * sizeof(InstaceData);
 		pRenderCommand->SetVertexBuffer(1, pInstanceBuffer, nOffset);
 
@@ -57,10 +57,10 @@ namespace ma
 
 		if (g_pInstanceBuffer == nullptr)
 		{
-			g_pInstanceBuffer = GetRenderSystem()->CreateTransientParallHardWareBuffer(sizeof(InstanceRenderable::InstaceData), 1024, 0);
+			g_pInstanceBuffer = new ParallHardWareBuffer(sizeof(InstanceRenderable::InstaceData), 1024, 0);
 		}
 
-		m_subVB = g_pInstanceBuffer->GetRTParallHardWareBuffer()->AllocVertexBuffer(m_arrInstanceData.size());
+		m_subVB = g_pInstanceBuffer->AllocVertexBuffer(m_arrInstanceData.size());
 		memcpy(m_subVB.m_pVertices, m_arrInstanceData.data(), m_arrInstanceData.size() * sizeof(InstaceData));
 
 	}

@@ -50,7 +50,7 @@ namespace ma
 
 		std::vector< RefPtr<UIRenderable> > m_vecRendeable[2];
 
-		RefPtr<TransientParallHardWareBuffer> m_pUIBuffer;
+		RefPtr<ParallHardWareBuffer> m_pUIBuffer;
 
 		bool m_bInit = false;
 	};

@@ -69,6 +69,8 @@ namespace ma
 		void				HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void				RenderPassStreamComplete(RenderPass* pRenderPass);
 
+		void				UpdteHardwareBuffer(HardwareBuffer* pHB, const void* data, uint32_t nSize);
+
 		void				SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);
 		void				SetSampler(Uniform* pUniform, SamplerState* pSampler);
 		void				SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
@@ -93,8 +95,6 @@ namespace ma
 		const char*			GetShaderGlobaMacroByIndex(uint32_t i, OUT const char*& pszValue) const;
 		
 		void				ReloadShader();
-		
-		RefPtr<TransientParallHardWareBuffer> CreateTransientParallHardWareBuffer(uint32_t nVertexStride, uint32_t nNumVertice, uint32_t numIndexes);
 
 		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
 
@@ -142,8 +142,6 @@ namespace ma
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro
 		bool				m_bNeedReloadShader;
-
-		std::vector< RefPtr<TransientParallHardWareBuffer> > m_vecDyHBuffer;
 
 		bool					m_bThread;
 	};

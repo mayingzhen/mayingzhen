@@ -82,7 +82,7 @@ namespace ma
 		// Store our identifier
 		io.Fonts->TexID = (void *)(intptr_t)m_pFontSampler.get();
 
-		m_pUIBuffer = new TransientParallHardWareBuffer(sizeof(ImDrawVert), 1024 * 10, 1024 * 10);
+		m_pUIBuffer = new ParallHardWareBuffer(sizeof(ImDrawVert), 1024 * 10, 1024 * 10);
 	}
 
 	void UI::Shutdown()
@@ -95,7 +95,7 @@ namespace ma
 	{
 		if (m_bInit)
 		{
-			m_pUIBuffer->BeginFrame();
+			m_pUIBuffer->LockVideoMemory();
 		}
 
 		ImGui::NewFrame();
@@ -126,10 +126,8 @@ namespace ma
 		if (draw_data->TotalVtxCount <= 0)
 			return;
 
-		ParallHardWareBuffer* pUIHB = m_pUIBuffer->GetParallHardWareBuffer();
-
-		SubAllocVB subvb = pUIHB->AllocVertexBuffer(draw_data->TotalVtxCount);
-		SubAllocIB subib = pUIHB->AllocIndexBuffer(draw_data->TotalIdxCount);
+		SubAllocVB subvb = m_pUIBuffer->AllocVertexBuffer(draw_data->TotalVtxCount);
+		SubAllocIB subib = m_pUIBuffer->AllocIndexBuffer(draw_data->TotalIdxCount);
 
 		ImDrawVert* vtx_dst = (ImDrawVert*)subvb.m_pVertices;
 		ImDrawIdx* idx_dst = (ImDrawIdx*)subib.m_pIndices;
@@ -185,8 +183,8 @@ namespace ma
 					scissor.w = (uint32_t)(pcmd->ClipRect.w - pcmd->ClipRect.y + 1); // FIXME: Why +1 here?
 
 					UIRenderable* pRenderable = GetRenderable(nUsedCount++);
-					pRenderable->m_pVertexBuffer = pUIHB->GetVertexBuffer();
-					pRenderable->m_pIndexBuffer = pUIHB->GetIndexBuffer();
+					pRenderable->m_pVertexBuffer = m_pUIBuffer->GetVertexBuffer();
+					pRenderable->m_pIndexBuffer = m_pUIBuffer->GetIndexBuffer();
 					pRenderable->m_pSubMeshData->m_nIndexCount = pcmd->ElemCount;
 					pRenderable->m_pSubMeshData->m_nIndexStart = idx_offset;
 					pRenderable->m_pSubMeshData->m_nVertexStart = vtx_offset;
@@ -207,9 +205,13 @@ namespace ma
 
 		if (m_bInit)
 		{
-			RenderDrawData(ImGui::GetDrawData(), nullptr);
+			RenderStep* render_step = GetRenderSystem()->GetBaseRender();
 
-			m_pUIBuffer->EndFrame();
+			RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+
+			RenderDrawData(ImGui::GetDrawData(), pRenderQueue);
+
+			m_pUIBuffer->UnLockVideoMemory();
 		}
 
 		m_bInit = true;
