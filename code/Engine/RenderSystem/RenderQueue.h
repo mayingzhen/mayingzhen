@@ -36,6 +36,8 @@ namespace ma
 		
 		void					SetCamera(Camera* pCamera);
 
+		void					SetLightViewProj(const Matrix4& matLightViewProj);
+
 		void					SetMainLight(Light* pMainLight, ColourValue cAmbient);
 
 		void					AddLight(Light* pLight, Technique* pTech);
@@ -47,6 +49,10 @@ namespace ma
 		void					Render(RenderPass* pPass);
 
 		void					Render(RenderPass* pPass, int stageBegin, int stageEnd);
+
+		void					Render(RenderCommand* pRenderCommand);
+
+		void					Render(RenderCommand* pRenderCommand, int stageBegin, int stageEnd);
 
 		void					Compute();
 
@@ -62,6 +68,7 @@ namespace ma
 		std::vector< LightInfo > m_vecLight;
 
 		BatchRenderable		m_compute;
+
 	};
 }
 

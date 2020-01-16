@@ -241,8 +241,8 @@ namespace ma
 			AABB aabb = pObject->GetAABBWS();
 			aabb.transform(pCamera->GetMatView());
 
-			float aabbMinZ = -aabb.getMaximum().z;
-			float aabbMaxZ = -aabb.getMinimum().z;
+			float aabbMinZ = aabb.getMinimum().z;
+			float aabbMaxZ = aabb.getMaximum().z;
 
 			pObject->SetViewMinMaxZ(aabbMinZ,aabbMaxZ);
 

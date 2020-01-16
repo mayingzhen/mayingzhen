@@ -104,8 +104,8 @@ namespace ma
 		for (int i = 19; i >= 0; i--) 
 		{
 			Vector3& v0 = verts[indices[i][2]];
-			Vector3& v1 = verts[indices[i][1]];
-			Vector3& v2 = verts[indices[i][0]];
+			Vector3& v1 = verts[indices[i][0]];
+			Vector3& v2 = verts[indices[i][1]];
 			SphereTessR(v0, v1, v2, 2, indBuff, vertBuff);
 		}
 

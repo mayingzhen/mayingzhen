@@ -34,28 +34,41 @@ namespace ma
 
 	void RenderQueue::Render(RenderPass* pPass, int stageBegin, int stageEnd)
 	{
-		if (stageBegin == stageEnd)
+		for (int stage = stageBegin; stage <= stageEnd; ++stage)
 		{
-			auto it = m_mapRenderList.find(stageBegin);
+			auto it = m_mapRenderList.find(stage);
 			if (it == m_mapRenderList.end())
 			{
-				return;
+				continue;
 			}
 
 			it->second.PrepareRender();
 
 			it->second.Render(pPass, it->first);
 		}
-		else
-		{
-			auto bi = m_mapRenderList.lower_bound(stageBegin);
-			auto ei = m_mapRenderList.lower_bound(stageEnd);
-			for (auto it = bi; it != ei; ++it)
-			{
-				it->second.PrepareRender();
+	}
 
-				it->second.Render(pPass, it->first);
+	void RenderQueue::Render(RenderCommand* pRenderCommand, int stageBegin, int stageEnd)
+	{
+		for (int stage = stageBegin; stage <= stageEnd; ++stage)
+		{
+			auto it = m_mapRenderList.find(stage);
+			if (it == m_mapRenderList.end())
+			{
+				continue;
 			}
+
+			it->second.PrepareRender();
+
+			it->second.Render(pRenderCommand, it->first);
+		}
+	}
+
+	void RenderQueue::Render(RenderCommand* pRenderCommand)
+	{
+		for (auto& it : m_mapRenderList)
+		{
+			Render(pRenderCommand, it.first, it.first);
 		}
 	}
 
@@ -87,6 +100,14 @@ namespace ma
 		}
 	}
 
+	void RenderQueue::SetLightViewProj(const Matrix4& matLightViewProj)
+	{
+		if (m_renderContext)
+		{
+			m_renderContext->SetLightViewProj(matLightViewProj);
+		}
+	}
+
 	void RenderQueue::SetMainLight(Light* pMainLight, ColourValue cAmbient)
 	{
 		if (m_renderContext)
@@ -102,7 +123,7 @@ namespace ma
 		info.m_eType = pLight->GetLightType();
 		info.m_cLightColor = pLight->GetLightColor();
 		info.m_fLightIntensity = pLight->GetLightIntensity();
-		info.m_vDir = pLight->GetSceneNode()->GetForward();
+		info.m_vDir = -pLight->GetSceneNode()->GetForward().normalisedCopy();
 		info.m_vPos = pLight->GetSceneNode()->GetPosWS();
 		info.m_pTech = pTech;
 		if (pLight->GetLightType() == LIGHT_POINT)

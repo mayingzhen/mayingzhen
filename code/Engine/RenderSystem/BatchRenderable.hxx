@@ -220,6 +220,16 @@ namespace ma
 		}
 	}
 
+	void BatchRenderable::Render(RenderCommand* pCommand, int stage)
+	{
+		for (auto& item : m_arrRenderList)
+		{
+			item.m_renderable->PreRender(item.m_tech);
+
+			item.m_renderable->Render(item.m_tech, pCommand);
+		}
+	}
+
 	void BatchRenderable::Compute(ComputeCommad* pCommand)
 	{
 		for (auto& item : m_arrRenderList)

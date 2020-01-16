@@ -85,7 +85,7 @@ void main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
 	GetRandDirTC(Nextdepth,NextRandDirTC);	
 #endif
    
-    float nextshadow = DoShadowMappingSampler(g_tNextShadowMap, g_sNextShadowMap,vNextShadowPos,NextRandDirTC,vNextShadowPos.w,g_NextshadowMapTexelSize);  
+    float nextshadow = DoShadowMapping(vNextShadowPos,NextRandDirTC,vNextShadowPos.w);  
 
 	shadow = lerp(nextshadow,shadow,fBlend);
 

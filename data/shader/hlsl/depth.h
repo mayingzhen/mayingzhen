@@ -29,10 +29,8 @@ float GetLinearDepth(float2 tc)
 #endif
 }
 
-float4 CalcHomogeneousPosDepth(float2 tc,float2 WPos)
+float4 CalcHomogeneousPosDepth(float2 WPos,float fLinearDepth)
 {
-	float fLinearDepth = GetLinearDepth(tc);
-
 	float3 vViewDir = vStoWBasisZ.xyz + vStoWBasisX.xyz * WPos.x + vStoWBasisY.xyz * WPos.y; 
 	float3 vPos = vViewDir * fLinearDepth * g_vCameraNearFar.z  + vStoCamPos.xyz;
 

@@ -93,6 +93,9 @@ namespace ma
 
 		RefPtr<PostProcessStep> m_lastStep;
 
+
+		RefPtr<Technique>		m_pAmbientLight;
+
 		bool					m_bHDREnable = false;
 	};
 

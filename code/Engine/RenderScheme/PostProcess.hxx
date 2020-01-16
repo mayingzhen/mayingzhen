@@ -147,7 +147,7 @@ namespace ma
 
 		for (uint32_t i = 0; i < m_vecStep.size(); ++i)
 		{
-			m_vecStep[i]->GetRenderPass()->Begine(Rectangle());
+			m_vecStep[i]->GetRenderPass()->Begine();
 
 			m_vecStep[i]->Render();
 

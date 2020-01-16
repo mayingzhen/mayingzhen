@@ -579,13 +579,14 @@ namespace ma
 		return out;
 	}
 
+	//D3DXMatrixOrthoLH 
 	Matrix4 VulkanRenderDevice::MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf)
 	{
 		out[0][0] = 2/width;
 		out[1][1] = 2/height;
-		out[2][2] = 1/(zn-zf);
+		out[2][2] = 1/(zf-zn);
 		out[3][3] = 1.f;
-		out[2][3] = zn/(zn-zf);
+		out[2][3] = -zn/(zf-zn);
 		out[1][0] = out[2][0] = out[3][0] = 
 			out[0][1] = out[0][2] = out[0][3] =
 			out[1][2] = out[1][3] =

@@ -44,16 +44,20 @@ namespace ma
 		} );
 
 		AddFunMethodBinding<Vector3>("g_vEyeWorldPos", [](Renderable*) {
-			return GetSceneContext()->GetEyeWorldPos(); } );
+			return GetSceneContext()->GetEyeWorldPos(); 
+		} );
 
 		AddFunMethodBinding<Vector3>("g_cSkyLight", [](Renderable*) {
-			return GetSceneContext()->GetAmbientColor(); });
+			return GetSceneContext()->GetAmbientColor(); 
+		});
 
 		AddFunMethodBinding<Vector3>("g_cDirLight", [](Renderable*) {
-			return GetSceneContext()->GetDirLightColor(); });
+			return GetSceneContext()->GetDirLightColor(); 
+		});
 
 		AddFunMethodBinding<Vector3>("g_vDirLight", [](Renderable*) {
-			return GetSceneContext()->GetDirLightDir(); });
+			return GetSceneContext()->GetDirLightDir(); 
+		});
 
 
 // 		AddFunMethodBinding<SamplerState*>("g_tShadowMap", [](Renderable*)->SamplerState* {
@@ -72,14 +76,9 @@ namespace ma
 // 			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 // 		});
 
-// 		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*) {
-// 			ASSERT(false);
-// 			Scene* pCurScene = nullptr;// GetRenderContext()->GetCurScene();
-// 			if (pCurScene == NULL)
-// 				return Matrix4::IDENTITY;
-// 
-// 			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetLightViewProjMatrix();
-// 		});
+		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*) {
+			return GetSceneContext()->GetLightViewProj(); 
+		});
 
 // 		AddFunMethodBinding<Vector4>("g_shadowMapTexelSize", [](Renderable*) {
 // 			ASSERT(false);

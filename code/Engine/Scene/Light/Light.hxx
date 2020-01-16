@@ -15,7 +15,7 @@ namespace ma
 
 	void Light::Render(RenderQueue* pRenderQueue)
 	{
-		if (!m_pTech->IsReady())
+		if (m_pTech == nullptr || !m_pTech->IsReady())
 			return;
 
 		pRenderQueue->AddLight(this,m_pTech.get());

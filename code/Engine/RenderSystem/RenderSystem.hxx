@@ -436,14 +436,6 @@ namespace ma
 		m_bNeedReloadShader = true;
 	}
 
-	void RenderSystem::AddRenderStep(RenderQueue* pQueue, RenderPass* pPass)
-	{
-		//m_renderStepList[CurThreadFill()].emplace_back();
-		//RenderStep& step = m_renderStepList[CurThreadFill()].back();
-		//step.m_pRenderQueue = pQueue;
-		//step.m_pRenderPass = pPass;
-	}
-
 	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
 	{
 		m_renderStepList[CurThreadFill()].push_back(renderstep);

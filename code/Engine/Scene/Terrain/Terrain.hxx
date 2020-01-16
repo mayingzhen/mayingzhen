@@ -245,7 +245,6 @@ namespace ma
 		ClearTempData();
 		
 		m_bLoadOver = true;
-		mLoadOverEvent.trigger();
 
 		return true;
 	}	

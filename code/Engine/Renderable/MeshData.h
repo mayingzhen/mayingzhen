@@ -147,7 +147,7 @@ namespace ma
 		void					ReadDataV0();
 
 	private:
-		uint32_t							m_nBoneNumber;
+		uint32_t						m_nBoneNumber;
 		INDEX_TYPE						m_nIndexType;
 		VertexType						m_nVertexType;
 		RefPtr<IndexBuffer>				m_pIndexBuffer;

@@ -10,7 +10,7 @@ namespace ma
 		rs.pNext = NULL;
 		rs.flags = 0;
 		rs.polygonMode = VK_POLYGON_MODE_FILL;
-		rs.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+		rs.frontFace = VK_FRONT_FACE_CLOCKWISE;
 		rs.depthClampEnable = VK_FALSE;
 		rs.rasterizerDiscardEnable = VK_FALSE;
 		rs.depthBiasEnable = VK_FALSE;

@@ -98,8 +98,6 @@ namespace ma
 
 		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
 
-		void				AddRenderStep(RenderQueue* pQueue, RenderPass* pPass);
-
 		void				AddRenderStep(RefPtr<RenderStep> renderstep);
 
 		RenderStep*			GetBaseRender() { return m_pRenderScheme.get(); }

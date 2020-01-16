@@ -141,9 +141,6 @@ namespace ma
 		pRenderQueue->SetCamera(m_pCamera.get());
 		pRenderQueue->SetMainLight(m_pMainDirLight.get(), m_cAmbientColor);
 
-		GetRenderSystem()->AddRenderStep(render_step);
-
-
 		for (uint32_t i = 0; i < m_arrRenderComp.size(); ++i)
 		{
 			m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());
@@ -179,6 +176,8 @@ namespace ma
 		m_pMainDirLight->UpdateShadowMap(m_pCamera.get());
 
 		m_pMainDirLight->RenderShadowMap(m_pCamera.get());
+
+		GetRenderSystem()->AddRenderStep(render_step);
 	}
 
 	RefPtr<Scene> CreateScene()

@@ -26,6 +26,8 @@ namespace ma
 
 		virtual void	Render(RenderPass* pPass, int stage);
 
+		virtual void	Render(RenderCommand* pCommand, int stage);
+
 		virtual void	Compute(ComputeCommad* pCommand);
 
 		virtual void	Clear();

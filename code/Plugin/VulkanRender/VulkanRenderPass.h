@@ -12,7 +12,7 @@ namespace ma
 		~VulkanRenderPass();
 
 	public:
-		virtual void Begine(const Rectangle& viewPort);
+		virtual void Begine();
 
 		virtual void End();
 

@@ -9,8 +9,8 @@ namespace ma
 
 	void SampleShadowMap::Load()
 	{
-		Vector3 lookAtPos(100, 0, 0);
-		Vector3 eyePos = Vector3(100, 360, -60);
+		Vector3 lookAtPos(0, 0, 0);
+		Vector3 eyePos = Vector3(10, 36, -6);
 		GetCamera()->LookAt(eyePos, lookAtPos);
 
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
@@ -26,10 +26,12 @@ namespace ma
 		for (uint32_t i = 0; i < nCount; ++i)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
+			pCharMagic->RotateAround(Vector3::ZERO,Vector3::UNIT_X,-90);
 			pCharMagic->SetScale(Vector3(0.01f));
 			float x = Math::RangeRandom(0, nCount);
-			float y = Math::RangeRandom(0, nCount);
-			pCharMagic->SetPos(Vector3(x, m_pTerrain->GetHeight(x, y), y));
+			float z = Math::RangeRandom(0, nCount);
+			float y = m_pTerrain->GetHeight(x, z) + 2.0f;
+			pCharMagic->SetPos(Vector3(x, y, z));
 			SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 			pMeshComp->SetShadowCaster(true);
 			//AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
@@ -43,11 +45,10 @@ namespace ma
 			pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
 			pBoxMesh->SetShadowCaster(true);
 			float x = Math::RangeRandom(0, nCount);
-			float y = Math::RangeRandom(0, nCount);
-			pBox->SetPos(Vector3(x, m_pTerrain->GetHeight(x, y), y));
+			float z = Math::RangeRandom(0, nCount);
+			float y = m_pTerrain->GetHeight(x, z) + 2.0f;
+			pBox->SetPos(Vector3(x, y, z));
 		}
-
-		m_pTerrain->mLoadOverEvent.notify(this, &SampleShadowMap::OnTerrainLoadOver);
 	}
 
 	void SampleShadowMap::OnTerrainLoadOver()

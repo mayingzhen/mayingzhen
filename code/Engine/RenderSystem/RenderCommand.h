@@ -16,6 +16,8 @@ namespace ma
 
 		virtual void SetTechnique(Technique* pTech) = 0;
 
+		virtual void SetViewPort(const Rectangle& viewPort) = 0;
+
 		virtual void SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors) = 0;
 
 		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount) = 0;

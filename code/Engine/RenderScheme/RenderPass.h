@@ -35,7 +35,7 @@ namespace ma
 
 		virtual void Create() = 0;
 
-		virtual void Begine(const Rectangle& viewPort) = 0;
+		virtual void Begine() = 0;
 
 		virtual void End() = 0;
 

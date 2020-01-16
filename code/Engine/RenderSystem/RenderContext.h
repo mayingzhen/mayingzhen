@@ -13,6 +13,8 @@ namespace ma
 		
 		void					SetCamera(Camera* pCamera); 
 
+		void					SetLightViewProj(const Matrix4& matLightViewProj);
+
 		void					SetMainLight(Light* pMianLight, ColourValue cAmbientColor);
 
 		const Matrix4&			GetViewMatrix() const;
@@ -20,6 +22,7 @@ namespace ma
 		const Matrix4&			GetProjMatrix() const;
 		const Matrix4&			GetViewProjMatrix() const;
 		const Vector3&			GetEyeWorldPos() const;
+		const Matrix4&			GetLightViewProj() const { return m_matLightViewProj; }
 
 		float					GetNearClip();
 		float					GetFarClip();
@@ -30,6 +33,8 @@ namespace ma
 
 	protected:
 		MatViewProj				m_matViewProj;
+
+		Matrix4					m_matLightViewProj;
 
 		float					m_fNear = 0.0f;
 		float					m_fFar = 0.0f;

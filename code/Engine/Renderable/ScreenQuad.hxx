@@ -42,11 +42,11 @@ namespace ma
 
 		uint16_t indices[6];
 		indices[0] = 0;
-		indices[1] = 2;
-		indices[2] = 1;
+		indices[1] = 1;
+		indices[2] = 2;
 		indices[3] = 1;
-		indices[4] = 2;
-		indices[5] = 3;
+		indices[4] = 3;
+		indices[5] = 2;
 
 		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer((uint8_t*)quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
 

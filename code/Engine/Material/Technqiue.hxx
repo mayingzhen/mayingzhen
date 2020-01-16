@@ -413,7 +413,7 @@ namespace ma
 
 	void Technique::SetValue(Uniform* pUniform, const uint8_t* values, uint32_t nSize)
 	{
-		ASSERT(pUniform);
+		//ASSERT(pUniform);
 		if (pUniform == NULL)
 			return;
 

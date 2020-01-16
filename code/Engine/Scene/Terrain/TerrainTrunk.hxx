@@ -597,25 +597,29 @@ namespace ma
 					uint16_t iIndexBottomRight = (i+1)   * (nYCellsAmount+1) + j + 1; 
 					uint16_t iRect[4] = {iIndexTopLeft,iIndexTopRight,iIndexBottomLeft,iIndexBottomRight};
 
+					/*
+					0   1
+					2   3
+					*/
 					if (m_pTerrain->GetTriFlip(nXVert,nYVert))
 					{
 						pIndexData[baseIndex]     = iRect[0];
-						pIndexData[baseIndex + 1] = iRect[3];
-						pIndexData[baseIndex + 2] = iRect[1];
+						pIndexData[baseIndex + 1] = iRect[1];
+						pIndexData[baseIndex + 2] = iRect[3];
 
 						pIndexData[baseIndex + 3] = iRect[0];
-						pIndexData[baseIndex + 4] = iRect[2];
-						pIndexData[baseIndex + 5] = iRect[3];
+						pIndexData[baseIndex + 4] = iRect[3];
+						pIndexData[baseIndex + 5] = iRect[2];
 					}
 					else
 					{
 						pIndexData[baseIndex]     = iRect[0];
-						pIndexData[baseIndex + 1] = iRect[2];
-						pIndexData[baseIndex + 2] = iRect[1];
+						pIndexData[baseIndex + 1] = iRect[1];
+						pIndexData[baseIndex + 2] = iRect[2];
 
 						pIndexData[baseIndex + 3] = iRect[2];
-						pIndexData[baseIndex + 4] = iRect[3];
-						pIndexData[baseIndex + 5] = iRect[1];
+						pIndexData[baseIndex + 4] = iRect[1];
+						pIndexData[baseIndex + 5] = iRect[3];
 					}
 
 					// next quad

@@ -28,7 +28,7 @@ namespace ma
 
 		void				Clear(Camera* pCamera);
 
-		const Matrix4&		GetLightViewProjMatrix() const {return m_matLightViewProj[GetRenderSystem()->CurThreadProcess()];}
+		const Matrix4&		GetLightViewProjMatrix() const { return m_matLightViewProj; }
 		const Matrix4&		GetLightViewMatrix() const {return m_matLightView;}
 		const Matrix4&		GetTexAdjustMatrix() const {return m_matTexAdjust;}
 		const Matrix4&		GetShadowMatrix() const {return m_matShadow[GetRenderSystem()->CurThreadProcess()];}
@@ -52,7 +52,7 @@ namespace ma
 		Matrix4				m_matCrop;	
 		Matrix4				m_matLightProj;
 		Matrix4				m_matLightView;
-		Matrix4				m_matLightViewProj[2];
+		Matrix4				m_matLightViewProj;
 		Matrix4				m_matShadow[2];
 
 		AABB				m_casterAABB;

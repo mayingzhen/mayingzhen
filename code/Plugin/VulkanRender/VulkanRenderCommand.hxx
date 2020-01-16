@@ -126,6 +126,14 @@ namespace ma
 		vkCmdDraw(m_vkCmdBuffer, nVertexCount, nInstanceCount, nVertexStart, 0);
 	}
 
+	void VulkanRenderCommand::SetViewPort(const Rectangle& viewPort)
+	{
+		VkViewport vk_viewport = vks::initializers::viewport((float)viewPort.width(), (float)viewPort.height(), 0.0f, 1.0f);
+		vk_viewport.x = viewPort.offsetX();
+		vk_viewport.y = viewPort.offsetY();
+		vkCmdSetViewport(m_vkCmdBuffer, 0, 1, &vk_viewport);
+	}
+
 	void VulkanRenderCommand::SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors)
 	{
 		std::vector<VkRect2D> vecScissor(scissorCount);

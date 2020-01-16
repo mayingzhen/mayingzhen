@@ -29,12 +29,17 @@ namespace ma
 		m_fNear = pCamera->GetNearClip();
 	}
 
+	void SceneContext::SetLightViewProj(const Matrix4& matLightViewProj)
+	{
+		m_matLightViewProj = matLightViewProj;
+	}
+
 	void SceneContext::SetMainLight(Light* pMianLight, ColourValue cAmbientColor)
 	{
 		if (pMianLight)
 		{
 			m_cMianLightColor = pMianLight->GetLightColor();
-			m_vMainLightDir = pMianLight->GetSceneNode()->GetForward().normalisedCopy();
+			m_vMainLightDir = -pMianLight->GetSceneNode()->GetForward().normalisedCopy();
 		}
 
 		m_cAmbientColor = cAmbientColor;

@@ -13,7 +13,7 @@ namespace ma
 
 		SetSceneContext(cur_renderQueue->GetSceneContext());
 
-		cur_renderPass->Begine(m_veiwPort);
+		cur_renderPass->Begine();
 
 		cur_renderQueue->Render(cur_renderPass);
 
@@ -22,6 +22,9 @@ namespace ma
 
 	RenderScheme::RenderScheme()
 	{
+		m_pDeferredShadow = new DeferredShadow();
+		m_pDeferredShadow->Init();
+
 		g_pPostProcessPipeline = new PostProcessPipeline();
 
 		SetSceneContext(m_pRenderQueue[0]->GetSceneContext());
@@ -265,7 +268,7 @@ namespace ma
 				Info.m_shaderMacro = "AMBIENT_LIGHT";
 
 				RefPtr<Technique> pAmbientLight = CreateTechnique(Info);
-				pAmbientLight->SaveToXML("shader/m_pAmbientLight.tech");
+				pAmbientLight->SaveToXML("shader/ambientLight.tech");
 
 				GetRenderSystem()->TechniqueStreamComplete(pAmbientLight.get());
 			}
@@ -293,6 +296,8 @@ namespace ma
 				GetRenderSystem()->TechniqueStreamComplete(pPointLight.get());
 			}
 		}
+
+		m_pAmbientLight = CreateTechnique("shader/ambientLight.tech","",m_pLightPass.get());
 	}
 
 	void RenderScheme::SetupHDRPass()
@@ -350,6 +355,8 @@ namespace ma
 
 		SetupHDRPass();
 
+		m_pDeferredShadow->Reset();
+
 		GetRenderSystem()->SetBaseRenderPass(m_pGbufferPass.get());
 		GetRenderSystem()->SetDefferedLightRenderPass(m_pLightPass.get());
 		GetRenderSystem()->ReloadShader();
@@ -374,7 +381,7 @@ namespace ma
 	{
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 
-		m_pGbufferPass->Begine(Rectangle());
+		m_pGbufferPass->Begine();
 
 		pRenderQueue->Render(m_pGbufferPass.get(), RL_SkyBox, RL_Terrain);
 
@@ -385,15 +392,15 @@ namespace ma
 	{
 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 
-		m_pLightPass->Begine(Rectangle());
+		m_pLightPass->Begine();
 
 		RenderCommand* pCommand = m_pLightPass->GetThreadCommand(0, 0);
 
 		pCommand->Begin();
 
-		Vector3 cAmbientColor = Vector3::ZERO;//= m_pScene->GetAmbientColor();
-		//m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
-		//ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
+		Vector3 cAmbientColor = pRenderQueue->GetSceneContext()->GetAmbientColor();
+		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
+		ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
 
 		for (auto& light : pRenderQueue->GetRenderLights())
 		{
@@ -402,7 +409,7 @@ namespace ma
 				Uniform* pUniformDir = light.m_pTech->GetUniform(PS, "light_dir");
 				Uniform* pUniformColor = light.m_pTech->GetUniform(PS, "light_color");
 
-				light.m_pTech->SetValue(pUniformDir, Vector3::UNIT_SCALE.normalisedCopy());//light.m_vDir);
+				light.m_pTech->SetValue(pUniformDir, light.m_vDir);
 				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
 
 				ScreenQuad::Render(light.m_pTech.get(), pCommand);
@@ -442,7 +449,7 @@ namespace ma
 
 		g_pPostProcessPipeline->Render();
 
-		m_pBackBaufferPass->Begine(Rectangle());
+		m_pBackBaufferPass->Begine();
 
 		m_lastStep->Render();
 
@@ -457,6 +464,11 @@ namespace ma
 		ComputePass();
 
 		BasePass();
+
+		if (m_pDeferredShadow)
+		{
+			m_pDeferredShadow->Render();
+		}
 
 		LightPass();
 

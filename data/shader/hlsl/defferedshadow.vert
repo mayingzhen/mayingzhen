@@ -1,4 +1,4 @@
-#define SCEERN_LIGHT;
+#define DIRECT_LIGHT;
 
 #include "DeferredLight.vert"
 

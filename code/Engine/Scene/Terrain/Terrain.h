@@ -153,9 +153,6 @@ namespace ma
 		bool m_bLoadOver;
 
 		friend class TerrainTrunk;
-
-	public:
-		Signal< void() > mLoadOverEvent;
 	};
 
 	RefPtr<Terrain>	 CreateTerrain();

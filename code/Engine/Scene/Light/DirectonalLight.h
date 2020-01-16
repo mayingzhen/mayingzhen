@@ -70,6 +70,8 @@ namespace ma
 
 		RenderPass*			GetShadowMapPass() { return m_pShadowMapPass.get(); }
 
+		SamplerState*		GetShadowMapSampler() { return m_pShadowMapSampler.get(); }
+
 	private:
 		void				UpdateViewMinMaxZ(Camera* pCamera);
 
