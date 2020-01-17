@@ -128,12 +128,16 @@ namespace ma
 
 		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1,m_arrCaster);
 		
-		for (auto pRenderComp : m_arrCaster)
+		for (auto& pRenderComp : m_arrCaster)
 		{
 			if (!pRenderComp->GetShadowCaster())
+			{
 				continue;
+			}
 
 			pRenderComp->RenderShadow(pRenderQueue);
+
+			m_casterAABB.merge(pRenderComp->GetAABBWS());
 		}
 	}
 
@@ -246,27 +250,14 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-        /*
-		Matrix4 matVP = m_matLightProj* m_matLightView;
-
-		Frustum vpFurstum = m_frustum;
-		vpFurstum.Transformed(matVP);
-		AABB splitBB = vpFurstum.GetAABB();
+		Matrix4 matVP = m_matLightProj* m_matLightView;;
 
 		AABB castersBB = m_casterAABB;
 		castersBB.transform(matVP);
 
-		AABB sceeneBB = m_sceneAABB;
-		sceeneBB.transform(matVP);
-
 		//AABB cropBB;
-		Vector3 vMax,vMin;
-		vMin.x = max(castersBB.getMinimum().x, splitBB.getMinimum().x);
-		vMax.x = min(castersBB.getMaximum().x, splitBB.getMaximum().x);
-		vMin.y = max(castersBB.getMinimum().y, splitBB.getMinimum().y);
-		vMax.y = min(castersBB.getMaximum().y, splitBB.getMaximum().y);
-		vMin.z = min(sceeneBB.getMinimum().z, castersBB.getMinimum().z);
-		vMax.z = max(sceeneBB.getMaximum().z, splitBB.getMaximum().z);
+		Vector3 vMax = castersBB.getMaximum();
+		Vector3 vMin = castersBB.getMinimum();
 
 		float fScaleX = 2.0f / (vMax.x - vMin.x);
 		float fScaleY = 2.0f / (vMax.y - vMin.y);
@@ -276,11 +267,11 @@ namespace ma
 
 		float fScaleZ = 1.0f / (vMax.z - vMin.z);
 		float fOffsetZ = -vMin.z * fScaleZ;
-         */
-
-		m_matCrop = Matrix4::IDENTITY;
-		//m_matCrop.setScale(Vector3(fScaleX,fScaleY,fScaleZ));
-		//m_matCrop.setTrans(Vector3(fOffsetX,fOffsetY,fOffsetZ));
+         
+		fScaleX = std::max<float>(fScaleX, 1.0f);
+		fScaleY = std::max<float>(fScaleY, 1.0f);
+		m_matCrop.setScale(Vector3(fScaleX,fScaleY,1.0f));
+		m_matCrop.setTrans(Vector3(fOffsetX,fOffsetY,0.0f));
 	}
 
 	void ShadowMapFrustum::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)

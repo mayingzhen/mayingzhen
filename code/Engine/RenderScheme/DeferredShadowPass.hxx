@@ -15,6 +15,8 @@ namespace ma
 	DeferredShadow::DeferredShadow()
 	{
 		m_pRenderable = new Renderable;
+
+		GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "1");
 	}
 
 	void DeferredShadow::CreateSimpleLightFrustumMesh()
@@ -102,6 +104,10 @@ namespace ma
 
 		m_pShadowSampler = CreateSamplerState(m_pShadowTex.get(),CLAMP,TFO_POINT,false);
 
+		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_TextureSceneShadow", [this](Renderable*)->SamplerState* {
+			return m_pShadowSampler.get();
+		});
+
 		m_pShadowPass = GetRenderDevice()->CreateRenderPass();
 		m_pShadowPass->AttachColor(0, m_pShadowTex.get(), 0, 0);
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowPass.get());
@@ -129,16 +135,16 @@ namespace ma
 
 		volume_info.m_pDSState = pDSState;
 
-		for (int i = 4/*m_ShadowLight->GetCurSplitCount()*/ - 1; i >= 0; --i) // ´ÓºóÍùÇ°
+		for (int i = 0; i < 4; ++i)
 		{
-			{
-				pDSState->m_nStencilRef = (i * 2 + 2) << SBU_DEFERREDSHADOW;
-				m_pFrustumVolume[i] = CreateTechnique(volume_info);
-			}
-
 			{
 				pDSState->m_nStencilRef = (i * 2 + 1) << SBU_DEFERREDSHADOW;
 				m_pFrustumVolumeScale[i] = CreateTechnique(volume_info);
+			}
+
+			{
+				pDSState->m_nStencilRef = (i * 2 + 2) << SBU_DEFERREDSHADOW;
+				m_pFrustumVolume[i] = CreateTechnique(volume_info);
 			}
 		}
 
@@ -229,7 +235,7 @@ namespace ma
 				Matrix4 matBlend = Matrix4::IDENTITY;
 				matBlend.setScale(Vector3(fBlendValue,fBlendValue,1.0f));
 				matFrum = matFrum * matBlend;
-				m_pFrustumVolume[i]->SetValue(m_pFrustumVolume[i]->GetUniform(VS,"matFrustum"), matFrum );
+				m_pFrustumVolumeScale[i]->SetValue(m_pFrustumVolumeScale[i]->GetUniform(VS,"matFrustum"), matFrum );
 
 				//GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolumeScale[i].get());
 				m_pRenderable->PreRender(m_pFrustumVolumeScale[i].get());
@@ -249,6 +255,8 @@ namespace ma
 
 			//ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
 
+			Matrix4 viewToShadow = shadowMapFru.GetShadowMatrix() * GetSceneContext()->GetViewMatrixInv();
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "vStoWBasisX"),shadowMapFru.m_vWBasisX);
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "vStoWBasisY"),shadowMapFru.m_vWBasisY);
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "vStoWBasisZ"),shadowMapFru.m_vWBasisZ);

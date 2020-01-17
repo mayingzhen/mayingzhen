@@ -21,8 +21,8 @@ namespace ma
 	{
 		if (m_eResState == ResReady)
 		{
-			m_createInfo = createInfo;
-			
+			ASSERT(false);
+
 			return;
 		}
 

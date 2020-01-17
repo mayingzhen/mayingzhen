@@ -70,6 +70,7 @@ namespace ma
 	{
 		if (m_bNeedReloadShader)
 		{
+			GetRenderSystem()->FlushAndWait(); // TechniqueStreamComplete 可能还在RenderThread
 			g_pMaterialManager->ReLoad();
 			m_bNeedReloadShader = false;
 		}

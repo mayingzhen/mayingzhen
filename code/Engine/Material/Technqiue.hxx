@@ -711,8 +711,6 @@ namespace ma
 		if (m_pShaderProgram == nullptr)
 			return;
 
-		GetRenderSystem()->FlushAndWait(); // TechniqueStreamComplete 可能还在RenderThread
-
 		ShaderCreateInfo info = m_pShaderProgram->GetShaderCreateInfo();
 		info.m_shaderMacro = m_strDefine;
 		info.m_pRenderPass = m_pRenderPass;

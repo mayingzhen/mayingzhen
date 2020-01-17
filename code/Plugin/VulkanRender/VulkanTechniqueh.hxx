@@ -48,6 +48,9 @@ namespace ma
 	void VulkanTechnique::RT_StreamComplete()
 	{
 		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
+		ASSERT(pShader->IsReady());
+		if (!pShader->IsReady())
+			return;
 
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
@@ -94,7 +97,7 @@ namespace ma
 
 			this->AddStorgeBuffer(pUniformCopy.get());
 		}
-
+		
 		{
 			VkDescriptorSetAllocateInfo alloc_info[1];
 			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;

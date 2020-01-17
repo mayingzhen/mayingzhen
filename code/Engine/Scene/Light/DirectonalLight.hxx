@@ -71,14 +71,10 @@ namespace ma
 
 		if (m_bShadowEnable)
 		{
-			GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "1");
-	
 			Init();	
 		}
 		else
 		{
-			GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "0");
-
 			Clear(NULL);
 		}
 	}

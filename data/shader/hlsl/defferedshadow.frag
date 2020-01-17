@@ -20,6 +20,8 @@ cbuffer ObjectPS : register(b5)
 	float4 g_vNextViewPosVecLS;
 	float2 NextkernelRadius;
 	float4 g_NextshadowMapTexelSize;
+
+	float4x4 g_matViewToShadow;
 };
 
 Texture2D g_tNextShadowMap : register(t6);
@@ -60,10 +62,16 @@ float BlendVP(float3 vp, bool blendOut)
 
 void main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
 {
-	float fLinearDepth = GetLinearDepth(In.oTc);
-	float4 vTempPos = CalcHomogeneousPosDepth(WPos.xy,fLinearDepth);
-	float depth = vTempPos.w; 
-	float4 vShadowPos = float4(vTempPos.xyz,1.0);
+	//float fLinearDepth = GetLinearDepth(In.oTc);
+	//float4 vTempPos = CalcHomogeneousPosDepth(WPos.xy,fLinearDepth);
+	//float depth = vTempPos.w; 
+	//float4 vShadowPos = float4(vTempPos.xyz,1.0);
+
+	float fLinearDepth = GetLinearDepth(In.oTc); 
+	float3 view_dir = normalize(In.oViewDir.xyz);
+	float3 pos_es = view_dir * (fLinearDepth / view_dir.z); 
+	float4 vShadowPos = mul(float4(pos_es,1.0),g_matViewToShadow);
+
 		
    	float2 RandDirTC;    
 #if SHADOW_BLUR == 2
