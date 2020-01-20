@@ -23,12 +23,10 @@ namespace ma
 		m_nMaxSplitCount = 4;
 		m_nShadowMapSize = 512;
 		m_SplitPosParam = Vector4(30.0f,60.0f,120.0f,270.0f);
-		m_curSplitPos[0] = m_SplitPosParam;
-		m_curSplitPos[1] = m_SplitPosParam;
+		m_curSplitPos = m_SplitPosParam;
 
 		m_fShadowFadeStart = 0.8f;
-		m_vShadowDepthFade[0] = Vector4::ZERO;
-		m_vShadowDepthFade[1] = Vector4::ZERO;
+		m_vShadowDepthFade = Vector4::ZERO;
 		
 		m_fConstantBias = DEFAULT_CONSTANTBIAS;
 		m_fSlopeScaledBias = DEFAULT_SLOPESCALEDBIAS;
@@ -79,52 +77,21 @@ namespace ma
 		}
 	}
 
-	void ProjectScreenToWorldExpansionBasis(const Matrix4& mShadowTexGen, Camera& cam, float fViewWidth, float fViewHeight, 
-		Vector4& vWBasisX, Vector4& vWBasisY, Vector4& vWBasisZ, Vector4& vBasisMagnitudes, Vector4& vCamPos)
-	{
-
-		const Matrix4& camMatrix = cam.GetMatrixWS();
-
-		// projection ratio
-		float fProjectionRatio = fViewWidth / fViewHeight ;
-
-		//all values are in camera space
-		float fFar = cam.GetFarClip();
-		float fNear	= cam.GetNearClip();
-		float fWorldHeightDiv2 = fNear * Math::Tan( cam.GetFov() * 0.5f );
-		float fWorldWidthDiv2 = fWorldHeightDiv2 * fProjectionRatio; 
-		float k = fFar / fNear;
-
-		Vector3 vZ = -camMatrix.GetColumn(2).normalisedCopy() * fNear * k; // size of vZ is the distance from camera pos to near plane
-		Vector3 vX = camMatrix.GetColumn(0).normalisedCopy() * fWorldWidthDiv2 * k;
-		Vector3 vY = camMatrix.GetColumn(1).normalisedCopy() * fWorldHeightDiv2 * k;
-
-		vZ = vZ - vX;
-		vX *= (2.0f / fViewWidth);   
-
-		vZ = vZ + vY;
-		vY *= -(2.0f / fViewHeight); 
-
-		// Transform basis to any local space ( shadow space here )
-		vWBasisX = mShadowTexGen * Vector4(vX, 0.0f);
-		vWBasisY = mShadowTexGen * Vector4(vY, 0.0f);
-		vWBasisZ = mShadowTexGen * Vector4(vZ, 0.0f);
-		vCamPos =  mShadowTexGen * Vector4(cam.GetPosWS(), 1.0f);
-	}
-
 	void DirectonalLight::UpdateShadowMap(Camera* pCamera)
 	{
 		if (!m_bShadowEnable)
 			return;
 
+		MICROPROFILE_SCOPEI("", "UpdateShadowMap", 0);
+
 		m_nCurSplitCount = 0;
-		m_curSplitPos[GetRenderSystem()->CurThreadFill()] = m_SplitPosParam;
+		m_curSplitPos = m_SplitPosParam;
 
 		//Simple Shadow
 		if (m_nMaxSplitCount == 1)
 		{
  			m_nCurSplitCount = 1;
- 			m_curSplitPos[GetRenderSystem()->CurThreadFill()].x = pCamera->GetFarClip(); // For Depth bias
+ 			m_curSplitPos.x = pCamera->GetFarClip(); // For Depth bias
  			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
  			return;
  		}
@@ -147,7 +114,7 @@ namespace ma
 				break;
 
 			// Setup the shadow camera for the split
-			m_curSplitPos[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] = fFarSplit;
+			m_curSplitPos[m_nCurSplitCount] = fFarSplit;
 
 			m_SpitFrustum[m_nCurSplitCount].Update(pCamera, fNearSplit, fFarSplit);
 
@@ -161,13 +128,15 @@ namespace ma
 		float fadeEnd = shadowRange;
 		float fadeRange = fadeEnd - fadeStart;
 
-		m_vShadowDepthFade[GetRenderSystem()->CurThreadFill()] = Vector4(0, 0, fadeStart, 1.0f / fadeRange);
+		m_vShadowDepthFade = Vector4(0, 0, fadeStart, 1.0f / fadeRange);
 	}
 
 	void DirectonalLight::RenderShadowMap(Camera* pCamera)
 	{
 		if (!m_bShadowEnable)
 			return;	
+
+		MICROPROFILE_SCOPEI("", "UpdateShadowMap", 0);
 
 		for (int i = 0; i < m_nCurSplitCount; ++i)
 		{
@@ -201,8 +170,7 @@ namespace ma
 		{
 			Rectangle viewPort = Rectangle(1.0f + i * m_nShadowMapSize, 1.0f,
 				(i + 1) * m_nShadowMapSize - 2.0f, m_nShadowMapSize - 2.0f);
-			m_SpitFrustum[i].InitShadowMap(viewPort, m_pShadowMapPass.get());
-			m_SpitFrustum[i].m_pParent = this;
+			m_SpitFrustum[i].InitShadowMap(this, viewPort, m_pShadowMapPass.get());
 		}
 	}
 
@@ -309,31 +277,6 @@ namespace ma
 			//SetShadowSamplesNum(m_ShadowSamplesNumer);
 		}
 	}
-
-
-	void DirectonalLight::SetShadowSamplesNum(int nNum)
-	{
-		ASSERT(nNum <= MAX_SHADOW_SAMPLES_NUM);
-		if (nNum > MAX_SHADOW_SAMPLES_NUM)
-			return;
-
-		m_ShadowSamplesNumer = nNum;
-
-		GetRenderSystem()->AddShaderGlobaMacro("SHADOW_SAMPLES_NUM", StringConverter::toString(m_ShadowSamplesNumer).c_str());
-
-		PoissonDiskGen::SetKernelSize(m_ShadowSamplesNumer);
-
-		for (int i=0, nIdx = 0; i < m_ShadowSamplesNumer; i += 2, nIdx++)
-		{
-			Vector2 vSample = PoissonDiskGen::GetSample(i);
-			m_irreg_kernel[nIdx].x = vSample.x;
-			m_irreg_kernel[nIdx].y = vSample.y;
-			vSample = PoissonDiskGen::GetSample(i + 1);
-			m_irreg_kernel[nIdx].z = vSample.x;
-			m_irreg_kernel[nIdx].w = vSample.y;
-		}
-	}
-
 
 	RefPtr<DirectonalLight> CreateDirectonalLight()
 	{

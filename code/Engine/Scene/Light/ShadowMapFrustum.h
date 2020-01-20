@@ -5,7 +5,6 @@ namespace ma
 	class Light;
 	class Texture;
 	class RenderPass;
-	//class RenderQueue;
 
 	enum Shadow_Blur
 	{
@@ -21,7 +20,7 @@ namespace ma
 		
 		~ShadowMapFrustum();
 
-		void				InitShadowMap(Rectangle viewPort, RenderPass* pSMPass);	
+		void				InitShadowMap(DirectonalLight* pParent, Rectangle viewPort, RenderPass* pSMPass);
 
 		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);	
 		void				Render(Camera* pCamera);
@@ -31,9 +30,9 @@ namespace ma
 		const Matrix4&		GetLightViewProjMatrix() const { return m_matLightViewProj; }
 		const Matrix4&		GetLightViewMatrix() const {return m_matLightView;}
 		const Matrix4&		GetTexAdjustMatrix() const {return m_matTexAdjust;}
-		const Matrix4&		GetShadowMatrix() const {return m_matShadow[GetRenderSystem()->CurThreadProcess()];}
+		const Matrix4&		GetShadowMatrix() const {return m_matShadow;}
 
-		bool				GetDraw() {return m_bDraw[GetRenderSystem()->CurThreadProcess()];}
+		bool				GetDraw() {return m_bDraw;}
 
 	private:
 		void				UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar);
@@ -53,7 +52,7 @@ namespace ma
 		Matrix4				m_matLightProj;
 		Matrix4				m_matLightView;
 		Matrix4				m_matLightViewProj;
-		Matrix4				m_matShadow[2];
+		Matrix4				m_matShadow;
 
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
@@ -66,26 +65,15 @@ namespace ma
 
 		Frustum				m_lightFrustum;
 
-		float				m_fConstantBias[2];
-		float				m_fSlopeScaleBias[2];
+		float				m_fConstantBias;
+		float				m_fSlopeScaleBias;
 
 		Shadow_Blur			m_eShadowBleurLevel;
 
-		bool				m_bDraw[2];
-
-	public:
-		// Defeferred Shadow
-		Vector4				m_vWBasisX;
-		Vector4				m_vWBasisY;
-		Vector4				m_vWBasisZ;
-		Vector4				m_vShadowCamPos;
-
-		// Shadow irreg
-		Vector4				m_viewPosVecLS;
-		Vector2				m_vkernelRadius;
+		bool				m_bDraw;
 		
 		float				m_fShadowFarDist;
 
-		Light*				m_pParent;
+		DirectonalLight*	m_pParent;
 	};
 }

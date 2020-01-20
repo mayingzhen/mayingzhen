@@ -2,6 +2,13 @@
 
 namespace ma
 {
+	struct SMFrustumInfo
+	{
+		Matrix4	m_matLightViewProj;
+		Matrix4	m_matShadow;
+		SamplerState* m_pShadowDepth = nullptr;
+	};
+
 	class DeferredShadow : public Referenced
 	{
 	public:
@@ -14,6 +21,8 @@ namespace ma
 		void Render();
 
 		void Shoutdown();
+
+		void AddSMFrustumInfo(const SMFrustumInfo& info);
 
 		SamplerState* GetShadowSampler() {return m_pShadowSampler.get();}
 
@@ -36,8 +45,10 @@ namespace ma
 
 		RefPtr<Renderable>	m_pRenderable;
 
-		RefPtr<DirectonalLight> m_ShadowLight;
+		std::vector<SMFrustumInfo>	m_vecFrustum;
 	};
+
+	DeferredShadow* GetDeferredShadow();
 
 }
 

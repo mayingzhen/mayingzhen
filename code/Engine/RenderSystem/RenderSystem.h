@@ -62,6 +62,8 @@ namespace ma
 		RefPtr<VertexBuffer> CreateVertexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32_t nCount);
 
+		inline void			RC_AddRenderCommad(const std::function<void()>& fun) {m_pRenderThread->RC_AddRenderCommad(fun);}
+
 		void				TechniqueStreamComplete(Technique* pTech);
 		void				TexStreamComplete(Texture* pTexture);		
 		void				ShaderStreamComplete(ShaderProgram* pShader);

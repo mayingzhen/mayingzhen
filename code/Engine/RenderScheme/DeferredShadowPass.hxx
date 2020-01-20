@@ -12,8 +12,12 @@ enum StencilBitUse
 
 namespace ma
 {
+	DeferredShadow* gpDeferredShadow = nullptr;
+
 	DeferredShadow::DeferredShadow()
 	{
+		gpDeferredShadow = this;
+
 		m_pRenderable = new Renderable;
 
 		GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "1");
@@ -192,8 +196,6 @@ namespace ma
 	{
 		RENDER_PROFILE(DeferredShadow);
 
-		m_ShadowLight = GetRenderSystem()->GetScene()->GetMainDirLight();
-
 		m_pShadowPass->Begine();
 
 		RenderCommand* pRenderCommand = m_pShadowPass->GetThreadCommand(0, 0);
@@ -201,112 +203,58 @@ namespace ma
 	
 		float fBlendValue = 0.8f;
 		
-		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i) // 从后往前
+		for (int i = m_vecFrustum.size() - 1; i >= 0; --i) // 从后往前
 		{
-			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
-			if ( !shadowMapFru.GetDraw() )
-				continue;
+			SMFrustumInfo& shadowMapFru = m_vecFrustum[i];
 
-			//m_pFrustumVolume[i]->Bind(NULL);
-
+			Matrix4 matFrum = shadowMapFru.m_matLightViewProj.inverse();
+	
 			// This frustum
 			{
-				//GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 2) << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
-				//	SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
-
-				//ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
-
-				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
 				m_pFrustumVolume[i]->SetValue(m_pFrustumVolume[i]->GetUniform(VS,"matFrustum"), matFrum );
 
-				//GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 				m_pRenderable->PreRender(m_pFrustumVolume[i].get());
 				m_pRenderable->Render(m_pFrustumVolume[i].get(), pRenderCommand);
 			}
 
 			// This frustum, not including blend region
 			{
-				//GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 1)  << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
-				//	SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
-
-				//ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
-
-				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
 				Matrix4 matBlend = Matrix4::IDENTITY;
 				matBlend.setScale(Vector3(fBlendValue,fBlendValue,1.0f));
 				matFrum = matFrum * matBlend;
 				m_pFrustumVolumeScale[i]->SetValue(m_pFrustumVolumeScale[i]->GetUniform(VS,"matFrustum"), matFrum );
 
-				//GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolumeScale[i].get());
 				m_pRenderable->PreRender(m_pFrustumVolumeScale[i].get());
 				m_pRenderable->Render(m_pFrustumVolumeScale[i].get(), pRenderCommand);
 			}
 		}
 
-		for (int i = 0; i < m_ShadowLight->GetCurSplitCount(); ++i)
+		for (int i = 0; i < m_vecFrustum.size(); ++i)
 		{
-			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
-			if ( !shadowMapFru.GetDraw() )
-				continue;
+			SMFrustumInfo& shadowMapFru = m_vecFrustum[i];
 
-			//uint32_t refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
-			//GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
-			//	SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
-
-			//ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
-
-			Matrix4 viewToShadow = shadowMapFru.GetShadowMatrix() * GetSceneContext()->GetViewMatrixInv();
+			Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "vStoWBasisX"),shadowMapFru.m_vWBasisX);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "vStoWBasisY"),shadowMapFru.m_vWBasisY);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "vStoCamPos"),shadowMapFru.m_vShadowCamPos);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "kernelRadius"),shadowMapFru.m_vkernelRadius);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), m_ShadowLight->GetShadowMapSampler());
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
 
 			ScreenQuad::Render(m_pDefferedShadow[i].get(), pRenderCommand);
 		}
 
-		//ShaderProgram* pBlendShader = m_pBlendMaterial->GetShaderProgram();
-
 		// Blend
-		for (int i = 0; i < m_ShadowLight->GetCurSplitCount() - 1; ++i)
+		for (int i = 0; i < m_vecFrustum.size() - 1; ++i)
 		{
-			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
-			if ( !shadowMapFru.GetDraw() )
-				continue;
+			SMFrustumInfo& shadowMapFru = m_vecFrustum[i];
 
-			RenderPass* shadowMapPass = m_ShadowLight->GetShadowMapPass();
+			Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
 
-			ShadowMapFrustum& shadowMapNextFru = m_ShadowLight->GetShadowMapFrustum(i + 1);
-
-			//uint32_t refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
-			//GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
-			//	SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
-
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vNextStoWBasisX"), shadowMapNextFru.m_vWBasisX);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vNextStoWBasisY"), shadowMapNextFru.m_vWBasisY);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vNextStoWBasisZ"), shadowMapNextFru.m_vWBasisZ);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vNextStoCamPos"), shadowMapNextFru.m_vShadowCamPos);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_vNextViewPosVecLS"), shadowMapNextFru.m_viewPosVecLS);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "NextkernelRadius"),shadowMapNextFru.m_vkernelRadius);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_tNextShadowMap"), m_ShadowLight->GetShadowMapSampler());
-
-			float fNextSize = shadowMapPass->m_pDepthStencil->GetWidth();
-			Vector4 vNextshadowMapTexelSize(fNextSize, 1.0f / fNextSize, 0, 0);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(VS,"g_NextshadowMapTexelSize"),vNextshadowMapTexelSize);
-
+			SMFrustumInfo& shadowMapNextFru = m_vecFrustum[i + 1];
+			Matrix4 nextViewToShadow = shadowMapNextFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matNextViewToShadow"), nextViewToShadow);
+		
 			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(VS,"BlendInfo"), vBlendInfo);
-
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vStoWBasisX"), shadowMapFru.m_vWBasisX);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vStoWBasisY"), shadowMapFru.m_vWBasisY);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vStoWBasisZ"), shadowMapFru.m_vWBasisZ);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "vStoCamPos"), shadowMapFru.m_vShadowCamPos);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "kernelRadius"),shadowMapFru.m_vkernelRadius);
-			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_tShadowMap"), m_ShadowLight->GetShadowMapSampler());
 
 			ScreenQuad::Render(m_pDefferedShadow[i].get(), pRenderCommand);
 		}
@@ -314,11 +262,23 @@ namespace ma
 		pRenderCommand->End();
 
 		m_pShadowPass->End();
+
+		m_vecFrustum.clear();
+	}
+
+	void DeferredShadow::AddSMFrustumInfo(const SMFrustumInfo& info)
+	{
+		m_vecFrustum.emplace_back(info);
 	}
 
 	void DeferredShadow::Shoutdown()
 	{
 
+	}
+
+	DeferredShadow* GetDeferredShadow()
+	{
+		return gpDeferredShadow;
 	}
 
 }
