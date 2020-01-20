@@ -155,6 +155,8 @@ namespace ma
 
 	void ParallelCull::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj) 
 	{
+		MICROPROFILE_SCOPEI("", "ParallelCull::FindObjectsIn", 0);
+
 		ASSERT(vecObj.empty());
 
         uint32_t nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread

@@ -65,6 +65,8 @@ namespace ma
 
 	void Scene::Update()
 	{
+		MICROPROFILE_SCOPEI("", "Scene::Update", 0);
+
 		if (m_pCamera == NULL || m_pCullTree == NULL)
 			return;
 
@@ -107,6 +109,8 @@ namespace ma
 
 	void Scene::Render()
 	{
+		MICROPROFILE_SCOPEI("", "Scene::Render", 0);
+
 		RenderStep* render_step = GetRenderSystem()->GetBaseRender();
 
 		RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();

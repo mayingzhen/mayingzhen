@@ -117,6 +117,24 @@ namespace ma
 
 	}
 
+	void SetupSSAO()
+	{
+		g_pPostProcessPipeline->AddRenderPass("SSAO", 1.0f, PF_FLOAT16_R);
+
+		RefPtr<PostProcess> pSSAO = new PostProcess();
+		pSSAO->SetName("SSAO");
+		g_pPostProcessPipeline->AddPostProcess(pSSAO.get());
+
+		RefPtr<PostProcessStep> pStep = new PostProcessStep();
+		pStep->SetName("SSAO");
+		pStep->SetOutput("SSAO");
+
+		pStep->SetTechnique("shader/ssao.tech");
+		Vector4 texSize = Vector4(800.0f, 600.0f, 1.0f / 800.0f, 1.0f / 600.0f);
+		pStep->GetMaterial()->SetParameter("inputTexSize", Any(texSize));
+		pSSAO->AddStep(pStep.get());
+	}
+
 	void SetupHDR()
 	{
 		{

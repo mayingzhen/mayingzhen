@@ -80,8 +80,6 @@ namespace ma
 
 	void Game::Update()
 	{
-		//MicroProfileFlip(nullptr);
-
 		if (m_bOnWindowSized)
 		{
 			m_bOnWindowSized = false;
@@ -90,8 +88,7 @@ namespace ma
 
 		g_pUI->Update();
 	
-		GetEngine()->Update();
-
+		GetEngine()->Update();	
 	}	
 
 	void Game::Render()

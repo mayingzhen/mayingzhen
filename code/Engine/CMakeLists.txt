@@ -2,12 +2,6 @@ project(Engine)
 
 message(STATUS "Configuring Engine")
 
-#function(create_source_dir dir)
-#	file(GLOB_RECURSE ${dir} ${CMAKE_CURRENT_SOURCE_DIR}/ImageData/*.h*)
-#	source_group(${dir} FILES ${dir})
-#endfunction()
-
-#create_source_dir(ImageData)
 
 file(GLOB_RECURSE ImageData ${CMAKE_CURRENT_SOURCE_DIR}/ImageData/*.h*)
 source_group("ImageData" FILES ${ImageData})
@@ -42,6 +36,9 @@ source_group("Thread" FILES ${Thread})
 file(GLOB_RECURSE Time ${CMAKE_CURRENT_SOURCE_DIR}/Time/*.h*)
 source_group("Time" FILES ${Time})
 
+file(GLOB_RECURSE Profiler ${CMAKE_CURRENT_SOURCE_DIR}/Profiler/*.h* ${CMAKE_CURRENT_SOURCE_DIR}/Profiler/*.cpp*)
+source_group("Profiler" FILES ${Profiler})
+
 file(GLOB Engine ${CMAKE_CURRENT_SOURCE_DIR}/*.h*)
 
 
@@ -56,6 +53,7 @@ set(SOURCE_FILES
 		${Scene}
 		${Thread}
 		${Time}
+		${Profiler}
 		${Engine}
 		Module.cpp 
 		Export.def)
@@ -67,12 +65,16 @@ include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../../extern/FreeImage-3.13.1/Source"
 )
 
+add_definitions(-DMICROPROFILE_ENABLED=1 -DMICROPROFILE_GPU_TIMERS=0) #MICROPROFILE
 
 if (WIN32)
 	add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /bigobj")
+
+	target_link_libraries(${PROJECT_NAME} ws2_32.lib) #MICROPROFILE
+
 else (WIN32)
 	add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 endif()

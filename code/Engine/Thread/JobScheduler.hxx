@@ -51,6 +51,9 @@ public:
     /// Process work items until stopped.
     void operator() () const
     {
+		std::string name = std::string("WorkerThread_") + StringConverter::toString(m_uIndex);
+		MicroProfileOnThreadCreate(name.c_str());
+
 		int activeGroup = -1;
 		while( !m_pOwner->m_bShutDown )
 		{

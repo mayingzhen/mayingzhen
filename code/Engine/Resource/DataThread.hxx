@@ -26,6 +26,8 @@ namespace ma
 
 	void DataThread::ThreadLoop()
 	{
+		MicroProfileOnThreadCreate("DataThread");
+
 		while(!m_bExit)
 		{
 			DataObjQueue queUnloaded;

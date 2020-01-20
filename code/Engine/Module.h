@@ -89,6 +89,8 @@
 
 #include "Engine/Scene/ParticleComponent.h"
 
+#include "Profiler/systrace.h"
+
 #include "Engine/Engine.h"
 
 #include "WarningSuffix.h"
