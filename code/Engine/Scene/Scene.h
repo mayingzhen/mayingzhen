@@ -18,18 +18,6 @@ namespace ma
 
 	class Scene : public Referenced
 	{
-	public:
-		class CCallback
-		{
-		public:
-			CCallback(){}
-			virtual ~CCallback(){}
-
-			virtual void OnPreUpdate(Scene* pScene) = 0;
-			virtual void OnPostUpdate(Scene* pScene) = 0;
-			virtual void OnPreRender(Scene* pScene) = 0;
-			virtual void OnPosRender(Scene* pScene) = 0;
-		};
 	
 	public:
 		Scene(const char* pszName = NULL);
@@ -55,9 +43,6 @@ namespace ma
 
 		uint32_t				GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
 		RenderComponent*		GetVisibleNodeByIndex(uint32_t index) const {return m_arrRenderComp[index].get();}
-
-		void					SetCallback(CCallback* pCallback){m_pCallback = pCallback;}
-		CCallback*				GetCallback() const{return m_pCallback;}
 
 		float					GetViewMinZ() const {return m_viwMinZ;}
 		float					GetViewMaxZ() const {return m_viwMaxZ;}
@@ -85,14 +70,9 @@ namespace ma
 		typedef std::vector< RefPtr<Component> > VEC_COMP;
 		VEC_COMP				m_vecParallelUpdate;
 		VEC_COMP				m_vecParallelShow;
-
-		typedef std::vector< RefPtr<Light> > VEC_LIGHT;
-		VEC_LIGHT				m_vecRenderLight;
 		
 		float					m_viwMinZ;
 		float					m_viwMaxZ;
-			
-		CCallback*				m_pCallback;
 
 		ColourValue				m_cAmbientColor;
 		RefPtr<DirectonalLight> m_pMainDirLight;

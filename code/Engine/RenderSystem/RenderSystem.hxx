@@ -80,7 +80,7 @@ namespace ma
 
 	void RenderSystem::BegineRender()
 	{
-		m_pRenderThread->FlushFrame();
+		m_pRenderThread->UpdateRenderIndex();
 
 		m_renderStepList[CurThreadFill()].clear();
 
@@ -90,6 +90,8 @@ namespace ma
 	void RenderSystem::EndRender()
 	{
 		m_pRenderThread->RC_EndRender();
+
+		m_pRenderThread->SyncRenderFrame();
 	}
 
 	void RenderSystem::Render()

@@ -167,7 +167,7 @@ namespace ma
 
 	void LineRender::OnFlushFrame()
 	{
-		int index = GetRenderSystem()->CurThreadFill();
+		int index = GetRenderSystem()->CurThreadProcess();
 		garrLineVertex[index].clear();
 	}
 

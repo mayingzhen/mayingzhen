@@ -12,7 +12,7 @@ namespace ma
 
 	typedef Sample* (*SampleCreator)();
 
-	class SampleBrowser : public Game, Scene::CCallback
+	class SampleBrowser : public Game
 	{
 	public:
 		SampleBrowser(const char* pGameName,const Setting& set,const char* pszSample);

@@ -57,11 +57,12 @@ namespace ma
 		void	Start();
 		void	Stop();
 
-		void	FlushFrame();
+		void	UpdateRenderIndex();
+		void	SyncRenderFrame();
 		void	FlushAndWait();
-		int		GetThreadList();
-		bool	IsRenderThread();
-		bool	IsMainThread();
+		int		GetThreadList() const;
+		bool	IsRenderThread() const;
+		bool	IsMainThread() const;
 		int		CurThreadFill() const;
 		int		CurThreadProcess() const;
 
@@ -77,7 +78,6 @@ namespace ma
 		void	RC_VertexDeclaComplete(VertexDeclaration* pDecl);
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void	RC_RenderPassStreamComplete(RenderPass* pRenderPass);
-		void	RC_Render();
 
 		void	RC_UpdateHardwareBuffer(HardwareBuffer* pHB, const void* data, uint32_t nSize);
 
@@ -114,7 +114,7 @@ namespace ma
 
 		RingBuffer		m_render_command_buffer;
 
-		Semaphore		m_frame_sema;
+		Semaphore*		m_frame_sema[2];
 
 		Event			m_flush_event;
 	};
@@ -126,28 +126,30 @@ namespace ma
 		return pDst;
 	}
 
-	inline int RenderThread::GetThreadList()
+	inline int RenderThread::GetThreadList() const
 	{
 		return std::this_thread::get_id() == m_thread.get_id() ? m_nCurThreadProcess : m_nCurThreadFill;
 	}
 
-	inline bool RenderThread::IsRenderThread()
+	inline bool RenderThread::IsRenderThread() const
 	{
 		return !m_bMultithread || std::this_thread::get_id()== m_thread.get_id();
 	}
 
-	inline bool RenderThread::IsMainThread()
+	inline bool RenderThread::IsMainThread() const
 	{
 		return !m_bMultithread || std::this_thread::get_id() == m_nMainThread;
 	}
 
 	inline int RenderThread::CurThreadFill() const
 	{
+		ASSERT(!IsRenderThread());
 		return m_nCurThreadFill;
 	}
 
 	inline int RenderThread::CurThreadProcess() const
 	{
+		ASSERT(IsRenderThread());
 		return m_nCurThreadProcess;
 	}
 

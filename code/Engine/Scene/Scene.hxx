@@ -16,7 +16,6 @@ namespace ma
 		
 		m_viwMinZ = 0.0f;
 		m_viwMaxZ = 0.0f;
-		m_pCallback = NULL;	
 
 		SceneNode* pMainLightNode = CreateSceneNode();
 		m_pRootNode->AddChild(pMainLightNode);
@@ -69,11 +68,6 @@ namespace ma
 		if (m_pCamera == NULL || m_pCullTree == NULL)
 			return;
 
-		if (m_pCallback)
-		{
-			m_pCallback->OnPreUpdate(this);
-		}
-
 		m_pRootNode->Update();
 		
 		if (GetJobScheduler()->GetNumThreads() > 0)
@@ -108,11 +102,6 @@ namespace ma
 				Component* pComp = m_vecParallelUpdate[i].get();
 				pComp->EndParallelUpdate();
 			}
-		}
-
-		if (m_pCallback)
-		{
-			m_pCallback->OnPostUpdate(this);
 		}
 	}
 

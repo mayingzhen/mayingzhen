@@ -12,21 +12,23 @@ namespace ma
 #endif
 	
 	RenderThread::RenderThread():
-		m_render_command_buffer(1024 * 800, 16),
-		m_frame_sema("frame-sema",1)
+		m_render_command_buffer(1024 * 800, 16)
 	{
 		m_nCurThreadFill = 0;
-		m_nCurThreadProcess = 0;
+		m_nCurThreadProcess = 1;
 	
-		
 		m_nMainThread = std::this_thread::get_id();
 
 		m_bMultithread = false;
+
+		m_frame_sema[0] = new Semaphore("frame-sema-0", 0);
+		m_frame_sema[1] = new Semaphore("frame-sema-1", 1);
 	}
 
 	RenderThread::~RenderThread()
 	{
-
+		SAFE_DELETE(m_frame_sema[0]);
+		SAFE_DELETE(m_frame_sema[1]);
 	}
 
 	void RenderThread::Start()
@@ -34,7 +36,6 @@ namespace ma
 		m_thread = std::thread(&RenderThread::ThreadLoop, this);
 
 		m_bMultithread = true;
-		m_nCurThreadProcess = 1;
 	}
 
 	void RenderThread::Stop()
@@ -122,10 +123,6 @@ namespace ma
 		RC_AddRenderCommad([]() {
 			GetRenderSystem()->RT_EndRender();
 		});
-
-		RC_AddRenderCommad( [this]() {
-			m_frame_sema.Signal();
-		});
 	}
 
 	void RenderThread::RC_TechniqueStreamComplete(Technique* pTech)
@@ -181,18 +178,6 @@ namespace ma
 		RC_AddRenderCommad([pRenderPass]() {
 			pRenderPass->Create();
 		});
-	}
-
-	void RenderThread::RC_Render()
-	{
-		RC_AddRenderCommad([]() {
-			GetRenderSystem()->RT_Render();
-		});
-
-		if (IsRenderThread())
-			return;
-
-		//FlushFrame();
 	}
 
 	void RenderThread::RC_CreateTexture(Texture* pRenderTarget)
@@ -325,20 +310,27 @@ namespace ma
 		m_flush_event.Reset();
 	}
 
-
-	// Flush current frame without waiting (should be called from main thread)
-	void RenderThread::FlushFrame()
+	void RenderThread::UpdateRenderIndex()
 	{
-		if (!m_bMultithread)
-			return;
-
-		m_frame_sema.WaitForSignal();
-
 		uint32_t nCurThreadFill = m_nCurThreadFill;
 		RC_AddRenderCommad([this, nCurThreadFill]() {
 			ASSERT((m_nCurThreadProcess + 1) % 2 == nCurThreadFill);
 			m_nCurThreadProcess = nCurThreadFill;
 		});
+	}
+
+	// Flush current frame and waiting (should be called from main thread)
+	void RenderThread::SyncRenderFrame()
+	{
+		if (!m_bMultithread)
+			return;
+
+		RC_AddRenderCommad([this, nCurThreadFill = m_nCurThreadFill]() {
+			m_frame_sema[nCurThreadFill]->Signal();
+		});
+
+		uint32_t index = (m_nCurThreadFill + 1) % 2;
+		m_frame_sema[index]->WaitForSignal();
 
 		m_nCurThreadFill = (m_nCurThreadFill + 1) % 2;
 

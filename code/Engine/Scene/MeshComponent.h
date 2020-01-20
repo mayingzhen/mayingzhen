@@ -66,8 +66,6 @@ namespace ma
 		VEC_RENDERABLE				m_arrRenderable;
 
 		bool						m_bSuportInstance = false;
-
-		//bool						m_bOnLoadOver = false;
 	};
 
 	RefPtr<MeshComponent> CreateMeshComponent();

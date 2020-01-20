@@ -168,7 +168,6 @@ namespace ma
 		void* hWnd = Platform::GetInstance().GetWindId();
 		
 		Scene* pScene = GetRenderSystem()->GetScene();
-		pScene->SetCallback(this);
 
 		RunSample(m_strSample.c_str());
 
