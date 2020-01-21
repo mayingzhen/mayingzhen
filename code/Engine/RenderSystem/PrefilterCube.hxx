@@ -34,7 +34,10 @@ namespace ma
 			// level 0 保存原始图
 			{
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, m_pOutTexture.get(), 0, face);
+				RenderSurface color(m_pOutTexture);
+				color.m_nMip = 0;
+				color.m_nFace = face;
+				pRenderPass->AttachColor(0, color);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
@@ -55,7 +58,11 @@ namespace ma
 				float roughness = static_cast<float>(level) / (m_nOutMipmaps - 1);
 
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0,  m_pOutTexture.get(), level, face);
+				RenderSurface color;
+				color.m_pTexture = m_pOutTexture;
+				color.m_nMip = level;
+				color.m_nFace = face;
+				pRenderPass->AttachColor(0, color);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
@@ -75,7 +82,11 @@ namespace ma
 			// 最后一级 保存Diffuse
 			{
 				RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-				pRenderPass->AttachColor(0, m_pOutTexture.get(), m_nOutMipmaps - 1, face);
+				RenderSurface color;
+				color.m_pTexture = m_pOutTexture;
+				color.m_nMip = m_nOutMipmaps - 1;
+				color.m_nFace = face;
+				pRenderPass->AttachColor(0, color);
 				GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 
 				ShaderCreateInfo info;
@@ -173,7 +184,9 @@ namespace ma
 		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 2);
 
 		RefPtr<RenderPass> pRenderPass = GetRenderDevice()->CreateRenderPass();
-		pRenderPass->AttachColor(0, pOutTex.get(), 0, 0);
+		RenderSurface color;
+		color.m_pTexture = pOutTex;
+		pRenderPass->AttachColor(0, color);
 		pRenderPass->m_arrColor[0].m_cClearColor = ColourValue::White;
 		GetRenderSystem()->RenderPassStreamComplete(pRenderPass.get());
 

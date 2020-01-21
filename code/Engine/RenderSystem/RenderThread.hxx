@@ -15,7 +15,7 @@ namespace ma
 		m_render_command_buffer(1024 * 800, 16)
 	{
 		m_nCurThreadFill = 0;
-		m_nCurThreadProcess = 1;
+		m_nCurThreadProcess = 0;
 	
 		m_nMainThread = std::this_thread::get_id();
 
@@ -314,6 +314,9 @@ namespace ma
 
 	void RenderThread::UpdateRenderIndex()
 	{
+		if (!m_bMultithread)
+			return;
+
 		uint32_t nCurThreadFill = m_nCurThreadFill;
 		RC_AddRenderCommad([this, nCurThreadFill]() {
 			ASSERT((m_nCurThreadProcess + 1) % 2 == nCurThreadFill);

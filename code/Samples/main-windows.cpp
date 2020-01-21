@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 {
 	Setting set;
 	set.eRenderType = RenderDevice_VULKAN;
-	set.bRenderThread = true;
+	set.bRenderThread = false;
 	set.bDataThread = false;
 	set.bJobScheduler = false;
 

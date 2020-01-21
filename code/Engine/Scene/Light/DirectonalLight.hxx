@@ -161,7 +161,7 @@ namespace ma
 		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(width, height, shadowMapDepthFormat);
 
 		m_pShadowMapPass = GetRenderDevice()->CreateRenderPass();
-		m_pShadowMapPass->AttachDepthStencil(m_pShdowMapDepth.get());
+		m_pShadowMapPass->AttachDepthStencil( RenderSurface(m_pShdowMapDepth) );
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowMapPass.get());
 
 		m_pShadowMapSampler = CreateSamplerState(m_pShdowMapDepth.get(), CLAMP, TFO_SHADOWCOMPARE, false);

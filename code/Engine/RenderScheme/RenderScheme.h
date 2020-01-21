@@ -45,23 +45,21 @@ namespace ma
 
 		void	Render();
 
-		DeferredShadow*	GetDeferredShadow() const { return m_pDeferredShadow.get(); }
-
 	private:
 
-		void SetupBasePass();
+		void	SetupBasePass();
 
-		void SetupLightPass();
+		void	SetupLightPass();
 
-		void SetupHDRPass();
+		void	SetupHDRPass();
 
-		void ComputePass();
+		void	ComputePass();
 
-		void BasePass();
+		void	BasePass();
 
-		void LightPass();
+		void	LightPass();
 
-		void HDRPass();
+		void	HDRPass();
 
 	private:
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
@@ -96,6 +94,8 @@ namespace ma
 		RefPtr<Technique>		m_pAmbientLight;
 
 		bool					m_bHDREnable = false;
+
+		bool					m_bShadowMapEnable = false;
 	};
 
 }

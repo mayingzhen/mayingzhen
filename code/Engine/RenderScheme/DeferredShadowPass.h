@@ -16,7 +16,7 @@ namespace ma
 
 		void Init();
 	
-		void Reset();
+		void Reset(Texture* pDepthStencil);
 
 		void Render();
 

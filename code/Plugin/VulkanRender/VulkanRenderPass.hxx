@@ -101,8 +101,8 @@ namespace ma
 			VkAttachmentDescription color = {};
 			color.format = pTexture->m_vkformat;
 			color.samples = VK_SAMPLE_COUNT_1_BIT;
-			color.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-			color.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+			color.loadOp = VulkanMapping::get(m_arrColor[i].m_eLoadOp);
+			color.storeOp = VulkanMapping::get(m_arrColor[i].m_eStoreOp);;
 			color.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 			color.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 			color.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
@@ -123,18 +123,18 @@ namespace ma
 			m_vecClearValues.push_back(clearValues);
 		}
 
-		if (m_pDepthStencil)
+		if (m_depthStencil.m_pTexture)
 		{
-			VulkanTexture* pTexture = (VulkanTexture*)m_pDepthStencil.get();
+			VulkanTexture* pTexture = (VulkanTexture*)m_depthStencil.m_pTexture.get();
 
 			// Depth attachment
 			VkAttachmentDescription ds = {};
 			ds.format = pTexture->m_vkformat;
 			ds.samples = VK_SAMPLE_COUNT_1_BIT;
-			ds.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-			ds.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-			ds.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-			ds.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+			ds.loadOp = VulkanMapping::get(m_depthStencil.m_eLoadOp); 
+			ds.storeOp = VulkanMapping::get(m_depthStencil.m_eStoreOp);
+			ds.stencilLoadOp = VulkanMapping::get(m_depthStencil.m_eLoadOp);
+			ds.stencilStoreOp = VulkanMapping::get(m_depthStencil.m_eStoreOp);
 			ds.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 			ds.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL; // Attachment will be transitioned to shader read at render pass end
 
@@ -154,7 +154,7 @@ namespace ma
 		subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 		subpassDescription.colorAttachmentCount = vecColorReference.size();
 		subpassDescription.pColorAttachments = vecColorReference.data();
-		subpassDescription.pDepthStencilAttachment = m_pDepthStencil ? &depthReference : NULL;
+		subpassDescription.pDepthStencilAttachment = m_depthStencil.m_pTexture ? &depthReference : NULL;
 		subpassDescription.inputAttachmentCount = 0;
 		subpassDescription.pInputAttachments = nullptr;
 		subpassDescription.preserveAttachmentCount = 0;
@@ -213,13 +213,13 @@ namespace ma
 			vecImagView.push_back(pVkTexture->GetRenderTargetView(m_arrColor[i].m_nMip,m_arrColor[i].m_nFace));
 		}
 
-		if (m_pDepthStencil)
+		if (m_depthStencil.m_pTexture)
 		{
-			VulkanTexture* pVkTexture = (VulkanTexture*)m_pDepthStencil.get();
+			VulkanTexture* pVkTexture = (VulkanTexture*)m_depthStencil.m_pTexture.get();
 			vecImagView.push_back(pVkTexture->GetRenderTargetView(0,0));
 		}
 
-		Texture* pRT = m_arrColor.empty() ? m_pDepthStencil.get() : m_arrColor[0].m_pTexture.get();
+		Texture* pRT = m_arrColor.empty() ? m_depthStencil.m_pTexture.get() : m_arrColor[0].m_pTexture.get();
 		ASSERT(pRT);
 
 		int nMip = m_arrColor.empty() ? 0 : m_arrColor[0].m_nMip;

@@ -27,6 +27,10 @@ namespace ma
 
 		static VkBlendFactor get(BLEND blend);
 
+		static VkAttachmentLoadOp get(LoadOp op);
+
+		static VkAttachmentStoreOp get(StoreOp op);
+
 		static void GetBlend(BLEND_MODE mode, bool& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op);
 		static void GetBlendAlpha(BLEND_MODE mode, bool& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op);
 

@@ -59,7 +59,7 @@ namespace ma
 
 		m_shadowMapRender->m_veiwPort = viewPort;
 
-		m_matTexAdjust = CalculateTexAdjustMatrix(pSMPass->m_pDepthStencil.get(), viewPort);
+		m_matTexAdjust = CalculateTexAdjustMatrix(pParent->GetShadowMapSampler()->GetTexture(), viewPort);
 	}
 
 	Matrix4 ShadowMapFrustum::CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort)

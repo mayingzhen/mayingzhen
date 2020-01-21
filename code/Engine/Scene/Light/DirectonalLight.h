@@ -4,6 +4,7 @@
 
 namespace ma
 {
+	class DeferredShadow;
 
 	#define MAX_FRUSTUM_SPLIT_NUM 4
 	#define MAX_SHADOW_SAMPLES_NUM 16

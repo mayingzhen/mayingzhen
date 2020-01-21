@@ -457,4 +457,42 @@ VkBlendFactor VulkanMapping::get(BLEND blend)
 	return VK_BLEND_FACTOR_ONE;
 }
 
+VkAttachmentLoadOp VulkanMapping::get(LoadOp op)
+{
+	if (op == LOAD_OP_LOAD)
+	{
+		return VK_ATTACHMENT_LOAD_OP_LOAD;
+	}
+	else if (op == LOAD_OP_CLEAR)
+	{
+		return VK_ATTACHMENT_LOAD_OP_CLEAR;
+	}
+	else if (op == LOAD_OP_DONT_CARE)
+	{
+		return VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	}
+	else
+	{
+		ASSERT(false);
+		return VK_ATTACHMENT_LOAD_OP_MAX_ENUM;
+	}
+}
+
+VkAttachmentStoreOp VulkanMapping::get(StoreOp op)
+{
+	if (op == STORE_OP_STORE)
+	{
+		return VK_ATTACHMENT_STORE_OP_STORE;
+	}
+	else if (op == STORE_OP_DONT_CARE)
+	{
+		return VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	}
+	else
+	{
+		ASSERT(false);
+		return VK_ATTACHMENT_STORE_OP_MAX_ENUM;
+	}
+}
+
 }

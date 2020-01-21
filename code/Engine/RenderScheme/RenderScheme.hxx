@@ -22,8 +22,13 @@ namespace ma
 
 	RenderScheme::RenderScheme()
 	{
-		m_pDeferredShadow = new DeferredShadow();
-		m_pDeferredShadow->Init();
+		m_bShadowMapEnable = true;
+
+		if (m_bShadowMapEnable)
+		{
+			m_pDeferredShadow = new DeferredShadow();
+			m_pDeferredShadow->Init();
+		}
 
 		g_pPostProcessPipeline = new PostProcessPipeline();
 
@@ -226,9 +231,9 @@ namespace ma
 		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
 
 		m_pGbufferPass = GetRenderDevice()->CreateRenderPass();
-		m_pGbufferPass->AttachDepthStencil(m_pDepthTex.get());
-		m_pGbufferPass->AttachColor(0, m_pBaseColor.get());
-		m_pGbufferPass->AttachColor(1, m_pNormalTex.get());
+		m_pGbufferPass->AttachDepthStencil( RenderSurface(m_pDepthTex) );
+		m_pGbufferPass->AttachColor(0, RenderSurface(m_pBaseColor) );
+		m_pGbufferPass->AttachColor(1, RenderSurface(m_pNormalTex) );
 		GetRenderSystem()->RenderPassStreamComplete(m_pGbufferPass.get());
 
 		m_pBaseSampler = CreateSamplerState(m_pBaseColor.get(), CLAMP, TFO_POINT, false);
@@ -247,8 +252,10 @@ namespace ma
 		if (m_bHDREnable)
 		{
 			m_pLightPass = GetRenderDevice()->CreateRenderPass();
-			m_pLightPass->AttachColor(0, m_pHDRColorTex.get());
-			m_pLightPass->AttachDepthStencil(m_pDepthTex.get());
+			m_pLightPass->AttachColor(0, RenderSurface(m_pHDRColorTex) );
+			RenderSurface depth(m_pDepthTex);
+			depth.m_eLoadOp = LOAD_OP_LOAD;
+			m_pLightPass->AttachDepthStencil(depth);
 			GetRenderSystem()->RenderPassStreamComplete(m_pLightPass.get());
 		}
 		else
@@ -325,8 +332,8 @@ namespace ma
 
 		RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
 
-		pHDRPass->AttachColor(0, m_pHDRColorTex.get(), 0, 0);
-		pHDRPass->AttachDepthStencil(m_pDepthTex.get());
+		pHDRPass->AttachColor(0, RenderSurface(m_pHDRColorTex) );
+		pHDRPass->AttachDepthStencil( RenderSurface(m_pDepthTex) );
 
 		GetRenderSystem()->RenderPassStreamComplete(pHDRPass.get());
 
@@ -340,7 +347,9 @@ namespace ma
 
 		RefPtr<RenderPass> pTemPass = GetRenderDevice()->CreateRenderPass();
 		RefPtr<Texture> pTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8);
-		pTemPass->AttachColor(0, pTex.get(), 0, 0);
+		RenderSurface color;
+		color.m_pTexture = pTex;
+		pTemPass->AttachColor(0, color);
 		GetRenderSystem()->RenderPassStreamComplete(pTemPass.get());
 
 		g_pPostProcessPipeline->Setup(pHDRPass.get(), pTemPass.get());
@@ -373,7 +382,10 @@ namespace ma
 
 		SetupHDRPass();
 
-		m_pDeferredShadow->Reset();
+		if (m_pDeferredShadow)
+		{
+			m_pDeferredShadow->Reset(m_pDepthTex.get());
+		}
 
 		GetRenderSystem()->SetBaseRenderPass(m_pGbufferPass.get());
 		GetRenderSystem()->SetDefferedLightRenderPass(m_pLightPass.get());

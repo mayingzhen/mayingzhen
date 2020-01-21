@@ -143,13 +143,13 @@ namespace ma
 
 	inline int RenderThread::CurThreadFill() const
 	{
-		ASSERT(!IsRenderThread());
+		ASSERT(!m_bMultithread || !IsRenderThread());
 		return m_nCurThreadFill;
 	}
 
 	inline int RenderThread::CurThreadProcess() const
 	{
-		ASSERT(IsRenderThread());
+		ASSERT(!m_bMultithread || IsRenderThread());
 		return m_nCurThreadProcess;
 	}
 

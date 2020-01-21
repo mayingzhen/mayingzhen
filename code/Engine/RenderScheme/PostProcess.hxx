@@ -327,7 +327,7 @@ namespace ma
 
 			info.m_pRenderPass = GetRenderDevice()->CreateRenderPass();
 			RefPtr<Texture> pTex = GetRenderSystem()->CreateRenderTarget(nWidth, nHeight, 1, format, info.m_sRGB);
-			info.m_pRenderPass->AttachColor(0, pTex.get(), 0, 0);
+			info.m_pRenderPass->AttachColor(0, RenderSurface(pTex));
 			GetRenderSystem()->RenderPassStreamComplete(info.m_pRenderPass.get());
 			
 			return info.m_pRenderPass.get();

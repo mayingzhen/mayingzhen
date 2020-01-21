@@ -102,7 +102,7 @@ namespace ma
 		CreateSimpleLightFrustumMesh();
 	}
 
-	void DeferredShadow::Reset()
+	void DeferredShadow::Reset(Texture* pDepthStencil)
 	{
 		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT16_R,false);
 
@@ -113,7 +113,12 @@ namespace ma
 		});
 
 		m_pShadowPass = GetRenderDevice()->CreateRenderPass();
-		m_pShadowPass->AttachColor(0, m_pShadowTex.get(), 0, 0);
+		m_pShadowPass->AttachColor(0, RenderSurface(m_pShadowTex) );
+		RenderSurface ds;
+		ds.m_pTexture = pDepthStencil;
+		ds.m_eLoadOp = LOAD_OP_LOAD;
+		ds.m_eStoreOp = STORE_OP_STORE;
+		m_pShadowPass->AttachDepthStencil(ds);
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowPass.get());
 
 		VertexElement element[1];
@@ -129,6 +134,7 @@ namespace ma
 		uint32_t stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
 
 		RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+		pDSState->m_bDepthWrite = false;
 		pDSState->m_bStencil = true;
 		pDSState->m_eStencilfunc = CMPF_ALWAYS_PASS;
 		pDSState->m_nStencilWriteMask = stenCillUse;
@@ -194,6 +200,11 @@ namespace ma
 
 	void DeferredShadow::Render()
 	{
+		if (m_vecFrustum.empty())
+		{
+			return;
+		}
+
 		RENDER_PROFILE(DeferredShadow);
 
 		m_pShadowPass->Begine();
