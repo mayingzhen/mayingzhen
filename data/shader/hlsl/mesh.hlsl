@@ -64,11 +64,6 @@ struct VS_OUT
 #ifdef DEFERREDSHADING 
    float3 viewNormal :TEXCOORD3;	
 #endif
-
-#if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-	float2 oRandDirTC : TEXCOORD4;
-	float4 oShadowPos : TEXCOORD5;
-#endif  
    
 #ifdef COLOR      
    float4 v_color : COLOR0;
@@ -124,13 +119,6 @@ VS_OUT vs_main(VS_IN In)
 
 #ifdef DEFERREDSHADING 
 	Out.viewNormal.xyz = mul(Out.worldNormal.xyz, (float3x3)g_matView); 
-#endif
-
-#if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-	Out.oShadowPos = GetShadowPos(Out.WorldPos.xyz);
-	#if SHADOW_BLUR == 2 	
-	GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
-	#endif	
 #endif
   
     return Out;

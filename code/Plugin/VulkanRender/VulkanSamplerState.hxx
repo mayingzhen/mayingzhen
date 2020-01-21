@@ -18,6 +18,9 @@ namespace ma
 
 	void VulkanSamplerStateObject::RT_StreamComplete()
 	{
+		if (m_sampler != VK_NULL_HANDLE)
+			return;
+
 		vks::VulkanDevice* device = GetVulkanDevice();
 
 		VulkanTexture* pTex = (VulkanTexture*)this->GetTexture();
@@ -49,6 +52,10 @@ namespace ma
 
 		m_descriptor.sampler = m_sampler;
 		m_descriptor.imageView = pTex->GetShaderView();
-		m_descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;// pTex->m_imageLayout;
+		m_descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		if (pTex->GetUsage() == USAGE_DEPTHSTENCIL)
+		{
+			m_descriptor.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+		}
 	}
 }

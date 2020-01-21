@@ -133,27 +133,43 @@ namespace ma
 
 		uint32_t stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
 
-		RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
-		pDSState->m_bDepthWrite = false;
-		pDSState->m_bStencil = true;
-		pDSState->m_eStencilfunc = CMPF_ALWAYS_PASS;
-		pDSState->m_nStencilWriteMask = stenCillUse;
-		pDSState->m_nStencilMask = stenCillUse;
-		pDSState->m_eStencilFail = SOP_KEEP;
-		pDSState->m_eDepthFailOp = SOP_REPLACE;
-		pDSState->m_eStencilPass = SOP_KEEP;
-
-		volume_info.m_pDSState = pDSState;
+		
 
 		for (int i = 0; i < 4; ++i)
 		{
 			{
+				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+				pDSState->m_bDepthWrite = false;
+				pDSState->m_bStencil = true;
+				pDSState->m_eStencilfunc = CMPF_ALWAYS_PASS;
+				//pDSState->m_nStencilWriteMask = stenCillUse;
+				//pDSState->m_nStencilMask = stenCillUse;
+				pDSState->m_eStencilFail = SOP_KEEP;
+				pDSState->m_eDepthFailOp = SOP_REPLACE;
+				pDSState->m_eStencilPass = SOP_KEEP;
+
 				pDSState->m_nStencilRef = (i * 2 + 1) << SBU_DEFERREDSHADOW;
+
+				volume_info.m_pDSState = pDSState;
+
 				m_pFrustumVolumeScale[i] = CreateTechnique(volume_info);
 			}
 
 			{
+				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+				pDSState->m_bDepthWrite = false;
+				pDSState->m_bStencil = true;
+				pDSState->m_eStencilfunc = CMPF_ALWAYS_PASS;
+				//pDSState->m_nStencilWriteMask = stenCillUse;
+				//pDSState->m_nStencilMask = stenCillUse;
+				pDSState->m_eStencilFail = SOP_KEEP;
+				pDSState->m_eDepthFailOp = SOP_REPLACE;
+				pDSState->m_eStencilPass = SOP_KEEP;
+
 				pDSState->m_nStencilRef = (i * 2 + 2) << SBU_DEFERREDSHADOW;
+
+				volume_info.m_pDSState = pDSState;
+
 				m_pFrustumVolume[i] = CreateTechnique(volume_info);
 			}
 		}
@@ -168,19 +184,19 @@ namespace ma
 		shadow_info.m_strPSFile = "DefferedShadow.frag:main";
 		shadow_info.m_pVertexDecl = pDec;
 
-		shadow_info.m_pDSState = CreateDepthStencilState();
-		shadow_info.m_pDSState->m_bDepthWrite = false;
-		shadow_info.m_pDSState->m_bStencil = true;
-		shadow_info.m_pDSState->m_eStencilfunc = CMPF_EQUAL;
-		shadow_info.m_pDSState->m_nStencilWriteMask = stenCillUse;
-		shadow_info.m_pDSState->m_nStencilMask = stenCillUse;
-		shadow_info.m_pDSState->m_eStencilFail = SOP_KEEP;
-		shadow_info.m_pDSState->m_eDepthFailOp = SOP_KEEP;
-		shadow_info.m_pDSState->m_eStencilPass = SOP_KEEP;
-
 		for (int i = 0; i < 4; ++i)
 		{
 			{
+				shadow_info.m_pDSState = CreateDepthStencilState();
+				shadow_info.m_pDSState->m_bDepthWrite = false;
+				shadow_info.m_pDSState->m_bStencil = true;
+				shadow_info.m_pDSState->m_eStencilfunc = CMPF_EQUAL;
+				//shadow_info.m_pDSState->m_nStencilWriteMask = stenCillUse;
+				//shadow_info.m_pDSState->m_nStencilMask = stenCillUse;
+				shadow_info.m_pDSState->m_eStencilFail = SOP_KEEP;
+				shadow_info.m_pDSState->m_eDepthFailOp = SOP_KEEP;
+				shadow_info.m_pDSState->m_eStencilPass = SOP_KEEP;
+
 				shadow_info.m_pDSState->m_nStencilRef = (i * 2 + 1) << SBU_DEFERREDSHADOW;
 
 				m_pDefferedShadow[i] = CreateTechnique(shadow_info);
@@ -190,6 +206,16 @@ namespace ma
 				ShaderCreateInfo blend_info = shadow_info;
 
 				blend_info.m_shaderMacro = "FRUSTUM_BLEND";
+
+				blend_info.m_pDSState = CreateDepthStencilState();
+				blend_info.m_pDSState->m_bDepthWrite = false;
+				blend_info.m_pDSState->m_bStencil = true;
+				blend_info.m_pDSState->m_eStencilfunc = CMPF_EQUAL;
+				//blend_info.m_pDSState->m_nStencilWriteMask = stenCillUse;
+				//blend_info.m_pDSState->m_nStencilMask = stenCillUse;
+				blend_info.m_pDSState->m_eStencilFail = SOP_KEEP;
+				blend_info.m_pDSState->m_eDepthFailOp = SOP_KEEP;
+				blend_info.m_pDSState->m_eStencilPass = SOP_KEEP;
 
 				blend_info.m_pDSState->m_nStencilRef = (i * 2 + 2) << SBU_DEFERREDSHADOW;
 

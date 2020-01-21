@@ -38,6 +38,8 @@ namespace ma
 		AABB aabb;
 		aabb.setInfinite();
 		SetAABB(aabb);
+
+		m_shadowMapRender = new ShadowMapRenderStep();
 	}
 
 	DirectonalLight::~DirectonalLight()
@@ -138,9 +140,11 @@ namespace ma
 
 		MICROPROFILE_SCOPEI("", "UpdateShadowMap", 0);
 
+		GetRenderSystem()->AddRenderStep(m_shadowMapRender);
+
 		for (int i = 0; i < m_nCurSplitCount; ++i)
 		{
-			m_SpitFrustum[i].Render(pCamera);
+			m_SpitFrustum[i].Render(pCamera, m_shadowMapRender.get());
 		}
  	}
 
@@ -158,13 +162,15 @@ namespace ma
 		uint32_t height = m_nShadowMapSize;
 		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();
 
-		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(width, height, shadowMapDepthFormat);
+		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(width, height, PF_D24S8/*shadowMapDepthFormat*/);
 
 		m_pShadowMapPass = GetRenderDevice()->CreateRenderPass();
 		m_pShadowMapPass->AttachDepthStencil( RenderSurface(m_pShdowMapDepth) );
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowMapPass.get());
 
 		m_pShadowMapSampler = CreateSamplerState(m_pShdowMapDepth.get(), CLAMP, TFO_SHADOWCOMPARE, false);
+
+		m_shadowMapRender->m_pRenderPass = m_pShadowMapPass.get();
 
 		for (int i = 0; i < m_nMaxSplitCount; ++i)
 		{

@@ -22,15 +22,15 @@ namespace ma
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
 		
-		uint32_t nCount = 15;
+		uint32_t nCount = 5;
 		for (uint32_t i = 0; i < nCount; ++i)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 			pCharMagic->RotateAround(Vector3::ZERO,Vector3::UNIT_X,-90);
 			pCharMagic->SetScale(Vector3(0.01f));
-			float x = Math::RangeRandom(0, nCount);
-			float z = Math::RangeRandom(0, nCount);
-			float y = m_pTerrain->GetHeight(x, z) + 2.0f;
+			float x = Math::RangeRandom(0, nCount * 10);
+			float z = Math::RangeRandom(0, nCount * 10);
+			float y = m_pTerrain->GetHeight(x, z); //+ 2.0f;
 			pCharMagic->SetPos(Vector3(x, y, z));
 			SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 			pMeshComp->SetShadowCaster(true);
@@ -44,9 +44,9 @@ namespace ma
 			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
 			pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
 			pBoxMesh->SetShadowCaster(true);
-			float x = Math::RangeRandom(0, nCount);
-			float z = Math::RangeRandom(0, nCount);
-			float y = m_pTerrain->GetHeight(x, z) + 2.0f;
+			float x = Math::RangeRandom(0, nCount * 10);
+			float z = Math::RangeRandom(0, nCount * 10);
+			float y = m_pTerrain->GetHeight(x, z); //+ 2.0f;
 			pBox->SetPos(Vector3(x, y, z));
 		}
 	}

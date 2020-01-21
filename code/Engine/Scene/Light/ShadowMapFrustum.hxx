@@ -7,27 +7,44 @@ namespace ma
 {
 	class ShadowMapRenderStep : public RenderStep
 	{
+
+	public:
+
 		virtual void Render()
 		{
-			RenderQueue* cur_renderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 			RenderPass*  cur_renderPass = m_pRenderPass.get();
-
-			SetSceneContext(cur_renderQueue->GetSceneContext());
 
 			cur_renderPass->Begine();
 
-			RenderCommand* pRenderCommand = cur_renderPass->GetThreadCommand(0, 0);
-			
-			pRenderCommand->Begin();
+			uint32_t i = 0;
+			for (auto& subStep : m_vecSubStep[GetRenderSystem()->CurThreadProcess()])
+			{
+				RenderCommand* pRenderCommand = cur_renderPass->GetThreadCommand(i++, 0);
 
-			pRenderCommand->SetViewPort(m_veiwPort);
+				pRenderCommand->Begin();
 
-			cur_renderQueue->Render(pRenderCommand);
+				RenderQueue* cur_renderQueue = subStep->m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
 
-			pRenderCommand->End();
+				SetSceneContext(cur_renderQueue->GetSceneContext());
+
+				pRenderCommand->SetViewPort(subStep->m_veiwPort);
+
+				cur_renderQueue->Render(pRenderCommand);
+
+				pRenderCommand->End();
+			}
 
 			cur_renderPass->End();
+
+			m_vecSubStep[GetRenderSystem()->CurThreadProcess()].clear();
 		}
+
+		void AddSubStep(RenderStep* subStep)
+		{
+			m_vecSubStep[GetRenderSystem()->CurThreadFill()].push_back(subStep);
+		}
+
+		std::vector< RefPtr<RenderStep> > m_vecSubStep[2];
 	};
 
 	ShadowMapFrustum::ShadowMapFrustum()
@@ -44,7 +61,7 @@ namespace ma
 		m_matShadow  = Matrix4::IDENTITY;
 		m_matTexAdjust = Matrix4::IDENTITY;
 
-		m_shadowMapRender = new ShadowMapRenderStep();
+		m_subRenderStep = new RenderStep();
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
@@ -55,9 +72,9 @@ namespace ma
 	{
 		m_pParent = pParent;
 
-		m_shadowMapRender->m_pRenderPass = pSMPass;
+		//m_shadowMapRender->m_pRenderPass = pSMPass;
 
-		m_shadowMapRender->m_veiwPort = viewPort;
+		m_subRenderStep->m_veiwPort = viewPort;
 
 		m_matTexAdjust = CalculateTexAdjustMatrix(pParent->GetShadowMapSampler()->GetTexture(), viewPort);
 	}
@@ -110,7 +127,7 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderQueue* pRenderQueue = m_shadowMapRender->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+		RenderQueue* pRenderQueue = m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 		pRenderQueue->Clear();
 
 		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
@@ -238,8 +255,11 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateCropMats()
 	{
-		if (!m_bDraw)
+		if (!m_bDraw || m_casterAABB.isNull())
+		{
+			m_matCrop = Matrix4::IDENTITY;
 			return;
+		}
 
 		Matrix4 matVP = m_matLightProj* m_matLightView;;
 
@@ -296,21 +316,21 @@ namespace ma
 		m_matShadow = m_matTexAdjust * m_matLightViewProj;
 	}
 
-	void ShadowMapFrustum::Render(Camera* pCamera)
+	void ShadowMapFrustum::Render(Camera* pCamera,RenderStep* shadowStep)
 	{
 		if (!m_bDraw)
 			return;
 
-		RenderQueue* pRenderQueue = m_shadowMapRender->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+		RenderQueue* pRenderQueue = m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 
 		pRenderQueue->SetCamera(pCamera);
 
 		pRenderQueue->SetLightViewProj(m_matLightViewProj);
 
-		GetRenderSystem()->AddRenderStep(m_shadowMapRender);
+		((ShadowMapRenderStep*)shadowStep)->AddSubStep(m_subRenderStep.get());
 
 		SMFrustumInfo info;
-		info.m_matLightViewProj = m_matLightViewProj;
+		info.m_matLightViewProj = m_matLightProj * m_matLightView/*m_matLightViewProj*/;
 		info.m_matShadow = m_matShadow;
 		info.m_pShadowDepth = m_pParent->GetShadowMapSampler();
 		GetRenderSystem()->RC_AddRenderCommad([info]() {

@@ -23,7 +23,7 @@ namespace ma
 		void				InitShadowMap(DirectonalLight* pParent, Rectangle viewPort, RenderPass* pSMPass);
 
 		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);	
-		void				Render(Camera* pCamera);
+		void				Render(Camera* pCamera, RenderStep* shadowStep);
 
 		void				Clear(Camera* pCamera);
 
@@ -57,7 +57,8 @@ namespace ma
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
 
-		RefPtr<RenderStep> m_shadowMapRender;
+		//RefPtr<RenderStep> m_shadowMapRender;
+		RefPtr<RenderStep> m_subRenderStep;
 
 		AABB				m_sceneAABB;
 

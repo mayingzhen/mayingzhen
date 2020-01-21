@@ -95,6 +95,8 @@ namespace ma
 		RefPtr<RenderPass>	m_pShadowMapPass;
 		RefPtr<Texture>		m_pShdowMapDepth;
 		RefPtr<SamplerState> m_pShadowMapSampler;
+
+		RefPtr<RenderStep> m_shadowMapRender;
 	};
 
 	RefPtr<DirectonalLight> CreateDirectonalLight();

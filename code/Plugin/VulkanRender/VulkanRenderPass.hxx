@@ -136,7 +136,7 @@ namespace ma
 			ds.stencilLoadOp = VulkanMapping::get(m_depthStencil.m_eLoadOp);
 			ds.stencilStoreOp = VulkanMapping::get(m_depthStencil.m_eStoreOp);
 			ds.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-			ds.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL; // Attachment will be transitioned to shader read at render pass end
+			ds.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL; // Attachment will be transitioned to shader read at render pass end
 
 			vecAttachments.push_back(ds);
 			
