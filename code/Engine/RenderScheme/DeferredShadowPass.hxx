@@ -257,17 +257,17 @@ namespace ma
 			SMFrustumInfo& shadowMapFru = m_vecFrustum[i];
 
 			Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
+			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
+			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
 
 			SMFrustumInfo& shadowMapNextFru = m_vecFrustum[i + 1];
 			Matrix4 nextViewToShadow = shadowMapNextFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
-			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matNextViewToShadow"), nextViewToShadow);
+			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_matNextViewToShadow"), nextViewToShadow);
 		
 			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(VS,"BlendInfo"), vBlendInfo);
 
-			ScreenQuad::Render(m_pDefferedShadow[i].get(), pRenderCommand);
+			ScreenQuad::Render(m_pBlendMaterial[i].get(), pRenderCommand);
 		}
 
 		pRenderCommand->End();
