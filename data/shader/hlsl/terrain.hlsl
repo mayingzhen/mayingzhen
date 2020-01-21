@@ -1,15 +1,9 @@
 #include "common.h"
 #include "lighting.h"
 
-#if USING_SHADOW != 0
-#include "shadowMap.h"
-#endif
-
 #ifdef DEFERREDSHADING 
 #include "gbuffer.h"
 #endif
-
-#define RECEIVESHADOW
 
 cbuffer ObjectVS : register(b5)
 {
@@ -44,13 +38,6 @@ struct VS_OUTPUT
 #ifdef BUMPMAP
 	float3 oT		: TEXCOORD4; 
 	float3 oB		: TEXCOORD5;  	
-#endif
-
-#if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-#if SHADOW_BLUR == 2
-	float2 oRandDirTC : TEXCOORD6;
-#endif	
-	float4 oShadowPos : TEXCOORD7;
 #endif
 
 	float4 Pos		: SV_POSITION;
@@ -105,13 +92,6 @@ VS_OUTPUT vs_main(const VS_INPUT In)
 
 	float fWeight = saturate(1 - abs(iMateriaID - uCurMaterialID));	
 	Out.oNormal.w = fWeight;
-
-#if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
-	Out.oShadowPos = GetShadowPos(Out.WorldPos.xyz);
-	#if SHADOW_BLUR == 2 	
-		GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
-	#endif	
-#endif
 
     return Out;
 }
@@ -197,25 +177,12 @@ out DRMRTOut mrtOut
 	float3 vNormal = oWorldNormal;
 	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
 
-		// ��Ӱ
-	float fShadowMapShadow = 1.0;
-#if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
-	#ifdef RECEIVESHADOW
-		float4 ShadowPos = In.oShadowPos;
-		float2 RandDirTC = 0;
-			#if SHADOW_BLUR == 2
-				RandDirTC = In.oRandDirTC;
-			#endif
-		fShadowMapShadow = DoShadowMapping(ShadowPos,RandDirTC,In.WorldPos.w);
-	#endif		
-#endif
-	    
 	float metalness = 0;
 	float glossiness = 0;	
 	GetMetalnessGlossiness(In.DetailUV.xy,metalness,glossiness,In.DetailUV.zw,cBlend.a);
 
 #if DEFERREDSHADING == 0
-	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow,1.0);
+	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,1.0,1.0);
 #else
 	EnCodeMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
 #endif

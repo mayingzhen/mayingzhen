@@ -13,30 +13,11 @@ cbuffer ObjectPS : register(b5)
 {
 	float4 BlendInfo;
 
-	float4 vNextStoWBasisX;
-	float4 vNextStoWBasisY;
-	float4 vNextStoWBasisZ;
-	float4 vNextStoCamPos;
-	float4 g_vNextViewPosVecLS;
-	float2 NextkernelRadius;
-	float4 g_NextshadowMapTexelSize;
-
 	float4x4 g_matViewToShadow;
+
+	float4x4 g_matNextViewToShadow;
 };
 
-Texture2D g_tNextShadowMap : register(t6);
-SamplerComparisonState g_sNextShadowMap : register(s6);
-
-
-float4 CalcHomogeneousNextPos(float2 WPos,float fLinearDepth)
-{
-	float3 vViewDir = vNextStoWBasisZ.xyz + vNextStoWBasisX.xyz * WPos.x + vNextStoWBasisY.xyz * WPos.y; 
-	float3 vPos = vViewDir * fLinearDepth * g_vCameraNearFar.z  + vNextStoCamPos.xyz;
-
-	float4 HPos = float4(vPos,fLinearDepth);
-	return HPos;
-	
-}
 
 float BlendVP(float3 vp, bool blendOut)
 {
@@ -66,7 +47,6 @@ void main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
 	//float4 vTempPos = CalcHomogeneousPosDepth(WPos.xy,fLinearDepth);
 	//float depth = vTempPos.w; 
 	//float4 vShadowPos = float4(vTempPos.xyz,1.0);
-
 	float fLinearDepth = GetLinearDepth(In.oTc); 
 	float3 view_dir = normalize(In.oViewDir.xyz);
 	float3 pos_es = view_dir * (fLinearDepth / view_dir.z); 
@@ -83,10 +63,10 @@ void main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
 #ifdef FRUSTUM_BLEND 
 	float fBlend = BlendVP(vShadowPos.xyz, true);
 	
-	float4 vTempNextPos = CalcHomogeneousNextPos(WPos.xy,fLinearDepth);
-
-	float Nextdepth = vTempNextPos.w; 
-	float4 vNextShadowPos = float4(vTempNextPos.xyz,1.0);
+	//float4 vTempNextPos = CalcHomogeneousNextPos(WPos.xy,fLinearDepth);
+	//float Nextdepth = vTempNextPos.w; 
+	//float4 vNextShadowPos = float4(vTempNextPos.xyz,1.0);
+	float4 vNextShadowPos = mul(float4(pos_es,1.0),g_matNextViewToShadow);
 		
    	float2 NextRandDirTC;    
 #if SHADOW_BLUR == 2
