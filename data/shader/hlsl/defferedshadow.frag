@@ -16,6 +16,8 @@ cbuffer ObjectPS : register(b5)
 	float4x4 g_matViewToShadow;
 
 	float4x4 g_matNextViewToShadow;
+
+	float4 uv_calmp;
 };
 
 
@@ -52,6 +54,7 @@ void main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
 	float3 pos_es = view_dir * (fLinearDepth / view_dir.z); 
 	float4 vShadowPos = mul(float4(pos_es,1.0),g_matViewToShadow);
 
+	vShadowPos.xy = clamp(vShadowPos.xy,uv_calmp.xy,uv_calmp.zw);
 		
    	float2 RandDirTC;    
 #if SHADOW_BLUR == 2

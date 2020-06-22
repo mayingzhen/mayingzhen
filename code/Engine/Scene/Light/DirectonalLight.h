@@ -40,7 +40,6 @@ namespace ma
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
 		uint32_t			GetMaxSplitCount() const {return m_nMaxSplitCount;}
-		int					GetCurSplitCount() const {return m_nCurSplitCount;}
 
 		void				SetSplitPosParam(Vector4 vSpiltPos) {m_SplitPosParam = vSpiltPos;}
 		const Vector4&		GetCurSplitPos() const {return m_curSplitPos;}
@@ -71,7 +70,6 @@ namespace ma
 		void				CreateShadowMap();
 
 	private:
-		int					m_nCurSplitCount;
 		int					m_nMaxSplitCount;
 		Vector4				m_SplitPosParam;
 		Vector4				m_curSplitPos;

@@ -76,6 +76,13 @@ namespace ma
 
 		m_subRenderStep->m_veiwPort = viewPort;
 
+		float width = (float)pParent->GetShadowMapSampler()->GetTexture()->GetWidth();
+		float height = (float)pParent->GetShadowMapSampler()->GetTexture()->GetHeight();
+		Vector2 mini((float)viewPort.left / width, (float)viewPort.top / height);
+		Vector2 offset((float)viewPort.width() / width, (float)viewPort.height() / height);
+		Vector2 max = mini + offset;
+		m_uvClamp = Vector4(mini.x, mini.y, max.x, max.y);
+
 		m_matTexAdjust = CalculateTexAdjustMatrix(pParent->GetShadowMapSampler()->GetTexture(), viewPort);
 	}
 
@@ -94,21 +101,14 @@ namespace ma
 		{
 			offset.x += scale.x;
 			offset.y += scale.y;
-			offset.y = 1.0f - offset.y;
 
 			texAdjust.setTrans(Vector3(offset.x, offset.y, 0.5f));
 			texAdjust.setScale(Vector3(scale.x, scale.y, 0.5f));
 		}
 		else
 		{
-			offset.x += scale.x + 0.5f / width;
-			offset.y += scale.y + 0.5f / height;
-
-			if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
-			{
-				offset.x -= 0.5f / width;
-				offset.y -= 0.5f / height;
-			}
+			offset.x += scale.x;
+			offset.y += scale.y;
 
 			if (GetRenderDevice()->GetRenderDeviceType() != RenderDevice_VULKAN)
 			{
@@ -318,8 +318,8 @@ namespace ma
 
 	void ShadowMapFrustum::Render(Camera* pCamera,RenderStep* shadowStep)
 	{
-		if (!m_bDraw)
-			return;
+		//if (!m_bDraw)
+		//	return;
 
 		RenderQueue* pRenderQueue = m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 
@@ -333,6 +333,7 @@ namespace ma
 		info.m_matLightViewProj = m_matLightProj * m_matLightView/*m_matLightViewProj*/;
 		info.m_matShadow = m_matShadow;
 		info.m_pShadowDepth = m_pParent->GetShadowMapSampler();
+		info.m_uvClamp = m_uvClamp;
 		GetRenderSystem()->RC_AddRenderCommad([info]() {
 			GetDeferredShadow()->AddSMFrustumInfo(info);
 		});

@@ -83,6 +83,8 @@ namespace ma
 
 		RefPtr<RenderPass>		m_pGbufferPass;
 
+		RefPtr<RenderPass>		m_pTranslucePass;
+
 		RefPtr<RenderPass>		m_pLightPass;
 
 		RefPtr<RenderPass>		m_pBackBaufferPass;

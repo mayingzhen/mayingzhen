@@ -103,7 +103,7 @@ namespace ma
 
 		bool			operator < ( const SamplerState& other) const;
 
-	private:
+	protected:
 		RefPtr<Texture> m_pTexture;
 
 		Wrap			m_eWrap;

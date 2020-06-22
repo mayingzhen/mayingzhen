@@ -27,20 +27,39 @@ namespace ma
 
 		VkSamplerCreateInfo samplerCreateInfo = {};
 		samplerCreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-		samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
-		samplerCreateInfo.minFilter = VK_FILTER_LINEAR;
-		samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-		samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-		samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-		samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		samplerCreateInfo.addressModeU = VulkanMapping::GetWrap(m_eWrap);
+		samplerCreateInfo.addressModeV = VulkanMapping::GetWrap(m_eWrap);
+		samplerCreateInfo.addressModeW = VulkanMapping::GetWrap(m_eWrapW);
 		samplerCreateInfo.mipLodBias = 0.0f;
+		samplerCreateInfo.magFilter = VK_FILTER_NEAREST;
+		samplerCreateInfo.minFilter = VK_FILTER_NEAREST;
+		samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
 		samplerCreateInfo.compareEnable = false;
 		samplerCreateInfo.compareOp = VK_COMPARE_OP_NEVER;
-		if (GetFilterMode() == TFO_SHADOWCOMPARE)
+		if (m_eFilter == TFO_SHADOWCOMPARE)
 		{
 			samplerCreateInfo.compareEnable = VK_TRUE;
 			samplerCreateInfo.compareOp = VK_COMPARE_OP_LESS;
 		}
+		else if (m_eFilter == TFO_POINT)
+		{
+			samplerCreateInfo.magFilter = VK_FILTER_NEAREST;
+			samplerCreateInfo.minFilter = VK_FILTER_NEAREST;
+			samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+		}
+		else if (m_eFilter == TFO_BILINEAR)
+		{
+			samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
+			samplerCreateInfo.minFilter = VK_FILTER_LINEAR;
+			samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+		}
+		else if (m_eFilter == TFO_TRILINEAR)
+		{
+			samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
+			samplerCreateInfo.minFilter = VK_FILTER_LINEAR;
+			samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+		}
+
 		samplerCreateInfo.minLod = 0.0f;
 		// Max level-of-detail should match mip level count
 		samplerCreateInfo.maxLod = /*(useStaging) ? */(float)pTex->GetMipMapNumber()/* : 0.0f*/;

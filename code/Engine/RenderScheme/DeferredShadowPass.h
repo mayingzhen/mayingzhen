@@ -7,6 +7,7 @@ namespace ma
 		Matrix4	m_matLightViewProj;
 		Matrix4	m_matShadow;
 		SamplerState* m_pShadowDepth = nullptr;
+		Vector4 m_uvClamp = Vector4(0.0, 0.0, 1.0, 1.0);
 	};
 
 	class DeferredShadow : public Referenced

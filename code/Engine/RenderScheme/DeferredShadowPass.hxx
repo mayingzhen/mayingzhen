@@ -112,6 +112,8 @@ namespace ma
 			return m_pShadowSampler.get();
 		});
 
+		RefPtr<Texture> m_pTempDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8);
+
 		m_pShadowPass = GetRenderDevice()->CreateRenderPass();
 		m_pShadowPass->AttachColor(0, RenderSurface(m_pShadowTex) );
 		RenderSurface ds;
@@ -274,6 +276,9 @@ namespace ma
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
 
+			Vector4 uv_calmp = shadowMapFru.m_uvClamp;
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "uv_calmp"), uv_calmp);
+
 			ScreenQuad::Render(m_pDefferedShadow[i].get(), pRenderCommand);
 		}
 
@@ -292,6 +297,9 @@ namespace ma
 		
 			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(VS,"BlendInfo"), vBlendInfo);
+
+			Vector4 uv_calmp = shadowMapFru.m_uvClamp;
+			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "uv_calmp"), uv_calmp);
 
 			ScreenQuad::Render(m_pBlendMaterial[i].get(), pRenderCommand);
 		}

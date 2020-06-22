@@ -19,7 +19,6 @@ namespace ma
 
 		m_eLightType = LIGHT_DIRECTIONAL;
 		m_bShadowEnable = false;
-		m_nCurSplitCount = 0;
 		m_nMaxSplitCount = 4;
 		m_nShadowMapSize = 512;
 		m_SplitPosParam = Vector4(30.0f,60.0f,120.0f,270.0f);
@@ -86,13 +85,12 @@ namespace ma
 
 		MICROPROFILE_SCOPEI("", "UpdateShadowMap", 0);
 
-		m_nCurSplitCount = 0;
+	
 		m_curSplitPos = m_SplitPosParam;
 
 		//Simple Shadow
 		if (m_nMaxSplitCount == 1)
 		{
- 			m_nCurSplitCount = 1;
  			m_curSplitPos.x = pCamera->GetFarClip(); // For Depth bias
  			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
  			return;
@@ -106,22 +104,23 @@ namespace ma
 		float fNearSplit = pCamera->GetNearClip();
 		float fFarSplit = m_SplitPosParam[0];
 
-		while (m_nCurSplitCount < m_nMaxSplitCount)
+		int nCurSplitCount = 0;
+		while (nCurSplitCount < m_nMaxSplitCount)
 		{
 			if (fNearSplit > fViewMaxZ)
 				break;
 
-			fFarSplit = min(fViewMaxZ, m_SplitPosParam[m_nCurSplitCount]);
+			fFarSplit = min(fViewMaxZ, m_SplitPosParam[nCurSplitCount]);
 			if (fFarSplit <= fNearSplit)
 				break;
 
 			// Setup the shadow camera for the split
-			m_curSplitPos[m_nCurSplitCount] = fFarSplit;
+			m_curSplitPos[nCurSplitCount] = fFarSplit;
 
-			m_SpitFrustum[m_nCurSplitCount].Update(pCamera, fNearSplit, fFarSplit);
+			m_SpitFrustum[nCurSplitCount].Update(pCamera, fNearSplit, fFarSplit);
 
 			fNearSplit = fFarSplit;
-			++m_nCurSplitCount;
+			++nCurSplitCount;
 		}
 
 		// Upadte shadowDetphFade
@@ -142,7 +141,7 @@ namespace ma
 
 		GetRenderSystem()->AddRenderStep(m_shadowMapRender);
 
-		for (int i = 0; i < m_nCurSplitCount; ++i)
+		for (int i = 0; i < m_nMaxSplitCount; ++i)
 		{
 			m_SpitFrustum[i].Render(pCamera, m_shadowMapRender.get());
 		}
@@ -150,7 +149,7 @@ namespace ma
 
 	void DirectonalLight::Clear(Camera* pCamera)
 	{
-		for (int i = 0; i < m_nCurSplitCount; ++i)
+		for (int i = 0; i < m_nMaxSplitCount; ++i)
 		{
 			m_SpitFrustum[i].Clear(pCamera);
 		}

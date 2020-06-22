@@ -33,18 +33,10 @@ namespace ma
 		SkeletonPose* m_pNodePos;
 	};
 
-
-	// Stores the synchronization information for blending children.
 	struct SynchronizationInfo
 	{
-		/*
-		* The unscaled duration of an animation node.
-		* For a Source node, this is the intrinsic duration of the corresponding animation clip.
-		* For other node types, this is the blended duration without being scaled by the time scale of the current node or inherited time scale.
-		*/
 		float duration;
 
-		// The current phase of an animation node. This is a float in [0, 1] representing the normalized time position in the current duration.
 		float phase;
 
 		SynchronizationInfo() : duration(0.0f), phase(0.0f) { }

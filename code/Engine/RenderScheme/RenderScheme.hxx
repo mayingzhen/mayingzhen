@@ -22,7 +22,7 @@ namespace ma
 
 	RenderScheme::RenderScheme()
 	{
-		m_bShadowMapEnable = true;
+		m_bShadowMapEnable = false;
 
 		if (m_bShadowMapEnable)
 		{
@@ -413,9 +413,11 @@ namespace ma
 
 		m_pGbufferPass->Begine();
 
-		pRenderQueue->Render(m_pGbufferPass.get(), RL_SkyBox, RL_Terrain);
+		pRenderQueue->Render(m_pGbufferPass.get(), RL_Mesh, RL_Terrain);
 
 		m_pGbufferPass->End();
+
+		pRenderQueue->Render(m_pGbufferPass.get(), RL_SkyBox, RL_MeshTrans);
 	}
 
 	void RenderScheme::LightPass()
