@@ -4,6 +4,8 @@
 #include <mach/mach_host.h>
 #endif
 
+#include "../Profiler/microprofile.h"
+
 namespace ma
 {
 

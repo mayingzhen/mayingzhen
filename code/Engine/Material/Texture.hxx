@@ -241,6 +241,7 @@ namespace ma
 		pSampler->SetFilterMode(eFilter);
 		pSampler->SetSRGB(bSRGB);
 		pSampler->SetTexturePath(pPath);
+        GetRenderSystem()->RC_AddRenderCommad( [pSampler] {pSampler->RT_StreamComplete();} );
 		return pSampler;
 	}
 
@@ -251,7 +252,7 @@ namespace ma
 		pSampler->SetFilterMode(eFilter);
 		pSampler->SetSRGB(bSRGB);
 		pSampler->SetTexture(pTexutre);
-		
+        GetRenderSystem()->RC_AddRenderCommad( [pSampler] {pSampler->RT_StreamComplete();} );
 		return pSampler;
 	}
 

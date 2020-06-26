@@ -73,12 +73,12 @@ namespace ma
         MetalShaderProgram* pShader = (MetalShaderProgram*)pTech->GetShaderProgram();
         
         MetalDepthStencilStateObject* pDSState = (MetalDepthStencilStateObject*)(pShader->GetShaderCreateInfo().m_pDSState.get());
-        if (pDSState->m_pMetalDSState == nil)
+        if (pDSState && pDSState->m_pMetalDSState == nil)
         {
             pDSState->RT_StreamComplete();
         }
         
-        if (m_preDS != pDSState->m_pMetalDSState)
+        if (pDSState && m_preDS != pDSState->m_pMetalDSState)
         {
             [m_encoder setDepthStencilState:pDSState->m_pMetalDSState];
             
@@ -86,9 +86,12 @@ namespace ma
         }
         
         MetalRasterizerStateObject* pRSState = (MetalRasterizerStateObject*)(pShader->GetShaderCreateInfo().m_pRSState.get());
-        MTLCullMode eCull = MetalMapping::get(pRSState->m_eCullMode);
-        [m_encoder setCullMode:eCull];
-        [m_encoder setFrontFacingWinding:MTLWindingCounterClockwise];
+        if (pRSState)
+        {
+            MTLCullMode eCull = MetalMapping::get(pRSState->m_eCullMode);
+            [m_encoder setCullMode:eCull];
+            [m_encoder setFrontFacingWinding:MTLWindingCounterClockwise];
+        }
         
         if (m_prePipeline != pVulkanTech->m_pPipline->m_pipelineState)
         {
@@ -97,31 +100,33 @@ namespace ma
             m_prePipeline = pVulkanTech->m_pPipline->m_pipelineState;
         }
         
-        for (uint32_t i = 0; i < ShaderType_Number; ++i)
+        for (uint32_t iType = 0; iType < ShaderType_Number; ++iType)
         {
-            ShaderType eShader = (ShaderType)i;
+            ShaderType eShader = (ShaderType)iType;
             for (uint32_t j = 0; j < pTech->GetConstBufferCount(eShader); ++j)
             {
                 ConstantBuffer* pCB = pTech->GetConstBufferByIndex(eShader, j);
                 MetalConstantBuffer* pMlCB = (MetalConstantBuffer*)pCB;
-                pMlCB->Apply(m_encoder,i != VS);
+                pMlCB->Apply(m_encoder,iType != VS);
             }
     
             MetalTechnique* pMetalTech = (MetalTechnique*)(pTech);
-            for (uint32_t i = 0; i < pMetalTech->GetSamplerCount(eShader); ++i)
+            for (uint32_t j = 0; j < pMetalTech->GetSamplerCount(eShader); ++j)
             {
-                Uniform* pUniform = pTech->GetSamplerByIndex(eShader,i);
+                Uniform* pUniform = pTech->GetSamplerByIndex(eShader,j);
                 MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pMetalTech->GetActiveSampler(pUniform);
                 if (pMetalSampler == NULL)
                 {
                     continue;
                 }
                 
+                pMetalSampler->RT_StreamComplete();
+                
                 uint32_t nIndex = pUniform->GetIndex();
             
                 MetalTexture* pMetalTexure = (MetalTexture*)(pMetalSampler->GetTexture());
             
-                if (m_preTexture[eShader][nIndex] != pMetalTexure->GetNative())
+                //if (m_preTexture[eShader][nIndex] != pMetalTexure->GetNative())
                 {
                     if (eShader == VS)
                     {
@@ -135,7 +140,7 @@ namespace ma
                     m_preTexture[eShader][nIndex] = pMetalTexure->GetNative();
                 }
          
-                if (m_preSampler[eShader][nIndex] != pMetalSampler->m_pImpl)
+                //if (m_preSampler[eShader][nIndex] != pMetalSampler->m_pImpl)
                 {
                     if (eShader == VS)
                     {
@@ -143,7 +148,7 @@ namespace ma
                     }
                     else if (eShader == PS)
                     {
-                        [m_encoder setFragmentTexture:pMetalTexure->GetNative() atIndex:nIndex];
+                        [m_encoder setFragmentSamplerState:pMetalSampler->m_pImpl atIndex:nIndex];
                     }
                 
                     m_preSampler[eShader][nIndex] = pMetalSampler->m_pImpl;
@@ -152,10 +157,29 @@ namespace ma
         }
     }
 
-
-    void MetalRenderCommand::SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors)
+    void MetalRenderCommand::SetViewPort(const Rectangle& viewPort)
     {
-        
+        MTLViewport mtlvp =
+            { viewPort.offsetX(), //originX
+              viewPort.offsetY(), //origninY
+              viewPort.width(), // width
+              viewPort.height(),// height
+              0.0, // znear
+              1.0,// zfar
+            };
+        [m_encoder setViewport: mtlvp];
+    }
+
+    void MetalRenderCommand::SetScissor(const Rectangle& viewPort)
+    {
+        MTLScissorRect scissorRect =
+        {
+            viewPort.offsetX(),
+            viewPort.offsetY(),
+            viewPort.width(),
+            viewPort.height(),
+        };
+        [m_encoder setScissorRect:scissorRect];
     }
 
     void MetalRenderCommand::DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount)

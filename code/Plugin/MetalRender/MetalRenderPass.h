@@ -1,5 +1,6 @@
 #pragma once
 
+#import <Metal/Metal.h>
 
 namespace ma
 {
@@ -14,7 +15,7 @@ namespace ma
 
         virtual void Create();
         
-        virtual void Begine(const Rectangle& viewPort);
+        virtual void Begine();
         
         virtual void End();
         

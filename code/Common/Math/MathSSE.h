@@ -9,8 +9,11 @@ using namespace ma;
 #else
 
 // We require SSE2
-#if defined(__ANDROID__) || defined(__APPLE__) 
+#if defined(__ANDROID__) || defined(__APPLE__)
+#if !defined(__ARM_NEON)
+#else
 #include "SSE2NEON.h"
+#endif
 #else
 #include <emmintrin.h>
 #endif

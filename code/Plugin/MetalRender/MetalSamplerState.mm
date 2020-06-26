@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	std::map<SamplerState, id<MTLSamplerState> > g_samplerStatesPool;
+	std::map<MetalSamplerStateObject, id<MTLSamplerState> > g_samplerStatesPool;
 
 	MetalSamplerStateObject::MetalSamplerStateObject()
 	{

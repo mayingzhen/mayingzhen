@@ -710,6 +710,13 @@ namespace ma
 	{
 		if (m_pShaderProgram == nullptr)
 			return;
+        
+        for (uint32_t i = 0; i < ShaderType_Number; ++i)
+        {
+            ClearConstBuffer((ShaderType)i);
+            ClearSampler((ShaderType)i);
+        }
+        ClearStorgeBuffer();
 
 		ShaderCreateInfo info = m_pShaderProgram->GetShaderCreateInfo();
 		info.m_shaderMacro = m_strDefine;
@@ -749,7 +756,7 @@ namespace ma
 		pTech->SetShaderDefine(pDefine);
 		pTech->SetRenderPass(pPass);
 		pTech->LoadFromXMLSync(pszXMLFile);
-		GetRenderSystem()->TechniqueStreamComplete(pTech); 
+		//GetRenderSystem()->TechniqueStreamComplete(pTech);
 		return pTech;
 	}
 

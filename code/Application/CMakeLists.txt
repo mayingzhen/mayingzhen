@@ -23,11 +23,9 @@ set(SOURCE_FILES
 		${Win}
 		${Application}
 		Module.cpp
+		${iOS_h} 
+		${iOS_mm}
 		)
-
-if (ios)
-	set(SOURCE_FILES ${iOS_h} ${iOS_mm})
-endif()
 
 include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../"

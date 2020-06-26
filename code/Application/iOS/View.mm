@@ -2,8 +2,9 @@
 #include "View.h"
 #include "Application/Platform.h"
 #include "Application/Game.h"
-#import <QuartzCore/QuartzCore.h>
+#include "imgui_impl_metal.h"
 
+#import <QuartzCore/QuartzCore.h>
 
 
 @implementation View
@@ -83,8 +84,32 @@
         
         // Set the resource path and initalize the game
         NSString* bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/"];
-        ma::Platform::GetInstance().SetAppPath([bundlePath fileSystemRepresentation]);
+        std::string appPath = [bundlePath fileSystemRepresentation];
+        ma::Platform::GetInstance().SetAppPath(appPath.c_str());
         ma::Platform::GetInstance().SetWindId(self.layer);
+        
+        std::string docPath = appPath + "Documents/";
+        ma::GetArchiveMananger()->SetSaveDir(docPath.c_str());
+        
+        CGSize screen_size = [[UIScreen mainScreen] bounds].size;
+        //CGFloat scale = [[UIScreen mainScreen].scale];
+        CGSize resolution = CGSizeMake(screen_size.width * scale, screen_size.height * scale);
+        
+        NSUInteger width = resolution.width;
+        NSUInteger height = resolution.height;
+        
+        //ImGuiIO &io = ImGui::GetIO();
+        //io.DisplaySize.x = width;
+        //io.DisplaySize.y = height;
+
+    #if TARGET_OS_OSX
+        CGFloat framebufferScale = view.window.screen.backingScaleFactor ?: NSScreen.mainScreen.backingScaleFactor;
+    #else
+        //CGFloat framebufferScale = scale;//view.window.screen.scale ?: UIScreen.mainScreen.scale;
+    #endif
+        //io.DisplayFramebufferScale = ImVec2(framebufferScale, framebufferScale);
+                                      
+        //io.DeltaTime = 1 / float(view.preferredFramesPerSecond ?: 60);
         
     }
     return self;
@@ -152,6 +177,9 @@
     }
 }
 
+
+extern id<MTLDevice> GetMetalDevive();
+
 - (void)update:(id)sender
 {   
     if (!m_bInited)
@@ -159,7 +187,11 @@
         m_bInited = TRUE;
         
         ma::Game::GetInstance().Init();
+        
+        //ImGui_ImplMetal_Init(GetMetalDevive());
     }
+    
+    //ImGui_ImplMetal_NewFrame();
 
     // Execute a single game frame
     ma::Game::GetInstance().Update();

@@ -1,7 +1,10 @@
 #pragma once
 
 #if defined (__ANDROID__) || defined (__APPLE__)
+#if !defined(__ARM_NEON)
+#esle
 #include "SSE2NEON.h"
+#endif
 #else
 #include <emmintrin.h>
 #endif 

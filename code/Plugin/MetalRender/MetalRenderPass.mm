@@ -24,7 +24,7 @@ namespace ma
 
 	}
 
-	void MetalRenderPass::Begine(const Rectangle& viewPort)
+	void MetalRenderPass::Begine()
 	{
         MetalRenderDevice* pMetalRender = (MetalRenderDevice*)GetRenderDevice();
         
@@ -40,7 +40,7 @@ namespace ma
 	{
         m_pass_desc = [MTLRenderPassDescriptor new];
         
-        for (uint32_t i = 0; i < MAX_RENDERTARGETS; ++i)
+        for (uint32_t i = 0; i < m_arrColor.size(); ++i)
         {
             if (m_arrColor[i].m_pTexture == nullptr)
 				continue;
@@ -54,9 +54,9 @@ namespace ma
             //m_pass_desc.colorAttachments[i].clearColor =  MTLClearColor(0,0,0,0);
         }
 
-		if (m_pDepthStencil)
+		if (m_depthStencil.m_pTexture)
 		{
-            MetalTexture* pMlTexture = (MetalTexture*)m_pDepthStencil.get();
+            MetalTexture* pMlTexture = (MetalTexture*)m_depthStencil.m_pTexture.get();
             
             m_pass_desc.depthAttachment.texture = pMlTexture->GetNative();
             m_pass_desc.depthAttachment.loadAction = MTLLoadActionClear;

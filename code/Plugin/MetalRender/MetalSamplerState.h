@@ -1,5 +1,7 @@
 #pragma once
 
+#import <Metal/Metal.h>
+
 namespace ma
 {
 	class MetalSamplerStateObject : public SamplerState

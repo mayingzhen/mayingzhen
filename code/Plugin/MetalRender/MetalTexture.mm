@@ -205,7 +205,7 @@ namespace ma
             GenerateMipmaps();
         }
         
-        m_eResState = ResInited;
+        m_eResState = ResReady;
         
         return true;
     }

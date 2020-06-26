@@ -3,12 +3,14 @@
 
 namespace ma
 {
-	void ReplaceDefines(const char* defines, std::string& out)
+	std::string ReplaceDefines(const char* defines)
 	{
 
 //#if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
 //		out.insert(0, "#define OPENGL_ES\n");
 //#endif
+        
+        std::string out;
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
 		{
@@ -20,7 +22,7 @@ namespace ma
 		}
 
 		if (defines == NULL || strcmp(defines,"") == 0 )
-			return;
+			return out;
 
 		std::vector<std::string> arrTok = StringUtil::split(defines,";");
 
@@ -37,6 +39,8 @@ namespace ma
 			const char* pszMacro = GetRenderSystem()->GetShaderGlobaMacroByIndex(i, pszValue);
 			out += string("#define ") + string(pszMacro) + " " + pszValue + "\n";
 		}
+        
+        return out;
 	}
 
 	void ReplaceIncludes(const char* filepath, const char* source, std::string& out)
@@ -115,7 +119,7 @@ namespace ma
 		}
 	}
 
-	std::string PrePareShaderSource(const char* shPath, const char* defines)
+	std::string PrePareShaderSource(const char* shPath, const std::string definesStr)
 	{
 		// Read source from file.
 		RefPtr<MemoryStream> pDataStream = GetArchiveMananger()->ReadAll(shPath);
@@ -132,8 +136,8 @@ namespace ma
 		const uint32_t SHADER_SOURCE_LENGTH = 3;
 		const char* shaderSource[SHADER_SOURCE_LENGTH];
 		// Replace all comma separated definitions with #define prefix and \n suffix
-		std::string definesStr = "";
-		ReplaceDefines(defines, definesStr);
+		//std::string definesStr = "";
+		//ReplaceDefines(defines, definesStr);
 
 		shaderSource[0] = definesStr.c_str();
 		shaderSource[1] = "\n";

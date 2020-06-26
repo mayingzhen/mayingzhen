@@ -4,6 +4,7 @@ project(imgui)
 file(GLOB_RECURSE imgui 
 	${CMAKE_CURRENT_SOURCE_DIR}/imgui.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/imgui_draw.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/imgui_widgets.cpp
 	)
 source_group("imgui" FILES ${imgui})
 

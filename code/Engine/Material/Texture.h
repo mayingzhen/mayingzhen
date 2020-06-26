@@ -100,6 +100,8 @@ namespace ma
 
 		float			GetLodBias() const {return m_fLodBias;}
 		void			SetLodBias(float fBias) {m_fLodBias = fBias;}
+        
+        virtual void    RT_StreamComplete() = 0;
 
 		bool			operator < ( const SamplerState& other) const;
 

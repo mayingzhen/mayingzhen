@@ -1,5 +1,6 @@
 #pragma once
 
+#import <Metal/Metal.h>
 
 namespace ma
 {

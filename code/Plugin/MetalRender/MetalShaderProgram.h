@@ -22,7 +22,7 @@ namespace ma
         
         virtual void RT_StreamComplete();
         
-        void CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize);
+        void CreateFromSource(const std::string& vsSource, const std::string& vsFun, const std::string& fsSource, const std::string fsFun);
         
         void Destory();
         

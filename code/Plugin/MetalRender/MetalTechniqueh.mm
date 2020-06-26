@@ -98,24 +98,25 @@ namespace ma
         
         m_pPipline = CreateMetalPipeline(this);
 
-		for (uint32_t i = 0; i < ShaderType_Number; ++i)
+		for (uint32_t iType = 0; iType < ShaderType_Number; ++iType)
 		{
-            ShaderType eType = (ShaderType)i;
+            ShaderType eType = (ShaderType)iType;
             
 			for (uint32_t j = 0; j < pShader->GetConstBufferCount(eType); ++j)
 			{
-				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex((ShaderType)i,j);
+				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex(eType,j);
                 RefPtr<MetalConstantBuffer> pConstantBuffer = CloneConstBuffer(pShaderCS);
 				pConstantBuffer->SetParent(this);
-				this->AddConstBuffer((ShaderType)i,pConstantBuffer.get());
+				this->AddConstBuffer(eType,pConstantBuffer.get());
 			}
 
-            for (uint32_t i = 0; i < pShader->GetSamplerCount(eType); ++i)
+            for (uint32_t j = 0; j < pShader->GetSamplerCount(eType); ++j)
             {
-                Uniform* pUniform = pShader->GetSamplerByIndex(eType,i);
+                Uniform* pUniform = pShader->GetSamplerByIndex(eType,j);
 
                 RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
                 pUniformCopy->SetTechnique(this);
+                pUniformCopy->SetShaderType(eType);
                 pUniformCopy->SetIndex(pUniform->GetIndex());
                 pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 
@@ -124,9 +125,9 @@ namespace ma
 
             BindUniform(nullptr,eType);
         
-            for (uint32_t i = 0; i < this->GetSamplerCount(eType); ++i)
+            for (uint32_t j = 0; j < this->GetSamplerCount(eType); ++j)
             {
-                uint32_t nIndex = this->GetSamplerByIndex(eType,i)->GetIndex();
+                uint32_t nIndex = this->GetSamplerByIndex(eType,j)->GetIndex();
                 //MetalSamplerStateObject* pSampler = (MetalSamplerStateObject*)this->GetActiveSampler((ShaderType)shader,nIndex);
                // if (pSampler == NULL)
                //     continue;

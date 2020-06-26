@@ -4,6 +4,7 @@
 #include "MetalVertexDeclaration.h"
 #include "MetalTexture.h"
 
+#include "../../Common/StringHash.h"
 #include "../../Engine/Material/PrePareShaderSource.h"
 
 #include "glslang/glslang/Include/ResourceLimits.h"
@@ -34,23 +35,18 @@ namespace ma
 	{
 	}
 
-	void MetalShaderProgram::CreateFromSource(const char* vshSource, uint32_t vshSize, const char* fshSource, uint32_t fshSize)
+	void MetalShaderProgram::CreateFromSource(const std::string& vsSource, const std::string& vsFun, const std::string& fsSource, const std::string fsFun)
 	{
 		Destory();
 
-		ASSERT(vshSource);
-		ASSERT(fshSource);
-		if (vshSource == NULL || fshSource == NULL)
-			return;
-
         const ShaderCreateInfo& info = this->GetShaderCreateInfo();
         
-		if (vshSize > 0)
+        if (!vsSource.empty())
 		{
             MTLCompileOptions* options = [[[MTLCompileOptions alloc] init] autorelease];
             
-            NSString* ns_src_content = [NSString stringWithUTF8String:vshSource];
-            //NSString* ns_src_content = [[NSString alloc] initWithBytes:vshSource length:vshSize encoding:NSUTF8StringEncoding];
+            NSString* ns_src_content = [NSString stringWithUTF8String:vsSource.c_str()];
+            NSString* ns_fun = [NSString stringWithUTF8String:vsFun.c_str()];
             
             NSError* ns_error = nil;
             
@@ -61,7 +57,7 @@ namespace ma
                 LogError("Shader vs %s compile error: %s", info.m_strVSFile.c_str(), ns_error.localizedDescription.UTF8String);
             }
             
-            m_pVertexShader = [library newFunctionWithName:@"main0"];
+            m_pVertexShader = [library newFunctionWithName:ns_fun];
             ASSERT(m_pVertexShader);
         
             /*
@@ -83,11 +79,12 @@ namespace ma
         }
 
 
-		if (fshSize > 0)
+        if (!fsSource.empty())
 		{
             MTLCompileOptions* options = [[[MTLCompileOptions alloc] init] autorelease];
             
-            NSString* ns_src_content = [NSString stringWithUTF8String:fshSource];
+            NSString* ns_src_content = [NSString stringWithUTF8String:fsSource.c_str()];
+            NSString* ns_fun = [NSString stringWithUTF8String:fsFun.c_str()];
             
             NSError* ns_error = nil;
             
@@ -98,7 +95,7 @@ namespace ma
                 LogError("Shader vs %s compile error: %s", info.m_strPSFile.c_str(), ns_error.localizedDescription.UTF8String);
             }
             
-            m_pPiexelShader = [library newFunctionWithName:@"main0"];
+            m_pPiexelShader = [library newFunctionWithName:ns_fun];
             ASSERT(m_pPiexelShader);
 		}
 
@@ -147,6 +144,7 @@ namespace ma
             else if (arg.type == MTLArgumentTypeTexture)
             {
                 RefPtr<Uniform> pUniform = CreateUniform(arg.name.UTF8String);
+                pUniform->SetShaderType(VS);
                 pUniform->SetIndex(arg.index);
                 
                 this->AddSampler(VS,pUniform.get());
@@ -191,6 +189,7 @@ namespace ma
             else if (arg.type == MTLArgumentTypeTexture)
             {
                 RefPtr<Uniform> pUniform = CreateUniform(arg.name.UTF8String);
+                pUniform->SetShaderType(PS);
                 pUniform->SetIndex(arg.index);
                 
                 this->AddSampler(PS,pUniform.get());
@@ -327,7 +326,7 @@ namespace ma
     }
 
     
-    std::string HlslToMsl(const char* vshSource, uint32_t vshSize, ShaderType eType)
+    std::string HlslToMsl(const std::string& shSource, const std::string& strFunName, ShaderType eType)
     {
         //VS
         EShLanguage stage = FindLanguage(eType);
@@ -340,9 +339,9 @@ namespace ma
         // Enable SPIR-V and Vulkan rules when parsing GLSL
         EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules | EShMsgReadHlsl);
         
-        shaderStrings[0] = vshSource;
+        shaderStrings[0] = shSource.c_str();
         shader.setStrings(shaderStrings, 1);
-        shader.setEntryPoint("main");
+        shader.setEntryPoint(strFunName.c_str());
         
         if ( !shader.parse(&Resources, 100, false, messages) )
         {
@@ -455,25 +454,80 @@ namespace ma
     
     void MetalShaderProgram::RT_StreamComplete()
     {
-        ASSERT(GetResState() == ResLoaded);
+        ASSERT(GetResState() == ResLoadIng);
         
         std::string strPath = GetRenderSystem()->GetShaderPath();
         
         const ShaderCreateInfo& info = this->GetShaderCreateInfo();
         
-        std::string strPathVS = strPath + info.m_strVSFile + ".vert";
-        std::string strPathFS = strPath + info.m_strPSFile + ".frag";
+        std::vector<std::string> vecSplit = StringUtil::split(info.m_strVSFile, ":");
+        ASSERT(vecSplit.size() == 2);
+        std::string strPathVS = strPath + vecSplit[0];
+        std::string strVSFunName = vecSplit[1];
         
-        std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), info.m_shaderMacro.c_str());
-        std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), info.m_shaderMacro.c_str());
+        vecSplit = StringUtil::split(info.m_strPSFile, ":");
+        ASSERT(vecSplit.size() == 2);
+        std::string strPathFS = strPath + vecSplit[0];
+        std::string strFSFunName = vecSplit[1];
+    
         
-        std::string strMslVSSource = HlslToMsl(strVshSource.c_str(), strVshSource.size(), VS);
-        std::string strMslFSSource = HlslToMsl(strFshSource.c_str(), strFshSource.size(), PS);
+        std::string strMacro = ReplaceDefines(info.m_shaderMacro.c_str());
+        std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), strMacro);
+        std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), strMacro);
         
-        CreateFromSource(strMslVSSource.c_str(), strMslVSSource.length(),
-                         strMslFSSource.c_str(), strMslFSSource.length());
+        std::string strMslVSSource = HlslToMsl(strVshSource, strVSFunName, VS);
+        std::string strMslFSSource = HlslToMsl(strFshSource, strFSFunName, PS);
         
-        SetResState(ResInited);
+        if (0)
+        {
+            uint32_t hashid = StringHash::Calculate(strMacro.c_str());
+            std::string strHashId = StaticFunc::ToString(hashid);
+            std::string savePath = GetArchiveMananger()->GetSaveDir();
+            std::string saveVSPath = savePath + strHashId + ".vs";
+            FILE *fp = fopen(saveVSPath.c_str(),"w+");
+            //ASSERT(fp);
+            if(fp)
+            {
+                fprintf(fp,"%s",strMslVSSource.c_str());
+                fclose(fp);
+            }
+        }
+        
+        if (0)
+        {
+           // NSFileManager *fileManager = [NSFileManagerdefaultManager];
+
+            //if ([fileManagerfileExistsAtPath:filePath])
+           // {
+          //      NSLog(@"FileExists");/
+          //  }
+           // else
+            //{
+            //    NSLog(@"FileNotExists");
+           //     [fileManager createFileAtPath:filePathcontents:nilattributes:nil];
+           // }
+
+            
+            NSString* vs_src_content = [NSString stringWithUTF8String:strMslVSSource.c_str()];
+            
+            char macroFilePath[128];
+            uint32_t hashid = StringHash::Calculate(strMacro.c_str());
+            sprintf(macroFilePath, "%08x.macro", hashid);
+            NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString* documentsDirectory = [paths objectAtIndex:0];
+            NSString *appFile=[documentsDirectory stringByAppendingPathComponent:@"personal.plist"];
+            //NSString* appFile = [NSString stringWithFormat:@"%@/%s", documentsDirectory, macroFilePath];
+            [vs_src_content writeToFile:appFile atomically:YES];
+            
+            //char mtlFile[128];
+            //sprintf(mtlFile, "%08x_%08x.metal", StringID(source->Path.c_str()), source->Defines->GetStringID());
+            //NSString* mtlFilePath = [NSString stringWithFormat:@"%@/shaders/%s", documentsDirectory, mtlFile];
+            //[ns_src_content writeToFile:mtlFilePath atomically:NO];
+        }
+        
+        CreateFromSource(strMslVSSource, strVSFunName, strMslFSSource, strFSFunName);
+        
+        SetResState(ResReady);
     }
     
 }

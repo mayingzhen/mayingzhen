@@ -21,7 +21,7 @@ namespace ma
 
 		{
 			PostProcessPipeline* pPostProcess = GetPostProcess();
-			PostProcess* pHDR = pPostProcess->GetPostProcess("HDR");
+			PostProcess* pHDR = pPostProcess ? pPostProcess->GetPostProcess("HDR") : NULL;
 			if (pHDR)
 			{
 				PostProcessStep* pStepTonemap = pHDR->GetStep("ToneMap");
@@ -47,7 +47,7 @@ namespace ma
 		pShpere->Translate(Vector3(0.0f, 0.0f, 0.0f));
 
 		RefPtr<MeshComponent> pMeshComp = pShpere->CreateComponent<MeshComponent>();
-		pMeshComp->Load("Fbx/shpere.skn","Fbx/Box.mtl");
+		pMeshComp->Load("fbx/shpere.skn","fbx/Box.mtl");
 
 		SubMaterial* pSubMaterial = pMeshComp->GetSubMaterial(0);
 
@@ -112,6 +112,8 @@ namespace ma
 
 	void SampleIBL::Update()
 	{
+        return;
+        
 		GetUI()->Begin("Material"); 
 		GetUI()->SliderFloat("Metalness", &m_fMetalness, 0.0f, 1.0f);           
 		GetUI()->SliderFloat("Glossiness", &m_fGlossiness, 0.0f, 1.0f);

@@ -1,5 +1,6 @@
 #pragma once
 
+#import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 #include <dispatch/semaphore.h>
 #include <atomic>

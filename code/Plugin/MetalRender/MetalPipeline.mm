@@ -45,7 +45,7 @@ namespace ma
         [pipelineStateDescriptor setFragmentFunction:pShader->m_pPiexelShader];
         [pipelineStateDescriptor setVertexDescriptor:pMetalVertexDec->m_descriptor];
         
-        for (uint32_t i = 0 ; i < MAX_RENDERTARGETS; ++i)
+        for (uint32_t i = 0 ; i < pRenderPass->m_arrColor.size(); ++i)
         {
             Texture* pRT = pRenderPass->m_arrColor[i].m_pTexture.get();
             if (pRT == NULL)
@@ -58,9 +58,9 @@ namespace ma
             pipelineStateDescriptor.colorAttachments[i].pixelFormat = pMetalRT->m_descFormat;
         }
         
-        if (pRenderPass->m_pDepthStencil)
+        if (pRenderPass->m_depthStencil.m_pTexture)
         {
-            MetalTexture* pMetalRT = (MetalTexture*)(pRenderPass->m_pDepthStencil.get());
+            MetalTexture* pMetalRT = (MetalTexture*)(pRenderPass->m_depthStencil.m_pTexture.get());
             
             pipelineStateDescriptor.depthAttachmentPixelFormat = pMetalRT->m_descFormat;
         }

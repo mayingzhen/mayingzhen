@@ -220,12 +220,12 @@ namespace ma
         MetalTexture* pDefault = new MetalTexture();
         pDefault->m_descFormat = MTLPixelFormatBGRA8Unorm_sRGB;
         pDefault->m_native = pass_desc.colorAttachments[0].texture;
-        m_pDefaultRenderPass->AttachColor(0, pDefault);
+        m_pDefaultRenderPass->AttachColor(0, RenderSurface(pDefault));
         
         MetalTexture* pDs = new MetalTexture();
         pDs->m_descFormat = MTLPixelFormatDepth32Float;
         pDs->m_native = pass_desc.depthAttachment.texture;
-        m_pDefaultRenderPass->AttachDepthStencil(pDs);
+        m_pDefaultRenderPass->AttachDepthStencil(RenderSurface(pDs));
         
         m_pDefaultRenderPass->m_pass_desc = pass_desc;
         

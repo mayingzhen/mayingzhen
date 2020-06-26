@@ -8,13 +8,13 @@ namespace ma
 	public:
 		virtual void Render(Technique* pTechnique, RenderCommand* pRenderCommand)
 		{
-			pRenderCommand->SetScissor(0, 1, &m_scissor);
+			pRenderCommand->SetScissor(m_scissor);
 
 			Renderable::Render(pTechnique, pRenderCommand);
 		}
 
 	public:
-		Vector4 m_scissor;
+		Rectangle m_scissor;
 	};
 
 	UI::UI()
@@ -98,7 +98,7 @@ namespace ma
 			m_pUIBuffer->LockVideoMemory();
 		}
 
-		ImGui::NewFrame();
+		//ImGui::NewFrame();
 	}
 
 	UIRenderable* UI::GetRenderable(uint32_t nIndex)
@@ -176,11 +176,11 @@ namespace ma
 				{
 					// Apply scissor/clipping rectangle
 					// FIXME: We could clamp width/height based on clamped min/max values.
-					Vector4 scissor;
-					scissor.x = (int32_t)(pcmd->ClipRect.x - display_pos.x) > 0 ? (int32_t)(pcmd->ClipRect.x - display_pos.x) : 0;
-					scissor.y = (int32_t)(pcmd->ClipRect.y - display_pos.y) > 0 ? (int32_t)(pcmd->ClipRect.y - display_pos.y) : 0;
-					scissor.z = (uint32_t)(pcmd->ClipRect.z - pcmd->ClipRect.x);
-					scissor.w = (uint32_t)(pcmd->ClipRect.w - pcmd->ClipRect.y + 1); // FIXME: Why +1 here?
+					Rectangle scissor;
+					scissor.left = (int32_t)(pcmd->ClipRect.x - display_pos.x) > 0 ? (int32_t)(pcmd->ClipRect.x - display_pos.x) : 0;
+					scissor.top = (int32_t)(pcmd->ClipRect.y - display_pos.y) > 0 ? (int32_t)(pcmd->ClipRect.y - display_pos.y) : 0;
+					scissor.right = scissor.left + (uint32_t)(pcmd->ClipRect.z - pcmd->ClipRect.x);
+					scissor.bottom = scissor.top + (uint32_t)(pcmd->ClipRect.w - pcmd->ClipRect.y + 1); // FIXME: Why +1 here?
 
 					UIRenderable* pRenderable = GetRenderable(nUsedCount++);
 					pRenderable->m_pVertexBuffer = m_pUIBuffer->GetVertexBuffer();
@@ -201,6 +201,8 @@ namespace ma
 
 	void UI::Render()
 	{
+        return;
+        
 		ImGui::Render();
 
 		if (m_bInit)

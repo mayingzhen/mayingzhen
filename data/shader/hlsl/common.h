@@ -1,4 +1,3 @@
-
 cbuffer FrameVS : register(b0)
 {	
 	float g_fTime;
