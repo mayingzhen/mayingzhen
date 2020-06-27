@@ -44,6 +44,10 @@ namespace ma
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;
 
 		RefPtr<Technique> pShadingTech;
+        
+        RefPtr<RasterizerState> rs = CreateRasterizerState();
+        RefPtr<DepthStencilState> ds = CreateDepthStencilState();
+        RefPtr<BlendState> bs = CreateBlendState();
 
 		bool bSkin = strMacro.find("SKIN") != std::string::npos;
 		if (bSkin)
@@ -57,6 +61,9 @@ namespace ma
             RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 5);
             
 			ShaderCreateInfo info;
+            info.m_pDSState = CreateDepthStencilState();
+            info.m_pRSState = CreateRasterizerState();
+            info.m_pBlendState = CreateBlendState();
 			info.m_strVSFile = "mesh.hlsl:vs_main";
 			info.m_strPSFile = "mesh.hlsl:ps_main";
 			info.m_pVertexDecl = pDeclaration;
@@ -75,6 +82,9 @@ namespace ma
             RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(vec_element.data(), vec_element.size());
             
 			ShaderCreateInfo info;
+            info.m_pDSState = CreateDepthStencilState();
+            info.m_pRSState = CreateRasterizerState();
+            info.m_pBlendState = CreateBlendState();
 			info.m_strVSFile = "mesh.hlsl:vs_main";
 			info.m_strPSFile = "mesh.hlsl:ps_main";
 			info.m_pVertexDecl = pDeclaration;

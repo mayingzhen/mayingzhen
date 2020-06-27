@@ -20,13 +20,19 @@ namespace ma
 		RefPtr<RenderPass>				m_pRenderPass;
 
 		std::string						m_strCSFile;
-
 		std::string						m_strVSFile;
 		std::string						m_strPSFile;
 		std::string						m_strGSFile;
 		std::string						m_shaderMacro;
 
 		PRIMITIVE_TYPE					m_ePrimitiveType = PRIM_TRIANGLELIST;
+        
+        ShaderCreateInfo()
+        {
+            m_pBlendState = CreateBlendState();
+            m_pDSState = CreateDepthStencilState();
+            m_pRSState = CreateRasterizerState();
+        }
 
 		bool operator < (const ShaderCreateInfo& other) const
 		{

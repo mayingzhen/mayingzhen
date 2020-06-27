@@ -29,7 +29,6 @@ namespace ma
         
         id<MTLParallelRenderCommandEncoder> m_parallelRCE;
         
-		//std::vector<VkClearValue> m_vecClearValues;
         std::vector< RefPtr<MetalRenderCommand> > m_arrRenderCommand;
 	};
 

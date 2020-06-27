@@ -126,7 +126,7 @@ namespace ma
             
                 MetalTexture* pMetalTexure = (MetalTexture*)(pMetalSampler->GetTexture());
             
-                //if (m_preTexture[eShader][nIndex] != pMetalTexure->GetNative())
+                if (m_preTexture[eShader][nIndex] != pMetalTexure->GetNative())
                 {
                     if (eShader == VS)
                     {
@@ -140,7 +140,7 @@ namespace ma
                     m_preTexture[eShader][nIndex] = pMetalTexure->GetNative();
                 }
          
-                //if (m_preSampler[eShader][nIndex] != pMetalSampler->m_pImpl)
+                if (m_preSampler[eShader][nIndex] != pMetalSampler->m_pImpl)
                 {
                     if (eShader == VS)
                     {
