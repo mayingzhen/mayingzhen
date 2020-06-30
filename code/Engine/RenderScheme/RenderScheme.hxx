@@ -282,8 +282,8 @@ namespace ma
 			pDec->AddElement(VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0));
 
 			ShaderCreateInfo Info;
-			Info.m_strVSFile = "deferredlight.vert:main";
-			Info.m_strPSFile = "deferredlight.frag:main";
+			Info.m_strVSFile = "deferredlight.vert:vs_main";
+			Info.m_strPSFile = "deferredlight.frag:ps_main";
 			Info.m_pRenderPass = m_pLightPass;
 			Info.m_pDSState = pDS;
 			Info.m_pVertexDecl = pDec;

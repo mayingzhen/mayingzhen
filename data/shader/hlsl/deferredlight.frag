@@ -118,7 +118,7 @@ void AmbientLightPS(VS_OUT In, out PS_OUT pOut)
 }
 
 
-void main( VS_OUT vout, out PS_OUT pout ) 
+void ps_main( VS_OUT vout, out PS_OUT pout ) 
 {
 #ifdef AMBIENT_LIGHT
    AmbientLightPS(vout,pout);  

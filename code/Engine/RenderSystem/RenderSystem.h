@@ -143,7 +143,7 @@ namespace ma
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro
 		bool				m_bNeedReloadShader;
 
-		bool					m_bThread;
+		bool				m_bThread;
 	};
 
 	extern RenderSystem* g_pRenderSystem;

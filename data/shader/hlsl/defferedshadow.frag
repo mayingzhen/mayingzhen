@@ -43,7 +43,7 @@ float BlendVP(float3 vp, bool blendOut)
 }
 
 
-void main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
+void ps_main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
 {
 	//float fLinearDepth = GetLinearDepth(In.oTc);
 	//float4 vTempPos = CalcHomogeneousPosDepth(WPos.xy,fLinearDepth);

@@ -25,7 +25,7 @@ float4 CalcBlur(float4 iTex0, float4 iTex1, float4 iTex2, float4 iTex3, float2 o
 	return color;
 }
 
-float4 main(float4 iTex0 : TEXCOORD0,
+float4 ps_main(float4 iTex0 : TEXCOORD0,
 				float4 iTex1 : TEXCOORD1,
 				float4 iTex2 : TEXCOORD2,
 				float4 iTex3 : TEXCOORD3,

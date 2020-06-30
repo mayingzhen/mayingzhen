@@ -13,7 +13,7 @@ float2 TexCoordFromPos(float4 pos)
 }
 
 
-void main(float3 pos : POSITION,
+void vs_main(float3 pos : POSITION,
 					out float4 oTex0 : TEXCOORD0,
 					out float4 oTex1 : TEXCOORD1,
 					out float4 oTex2 : TEXCOORD2,

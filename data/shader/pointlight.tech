@@ -1,5 +1,5 @@
 <Technique>
-	<Shader VSFile="deferredlight.vert:main" PSFile="deferredlight.frag:main" Macro="POINT_LIGHT">
+	<Shader VSFile="deferredlight.vert:vs_main" PSFile="deferredlight.frag:ps_main" Macro="POINT_LIGHT">
 		<VertexDeclaration>
 			<Element Value="0,0,DT_FLOAT3,DU_POSITION,0"/>
 		</VertexDeclaration>

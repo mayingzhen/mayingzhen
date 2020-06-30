@@ -1,5 +1,3 @@
-#include "common.h"
-
    
 struct VS_OUT
 {
@@ -12,13 +10,15 @@ cbuffer ObjectVS : register(b5)
 {
 	float4x4 g_matWorldViewProj;
 	float4x4 g_matWorldView;
+    
+    float4x4 g_matProjInv;
 	
 	float3 pos_extent;
 	float3 pos_center;
 };
 
 
-void main(
+void vs_main(
 #if defined(AMBIENT_LIGHT) || defined(DIRECT_LIGHT)
 	float2 pos : POSITION,
 	float2 iUV : TEXCOORD0,
