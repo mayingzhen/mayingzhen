@@ -119,7 +119,7 @@ namespace ma
 		}
 	}
 
-	std::string PrePareShaderSource(const char* shPath, const std::string definesStr)
+	std::string PrePareShaderSource(const char* shPath, const std::string& definesStr)
 	{
 		// Read source from file.
 		RefPtr<MemoryStream> pDataStream = GetArchiveMananger()->ReadAll(shPath);

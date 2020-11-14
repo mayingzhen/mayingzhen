@@ -377,19 +377,7 @@ namespace ma
 
 	const char*	RenderSystem::GetShaderPath()
 	{
-		RenderDeviceType type = GetRenderDevice()->GetRenderDeviceType();
-		if (type == RenderDevice_METAL)
-        {
-            return "shader/hlsl/";
-        }
-		else if (type == RenderDevice_VULKAN)
-		{
-			return "shader/hlsl/";
-		}
-        else
-		{
-			return "shader/hlsl/";
-		}
+		return "shader/hlsl/";
 	}	
 
 	bool RenderSystem::AddShaderGlobaMacro(const char* pszKey, const char* pszValue)

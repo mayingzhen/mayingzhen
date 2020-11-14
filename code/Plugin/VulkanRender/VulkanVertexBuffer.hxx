@@ -27,6 +27,18 @@ namespace ma
 		m_vertexBuffer.unmap();
 	}
 
+	void VulkanVertexBuffer::RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
+	{
+		if (m_vertexBuffer.device == VK_NULL_HANDLE)
+			return;
+
+		VK_CHECK_RESULT(m_vertexBuffer.map(nSize, nOffset));
+
+		memcpy(m_vertexBuffer.mapped, pData, nSize);
+
+		m_vertexBuffer.unmap();
+	}
+
 	void VulkanVertexBuffer::RT_StreamComplete()
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();

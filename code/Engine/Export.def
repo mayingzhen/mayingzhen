@@ -220,3 +220,6 @@ EXPORTS
 ?LoadSync@Resource@ma@@UEAA_NPEBD@Z
 ?Compute@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVComputeCommad@2@@Z
 ?SetTexture@ParticleComponent@ma@@QEAAXPEBD@Z
+?CreateDepthStencilState@ma@@YA?AV?$RefPtr@VDepthStencilState@ma@@@1@XZ
+??0ShaderCreateInfo@ma@@QEAA@XZ
+?GetRotation@SceneNode@ma@@QEBAAEBVQuaternion@2@XZ

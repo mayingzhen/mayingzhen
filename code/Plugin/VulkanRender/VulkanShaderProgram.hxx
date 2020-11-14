@@ -339,7 +339,8 @@ namespace ma
 		std::string strPathFile = strPath + vecSplit[0];
 		m_strFunName[type] = vecSplit[1];
 
-		std::string strSource = PrePareShaderSource(strPathFile.c_str(), info.m_shaderMacro.c_str());
+		std::string strMacro = ReplaceDefines(info.m_shaderMacro.c_str());
+		std::string strSource = PrePareShaderSource(strPathFile.c_str(), strMacro);
 
 		vks::VulkanDevice* device = GetVulkanDevice();
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();

@@ -26,7 +26,7 @@ namespace ma
 
 		virtual void SetViewPort(const Rectangle& viewPort);
 
-		virtual void SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors);
+		virtual void SetScissor(const Rectangle& viewPort);
 
 		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount);
 

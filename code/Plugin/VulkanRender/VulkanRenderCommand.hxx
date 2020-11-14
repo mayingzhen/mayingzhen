@@ -50,15 +50,9 @@ namespace ma
 
 		VK_CHECK_RESULT(vkBeginCommandBuffer(m_vkCmdBuffer, &commandBufferBeginInfo));
 
-		Rectangle rect = m_pRenderPass->m_viewPort;
+		this->SetViewPort(m_pRenderPass->m_viewPort);
 
-		VkViewport viewport = vks::initializers::viewport((float)rect.width(), (float)rect.height(), 0.0f, 1.0f);
-		viewport.x = rect.offsetX();
-		viewport.y = rect.offsetY();
-		vkCmdSetViewport(m_vkCmdBuffer, 0, 1, &viewport);
-
-		VkRect2D scissor = vks::initializers::rect2D((int)rect.width(), (int)rect.height(), 0, 0);
-		vkCmdSetScissor(m_vkCmdBuffer, 0, 1, &scissor);
+		this->SetScissor(m_pRenderPass->m_viewPort);
 
 		m_pPreIB = NULL;
 		memset(m_pPreVB, 0, sizeof(m_pPreVB));
@@ -131,22 +125,39 @@ namespace ma
 		VkViewport vk_viewport = vks::initializers::viewport((float)viewPort.width(), (float)viewPort.height(), 0.0f, 1.0f);
 		vk_viewport.x = viewPort.offsetX();
 		vk_viewport.y = viewPort.offsetY();
+
+		if (1)
+		{
+			VkViewport FlippedViewport = vk_viewport;
+			FlippedViewport.y += FlippedViewport.height;
+			FlippedViewport.height = -FlippedViewport.height;
+			vk_viewport = FlippedViewport;
+		}
+
 		vkCmdSetViewport(m_vkCmdBuffer, 0, 1, &vk_viewport);
+
 	}
 
-	void VulkanRenderCommand::SetScissor(uint32_t firstScissor, uint32_t scissorCount, const Vector4* pScissors)
+	void VulkanRenderCommand::SetScissor(const Rectangle& viewPort)
 	{
-		std::vector<VkRect2D> vecScissor(scissorCount);
-		for (uint32_t i = 0; i < scissorCount; ++i)
-		{
-			VkRect2D scissor;
-			scissor.offset.x = (uint32_t)pScissors[0].x;
-			scissor.offset.y = (uint32_t)pScissors[0].y;
-			scissor.extent.width = (uint32_t)pScissors[0].z;
-			scissor.extent.height = (uint32_t)pScissors[0].w;
-			vecScissor[i] = scissor;
-		}
-		vkCmdSetScissor(m_vkCmdBuffer, firstScissor, scissorCount, &vecScissor[0]);
+// 		std::vector<VkRect2D> vecScissor(scissorCount);
+// 		for (uint32_t i = 0; i < scissorCount; ++i)
+// 		{
+// 			VkRect2D scissor;
+// 			scissor.offset.x = (uint32_t)pScissors[0].x;
+// 			scissor.offset.y = (uint32_t)pScissors[0].y;
+// 			scissor.extent.width = (uint32_t)pScissors[0].z;
+// 			scissor.extent.height = (uint32_t)pScissors[0].w;
+// 			vecScissor[i] = scissor;
+// 		}
+		std::vector<VkRect2D> vecScissor(1);
+		VkRect2D scissor;
+		scissor.offset.x = (uint32_t)viewPort.offsetX();
+		scissor.offset.y = (uint32_t)viewPort.offsetY();
+ 		scissor.extent.width = (uint32_t)viewPort.width();
+		scissor.extent.height = (uint32_t)viewPort.height();
+ 		vecScissor[0] = scissor;
+		vkCmdSetScissor(m_vkCmdBuffer, 0, 1, &vecScissor[0]);
 	}
 
 

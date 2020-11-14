@@ -27,12 +27,7 @@ namespace ma
 
 		PRIMITIVE_TYPE					m_ePrimitiveType = PRIM_TRIANGLELIST;
         
-        ShaderCreateInfo()
-        {
-            m_pBlendState = CreateBlendState();
-            m_pDSState = CreateDepthStencilState();
-            m_pRSState = CreateRasterizerState();
-        }
+		ShaderCreateInfo();
 
 		bool operator < (const ShaderCreateInfo& other) const
 		{

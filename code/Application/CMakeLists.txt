@@ -8,9 +8,11 @@ source_group("Android" FILES ${Android})
 file(GLOB_RECURSE Input ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.h*)
 source_group("Input" FILES ${Input})
 
+
 file(GLOB_RECURSE iOS_h ${CMAKE_CURRENT_SOURCE_DIR}/iOS/*.h*)
 file(GLOB_RECURSE iOS_mm ${CMAKE_CURRENT_SOURCE_DIR}/iOS/*.mm)
 source_group("iOS" FILES ${iOS_h} ${iOiOS_mm})
+
 
 file(GLOB_RECURSE Win ${CMAKE_CURRENT_SOURCE_DIR}/Win/*.h*)
 source_group("Win" FILES ${Win})
@@ -23,9 +25,11 @@ set(SOURCE_FILES
 		${Win}
 		${Application}
 		Module.cpp
-		${iOS_h} 
-		${iOS_mm}
 		)
+	
+if (iOS)
+	list(APPEND SOURCE_FILES ${iOS_h} ${iOS_mm})
+endif()
 
 include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}/../"

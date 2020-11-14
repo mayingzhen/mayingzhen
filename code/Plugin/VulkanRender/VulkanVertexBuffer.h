@@ -19,6 +19,8 @@ namespace ma
 
 		virtual void	RT_StreamComplete();
 
+		virtual void	RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize);
+
 	public:
 		vks::Buffer		m_vertexBuffer;
 	};

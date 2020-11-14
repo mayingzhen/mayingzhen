@@ -67,6 +67,9 @@ namespace ma
 
 		Frustum				m_lightFrustum;
 
+		float				m_fNear = 0.0f;
+		float				m_fFar = 0.0f;
+
 		float				m_fConstantBias;
 		float				m_fSlopeScaleBias;
 

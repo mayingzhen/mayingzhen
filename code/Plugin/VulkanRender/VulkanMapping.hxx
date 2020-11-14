@@ -267,7 +267,7 @@ VkStencilOp VulkanMapping::get(StencilOperation op, bool invert)
 	case SOP_REPLACE:
 		return VK_STENCIL_OP_REPLACE;
 	case SOP_INCREMENT:
-		return VK_STENCIL_OP_INVERT;
+		return VK_STENCIL_OP_INCREMENT_AND_CLAMP;
 	case SOP_DECREMENT:
 		return VK_STENCIL_OP_DECREMENT_AND_CLAMP;
 	case SOP_INCREMENT_WRAP:

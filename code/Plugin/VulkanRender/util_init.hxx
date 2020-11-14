@@ -27,7 +27,7 @@ samples "init" utility functions
 #include <assert.h>
 #include <string.h>
 #include "util_init.hpp"
-#include "cube_data.h"
+//#include "cube_data.h"
 
 using namespace std;
 
@@ -508,102 +508,102 @@ void init_window_size(struct sample_info &info, int32_t default_width, int32_t d
 }
 
 void init_depth_buffer(struct sample_info &info) {
-    VkResult U_ASSERT_ONLY res;
-    bool U_ASSERT_ONLY pass;
-    VkImageCreateInfo image_info = {};
-
-    /* allow custom depth formats */
-    if (info.depth.format == VK_FORMAT_UNDEFINED) info.depth.format = VK_FORMAT_D16_UNORM;
-
-#ifdef __ANDROID__
-    // Depth format needs to be VK_FORMAT_D24_UNORM_S8_UINT on Android.
-    const VkFormat depth_format = VK_FORMAT_D24_UNORM_S8_UINT;
-#else
-    const VkFormat depth_format = info.depth.format;
-#endif
-    VkFormatProperties props;
-    vkGetPhysicalDeviceFormatProperties(info.gpus[0], depth_format, &props);
-    if (props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
-        image_info.tiling = VK_IMAGE_TILING_LINEAR;
-    } else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
-        image_info.tiling = VK_IMAGE_TILING_OPTIMAL;
-    } else {
-        /* Try other depth formats? */
-        std::cout << "depth_format " << depth_format << " Unsupported.\n";
-        exit(-1);
-    }
-
-    image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-    image_info.pNext = NULL;
-    image_info.imageType = VK_IMAGE_TYPE_2D;
-    image_info.format = depth_format;
-    image_info.extent.width = info.width;
-    image_info.extent.height = info.height;
-    image_info.extent.depth = 1;
-    image_info.mipLevels = 1;
-    image_info.arrayLayers = 1;
-    image_info.samples = NUM_SAMPLES;
-    image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-    image_info.queueFamilyIndexCount = 0;
-    image_info.pQueueFamilyIndices = NULL;
-    image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    image_info.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-    image_info.flags = 0;
-
-    VkMemoryAllocateInfo mem_alloc = {};
-    mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    mem_alloc.pNext = NULL;
-    mem_alloc.allocationSize = 0;
-    mem_alloc.memoryTypeIndex = 0;
-
-    VkImageViewCreateInfo view_info = {};
-    view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-    view_info.pNext = NULL;
-    view_info.image = VK_NULL_HANDLE;
-    view_info.format = depth_format;
-    view_info.components.r = VK_COMPONENT_SWIZZLE_R;
-    view_info.components.g = VK_COMPONENT_SWIZZLE_G;
-    view_info.components.b = VK_COMPONENT_SWIZZLE_B;
-    view_info.components.a = VK_COMPONENT_SWIZZLE_A;
-    view_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
-    view_info.subresourceRange.baseMipLevel = 0;
-    view_info.subresourceRange.levelCount = 1;
-    view_info.subresourceRange.baseArrayLayer = 0;
-    view_info.subresourceRange.layerCount = 1;
-    view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-    view_info.flags = 0;
-
-    if (depth_format == VK_FORMAT_D16_UNORM_S8_UINT || depth_format == VK_FORMAT_D24_UNORM_S8_UINT ||
-        depth_format == VK_FORMAT_D32_SFLOAT_S8_UINT) {
-        view_info.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
-    }
-
-    VkMemoryRequirements mem_reqs;
-
-    /* Create image */
-    res = vkCreateImage(info.device, &image_info, NULL, &info.depth.image);
-    assert(res == VK_SUCCESS);
-
-    vkGetImageMemoryRequirements(info.device, info.depth.image, &mem_reqs);
-
-    mem_alloc.allocationSize = mem_reqs.size;
-    /* Use the memory properties to determine the type of memory required */
-    pass =
-        memory_type_from_properties(info, mem_reqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, &mem_alloc.memoryTypeIndex);
-    assert(pass);
-
-    /* Allocate memory */
-    res = vkAllocateMemory(info.device, &mem_alloc, NULL, &info.depth.mem);
-    assert(res == VK_SUCCESS);
-
-    /* Bind memory */
-    res = vkBindImageMemory(info.device, info.depth.image, info.depth.mem, 0);
-    assert(res == VK_SUCCESS);
-
-    /* Create image view */
-    view_info.image = info.depth.image;
-    res = vkCreateImageView(info.device, &view_info, NULL, &info.depth.view);
-    assert(res == VK_SUCCESS);
+//     VkResult U_ASSERT_ONLY res;
+//     bool U_ASSERT_ONLY pass;
+//     VkImageCreateInfo image_info = {};
+// 
+//     /* allow custom depth formats */
+//     if (info.depth.format == VK_FORMAT_UNDEFINED) info.depth.format = VK_FORMAT_D16_UNORM;
+// 
+// #ifdef __ANDROID__
+//     // Depth format needs to be VK_FORMAT_D24_UNORM_S8_UINT on Android.
+//     const VkFormat depth_format = VK_FORMAT_D24_UNORM_S8_UINT;
+// #else
+//     const VkFormat depth_format = info.depth.format;
+// #endif
+//     VkFormatProperties props;
+//     vkGetPhysicalDeviceFormatProperties(info.gpus[0], depth_format, &props);
+//     if (props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
+//         image_info.tiling = VK_IMAGE_TILING_LINEAR;
+//     } else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
+//         image_info.tiling = VK_IMAGE_TILING_OPTIMAL;
+//     } else {
+//         /* Try other depth formats? */
+//         std::cout << "depth_format " << depth_format << " Unsupported.\n";
+//         exit(-1);
+//     }
+// 
+//     image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+//     image_info.pNext = NULL;
+//     image_info.imageType = VK_IMAGE_TYPE_2D;
+//     image_info.format = depth_format;
+//     image_info.extent.width = info.width;
+//     image_info.extent.height = info.height;
+//     image_info.extent.depth = 1;
+//     image_info.mipLevels = 1;
+//     image_info.arrayLayers = 1;
+//     image_info.samples = NUM_SAMPLES;
+//     image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+//     image_info.queueFamilyIndexCount = 0;
+//     image_info.pQueueFamilyIndices = NULL;
+//     image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+//     image_info.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+//     image_info.flags = 0;
+// 
+//     VkMemoryAllocateInfo mem_alloc = {};
+//     mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+//     mem_alloc.pNext = NULL;
+//     mem_alloc.allocationSize = 0;
+//     mem_alloc.memoryTypeIndex = 0;
+// 
+//     VkImageViewCreateInfo view_info = {};
+//     view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+//     view_info.pNext = NULL;
+//     view_info.image = VK_NULL_HANDLE;
+//     view_info.format = depth_format;
+//     view_info.components.r = VK_COMPONENT_SWIZZLE_R;
+//     view_info.components.g = VK_COMPONENT_SWIZZLE_G;
+//     view_info.components.b = VK_COMPONENT_SWIZZLE_B;
+//     view_info.components.a = VK_COMPONENT_SWIZZLE_A;
+//     view_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+//     view_info.subresourceRange.baseMipLevel = 0;
+//     view_info.subresourceRange.levelCount = 1;
+//     view_info.subresourceRange.baseArrayLayer = 0;
+//     view_info.subresourceRange.layerCount = 1;
+//     view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
+//     view_info.flags = 0;
+// 
+//     if (depth_format == VK_FORMAT_D16_UNORM_S8_UINT || depth_format == VK_FORMAT_D24_UNORM_S8_UINT ||
+//         depth_format == VK_FORMAT_D32_SFLOAT_S8_UINT) {
+//         view_info.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
+//     }
+// 
+//     VkMemoryRequirements mem_reqs;
+// 
+//     /* Create image */
+//     res = vkCreateImage(info.device, &image_info, NULL, &info.depth.image);
+//     assert(res == VK_SUCCESS);
+// 
+//     vkGetImageMemoryRequirements(info.device, info.depth.image, &mem_reqs);
+// 
+//     mem_alloc.allocationSize = mem_reqs.size;
+//     /* Use the memory properties to determine the type of memory required */
+//     pass =
+//         memory_type_from_properties(info, mem_reqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, &mem_alloc.memoryTypeIndex);
+//     assert(pass);
+// 
+//     /* Allocate memory */
+//     res = vkAllocateMemory(info.device, &mem_alloc, NULL, &info.depth.mem);
+//     assert(res == VK_SUCCESS);
+// 
+//     /* Bind memory */
+//     res = vkBindImageMemory(info.device, info.depth.image, info.depth.mem, 0);
+//     assert(res == VK_SUCCESS);
+// 
+//     /* Create image view */
+//     view_info.image = info.depth.image;
+//     res = vkCreateImageView(info.device, &view_info, NULL, &info.depth.view);
+//     assert(res == VK_SUCCESS);
 }
 
 void init_swapchain_extension(struct sample_info &info) {
@@ -948,67 +948,67 @@ void init_swap_chain(struct sample_info &info, VkImageUsageFlags usageFlags) {
 }
 
 void init_uniform_buffer(struct sample_info &info) {
-    VkResult U_ASSERT_ONLY res;
-    bool U_ASSERT_ONLY pass;
-    float fov = glm::radians(45.0f);
-    if (info.width > info.height) {
-        fov *= static_cast<float>(info.height) / static_cast<float>(info.width);
-    }
-    info.Projection = glm::perspective(fov, static_cast<float>(info.width) / static_cast<float>(info.height), 0.1f, 100.0f);
-    info.View = glm::lookAt(glm::vec3(-5, 3, -10),  // Camera is at (-5,3,-10), in World Space
-                            glm::vec3(0, 0, 0),     // and looks at the origin
-                            glm::vec3(0, -1, 0)     // Head is up (set to 0,-1,0 to look upside-down)
-                            );
-    info.Model = glm::mat4(1.0f);
-    // Vulkan clip space has inverted Y and half Z.
-    info.Clip = glm::mat4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f);
-
-    info.MVP = info.Clip * info.Projection * info.View * info.Model;
-
-    /* VULKAN_KEY_START */
-    VkBufferCreateInfo buf_info = {};
-    buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    buf_info.pNext = NULL;
-    buf_info.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-    buf_info.size = sizeof(info.MVP);
-    buf_info.queueFamilyIndexCount = 0;
-    buf_info.pQueueFamilyIndices = NULL;
-    buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    buf_info.flags = 0;
-    res = vkCreateBuffer(info.device, &buf_info, NULL, &info.uniform_data.buf);
-    assert(res == VK_SUCCESS);
-
-    VkMemoryRequirements mem_reqs;
-    vkGetBufferMemoryRequirements(info.device, info.uniform_data.buf, &mem_reqs);
-
-    VkMemoryAllocateInfo alloc_info = {};
-    alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    alloc_info.pNext = NULL;
-    alloc_info.memoryTypeIndex = 0;
-
-    alloc_info.allocationSize = mem_reqs.size;
-    pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
-                                       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                                       &alloc_info.memoryTypeIndex);
-    assert(pass && "No mappable, coherent memory");
-
-    res = vkAllocateMemory(info.device, &alloc_info, NULL, &(info.uniform_data.mem));
-    assert(res == VK_SUCCESS);
-
-    uint8_t *pData;
-    res = vkMapMemory(info.device, info.uniform_data.mem, 0, mem_reqs.size, 0, (void **)&pData);
-    assert(res == VK_SUCCESS);
-
-    memcpy(pData, &info.MVP, sizeof(info.MVP));
-
-    vkUnmapMemory(info.device, info.uniform_data.mem);
-
-    res = vkBindBufferMemory(info.device, info.uniform_data.buf, info.uniform_data.mem, 0);
-    assert(res == VK_SUCCESS);
-
-    info.uniform_data.buffer_info.buffer = info.uniform_data.buf;
-    info.uniform_data.buffer_info.offset = 0;
-    info.uniform_data.buffer_info.range = sizeof(info.MVP);
+//     VkResult U_ASSERT_ONLY res;
+//     bool U_ASSERT_ONLY pass;
+//     float fov = glm::radians(45.0f);
+//     if (info.width > info.height) {
+//         fov *= static_cast<float>(info.height) / static_cast<float>(info.width);
+//     }
+//     info.Projection = glm::perspective(fov, static_cast<float>(info.width) / static_cast<float>(info.height), 0.1f, 100.0f);
+//     info.View = glm::lookAt(glm::vec3(-5, 3, -10),  // Camera is at (-5,3,-10), in World Space
+//                             glm::vec3(0, 0, 0),     // and looks at the origin
+//                             glm::vec3(0, -1, 0)     // Head is up (set to 0,-1,0 to look upside-down)
+//                             );
+//     info.Model = glm::mat4(1.0f);
+//     // Vulkan clip space has inverted Y and half Z.
+//     info.Clip = glm::mat4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f);
+// 
+//     info.MVP = info.Clip * info.Projection * info.View * info.Model;
+// 
+//     /* VULKAN_KEY_START */
+//     VkBufferCreateInfo buf_info = {};
+//     buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+//     buf_info.pNext = NULL;
+//     buf_info.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+//     buf_info.size = sizeof(info.MVP);
+//     buf_info.queueFamilyIndexCount = 0;
+//     buf_info.pQueueFamilyIndices = NULL;
+//     buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+//     buf_info.flags = 0;
+//     res = vkCreateBuffer(info.device, &buf_info, NULL, &info.uniform_data.buf);
+//     assert(res == VK_SUCCESS);
+// 
+//     VkMemoryRequirements mem_reqs;
+//     vkGetBufferMemoryRequirements(info.device, info.uniform_data.buf, &mem_reqs);
+// 
+//     VkMemoryAllocateInfo alloc_info = {};
+//     alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+//     alloc_info.pNext = NULL;
+//     alloc_info.memoryTypeIndex = 0;
+// 
+//     alloc_info.allocationSize = mem_reqs.size;
+//     pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
+//                                        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+//                                        &alloc_info.memoryTypeIndex);
+//     assert(pass && "No mappable, coherent memory");
+// 
+//     res = vkAllocateMemory(info.device, &alloc_info, NULL, &(info.uniform_data.mem));
+//     assert(res == VK_SUCCESS);
+// 
+//     uint8_t *pData;
+//     res = vkMapMemory(info.device, info.uniform_data.mem, 0, mem_reqs.size, 0, (void **)&pData);
+//     assert(res == VK_SUCCESS);
+// 
+//     memcpy(pData, &info.MVP, sizeof(info.MVP));
+// 
+//     vkUnmapMemory(info.device, info.uniform_data.mem);
+// 
+//     res = vkBindBufferMemory(info.device, info.uniform_data.buf, info.uniform_data.mem, 0);
+//     assert(res == VK_SUCCESS);
+// 
+//     info.uniform_data.buffer_info.buffer = info.uniform_data.buf;
+//     info.uniform_data.buffer_info.offset = 0;
+//     info.uniform_data.buffer_info.range = sizeof(info.MVP);
 }
 
 void init_descriptor_and_pipeline_layouts(struct sample_info &info, bool use_texture) {
@@ -1241,63 +1241,63 @@ void init_device_queue(struct sample_info &info) {
 
 void init_vertex_buffer(struct sample_info &info, const void *vertexData, uint32_t dataSize, uint32_t dataStride,
                         bool use_texture) {
-    VkResult U_ASSERT_ONLY res;
-    bool U_ASSERT_ONLY pass;
-
-    VkBufferCreateInfo buf_info = {};
-    buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    buf_info.pNext = NULL;
-    buf_info.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-    buf_info.size = dataSize;
-    buf_info.queueFamilyIndexCount = 0;
-    buf_info.pQueueFamilyIndices = NULL;
-    buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    buf_info.flags = 0;
-    res = vkCreateBuffer(info.device, &buf_info, NULL, &info.vertex_buffer.buf);
-    assert(res == VK_SUCCESS);
-
-    VkMemoryRequirements mem_reqs;
-    vkGetBufferMemoryRequirements(info.device, info.vertex_buffer.buf, &mem_reqs);
-
-    VkMemoryAllocateInfo alloc_info = {};
-    alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    alloc_info.pNext = NULL;
-    alloc_info.memoryTypeIndex = 0;
-
-    alloc_info.allocationSize = mem_reqs.size;
-    pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
-                                       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                                       &alloc_info.memoryTypeIndex);
-    assert(pass && "No mappable, coherent memory");
-
-    res = vkAllocateMemory(info.device, &alloc_info, NULL, &(info.vertex_buffer.mem));
-    assert(res == VK_SUCCESS);
-    info.vertex_buffer.buffer_info.range = mem_reqs.size;
-    info.vertex_buffer.buffer_info.offset = 0;
-
-    uint8_t *pData;
-    res = vkMapMemory(info.device, info.vertex_buffer.mem, 0, mem_reqs.size, 0, (void **)&pData);
-    assert(res == VK_SUCCESS);
-
-    memcpy(pData, vertexData, dataSize);
-
-    vkUnmapMemory(info.device, info.vertex_buffer.mem);
-
-    res = vkBindBufferMemory(info.device, info.vertex_buffer.buf, info.vertex_buffer.mem, 0);
-    assert(res == VK_SUCCESS);
-
-    info.vi_binding.binding = 0;
-    info.vi_binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-    info.vi_binding.stride = dataStride;
-
-    info.vi_attribs[0].binding = 0;
-    info.vi_attribs[0].location = 0;
-    info.vi_attribs[0].format = VK_FORMAT_R32G32B32A32_SFLOAT;
-    info.vi_attribs[0].offset = 0;
-    info.vi_attribs[1].binding = 0;
-    info.vi_attribs[1].location = 1;
-    info.vi_attribs[1].format = use_texture ? VK_FORMAT_R32G32_SFLOAT : VK_FORMAT_R32G32B32A32_SFLOAT;
-    info.vi_attribs[1].offset = 16;
+//     VkResult U_ASSERT_ONLY res;
+//     bool U_ASSERT_ONLY pass;
+// 
+//     VkBufferCreateInfo buf_info = {};
+//     buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+//     buf_info.pNext = NULL;
+//     buf_info.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+//     buf_info.size = dataSize;
+//     buf_info.queueFamilyIndexCount = 0;
+//     buf_info.pQueueFamilyIndices = NULL;
+//     buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+//     buf_info.flags = 0;
+//     res = vkCreateBuffer(info.device, &buf_info, NULL, &info.vertex_buffer.buf);
+//     assert(res == VK_SUCCESS);
+// 
+//     VkMemoryRequirements mem_reqs;
+//     vkGetBufferMemoryRequirements(info.device, info.vertex_buffer.buf, &mem_reqs);
+// 
+//     VkMemoryAllocateInfo alloc_info = {};
+//     alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+//     alloc_info.pNext = NULL;
+//     alloc_info.memoryTypeIndex = 0;
+// 
+//     alloc_info.allocationSize = mem_reqs.size;
+//     pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
+//                                        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+//                                        &alloc_info.memoryTypeIndex);
+//     assert(pass && "No mappable, coherent memory");
+// 
+//     res = vkAllocateMemory(info.device, &alloc_info, NULL, &(info.vertex_buffer.mem));
+//     assert(res == VK_SUCCESS);
+//     info.vertex_buffer.buffer_info.range = mem_reqs.size;
+//     info.vertex_buffer.buffer_info.offset = 0;
+// 
+//     uint8_t *pData;
+//     res = vkMapMemory(info.device, info.vertex_buffer.mem, 0, mem_reqs.size, 0, (void **)&pData);
+//     assert(res == VK_SUCCESS);
+// 
+//     memcpy(pData, vertexData, dataSize);
+// 
+//     vkUnmapMemory(info.device, info.vertex_buffer.mem);
+// 
+//     res = vkBindBufferMemory(info.device, info.vertex_buffer.buf, info.vertex_buffer.mem, 0);
+//     assert(res == VK_SUCCESS);
+// 
+//     info.vi_binding.binding = 0;
+//     info.vi_binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+//     info.vi_binding.stride = dataStride;
+// 
+//     info.vi_attribs[0].binding = 0;
+//     info.vi_attribs[0].location = 0;
+//     info.vi_attribs[0].format = VK_FORMAT_R32G32B32A32_SFLOAT;
+//     info.vi_attribs[0].offset = 0;
+//     info.vi_attribs[1].binding = 0;
+//     info.vi_attribs[1].location = 1;
+//     info.vi_attribs[1].format = use_texture ? VK_FORMAT_R32G32_SFLOAT : VK_FORMAT_R32G32B32A32_SFLOAT;
+//     info.vi_attribs[1].offset = 16;
 }
 
 void init_descriptor_pool(struct sample_info &info, bool use_texture) {
@@ -1367,58 +1367,58 @@ void init_descriptor_set(struct sample_info &info, bool use_texture) {
 }
 
 void init_shaders(struct sample_info &info, const char *vertShaderText, const char *fragShaderText) {
-    VkResult U_ASSERT_ONLY res;
-    bool U_ASSERT_ONLY retVal;
-
-    // If no shaders were submitted, just return
-    if (!(vertShaderText || fragShaderText)) return;
-
-    init_glslang();
-    VkShaderModuleCreateInfo moduleCreateInfo;
-
-    if (vertShaderText) {
-        std::vector<unsigned int> vtx_spv;
-        info.shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-        info.shaderStages[0].pNext = NULL;
-        info.shaderStages[0].pSpecializationInfo = NULL;
-        info.shaderStages[0].flags = 0;
-        info.shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
-        info.shaderStages[0].pName = "main";
-
-        retVal = GLSLtoSPV(VK_SHADER_STAGE_VERTEX_BIT, vertShaderText, vtx_spv);
-        assert(retVal);
-
-        moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-        moduleCreateInfo.pNext = NULL;
-        moduleCreateInfo.flags = 0;
-        moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(unsigned int);
-        moduleCreateInfo.pCode = vtx_spv.data();
-        res = vkCreateShaderModule(info.device, &moduleCreateInfo, NULL, &info.shaderStages[0].module);
-        assert(res == VK_SUCCESS);
-    }
-
-    if (fragShaderText) {
-        std::vector<unsigned int> frag_spv;
-        info.shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-        info.shaderStages[1].pNext = NULL;
-        info.shaderStages[1].pSpecializationInfo = NULL;
-        info.shaderStages[1].flags = 0;
-        info.shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-        info.shaderStages[1].pName = "main";
-
-        retVal = GLSLtoSPV(VK_SHADER_STAGE_FRAGMENT_BIT, fragShaderText, frag_spv);
-        assert(retVal);
-
-        moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-        moduleCreateInfo.pNext = NULL;
-        moduleCreateInfo.flags = 0;
-        moduleCreateInfo.codeSize = frag_spv.size() * sizeof(unsigned int);
-        moduleCreateInfo.pCode = frag_spv.data();
-        res = vkCreateShaderModule(info.device, &moduleCreateInfo, NULL, &info.shaderStages[1].module);
-        assert(res == VK_SUCCESS);
-    }
-
-    finalize_glslang();
+//     VkResult U_ASSERT_ONLY res;
+//     bool U_ASSERT_ONLY retVal;
+// 
+//     // If no shaders were submitted, just return
+//     if (!(vertShaderText || fragShaderText)) return;
+// 
+//     init_glslang();
+//     VkShaderModuleCreateInfo moduleCreateInfo;
+// 
+//     if (vertShaderText) {
+//         std::vector<unsigned int> vtx_spv;
+//         info.shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+//         info.shaderStages[0].pNext = NULL;
+//         info.shaderStages[0].pSpecializationInfo = NULL;
+//         info.shaderStages[0].flags = 0;
+//         info.shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
+//         info.shaderStages[0].pName = "main";
+// 
+//         retVal = GLSLtoSPV(VK_SHADER_STAGE_VERTEX_BIT, vertShaderText, vtx_spv);
+//         assert(retVal);
+// 
+//         moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+//         moduleCreateInfo.pNext = NULL;
+//         moduleCreateInfo.flags = 0;
+//         moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(unsigned int);
+//         moduleCreateInfo.pCode = vtx_spv.data();
+//         res = vkCreateShaderModule(info.device, &moduleCreateInfo, NULL, &info.shaderStages[0].module);
+//         assert(res == VK_SUCCESS);
+//     }
+// 
+//     if (fragShaderText) {
+//         std::vector<unsigned int> frag_spv;
+//         info.shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+//         info.shaderStages[1].pNext = NULL;
+//         info.shaderStages[1].pSpecializationInfo = NULL;
+//         info.shaderStages[1].flags = 0;
+//         info.shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+//         info.shaderStages[1].pName = "main";
+// 
+//         retVal = GLSLtoSPV(VK_SHADER_STAGE_FRAGMENT_BIT, fragShaderText, frag_spv);
+//         assert(retVal);
+// 
+//         moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+//         moduleCreateInfo.pNext = NULL;
+//         moduleCreateInfo.flags = 0;
+//         moduleCreateInfo.codeSize = frag_spv.size() * sizeof(unsigned int);
+//         moduleCreateInfo.pCode = frag_spv.data();
+//         res = vkCreateShaderModule(info.device, &moduleCreateInfo, NULL, &info.shaderStages[1].module);
+//         assert(res == VK_SUCCESS);
+//     }
+// 
+//     finalize_glslang();
 }
 
 void init_pipeline_cache(struct sample_info &info) {
@@ -1615,253 +1615,253 @@ void init_sampler(struct sample_info &info, VkSampler &sampler) {
 
 void init_image(struct sample_info &info, texture_object &texObj, const char *textureName, VkImageUsageFlags extraUsages,
                 VkFormatFeatureFlags extraFeatures) {
-    VkResult U_ASSERT_ONLY res;
-    bool U_ASSERT_ONLY pass;
-    std::string filename = get_base_data_dir();
-
-    if (textureName == nullptr)
-        filename.append("lunarg.ppm");
-    else
-        filename.append(textureName);
-
-    if (!read_ppm(filename.c_str(), texObj.tex_width, texObj.tex_height, 0, NULL)) {
-        std::cout << "Could not read texture file lunarg.ppm\n";
-        exit(-1);
-    }
-
-    VkFormatProperties formatProps;
-    vkGetPhysicalDeviceFormatProperties(info.gpus[0], VK_FORMAT_R8G8B8A8_UNORM, &formatProps);
-
-    /* See if we can use a linear tiled image for a texture, if not, we will
-     * need a staging image for the texture data */
-    VkFormatFeatureFlags allFeatures = (VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT | extraFeatures);
-    bool needStaging = ((formatProps.linearTilingFeatures & allFeatures) != allFeatures) ? true : false;
-
-    if (needStaging) {
-        assert((formatProps.optimalTilingFeatures & allFeatures) == allFeatures);
-    }
-
-    VkImageCreateInfo image_create_info = {};
-    image_create_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-    image_create_info.pNext = NULL;
-    image_create_info.imageType = VK_IMAGE_TYPE_2D;
-    image_create_info.format = VK_FORMAT_R8G8B8A8_UNORM;
-    image_create_info.extent.width = texObj.tex_width;
-    image_create_info.extent.height = texObj.tex_height;
-    image_create_info.extent.depth = 1;
-    image_create_info.mipLevels = 1;
-    image_create_info.arrayLayers = 1;
-    image_create_info.samples = NUM_SAMPLES;
-    image_create_info.tiling = VK_IMAGE_TILING_LINEAR;
-    image_create_info.initialLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
-    image_create_info.usage =
-        needStaging ? (VK_IMAGE_USAGE_TRANSFER_SRC_BIT | extraUsages) : (VK_IMAGE_USAGE_SAMPLED_BIT | extraUsages);
-    image_create_info.queueFamilyIndexCount = 0;
-    image_create_info.pQueueFamilyIndices = NULL;
-    image_create_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    image_create_info.flags = 0;
-
-    VkMemoryAllocateInfo mem_alloc = {};
-    mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    mem_alloc.pNext = NULL;
-    mem_alloc.allocationSize = 0;
-    mem_alloc.memoryTypeIndex = 0;
-
-    VkImage mappableImage;
-    VkDeviceMemory mappableMemory;
-
-    VkMemoryRequirements mem_reqs;
-
-    /* Create a mappable image.  It will be the texture if linear images are ok
-     * to be textures or it will be the staging image if they are not. */
-    res = vkCreateImage(info.device, &image_create_info, NULL, &mappableImage);
-    assert(res == VK_SUCCESS);
-
-    vkGetImageMemoryRequirements(info.device, mappableImage, &mem_reqs);
-    assert(res == VK_SUCCESS);
-
-    mem_alloc.allocationSize = mem_reqs.size;
-
-    /* Find the memory type that is host mappable */
-    pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
-                                       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                                       &mem_alloc.memoryTypeIndex);
-    assert(pass && "No mappable, coherent memory");
-
-    /* allocate memory */
-    res = vkAllocateMemory(info.device, &mem_alloc, NULL, &(mappableMemory));
-    assert(res == VK_SUCCESS);
-
-    /* bind memory */
-    res = vkBindImageMemory(info.device, mappableImage, mappableMemory, 0);
-    assert(res == VK_SUCCESS);
-
-    res = vkEndCommandBuffer(info.cmd);
-    assert(res == VK_SUCCESS);
-    const VkCommandBuffer cmd_bufs[] = {info.cmd};
-    VkFenceCreateInfo fenceInfo;
-    VkFence cmdFence;
-    fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-    fenceInfo.pNext = NULL;
-    fenceInfo.flags = 0;
-    vkCreateFence(info.device, &fenceInfo, NULL, &cmdFence);
-
-    VkSubmitInfo submit_info[1] = {};
-    submit_info[0].pNext = NULL;
-    submit_info[0].sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-    submit_info[0].waitSemaphoreCount = 0;
-    submit_info[0].pWaitSemaphores = NULL;
-    submit_info[0].pWaitDstStageMask = NULL;
-    submit_info[0].commandBufferCount = 1;
-    submit_info[0].pCommandBuffers = cmd_bufs;
-    submit_info[0].signalSemaphoreCount = 0;
-    submit_info[0].pSignalSemaphores = NULL;
-
-    /* Queue the command buffer for execution */
-    res = vkQueueSubmit(info.graphics_queue, 1, submit_info, cmdFence);
-    assert(res == VK_SUCCESS);
-
-    VkImageSubresource subres = {};
-    subres.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-    subres.mipLevel = 0;
-    subres.arrayLayer = 0;
-
-    VkSubresourceLayout layout;
-    void *data;
-
-    /* Get the subresource layout so we know what the row pitch is */
-    vkGetImageSubresourceLayout(info.device, mappableImage, &subres, &layout);
-
-    /* Make sure command buffer is finished before mapping */
-    do {
-        res = vkWaitForFences(info.device, 1, &cmdFence, VK_TRUE, FENCE_TIMEOUT);
-    } while (res == VK_TIMEOUT);
-    assert(res == VK_SUCCESS);
-
-    vkDestroyFence(info.device, cmdFence, NULL);
-
-    res = vkMapMemory(info.device, mappableMemory, 0, mem_reqs.size, 0, &data);
-    assert(res == VK_SUCCESS);
-
-    /* Read the ppm file into the mappable image's memory */
-    if (!read_ppm(filename.c_str(), texObj.tex_width, texObj.tex_height, layout.rowPitch, (unsigned char *)data)) {
-        std::cout << "Could not load texture file lunarg.ppm\n";
-        exit(-1);
-    }
-
-    vkUnmapMemory(info.device, mappableMemory);
-
-    VkCommandBufferBeginInfo cmd_buf_info = {};
-    cmd_buf_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    cmd_buf_info.pNext = NULL;
-    cmd_buf_info.flags = 0;
-    cmd_buf_info.pInheritanceInfo = NULL;
-
-    res = vkResetCommandBuffer(info.cmd, 0);
-    res = vkBeginCommandBuffer(info.cmd, &cmd_buf_info);
-    assert(res == VK_SUCCESS);
-
-    if (!needStaging) {
-        /* If we can use the linear tiled image as a texture, just do it */
-        texObj.image = mappableImage;
-        texObj.mem = mappableMemory;
-        texObj.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        set_image_layout(info, texObj.image, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_PREINITIALIZED, texObj.imageLayout,
-                         VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
-        /* No staging resources to free later */
-        info.stagingImage = VK_NULL_HANDLE;
-        info.stagingMemory = VK_NULL_HANDLE;
-    } else {
-        /* The mappable image cannot be our texture, so create an optimally
-         * tiled image and blit to it */
-        image_create_info.tiling = VK_IMAGE_TILING_OPTIMAL;
-        image_create_info.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-        image_create_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-
-        res = vkCreateImage(info.device, &image_create_info, NULL, &texObj.image);
-        assert(res == VK_SUCCESS);
-
-        vkGetImageMemoryRequirements(info.device, texObj.image, &mem_reqs);
-
-        mem_alloc.allocationSize = mem_reqs.size;
-
-        /* Find memory type - dont specify any mapping requirements */
-        pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-                                           &mem_alloc.memoryTypeIndex);
-        assert(pass);
-
-        /* allocate memory */
-        res = vkAllocateMemory(info.device, &mem_alloc, NULL, &texObj.mem);
-        assert(res == VK_SUCCESS);
-
-        /* bind memory */
-        res = vkBindImageMemory(info.device, texObj.image, texObj.mem, 0);
-        assert(res == VK_SUCCESS);
-
-        /* Since we're going to blit from the mappable image, set its layout to
-         * SOURCE_OPTIMAL. Side effect is that this will create info.cmd */
-        set_image_layout(info, mappableImage, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_PREINITIALIZED,
-                         VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
-
-        /* Since we're going to blit to the texture image, set its layout to
-         * DESTINATION_OPTIMAL */
-        set_image_layout(info, texObj.image, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                         VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
-
-        VkImageCopy copy_region;
-        copy_region.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        copy_region.srcSubresource.mipLevel = 0;
-        copy_region.srcSubresource.baseArrayLayer = 0;
-        copy_region.srcSubresource.layerCount = 1;
-        copy_region.srcOffset.x = 0;
-        copy_region.srcOffset.y = 0;
-        copy_region.srcOffset.z = 0;
-        copy_region.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        copy_region.dstSubresource.mipLevel = 0;
-        copy_region.dstSubresource.baseArrayLayer = 0;
-        copy_region.dstSubresource.layerCount = 1;
-        copy_region.dstOffset.x = 0;
-        copy_region.dstOffset.y = 0;
-        copy_region.dstOffset.z = 0;
-        copy_region.extent.width = texObj.tex_width;
-        copy_region.extent.height = texObj.tex_height;
-        copy_region.extent.depth = 1;
-
-        /* Put the copy command into the command buffer */
-        vkCmdCopyImage(info.cmd, mappableImage, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, texObj.image,
-                       VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy_region);
-
-        /* Set the layout for the texture image from DESTINATION_OPTIMAL to
-         * SHADER_READ_ONLY */
-        texObj.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        set_image_layout(info, texObj.image, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, texObj.imageLayout,
-                         VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
-
-        /* Remember staging resources to free later */
-        info.stagingImage = mappableImage;
-        info.stagingMemory = mappableMemory;
-    }
-
-    VkImageViewCreateInfo view_info = {};
-    view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-    view_info.pNext = NULL;
-    view_info.image = VK_NULL_HANDLE;
-    view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-    view_info.format = VK_FORMAT_R8G8B8A8_UNORM;
-    view_info.components.r = VK_COMPONENT_SWIZZLE_R;
-    view_info.components.g = VK_COMPONENT_SWIZZLE_G;
-    view_info.components.b = VK_COMPONENT_SWIZZLE_B;
-    view_info.components.a = VK_COMPONENT_SWIZZLE_A;
-    view_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-    view_info.subresourceRange.baseMipLevel = 0;
-    view_info.subresourceRange.levelCount = 1;
-    view_info.subresourceRange.baseArrayLayer = 0;
-    view_info.subresourceRange.layerCount = 1;
-
-    /* create image view */
-    view_info.image = texObj.image;
-    res = vkCreateImageView(info.device, &view_info, NULL, &texObj.view);
-    assert(res == VK_SUCCESS);
+//     VkResult U_ASSERT_ONLY res;
+//     bool U_ASSERT_ONLY pass;
+//     std::string filename = get_base_data_dir();
+// 
+//     if (textureName == nullptr)
+//         filename.append("lunarg.ppm");
+//     else
+//         filename.append(textureName);
+// 
+//     if (!read_ppm(filename.c_str(), texObj.tex_width, texObj.tex_height, 0, NULL)) {
+//         std::cout << "Could not read texture file lunarg.ppm\n";
+//         exit(-1);
+//     }
+// 
+//     VkFormatProperties formatProps;
+//     vkGetPhysicalDeviceFormatProperties(info.gpus[0], VK_FORMAT_R8G8B8A8_UNORM, &formatProps);
+// 
+//     /* See if we can use a linear tiled image for a texture, if not, we will
+//      * need a staging image for the texture data */
+//     VkFormatFeatureFlags allFeatures = (VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT | extraFeatures);
+//     bool needStaging = ((formatProps.linearTilingFeatures & allFeatures) != allFeatures) ? true : false;
+// 
+//     if (needStaging) {
+//         assert((formatProps.optimalTilingFeatures & allFeatures) == allFeatures);
+//     }
+// 
+//     VkImageCreateInfo image_create_info = {};
+//     image_create_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+//     image_create_info.pNext = NULL;
+//     image_create_info.imageType = VK_IMAGE_TYPE_2D;
+//     image_create_info.format = VK_FORMAT_R8G8B8A8_UNORM;
+//     image_create_info.extent.width = texObj.tex_width;
+//     image_create_info.extent.height = texObj.tex_height;
+//     image_create_info.extent.depth = 1;
+//     image_create_info.mipLevels = 1;
+//     image_create_info.arrayLayers = 1;
+//     image_create_info.samples = NUM_SAMPLES;
+//     image_create_info.tiling = VK_IMAGE_TILING_LINEAR;
+//     image_create_info.initialLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+//     image_create_info.usage =
+//         needStaging ? (VK_IMAGE_USAGE_TRANSFER_SRC_BIT | extraUsages) : (VK_IMAGE_USAGE_SAMPLED_BIT | extraUsages);
+//     image_create_info.queueFamilyIndexCount = 0;
+//     image_create_info.pQueueFamilyIndices = NULL;
+//     image_create_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+//     image_create_info.flags = 0;
+// 
+//     VkMemoryAllocateInfo mem_alloc = {};
+//     mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+//     mem_alloc.pNext = NULL;
+//     mem_alloc.allocationSize = 0;
+//     mem_alloc.memoryTypeIndex = 0;
+// 
+//     VkImage mappableImage;
+//     VkDeviceMemory mappableMemory;
+// 
+//     VkMemoryRequirements mem_reqs;
+// 
+//     /* Create a mappable image.  It will be the texture if linear images are ok
+//      * to be textures or it will be the staging image if they are not. */
+//     res = vkCreateImage(info.device, &image_create_info, NULL, &mappableImage);
+//     assert(res == VK_SUCCESS);
+// 
+//     vkGetImageMemoryRequirements(info.device, mappableImage, &mem_reqs);
+//     assert(res == VK_SUCCESS);
+// 
+//     mem_alloc.allocationSize = mem_reqs.size;
+// 
+//     /* Find the memory type that is host mappable */
+//     pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
+//                                        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+//                                        &mem_alloc.memoryTypeIndex);
+//     assert(pass && "No mappable, coherent memory");
+// 
+//     /* allocate memory */
+//     res = vkAllocateMemory(info.device, &mem_alloc, NULL, &(mappableMemory));
+//     assert(res == VK_SUCCESS);
+// 
+//     /* bind memory */
+//     res = vkBindImageMemory(info.device, mappableImage, mappableMemory, 0);
+//     assert(res == VK_SUCCESS);
+// 
+//     res = vkEndCommandBuffer(info.cmd);
+//     assert(res == VK_SUCCESS);
+//     const VkCommandBuffer cmd_bufs[] = {info.cmd};
+//     VkFenceCreateInfo fenceInfo;
+//     VkFence cmdFence;
+//     fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+//     fenceInfo.pNext = NULL;
+//     fenceInfo.flags = 0;
+//     vkCreateFence(info.device, &fenceInfo, NULL, &cmdFence);
+// 
+//     VkSubmitInfo submit_info[1] = {};
+//     submit_info[0].pNext = NULL;
+//     submit_info[0].sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+//     submit_info[0].waitSemaphoreCount = 0;
+//     submit_info[0].pWaitSemaphores = NULL;
+//     submit_info[0].pWaitDstStageMask = NULL;
+//     submit_info[0].commandBufferCount = 1;
+//     submit_info[0].pCommandBuffers = cmd_bufs;
+//     submit_info[0].signalSemaphoreCount = 0;
+//     submit_info[0].pSignalSemaphores = NULL;
+// 
+//     /* Queue the command buffer for execution */
+//     res = vkQueueSubmit(info.graphics_queue, 1, submit_info, cmdFence);
+//     assert(res == VK_SUCCESS);
+// 
+//     VkImageSubresource subres = {};
+//     subres.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+//     subres.mipLevel = 0;
+//     subres.arrayLayer = 0;
+// 
+//     VkSubresourceLayout layout;
+//     void *data;
+// 
+//     /* Get the subresource layout so we know what the row pitch is */
+//     vkGetImageSubresourceLayout(info.device, mappableImage, &subres, &layout);
+// 
+//     /* Make sure command buffer is finished before mapping */
+//     do {
+//         res = vkWaitForFences(info.device, 1, &cmdFence, VK_TRUE, FENCE_TIMEOUT);
+//     } while (res == VK_TIMEOUT);
+//     assert(res == VK_SUCCESS);
+// 
+//     vkDestroyFence(info.device, cmdFence, NULL);
+// 
+//     res = vkMapMemory(info.device, mappableMemory, 0, mem_reqs.size, 0, &data);
+//     assert(res == VK_SUCCESS);
+// 
+//     /* Read the ppm file into the mappable image's memory */
+//     if (!read_ppm(filename.c_str(), texObj.tex_width, texObj.tex_height, layout.rowPitch, (unsigned char *)data)) {
+//         std::cout << "Could not load texture file lunarg.ppm\n";
+//         exit(-1);
+//     }
+// 
+//     vkUnmapMemory(info.device, mappableMemory);
+// 
+//     VkCommandBufferBeginInfo cmd_buf_info = {};
+//     cmd_buf_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+//     cmd_buf_info.pNext = NULL;
+//     cmd_buf_info.flags = 0;
+//     cmd_buf_info.pInheritanceInfo = NULL;
+// 
+//     res = vkResetCommandBuffer(info.cmd, 0);
+//     res = vkBeginCommandBuffer(info.cmd, &cmd_buf_info);
+//     assert(res == VK_SUCCESS);
+// 
+//     if (!needStaging) {
+//         /* If we can use the linear tiled image as a texture, just do it */
+//         texObj.image = mappableImage;
+//         texObj.mem = mappableMemory;
+//         texObj.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+//         set_image_layout(info, texObj.image, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_PREINITIALIZED, texObj.imageLayout,
+//                          VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+//         /* No staging resources to free later */
+//         info.stagingImage = VK_NULL_HANDLE;
+//         info.stagingMemory = VK_NULL_HANDLE;
+//     } else {
+//         /* The mappable image cannot be our texture, so create an optimally
+//          * tiled image and blit to it */
+//         image_create_info.tiling = VK_IMAGE_TILING_OPTIMAL;
+//         image_create_info.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+//         image_create_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+// 
+//         res = vkCreateImage(info.device, &image_create_info, NULL, &texObj.image);
+//         assert(res == VK_SUCCESS);
+// 
+//         vkGetImageMemoryRequirements(info.device, texObj.image, &mem_reqs);
+// 
+//         mem_alloc.allocationSize = mem_reqs.size;
+// 
+//         /* Find memory type - dont specify any mapping requirements */
+//         pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+//                                            &mem_alloc.memoryTypeIndex);
+//         assert(pass);
+// 
+//         /* allocate memory */
+//         res = vkAllocateMemory(info.device, &mem_alloc, NULL, &texObj.mem);
+//         assert(res == VK_SUCCESS);
+// 
+//         /* bind memory */
+//         res = vkBindImageMemory(info.device, texObj.image, texObj.mem, 0);
+//         assert(res == VK_SUCCESS);
+// 
+//         /* Since we're going to blit from the mappable image, set its layout to
+//          * SOURCE_OPTIMAL. Side effect is that this will create info.cmd */
+//         set_image_layout(info, mappableImage, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_PREINITIALIZED,
+//                          VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
+// 
+//         /* Since we're going to blit to the texture image, set its layout to
+//          * DESTINATION_OPTIMAL */
+//         set_image_layout(info, texObj.image, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+//                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
+// 
+//         VkImageCopy copy_region;
+//         copy_region.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+//         copy_region.srcSubresource.mipLevel = 0;
+//         copy_region.srcSubresource.baseArrayLayer = 0;
+//         copy_region.srcSubresource.layerCount = 1;
+//         copy_region.srcOffset.x = 0;
+//         copy_region.srcOffset.y = 0;
+//         copy_region.srcOffset.z = 0;
+//         copy_region.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+//         copy_region.dstSubresource.mipLevel = 0;
+//         copy_region.dstSubresource.baseArrayLayer = 0;
+//         copy_region.dstSubresource.layerCount = 1;
+//         copy_region.dstOffset.x = 0;
+//         copy_region.dstOffset.y = 0;
+//         copy_region.dstOffset.z = 0;
+//         copy_region.extent.width = texObj.tex_width;
+//         copy_region.extent.height = texObj.tex_height;
+//         copy_region.extent.depth = 1;
+// 
+//         /* Put the copy command into the command buffer */
+//         vkCmdCopyImage(info.cmd, mappableImage, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, texObj.image,
+//                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy_region);
+// 
+//         /* Set the layout for the texture image from DESTINATION_OPTIMAL to
+//          * SHADER_READ_ONLY */
+//         texObj.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+//         set_image_layout(info, texObj.image, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, texObj.imageLayout,
+//                          VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+// 
+//         /* Remember staging resources to free later */
+//         info.stagingImage = mappableImage;
+//         info.stagingMemory = mappableMemory;
+//     }
+// 
+//     VkImageViewCreateInfo view_info = {};
+//     view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+//     view_info.pNext = NULL;
+//     view_info.image = VK_NULL_HANDLE;
+//     view_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
+//     view_info.format = VK_FORMAT_R8G8B8A8_UNORM;
+//     view_info.components.r = VK_COMPONENT_SWIZZLE_R;
+//     view_info.components.g = VK_COMPONENT_SWIZZLE_G;
+//     view_info.components.b = VK_COMPONENT_SWIZZLE_B;
+//     view_info.components.a = VK_COMPONENT_SWIZZLE_A;
+//     view_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+//     view_info.subresourceRange.baseMipLevel = 0;
+//     view_info.subresourceRange.levelCount = 1;
+//     view_info.subresourceRange.baseArrayLayer = 0;
+//     view_info.subresourceRange.layerCount = 1;
+// 
+//     /* create image view */
+//     view_info.image = texObj.image;
+//     res = vkCreateImageView(info.device, &view_info, NULL, &texObj.view);
+//     assert(res == VK_SUCCESS);
 }
 
 void init_texture(struct sample_info &info, const char *textureName, VkImageUsageFlags extraUsages,

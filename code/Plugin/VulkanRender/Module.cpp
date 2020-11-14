@@ -18,6 +18,8 @@
 #include "VulkanRender/VulkanRenderPass.hxx"
 #include "VulkanRender/VulkanRenderCommand.hxx"
 
+#include "VulkanRender/util_init.hxx"
+
 #if defined(__ANDROID__)
 #include "VulkanRender/VulkanAndroid.hxx"
 #endif

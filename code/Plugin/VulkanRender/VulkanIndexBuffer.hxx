@@ -28,6 +28,18 @@ namespace ma
 		m_indexBuffer.unmap();
 	}
 
+	void VulkanIndexBuffer::RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
+	{
+		if (m_indexBuffer.device == VK_NULL_HANDLE)
+			return;
+
+		VK_CHECK_RESULT(m_indexBuffer.map(nSize, nOffset));
+
+		memcpy(m_indexBuffer.mapped, pData, nSize);
+
+		m_indexBuffer.unmap();
+	}
+
 	void VulkanIndexBuffer::RT_StreamComplete()
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();

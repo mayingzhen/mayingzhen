@@ -23,8 +23,8 @@
 #include <vector>
 
 #define GLM_FORCE_RADIANS
-#include "glm/glm.hpp"
-#include <glm/gtc/matrix_transform.hpp>
+//#include "glm/glm.hpp"
+//#include <glm/gtc/matrix_transform.hpp>
 
 #ifdef _WIN32
 #pragma comment(linker, "/subsystem:console")
@@ -215,11 +215,11 @@ struct sample_info {
     VkVertexInputBindingDescription vi_binding;
     VkVertexInputAttributeDescription vi_attribs[2];
 
-    glm::mat4 Projection;
-    glm::mat4 View;
-    glm::mat4 Model;
-    glm::mat4 Clip;
-    glm::mat4 MVP;
+//     glm::mat4 Projection;
+//     glm::mat4 View;
+//     glm::mat4 Model;
+//     glm::mat4 Clip;
+//     glm::mat4 MVP;
 
     VkCommandBuffer cmd; // Buffer for initialization commands
     VkPipelineLayout pipeline_layout;

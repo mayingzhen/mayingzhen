@@ -255,6 +255,9 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateCropMats()
 	{
+		m_matCrop = Matrix4::IDENTITY;
+		return;
+
 		if (!m_bDraw || m_casterAABB.isNull())
 		{
 			m_matCrop = Matrix4::IDENTITY;
@@ -300,6 +303,9 @@ namespace ma
 
 	void ShadowMapFrustum::Update(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{
+		m_fNear = fSpiltNear;
+		m_fFar = fSpiltFar;
+
 		Clear(pCamera);
 
 		UpdateDepthBias(pCamera,fSpiltNear,fSpiltFar);
@@ -314,12 +320,14 @@ namespace ma
 
 		m_matLightViewProj = m_matCrop * m_matLightProj * m_matLightView;
 		m_matShadow = m_matTexAdjust * m_matLightViewProj;
+
+		m_bDraw = true;
 	}
 
 	void ShadowMapFrustum::Render(Camera* pCamera,RenderStep* shadowStep)
 	{
-		//if (!m_bDraw)
-		//	return;
+		if (!m_bDraw)
+			return;
 
 		RenderQueue* pRenderQueue = m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 
@@ -330,13 +338,30 @@ namespace ma
 		((ShadowMapRenderStep*)shadowStep)->AddSubStep(m_subRenderStep.get());
 
 		SMFrustumInfo info;
+		info.m_fNear = m_fNear;
+		info.m_fFar = m_fFar;
 		info.m_matLightViewProj = m_matLightProj * m_matLightView/*m_matLightViewProj*/;
 		info.m_matShadow = m_matShadow;
 		info.m_pShadowDepth = m_pParent->GetShadowMapSampler();
 		info.m_uvClamp = m_uvClamp;
+		
+		Matrix4 matView = pCamera->GetMatView();
+		Matrix4 matProj;
+		GetRenderDevice()->MakePerspectiveMatrix(matProj, pCamera->GetFov(), pCamera->GetAspect(), m_fNear, m_fFar);
+		Matrix4 viewPoj = matProj * matView;
+		info.m_matFrustum = viewPoj.inverse();
+
+		Vector4 vNear = pCamera->GetMatProj() * Vector4(0.0f, 0.0f, m_fNear, 1.0);
+		Vector4 vFar = pCamera->GetMatProj() *  Vector4(0.0f, 0.0f, m_fFar, 1.0);
+		info.m_fNear = vNear.z / vNear.w;
+		info.m_fFar = vFar.z / vFar.w;
+
+
 		GetRenderSystem()->RC_AddRenderCommad([info]() {
 			GetDeferredShadow()->AddSMFrustumInfo(info);
 		});
+
+		m_bDraw = false;
 
 	}
 

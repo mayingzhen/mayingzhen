@@ -10,6 +10,7 @@
 #include <array>
 #include <thread>
 #include "Engine\RenderSystem\RenderQueue.h"
+#include "util_init.hpp"
 
 namespace ma
 {
@@ -121,7 +122,19 @@ namespace ma
 
 	void VulkanRenderDevice::Init(void* wndhandle)
 	{
-		bool enableValidation = true;
+		layer_properties layer;
+		memset(&layer.properties, 0, sizeof(layer.properties));
+		init_global_extension_properties(layer);
+
+		uint32_t InstanceLayerCount = 0;
+		vkEnumerateInstanceLayerProperties(&InstanceLayerCount, NULL);
+
+		std::vector<VkLayerProperties> vk_props(InstanceLayerCount);
+		vkEnumerateInstanceLayerProperties(&InstanceLayerCount, vk_props.data());
+
+
+		bool enableValidation = false;
+
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -134,6 +147,7 @@ namespace ma
 		// Enable surface extensions depending on os
 #if defined(_WIN32)
 		instanceExtensions.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+		instanceExtensions.push_back(VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME);
 #elif defined(__ANDROID__)
 		instanceExtensions.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
 #elif defined(_DIRECT2DISPLAY)
@@ -143,6 +157,10 @@ namespace ma
 #elif defined(__linux__)
 		instanceExtensions.push_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
 #endif
+
+		instanceExtensions.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+		instanceExtensions.push_back(VK_KHR_EXTERNAL_MEMORY_CAPABILITIES_EXTENSION_NAME);
+		//instanceExtensions.push_back(VK_KHR_MAINTENANCE1_EXTENSION_NAME);
 
 		VkInstanceCreateInfo instanceCreateInfo = {};
 		instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -162,6 +180,7 @@ namespace ma
  			instanceCreateInfo.enabledLayerCount = vks::debug::validationLayerCount;
  			instanceCreateInfo.ppEnabledLayerNames = vks::debug::validationLayerNames;
  		}
+
 
  		VkResult err;
 		err = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
@@ -201,6 +220,8 @@ namespace ma
 		assert(queueFamilyCount > 0);
 		queueFamilyProperties.resize(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilyProperties.data());
+
+		enabledExtensions.push_back(VK_KHR_MAINTENANCE1_EXTENSION_NAME);
 
 		vulkanDevice = new vks::VulkanDevice(physicalDevice);
 		VkResult res = vulkanDevice->createLogicalDevice(deviceFeatures, enabledExtensions);
@@ -572,9 +593,9 @@ namespace ma
 		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = 1.0f;   out[3][3] = 0.f;
 
 		//Vulkan clip space has inverted Y
-		Matrix4 Clip = Matrix4::IDENTITY;
-		Clip.setScale(Vector3(1,-1,1));
- 		out = Clip * out;
+// 		Matrix4 Clip = Matrix4::IDENTITY;
+// 		Clip.setScale(Vector3(1,-1,1));
+//  		out = Clip * out;
 
 		return out;
 	}

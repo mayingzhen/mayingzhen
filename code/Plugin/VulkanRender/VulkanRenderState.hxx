@@ -58,14 +58,23 @@ namespace ma
 		ds.depthCompareOp = VulkanMapping::get(m_eDepthCheckMode);
 		
 		ds.stencilTestEnable = m_bStencil;
-		ds.back.failOp = VulkanMapping::get(m_eStencilFail); 
-		ds.back.passOp = VulkanMapping::get(m_eStencilPass); 
-		ds.back.compareOp = VulkanMapping::get(m_eStencilfunc);
-		ds.back.compareMask = m_nStencilMask;
-		ds.back.reference = m_nStencilRef;
-		ds.back.depthFailOp = VulkanMapping::get(m_eDepthFailOp); 
-		ds.back.writeMask = m_nStencilWriteMask;
-		ds.front = ds.back;
+		ds.front.failOp = VulkanMapping::get(m_eStencilFail);
+		ds.front.passOp = VulkanMapping::get(m_eStencilPass);
+		ds.front.compareOp = VulkanMapping::get(m_eStencilfunc);
+		ds.front.compareMask = m_nStencilMask;
+		ds.front.reference = m_nStencilRef;
+		ds.front.depthFailOp = VulkanMapping::get(m_eDepthFailOp);
+		ds.front.writeMask = m_nStencilWriteMask;
+
+		ds.back = ds.front;
+
+		if (m_bBackFaceStencil)
+		{
+			ds.back.compareOp = VulkanMapping::get(m_eBackStencilfunc);
+			ds.back.failOp = VulkanMapping::get(m_eBackStencilFail);
+			ds.back.passOp = VulkanMapping::get(m_eBackStencilPass);
+			ds.back.depthFailOp = VulkanMapping::get(m_eBackDepthFailOp);
+		}
 	}
 
 	VulkanBlendState::VulkanBlendState()

@@ -4,6 +4,14 @@
 
 namespace ma
 {	
+
+	ShaderCreateInfo::ShaderCreateInfo()
+	{
+		m_pBlendState = CreateBlendState();
+		m_pDSState = CreateDepthStencilState();
+		m_pRSState = CreateRasterizerState();
+	}
+
 	ShaderProgram::ShaderProgram()
 	{
 	}

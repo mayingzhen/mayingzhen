@@ -39,7 +39,7 @@ namespace ma
 
 		//UpdateViewMatrix(worldTransform);
 		m_matViewInv = worldTransform;
-		m_matView = m_matViewInv.inverseAffine();
+		m_matView = m_matViewInv.inverse();
 
 		this->UpdateViewProjMatrix();
 	}

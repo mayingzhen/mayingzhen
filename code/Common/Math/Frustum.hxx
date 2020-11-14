@@ -66,7 +66,7 @@ namespace ma
 
 	void Frustum::Update(const Matrix4& matViewProj, bool bGLSystem, bool bInvertedY)
 	{
-		UpdatePoint(matViewProj.inverse(),bGLSystem,bInvertedY);
+		UpdatePoint(matViewProj.inverse(),false,false);
 
 		UpdatePlanes();
 

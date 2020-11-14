@@ -943,10 +943,29 @@ namespace ma
 		Vector3 vDirZ = vAt - vEye;
 		vDirZ.normalise();
 
-		Vector3 vDirX = vUp.crossProduct(vDirZ);
+		Vector3 vDirY = vUp.normalisedCopy();
+		float dot = vDirZ.dotProduct(vDirY);
+		if (dot > float(1 - 1e-4f) || dot < float(-1 + 1e-4f))
+		{
+			// 前向量和上向量平行时重新生成上向量
+			Vector3 f_abs(std::abs(vDirZ.x), std::abs(vDirZ.y), std::abs(vDirZ.z));
+			vDirY = Vector3(1.0f, .0f, .0f);
+			float min = f_abs.x;
+			if (min > f_abs.y)
+			{
+				vDirY = Vector3(.0f, 1.0f, .0f);
+				min = f_abs.y;
+			}
+			if (min > f_abs.z)
+			{
+				vDirY = Vector3(.0f, .0f, 1.0f);
+			}
+		}
+
+		Vector3 vDirX = vDirY.crossProduct(vDirZ);
 		vDirX.normalise();
 
-		Vector3 vDirY = vDirZ.crossProduct(vDirX);
+		/*Vector3 */vDirY = vDirZ.crossProduct(vDirX);
 		vDirY.normalise();
 
 		Matrix4 matView(

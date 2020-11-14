@@ -47,6 +47,13 @@ namespace ma
 		uint32_t			m_nStencilWriteMask;
 		uint32_t			m_nStencilRef;
 
+		bool				m_bBackFaceStencil = false;
+		CompareFunction		m_eBackStencilfunc = CMPF_ALWAYS_PASS;
+		StencilOperation	m_eBackStencilPass = SOP_KEEP;
+		StencilOperation	m_eBackStencilFail = SOP_KEEP;
+		StencilOperation	m_eBackDepthFailOp = SOP_KEEP;
+
+
 		bool				m_bDepthWrite;
 		CompareFunction		m_eDepthCheckMode;
         

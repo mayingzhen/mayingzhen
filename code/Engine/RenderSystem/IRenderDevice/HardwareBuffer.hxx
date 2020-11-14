@@ -58,6 +58,18 @@ namespace ma
 		}
 	}
 
+	void HardwareBuffer::UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
+	{
+		ASSERT(m_Usage == HBU_DYNAMIC);
+		uint8_t* pCopyData = new uint8_t[nSize];
+		memcpy(pCopyData, pData, nSize);
+		GetRenderSystem()->RC_AddRenderCommad([this, nOffset, pCopyData, nSize] {
+			this->RT_UpdateData(nOffset, pCopyData, nSize);
+			delete pCopyData;
+		}
+		);
+	}
+
 	void HardwareBuffer::FreeData()
 	{
 		SAFE_DELETE_ARRAY(m_pData);

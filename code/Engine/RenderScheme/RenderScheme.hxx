@@ -22,7 +22,7 @@ namespace ma
 
 	RenderScheme::RenderScheme()
 	{
-		m_bShadowMapEnable = false;
+		m_bShadowMapEnable = true;
 
 		if (m_bShadowMapEnable)
 		{

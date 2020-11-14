@@ -9,8 +9,8 @@ namespace ma
 
 	void SampleShadowMap::Load()
 	{
-		Vector3 lookAtPos(0, 0, 0);
-		Vector3 eyePos = Vector3(10, 36, -6);
+		Vector3 lookAtPos(36, 0, 0);
+		Vector3 eyePos = Vector3(36, 36, -36);
 		GetCamera()->LookAt(eyePos, lookAtPos);
 
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));

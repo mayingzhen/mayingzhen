@@ -31,6 +31,10 @@ namespace ma
 
 		void			FreeData();
 
+		void			UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize);
+
+		virtual void	RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize) = 0;
+
 	protected:
 		virtual void*	LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlags) = 0;
 
