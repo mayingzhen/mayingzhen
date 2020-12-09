@@ -22,7 +22,7 @@ namespace ma
 
 		void				InitShadowMap(DirectonalLight* pParent, Rectangle viewPort, RenderPass* pSMPass);
 
-		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);	
+		void				Update(Camera* pCamera, RenderStep* shadowStep,float fSpiltNear,float fSpiltFar);
 		void				Render(Camera* pCamera, RenderStep* shadowStep);
 
 		void				Clear(Camera* pCamera);
@@ -37,7 +37,7 @@ namespace ma
 	private:
 		void				UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar);
 		void				UpdateFrustum(Camera* pCamera,float fSpiltNear,float fSpiltFar);
-		void				UpdateBatch(Camera* pCamera);
+		void				UpdateBatch(Camera* pCamera, RenderStep* shadowSte);
 		void				UpdateLightMatrix(Camera* pCamera,float fSpiltNear,float fSpiltFar);
 		void				UpdateCropMats();
 		void				QuantizeViewSize(float& fWidth,float& fHight);

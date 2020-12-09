@@ -122,7 +122,7 @@ namespace ma
 		return texAdjust;
 	}
 
-	void ShadowMapFrustum::UpdateBatch(Camera* pCamera)
+	void ShadowMapFrustum::UpdateBatch(Camera* pCamera,RenderStep* shadowStep)
 	{
 		if (!m_bDraw)
 			return;
@@ -143,7 +143,7 @@ namespace ma
 				continue;
 			}
 
-			pRenderComp->RenderShadow(pRenderQueue);
+			pRenderComp->Render(pRenderQueue, shadowStep->m_pRenderPass.get());
 
 			m_casterAABB.merge(pRenderComp->GetAABBWS());
 		}
@@ -301,7 +301,7 @@ namespace ma
 		m_fSlopeScaleBias = fConstantBias * multiplier;
 	}
 
-	void ShadowMapFrustum::Update(Camera* pCamera,float fSpiltNear,float fSpiltFar)
+	void ShadowMapFrustum::Update(Camera* pCamera, RenderStep* shadowStep, float fSpiltNear,float fSpiltFar)
 	{
 		m_fNear = fSpiltNear;
 		m_fFar = fSpiltFar;
@@ -314,7 +314,7 @@ namespace ma
 
 		UpdateLightMatrix(pCamera,fSpiltNear,fSpiltFar);
 
-		UpdateBatch(pCamera);
+		UpdateBatch(pCamera,shadowStep);
 
 		UpdateCropMats();
 

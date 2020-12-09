@@ -82,15 +82,15 @@ namespace ma
 		m_worldAABB.transformAffine(m_pSceneNode->GetMatrixWS());
 	}
 
-	void RenderComponent::Render(RenderQueue* pRenderQueue)
+	void RenderComponent::Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
 	{
 		ASSERT(false);
 	}
 	
-	void RenderComponent::RenderShadow(RenderQueue* pRenderQueue)
-	{
-		ASSERT(false);
-	}
+// 	void RenderComponent::RenderShadow(RenderQueue* pRenderQueue)
+// 	{
+// 		ASSERT(false);
+// 	}
 
 
 	const	AABB& RenderComponent::GetAABB() const

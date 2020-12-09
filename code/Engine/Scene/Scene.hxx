@@ -4,6 +4,99 @@
 
 namespace ma
 {
+// 	class RenderView
+// 	{
+// 	protected:
+// 		RefPtr<Camera>	m_pCamera;
+// 
+// 		RefPtr<Scene>	m_pScene;
+// 
+// 		std::string		m_name;
+// 
+// 		RefPtr<RenderStep> m_vecRenderStep;
+// 
+// 
+// 	};
+// 
+// 	
+// 
+// 	class MainRenderView : public RenderView
+// 	{
+// 		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
+// 		VEC_RENDERCOMP			m_arrRenderComp;
+// 
+// 		void Render();
+// 	};
+// 
+// 	void MainRenderView::Render()
+// 	{
+// 		MICROPROFILE_SCOPEI("", "MainRenderView::Render", 0);
+// 
+// 		RenderStep* render_step = GetRenderSystem()->GetBaseRender();
+// 
+// 		RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+// 
+// 		m_arrRenderComp.clear();
+// 
+// 		typedef vector<RenderComponent*> VEC_OBJ;
+// 		static VEC_OBJ vecObj;
+// 		m_pScene->GetCullTree()->FindObjectsIn(&m_pCamera->GetFrustum(), -1, vecObj);
+// 
+// 		uint32_t nNodeCount = vecObj.size();
+// 		m_arrRenderComp.resize(nNodeCount);
+// 		for (uint32_t mm = 0; mm < nNodeCount; ++mm)
+// 		{
+// 			m_arrRenderComp[mm] = vecObj[mm];
+// 		}
+// 		vecObj.clear();
+// 
+// 		pRenderQueue->Clear();
+// 
+// 		pRenderQueue->SetCamera(m_pCamera.get());
+// 		pRenderQueue->SetMainLight(m_pMainDirLight.get(), m_cAmbientColor);
+// 
+// 		for (uint32_t i = 0; i < m_arrRenderComp.size(); ++i)
+// 		{
+// 			m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());
+// 
+// 			m_arrRenderComp[i]->Render(pRenderQueue);
+// 		}
+// 
+// 		if (GetJobScheduler()->GetNumThreads() > 0)
+// 		{
+// 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelShow.size());
+// 			for (uint32_t i = 0; i < m_vecParallelShow.size(); ++i)
+// 			{
+// 				Component* pComp = m_vecParallelUpdate[i].get();
+// 				Camera* pCamera = m_pCamera.get();
+// 
+// 				GetJobScheduler()->SubmitJob(jobGroup,
+// 					[pComp, pCamera]() { pComp->ParallelShow(pCamera); }
+// 				);
+// 			}
+// 			GetJobScheduler()->WaitForGroup(jobGroup);
+// 			m_vecParallelShow.clear();
+// 		}
+// 		else
+// 		{
+// 			for (uint32_t i = 0; i < m_vecParallelShow.size(); ++i)
+// 			{
+// 				Component* pComp = m_vecParallelUpdate[i].get();
+// 				Camera* pCamera = m_pCamera.get();
+// 				pComp->ParallelShow(pCamera);
+// 			}
+// 		}
+// 
+// 
+// 		GetRenderSystem()->AddRenderStep(render_step);
+// 	}
+// 
+// 	class ShadowMapRenderView : public RenderView
+// 	{
+// 
+// 	};
+
+
 	Scene::Scene(const char* pszName)
 	{
 		m_pRootNode = new SceneNode(this);
@@ -114,6 +207,7 @@ namespace ma
 		RenderStep* render_step = GetRenderSystem()->GetBaseRender();
 
 		RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+		RenderPass* pRenderPass = render_step->m_pRenderPass.get();
 
 		m_arrRenderComp.clear();
 
@@ -138,7 +232,7 @@ namespace ma
 		{
 			m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());
 
-			m_arrRenderComp[i]->Render(pRenderQueue);
+			m_arrRenderComp[i]->Render(pRenderQueue, pRenderPass);
 		}
 
 		if (GetJobScheduler()->GetNumThreads() > 0)

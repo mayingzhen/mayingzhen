@@ -34,6 +34,7 @@ namespace ma
 		const char*			GetShaderDefine() const;
 		void				SetShaderDefine(const char* pszDefine);
 
+		RenderPass*			GetRenderPass();
 		void				SetRenderPass(RenderPass* pPass);
 
 		int					GetShaderMacroInt(const char* pszMacro);

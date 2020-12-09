@@ -19,6 +19,8 @@ namespace ma
 
 		Technique*			GetShadowDepthTechnqiue();
 
+		Technique*			GetTechnqiue(RenderPass* pPass);
+
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 
@@ -33,6 +35,8 @@ namespace ma
 		RefPtr<Technique>	m_pShadingTech;
 
 		RefPtr<Technique>	m_pShadowDepthTech;
+
+		std::vector<RefPtr<Technique> >	m_vecExtTech;
 
 		typedef std::vector<Parameter> VEC_PARAM;
 		VEC_PARAM			m_arrParameters;

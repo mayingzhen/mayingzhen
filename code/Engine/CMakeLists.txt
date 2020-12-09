@@ -12,6 +12,9 @@ source_group("Material" FILES ${Material})
 file(GLOB_RECURSE Renderable ${CMAKE_CURRENT_SOURCE_DIR}/Renderable/*.h*)
 source_group("Renderable" FILES ${Renderable})
 
+file(GLOB_RECURSE FrameGraph ${CMAKE_CURRENT_SOURCE_DIR}/FrameGraph/*.h*)
+source_group("FrameGraph" FILES ${FrameGraph})
+
 file(GLOB_RECURSE RenderScheme ${CMAKE_CURRENT_SOURCE_DIR}/RenderScheme/*.h*)
 source_group("RenderScheme" FILES ${RenderScheme})
 
@@ -46,6 +49,7 @@ set(SOURCE_FILES
 		${ImageData}
 		${Material}
 		${Renderable}
+		${FrameGraph}
 		${RenderScheme}
 		${RenderSystem}
 		${Resource}

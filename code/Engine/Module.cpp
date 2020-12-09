@@ -38,7 +38,7 @@
 #endif // PLATFORM_ANDROID
 
 
-
+// ImageData
 #include "Engine/ImageData/PixelFormat.hxx"
 #include "Engine/ImageData/ImageData.hxx"
 #include "Engine/ImageData/ImageCodec.hxx"
@@ -57,7 +57,7 @@
 #include "Engine/Renderable/ScreenQuad.hxx"
 #include "Engine/Renderable/UnitSphere.hxx"
 
-
+// RenderSystem
 #include "Engine/RenderSystem/RenderSystem.hxx"
 #include "Engine/RenderSystem/RingBuffer.hxx"
 #include "Engine/RenderSystem/RenderThread.hxx"
@@ -73,6 +73,7 @@
 #include "Engine/RenderSystem/IRenderDevice/RenderState.hxx"
 #include "Engine/RenderSystem/PrefilterCube.hxx"
 
+// Material
 #include "Engine/Material/Material.hxx"
 #include "Engine/Material/MaterialParameter.hxx"
 #include "Engine/Material/ShaderProgram.hxx"
@@ -84,9 +85,20 @@
 #include "Engine/Material/Uniform.hxx"
 #include "Engine/Material/UniformAnimation.hxx"
 
+// RenderScheme
 #include "Engine/RenderScheme/RenderScheme.hxx"
 #include "Engine/RenderScheme/PostProcess.hxx"
 #include "Engine/RenderScheme/DeferredShadowPass.hxx"
+
+// FrameGraph
+#include "Engine/FrameGraph/FrameGraph.hxx"
+#include "Engine/FrameGraph/Blackboard.hxx"
+#include "Engine/FrameGraph/FrameGraphHandle.hxx"
+#include "Engine/FrameGraph/PassNode.hxx"
+#include "Engine/FrameGraph/RenderTargetResourceEntry.hxx"
+#include "Engine/FrameGraph/ResourceEntry.hxx"
+#include "Engine/FrameGraph/FrameGraphPassResources.hxx"
+#include "Engine/FrameGraph/ResourceAllocator.hxx"
 
 
 // Scene

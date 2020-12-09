@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DataThread.h"
+#include <functional> 
 
 namespace ma
 {

@@ -22,9 +22,9 @@ namespace ma
 
 		virtual void				Update();
 
-		virtual	void				Render(RenderQueue* pRenderQueue);
+		virtual	void				Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
 
-		virtual	void				RenderShadow(RenderQueue* pRenderQueue);
+		//virtual	void				RenderShadow(RenderQueue* pRenderQueue);
 
 		bool						Load(const char* pszSknPath,const char* pszMatPath);
 

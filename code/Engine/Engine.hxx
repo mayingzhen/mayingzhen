@@ -2,6 +2,8 @@
 #include <thread>
 //#include "Scene/SoftwareRasterizer/Rasterizer.h"
 
+#include "FrameGraph/FrameGraph.h"
+
 namespace ma
 {
 	//Rasterizer* g_rasterizer = nullptr;
@@ -130,10 +132,226 @@ namespace ma
 		g_pRenderSystem->Update();
 	}
 
+
+// 	FrameGraphId<FrameGraphTexture> colorPass(FrameGraph& fg, const char* name)  
+// 	{
+// 
+// 		struct ColorPassData {
+// 			FrameGraphId<FrameGraphTexture> shadows;
+// 			FrameGraphId<FrameGraphTexture> color;
+// 			FrameGraphId<FrameGraphTexture> output;
+// 			FrameGraphId<FrameGraphTexture> depth;
+// 			FrameGraphId<FrameGraphTexture> ssao;
+// 			FrameGraphId<FrameGraphTexture> ssr;
+// 			FrameGraphId<FrameGraphTexture> structure;
+// 			FrameGraphRenderTargetHandle rt{};
+// 			ColourValue clearColor{};
+// 		};
+// 
+// 		auto& colorPass = fg.addPass<ColorPassData>(name,
+// 			[&](FrameGraph::Builder& builder, ColorPassData& data) {
+// 
+// 				Blackboard& blackboard = fg.getBlackboard();
+// 				TargetBufferFlags clearDepthFlags = TargetBufferFlags::NONE;
+// 				TargetBufferFlags clearColorFlags = config.clearFlags & TargetBufferFlags::COLOR;
+// 				data.clearColor = config.clearColor;
+// 
+// 				data.shadows = blackboard.get<FrameGraphTexture>("shadows");
+// 				data.ssr = blackboard.get<FrameGraphTexture>("ssr");
+// 				data.ssao = blackboard.get<FrameGraphTexture>("ssao");
+// 				data.color = blackboard.get<FrameGraphTexture>("color");
+// 				data.depth = blackboard.get<FrameGraphTexture>("depth");
+// 				data.structure = blackboard.get<FrameGraphTexture>("structure");
+// 
+// 				if (config.hasContactShadows) {
+// 					assert(data.structure.isValid());
+// 					data.structure = builder.sample(data.structure);
+// 				}
+// 
+// 				if (data.shadows.isValid()) {
+// 					data.shadows = builder.sample(data.shadows);
+// 				}
+// 
+// 				if (data.ssr.isValid()) {
+// 					data.ssr = builder.sample(data.ssr);
+// 				}
+// 
+// 				if (data.ssao.isValid()) {
+// 					data.ssao = builder.sample(data.ssao);
+// 				}
+// 
+// 				if (!data.color.isValid()) {
+// 					// we're allocating a new buffer, so its content is undefined and we might need
+// 					// to clear it.
+// 
+// 					if (view.getBlendMode() == View::BlendMode::TRANSLUCENT) {
+// 						// if the View is going to be blended in, then always clear to transparent
+// 						clearColorFlags |= TargetBufferFlags::COLOR;
+// 						data.clearColor = {};
+// 					}
+// 
+// 					if (view.isSkyboxVisible()) {
+// 						// if the skybox is visible, then we don't need to clear at all
+// 						clearColorFlags &= ~TargetBufferFlags::COLOR;
+// 					}
+// 
+// 					data.color = builder.createTexture("Color Buffer", colorBufferDesc);
+// 				}
+// 
+// 				if (!data.depth.isValid()) {
+// 					// clear newly allocated depth buffers, regardless of given clear flags
+// 					clearDepthFlags = TargetBufferFlags::DEPTH;
+// 					data.depth = builder.createTexture("Depth Buffer", {
+// 							.width = colorBufferDesc.width,
+// 							.height = colorBufferDesc.height,
+// 							// If the color attachment requested MS, we assume this means the MS buffer
+// 							// must be kept, and for that reason we allocate the depth buffer with MS
+// 							// as well. On the other hand, if the color attachment was allocated without
+// 							// MS, no need to allocate the depth buffer with MS, if the RT is MS,
+// 							// the tile depth buffer will be MS, but it'll be resolved to single
+// 							// sample automatically -- which is what we want.
+// 							.samples = colorBufferDesc.samples,
+// 							.format = TextureFormat::DEPTH32F,
+// 						});
+// 				}
+// 
+// 				if (colorGradingConfig.asSubpass) {
+// 					data.output = builder.createTexture("Tonemapped Buffer", {
+// 							.width = colorBufferDesc.width,
+// 							.height = colorBufferDesc.height,
+// 							.format = colorGradingConfig.ldrFormat
+// 						});
+// 					data.output = builder.write(data.output);
+// 					data.color = builder.read(data.color);
+// 				}
+// 
+// 				data.color = builder.write(builder.read(data.color));
+// 				data.depth = builder.write(builder.read(data.depth));
+// 
+// 				blackboard["depth"] = data.depth;
+// 
+// 				data.rt = builder.createRenderTarget("Color Pass Target", {
+// 						.attachments = {{ data.color, data.output, {}, {}}, data.depth, {}},
+// 						.samples = config.msaa,
+// 						.clearFlags = clearColorFlags | clearDepthFlags });
+// 			},
+// 			[=, &view](FrameGraphPassResources const& resources,
+// 				ColorPassData const& data, DriverApi& driver) {
+// 					auto out = resources.get(data.rt);
+// 
+// 					// set samplers and uniforms
+// 					PostProcessManager& ppm = getEngine().getPostProcessManager();
+// 					view.prepareSSAO(data.ssao.isValid() ?
+// 						resources.getTexture(data.ssao) : ppm.getOneTexture());
+// 
+// 					// set shadow sampler
+// 					view.prepareShadow(data.shadows.isValid() ?
+// 						resources.getTexture(data.shadows) : ppm.getOneTextureArray());
+// 
+// 					assert(data.structure.isValid());
+// 					if (data.structure.isValid()) {
+// 						const auto& structure = resources.getTexture(data.structure);
+// 						view.prepareStructure(structure ? structure : ppm.getOneTexture());
+// 					}
+// 
+// 					// TODO: check what getTexture() returns
+// 					if (data.ssr.isValid()) {
+// 						view.prepareSSR(resources.getTexture(data.ssr), config.refractionLodOffset);
+// 					}
+// 
+// 					view.prepareViewport(static_cast<filament::Viewport&>(out.params.viewport));
+// 					view.commitUniforms(driver);
+// 
+// 					out.params.clearColor = data.clearColor;
+// 
+// 					if (colorGradingConfig.asSubpass) {
+// 						out.params.subpassMask = 1;
+// 						driver.beginRenderPass(out.target, out.params);
+// 						pass.executeCommands(resources.getPassName());
+// 						ppm.colorGradingSubpass(driver, colorGradingConfig.translucent);
+// 					}
+// 					else {
+// 						driver.beginRenderPass(out.target, out.params);
+// 						pass.executeCommands(resources.getPassName());
+// 					}
+// 
+// 					driver.endRenderPass();
+// 
+// 					// color pass is typically heavy and we don't have much CPU work left after
+// 					// this point, so flushing now allows us to start the GPU earlier and reduce
+// 					// latency, without creating bubbles.
+// 					driver.flush();
+// 			}
+// 			);
+// 
+// 		// when color grading is done as a subpass, the output of the color-pass is the ldr buffer
+// 		auto output = colorGradingConfig.asSubpass ?
+// 			colorPass.getData().output : colorPass.getData().color;
+// 
+// 		fg.getBlackboard()["color"] = output;
+// 		return output;
+// 	}
+
+
 	void Engine::Render()
 	{
 		//SYSTRACE(Engine_Render);
 		MICROPROFILE_SCOPEI("", "Engine::Render", 0);
+
+		static ResourceAllocator* reource_alloc = new ResourceAllocator();
+
+		FrameGraph fg(*reource_alloc);
+
+		struct ColorPassData
+		{
+			FrameGraphId<FrameGraphTexture> color;
+			FrameGraphId<FrameGraphTexture> depth;
+			FrameGraphRenderTargetHandle rt{};
+
+		};
+		auto& colorPass = fg.addPass<ColorPassData>("color",
+			[&](FrameGraph::Builder& builder, ColorPassData& data) {
+				FrameGraphTexture::Descriptor colorBufferDesc;
+				colorBufferDesc.width = -1;
+				colorBufferDesc.height = -1;
+				data.color = builder.createTexture("color", colorBufferDesc);
+	
+				FrameGraphTexture::Descriptor depthBufferDesc;
+				depthBufferDesc.width = -1;
+				depthBufferDesc.height = -1;
+				depthBufferDesc.format = PF_D24S8;
+				depthBufferDesc.usage = TEXTURE_USAGE::USAGE_DEPTHSTENCIL;
+				data.depth = builder.createTexture("depth", depthBufferDesc);
+
+				data.color = builder.write(data.color);
+				data.depth = builder.write(data.depth);
+			},
+			[=](FrameGraphPassResources const& resources,ColorPassData const& data) {
+					//auto out = resources.get(data.rt);
+			}
+			);
+
+
+		fg.addTrivialSideEffectPass("Prepare Color Passes",
+			[=]() {
+				int xx = 4;
+			}
+		);
+
+		fg.addTrivialSideEffectPass("Prepare Color2 Passes",
+			[=]() {
+				int xx = 4;
+			}
+		);
+
+		//FrameGraphId<FrameGraphTexture> input = colorPassOutput;
+		//auto output = input;
+		//fg.present(output);
+		//fg.moveResource(fgViewRenderTarget, output);
+		fg.compile();
+		//fg.export_graphviz(slog.d, view.getName());
+		fg.execute();
+
 
 		g_pRenderSystem->Render();
 	}

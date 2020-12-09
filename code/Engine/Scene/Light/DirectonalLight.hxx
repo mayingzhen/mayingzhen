@@ -92,7 +92,7 @@ namespace ma
 		if (m_nMaxSplitCount == 1)
 		{
  			m_curSplitPos.x = pCamera->GetFarClip(); // For Depth bias
- 			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
+ 			m_SpitFrustum[0].Update(pCamera, m_shadowMapRender.get(), pCamera->GetNearClip(),pCamera->GetFarClip());
  			return;
  		}
 
@@ -117,7 +117,7 @@ namespace ma
 			// Setup the shadow camera for the split
 			m_curSplitPos[nCurSplitCount] = fFarSplit;
 
-			m_SpitFrustum[nCurSplitCount].Update(pCamera, fNearSplit, fFarSplit);
+			m_SpitFrustum[nCurSplitCount].Update(pCamera, m_shadowMapRender.get(), fNearSplit, fFarSplit);
 
 			fNearSplit = fFarSplit;
 			++nCurSplitCount;

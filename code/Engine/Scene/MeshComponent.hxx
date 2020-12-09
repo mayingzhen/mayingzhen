@@ -123,6 +123,11 @@ namespace ma
 			return;
 
 		RenderComponent::Update();
+
+		for (auto& pRenderObj : m_arrRenderable)
+		{
+			pRenderObj->SetWorldMatrix(m_pSceneNode->GetMatrixWS());
+		}
 	}
 
 	RefPtr<MeshRenderable> MeshComponent::CreateMeshRenderable()
@@ -178,13 +183,13 @@ namespace ma
 		return true;
 	}
 
-	void MeshComponent::Render(RenderQueue* pRenderQueue)
+	void MeshComponent::Render(RenderQueue* pRenderQueue,RenderPass* pRenderPass)
 	{
 		for (auto& pRenderObj : m_arrRenderable)
 		{
-			pRenderObj->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
+			//pRenderObj->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			Technique* Tech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
+			Technique* Tech = pRenderObj->GetMaterial()->GetTechnqiue(pRenderPass);
 			if (Tech == nullptr)
 			{
 				continue;
@@ -194,21 +199,19 @@ namespace ma
 		}
 	}
 
-	void MeshComponent::RenderShadow(RenderQueue* pRenderQueue)
-	{
-		for (auto& pRenderObj : m_arrRenderable)
- 		{
-			pRenderObj->SetWorldMatrix(m_pSceneNode->GetMatrixWS());
-
-			Technique* Tech = pRenderObj->GetMaterial()->GetShadowDepthTechnqiue();
-			if (Tech == nullptr)
-			{
-				continue;
-			}
-
- 			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj.get(), Tech);
- 		}
-	}
+// 	void MeshComponent::RenderShadow(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
+// 	{
+// 		for (auto& pRenderObj : m_arrRenderable)
+//  		{
+// 			Technique* Tech = pRenderObj->GetMaterial()->GetTechnqiue(pRenderPass);
+// 			if (Tech == nullptr)
+// 			{
+// 				continue;
+// 			}
+// 
+//  			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj.get(), Tech);
+//  		}
+// 	}
 
 	RefPtr<MeshComponent> CreateMeshComponent()
 	{

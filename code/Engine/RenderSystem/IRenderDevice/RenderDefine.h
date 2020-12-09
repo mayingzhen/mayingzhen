@@ -38,13 +38,17 @@ namespace ma
 			用法(硬件缓存使用)      
 	----------------------------------------------------------
 	*/
-	enum TEXTURE_USAGE
+	enum class TEXTURE_USAGE : uint8_t
 	{
-		USAGE_STATIC,
-		USAGE_RENDERTARGET,
-		USAGE_DEPTHSTENCIL,
-		USAGE_DYNAMIC,
+		USAGE_STATIC = 0x1,
+		USAGE_RENDERTARGET = 0x2,
+		USAGE_DEPTHSTENCIL = 0x4,
+		USAGE_DYNAMIC = 0x8,
+		USAGE_SAMPLEABLE = 0x10,
+		SUBPASS_INPUT = 0x20,
 	};
+
+	template<> struct EnableBitMaskOperators<TEXTURE_USAGE> : public std::true_type {};
 
 	enum BUFFER_USAGE
 	{

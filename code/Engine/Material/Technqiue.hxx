@@ -215,6 +215,11 @@ namespace ma
 		m_strDefine = pszDefine ? pszDefine : "";
 	}
 
+	RenderPass* Technique::GetRenderPass()
+	{
+		return m_pRenderPass.get();
+	}
+
 	void Technique::SetRenderPass(RenderPass* pPass)
 	{
 		m_pRenderPass = pPass;

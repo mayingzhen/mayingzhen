@@ -12,6 +12,24 @@ namespace ma
 		m_pShadingTech = NULL;
 	}
 
+	Technique* SubMaterial::GetTechnqiue(RenderPass* pPass)
+	{
+		if (m_pShadingTech && m_pShadingTech->GetRenderPass() == pPass)
+		{
+			return m_pShadingTech.get();
+		}
+
+		for (auto & tech : m_vecExtTech)
+		{
+			if (tech->GetRenderPass() == pPass)
+			{
+				return tech.get();
+			}
+		}
+
+		return nullptr;
+	}
+
 	void SubMaterial::SetShadingTechnqiue(Technique* pTech)
 	{
 		m_pShadingTech = pTech;

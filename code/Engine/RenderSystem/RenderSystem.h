@@ -18,6 +18,8 @@ namespace ma
 	class RasterizerState;
 	class DepthStencilState;
 
+
+
 	class  RenderSystem 
 	{
 		friend class RenderThread;

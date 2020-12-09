@@ -15,6 +15,24 @@ namespace ma
 	//class RenderQueue;
 	class DirectonalLight;
 
+// 	class RenderView
+// 	{
+// 	private:
+// 		RefPtr<Camera>	m_camera;
+// 		RefPtr<Scene>	m_scene;
+// 		std::string		m_name;
+// 	};
+// 
+// 	class MainRenderView : public RenderView
+// 	{
+// 
+// 	};
+// 
+// 	class ShadowMapRenderView : public RenderView
+// 	{
+// 
+// 	};
+
 
 	class Scene : public Referenced
 	{
