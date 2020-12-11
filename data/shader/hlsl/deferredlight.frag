@@ -130,7 +130,7 @@ void ps_main( VS_OUT vout, out PS_OUT pout )
 #if USING_SHADOW != 0
    float shadow = u_TextureSceneShadow.Sample(s_TextureSceneShadow, vout.oTc).r;
    
-   pout.flagColor *= shadow;
+   //pout.flagColor *= shadow;
 #endif
 
 #endif

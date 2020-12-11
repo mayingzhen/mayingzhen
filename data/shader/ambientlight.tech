@@ -6,6 +6,7 @@
 		</VertexDeclaration>
 	</Shader>
 	<RenderState>
+		<BlendState/>
 		<DepthStencilState ClassName="DepthStencilState">
 			<Attribute Name="DepthWrite" Type="bool" Value="false"/>
 			<Attribute Name="StencilMask" Type="uint32_t" Value="4294967295"/>

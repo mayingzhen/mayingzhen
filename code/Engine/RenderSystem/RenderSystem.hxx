@@ -77,13 +77,18 @@ namespace ma
 		}
 
 		m_scene->Update();
+
+		for (auto& it : m_renderView)
+		{
+			it->Update();
+		}
 	}
 
 	void RenderSystem::BegineRender()
 	{
 		m_pRenderThread->UpdateRenderIndex();
 
-		m_renderStepList[CurThreadFill()].clear();
+		//m_renderStepList[CurThreadFill()].clear();
 
 		m_pRenderThread->RC_BeginRender();
 	}
@@ -99,9 +104,14 @@ namespace ma
 	{
 		MICROPROFILE_SCOPEI("", "RenderSystem::Render", 0);
 
+		for (auto& it : m_renderView)
+		{
+			it->Render();
+		}
+
 		this->BegineRender();
 
-		m_scene->Render();
+		//m_scene->Render();
 
 		m_pRenderThread->RC_AddRenderCommad( []() {
 			GetRenderSystem()->RT_Render();
@@ -191,6 +201,10 @@ namespace ma
 		SetSceneContext(pRQ->GetSceneContext());
 
 		m_scene = new Scene("defaultScene");
+		MainRenderView* pMainView = new MainRenderView();
+		pMainView->m_name = "MainView";
+		pMainView->m_pScene = m_scene;
+		pMainView->m_pCamera = m_scene->GetCamera();
 	}
 
 	void RenderSystem::RT_Reset(uint32_t nWidth,uint32_t nHeight)
@@ -226,10 +240,10 @@ namespace ma
 
 		uint32_t nCurProcess = CurThreadProcess();
 
-		for (auto& render_step : m_renderStepList[nCurProcess])
-		{
-			render_step->Render();
-		}
+// 		for (auto& render_step : m_renderStepList[nCurProcess])
+// 		{
+// 			render_step->Render();
+// 		}
 	}
 
 	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
@@ -277,10 +291,10 @@ namespace ma
 		return m_pBaseRenderPass.get();
 	}
 
-	void RenderSystem::SetBackBufferRenderPass(RenderPass* pRenderPass)
-	{
-		m_pBackBufferRenderPass = pRenderPass;
-	}
+// 	void RenderSystem::SetBackBufferRenderPass(RenderPass* pRenderPass)
+// 	{
+// 		m_pBackBufferRenderPass = pRenderPass;
+// 	}
 
 	RenderPass*	RenderSystem::GetBackBufferRenderPass()
 	{
@@ -431,9 +445,17 @@ namespace ma
 		m_bNeedReloadShader = true;
 	}
 
-	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
+// 	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
+// 	{
+// 		m_renderStepList[CurThreadFill()].push_back(renderstep);
+// 	}
+
+	void RenderSystem::AddRenderView(RenderView* pRenderView)
 	{
-		m_renderStepList[CurThreadFill()].push_back(renderstep);
+		m_pRenderThread->RC_AddRenderCommad([this,pRenderView]() {
+			m_renderView.push_back(pRenderView);
+			}
+		);
 	}
 
 }

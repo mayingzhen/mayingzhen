@@ -15,25 +15,6 @@ namespace ma
 	//class RenderQueue;
 	class DirectonalLight;
 
-// 	class RenderView
-// 	{
-// 	private:
-// 		RefPtr<Camera>	m_camera;
-// 		RefPtr<Scene>	m_scene;
-// 		std::string		m_name;
-// 	};
-// 
-// 	class MainRenderView : public RenderView
-// 	{
-// 
-// 	};
-// 
-// 	class ShadowMapRenderView : public RenderView
-// 	{
-// 
-// 	};
-
-
 	class Scene : public Referenced
 	{
 	
@@ -44,7 +25,7 @@ namespace ma
 
 		void					Update();
 
-		void					Render();
+		//void					Render();
 
 		void					Reset(uint32_t nWidth,uint32_t nHeight);
 
@@ -59,8 +40,8 @@ namespace ma
 		void					SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 		Camera*					GetCamera() const {return m_pCamera.get();}
 
-		uint32_t				GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
-		RenderComponent*		GetVisibleNodeByIndex(uint32_t index) const {return m_arrRenderComp[index].get();}
+		//uint32_t				GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
+		//RenderComponent*		GetVisibleNodeByIndex(uint32_t index) const {return m_arrRenderComp[index].get();}
 
 		float					GetViewMinZ() const {return m_viwMinZ;}
 		float					GetViewMaxZ() const {return m_viwMaxZ;}
@@ -82,12 +63,12 @@ namespace ma
 		
 		RefPtr<Camera>			m_pCamera;
 
-		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
-		VEC_RENDERCOMP			m_arrRenderComp;
+		//typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
+		//VEC_RENDERCOMP			m_arrRenderComp;
 
 		typedef std::vector< RefPtr<Component> > VEC_COMP;
 		VEC_COMP				m_vecParallelUpdate;
-		VEC_COMP				m_vecParallelShow;
+		//VEC_COMP				m_vecParallelShow;
 		
 		float					m_viwMinZ;
 		float					m_viwMaxZ;

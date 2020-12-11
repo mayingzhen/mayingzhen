@@ -72,6 +72,7 @@
 #include "Engine/RenderSystem/IRenderDevice/VertexDeclaration.hxx"
 #include "Engine/RenderSystem/IRenderDevice/RenderState.hxx"
 #include "Engine/RenderSystem/PrefilterCube.hxx"
+#include "Engine/RenderSystem/RenderView.hxx"
 
 // Material
 #include "Engine/Material/Material.hxx"

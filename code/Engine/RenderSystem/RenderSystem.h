@@ -17,6 +17,7 @@ namespace ma
 	class BlendState;
 	class RasterizerState;
 	class DepthStencilState;
+	class RenderView;
 
 
 
@@ -51,7 +52,7 @@ namespace ma
 		void				SetBaseRenderPass(RenderPass* pRenderPass);
 		RenderPass*			GetBaseRenderPass();
 
-		void				SetBackBufferRenderPass(RenderPass* pRenderPass);
+		//void				SetBackBufferRenderPass(RenderPass* pRenderPass);
 		RenderPass*			GetBackBufferRenderPass();
 		
 		void*				GetMainWnd() {return m_hWnd;}
@@ -101,9 +102,11 @@ namespace ma
 
 		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
 
-		void				AddRenderStep(RefPtr<RenderStep> renderstep);
+		//void				AddRenderStep(RefPtr<RenderStep> renderstep);
 
-		RenderStep*			GetBaseRender() { return m_pRenderScheme.get(); }
+		//RenderStep*			GetBaseRender() { return m_pRenderScheme.get(); }
+
+		void				AddRenderView(RenderView pRenderView);
 
 	protected: 
 		void				RT_Init(void* wndhandle, int width, int height);
@@ -136,9 +139,11 @@ namespace ma
 		
 		bool				m_bDefferedRender = true;
 
-		RefPtr<RenderStep>  m_pRenderScheme;
+		//RefPtr<RenderStep>  m_pRenderScheme;
 
-		std::vector< RefPtr<RenderStep> > m_renderStepList[2];
+		std::vector< RefPtr<RenderView> > m_renderView;
+
+		//std::vector< RefPtr<RenderStep> > m_renderStepList[2];
 				
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro

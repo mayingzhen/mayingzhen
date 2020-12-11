@@ -6,6 +6,13 @@
 			<Element Value="0,12,DT_SHORT2N,DU_TEXCOORD,0"/>
 		</VertexDeclaration>
 	</Shader>
-	<RenderState/>
+	<RenderState>
+		<BlendState/>
+		<DepthStencilState ClassName="DepthStencilState">
+			<Attribute Name="StencilMask" Type="uint32_t" Value="4294967295"/>
+			<Attribute Name="WriteMask" Type="uint32_t" Value="4294967295"/>
+		</DepthStencilState>
+		<RasterizerState ClassName="RasterizerState"/>
+	</RenderState>
 </Technique>
 

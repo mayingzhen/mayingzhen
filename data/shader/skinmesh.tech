@@ -8,6 +8,13 @@
 			<Element Value="0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0"/>
 		</VertexDeclaration>
 	</Shader>
-	<RenderState/>
+	<RenderState>
+		<BlendState/>
+		<DepthStencilState ClassName="DepthStencilState">
+			<Attribute Name="StencilMask" Type="uint32_t" Value="4294967295"/>
+			<Attribute Name="WriteMask" Type="uint32_t" Value="4294967295"/>
+		</DepthStencilState>
+		<RasterizerState ClassName="RasterizerState"/>
+	</RenderState>
 </Technique>
 

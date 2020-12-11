@@ -89,13 +89,13 @@ namespace ma
 		image.tiling = VK_IMAGE_TILING_OPTIMAL;
 		image.format = m_vkformat;
 		image.usage = VK_IMAGE_USAGE_SAMPLED_BIT;
-		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		if (m_eUsage == TEXTURE_USAGE::USAGE_DEPTHSTENCIL)
 		{
 			image.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 
 			m_imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 		}
-		else if (m_eUsage == USAGE_RENDERTARGET)
+		else if (m_eUsage == TEXTURE_USAGE::USAGE_RENDERTARGET)
 		{
 			image.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
@@ -145,13 +145,13 @@ namespace ma
 		image.format = m_vkformat;	
 		image.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		image.usage = VK_IMAGE_USAGE_SAMPLED_BIT;
-		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		if (m_eUsage == TEXTURE_USAGE::USAGE_DEPTHSTENCIL)
 		{
 			image.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 
 			m_imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 		}
-		else if (m_eUsage == USAGE_RENDERTARGET)
+		else if (m_eUsage == TEXTURE_USAGE::USAGE_RENDERTARGET)
 		{
 			image.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
@@ -188,7 +188,7 @@ namespace ma
 		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
 		view.viewType = m_eType == TEXTYPE_CUBE ? VK_IMAGE_VIEW_TYPE_CUBE : VK_IMAGE_VIEW_TYPE_2D;
 		view.format = m_vkformat;
-		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		if (m_eUsage == TEXTURE_USAGE::USAGE_DEPTHSTENCIL)
 		{
 			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
 		}
@@ -221,7 +221,7 @@ namespace ma
 		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
 		view.viewType = VK_IMAGE_VIEW_TYPE_2D;
 		view.format = m_vkformat;
-		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		if (m_eUsage == TEXTURE_USAGE::USAGE_DEPTHSTENCIL)
 		{
 			view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
 		}

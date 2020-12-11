@@ -3,6 +3,7 @@
 cbuffer ObjectVS : register(b5)
 {
 	float4x4 matFrustum;
+    float2 vProjectNearFar;
 };
 
 void vs_main(float3 iPos			: POSITION0,
@@ -10,15 +11,26 @@ void vs_main(float3 iPos			: POSITION0,
 {
 
 	float4 vPos = float4(iPos,1.0);
+    if (vPos.z > 0.5)
+    {
+        vPos.z = vProjectNearFar.y;
+    }
+    else
+    {
+        vPos.z = vProjectNearFar.x;
+    }
 
-	vPos = mul(vPos, matFrustum);
+	//vPos = mul(vPos, matFrustum);
 
 	//normalization
-	vPos.xyz /= vPos.w;
-	vPos.w = 1.0f;
+	//vPos.xyz /= vPos.w;
+	//vPos.w = 1.0f;
 
 	//final ViewProj transformation
-	oPos = mul(vPos,g_matViewProj); 
+	//oPos = mul(vPos,g_matViewProj); 
+    //oPos = float4(iPos, 1.0);
+    oPos = vPos;
+
 }
 
 void ps_main(out float4  out_color0    : SV_TARGET)
