@@ -20,7 +20,6 @@ namespace ma
 	class RenderView;
 
 
-
 	class  RenderSystem 
 	{
 		friend class RenderThread;
@@ -52,7 +51,6 @@ namespace ma
 		void				SetBaseRenderPass(RenderPass* pRenderPass);
 		RenderPass*			GetBaseRenderPass();
 
-		//void				SetBackBufferRenderPass(RenderPass* pRenderPass);
 		RenderPass*			GetBackBufferRenderPass();
 		
 		void*				GetMainWnd() {return m_hWnd;}
