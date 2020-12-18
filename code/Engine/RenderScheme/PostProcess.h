@@ -36,6 +36,8 @@ namespace ma
 		std::map<std::string,std::string> m_strInTexture;
 
 		RefPtr<SubMaterial> m_pMaterial;
+
+		RefPtr<RenderStep> m_pRenderStep;
 	};
 
 	class PostProcess : public Referenced
@@ -61,6 +63,8 @@ namespace ma
 		std::string m_strName;
 
 		bool m_bActive = true;
+
+		RefPtr<RenderStep> m_pRenderStep;
 	};
 
 	class PostProcessPipeline : public Serializable

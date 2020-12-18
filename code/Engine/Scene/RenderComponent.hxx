@@ -5,7 +5,7 @@ namespace ma
 	RenderComponent::RenderComponent()
 	{
 		m_bParallelUpdate = false;
-		m_pCullNode = NULL;
+	
 		m_bVisible = true;
 		m_fViwMinZ = 0;
 		m_fViwMaxZ = 0;
@@ -13,7 +13,7 @@ namespace ma
 
 		m_nAABBChangeType = ACT_SELF_MATRIX;	
 
-		m_nCullIndex = -1;
+		m_pRenderproxy = new RenderProxy();
 	}
 
 	void RenderComponent::Update()
@@ -24,7 +24,7 @@ namespace ma
 
 		if (bNeedUpdate && m_pSceneNode && m_pSceneNode->GetScene())
 		{
-			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(m_pRenderproxy.get());
 		}
 	}
 
@@ -40,7 +40,7 @@ namespace ma
 	{
 		if (m_pSceneNode && m_pSceneNode->GetScene())
 		{
-			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(m_pRenderproxy.get());
 		}
 	}
 
@@ -48,7 +48,7 @@ namespace ma
 	{
 		if (m_pSceneNode && m_pSceneNode->GetScene())
 		{
-			m_pSceneNode->GetScene()->GetCullTree()->RemoveObject(this);	
+			m_pSceneNode->GetScene()->GetCullTree()->RemoveObject(m_pRenderproxy.get());
 		}
 	}
 
@@ -75,7 +75,9 @@ namespace ma
 			m_nAABBChangeType = ACT_SELF_CUSTOM | ACT_NOTIFY;
 		}
 		else
+		{
 			m_nAABBChangeType = ACT_NOTIFY;
+		}
 
 		m_worldAABB = m_AABB;
 		ASSERT(m_worldAABB.getMinimum() != m_worldAABB.getMaximum());
@@ -86,12 +88,6 @@ namespace ma
 	{
 		ASSERT(false);
 	}
-	
-// 	void RenderComponent::RenderShadow(RenderQueue* pRenderQueue)
-// 	{
-// 		ASSERT(false);
-// 	}
-
 
 	const	AABB& RenderComponent::GetAABB() const
 	{
@@ -107,7 +103,9 @@ namespace ma
 		m_nAABBChangeType |= ACT_SELF_CUSTOM | ACT_SELF_MATRIX;
 
 		if (m_pSceneNode && m_pSceneNode->GetScene())
-			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+		{
+			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(m_pRenderproxy.get());
+		}
 	}
 
 	const AABB&	RenderComponent::GetAABBWS() 

@@ -52,19 +52,26 @@ namespace ma
 			RefPtr<SamplerState> pSampler = CreateSamplerState(pTex);
 			m_pMaterial->SetParameter(it->first.c_str(), Any(pSampler));
 		}
+
+		m_pRenderStep = new RenderStep();
+		m_pRenderStep->m_strName = m_strName;
+		m_pRenderStep->m_pRenderPass = m_pRenderPass;
+
+		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
+		m_pRenderStep->m_pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), pTech.get());
 	}
 
 	void PostProcessStep::Render()
 	{
-		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
-
-		RenderCommand* pCommand = m_pRenderPass->GetThreadCommand(0, 0);
-
-		pCommand->Begin();
-
-		ScreenQuad::Render(pTech.get(), pCommand);
-
-		pCommand->End();
+// 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
+// 
+// 		RenderCommand* pCommand = m_pRenderPass->GetThreadCommand(0, 0);
+// 
+// 		pCommand->Begin();
+// 
+// 		ScreenQuad::Render(pTech.get(), pCommand);
+// 
+// 		pCommand->End();
 	}
 
 	const char* PostProcessStep::GetName()

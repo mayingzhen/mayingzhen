@@ -1,5 +1,4 @@
-#ifndef  _SkinMeshRendererable__H__
-#define  _SkinMeshRendererable__H__
+#pragma once
 
 #include "MeshRenderable.h"
 
@@ -27,5 +26,5 @@ namespace ma
 
 }
 
-#endif
+
 

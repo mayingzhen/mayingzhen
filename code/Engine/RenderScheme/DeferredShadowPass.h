@@ -34,6 +34,9 @@ namespace ma
 		void CreateSimpleLightFrustumMesh();
 
 	private:
+
+		RefPtr<RenderStep>	m_pRenderStep;
+
 		RefPtr<Texture>		m_pShadowTex;	
 		RefPtr<SamplerState> m_pShadowSampler;
 
@@ -41,15 +44,12 @@ namespace ma
 
 		RefPtr<Technique>	m_pFrustumVolume[4];
 
-		//RefPtr<Technique>	m_pFrustumVolumeScale[4];
-
 		RefPtr<Technique>	m_pDefferedShadow[4];
-
-		//RefPtr<Technique>	m_pBlendMaterial[4];
 
 		RefPtr<Renderable>	m_pRenderable;
 
 		std::vector<SMFrustumInfo>	m_vecFrustum;
+
 	};
 
 	DeferredShadow* GetDeferredShadow();

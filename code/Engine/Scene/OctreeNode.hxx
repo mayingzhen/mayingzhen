@@ -33,13 +33,13 @@ namespace ma
 		}
 	}
 
-	void OctreeNode::AddObject(RenderComponent* pObject)
+	void OctreeNode::AddObject(RenderProxy* pObject)
 	{
 		ASSERT(std::find(m_vecObject.begin(), m_vecObject.end(), pObject) == m_vecObject.end());
 		m_vecObject.push_back(pObject);
 	}
 
-	void OctreeNode::RemoveObject(RenderComponent* pObject)
+	void OctreeNode::RemoveObject(RenderProxy* pObject)
 	{
 		VEC_OBJECT::iterator iter = std::find(m_vecObject.begin(), m_vecObject.end(), pObject);
 		if (iter == m_vecObject.end())
@@ -114,7 +114,7 @@ namespace ma
 		return m_vecObject.size();
 	}
 
-	RenderComponent* OctreeNode::GetObjectByIndex(uint32_t nIndex) const
+	RenderProxy* OctreeNode::GetObjectByIndex(uint32_t nIndex) const
 	{
 		return m_vecObject[nIndex];
 	}

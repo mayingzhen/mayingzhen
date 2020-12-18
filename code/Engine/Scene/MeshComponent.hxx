@@ -6,7 +6,7 @@ namespace ma
 {
 	MeshComponent::MeshComponent()
 	{
-
+		m_pRenderproxy = new MeshRenderProxy();
 	}
 
 	MeshComponent::~MeshComponent()
@@ -70,27 +70,7 @@ namespace ma
 		m_pMaterial = pMaterial;
 	}
 
-	uint32_t MeshComponent::GetRenderableCount() const
-	{
-		return m_arrRenderable.size();
-	}
 
-	Renderable*	MeshComponent::GetRenderableByIndex(uint32_t index) const
-	{
-		return m_arrRenderable[index].get();
-	}
-
-	uint32_t MeshComponent::GetShadowRenderableCount() const
-	{
-		uint32_t nLod = m_arrRenderable.size() - 1;
-		return m_arrRenderable.size();
-	}
-
-	Renderable*	MeshComponent::GetShadowRenderableByIndex(uint32_t index) const
-	{
-		uint32_t nLod = m_arrRenderable.size() - 1;
-		return m_arrRenderable[index].get();
-	}
 
 	void MeshComponent::SetShadowCaster(bool b)
 	{
@@ -135,13 +115,16 @@ namespace ma
 		return new MeshRenderable();
 	}
 
-	void MeshComponent::CreateRenderable(VEC_RENDERABLE& arrRenderable)
+	void MeshComponent::CreateRenderable()
 	{
 		ASSERT(m_pMaterial && m_pMesData);
 		if (m_pMaterial == nullptr || m_pMesData == nullptr)
 			return;
 		
-		arrRenderable.clear();
+		MeshRenderProxy* pMeshRenderProxy = dynamic_cast<MeshRenderProxy*>(m_pRenderproxy.get());
+		ASSERT(pMeshRenderProxy);
+
+		pMeshRenderProxy->Clear();
 
 		for (uint32_t iSub = 0; iSub < m_pMesData->GetSubMeshNumber(); ++iSub)
 		{
@@ -167,7 +150,7 @@ namespace ma
 			pSubMaterial->SetParameter("pos_center", Any(pos_center));
 			pSubMaterial->SetParameter("tc_extent_center", Any(tc_extent_center));
 
-			arrRenderable.push_back(pRenderable);
+			pMeshRenderProxy->AddRenderable(pRenderable.get());
 		}
 	}
 
@@ -176,7 +159,7 @@ namespace ma
 		if (m_pMaterial == nullptr || m_pMesData == nullptr)
 			return false;
 
-		CreateRenderable(m_arrRenderable);
+		CreateRenderable();
 
 		SetAABB(m_pMesData->GetBoundingAABB());
 
@@ -187,8 +170,6 @@ namespace ma
 	{
 		for (auto& pRenderObj : m_arrRenderable)
 		{
-			//pRenderObj->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
-
 			Technique* Tech = pRenderObj->GetMaterial()->GetTechnqiue(pRenderPass);
 			if (Tech == nullptr)
 			{
@@ -199,23 +180,30 @@ namespace ma
 		}
 	}
 
-// 	void MeshComponent::RenderShadow(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
-// 	{
-// 		for (auto& pRenderObj : m_arrRenderable)
-//  		{
-// 			Technique* Tech = pRenderObj->GetMaterial()->GetTechnqiue(pRenderPass);
-// 			if (Tech == nullptr)
-// 			{
-// 				continue;
-// 			}
-// 
-//  			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj.get(), Tech);
-//  		}
-// 	}
-
 	RefPtr<MeshComponent> CreateMeshComponent()
 	{
 		return new MeshComponent();
+	}
+
+
+	uint32_t MeshRenderProxy::GetRenderableCount() const
+	{
+		return m_arrRenderable.size();
+	}
+
+	Renderable* MeshRenderProxy::GetRenderableByIndex(uint32_t index) const
+	{
+		return m_arrRenderable[index].get();
+	}
+
+	void MeshRenderProxy::AddRenderable(MeshRenderable* renderable)
+	{
+		m_arrRenderable.push_back(renderable);
+	}
+
+	void MeshRenderProxy::Clear()
+	{
+		m_arrRenderable.clear();
 	}
 
 }

@@ -5,22 +5,7 @@
 
 namespace ma
 {
-
-	void RenderStep::Render()
-	{
-		RenderQueue* cur_renderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
-		RenderPass*  cur_renderPass = m_pRenderPass.get();
-
-		SetSceneContext(cur_renderQueue->GetSceneContext());
-
-		cur_renderPass->Begine();
-
-		cur_renderQueue->Render(cur_renderPass);
-
-		cur_renderPass->End();
-	}
-
-	RenderScheme::RenderScheme()
+	MainRenderStep::MainRenderStep()
 	{
 		m_bShadowMapEnable = true;
 
@@ -39,12 +24,12 @@ namespace ma
 		Reset();
 	}
 
-	RenderScheme::~RenderScheme()
+	MainRenderStep::~MainRenderStep()
 	{
 		SAFE_DELETE(g_pPostProcessPipeline);
 	}
 
-	void RenderScheme::Init()
+	void MainRenderStep::Init()
 	{
 		Shoutdown();
 	}
@@ -225,7 +210,7 @@ namespace ma
 		}
 	}
 
-	void RenderScheme::SetupBasePass()
+	void MainRenderStep::SetupBasePass()
 	{
 		m_pBaseColor = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
 		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
@@ -245,9 +230,15 @@ namespace ma
 		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_textureSceneNormal", [this](Renderable*)->SamplerState* {
 			return m_pNormalSampler.get();
 		});
+
+		m_pGbufferStep = new RenderStep();
+		m_pGbufferStep->m_strName == "GBuffer";
+		m_pGbufferStep->m_pRenderPass = m_pGbufferPass;
+		m_vecRenderStep.push_back(m_pGbufferStep.get());
+
 	}
 
-	void RenderScheme::SetupLightPass()
+	void MainRenderStep::SetupLightPass()
 	{
 		if (m_bHDREnable)
 		{
@@ -262,6 +253,11 @@ namespace ma
 		{
 			m_pLightPass = GetRenderSystem()->GetBackBufferRenderPass();
 		}
+
+		m_pLightStep = new RenderStep();
+		m_pLightStep->m_strName = "Light";
+		m_pLightStep->m_pRenderPass = m_pLightPass;
+		m_vecRenderStep.push_back(m_pLightStep);
 
 		// Setup Tech
 		if (1)
@@ -325,7 +321,7 @@ namespace ma
 		m_pAmbientLight = CreateTechnique("shader/ambientLight.tech","",m_pLightPass.get());
 	}
 
-	void RenderScheme::SetupHDRPass()
+	void MainRenderStep::SetupHDRPass()
 	{
 		if (!m_bHDREnable)
 			return;
@@ -363,7 +359,7 @@ namespace ma
 		m_lastStep->Setup(pTemPass.get(), GetRenderSystem()->GetBaseRenderPass());
 	}
 
-	void RenderScheme::Reset()
+	void MainRenderStep::Reset()
 	{	
 		m_pBackBaufferPass = GetRenderSystem()->GetBaseRenderPass();
 
@@ -392,47 +388,50 @@ namespace ma
 		GetRenderSystem()->ReloadShader();
 	}
 
-	void RenderScheme::Shoutdown()
+	void MainRenderStep::Shoutdown()
 	{
 		m_pDepthTex = NULL;
 		m_pNormalTex = NULL;
 		m_pBaseColor = NULL;
 	}
 
-	void RenderScheme::ComputePass()
+	void MainRenderStep::ComputePass()
 	{
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+		RenderQueue* pRenderQueue = m_pRenderQueue.get();
 
 		pRenderQueue->Compute();
 	}
 
 
-	void RenderScheme::BasePass()
+	void MainRenderStep::BasePass()
 	{
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
-
-		m_pGbufferPass->Begine();
-
-		pRenderQueue->Render(m_pGbufferPass.get(), RL_Mesh, RL_Terrain);
-
-		m_pGbufferPass->End();
-
-		pRenderQueue->Render(m_pGbufferPass.get(), RL_SkyBox, RL_MeshTrans);
+// 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+// 
+// 		m_pGbufferPass->Begine();
+// 
+// 		pRenderQueue->Render(m_pGbufferPass.get(), RL_Mesh, RL_Terrain);
+// 
+// 		m_pGbufferPass->End();
+// 
+// 		pRenderQueue->Render(m_pGbufferPass.get(), RL_SkyBox, RL_MeshTrans);
 	}
 
-	void RenderScheme::LightPass()
+	void MainRenderStep::LightPass()
 	{
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+		RenderQueue* pRenderQueue = m_pLightStep->m_pRenderQueue.get(); //m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+		pRenderQueue->Clear();
 
-		m_pLightPass->Begine();
+		//m_pLightPass->Begine();
 
-		RenderCommand* pCommand = m_pLightPass->GetThreadCommand(0, 0);
+		//RenderCommand* pCommand = m_pLightPass->GetThreadCommand(0, 0);
 
-		pCommand->Begin();
+		//pCommand->Begin();
+
 
 		Vector3 cAmbientColor = pRenderQueue->GetSceneContext()->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
-		ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
+		//ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
+		pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), m_pAmbientLight.get());
 
 		for (auto& light : pRenderQueue->GetRenderLights())
 		{
@@ -444,7 +443,8 @@ namespace ma
 				light.m_pTech->SetValue(pUniformDir, light.m_vDir);
 				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
 
-				ScreenQuad::Render(light.m_pTech.get(), pCommand);
+				//ScreenQuad::Render(light.m_pTech.get(), pCommand);
+				pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), light.m_pTech.get());
 			}
 			else if (light.m_eType == LIGHT_POINT)
 			{
@@ -456,28 +456,29 @@ namespace ma
 				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
 				light.m_pTech->SetValue(pUniformPosRadius, vPosRadius);
 
-				UnitSphere::Render(light.m_pTech.get(), light.m_vPos, light.m_fRadius, pCommand);
+				//UnitSphere::Render(light.m_pTech.get(), light.m_vPos, light.m_fRadius, pCommand);
+				//pRenderQueue->AddRenderObj(RL_Mesh, UnitSphere::GetRenderable(), light.m_pTech.get());
 			}
 		}
 
-		pCommand->End();
+		//pCommand->End();
 
-		pRenderQueue->Render(m_pLightPass.get(), RL_MeshTrans, RL_MeshTrans);
+		//pRenderQueue->Render(m_pLightPass.get(), RL_MeshTrans, RL_MeshTrans);
 
-		if (!m_bHDREnable)
-		{
-			pRenderQueue->Render(m_pLightPass.get(), RL_UI, RL_UI);
-		}
+		//if (!m_bHDREnable)
+		//{
+		//	pRenderQueue->Render(m_pLightPass.get(), RL_UI, RL_UI);
+		//}
 
-		m_pLightPass->End();
+		//m_pLightPass->End();
 	}
 
-	void RenderScheme::HDRPass()
+	void MainRenderStep::HDRPass()
 	{
 		if (!m_bHDREnable)
 			return;
 
-		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+		RenderQueue* pRenderQueue = m_pRenderQueue.get();
 
 		g_pPostProcessPipeline->Render();
 
@@ -491,20 +492,27 @@ namespace ma
 
 	}
 
-	void RenderScheme::Render()
+	void MainRenderStep::Render()
 	{
-		ComputePass();
-
-		BasePass();
-
-		if (m_pDeferredShadow)
-		{
-			m_pDeferredShadow->Render();
-		}
-
-		LightPass();
-
-		HDRPass();
+// 		ComputePass();
+// 
+// 		BasePass();
+// 
+// 		if (m_pDeferredShadow)
+// 		{
+// 			m_pDeferredShadow->Render();
+// 		}
+// 
+// 		LightPass();
+// 
+// 		HDRPass();
+// 
+// 
+// 		for (auto& it : m_vecRenderStep)
+// 		{
+// 			it->Render();
+// 		}
+		
 	}
 
 }

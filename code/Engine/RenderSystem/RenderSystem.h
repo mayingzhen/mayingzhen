@@ -9,7 +9,7 @@ namespace ma
 	class Camera;
 	class RenderThread;
 	class RenderPass;
-	class RenderScheme;
+	class MainRenderStep;
 	class Scene;
 	class Uniform;
 	class Texture;
@@ -100,11 +100,9 @@ namespace ma
 
 		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
 
-		//void				AddRenderStep(RefPtr<RenderStep> renderstep);
+		void				AddRenderView(RenderView* pRenderView);
 
-		//RenderStep*			GetBaseRender() { return m_pRenderScheme.get(); }
-
-		void				AddRenderView(RenderView pRenderView);
+		void				AddRenderStep(RefPtr<RenderStep> renderstep);
 
 	protected: 
 		void				RT_Init(void* wndhandle, int width, int height);
@@ -137,11 +135,9 @@ namespace ma
 		
 		bool				m_bDefferedRender = true;
 
-		//RefPtr<RenderStep>  m_pRenderScheme;
-
 		std::vector< RefPtr<RenderView> > m_renderView;
 
-		//std::vector< RefPtr<RenderStep> > m_renderStepList[2];
+		std::vector< RefPtr<RenderStep> > m_renderStepList;
 				
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro

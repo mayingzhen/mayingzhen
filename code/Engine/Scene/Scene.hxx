@@ -14,8 +14,8 @@ namespace ma
 
 		m_pCullTree = new ParallelCull();
 		
-		m_viwMinZ = 0.0f;
-		m_viwMaxZ = 0.0f;
+		//m_viwMinZ = 0.0f;
+		//m_viwMaxZ = 0.0f;
 
 		SceneNode* pMainLightNode = CreateSceneNode();
 		m_pRootNode->AddChild(pMainLightNode);
@@ -53,15 +53,15 @@ namespace ma
 		return pSceneNode.get();
 	}
 
-	void Scene::AddParallelUpdate(Component* pComponent)
-	{
-		m_vecParallelUpdate.push_back(pComponent);
-	}
+// 	void Scene::AddParallelUpdate(Component* pComponent)
+// 	{
+// 		m_vecParallelUpdate.push_back(pComponent);
+// 	}
 
-	void Scene::AddParallelShow(Component* pComponent)
-	{
-		m_vecParallelShow.push_back(pComponent);
-	}
+// 	void Scene::AddParallelShow(Component* pComponent)
+// 	{
+// 		m_vecParallelShow.push_back(pComponent);
+// 	}
 
 	void Scene::Update()
 	{
@@ -72,39 +72,39 @@ namespace ma
 
 		m_pRootNode->Update();
 		
-		if (GetJobScheduler()->GetNumThreads() > 0)
-		{
-			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelUpdate.size());
-			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
-			{
-				Component* pComp = m_vecParallelUpdate[i].get();
-
-				GetJobScheduler()->SubmitJob(jobGroup,
-					[pComp]() { pComp->ParallelUpdate(); }
-				);
-			}
-			GetJobScheduler()->WaitForGroup(jobGroup);
-
-			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
-			{
-				m_vecParallelUpdate[i]->EndParallelUpdate();
-			}
-			m_vecParallelUpdate.clear();
-		}
-		else
-		{
-			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
-			{
-				Component* pComp = m_vecParallelUpdate[i].get();
-				pComp->ParallelUpdate();
-			}
-
-			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
-			{
-				Component* pComp = m_vecParallelUpdate[i].get();
-				pComp->EndParallelUpdate();
-			}
-		}
+// 		if (GetJobScheduler()->GetNumThreads() > 0)
+// 		{
+// 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelUpdate.size());
+// 			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
+// 			{
+// 				Component* pComp = m_vecParallelUpdate[i].get();
+// 
+// 				GetJobScheduler()->SubmitJob(jobGroup,
+// 					[pComp]() { pComp->ParallelUpdate(); }
+// 				);
+// 			}
+// 			GetJobScheduler()->WaitForGroup(jobGroup);
+// 
+// 			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
+// 			{
+// 				m_vecParallelUpdate[i]->EndParallelUpdate();
+// 			}
+// 			m_vecParallelUpdate.clear();
+// 		}
+// 		else
+// 		{
+// 			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
+// 			{
+// 				Component* pComp = m_vecParallelUpdate[i].get();
+// 				pComp->ParallelUpdate();
+// 			}
+// 
+// 			for (uint32_t i = 0; i < m_vecParallelUpdate.size(); ++i)
+// 			{
+// 				Component* pComp = m_vecParallelUpdate[i].get();
+// 				pComp->EndParallelUpdate();
+// 			}
+// 		}
 	}
 
 	/*

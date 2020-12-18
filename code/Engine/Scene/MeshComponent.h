@@ -24,8 +24,6 @@ namespace ma
 
 		virtual	void				Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
 
-		//virtual	void				RenderShadow(RenderQueue* pRenderQueue);
-
 		bool						Load(const char* pszSknPath,const char* pszMatPath);
 
 		const char*					GetMeshFile() const;
@@ -39,33 +37,40 @@ namespace ma
 		uint32_t					GetSubMaterialCount();
 		SubMaterial*				GetSubMaterial(uint32_t index);
 
-		virtual uint32_t			GetRenderableCount() const;
-		virtual	Renderable*			GetRenderableByIndex(uint32_t index) const;
-
-		virtual uint32_t			GetShadowRenderableCount() const;
-		virtual	Renderable*			GetShadowRenderableByIndex(uint32_t index) const;
-
 		virtual void				SetShadowCaster(bool b);
 
 		virtual void				SetSuportInstance(bool b);	
 
 	protected:
-		typedef std::vector< RefPtr<MeshRenderable> > VEC_RENDERABLE;
-
 		virtual bool				IsReady();
 
 		virtual RefPtr<MeshRenderable>	CreateMeshRenderable();
 
-		void						CreateRenderable(VEC_RENDERABLE& arrRenderable);
+		void						CreateRenderable();
 
 	protected:
 		RefPtr<Material>			m_pMaterial;
 
 		RefPtr<MeshData>			m_pMesData;
 
-		VEC_RENDERABLE				m_arrRenderable;
-
 		bool						m_bSuportInstance = false;
+	};
+
+	class MeshRenderProxy : public RenderProxy
+	{
+	public:
+
+		uint32_t					GetRenderableCount() const;
+		Renderable*					GetRenderableByIndex(uint32_t index) const;
+
+		void						AddRenderable(MeshRenderable* renderable);
+
+		void						Clear();
+
+	protected:
+		typedef std::vector< RefPtr<MeshRenderable> > VEC_RENDERABLE;
+
+		VEC_RENDERABLE				m_arrRenderable;
 	};
 
 	RefPtr<MeshComponent> CreateMeshComponent();

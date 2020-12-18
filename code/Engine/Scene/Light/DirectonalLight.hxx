@@ -99,7 +99,7 @@ namespace ma
 		UpdateViewMinMaxZ(pCamera);
 
 		//float fViewMinZ = pCamera->GetScene()->GetViewMinZ();
-		float fViewMaxZ = pCamera->GetScene()->GetViewMaxZ();
+		float fViewMaxZ = 0;//pCamera->GetScene()->GetViewMaxZ();
 
 		float fNearSplit = pCamera->GetNearClip();
 		float fFarSplit = m_SplitPosParam[0];
@@ -139,7 +139,7 @@ namespace ma
 
 		MICROPROFILE_SCOPEI("", "UpdateShadowMap", 0);
 
-		GetRenderSystem()->AddRenderStep(m_shadowMapRender);
+		//GetRenderSystem()->AddRenderStep(m_shadowMapRender);
 
 		for (int i = 0; i < m_nMaxSplitCount; ++i)
 		{
@@ -192,42 +192,42 @@ namespace ma
 
 	void DirectonalLight::UpdateViewMinMaxZ(Camera* pCamera)
 	{
-		Scene* pScene = pCamera->GetScene();
-		uint32_t nNode = pScene->GetVisibleNodeNum();
-		if (nNode <= 0)
-			return;
-
-		// find the nearest and farthest points of given
-		// scene objects in camera's view space
-		float fMaxZ = 0;
-		float fMinZ = (std::numeric_limits<float>::max)();
-
-		// for each object
-		for(uint32_t i = 0; i < nNode; i++)
-		{
-			RenderComponent* pObject = pScene->GetVisibleNodeByIndex(i);
-
-			AABB aabb = pObject->GetAABBWS();
-			aabb.transform(pCamera->GetMatView());
-
-			float aabbMinZ = aabb.getMinimum().z;
-			float aabbMaxZ = aabb.getMaximum().z;
-
-			pObject->SetViewMinMaxZ(aabbMinZ,aabbMaxZ);
-
-			fMaxZ = max(aabbMaxZ,fMaxZ);
-			fMinZ = min(aabbMinZ,fMinZ);
-		}
-
-		// use smallest distance as new near plane
-		// and make sure it is not too small
-		float fSceneViwMinZ = max(fMinZ, pCamera->GetNearClip());
-
-		// use largest distance as new far plane
-		// and make sure it is larger than nearPlane
-		float fSceneViwMaxZ = max(fMaxZ, fSceneViwMinZ + 1.0f);
-
-		pScene->SetViewMinMaxZ(fSceneViwMinZ,fSceneViwMaxZ);
+// 		Scene* pScene = pCamera->GetScene();
+// 		uint32_t nNode = pScene->GetVisibleNodeNum();
+// 		if (nNode <= 0)
+// 			return;
+// 
+// 		// find the nearest and farthest points of given
+// 		// scene objects in camera's view space
+// 		float fMaxZ = 0;
+// 		float fMinZ = (std::numeric_limits<float>::max)();
+// 
+// 		// for each object
+// 		for(uint32_t i = 0; i < nNode; i++)
+// 		{
+// 			RenderComponent* pObject = pScene->GetVisibleNodeByIndex(i);
+// 
+// 			AABB aabb = pObject->GetAABBWS();
+// 			aabb.transform(pCamera->GetMatView());
+// 
+// 			float aabbMinZ = aabb.getMinimum().z;
+// 			float aabbMaxZ = aabb.getMaximum().z;
+// 
+// 			pObject->SetViewMinMaxZ(aabbMinZ,aabbMaxZ);
+// 
+// 			fMaxZ = max(aabbMaxZ,fMaxZ);
+// 			fMinZ = min(aabbMinZ,fMinZ);
+// 		}
+// 
+// 		// use smallest distance as new near plane
+// 		// and make sure it is not too small
+// 		float fSceneViwMinZ = max(fMinZ, pCamera->GetNearClip());
+// 
+// 		// use largest distance as new far plane
+// 		// and make sure it is larger than nearPlane
+// 		float fSceneViwMaxZ = max(fMaxZ, fSceneViwMinZ + 1.0f);
+// 
+// 		pScene->SetViewMinMaxZ(fSceneViwMinZ,fSceneViwMaxZ);
 	}
 
 

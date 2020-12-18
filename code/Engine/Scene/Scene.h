@@ -9,7 +9,7 @@ namespace ma
 	class Camera;
 	class MeshComponent;
 	class CullTree;
-	class RenderScheme;
+	class MainRenderStep;
 	class RenderComponent;
 	class Texture;
 	//class RenderQueue;
@@ -43,12 +43,12 @@ namespace ma
 		//uint32_t				GetVisibleNodeNum() const {return (uint32_t)m_arrRenderComp.size();}
 		//RenderComponent*		GetVisibleNodeByIndex(uint32_t index) const {return m_arrRenderComp[index].get();}
 
-		float					GetViewMinZ() const {return m_viwMinZ;}
-		float					GetViewMaxZ() const {return m_viwMaxZ;}
-		void					SetViewMinMaxZ(float fViewMinZ, float fViewMaxZ) {m_viwMinZ = fViewMinZ; m_viwMaxZ = fViewMaxZ;}
+// 		float					GetViewMinZ() const {return m_viwMinZ;}
+// 		float					GetViewMaxZ() const {return m_viwMaxZ;}
+// 		void					SetViewMinMaxZ(float fViewMinZ, float fViewMaxZ) {m_viwMinZ = fViewMinZ; m_viwMaxZ = fViewMaxZ;}
 
-		void					AddParallelUpdate(Component* pComponent);
-		void					AddParallelShow(Component* pComponent);
+// 		void					AddParallelUpdate(Component* pComponent);
+// 		void					AddParallelShow(Component* pComponent);
 
 		const ColourValue&		GetAmbientColor() const{return m_cAmbientColor;}
 		void					SetAmbientColor(const ColourValue& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
@@ -66,12 +66,12 @@ namespace ma
 		//typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		//VEC_RENDERCOMP			m_arrRenderComp;
 
-		typedef std::vector< RefPtr<Component> > VEC_COMP;
-		VEC_COMP				m_vecParallelUpdate;
+		//typedef std::vector< RefPtr<Component> > VEC_COMP;
+		//VEC_COMP				m_vecParallelUpdate;
 		//VEC_COMP				m_vecParallelShow;
 		
-		float					m_viwMinZ;
-		float					m_viwMaxZ;
+		//float					m_viwMinZ;
+		//float					m_viwMaxZ;
 
 		ColourValue				m_cAmbientColor;
 		RefPtr<DirectonalLight> m_pMainDirLight;

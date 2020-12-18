@@ -19,19 +19,19 @@ namespace ma
 			uint32_t i = 0;
 			for (auto& subStep : m_vecSubStep[GetRenderSystem()->CurThreadProcess()])
 			{
-				RenderCommand* pRenderCommand = cur_renderPass->GetThreadCommand(i++, 0);
-
-				pRenderCommand->Begin();
-
-				RenderQueue* cur_renderQueue = subStep->m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
-
-				SetSceneContext(cur_renderQueue->GetSceneContext());
-
-				pRenderCommand->SetViewPort(subStep->m_veiwPort);
-
-				cur_renderQueue->Render(pRenderCommand);
-
-				pRenderCommand->End();
+// 				RenderCommand* pRenderCommand = cur_renderPass->GetThreadCommand(i++, 0);
+// 
+// 				pRenderCommand->Begin();
+// 
+// 				RenderQueue* cur_renderQueue = subStep->m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+// 
+// 				SetSceneContext(cur_renderQueue->GetSceneContext());
+// 
+// 				pRenderCommand->SetViewPort(subStep->m_veiwPort);
+// 
+// 				cur_renderQueue->Render(pRenderCommand);
+// 
+// 				pRenderCommand->End();
 			}
 
 			cur_renderPass->End();
@@ -61,7 +61,7 @@ namespace ma
 		m_matShadow  = Matrix4::IDENTITY;
 		m_matTexAdjust = Matrix4::IDENTITY;
 
-		m_subRenderStep = new RenderStep();
+		m_pShadowView = new ShadowMapRenderView();
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
@@ -72,9 +72,7 @@ namespace ma
 	{
 		m_pParent = pParent;
 
-		//m_shadowMapRender->m_pRenderPass = pSMPass;
-
-		m_subRenderStep->m_veiwPort = viewPort;
+		m_pShadowView->m_veiwPort = viewPort;
 
 		float width = (float)pParent->GetShadowMapSampler()->GetTexture()->GetWidth();
 		float height = (float)pParent->GetShadowMapSampler()->GetTexture()->GetHeight();
@@ -127,7 +125,7 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderQueue* pRenderQueue = m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+		RenderQueue* pRenderQueue = nullptr;// m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 		pRenderQueue->Clear();
 
 		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
@@ -184,10 +182,10 @@ namespace ma
 
 		AABB aabbInLightView;
 
-		uint32_t iNodeNum = pCurScene->GetVisibleNodeNum();
+		uint32_t iNodeNum = 0;//pCurScene->GetVisibleNodeNum();
 		for (uint32_t i = 0; i < iNodeNum; ++i)
 		{
-			RenderComponent* pNode = pCurScene->GetVisibleNodeByIndex(i);
+			RenderComponent* pNode = nullptr;// pCurScene->GetVisibleNodeByIndex(i);
 
 			if (pNode->GetViewMinZ() > fSpiltFar || pNode->GetViewMaxZ() < fSpiltNear)
 				continue;
@@ -329,13 +327,13 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderQueue* pRenderQueue = m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
-
-		pRenderQueue->SetCamera(pCamera);
-
-		pRenderQueue->SetLightViewProj(m_matLightViewProj);
-
-		((ShadowMapRenderStep*)shadowStep)->AddSubStep(m_subRenderStep.get());
+// 		RenderQueue* pRenderQueue = m_subRenderStep->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+// 
+// 		pRenderQueue->SetCamera(pCamera);
+// 
+// 		pRenderQueue->SetLightViewProj(m_matLightViewProj);
+// 
+// 		((ShadowMapRenderStep*)shadowStep)->AddSubStep(m_subRenderStep.get());
 
 		SMFrustumInfo info;
 		info.m_fNear = m_fNear;

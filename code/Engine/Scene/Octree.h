@@ -1,5 +1,4 @@
-#ifndef  _Octree__H__
-#define  _Octree__H__
+#pragma once
 
 #include "CullTree.h"
 
@@ -18,18 +17,18 @@ namespace ma
 		void Resize(const AABB& box);
 
 		// object operation
-		void AddObject(RenderComponent* pObject);
+		void AddObject(RenderProxy* pObject);
 		
-		void RemoveObject(RenderComponent* pObject);
+		void RemoveObject(RenderProxy* pObject);
 		
-		void UpdateObject(RenderComponent* pobject);
+		void UpdateObject(RenderProxy* pobject);
 
-		void FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj);
+		void FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderProxy*>& vecObj);
 
 	private:
-		void _AddObject(OctreeNode* pNode, int nDepth, RenderComponent* pObject);
+		void _AddObject(OctreeNode* pNode, int nDepth, RenderProxy* pObject);
 
-		void _FindObjectsIn(OctreeNode* pNode, bool bFull,const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj) const;
+		void _FindObjectsIn(OctreeNode* pNode, bool bFull,const Frustum* pFrustum,uint32_t mask, OUT vector<RenderProxy*>& vecObj) const;
 		
 	private:
 		OctreeNode*		m_pRoot;
@@ -38,5 +37,3 @@ namespace ma
 	};
 
 }
-
-#endif

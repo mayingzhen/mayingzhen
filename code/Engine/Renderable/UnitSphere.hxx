@@ -4,6 +4,11 @@ namespace ma
 {
 	static Renderable* gpSphere = NULL;
 
+	Renderable* GetRenderable() 
+	{
+		return gpSphere; 
+	}
+
 	void UnitSphere::Render(Technique* pTech,const Vector3& vPos,float fRadius,RenderCommand* pComomnd)
 	{
 		Matrix4 matTras = Matrix4::IDENTITY;  

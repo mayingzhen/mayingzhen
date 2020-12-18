@@ -77,18 +77,6 @@ namespace ma
 		return m_arrRenderable[index].get();
 	}
 
-	uint32_t OccluderComponent::GetShadowRenderableCount() const
-	{
-		uint32_t nLod = m_arrRenderable.size() - 1;
-		return m_arrRenderable.size();
-	}
-
-	Renderable*	OccluderComponent::GetShadowRenderableByIndex(uint32_t index) const
-	{
-		uint32_t nLod = m_arrRenderable.size() - 1;
-		return m_arrRenderable[index].get();
-	}
-
 	void OccluderComponent::SetShadowCaster(bool b)
 	{
 		RenderComponent::SetShadowCaster(b);

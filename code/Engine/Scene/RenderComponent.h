@@ -37,17 +37,12 @@ namespace ma
 		virtual	void	Update();
 
 		virtual void	Render(RenderQueue* pRenderQueue,RenderPass* pRenderPass);
-
-		//virtual	void	RenderShadow(RenderQueue* pRenderQueue);
 		
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
 		
 		virtual void	SetShadowCaster(bool b) {m_bShadowCaster = b;}
 		bool			GetShadowCaster() const {return m_bShadowCaster;}
-	
-		void			SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}
-		CullNode*		GetCullNode() const {return m_pCullNode;}
 
 		const	AABB&	GetAABB() const;
 		void			SetAABB(const AABB& box);
@@ -62,15 +57,13 @@ namespace ma
 		virtual	void	OnAddToSceneNode(SceneNode* pNode);
 		virtual	void	OnRemoveFromSceneNode(SceneNode* pNode);
 
-		uint32_t		GetCullIndex() {return m_nCullIndex;}
-		void			SetCullIndex(uint32_t nIndex) {m_nCullIndex = nIndex;} 
+		virtual	bool	GetTransluce() { return false; }
 
 	protected:
 		virtual void	UpdateWorldBoundingBox();
 
 	protected:
-		CullNode*			m_pCullNode;
-
+		
 		AABB				m_AABB;
 		AABB				m_worldAABB;
 		int					m_nAABBChangeType;	
@@ -84,8 +77,30 @@ namespace ma
 
 		bool				m_bParallelUpdate;
 
-		uint32_t			m_nCullIndex;
+		RefPtr<RenderProxy>	m_pRenderproxy;
 	};
+
+	class RenderProxy : public Referenced
+	{
+	public:
+
+		void			SetCullNode(CullNode* pCullNode) { m_pCullNode = pCullNode; }
+		CullNode*		GetCullNode() const { return m_pCullNode; }
+
+		uint32_t		GetCullIndex() { return m_nCullIndex; }
+		void			SetCullIndex(uint32_t nIndex) { m_nCullIndex = nIndex; }
+
+		void			SetAABBWS(const AABB& aabb) { m_worldAABB = aabb; }
+		const AABB&		GetAABBWS() { return m_worldAABB; }
+
+	protected:
+		CullNode*		m_pCullNode = nullptr;
+		uint32_t		m_nCullIndex = -1;
+
+		AABB			m_worldAABB;
+	};
+
+	
 }
 
 

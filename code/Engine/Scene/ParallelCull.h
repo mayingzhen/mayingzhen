@@ -14,13 +14,13 @@ namespace ma
 		// resize the culltree to the given size
 		void Resize(const AABB& box);
 
-		void AddObject(RenderComponent* pObject);
+		void AddObject(RenderProxy* pObject);
 
-		void RemoveObject(RenderComponent* pObject);
+		void RemoveObject(RenderProxy* pObject);
 
-		void UpdateObject(RenderComponent* pobject);
+		void UpdateObject(RenderProxy* pobject);
 
-		void FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj); 
+		void FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderProxy*>& vecObj);
 
 	public:
 		struct NodeBound
@@ -55,7 +55,7 @@ namespace ma
 
 	private:
 
-		vector<RenderComponent*> m_vecNode;
+		vector<RenderProxy*> m_vecNode;
 		
 		vector<NodeBound> m_vecNodeBound;
 	};

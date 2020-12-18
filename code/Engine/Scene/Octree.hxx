@@ -44,7 +44,7 @@ namespace ma
 
 
 	// object operation
-	void Octree::AddObject(RenderComponent* pObject)
+	void Octree::AddObject(RenderProxy* pObject)
 	{
 		if (pObject->GetCullNode() != NULL)
 		{
@@ -61,7 +61,7 @@ namespace ma
 		this->_AddObject(m_pRoot, 0, pObject);
 	}
 
-	void Octree::RemoveObject(RenderComponent* pObject)
+	void Octree::RemoveObject(RenderProxy* pObject)
 	{
 		CullNode* pCullNode = pObject->GetCullNode();
 		if (pCullNode == NULL)
@@ -73,13 +73,13 @@ namespace ma
 		pObject->SetCullNode(NULL);
 	}
 
-	void Octree::UpdateObject(RenderComponent* pObject)
+	void Octree::UpdateObject(RenderProxy* pObject)
 	{
 		this->RemoveObject(pObject);
 		this->AddObject(pObject);
 	}
 
-	void Octree::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj)
+	void Octree::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderProxy*>& vecObj)
 	{
 		ASSERT(vecObj.empty());
 		this->_FindObjectsIn(m_pRoot, false, pFrustum, mask, vecObj);
@@ -89,7 +89,7 @@ namespace ma
 	// Self
 	// ---------------------------------------------------------------------
 
-	void Octree::_AddObject(OctreeNode* pNode, int nDepth, RenderComponent* pObject)
+	void Octree::_AddObject(OctreeNode* pNode, int nDepth, RenderProxy* pObject)
 	{
 		ASSERT(pNode != NULL && pObject != NULL);
 		const AABB& box = pObject->GetAABBWS();
@@ -160,7 +160,7 @@ namespace ma
 	}
 
 
-	void Octree::_FindObjectsIn(OctreeNode* pNode, bool bFull, const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj) const
+	void Octree::_FindObjectsIn(OctreeNode* pNode, bool bFull, const Frustum* pFrustum,uint32_t mask, OUT vector<RenderProxy*>& vecObj) const
 	{
 		Frustum::Visibility visiblity = Frustum::Visibility_NONE;
 		if (bFull)
@@ -185,7 +185,7 @@ namespace ma
 		//for (LST_OBJECT::const_iterator iter = lstObjects.begin();iter != lstObjects.end();++iter)
 		for (uint32_t i = 0; i < pNode->GetObjectAmount(); ++i)
 		{
-			RenderComponent* pObject = pNode->GetObjectByIndex(i);
+			RenderProxy* pObject = pNode->GetObjectByIndex(i);
 			//uint32_t obj_mask = pObject->GetProbeMask();
 			//if ( ProbeMask_All != mask && (mask & obj_mask) == 0)
 			//{

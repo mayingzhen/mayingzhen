@@ -1,5 +1,4 @@
-#ifndef  _OctreeNode__H__
-#define  _OctreeNode__H__
+#pragma once
 
 #include "CullNode.h"
 
@@ -13,9 +12,9 @@ namespace ma
 
 		~OctreeNode();
 
-		void AddObject(RenderComponent* pObject);
+		void AddObject(RenderProxy* pObject);
 		
-		void RemoveObject(RenderComponent* pObject);
+		void RemoveObject(RenderProxy* pObject);
 
 		// ---------------------------------------------------------------------
 		// Self
@@ -36,14 +35,14 @@ namespace ma
 		// object operation
 		uint32_t GetObjectAmount() const;
 
-		RenderComponent* GetObjectByIndex(uint32_t nIndex) const;
+		RenderProxy* GetObjectByIndex(uint32_t nIndex) const;
 
 	private:
 		AABB		m_AABB;
 
 		Vector3		m_vHalfSize;
 
-		typedef std::vector<RenderComponent*> VEC_OBJECT;
+		typedef std::vector<RenderProxy*> VEC_OBJECT;
 		VEC_OBJECT	m_vecObject;
 
 	public:
@@ -51,5 +50,3 @@ namespace ma
 	};
 
 }
-
-#endif

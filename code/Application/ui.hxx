@@ -207,11 +207,11 @@ namespace ma
 
 		if (m_bInit)
 		{
-			RenderStep* render_step = GetRenderSystem()->GetBaseRender();
+			//RenderStep* render_step = GetRenderSystem()->GetBaseRender();
 
-			RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+			//RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
 
-			RenderDrawData(ImGui::GetDrawData(), pRenderQueue);
+			//RenderDrawData(ImGui::GetDrawData(), pRenderQueue);
 
 			m_pUIBuffer->UnLockVideoMemory();
 		}

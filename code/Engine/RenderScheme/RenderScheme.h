@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Engine/RenderSystem/RenderSystem.h"
+
+#include "RenderStep.h"
 
 namespace ma
 {
@@ -13,29 +14,13 @@ namespace ma
 	class Scene;
 	class PostProcessStep;
 
-	struct RenderStep : public Referenced
-	{
-		RenderStep()
-		{
-			m_pRenderQueue[0] = new RenderQueue;
-			m_pRenderQueue[1] = new RenderQueue;
-		}
 
-		virtual void Render();
-
-		virtual void Reset() {}
-
-		RefPtr<RenderQueue> m_pRenderQueue[2];
-		RefPtr<RenderPass> m_pRenderPass;
-		Rectangle m_veiwPort;
-	};
-
-	class RenderScheme : public RenderStep
+	class MainRenderStep : public RenderStep
 	{
 	public:
-		RenderScheme();
+		MainRenderStep();
 
-		~RenderScheme();
+		~MainRenderStep();
 
 		void	Init();
 
@@ -44,6 +29,9 @@ namespace ma
 		void	Shoutdown();
 
 		void	Render();
+
+		RenderPass* GetGpufferPass() { return m_pGbufferPass.get(); }
+		RenderPass* GetTranslucePass() { return m_pTranslucePass.get(); }
 
 	private:
 
@@ -62,7 +50,13 @@ namespace ma
 		void	HDRPass();
 
 	private:
+		std::vector< RefPtr<RenderStep> > m_vecRenderStep;
+ 
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
+
+
+
+		RefPtr<RenderStep> m_pLightStep;
 
 		//Gbuffer
 		RefPtr<Texture>			m_pDepthTex;
@@ -98,6 +92,11 @@ namespace ma
 		bool					m_bHDREnable = false;
 
 		bool					m_bShadowMapEnable = false;
+
+	public:
+		RefPtr<RenderStep> m_pGbufferStep;
+
+		RefPtr<RenderStep> m_pTransluceStep;
 	};
 
 }

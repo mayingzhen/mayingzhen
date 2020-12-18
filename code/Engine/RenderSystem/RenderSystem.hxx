@@ -1,6 +1,7 @@
 #include "RenderSystem.h"
 #include "RenderThread.h"
 #include "RenderContext.h"
+#include "RenderView.h"
 #include "../Renderable/ScreenQuad.h"
 #include "../Renderable/UnitSphere.h"
 #include "../Material/ShaderProgram.h"
@@ -111,7 +112,6 @@ namespace ma
 
 		this->BegineRender();
 
-		//m_scene->Render();
 
 		m_pRenderThread->RC_AddRenderCommad( []() {
 			GetRenderSystem()->RT_Render();
@@ -185,20 +185,20 @@ namespace ma
 		ScreenQuad::Init();
 		UnitSphere::Init();
 
-		if (m_bDefferedRender)
-		{
-			m_pRenderScheme = new RenderScheme();
-		}
-		else
-		{
-			m_pRenderScheme = new RenderStep();
-		}
-		m_pRenderScheme->m_pRenderPass = m_pBackBufferRenderPass;
+// 		if (m_bDefferedRender)
+// 		{
+// 			m_pRenderScheme = new MainRenderStep();
+// 		}
+// 		else
+// 		{
+// 			m_pRenderScheme = new RenderStep();
+// 		}
+// 		m_pRenderScheme->m_pRenderPass = m_pBackBufferRenderPass;
 
 		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
 
-		RenderQueue* pRQ = m_pRenderScheme->m_pRenderQueue[0].get();
-		SetSceneContext(pRQ->GetSceneContext());
+// 		RenderQueue* pRQ = m_pRenderScheme->m_pRenderQueue[0].get();
+// 		SetSceneContext(pRQ->GetSceneContext());
 
 		m_scene = new Scene("defaultScene");
 		MainRenderView* pMainView = new MainRenderView();
@@ -212,7 +212,7 @@ namespace ma
 		// Reset Main Scene
 		m_scene->Reset(nWidth,nHeight);
 
-		m_pRenderScheme->Reset();
+		//m_pRenderScheme->Reset();
 	}
 
 	void RenderSystem::RT_BeginRender()
@@ -445,10 +445,10 @@ namespace ma
 		m_bNeedReloadShader = true;
 	}
 
-// 	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
-// 	{
-// 		m_renderStepList[CurThreadFill()].push_back(renderstep);
-// 	}
+	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
+	{
+		m_renderStepList.push_back(renderstep);
+	}
 
 	void RenderSystem::AddRenderView(RenderView* pRenderView)
 	{

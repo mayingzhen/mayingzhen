@@ -2,6 +2,16 @@
 
 namespace ma
 {
+	MainRenderView::MainRenderView()
+	{
+		m_pRenderStep = new MainRenderStep();
+	}
+
+	MainRenderView::~MainRenderView()
+	{
+
+	}
+
 	void MainRenderView::Update()
 	{
 
@@ -11,70 +21,39 @@ namespace ma
 	{
 		MICROPROFILE_SCOPEI("", "MainRenderView::Render", 0);
 
-		RenderStep* render_step = GetRenderSystem()->GetBaseRender();
+		m_arrRenderProxy.clear();
 
-		RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
+		//typedef std::vector<RenderProxy*> VEC_OBJ;
+		//static VEC_OBJ vecObj;
+		m_pScene->GetCullTree()->FindObjectsIn(&m_pCamera->GetFrustum(), -1, m_arrRenderProxy);
 
-		m_arrRenderComp.clear();
+		RenderQueue* pGbufferQueue = m_pRenderStep->m_pGbufferStep->m_pRenderQueue.get();
+		RenderQueue* pTransluceQueue = m_pRenderStep->m_pTransluceStep->m_pRenderQueue.get();
 
-		typedef vector<RenderComponent*> VEC_OBJ;
-		static VEC_OBJ vecObj;
-		m_pScene->GetCullTree()->FindObjectsIn(&m_pCamera->GetFrustum(), -1, vecObj);
+		pGbufferQueue->Clear();
+		pGbufferQueue->SetCamera(m_pCamera.get());
+		pGbufferQueue->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
 
-		uint32_t nNodeCount = vecObj.size();
-		m_arrRenderComp.resize(nNodeCount);
-		for (uint32_t mm = 0; mm < nNodeCount; ++mm)
+		pTransluceQueue->Clear();
+		pTransluceQueue->SetCamera(m_pCamera.get());
+		pTransluceQueue->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
+
+		for (uint32_t i = 0; i < m_arrRenderProxy.size(); ++i)
 		{
-			m_arrRenderComp[mm] = vecObj[mm];
+			//m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());
+
+			if (m_arrRenderProxy[i]->GetTransluce())
+			{
+				m_arrRenderProxy[i]->Render(pRenderQueue, m_pRenderStep->GetTranslucePass());
+			}
+			else
+			{
+				m_arrRenderProxy[i]->Render(pRenderQueue, m_pRenderStep->GetGpufferPass());
+			}
 		}
-		vecObj.clear();
-
-		pRenderQueue->Clear();
-
-		pRenderQueue->SetCamera(m_pCamera.get());
-		pRenderQueue->SetMainLight(m_pMainDirLight.get(), m_cAmbientColor);
-
-		for (uint32_t i = 0; i < m_arrRenderComp.size(); ++i)
-		{
-			m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());
-
-			m_arrRenderComp[i]->Render(pRenderQueue);
-		}
-
-// 		if (GetJobScheduler()->GetNumThreads() > 0)
-// 		{
-// 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelShow.size());
-// 			for (uint32_t i = 0; i < m_vecParallelShow.size(); ++i)
-// 			{
-// 				Component* pComp = m_vecParallelUpdate[i].get();
-// 				Camera* pCamera = m_pCamera.get();
-// 
-// 				GetJobScheduler()->SubmitJob(jobGroup,
-// 					[pComp, pCamera]() { pComp->ParallelShow(pCamera); }
-// 				);
-// 			}
-// 			GetJobScheduler()->WaitForGroup(jobGroup);
-// 			m_vecParallelShow.clear();
-// 		}
-// 		else
-// 		{
-// 			for (uint32_t i = 0; i < m_vecParallelShow.size(); ++i)
-// 			{
-// 				Component* pComp = m_vecParallelUpdate[i].get();
-// 				Camera* pCamera = m_pCamera.get();
-// 				pComp->ParallelShow(pCamera);
-// 			}
-// 		}
-
-
-//		GetRenderSystem()->AddRenderStep(render_step);
 
 		m_pRenderStep->Render();
 	}
 
-	class ShadowMapRenderView : public RenderView
-	{
-
-	};
 
 }

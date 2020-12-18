@@ -5,6 +5,7 @@ namespace ma
 	class Light;
 	class Texture;
 	class RenderPass;
+	class ShadowMapRenderView;
 
 	enum Shadow_Blur
 	{
@@ -58,8 +59,7 @@ namespace ma
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
 
-		//RefPtr<RenderStep> m_shadowMapRender;
-		RefPtr<RenderStep> m_subRenderStep;
+		RefPtr<ShadowMapRenderView> m_pShadowView;
 
 		AABB				m_sceneAABB;
 

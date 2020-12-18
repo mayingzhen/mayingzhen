@@ -20,10 +20,10 @@ namespace ma
 
 
 	// object operation
-	void ParallelCull::AddObject(RenderComponent* pObject)
+	void ParallelCull::AddObject(RenderProxy* pObject)
 	{
 		// 虚拟对象不放入裁剪树
-		if (pObject->GetAABB().isNull())
+		if (pObject->GetAABBWS().isNull())
 		{
 			return;
 		}
@@ -37,7 +37,7 @@ namespace ma
 		pObject->SetCullIndex(m_vecNode.size() - 1);
 	}
 
-	void ParallelCull::RemoveObject(RenderComponent* pObject)
+	void ParallelCull::RemoveObject(RenderProxy* pObject)
 	{
 		uint32_t nCullIndex = pObject->GetCullIndex();
 		if (nCullIndex == -1)
@@ -54,7 +54,7 @@ namespace ma
 		// 交换最后一个元素和要删除元素位置
 		pObject->SetCullIndex(-1);
 
-		RenderComponent* pLast = m_vecNode.back();
+		RenderProxy* pLast = m_vecNode.back();
 
 		if (pLast == pObject)
 		{
@@ -74,10 +74,10 @@ namespace ma
 		m_vecNodeBound.pop_back();
 	}
 
-	void ParallelCull::UpdateObject(RenderComponent* pObject)
+	void ParallelCull::UpdateObject(RenderProxy* pObject)
 	{
 		// 虚拟对象不放入裁剪树
-		if (pObject->GetAABB().isNull())
+		if (pObject->GetAABBWS().isNull())
 		{
 			return;
 		}
@@ -107,7 +107,7 @@ namespace ma
 
 	struct CullJobData
 	{
-		RenderComponent** m_pNodeStart;
+		RenderProxy** m_pNodeStart;
 		int* m_pVisStart;
 		ParallelCull::NodeBound* m_pNodeBoundStart;
 		uint32_t m_nNodeCount;
@@ -129,14 +129,14 @@ namespace ma
 	{
 		const Frustum* pFrustum = reinterpret_cast<const Frustum*>(rawData);
 		CullJobData* pCullJobData = reinterpret_cast<CullJobData*>(rawData1);
-		RenderComponent** ppNodeStart = pCullJobData->m_pNodeStart;
+		RenderProxy** ppNodeStart = pCullJobData->m_pNodeStart;
 		int* ppViewStart = pCullJobData->m_pVisStart;
 		ParallelCull::NodeBound* ppNodeBound = pCullJobData->m_pNodeBoundStart;
 		uint32_t nIndexCount = pCullJobData->m_nNodeCount;
 
 		for (uint32_t i = 0; i <= nIndexCount; ++i)
 		{
-			RenderComponent* pNode = ppNodeStart[i];
+			RenderProxy* pNode = ppNodeStart[i];
 			int& pView = ppViewStart[i];
 			ParallelCull::NodeBound& bound = ppNodeBound[i];
 			if (bound.m_bInfinite || pFrustum->IntersectSIMD(bound.m_vCenter,bound.m_vExtern) != Frustum::Visibility_NONE)
@@ -153,7 +153,7 @@ namespace ma
 	}
 
 
-	void ParallelCull::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderComponent*>& vecObj) 
+	void ParallelCull::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderProxy*>& vecObj) 
 	{
 		MICROPROFILE_SCOPEI("", "ParallelCull::FindObjectsIn", 0);
 
@@ -217,7 +217,7 @@ namespace ma
 			vecObj.clear();
 			for (uint32_t i = 0; i < m_vecNode.size(); ++i)
 			{
-				RenderComponent* pObject = m_vecNode[i];
+				RenderProxy* pObject = m_vecNode[i];
 
 				ParallelCull::NodeBound& bound = m_vecNodeBound[i];
 				if (bound.m_bInfinite || pFrustum->IntersectSIMD(bound.m_vCenter,bound.m_vExtern) != Frustum::Visibility_NONE)

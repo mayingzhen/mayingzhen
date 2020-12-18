@@ -127,6 +127,11 @@ namespace ma
 		m_pShadowPass->AttachDepthStencil(ds);
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowPass.get());
 
+		m_pRenderStep = new RenderStep();
+		m_pRenderStep->m_strName = "DeferredShadow";
+		m_pRenderStep->m_pRenderPass = m_pShadowPass;
+
+
 		VertexElement element[1];
 		element[0] = VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0);
 		RefPtr<VertexDeclaration> pVolumeDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 1);
@@ -143,24 +148,6 @@ namespace ma
 
 		for (int i = 0; i < 4; ++i)
 		{
-// 			{
-// 				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
-// 				pDSState->m_bDepthWrite = false;
-// 				pDSState->m_bStencil = true;
-// 				pDSState->m_eStencilfunc = CMPF_ALWAYS_PASS;
-// 				//pDSState->m_nStencilWriteMask = stenCillUse;
-// 				//pDSState->m_nStencilMask = stenCillUse;
-// 				pDSState->m_eStencilFail = SOP_KEEP;
-// 				pDSState->m_eDepthFailOp = SOP_REPLACE;
-// 				pDSState->m_eStencilPass = SOP_KEEP;
-// 
-// 				pDSState->m_nStencilRef = (i * 2 + 1) << SBU_DEFERREDSHADOW;
-// 
-// 				volume_info.m_pDSState = pDSState;
-// 
-// 				m_pFrustumVolumeScale[i] = CreateTechnique(volume_info);
-// 			}
-
 			{
 				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
 				pDSState->m_bDepthWrite = false;
@@ -224,26 +211,14 @@ namespace ma
 
 				m_pDefferedShadow[i] = CreateTechnique(shadow_info);
 			}
+		}
 
-// 			{
-// 				ShaderCreateInfo blend_info = shadow_info;
-// 
-// 				blend_info.m_shaderMacro = "FRUSTUM_BLEND";
-// 
-// 				blend_info.m_pDSState = CreateDepthStencilState();
-// 				blend_info.m_pDSState->m_bDepthWrite = false;
-// 				blend_info.m_pDSState->m_bStencil = true;
-// 				blend_info.m_pDSState->m_eStencilfunc = CMPF_EQUAL;
-// 				//blend_info.m_pDSState->m_nStencilWriteMask = stenCillUse;
-// 				//blend_info.m_pDSState->m_nStencilMask = stenCillUse;
-// 				blend_info.m_pDSState->m_eStencilFail = SOP_KEEP;
-// 				blend_info.m_pDSState->m_eDepthFailOp = SOP_KEEP;
-// 				blend_info.m_pDSState->m_eStencilPass = SOP_KEEP;
-// 
-// 				blend_info.m_pDSState->m_nStencilRef = (i * 2 + 2) << SBU_DEFERREDSHADOW;
-// 
-// 				m_pBlendMaterial[i] = CreateTechnique(blend_info);
-// 			}
+		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
+		for (int i = m_vecFrustum.size() - 1; i >= 0; --i) // 从后往前
+		{
+			pRenderQueue->AddRenderObj(RL_Mesh, m_pRenderable.get(), m_pFrustumVolume[i].get());
+
+			pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), m_pDefferedShadow[i].get());
 		}
 	}
 
@@ -255,13 +230,6 @@ namespace ma
 		}
 
 		RENDER_PROFILE(DeferredShadow);
-
-		m_pShadowPass->Begine();
-
-		RenderCommand* pRenderCommand = m_pShadowPass->GetThreadCommand(0, 0);
-		pRenderCommand->Begin();
-	
-		float fBlendValue = 0.8f;
 		
 		for (int i = m_vecFrustum.size() - 1; i >= 0; --i) // 从后往前
 		{
@@ -276,9 +244,6 @@ namespace ma
 			{
 				m_pFrustumVolume[i]->SetValue(m_pFrustumVolume[i]->GetUniform(VS,"matFrustum"), matFrum );
 				m_pFrustumVolume[i]->SetValue(m_pFrustumVolume[i]->GetUniform(VS, "vProjectNearFar"), vProjectNearFar);
-
-				m_pRenderable->PreRender(m_pFrustumVolume[i].get());
-				m_pRenderable->Render(m_pFrustumVolume[i].get(), pRenderCommand);
 			}
 
 
@@ -289,61 +254,8 @@ namespace ma
 
 				Vector4 uv_calmp = shadowMapFru.m_uvClamp;
 				m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "uv_calmp"), uv_calmp);
-
-				ScreenQuad::Render(m_pDefferedShadow[i].get(), pRenderCommand);
 			}
-
-// 			// This frustum, not including blend region
-// 			{
-// 				Matrix4 matBlend = Matrix4::IDENTITY;
-// 				matBlend.setScale(Vector3(fBlendValue,fBlendValue,1.0f));
-// 				matFrum = matFrum * matBlend;
-// 				m_pFrustumVolumeScale[i]->SetValue(m_pFrustumVolumeScale[i]->GetUniform(VS,"matFrustum"), matFrum );
-// 
-// 				m_pRenderable->PreRender(m_pFrustumVolumeScale[i].get());
-// 				m_pRenderable->Render(m_pFrustumVolumeScale[i].get(), pRenderCommand);
-// 			}
 		}
-
-// 		for (int i = 0; i < m_vecFrustum.size(); ++i)
-// 		{
-// 			SMFrustumInfo& shadowMapFru = m_vecFrustum[i];
-// 
-// 			Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
-// 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
-// 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
-// 
-// 			Vector4 uv_calmp = shadowMapFru.m_uvClamp;
-// 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "uv_calmp"), uv_calmp);
-// 
-// 			ScreenQuad::Render(m_pDefferedShadow[i].get(), pRenderCommand);
-// 		}
-
-		// Blend
-// 		for (int i = 0; i < m_vecFrustum.size() - 1; ++i)
-// 		{
-// 			SMFrustumInfo& shadowMapFru = m_vecFrustum[i];
-// 
-// 			Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
-// 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
-// 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
-// 
-// 			SMFrustumInfo& shadowMapNextFru = m_vecFrustum[i + 1];
-// 			Matrix4 nextViewToShadow = shadowMapNextFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
-// 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "g_matNextViewToShadow"), nextViewToShadow);
-// 		
-// 			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
-// 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(VS,"BlendInfo"), vBlendInfo);
-// 
-// 			Vector4 uv_calmp = shadowMapFru.m_uvClamp;
-// 			m_pBlendMaterial[i]->SetValue(m_pBlendMaterial[i]->GetUniform(PS, "uv_calmp"), uv_calmp);
-// 
-// 			ScreenQuad::Render(m_pBlendMaterial[i].get(), pRenderCommand);
-// 		}
-
-		pRenderCommand->End();
-
-		m_pShadowPass->End();
 
 		m_vecFrustum.clear();
 	}
