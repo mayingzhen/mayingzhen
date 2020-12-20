@@ -35,8 +35,6 @@ namespace ma
 		RenderComponent();
 		
 		virtual	void	Update();
-
-		virtual void	Render(RenderQueue* pRenderQueue,RenderPass* pRenderPass);
 		
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
@@ -90,14 +88,16 @@ namespace ma
 		uint32_t		GetCullIndex() { return m_nCullIndex; }
 		void			SetCullIndex(uint32_t nIndex) { m_nCullIndex = nIndex; }
 
-		void			SetAABBWS(const AABB& aabb) { m_worldAABB = aabb; }
-		const AABB&		GetAABBWS() { return m_worldAABB; }
+		void			SetAABBWS(const AABB& aabb);
+		const AABB&		GetAABBWS();
+
+		virtual void	Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
 
 	protected:
 		CullNode*		m_pCullNode = nullptr;
 		uint32_t		m_nCullIndex = -1;
 
-		AABB			m_worldAABB;
+		AABB			m_worldAABB[2];
 	};
 
 	

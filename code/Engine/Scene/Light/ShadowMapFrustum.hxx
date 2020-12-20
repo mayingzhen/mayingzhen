@@ -74,6 +74,8 @@ namespace ma
 
 		m_pShadowView->m_veiwPort = viewPort;
 
+		GetRenderSystem()->AddRenderView(m_pShadowView.get());
+
 		float width = (float)pParent->GetShadowMapSampler()->GetTexture()->GetWidth();
 		float height = (float)pParent->GetShadowMapSampler()->GetTexture()->GetHeight();
 		Vector2 mini((float)viewPort.left / width, (float)viewPort.top / height);
@@ -132,19 +134,19 @@ namespace ma
 		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
 		m_lightFrustum.Update(m_matLightProj * m_matLightView, bGLSystem, bInvY);
 
-		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1,m_arrCaster);
-		
-		for (auto& pRenderComp : m_arrCaster)
-		{
-			if (!pRenderComp->GetShadowCaster())
-			{
-				continue;
-			}
-
-			pRenderComp->Render(pRenderQueue, shadowStep->m_pRenderPass.get());
-
-			m_casterAABB.merge(pRenderComp->GetAABBWS());
-		}
+// 		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1,m_arrCaster);
+// 		
+// 		for (auto& pRenderComp : m_arrCaster)
+// 		{
+// 			if (!pRenderComp->GetShadowCaster())
+// 			{
+// 				continue;
+// 			}
+// 
+// 			pRenderComp->Render(pRenderQueue, shadowStep->m_pRenderPass.get());
+// 
+// 			m_casterAABB.merge(pRenderComp->GetAABBWS());
+// 		}
 	}
 
 	void ShadowMapFrustum::UpdateFrustum(Camera* pCamera,float fSpiltNear,float fSpiltFar)
@@ -366,7 +368,7 @@ namespace ma
 	void ShadowMapFrustum::Clear(Camera* pCamera)
 	{
 		m_casterAABB.setNull();
-		m_arrCaster.clear();	
+		//m_arrCaster.clear();	
 		m_sceneAABB.setNull();
 	}
 }

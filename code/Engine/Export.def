@@ -44,7 +44,6 @@ EXPORTS
 ??1Component@ma@@UEAA@XZ
 ?GetSceneNode@Component@ma@@QEBAPEAVSceneNode@2@XZ
 ?SetNeedChange@Component@ma@@UEAAXW4CHANGE_TYPE@2@@Z
-?AddParallelUpdate@Scene@ma@@QEAAXPEAVComponent@2@@Z
 ?SetSkinMatrix@SkinMeshComponent@ma@@QEAAXPEBVMatrix3x4@2@I@Z
 ?UnRegisterObjectFactory@ObjectFactoryManager@ma@@QEAAXPEBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
 ?GetArchiveByIndex@ArchiveManager@ma@@QEAAPEAVArchive@2@I@Z

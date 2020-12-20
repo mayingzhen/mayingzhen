@@ -54,8 +54,6 @@ namespace ma
  
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
 
-
-
 		RefPtr<RenderStep> m_pLightStep;
 
 		//Gbuffer

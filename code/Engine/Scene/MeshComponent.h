@@ -8,6 +8,7 @@ namespace ma
 	class SubMaterial;
 	class Renderable;
 	class MeshData;
+	class MeshRenderProxy;
 	
 	class MeshComponent : public RenderComponent
 	{
@@ -21,8 +22,6 @@ namespace ma
 		static void					RegisterAttribute();
 
 		virtual void				Update();
-
-		virtual	void				Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
 
 		bool						Load(const char* pszSknPath,const char* pszMatPath);
 
@@ -48,6 +47,8 @@ namespace ma
 
 		void						CreateRenderable();
 
+		MeshRenderProxy*			GetMeshRenderProxy();
+
 	protected:
 		RefPtr<Material>			m_pMaterial;
 
@@ -65,7 +66,13 @@ namespace ma
 
 		void						AddRenderable(MeshRenderable* renderable);
 
+		void						SetWorldMatrix(const Matrix4& matWS);
+
 		void						Clear();
+
+		void						SetSuportInstance(bool b);
+
+		virtual	void				Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
 
 	protected:
 		typedef std::vector< RefPtr<MeshRenderable> > VEC_RENDERABLE;

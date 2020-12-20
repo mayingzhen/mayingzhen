@@ -19,9 +19,12 @@ namespace ma
 	void SkinMeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32_t nCount)
 	{
 		uint32_t nLod = 0;
-		for (uint32_t i = 0; i < m_arrRenderable.size(); ++i)
+		
+		uint32_t nRenderableCount = GetMeshRenderProxy()->GetRenderableCount();
+		for (uint32_t i = 0; i < nRenderableCount; ++i)
 		{
-			SkinMeshRenderable* pSkinRenderable = (SkinMeshRenderable*)m_arrRenderable[i].get();
+			Renderable* pRenderable = GetMeshRenderProxy()->GetRenderableByIndex(i);
+			SkinMeshRenderable* pSkinRenderable = (SkinMeshRenderable*)pRenderable;
 			pSkinRenderable->SetSkinMatrix(arrMatrixs,nCount);
 		}
 	}

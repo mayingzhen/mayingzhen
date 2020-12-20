@@ -17,7 +17,7 @@ namespace ma
 
 		g_pPostProcessPipeline = new PostProcessPipeline();
 
-		SetSceneContext(m_pRenderQueue[0]->GetSceneContext());
+		SetSceneContext(m_pRenderQueue->GetSceneContext());
 
 		Init();
 

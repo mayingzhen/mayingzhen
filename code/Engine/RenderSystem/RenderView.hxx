@@ -42,13 +42,13 @@ namespace ma
 		{
 			//m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());
 
-			if (m_arrRenderProxy[i]->GetTransluce())
+// 			if (m_arrRenderProxy[i]->GetTransluce())
+// 			{
+// 				m_arrRenderProxy[i]->Render(pTransluceQueue, m_pRenderStep->GetTranslucePass());
+// 			}
+// 			else
 			{
-				m_arrRenderProxy[i]->Render(pRenderQueue, m_pRenderStep->GetTranslucePass());
-			}
-			else
-			{
-				m_arrRenderProxy[i]->Render(pRenderQueue, m_pRenderStep->GetGpufferPass());
+				m_arrRenderProxy[i]->Render(pGbufferQueue, m_pRenderStep->GetGpufferPass());
 			}
 		}
 

@@ -45,8 +45,8 @@ namespace ma
 		Matrix4				CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort);
 
 	private:
-		typedef vector<RenderComponent*> VEC_CASTER;
-		typedef vector<Renderable*>	VEC_RENDERABLE;
+		//typedef vector<RenderComponent*> VEC_CASTER;
+		//typedef vector<Renderable*>	VEC_RENDERABLE;
 
 		Matrix4				m_matTexAdjust;
 		Matrix4				m_matCrop;	
@@ -57,7 +57,7 @@ namespace ma
 		Vector4				m_uvClamp = Vector4(0.0,0.0,1.0,1.0);
 
 		AABB				m_casterAABB;
-		VEC_CASTER			m_arrCaster;
+		//VEC_CASTER			m_arrCaster;
 
 		RefPtr<ShadowMapRenderView> m_pShadowView;
 

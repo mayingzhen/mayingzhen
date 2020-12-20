@@ -82,11 +82,8 @@ namespace ma
 		m_worldAABB = m_AABB;
 		ASSERT(m_worldAABB.getMinimum() != m_worldAABB.getMaximum());
 		m_worldAABB.transformAffine(m_pSceneNode->GetMatrixWS());
-	}
 
-	void RenderComponent::Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
-	{
-		ASSERT(false);
+		m_pRenderproxy->SetAABBWS(m_worldAABB);
 	}
 
 	const	AABB& RenderComponent::GetAABB() const
@@ -114,6 +111,24 @@ namespace ma
 		
 		return m_worldAABB;
 	}
+
+	void RenderProxy::SetAABBWS(const AABB& aabb) 
+	{
+		int index = GetRenderSystem()->CurThreadFill();
+		m_worldAABB[index] = aabb; 
+	}
+
+	const AABB& RenderProxy::GetAABBWS() 
+	{
+		int index = GetRenderSystem()->CurThreadProcess();
+		return m_worldAABB[index]; 
+	}
+
+	void RenderProxy::Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
+	{
+		ASSERT(false);
+	}
+
 
 }
 
