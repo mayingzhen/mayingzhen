@@ -21,8 +21,6 @@ namespace ma
 
 		virtual	void		Update();
 
-		virtual void		Render(RenderQueue* pRenderQueue);
-
 		void				SetShadowEnabled(bool b);
 		bool				GetShadowEnabled() {return m_bShadowEnable;}
 
@@ -98,5 +96,6 @@ namespace ma
 	};
 
 	RefPtr<DirectonalLight> CreateDirectonalLight();
+ 
 
 }

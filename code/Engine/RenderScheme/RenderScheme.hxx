@@ -235,6 +235,11 @@ namespace ma
 		m_pGbufferStep->m_strName == "GBuffer";
 		m_pGbufferStep->m_pRenderPass = m_pGbufferPass;
 		m_vecRenderStep.push_back(m_pGbufferStep.get());
+		GetRenderSystem()->AddRenderStep(m_pGbufferStep.get());
+
+		m_pTransluceStep = new RenderStep();
+		m_pTransluceStep->m_strName = "Transluce";
+		m_pTransluceStep->m_pRenderPass = m_pTranslucePass.get();
 
 	}
 
@@ -258,6 +263,7 @@ namespace ma
 		m_pLightStep->m_strName = "Light";
 		m_pLightStep->m_pRenderPass = m_pLightPass;
 		m_vecRenderStep.push_back(m_pLightStep);
+		GetRenderSystem()->AddRenderStep(m_pLightStep);
 
 		// Setup Tech
 		if (1)
@@ -418,59 +424,41 @@ namespace ma
 
 	void MainRenderStep::LightPass()
 	{
-		RenderQueue* pRenderQueue = m_pLightStep->m_pRenderQueue.get(); //m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
+		RenderQueue* pRenderQueue = m_pLightStep->m_pRenderQueue.get(); 
 		pRenderQueue->Clear();
-
-		//m_pLightPass->Begine();
-
-		//RenderCommand* pCommand = m_pLightPass->GetThreadCommand(0, 0);
-
-		//pCommand->Begin();
-
 
 		Vector3 cAmbientColor = pRenderQueue->GetSceneContext()->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
-		//ScreenQuad::Render(m_pAmbientLight.get(), pCommand);
 		pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), m_pAmbientLight.get());
+
+		uint32_t index = GetRenderSystem()->CurThreadProcess();
 
 		for (auto& light : pRenderQueue->GetRenderLights())
 		{
-			if (light.m_eType == LIGHT_DIRECTIONAL)
+			Uniform* pUniformColor = light->m_pTech->GetUniform(PS, "light_color");
+			light->m_pTech->SetValue(pUniformColor, light->m_vLightColor[index]);
+
+			if (light->m_eLightType == LIGHT_DIRECTIONAL)
 			{
-				Uniform* pUniformDir = light.m_pTech->GetUniform(PS, "light_dir");
-				Uniform* pUniformColor = light.m_pTech->GetUniform(PS, "light_color");
+				DirLightProxy* pDirLight = dynamic_cast<DirLightProxy*>(light.get());
+				ASSERT(pDirLight);
 
-				light.m_pTech->SetValue(pUniformDir, light.m_vDir);
-				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
-
-				//ScreenQuad::Render(light.m_pTech.get(), pCommand);
-				pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), light.m_pTech.get());
+				Uniform* pUniformDir = light->m_pTech->GetUniform(PS, "light_dir");
+				light->m_pTech->SetValue(pUniformDir, pDirLight->m_vDir[index]);
+		
+				pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), light->m_pTech.get());
 			}
-			else if (light.m_eType == LIGHT_POINT)
+			else if (light->m_eLightType == LIGHT_POINT)
 			{
-				Uniform* pUniformColor = light.m_pTech->GetUniform(PS, "light_color");
-				Uniform* pUniformPosRadius = light.m_pTech->GetUniform(PS, "light_pos_radius");
+				PointLightProxy* pPointLight = dynamic_cast<PointLightProxy*>(light.get());
+				ASSERT(pPointLight);
 
-				Vector4 vPosRadius(light.m_vPos, light.m_fRadius);
+				Uniform* pUniformPosRadius = light->m_pTech->GetUniform(PS, "light_pos_radius");
+				light->m_pTech->SetValue(pUniformPosRadius, pPointLight->m_vPosRadius[index]);
 
-				light.m_pTech->SetValue(pUniformColor, light.m_cLightColor);
-				light.m_pTech->SetValue(pUniformPosRadius, vPosRadius);
-
-				//UnitSphere::Render(light.m_pTech.get(), light.m_vPos, light.m_fRadius, pCommand);
-				//pRenderQueue->AddRenderObj(RL_Mesh, UnitSphere::GetRenderable(), light.m_pTech.get());
+				pRenderQueue->AddRenderObj(RL_Mesh, pPointLight->m_pSphere.get(), light->m_pTech.get());
 			}
 		}
-
-		//pCommand->End();
-
-		//pRenderQueue->Render(m_pLightPass.get(), RL_MeshTrans, RL_MeshTrans);
-
-		//if (!m_bHDREnable)
-		//{
-		//	pRenderQueue->Render(m_pLightPass.get(), RL_UI, RL_UI);
-		//}
-
-		//m_pLightPass->End();
 	}
 
 	void MainRenderStep::HDRPass()
@@ -494,25 +482,7 @@ namespace ma
 
 	void MainRenderStep::Render()
 	{
-// 		ComputePass();
-// 
-// 		BasePass();
-// 
-// 		if (m_pDeferredShadow)
-// 		{
-// 			m_pDeferredShadow->Render();
-// 		}
-// 
-// 		LightPass();
-// 
-// 		HDRPass();
-// 
-// 
-// 		for (auto& it : m_vecRenderStep)
-// 		{
-// 			it->Render();
-// 		}
-		
+ 		LightPass();
 	}
 
 }

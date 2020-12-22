@@ -23,8 +23,6 @@ namespace ma
 
 		m_arrRenderProxy.clear();
 
-		//typedef std::vector<RenderProxy*> VEC_OBJ;
-		//static VEC_OBJ vecObj;
 		m_pScene->GetCullTree()->FindObjectsIn(&m_pCamera->GetFrustum(), -1, m_arrRenderProxy);
 
 		RenderQueue* pGbufferQueue = m_pRenderStep->m_pGbufferStep->m_pRenderQueue.get();

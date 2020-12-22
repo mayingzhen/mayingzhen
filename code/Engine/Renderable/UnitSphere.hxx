@@ -123,6 +123,18 @@ namespace ma
 		return;
 	}
 
+	RefPtr<Renderable> UnitSphere::CreateRenderable()
+	{
+		Renderable* pNewSphere = new Renderable();
+		
+		pNewSphere->m_pVertexBuffer = gpSphere->m_pVertexBuffer;
+		pNewSphere->m_pIndexBuffer = gpSphere->m_pIndexBuffer;
+		gpSphere->m_ePrimitiveType = PRIM_TRIANGLELIST;
+
+		return pNewSphere;
+
+	}
+
 	void UnitSphere::Shoutdown()
 	{
 		SAFE_DELETE(gpSphere);		

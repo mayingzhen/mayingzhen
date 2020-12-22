@@ -116,21 +116,9 @@ namespace ma
 		}
 	}
 
-	void RenderQueue::AddLight(Light* pLight, Technique* pTech)
+	void RenderQueue::AddLightObj(LightProxy* pLight)
 	{
-		m_vecLight.emplace_back();
-		LightInfo& info = m_vecLight.back();
-		info.m_eType = pLight->GetLightType();
-		info.m_cLightColor = pLight->GetLightColor();
-		info.m_fLightIntensity = pLight->GetLightIntensity();
-		info.m_vDir = -pLight->GetSceneNode()->GetForward().normalisedCopy();
-		info.m_vPos = pLight->GetSceneNode()->GetPosWS();
-		info.m_pTech = pTech;
-		if (pLight->GetLightType() == LIGHT_POINT)
-		{
-			PointLight* pPointLight = (PointLight*)(pLight);
-			info.m_fRadius = pPointLight->GetRadius();
-		}
+		m_vecLight.push_back(pLight);
 	}
 }
 

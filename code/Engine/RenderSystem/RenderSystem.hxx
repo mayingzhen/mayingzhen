@@ -105,16 +105,10 @@ namespace ma
 	{
 		MICROPROFILE_SCOPEI("", "RenderSystem::Render", 0);
 
-		for (auto& it : m_renderView)
-		{
-			it->Render();
-		}
-
 		this->BegineRender();
 
-
-		m_pRenderThread->RC_AddRenderCommad( []() {
-			GetRenderSystem()->RT_Render();
+		m_pRenderThread->RC_AddRenderCommad( [this]() {
+			this->RT_Render();
 		});
 
 		this->EndRender();
@@ -201,10 +195,12 @@ namespace ma
 // 		SetSceneContext(pRQ->GetSceneContext());
 
 		m_scene = new Scene("defaultScene");
-		MainRenderView* pMainView = new MainRenderView();
+		RefPtr<MainRenderView> pMainView = new MainRenderView();
 		pMainView->m_name = "MainView";
 		pMainView->m_pScene = m_scene;
 		pMainView->m_pCamera = m_scene->GetCamera();
+
+		AddRenderView(pMainView.get());
 	}
 
 	void RenderSystem::RT_Reset(uint32_t nWidth,uint32_t nHeight)
@@ -238,12 +234,22 @@ namespace ma
 		//SYSTRACE(RT_Render);
 		MICROPROFILE_SCOPEI("", "RenderSystem::RT_Render", 0);
 
-		uint32_t nCurProcess = CurThreadProcess();
+//		uint32_t nCurProcess = CurThreadProcess();
 
 // 		for (auto& render_step : m_renderStepList[nCurProcess])
 // 		{
 // 			render_step->Render();
 // 		}
+
+		for (auto& render_view : m_renderView)
+		{
+			render_view->Render();
+		}
+
+		for (auto& render_step : m_renderStepList)
+		{
+			render_step->Render();
+		}
 	}
 
 	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)

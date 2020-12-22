@@ -4,6 +4,7 @@
 namespace ma
 {
 	class Camera;
+	class PointLightProxy;
 
 	enum LightType
 	{
@@ -28,12 +29,15 @@ namespace ma
 		LightType					GetLightType() {return m_eLightType;}
 
 		const ColourValue&			GetLightColor() const {return m_cLightColor;}
-		void						SetLightColor(const ColourValue& cLightColor) {m_cLightColor = cLightColor;}
+		void						SetLightColor(const ColourValue& cLightColor);
 
-		void						SetLightIntensity(float fIntensity) {m_fLightIntensity = fIntensity;}
+		void						SetLightIntensity(float fIntensity);
 		float						GetLightIntensity() {return m_fLightIntensity;}
 
-		void						Render(RenderQueue* pRenderQueue);
+	private:
+		LightProxy*					GetLightProxy();
+
+		void						UpdateProxyColor();
 
 	protected:
 		LightType					m_eLightType;
@@ -41,9 +45,8 @@ namespace ma
 		ColourValue					m_cLightColor;
 
 		float						m_fLightIntensity;
-
-		RefPtr<Technique>			m_pTech;
 	};
+
 
 	class PointLight : public Light
 	{
@@ -56,6 +59,9 @@ namespace ma
 		float			GetRadius() {return m_fRadius;}
 
 		void			SetRadius(float fRadius);
+
+	private:
+		PointLightProxy* GetPointLightProxy();
 
 	private:
 
@@ -89,5 +95,46 @@ namespace ma
 		Matrix4			m_mView;
 		Matrix4			m_mProj;
 	};
+
+
+
+	class LightProxy : public RenderProxy
+	{
+
+	public:
+
+		virtual void	Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
+
+	public:
+		LightType		m_eLightType;
+
+		Vector3			m_vLightColor[2];
+
+		RefPtr<Technique>	m_pTech;
+	};
+
+	class DirLightProxy : public LightProxy
+	{
+	public:
+		DirLightProxy();
+	
+	public:
+		Vector3	m_vDir[2];
+	};
+
+	class PointLightProxy : public LightProxy
+	{
+	public:
+		PointLightProxy();
+
+		void SetWorldMatrix(const Matrix4& matws);
+
+	public:
+		
+		Vector4 m_vPosRadius[2];
+
+		RefPtr<Renderable>	m_pSphere;
+	};
+
 
 }

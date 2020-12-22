@@ -23,7 +23,7 @@ namespace ma
 	
 		void Update() {}
 
-		void Render() {}
+		virtual void Render() {}
 
 	public:
 
@@ -44,7 +44,7 @@ namespace ma
 
 		void Update();
 
-		void Render();
+		void Render() override;
 
 	protected:
 

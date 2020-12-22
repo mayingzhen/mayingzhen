@@ -126,7 +126,7 @@ namespace ma
 
 	void RenderProxy::Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
 	{
-		ASSERT(false);
+		//ASSERT(false);
 	}
 
 

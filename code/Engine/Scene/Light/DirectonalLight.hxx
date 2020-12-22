@@ -12,10 +12,7 @@ namespace ma
 
 	DirectonalLight::DirectonalLight()
 	{
-		if (GetRenderSystem()->GetDefferedLightRenderPass())
-		{
-			m_pTech = CreateTechnique("shader/dirlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
-		}
+		m_pRenderproxy = new DirLightProxy();
 
 		m_eLightType = LIGHT_DIRECTIONAL;
 		m_bShadowEnable = false;
@@ -54,11 +51,11 @@ namespace ma
 	void DirectonalLight::Update()
 	{
 		Light::Update();
-	}
 
-	void DirectonalLight::Render(RenderQueue* pRenderQueue)
-	{
-		Light::Render(pRenderQueue);
+		Vector3 vDir = -this->GetSceneNode()->GetForward().normalisedCopy();
+		DirLightProxy* pProxy = dynamic_cast<DirLightProxy*>(m_pRenderproxy.get());
+		ASSERT(pProxy);
+		pProxy->m_vDir[GetRenderSystem()->CurThreadFill()] = vDir;
 	}
 
 	void DirectonalLight::SetShadowEnabled(bool b)

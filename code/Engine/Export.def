@@ -222,3 +222,5 @@ EXPORTS
 ?CreateDepthStencilState@ma@@YA?AV?$RefPtr@VDepthStencilState@ma@@@1@XZ
 ??0ShaderCreateInfo@ma@@QEAA@XZ
 ?GetRotation@SceneNode@ma@@QEBAAEBVQuaternion@2@XZ
+?SetLightColor@Light@ma@@QEAAXAEBVColourValue@2@@Z
+?SetLightIntensity@Light@ma@@QEAAXM@Z

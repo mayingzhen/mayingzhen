@@ -11,17 +11,7 @@ namespace ma
 	class Camera;
 	class Light;
 	class SceneContext;
-
-	struct LightInfo
-	{
-		uint32_t m_eType;
-		ColourValue	m_cLightColor;
-		float	m_fLightIntensity;
-		Vector3	m_vDir;
-		Vector3 m_vPos;
-		float m_fRadius = 0.0f;
-		RefPtr<Technique> m_pTech;
-	};
+	class LightProxy;
 
 	class RenderQueue : public Referenced
 	{
@@ -33,6 +23,8 @@ namespace ma
 		void					AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech);
 
 		void					AddComputeObj(Renderable* pRenderObj, Technique* pTech);
+
+		void					AddLightObj(LightProxy* pLight);
 		
 		void					SetCamera(Camera* pCamera);
 
@@ -40,11 +32,9 @@ namespace ma
 
 		void					SetMainLight(Light* pMainLight, ColourValue cAmbient);
 
-		void					AddLight(Light* pLight, Technique* pTech);
-
 		SceneContext*			GetSceneContext() { return m_renderContext.get(); }
 
-		std::vector< LightInfo >& GetRenderLights() { return m_vecLight; }
+		std::vector< RefPtr<LightProxy> >& GetRenderLights() { return m_vecLight; }
 
 		void					Render(RenderPass* pPass);
 
@@ -65,7 +55,7 @@ namespace ma
 		RefPtr<SceneContext> m_renderContext;
 
 		// Light
-		std::vector< LightInfo > m_vecLight;
+		std::vector< RefPtr<LightProxy> > m_vecLight;
 
 		BatchRenderable		m_compute;
 
