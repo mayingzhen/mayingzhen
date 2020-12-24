@@ -87,4 +87,9 @@ namespace ma
 		PixelBox src(finalWidth, finalHeight, finalDepth, m_eFormat, offset);
 		return src;
 	}
+
+	RefPtr<ImageData> CreateImageData()
+	{
+		return new ImageData();
+	}
 };

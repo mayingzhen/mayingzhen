@@ -1437,7 +1437,8 @@ void init_pipeline_cache(struct sample_info &info) {
 void init_pipeline(struct sample_info &info, VkBool32 include_depth, VkBool32 include_vi) {
     VkResult U_ASSERT_ONLY res;
 
-    VkDynamicState dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
+#define NUM_DYNAMIC_STATES 2 /*Viewport + Scissor*/
+    VkDynamicState dynamicStateEnables[NUM_DYNAMIC_STATES];
     VkPipelineDynamicStateCreateInfo dynamicState = {};
     memset(dynamicStateEnables, 0, sizeof dynamicStateEnables);
     dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;

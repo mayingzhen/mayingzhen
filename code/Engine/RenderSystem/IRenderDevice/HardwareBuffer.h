@@ -25,9 +25,7 @@ namespace ma
 
 		uint32_t		GetNumber() const {return m_Size / m_Stride;}
 
-		uint8_t*		GetData() const {return m_pData;}
-
-		void			SetData(uint8_t* pData,uint32_t nSize,int nStride, HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
+		void			SetData(uint8_t* pData,uint32_t nSize,int nStride, HBU_USAGE eUsage = HBU_STATIC);
 
 		void			FreeData();
 
@@ -44,8 +42,8 @@ namespace ma
 		int				m_Stride;
 		uint32_t        m_Size;
 		HBU_USAGE       m_Usage;
-		uint8_t*		m_pData;
-		bool			m_bShadowData;
+
+		std::vector<uint8_t> m_cachedata;
 
 		void*			m_pLockedData;	
 	};

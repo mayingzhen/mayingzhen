@@ -17,21 +17,30 @@ namespace ma
 
 	}
 
-	void RenderStep::Render()
+	void RenderStep::Render(RenderPass* prePass,RenderPass* nextPass)
 	{
 		RenderQueue* cur_renderQueue = m_pRenderQueue.get();
 		RenderPass*  cur_renderPass = m_pRenderPass.get();
 
 		SetSceneContext(cur_renderQueue->GetSceneContext());
 
-		cur_renderPass->Begine();
-
+		if (cur_renderPass != prePass)
+		{
+			cur_renderPass->Begine();
+		}
+		
 		cur_renderQueue->Render(cur_renderPass);
 
-		cur_renderPass->End();
+		if (cur_renderPass != nextPass)
+		{
+			cur_renderPass->End();
+		}
 	}
 
-
+	RefPtr<RenderStep> CreateRenderStep()
+	{
+		return new RenderStep();
+	}
 
 }
 

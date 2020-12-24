@@ -9,8 +9,6 @@ namespace ma
 		m_Stride = 0;
 		m_Size = 0;
 		m_Usage = HBU_STATIC;
-		m_pData = NULL;
-		m_bShadowData = false;
 		m_pLockedData = NULL;
 	}
 
@@ -42,19 +40,18 @@ namespace ma
 		}
 	}
 
-	void HardwareBuffer::SetData(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
+	void HardwareBuffer::SetData(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage)
 	{
 		FreeData();
 
-		m_bShadowData = bShadowData;
 		m_Size = nSize;
 		m_Stride = nStride;
 		m_Usage = eUsage;
 
 		if (pData)
 		{
-			m_pData = new uint8_t[nSize];
-			memcpy(m_pData,pData,nSize);
+			m_cachedata.resize(nSize);
+			memcpy(m_cachedata.data(),pData,nSize);
 		}
 	}
 
@@ -72,7 +69,7 @@ namespace ma
 
 	void HardwareBuffer::FreeData()
 	{
-		SAFE_DELETE_ARRAY(m_pData);
+		m_cachedata.shrink_to_fit();
 	}
 
 }

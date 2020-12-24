@@ -133,14 +133,14 @@ namespace ma
 		vkEnumerateInstanceLayerProperties(&InstanceLayerCount, vk_props.data());
 
 
-		bool enableValidation = false;
+		bool enableValidation = true;
 
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		//appInfo.pApplicationName = Game::GetInstance()->GetGameName();
 		//appInfo.pEngineName = Game::GetInstance()->GetGameName();
-		appInfo.apiVersion = VK_API_VERSION_1_0;
+		appInfo.apiVersion = VK_API_VERSION_1_1;
 
 		std::vector<const char*> instanceExtensions = { VK_KHR_SURFACE_EXTENSION_NAME };
 
@@ -614,10 +614,10 @@ namespace ma
 			out[2][1] = 
 			out[3][1] = out[3][2] = 0;
 
-		//Vulkan clip space has inverted Y
-		Matrix4 Clip = Matrix4::IDENTITY;
-		Clip.setScale(Vector3(1, -1, 1));
-		out = Clip * out;
+// 		//Vulkan clip space has inverted Y
+// 		Matrix4 Clip = Matrix4::IDENTITY;
+// 		Clip.setScale(Vector3(1, -1, 1));
+// 		out = Clip * out;
 
 		return out;
 	}

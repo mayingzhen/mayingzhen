@@ -27,6 +27,7 @@ namespace ma
 
 		RenderQueue* pGbufferQueue = m_pRenderStep->m_pGbufferStep->m_pRenderQueue.get();
 		RenderQueue* pTransluceQueue = m_pRenderStep->m_pTransluceStep->m_pRenderQueue.get();
+		RenderQueue* pLightQueue = m_pRenderStep->m_pLightStep->m_pRenderQueue.get();
 
 		pGbufferQueue->Clear();
 		pGbufferQueue->SetCamera(m_pCamera.get());
@@ -35,6 +36,10 @@ namespace ma
 		pTransluceQueue->Clear();
 		pTransluceQueue->SetCamera(m_pCamera.get());
 		pTransluceQueue->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
+
+		pLightQueue->Clear();
+		pLightQueue->SetCamera(m_pCamera.get());
+		pLightQueue->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
 
 		for (uint32_t i = 0; i < m_arrRenderProxy.size(); ++i)
 		{
@@ -47,6 +52,12 @@ namespace ma
 // 			else
 			{
 				m_arrRenderProxy[i]->Render(pGbufferQueue, m_pRenderStep->GetGpufferPass());
+			}
+
+			LightProxy* pLightProxy = dynamic_cast<LightProxy*>(m_arrRenderProxy[i]);
+			if (pLightProxy)
+			{
+				pLightProxy->Render(pLightQueue, m_pRenderStep->m_pLightStep->m_pRenderPass.get());
 			}
 		}
 

@@ -83,8 +83,9 @@ namespace ma
 		RefPtr<MethodBinding> pMethodDiffuseTexture = new MethodFunBinding< SamplerState* >([this](Renderable*) {return m_pDiffuseTexture.get();});
 		pSubMaterial->SetParameter("u_texture", Any(pMethodDiffuseTexture));
 
-		m_pScene->SetAmbientColor(ColourValue(0.0,0.0,0.0));
-		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(5, 3, -5), Vector3(0, 0, 0));
+		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 0, 10), Vector3(0, 0, 0));
+		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
+		m_pScene->SetAmbientColor(ColourValue(0.1, 0.1, 0.1));
 	}
 
 	void SampleIBL::UnLoad()
@@ -112,8 +113,6 @@ namespace ma
 
 	void SampleIBL::Update()
 	{
-        return;
-        
 		GetUI()->Begin("Material"); 
 		GetUI()->SliderFloat("Metalness", &m_fMetalness, 0.0f, 1.0f);           
 		GetUI()->SliderFloat("Glossiness", &m_fGlossiness, 0.0f, 1.0f);

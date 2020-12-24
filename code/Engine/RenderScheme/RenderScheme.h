@@ -54,8 +54,6 @@ namespace ma
  
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
 
-		RefPtr<RenderStep> m_pLightStep;
-
 		//Gbuffer
 		RefPtr<Texture>			m_pDepthTex;
 		RefPtr<SamplerState>	m_pDepthSampler;
@@ -95,6 +93,8 @@ namespace ma
 		RefPtr<RenderStep> m_pGbufferStep;
 
 		RefPtr<RenderStep> m_pTransluceStep;
+
+		RefPtr<RenderStep> m_pLightStep;
 	};
 
 }

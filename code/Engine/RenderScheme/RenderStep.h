@@ -21,7 +21,7 @@ namespace ma
 
 		virtual ~RenderStep();
 
-		virtual void Render();
+		virtual void Render(RenderPass* prePass, RenderPass* nextPass);
 
 		virtual void Reset() {}
 
@@ -33,6 +33,8 @@ namespace ma
 
 		std::string			m_strName;
 	};
+
+	RefPtr<RenderStep> CreateRenderStep();
 }
 
 

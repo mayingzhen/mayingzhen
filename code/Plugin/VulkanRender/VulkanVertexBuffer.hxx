@@ -29,6 +29,10 @@ namespace ma
 
 	void VulkanVertexBuffer::RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
 	{
+		ASSERT(nOffset == 0);
+
+		ASSERT(pData && nSize <= this->GetSize());
+
 		if (m_vertexBuffer.device == VK_NULL_HANDLE)
 			return;
 
@@ -61,7 +65,7 @@ namespace ma
 				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 				&vertexStaging,
 				static_cast<uint32_t>(m_Size),
-				m_pData));
+				m_cachedata.data()));
 			// Target
 			VkBufferUsageFlags usageFlags = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 			if (GetUsage() == HBU_STORGE_VECTOR_BUFFER)
@@ -103,10 +107,7 @@ namespace ma
 			//todo: fence
 			vertexStaging.destroy();
 
-			if (!m_bShadowData)
-			{
-				FreeData();
-			}
+			FreeData();
 		}
 		else
 		{
@@ -117,7 +118,7 @@ namespace ma
 				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 				&vertexStaging,
 				static_cast<uint32_t>(m_Size),
-				m_pData));
+				m_cachedata.data()));
 			// Target
 			VK_CHECK_RESULT(vulkanDevice->createBuffer(
 				VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
@@ -156,10 +157,7 @@ namespace ma
 			//todo: fence
 			vertexStaging.destroy();
 
-			if (!m_bShadowData)
-			{
-				FreeData();
-			}
+			FreeData();
 		}
 	}
 }

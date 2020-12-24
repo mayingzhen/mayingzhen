@@ -2,7 +2,8 @@
 
 namespace ma
 {
-	class Scene;
+	class RenderCommand;
+
 
 	enum LoadOp 
 	{
@@ -58,10 +59,20 @@ namespace ma
 
 		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, int stage) = 0;
 
+		void AddRenderCommand(RenderCommand* pCommand);
+
+		void RemoveRenderCommand(RenderCommand* pCommand);
+		
+		void ClearRenderCommand();
+
 	public:
 		RenderSurface				m_depthStencil;
 		
 		std::vector<RenderSurface>	m_arrColor;
+
+	private:
+		typedef std::vector<RefPtr<RenderCommand>> VEC_COMMAND;
+		VEC_COMMAND					m_vecCommand;
 	};
 
 }

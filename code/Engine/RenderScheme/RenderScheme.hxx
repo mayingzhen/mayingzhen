@@ -425,7 +425,7 @@ namespace ma
 	void MainRenderStep::LightPass()
 	{
 		RenderQueue* pRenderQueue = m_pLightStep->m_pRenderQueue.get(); 
-		pRenderQueue->Clear();
+		//pRenderQueue->Clear();
 
 		Vector3 cAmbientColor = pRenderQueue->GetSceneContext()->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));

@@ -70,7 +70,7 @@ namespace ma
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 		size_t upload_size = width*height * 4 * sizeof(char);
 
-		RefPtr<ImageData> data = new ImageData();
+		RefPtr<ImageData> data = CreateImageData();
 		data->m_eFormat = PF_A8B8G8R8;
 		data->m_nWidth = width;
 		data->m_nHeight = height;
@@ -82,7 +82,18 @@ namespace ma
 		// Store our identifier
 		io.Fonts->TexID = (void *)(intptr_t)m_pFontSampler.get();
 
-		m_pUIBuffer = new ParallHardWareBuffer(sizeof(ImDrawVert), 1024 * 10, 1024 * 10);
+		for (uint32_t i = 0; i < 3; ++i)
+		{
+			m_pVertexBuffer[i] = GetRenderSystem()->CreateVertexBuffer(NULL, sizeof(ImDrawVert) * 1024 * 10, sizeof(ImDrawVert), HBU_DYNAMIC);
+			m_pIndexBuffer[i] = GetRenderSystem()->CreateIndexBuffer(NULL, sizeof(uint16_t) * 1024 * 10, sizeof(uint16_t), HBU_DYNAMIC);
+		}
+
+		m_pRenderStep = CreateRenderStep();
+		m_pRenderStep->m_strName = "UI";
+		m_pRenderStep->m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
+		GetRenderSystem()->AddRenderStep(m_pRenderStep.get());
+
+		m_pUICommand = GetRenderDevice()->CreateRenderCommand();
 	}
 
 	void UI::Shutdown()
@@ -93,12 +104,7 @@ namespace ma
 
 	void UI::Update()
 	{
-		if (m_bInit)
-		{
-			m_pUIBuffer->LockVideoMemory();
-		}
-
-		//ImGui::NewFrame();
+		ImGui::NewFrame();
 	}
 
 	UIRenderable* UI::GetRenderable(uint32_t nIndex)
@@ -121,16 +127,16 @@ namespace ma
 
 	}
 
-	void UI::RenderDrawData(ImDrawData* draw_data, RenderQueue* pRendeQueue)
+	void UI::RenderDrawData(ImDrawData* draw_data)
 	{
 		if (draw_data->TotalVtxCount <= 0)
 			return;
 
-		SubAllocVB subvb = m_pUIBuffer->AllocVertexBuffer(draw_data->TotalVtxCount);
-		SubAllocIB subib = m_pUIBuffer->AllocIndexBuffer(draw_data->TotalIdxCount);
+		std::vector<ImDrawVert> vbData(draw_data->TotalVtxCount);
+		std::vector<ImDrawIdx> ibData(draw_data->TotalIdxCount);
 
-		ImDrawVert* vtx_dst = (ImDrawVert*)subvb.m_pVertices;
-		ImDrawIdx* idx_dst = (ImDrawIdx*)subib.m_pIndices;
+		ImDrawVert* vtx_dst = vbData.data();
+		ImDrawIdx* idx_dst = ibData.data();
 		if (vtx_dst == nullptr || idx_dst == nullptr)
 			return;
 
@@ -139,23 +145,36 @@ namespace ma
 			const ImDrawList* cmd_list = draw_data->CmdLists[n];
 			memcpy(vtx_dst, cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size * sizeof(ImDrawVert));
 			memcpy(idx_dst, cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx));
+
 			vtx_dst += cmd_list->VtxBuffer.Size;
 			idx_dst += cmd_list->IdxBuffer.Size;
 		}
 
+		m_nBufferIndex = m_nBufferIndex++;
+		m_nBufferIndex = m_nBufferIndex % 3;
+		m_pVertexBuffer[m_nBufferIndex]->UpdateData(0, (uint8_t*)vbData.data(), vbData.size() * sizeof(ImDrawVert));
+		m_pIndexBuffer[m_nBufferIndex]->UpdateData(0, (uint8_t*)ibData.data(), ibData.size() * sizeof(ImDrawIdx));
+
+
 		{
+			//imgui space lies from draw_data->DisplayPps (top left) to draw_data->DisplayPos+data_data->DisplaySize (bottom right).
 			Vector4 vScaleTrans;
 			vScaleTrans.x = 2.0f / draw_data->DisplaySize.x;
 			vScaleTrans.y = 2.0f / draw_data->DisplaySize.y;
 			vScaleTrans.z = -1.0f - draw_data->DisplayPos.x * vScaleTrans.x;
 			vScaleTrans.w = -1.0f - draw_data->DisplayPos.y * vScaleTrans.y;
 
-			m_pTechUI->SetValue(m_pTechUI->GetUniform(VS,"uScaleTranslate"), vScaleTrans);
+			vScaleTrans.y *= -1.0f;
+			vScaleTrans.w *= -1.0f;
+
+			m_pTechUI->SetValue(m_pTechUI->GetUniform(VS, "uScaleTranslate"), vScaleTrans);
+
 		}
 
 		m_pTechUI->SetValue(m_pTechUI->GetUniform(PS,"texture0"), m_pFontSampler.get());
 
-		uint32_t nUsedCount = 0;
+		uint32_t index = GetRenderSystem()->CurThreadFill();
+		m_nUsedCount[index] = 0;
 		
 		// Render command lists
 		int vtx_offset = 0;
@@ -182,16 +201,14 @@ namespace ma
 					scissor.right = scissor.left + (uint32_t)(pcmd->ClipRect.z - pcmd->ClipRect.x);
 					scissor.bottom = scissor.top + (uint32_t)(pcmd->ClipRect.w - pcmd->ClipRect.y + 1); // FIXME: Why +1 here?
 
-					UIRenderable* pRenderable = GetRenderable(nUsedCount++);
-					pRenderable->m_pVertexBuffer = m_pUIBuffer->GetVertexBuffer();
-					pRenderable->m_pIndexBuffer = m_pUIBuffer->GetIndexBuffer();
+					UIRenderable* pRenderable = GetRenderable(m_nUsedCount[index]++);
+					pRenderable->m_pVertexBuffer = m_pVertexBuffer[m_nBufferIndex];
+					pRenderable->m_pIndexBuffer = m_pIndexBuffer[m_nBufferIndex];
 					pRenderable->m_pSubMeshData->m_nIndexCount = pcmd->ElemCount;
 					pRenderable->m_pSubMeshData->m_nIndexStart = idx_offset;
 					pRenderable->m_pSubMeshData->m_nVertexStart = vtx_offset;
 					
 					pRenderable->m_scissor = scissor;
-
-					pRendeQueue->AddRenderObj(RL_UI, pRenderable, pRenderable->GetMaterial()->GetShadingTechnqiue());
 				}
 				idx_offset += pcmd->ElemCount;
 			}
@@ -201,22 +218,33 @@ namespace ma
 
 	void UI::Render()
 	{
-        return;
-        
 		ImGui::Render();
 
 		if (m_bInit)
 		{
-			//RenderStep* render_step = GetRenderSystem()->GetBaseRender();
+			RenderDrawData(ImGui::GetDrawData());
 
-			//RenderQueue* pRenderQueue = render_step->m_pRenderQueue[GetRenderSystem()->CurThreadFill()].get();
-
-			//RenderDrawData(ImGui::GetDrawData(), pRenderQueue);
-
-			m_pUIBuffer->UnLockVideoMemory();
+			GetRenderSystem()->RC_AddRenderCommad( [this]() {
+				this->RT_Render();
+				}
+			);
 		}
 
 		m_bInit = true;
+	}
+
+	void UI::RT_Render()
+	{
+		uint32_t index = GetRenderSystem()->CurThreadProcess();
+
+		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
+		pRenderQueue->Clear();
+
+		for (uint32_t i = 0; i < m_nUsedCount[index]; ++i)
+		{
+			UIRenderable* pRenderable = m_vecRendeable[index][i].get();
+			pRenderQueue->AddRenderObj(RL_UI, pRenderable, m_pTechUI.get());
+		}
 	}
 
 	bool UI::Begin(const char* name, bool* p_open, int flags)

@@ -142,7 +142,6 @@ namespace ma
 
 		bool					InitRes();
 		
-		void					SaveData();
 		void					ReadDataV1();
 		void					ReadDataV0();
 
@@ -150,6 +149,10 @@ namespace ma
 		uint32_t						m_nBoneNumber;
 		INDEX_TYPE						m_nIndexType;
 		VertexType						m_nVertexType;
+
+		std::vector<uint8_t>			m_vecIBData;
+		std::vector<uint8_t>			m_vecVBData;
+
 		RefPtr<IndexBuffer>				m_pIndexBuffer;
 		RefPtr<VertexBuffer>			m_pVertexBuffer;
 		RefPtr<VertexDeclaration>		m_pDeclaration; 
@@ -159,6 +162,8 @@ namespace ma
 
 		AABB							m_meshBound;
 		AABB2D							m_tcBound;
+
+		bool							m_bSaveCpuData = false;
 
 	};
 	

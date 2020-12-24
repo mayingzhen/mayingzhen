@@ -58,8 +58,8 @@ namespace ma
 		// Create	
 		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,uint32_t nMipMap = 1, PixelFormat format = PF_A8R8G8B8,bool bSRGB = true,TEXTURE_TYPE eType = TEXTYPE_2D);
 		RefPtr<Texture>		CreateDepthStencil(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_D24S8);
-		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
-		RefPtr<VertexBuffer> CreateVertexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
+		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC);
+		RefPtr<VertexBuffer> CreateVertexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32_t nCount);
 
 		inline void			RC_AddRenderCommad(const std::function<void()>& fun) {m_pRenderThread->RC_AddRenderCommad(fun);}
@@ -87,7 +87,7 @@ namespace ma
 		int					GetThreadList() {return m_pRenderThread->GetThreadList();}
 		void				FlushAndWait() {return m_pRenderThread->FlushAndWait();}
 
-		Scene*				GetScene(int index = 0);
+		Scene*				GetScene();
 
 		const char*			GetShaderPath();
 		

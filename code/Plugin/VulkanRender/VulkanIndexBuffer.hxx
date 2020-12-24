@@ -30,6 +30,8 @@ namespace ma
 
 	void VulkanIndexBuffer::RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
 	{
+		ASSERT(pData && nSize <= this->GetSize());
+
 		if (m_indexBuffer.device == VK_NULL_HANDLE)
 			return;
 
@@ -63,7 +65,7 @@ namespace ma
 				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 				&indexStaging,
 				static_cast<uint32_t>(m_Size),
-				m_pData));
+				m_cachedata.data()));
 			// Target
 			VK_CHECK_RESULT(vulkanDevice->createBuffer(
 				VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
@@ -102,10 +104,7 @@ namespace ma
 			//todo: fence
 			indexStaging.destroy();
 
-			if (!m_bShadowData)
-			{
-				FreeData();
-			}
+			FreeData();
 		}
 	}
 

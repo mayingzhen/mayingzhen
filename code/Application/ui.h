@@ -39,7 +39,9 @@ namespace ma
 		float GetFramerate();
 
 	private:
-		void RenderDrawData(ImDrawData* draw_dat, RenderQueue* pRendeQueue);
+		void RenderDrawData(ImDrawData* draw_dat);
+
+		void RT_Render();
 
 		UIRenderable* GetRenderable(uint32_t nIndex);
 
@@ -49,8 +51,15 @@ namespace ma
 		RefPtr<SamplerState> m_pFontSampler;
 
 		std::vector< RefPtr<UIRenderable> > m_vecRendeable[2];
+		uint32_t m_nUsedCount[2] = { 0,0 };
 
-		RefPtr<ParallHardWareBuffer> m_pUIBuffer;
+		RefPtr<VertexBuffer> m_pVertexBuffer[3];
+		RefPtr<IndexBuffer> m_pIndexBuffer[3];
+		uint32_t m_nBufferIndex = 0;
+
+		RefPtr<RenderStep> m_pRenderStep;
+
+		RefPtr<RenderCommand> m_pUICommand;
 
 		bool m_bInit = false;
 	};

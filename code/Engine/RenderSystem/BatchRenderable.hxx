@@ -173,16 +173,16 @@ namespace ma
 
 	void BatchRenderable::Render(RenderPass* pPass, int stage)
 	{
-		if (m_arrPrePareRenderList.empty())
+		if (m_arrRenderList.empty())
 			return;
 
 		uint32_t nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 
-		if (nNumJob > 1 && m_arrPrePareRenderList.size() > nNumJob)
+		if (nNumJob > 1 && m_arrRenderList.size() > nNumJob)
 		{
 			//BEGIN_TIME(g_pTaskScheduler);
 
-			uint32_t nCountPerJob = m_arrPrePareRenderList.size() / nNumJob;
+			uint32_t nCountPerJob = m_arrRenderList.size() / nNumJob;
 
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(nNumJob);
 
@@ -191,7 +191,7 @@ namespace ma
 				uint32_t nStartIndex = iJob * nCountPerJob;
 				uint32_t nEndIndex = nStartIndex + nCountPerJob - 1;
 				if (iJob == nNumJob - 1)
-					nEndIndex = m_arrPrePareRenderList.size() - 1;
+					nEndIndex = m_arrRenderList.size() - 1;
 
 				ASSERT(nEndIndex >= nStartIndex);
 				if (nEndIndex < nStartIndex)
@@ -199,7 +199,7 @@ namespace ma
 
 				uint32_t nCount = nEndIndex - nStartIndex + 1;
 
-				RenderItem* ppNodeStart = &(m_arrPrePareRenderList[nStartIndex]);
+				RenderItem* ppNodeStart = &(m_arrRenderList[nStartIndex]);
 
 				RenderCommand* pCommand = pPass->GetThreadCommand(iJob, stage);
 
@@ -213,8 +213,8 @@ namespace ma
 		else
 		{
 			RenderCommand* pCommand = pPass->GetThreadCommand(0, stage);
-			RenderItem* ppNodeStart = &(m_arrPrePareRenderList[0]);
-			uint32_t nCount = m_arrPrePareRenderList.size();
+			RenderItem* ppNodeStart = &(m_arrRenderList[0]);
+			uint32_t nCount = m_arrRenderList.size();
 
 			ParallelRender(pCommand, ppNodeStart, nCount);
 		}

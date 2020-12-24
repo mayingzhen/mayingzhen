@@ -201,13 +201,13 @@ namespace ma
 		pSaveStream->WriteUInt(m_nIndexType);
 		pSaveStream->WriteUInt(m_nVertexType);
 
-		uint32_t nIndexSize = m_pIndexBuffer->GetSize();
+		uint32_t nIndexSize = m_vecIBData.size();
 		pSaveStream->WriteUInt(nIndexSize);
-		pSaveStream->Write(m_pIndexBuffer->GetData(),nIndexSize);
+		pSaveStream->Write(m_vecIBData.data(),nIndexSize);
 
-		uint32_t nVertexSize = m_pVertexBuffer->GetSize();
+		uint32_t nVertexSize = m_vecVBData.size();
 		pSaveStream->WriteUInt(nVertexSize);
-		pSaveStream->Write(m_pVertexBuffer->GetData(),nVertexSize);
+		pSaveStream->Write(m_vecVBData.data(),nVertexSize);
 
 		pSaveStream->WriteBoundingBox(m_meshBound);
 		pSaveStream->WriteBoundingBox2D(m_tcBound);
@@ -249,32 +249,28 @@ namespace ma
 
 		m_nVertexType = (VertexType)m_pDataStream->ReadUInt();
 		
-		vector<uint8_t> vecIBData;
-
 		uint32_t nIndexSize = m_pDataStream->ReadUInt();
-		vecIBData.resize(nIndexSize);
-		m_pDataStream->Read(&vecIBData[0],nIndexSize);
+		m_vecIBData.resize(nIndexSize);
+		m_pDataStream->Read(&m_vecIBData[0],nIndexSize);
 
 		if (m_nIndexType == INDEX_TYPE_U16)
 		{
 			uint32_t nIndexCount = nIndexSize / sizeof(uint16_t);
 			ASSERT(nIndexCount == nIndexNum);
 
-			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint16_t));
+			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&m_vecIBData[0],nIndexSize,sizeof(uint16_t));
 		}
 		else
 		{
 			uint32_t nIndexCount = nIndexSize / sizeof(uint32_t);
 			ASSERT(nIndexCount == nIndexNum);
 
-			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint32_t));
+			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&m_vecIBData[0],nIndexSize,sizeof(uint32_t));
 		}
 		
-		vector<uint8_t> vecVBData;
-
 		uint32_t nVertexSize = m_pDataStream->ReadUInt();
-		vecVBData.resize(nVertexSize);
-		m_pDataStream->Read(&vecVBData[0],nVertexSize);
+		m_vecVBData.resize(nVertexSize);
+		m_pDataStream->Read(&m_vecVBData[0],nVertexSize);
 	
 		if (m_nVertexType == SKIN_VERTEX_1)
 		{
@@ -289,7 +285,7 @@ namespace ma
 			element[4] = VertexElement(0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0);
 			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
 
-			m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(&vecVBData[0],nVertexSize,sizeof(SkinVertexV1));
+			m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(&m_vecVBData[0],nVertexSize,sizeof(SkinVertexV1));
 		}
 		else if (m_nVertexType == STATIC_VERTEX_1)
 		{
@@ -302,7 +298,7 @@ namespace ma
 			element[2] = VertexElement(0,12,DT_SHORT2N,DU_TEXCOORD,0);
 			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,3);
 
-			m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(&vecVBData[0],nVertexSize,sizeof(StaticVertexV1));
+			m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(&m_vecVBData[0],nVertexSize,sizeof(StaticVertexV1));
 		}
 
 		m_meshBound = m_pDataStream->ReadBoundingBox();
@@ -353,20 +349,16 @@ namespace ma
 		ASSERT(m_nIndexType == INDEX_TYPE_U16);
 		ASSERT(m_nVertexType == SKIN_VERTEX_0);
 
-		vector<uint8_t> vecIBData;
-
 		uint32_t nIndexSize = m_pDataStream->ReadUInt();
-		vecIBData.resize(nIndexSize);
-		m_pDataStream->Read(&vecIBData[0],nIndexSize);
+		m_vecIBData.resize(nIndexSize);
+		m_pDataStream->Read(&m_vecIBData[0],nIndexSize);
 	
 		uint32_t nIndexCount = nIndexSize / sizeof(uint16_t);
 		ASSERT(nIndexCount == nIndexNum);
-		
-		vector<uint8_t> vecVBData;
 
 		uint32_t nVertexSize = m_pDataStream->ReadUInt();
-		vecVBData.resize(nVertexSize);
-		m_pDataStream->Read(&vecVBData[0],nVertexSize);
+		m_vecVBData.resize(nVertexSize);
+		m_pDataStream->Read(&m_vecVBData[0],nVertexSize);
 
 		uint32_t nVertexCount = nVertexSize / sizeof(SkinVertexV0);
 
@@ -410,8 +402,8 @@ namespace ma
 			}
 		}
 
-		SkinVertexV0* pVertexV0 = (SkinVertexV0*)(&vecVBData[0]);
-		uint16_t* pIndex = (uint16_t*)(&vecIBData[0]);
+		SkinVertexV0* pVertexV0 = (SkinVertexV0*)(&m_vecVBData[0]);
+		uint16_t* pIndex = (uint16_t*)(&m_vecIBData[0]);
 
 		vector<SkinVertexV1> pVertexV1;
 		pVertexV1.resize(nVertexNum);
@@ -425,7 +417,7 @@ namespace ma
 		element[4] = VertexElement(0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0);
 		m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
 
-		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(uint16_t));
+		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&m_vecIBData[0],nIndexSize,sizeof(uint16_t));
 
 		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8_t*)&pVertexV1[0],nVertexNum * sizeof(SkinVertexV1),sizeof(SkinVertexV1));
 	}
@@ -493,6 +485,12 @@ namespace ma
 		else if (nIden == 'MAMD')
 		{
 			ReadDataV1();
+		}
+
+		if (!m_bSaveCpuData)
+		{
+			m_vecIBData.shrink_to_fit();
+			m_vecVBData.shrink_to_fit();
 		}
 
 		return true;

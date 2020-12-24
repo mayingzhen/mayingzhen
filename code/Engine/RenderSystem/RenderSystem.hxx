@@ -38,7 +38,7 @@ namespace ma
 		SAFE_DELETE(m_pRenderThread);
 	}
 
-	Scene* RenderSystem::GetScene(int index)
+	Scene* RenderSystem::GetScene()
 	{
 		return m_scene.get();
 	}
@@ -88,8 +88,6 @@ namespace ma
 	void RenderSystem::BegineRender()
 	{
 		m_pRenderThread->UpdateRenderIndex();
-
-		//m_renderStepList[CurThreadFill()].clear();
 
 		m_pRenderThread->RC_BeginRender();
 	}
@@ -191,12 +189,10 @@ namespace ma
 
 		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
 
-// 		RenderQueue* pRQ = m_pRenderScheme->m_pRenderQueue[0].get();
-// 		SetSceneContext(pRQ->GetSceneContext());
-
-		m_scene = new Scene("defaultScene");
 		RefPtr<MainRenderView> pMainView = new MainRenderView();
 		pMainView->m_name = "MainView";
+
+		m_scene = new Scene("defaultScene");
 		pMainView->m_pScene = m_scene;
 		pMainView->m_pCamera = m_scene->GetCamera();
 
@@ -234,21 +230,18 @@ namespace ma
 		//SYSTRACE(RT_Render);
 		MICROPROFILE_SCOPEI("", "RenderSystem::RT_Render", 0);
 
-//		uint32_t nCurProcess = CurThreadProcess();
-
-// 		for (auto& render_step : m_renderStepList[nCurProcess])
-// 		{
-// 			render_step->Render();
-// 		}
 
 		for (auto& render_view : m_renderView)
 		{
 			render_view->Render();
 		}
 
-		for (auto& render_step : m_renderStepList)
+		for (size_t i = 0; i < m_renderStepList.size(); ++i)
 		{
-			render_step->Render();
+			RenderPass* prePass = (i > 0) ? m_renderStepList[i - 1]->m_pRenderPass.get() : nullptr;
+			RenderPass* nextPass = i + 1 < m_renderStepList.size() ? m_renderStepList[i + 1]->m_pRenderPass.get() : nullptr;
+
+			m_renderStepList[i]->Render(prePass, nextPass);
 		}
 	}
 
@@ -367,18 +360,18 @@ namespace ma
 		m_pRenderThread->RC_EndProfile();	
 	}
 
-	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
+	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage)
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
-		pIB->SetData(pData,nSize,nStride,eUsage,bShadowData);
+		pIB->SetData(pData,nSize,nStride,eUsage);
 		m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
 		return pIB;
 	}
 
-	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
+	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8_t* pData,uint32_t nSize,int nStride,HBU_USAGE eUsage)
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
-		pVB->SetData(pData,nSize,nStride,eUsage,bShadowData);
+		pVB->SetData(pData,nSize,nStride,eUsage);
 		m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
 		return pVB;
 	}

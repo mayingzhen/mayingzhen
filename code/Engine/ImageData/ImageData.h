@@ -35,5 +35,7 @@ namespace ma
 		PixelFormat m_eFormat;
 	};
 
+	RefPtr<ImageData> CreateImageData();
+
 }
 

@@ -528,13 +528,12 @@ namespace ma
 			pVertexDec->RT_StreamComplete();
 		}
 
-		VkDynamicState dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
+		const std::vector<VkDynamicState> dynamicStateEnables = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
 		VkPipelineDynamicStateCreateInfo dynamicState = {};
-		memset(dynamicStateEnables, 0, sizeof dynamicStateEnables);
 		dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 		dynamicState.pNext = NULL;
-		dynamicState.pDynamicStates = dynamicStateEnables;
-		dynamicState.dynamicStateCount = 0;
+		dynamicState.pDynamicStates = dynamicStateEnables.data();
+		dynamicState.dynamicStateCount = dynamicStateEnables.size();
 
 		VkPipelineInputAssemblyStateCreateInfo ia;
 		ia.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -549,9 +548,9 @@ namespace ma
 		vp.flags = 0;
 #ifndef __ANDROID__
 		vp.viewportCount = 1/*NUM_VIEWPORTS*/;
-		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_VIEWPORT;
+		//dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_VIEWPORT;
 		vp.scissorCount = 1/*NUM_SCISSORS*/;
-		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_SCISSOR;
+		//dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_SCISSOR;
 		vp.pScissors = NULL;
 		vp.pViewports = NULL;
 #else
