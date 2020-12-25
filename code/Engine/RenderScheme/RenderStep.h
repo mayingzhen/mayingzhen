@@ -32,6 +32,8 @@ namespace ma
 		RefPtr<RenderPass>	m_pRenderPass;
 
 		std::string			m_strName;
+
+		std::vector<RefPtr<Texture>>		m_pReadTextue;
 	};
 
 	RefPtr<RenderStep> CreateRenderStep();

@@ -85,7 +85,7 @@ namespace ma
 
 		RefPtr<Technique>		m_pAmbientLight;
 
-		bool					m_bHDREnable = false;
+		bool					m_bHDREnable = true;
 
 		bool					m_bShadowMapEnable = false;
 

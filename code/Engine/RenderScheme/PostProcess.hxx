@@ -35,6 +35,7 @@ namespace ma
 // 		pTech->ReLoad();
 		SetTechnique(m_pMaterial->GetShadingTechnqiue()->GetResPath());
 
+		std::vector<RefPtr<Texture>> vecInTex;
 		for (auto it = m_strInTexture.begin(); it != m_strInTexture.end(); ++it)
 		{
 			Texture* pTex = nullptr;
@@ -51,14 +52,21 @@ namespace ma
 			
 			RefPtr<SamplerState> pSampler = CreateSamplerState(pTex);
 			m_pMaterial->SetParameter(it->first.c_str(), Any(pSampler));
+
+			vecInTex.push_back(pTex);
 		}
 
 		m_pRenderStep = new RenderStep();
 		m_pRenderStep->m_strName = m_strName;
 		m_pRenderStep->m_pRenderPass = m_pRenderPass;
+		m_pRenderStep->m_pReadTextue = std::move(vecInTex);
 
 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
 		m_pRenderStep->m_pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), pTech.get());
+
+		GetRenderSystem()->AddRenderStep(m_pRenderStep);
+
+
 	}
 
 	void PostProcessStep::Render()

@@ -262,6 +262,13 @@ namespace ma
 		m_pLightStep = new RenderStep();
 		m_pLightStep->m_strName = "Light";
 		m_pLightStep->m_pRenderPass = m_pLightPass;
+
+		for (auto& it : m_pGbufferStep->m_pRenderPass->m_arrColor)
+		{
+			m_pLightStep->m_pReadTextue.push_back(it.m_pTexture);
+		}
+		m_pLightStep->m_pReadTextue.push_back(m_pGbufferStep->m_pRenderPass->m_depthStencil.m_pTexture);
+
 		m_vecRenderStep.push_back(m_pLightStep);
 		GetRenderSystem()->AddRenderStep(m_pLightStep);
 

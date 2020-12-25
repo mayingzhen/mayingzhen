@@ -298,59 +298,7 @@ namespace ma
 		//SYSTRACE(Engine_Render);
 		MICROPROFILE_SCOPEI("", "Engine::Render", 0);
 
-		static ResourceAllocator* reource_alloc = new ResourceAllocator();
 
-		FrameGraph fg(*reource_alloc);
-
-		struct ColorPassData
-		{
-			FrameGraphId<FrameGraphTexture> color;
-			FrameGraphId<FrameGraphTexture> depth;
-			FrameGraphRenderTargetHandle rt{};
-
-		};
-		auto& colorPass = fg.addPass<ColorPassData>("color",
-			[&](FrameGraph::Builder& builder, ColorPassData& data) {
-				FrameGraphTexture::Descriptor colorBufferDesc;
-				colorBufferDesc.width = -1;
-				colorBufferDesc.height = -1;
-				data.color = builder.createTexture("color", colorBufferDesc);
-	
-				FrameGraphTexture::Descriptor depthBufferDesc;
-				depthBufferDesc.width = -1;
-				depthBufferDesc.height = -1;
-				depthBufferDesc.format = PF_D24S8;
-				depthBufferDesc.usage = TEXTURE_USAGE::USAGE_DEPTHSTENCIL;
-				data.depth = builder.createTexture("depth", depthBufferDesc);
-
-				data.color = builder.write(data.color);
-				data.depth = builder.write(data.depth);
-			},
-			[=](FrameGraphPassResources const& resources,ColorPassData const& data) {
-					//auto out = resources.get(data.rt);
-			}
-			);
-
-
-		fg.addTrivialSideEffectPass("Prepare Color Passes",
-			[=]() {
-				int xx = 4;
-			}
-		);
-
-		fg.addTrivialSideEffectPass("Prepare Color2 Passes",
-			[=]() {
-				int xx = 4;
-			}
-		);
-
-		//FrameGraphId<FrameGraphTexture> input = colorPassOutput;
-		//auto output = input;
-		//fg.present(output);
-		//fg.moveResource(fgViewRenderTarget, output);
-		fg.compile();
-		//fg.export_graphviz(slog.d, view.getName());
-		fg.execute();
 
 
 		g_pRenderSystem->Render();
