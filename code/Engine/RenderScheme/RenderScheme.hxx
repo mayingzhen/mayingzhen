@@ -265,9 +265,9 @@ namespace ma
 
 		for (auto& it : m_pGbufferStep->m_pRenderPass->m_arrColor)
 		{
-			m_pLightStep->m_pReadTextue.push_back(it.m_pTexture);
+			m_pLightStep->m_vecReadTextue.push_back(it.m_pTexture);
 		}
-		m_pLightStep->m_pReadTextue.push_back(m_pGbufferStep->m_pRenderPass->m_depthStencil.m_pTexture);
+		m_pLightStep->m_vecReadTextue.push_back(m_pGbufferStep->m_pRenderPass->m_depthStencil.m_pTexture);
 
 		m_vecRenderStep.push_back(m_pLightStep);
 		GetRenderSystem()->AddRenderStep(m_pLightStep);

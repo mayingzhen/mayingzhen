@@ -286,7 +286,7 @@ namespace ma
 						fgRT = builder.write(fgRT);
 					}
 
-					for (auto& it : m_renderStepList[i]->m_pReadTextue)
+					for (auto& it : m_renderStepList[i]->m_vecReadTextue)
 					{
 						std::string name = "";
 						FrameGraphTexture::Descriptor desc;

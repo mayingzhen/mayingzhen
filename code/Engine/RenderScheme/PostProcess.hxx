@@ -59,7 +59,7 @@ namespace ma
 		m_pRenderStep = new RenderStep();
 		m_pRenderStep->m_strName = m_strName;
 		m_pRenderStep->m_pRenderPass = m_pRenderPass;
-		m_pRenderStep->m_pReadTextue = std::move(vecInTex);
+		m_pRenderStep->m_vecReadTextue = std::move(vecInTex);
 
 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
 		m_pRenderStep->m_pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), pTech.get());

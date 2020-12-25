@@ -33,7 +33,8 @@ namespace ma
 
 		std::string			m_strName;
 
-		std::vector<RefPtr<Texture>>		m_pReadTextue;
+		typedef std::vector<RefPtr<Texture>> VEC_TEXTURE;
+		VEC_TEXTURE			m_vecReadTextue;
 	};
 
 	RefPtr<RenderStep> CreateRenderStep();
