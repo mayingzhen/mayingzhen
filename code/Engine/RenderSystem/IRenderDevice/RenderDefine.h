@@ -454,4 +454,17 @@ namespace ma
 	static const int MAX_CONSTANT_REGISTERS = 256;
 	static const int MAX_TEXTURE_UNITS = 8;
 
+
+	enum RenderListType
+	{
+		RL_Mesh,
+		RL_Terrain,
+		RL_TerrainBorder,
+		RL_TerrainSkirt,
+		RL_SkyBox,
+		RL_MeshTrans,
+		RL_UI,
+		RL_LAST,
+		RL_Count,
+	};
 }

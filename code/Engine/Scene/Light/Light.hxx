@@ -81,7 +81,7 @@ namespace ma
 
 	}
 
-	void LightProxy::Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
+	void LightProxy::Render(RenderView* pRenderView)
 	{
 		pRenderQueue->AddLightObj(this);
 	}

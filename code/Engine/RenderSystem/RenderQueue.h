@@ -23,8 +23,6 @@ namespace ma
 		void					AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech);
 
 		void					AddComputeObj(Renderable* pRenderObj, Technique* pTech);
-
-		void					AddLightObj(LightProxy* pLight);
 		
 		void					SetCamera(Camera* pCamera);
 
@@ -33,8 +31,6 @@ namespace ma
 		void					SetMainLight(Light* pMainLight, ColourValue cAmbient);
 
 		SceneContext*			GetSceneContext() { return m_renderContext.get(); }
-
-		std::vector< RefPtr<LightProxy> >& GetRenderLights() { return m_vecLight; }
 
 		void					Render(RenderPass* pPass);
 
@@ -50,15 +46,14 @@ namespace ma
 
 	private:
 
-		std::map<int, BatchRenderable> m_mapRenderList;
+		typedef std::vector<RenderItem> VEC_RENDERABLE;
 
-		RefPtr<SceneContext> m_renderContext;
 
-		// Light
-		std::vector< RefPtr<LightProxy> > m_vecLight;
+		VEC_RENDERABLE			m_vecRenderList[RL_Count];
 
-		BatchRenderable		m_compute;
+		VEC_RENDERABLE			m_vecCompute;
 
+		RefPtr<SceneContext>	m_renderContext;
 	};
 }
 

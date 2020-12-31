@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	MainRenderStep::MainRenderStep()
+	DeferredShading::DeferredShading()
 	{
 		m_bShadowMapEnable = true;
 
@@ -20,19 +20,13 @@ namespace ma
 		SetSceneContext(m_pRenderQueue->GetSceneContext());
 
 		Init();
-
-		Reset();
 	}
 
-	MainRenderStep::~MainRenderStep()
+	DeferredShading::~DeferredShading()
 	{
 		SAFE_DELETE(g_pPostProcessPipeline);
 	}
 
-	void MainRenderStep::Init()
-	{
-		Shoutdown();
-	}
 
 	void SetupGlow(PostProcess* pGlow)
 	{
@@ -210,7 +204,7 @@ namespace ma
 		}
 	}
 
-	void MainRenderStep::SetupBasePass()
+	void DeferredShading::SetupBasePass()
 	{
 		m_pBaseColor = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
 		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
@@ -234,7 +228,6 @@ namespace ma
 		m_pGbufferStep = new RenderStep();
 		m_pGbufferStep->m_strName == "GBuffer";
 		m_pGbufferStep->m_pRenderPass = m_pGbufferPass;
-		m_vecRenderStep.push_back(m_pGbufferStep.get());
 		GetRenderSystem()->AddRenderStep(m_pGbufferStep.get());
 
 		m_pTransluceStep = new RenderStep();
@@ -243,7 +236,7 @@ namespace ma
 
 	}
 
-	void MainRenderStep::SetupLightPass()
+	void DeferredShading::SetupLightPass()
 	{
 		if (m_bHDREnable)
 		{
@@ -269,7 +262,6 @@ namespace ma
 		}
 		m_pLightStep->m_vecReadTextue.push_back(m_pGbufferStep->m_pRenderPass->m_depthStencil.m_pTexture);
 
-		m_vecRenderStep.push_back(m_pLightStep);
 		GetRenderSystem()->AddRenderStep(m_pLightStep);
 
 		// Setup Tech
@@ -331,10 +323,10 @@ namespace ma
 			}
 		}
 
-		m_pAmbientLight = CreateTechnique("shader/ambientLight.tech","",m_pLightPass.get());
+		
 	}
 
-	void MainRenderStep::SetupHDRPass()
+	void DeferredShading::SetupHDRPass()
 	{
 		if (!m_bHDREnable)
 			return;
@@ -363,7 +355,6 @@ namespace ma
 
 		g_pPostProcessPipeline->Setup(pHDRPass.get(), pTemPass.get());
 
-
 		m_lastStep = new PostProcessStep();
 		m_lastStep->SetName("copy");
 		m_lastStep->SetInput("tSrcColor", "[StageInput]");
@@ -372,7 +363,7 @@ namespace ma
 		m_lastStep->Setup(pTemPass.get(), GetRenderSystem()->GetBaseRenderPass());
 	}
 
-	void MainRenderStep::Reset()
+	void DeferredShading::Init()
 	{	
 		m_pBackBaufferPass = GetRenderSystem()->GetBaseRenderPass();
 
@@ -401,96 +392,9 @@ namespace ma
 		GetRenderSystem()->ReloadShader();
 	}
 
-	void MainRenderStep::Shoutdown()
-	{
-		m_pDepthTex = NULL;
-		m_pNormalTex = NULL;
-		m_pBaseColor = NULL;
-	}
-
-	void MainRenderStep::ComputePass()
-	{
-		RenderQueue* pRenderQueue = m_pRenderQueue.get();
-
-		pRenderQueue->Compute();
-	}
 
 
-	void MainRenderStep::BasePass()
-	{
-// 		RenderQueue* pRenderQueue = m_pRenderQueue[GetRenderSystem()->CurThreadProcess()].get();
-// 
-// 		m_pGbufferPass->Begine();
-// 
-// 		pRenderQueue->Render(m_pGbufferPass.get(), RL_Mesh, RL_Terrain);
-// 
-// 		m_pGbufferPass->End();
-// 
-// 		pRenderQueue->Render(m_pGbufferPass.get(), RL_SkyBox, RL_MeshTrans);
-	}
 
-	void MainRenderStep::LightPass()
-	{
-		RenderQueue* pRenderQueue = m_pLightStep->m_pRenderQueue.get(); 
-		//pRenderQueue->Clear();
-
-		Vector3 cAmbientColor = pRenderQueue->GetSceneContext()->GetAmbientColor();
-		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
-		pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), m_pAmbientLight.get());
-
-		uint32_t index = GetRenderSystem()->CurThreadProcess();
-
-		for (auto& light : pRenderQueue->GetRenderLights())
-		{
-			Uniform* pUniformColor = light->m_pTech->GetUniform(PS, "light_color");
-			light->m_pTech->SetValue(pUniformColor, light->m_vLightColor[index]);
-
-			if (light->m_eLightType == LIGHT_DIRECTIONAL)
-			{
-				DirLightProxy* pDirLight = dynamic_cast<DirLightProxy*>(light.get());
-				ASSERT(pDirLight);
-
-				Uniform* pUniformDir = light->m_pTech->GetUniform(PS, "light_dir");
-				light->m_pTech->SetValue(pUniformDir, pDirLight->m_vDir[index]);
-		
-				pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), light->m_pTech.get());
-			}
-			else if (light->m_eLightType == LIGHT_POINT)
-			{
-				PointLightProxy* pPointLight = dynamic_cast<PointLightProxy*>(light.get());
-				ASSERT(pPointLight);
-
-				Uniform* pUniformPosRadius = light->m_pTech->GetUniform(PS, "light_pos_radius");
-				light->m_pTech->SetValue(pUniformPosRadius, pPointLight->m_vPosRadius[index]);
-
-				pRenderQueue->AddRenderObj(RL_Mesh, pPointLight->m_pSphere.get(), light->m_pTech.get());
-			}
-		}
-	}
-
-	void MainRenderStep::HDRPass()
-	{
-		if (!m_bHDREnable)
-			return;
-
-		RenderQueue* pRenderQueue = m_pRenderQueue.get();
-
-		g_pPostProcessPipeline->Render();
-
-		m_pBackBaufferPass->Begine();
-
-		m_lastStep->Render();
-
-		pRenderQueue->Render(m_pBackBaufferPass.get(), RL_UI, RL_LAST);
-
-		m_pBackBaufferPass->End();
-
-	}
-
-	void MainRenderStep::Render()
-	{
- 		LightPass();
-	}
 
 }
 

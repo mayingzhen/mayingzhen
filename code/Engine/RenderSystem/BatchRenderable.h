@@ -11,9 +11,16 @@ namespace ma
 
 	struct RenderItem
 	{
+		RenderItem(Renderable* renderable, Technique* tech)
+		{
+			m_renderable = renderable;
+			m_tech = tech;
+		}
+
 		Renderable* m_renderable = nullptr;
 		Technique* m_tech = nullptr;
 	};
+
 
 	class BatchRenderable
 	{

@@ -5,6 +5,7 @@ namespace ma
 	class SubMaterial;
 	class CullNode;
 	class Renderable;
+	class RenderView;
 
 	enum AABB_CHANGE_TYPE
 	{
@@ -14,18 +15,6 @@ namespace ma
 		ACT_NOTIFY = 0x04,
 	};
 
-	enum RenderListType
-	{
-		RL_Mesh,
-		RL_Terrain,
-		RL_TerrainBorder,
-		RL_TerrainSkirt,
-		RL_SkyBox,
-		RL_MeshTrans,
-		RL_UI,
-		RL_LAST,
-		RL_Count,
-	};
 
 	class RenderComponent : public Component
 	{
@@ -91,7 +80,7 @@ namespace ma
 		void			SetAABBWS(const AABB& aabb);
 		const AABB&		GetAABBWS();
 
-		virtual void	Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
+		virtual void	Render(RenderView* pRenderView);
 
 	protected:
 		CullNode*		m_pCullNode = nullptr;

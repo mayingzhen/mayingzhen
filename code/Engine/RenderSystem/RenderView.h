@@ -12,6 +12,28 @@ namespace ma
 	class Texture;
 	class DirectonalLight;
 
+	class LightProcess : public Referenced
+	{
+	public:
+		LightProcess();
+
+		void	AddLightObj(LightProxy* pLight) { m_vecLight.push_back(pLight); }
+
+		void	Clear() { m_vecLight.clear(); }
+
+		void	Render();
+
+
+	private:
+		typedef std::vector< RefPtr<LightProxy> > VEC_LIGHTPROXY;
+
+		VEC_LIGHTPROXY			m_vecLight;
+
+		RefPtr<Technique>		m_pAmbientLight;
+
+		RefPtr<RenderStep>		m_pLightStep;
+	};
+
 	class RenderView : public Referenced
 	{
 
@@ -51,7 +73,14 @@ namespace ma
 		typedef std::vector<RenderProxy*> VEC_RENDERPROXY;
 		VEC_RENDERPROXY			m_arrRenderProxy;
 
-		RefPtr<MainRenderStep> m_pRenderStep;
+		//RefPtr<MainRenderStep>	m_pRenderStep;
+		RefPtr<RenderStep>		m_pGbufferStep;
+
+		RefPtr<RenderStep>		m_pTransluceStep;
+
+		RefPtr<RenderStep>		m_pLightStep;
+
+		RefPtr<LightProcess>	m_pLigtProcess;
 	};
 
 	class ShadowMapRenderView : public RenderView

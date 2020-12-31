@@ -5,6 +5,7 @@
 namespace ma
 {
 	class RenderPass;
+	class RenderQueue;
 
 	class RenderStep : public Referenced
 	{

@@ -217,7 +217,7 @@ namespace ma
 		}
 	}
 
-	void MeshRenderProxy::Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
+	void MeshRenderProxy::Render(RenderView* pRenderView)
 	{
 		for (auto& pRenderObj : m_arrRenderable)
 		{

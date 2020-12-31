@@ -16,17 +16,17 @@ namespace ma
 
 	void RenderQueue::AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech)
 	{
-		m_mapRenderList[stage].AddRenderObj(pRenderObj, pTech);
+		m_vecRenderList[stage].emplace_back(RenderItem(pRenderObj, pTech));
 	}
 
 	void RenderQueue::AddComputeObj(Renderable* pRenderObj, Technique* pTech)
 	{
-		m_compute.AddRenderObj(pRenderObj, pTech);
+		m_vecCompute.emplace_back(RenderItem(pRenderObj, pTech));
 	}
 
 	void RenderQueue::Render(RenderPass* pPass)
 	{
-		for (auto& it : m_mapRenderList)
+		for (auto& it : m_vecRenderList)
 		{
 			Render(pPass, it.first, it.first);
 		}
@@ -36,8 +36,8 @@ namespace ma
 	{
 		for (int stage = stageBegin; stage <= stageEnd; ++stage)
 		{
-			auto it = m_mapRenderList.find(stage);
-			if (it == m_mapRenderList.end())
+			auto it = m_vecRenderList.find(stage);
+			if (it == m_vecRenderList.end())
 			{
 				continue;
 			}
@@ -52,8 +52,8 @@ namespace ma
 	{
 		for (int stage = stageBegin; stage <= stageEnd; ++stage)
 		{
-			auto it = m_mapRenderList.find(stage);
-			if (it == m_mapRenderList.end())
+			auto it = m_vecRenderList.find(stage);
+			if (it == m_vecRenderList.end())
 			{
 				continue;
 			}
@@ -66,7 +66,7 @@ namespace ma
 
 	void RenderQueue::Render(RenderCommand* pRenderCommand)
 	{
-		for (auto& it : m_mapRenderList)
+		for (auto& it : m_vecRenderList)
 		{
 			Render(pRenderCommand, it.first, it.first);
 		}
@@ -74,14 +74,14 @@ namespace ma
 
 	void RenderQueue::Compute()
 	{
-		m_compute.Compute(GetRenderSystem()->GetComputeCommand());
+		m_vecCompute.Compute(GetRenderSystem()->GetComputeCommand());
 	}
 
 	void RenderQueue::Clear()
 	{
-		m_mapRenderList.clear();
+		m_vecRenderList.clear();
 		m_vecLight.clear();
-		m_compute.Clear();
+		m_vecCompute.Clear();
 	}
 
 	void RenderQueue::SetCamera(Camera* pCamera)
@@ -106,11 +106,6 @@ namespace ma
 		{
 			m_renderContext->SetMainLight(pMainLight, cAmbient);
 		}
-	}
-
-	void RenderQueue::AddLightObj(LightProxy* pLight)
-	{
-		m_vecLight.push_back(pLight);
 	}
 }
 

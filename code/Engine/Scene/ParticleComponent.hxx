@@ -19,17 +19,11 @@ namespace ma
 
 	void ParticleRenderable::Compute(Technique* pTechnique, ComputeCommand* pComputeCmd)
 	{
-		//pComputeCmd->SetStorgeBuffer(m_pPosBuffer.get());
-
-		//pComputeCmd->Begin();
-
 		pTechnique->BindCompute(this);
 
 		pComputeCmd->SetTechnique(pTechnique);
 
 		pComputeCmd->Dispatch((max_num_particles_ + 255) / 256, 1, 1);
-
-		//pComputeCmd->End();
 	}
 
 

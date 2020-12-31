@@ -124,7 +124,7 @@ namespace ma
 		return m_worldAABB[index]; 
 	}
 
-	void RenderProxy::Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass)
+	void RenderProxy::Render(RenderView* pRenderView)
 	{
 		//ASSERT(false);
 	}

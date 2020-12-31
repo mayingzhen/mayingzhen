@@ -103,7 +103,7 @@ namespace ma
 
 	public:
 
-		virtual void	Render(RenderQueue* pRenderQueue, RenderPass* pRenderPass);
+		virtual void	Render(RenderView* pRenderView) override;
 
 	public:
 		LightType		m_eLightType;

@@ -1,12 +1,11 @@
 #pragma once
 
 
-#include "RenderStep.h"
 
 namespace ma
 {
 	class RenderPass;
-	class DeferredShading;
+	class RenderStep;
 	class DeferredShadow;
 	class HDRPostProcess;
 	class SMAAPostProcess;
@@ -15,20 +14,14 @@ namespace ma
 	class PostProcessStep;
 
 
-	class MainRenderStep : public RenderStep
+	class DeferredShading : public Referenced
 	{
 	public:
-		MainRenderStep();
+		DeferredShading();
 
-		~MainRenderStep();
+		~DeferredShading();
 
 		void	Init();
-
-		void	Reset();
-
-		void	Shoutdown();
-
-		void	Render();
 
 		RenderPass* GetGpufferPass() { return m_pGbufferPass.get(); }
 		RenderPass* GetTranslucePass() { return m_pTranslucePass.get(); }
@@ -41,17 +34,8 @@ namespace ma
 
 		void	SetupHDRPass();
 
-		void	ComputePass();
-
-		void	BasePass();
-
-		void	LightPass();
-
-		void	HDRPass();
-
 	private:
-		std::vector< RefPtr<RenderStep> > m_vecRenderStep;
- 
+
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
 
 		//Gbuffer
@@ -90,11 +74,11 @@ namespace ma
 		bool					m_bShadowMapEnable = false;
 
 	public:
-		RefPtr<RenderStep> m_pGbufferStep;
+		RefPtr<RenderStep>		m_pGbufferStep;
 
-		RefPtr<RenderStep> m_pTransluceStep;
+		RefPtr<RenderStep>		m_pTransluceStep;
 
-		RefPtr<RenderStep> m_pLightStep;
+		RefPtr<RenderStep>		m_pLightStep;
 	};
 
 }
