@@ -5,13 +5,6 @@
 namespace ma
 {
 	class RenderPass;
-	class DeferredShading;
-	class DeferredShadow;
-	class HDRPostProcess;
-	class SMAAPostProcess;
-	class FrameBuffer;
-	class Scene;
-	class PostProcessStep;
 
 	class RenderStep : public Referenced
 	{
@@ -38,6 +31,7 @@ namespace ma
 	};
 
 	RefPtr<RenderStep> CreateRenderStep();
+
 }
 
 

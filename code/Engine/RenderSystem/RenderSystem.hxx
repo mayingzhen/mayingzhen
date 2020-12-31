@@ -213,12 +213,12 @@ namespace ma
 	{
         GetRenderDevice()->BeginRender();
 
-		//GetRenderDevice()->BegineCompute();
+		GetRenderDevice()->BegineCompute();
 	}
 
 	void RenderSystem::RT_EndRender()
 	{
-		//GetRenderDevice()->EndCompute();
+		GetRenderDevice()->EndCompute();
 
 		GetRenderDevice()->EndRender();
 

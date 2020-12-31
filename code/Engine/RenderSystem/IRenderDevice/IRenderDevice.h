@@ -26,7 +26,7 @@ namespace ma
 	class RenderPass;
 	class ConstantBuffer;
 	class RenderCommand;
-	class ComputeCommad;
+	class ComputeCommand;
 
 	enum RenderDeviceType
 	{
@@ -74,7 +74,7 @@ namespace ma
 		virtual Technique*			CreateTechnique() = 0;
 		virtual RenderPass*			CreateRenderPass() = 0;
 		virtual RenderCommand*		CreateRenderCommand() = 0;
-		virtual ComputeCommad*		CreateComputeCommand() = 0;
+		virtual ComputeCommand*		CreateComputeCommand() = 0;
 
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf) = 0;
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf) = 0;		

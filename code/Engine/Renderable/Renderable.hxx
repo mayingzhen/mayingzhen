@@ -54,7 +54,7 @@ namespace ma
 		}
 	}
 
-	void Renderable::Compute(Technique* pTechnique, ComputeCommad* pComputeCmd)
+	void Renderable::Compute(Technique* pTechnique, ComputeCommand* pComputeCmd)
 	{
 
 	}

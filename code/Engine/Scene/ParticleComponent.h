@@ -9,7 +9,7 @@ namespace ma
 
 		virtual void	Render(Technique* pTechnique, RenderCommand* pRenderCommand);
 
-		virtual void	Compute(Technique* pTechnique, ComputeCommad* pComputeCmd);
+		virtual void	Compute(Technique* pTechnique, ComputeCommand* pComputeCmd);
 	};
 
 	class ParticleComponent : public RenderComponent

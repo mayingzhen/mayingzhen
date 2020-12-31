@@ -161,17 +161,17 @@ namespace ma
 	}
 
 
-	VulkanComputeCommad::VulkanComputeCommad()
+	VulkanComputeCommand::VulkanComputeCommand()
 	{
 		Create();
 	}
 
-	VulkanComputeCommad::~VulkanComputeCommad()
+	VulkanComputeCommand::~VulkanComputeCommand()
 	{
 
 	}
 
-	void VulkanComputeCommad::Create()
+	void VulkanComputeCommand::Create()
 	{
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
@@ -195,7 +195,7 @@ namespace ma
 
 	}
 
-	void VulkanComputeCommad::Begin()
+	void VulkanComputeCommand::Begin()
 	{
 
 // 		// Inheritance info for the secondary command buffers
@@ -234,7 +234,7 @@ namespace ma
 
 	}
 
-	void VulkanComputeCommad::End()
+	void VulkanComputeCommand::End()
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
@@ -262,13 +262,13 @@ namespace ma
 		//VK_CHECK_RESULT(vkEndCommandBuffer(m_vkCmdBuffer));
 	}
 
-	void VulkanComputeCommad::SetStorgeBuffer(VertexBuffer* pBuffer)
+	void VulkanComputeCommand::SetStorgeBuffer(VertexBuffer* pBuffer)
 	{
 		VulkanVertexBuffer* pVkBuffer = (VulkanVertexBuffer*)(pBuffer);
 		m_storageBuffer = pVkBuffer->m_vertexBuffer;
 	}
 
-	void VulkanComputeCommad::SetTechnique(Technique* pTech)
+	void VulkanComputeCommand::SetTechnique(Technique* pTech)
 	{
 		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
 		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
@@ -284,7 +284,7 @@ namespace ma
 			1, &pVulkanTech->m_computeDescriptorSet, 0, NULL);
 	}
 
-	void VulkanComputeCommad::Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
+	void VulkanComputeCommand::Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
 	{
 		vkCmdDispatch(m_vkCmdBuffer, groupCountX, groupCountY, groupCountZ);
 	}

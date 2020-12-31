@@ -49,13 +49,13 @@ namespace ma
 		VkPipeline m_prePipeline;
 	};
 
-	class VulkanComputeCommad : public ComputeCommad
+	class VulkanComputeCommand : public ComputeCommand
 	{
 	public:
 
-		VulkanComputeCommad();
+		VulkanComputeCommand();
 
-		~VulkanComputeCommad();
+		~VulkanComputeCommand();
 
 		void Create();
 

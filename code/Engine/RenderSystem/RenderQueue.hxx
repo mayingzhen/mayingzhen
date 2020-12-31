@@ -74,15 +74,7 @@ namespace ma
 
 	void RenderQueue::Compute()
 	{
-		ComputeCommad* pCommand = GetRenderSystem()->GetComputeCommad();
-
-		//pCommand->Begin();
-		GetRenderSystem()->BegineCompute();
-
-		m_compute.Compute(GetRenderSystem()->GetComputeCommad());
-
-		//pCommand->End();
-		GetRenderSystem()->EndCompute();
+		m_compute.Compute(GetRenderSystem()->GetComputeCommand());
 	}
 
 	void RenderQueue::Clear()

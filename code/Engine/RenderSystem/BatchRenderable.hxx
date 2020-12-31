@@ -45,6 +45,15 @@ namespace ma
 
 	}
 
+	void BatchRenderable::InitRenderCommand(uint32_t nCount)
+	{
+		for (uint32_t i = 0; i < nCount; ++i)
+		{
+			RefPtr<RenderCommand> command = GetRenderDevice()->CreateRenderCommand();
+			m_vecCommand.emplace_back(command);
+		}
+	}
+
 	void BatchRenderable::AddRenderObj(Renderable* pRenderObj, Technique* pTech)
 	{
 		RenderItem item;
@@ -230,7 +239,7 @@ namespace ma
 		}
 	}
 
-	void BatchRenderable::Compute(ComputeCommad* pCommand)
+	void BatchRenderable::Compute(ComputeCommand* pCommand)
 	{
 		for (auto& item : m_arrRenderList)
 		{

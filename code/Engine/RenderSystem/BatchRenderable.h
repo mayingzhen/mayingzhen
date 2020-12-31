@@ -7,7 +7,7 @@ namespace ma
 	class Technique;
 	class RenderPass;
 	class RenderCommand;
-	class ComputeCommad;
+	class ComputeCommand;
 
 	struct RenderItem
 	{
@@ -20,6 +20,8 @@ namespace ma
 	public:
 		BatchRenderable();
 
+		void InitRenderCommand(uint32_t nCount);
+
 		virtual void	AddRenderObj(Renderable* pRenderObj, Technique* pTech);
 
 		virtual void	PrepareRender();
@@ -28,7 +30,7 @@ namespace ma
 
 		virtual void	Render(RenderCommand* pCommand, int stage);
 
-		virtual void	Compute(ComputeCommad* pCommand);
+		virtual void	Compute(ComputeCommand* pCommand);
 
 		virtual void	Clear();
 
@@ -57,6 +59,9 @@ namespace ma
 		VEC_RENDERABLE		m_arrPrePareRenderList;
 
 		VEC_RENDERABLE		m_batchTemp;
+
+		typedef std::vector< RefPtr<RenderCommand> > VEC_COMMAND;
+		VEC_COMMAND			m_vecCommand;
 	};
 }
 

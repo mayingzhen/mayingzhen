@@ -216,7 +216,7 @@ EXPORTS
 ?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@AEBUShaderCreateInfo@1@@Z
 ?AddCallBack@Resource@ma@@QEAAXAEBV?$function@$$A6AXPEAVResource@ma@@@Z@std@@@Z
 ?LoadSync@Resource@ma@@UEAA_NPEBD@Z
-?Compute@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVComputeCommad@2@@Z
+?Compute@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVComputeCommand@2@@Z
 ?SetTexture@ParticleComponent@ma@@QEAAXPEBD@Z
 ?CreateDepthStencilState@ma@@YA?AV?$RefPtr@VDepthStencilState@ma@@@1@XZ
 ??0ShaderCreateInfo@ma@@QEAA@XZ

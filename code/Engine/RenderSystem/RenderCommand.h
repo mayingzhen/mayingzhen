@@ -25,13 +25,13 @@ namespace ma
 		virtual void Draw(uint32_t nVertexStart, uint32_t nVertexCount, uint32_t nInstanceCount) = 0;
 	};
 
-	class ComputeCommad : public Referenced
+	class ComputeCommand : public Referenced
 	{
 	public:
 
-		virtual	void Begin() = 0;
-
-		virtual void End() = 0;
+// 		virtual	void Begin() = 0;
+// 
+// 		virtual void End() = 0;
 
 		virtual void SetTechnique(Technique* pTech) = 0;
 

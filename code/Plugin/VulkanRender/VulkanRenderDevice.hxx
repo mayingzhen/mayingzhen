@@ -111,9 +111,9 @@ namespace ma
 		return new VulkanRenderCommand();
 	}
 
-	ComputeCommad* VulkanRenderDevice::CreateComputeCommand()
+	ComputeCommand* VulkanRenderDevice::CreateComputeCommand()
 	{
-		return new VulkanComputeCommad();
+		return new VulkanComputeCommand();
 	}
 
 	void VulkanRenderDevice::Shoutdown()

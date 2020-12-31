@@ -98,7 +98,7 @@ namespace ma
 		
 		void				ReloadShader();
 
-		ComputeCommad*		GetComputeCommad() { return m_pComputeCommd.get(); }
+		ComputeCommand*		GetComputeCommand() { return m_pComputeCommd.get(); }
 
 		void				AddRenderView(RenderView* pRenderView);
 
@@ -127,7 +127,7 @@ namespace ma
 
 		RefPtr<RenderPass>	m_pBackBufferRenderPass;
 
-		RefPtr<ComputeCommad> m_pComputeCommd;
+		RefPtr<ComputeCommand> m_pComputeCommd;
 
 		void*				m_hWnd;
 

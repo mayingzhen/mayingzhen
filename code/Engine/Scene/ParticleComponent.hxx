@@ -17,7 +17,7 @@ namespace ma
 		Renderable::Render(pTechnique, pRenderCommand);
 	}
 
-	void ParticleRenderable::Compute(Technique* pTechnique, ComputeCommad* pComputeCmd)
+	void ParticleRenderable::Compute(Technique* pTechnique, ComputeCommand* pComputeCmd)
 	{
 		//pComputeCmd->SetStorgeBuffer(m_pPosBuffer.get());
 
