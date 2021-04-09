@@ -72,7 +72,7 @@ namespace ma
 
 		void						SetSuportInstance(bool b);
 
-		virtual	void				Render(RenderView* pRenderView) override;;
+		//virtual	void				Render(RenderView* pRenderView) override;;
 
 	protected:
 		typedef std::vector< RefPtr<MeshRenderable> > VEC_RENDERABLE;

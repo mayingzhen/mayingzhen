@@ -83,7 +83,7 @@ namespace ma
 
 	void LightProxy::Render(RenderView* pRenderView)
 	{
-		pRenderQueue->AddLightObj(this);
+		//pRenderQueue->AddLightObj(this);
 	}
 
 

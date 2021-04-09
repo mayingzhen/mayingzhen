@@ -1,10 +1,11 @@
 #include "RenderView.h"
+#include "../RenderScheme/RenderStep.h"
 
 namespace ma
 {
-	LightProcess::LightProcess(RenderStep* plightStep)
+	LightProcess::LightProcess(/*RenderStep* plightStep*/)
 	{
-		m_pLightStep = plightStep;
+		//m_pLightStep = plightStep;
 
 		m_pAmbientLight = CreateTechnique("shader/ambientLight.tech", "", m_pLightStep->m_pRenderPass.get());
 	}
@@ -49,7 +50,7 @@ namespace ma
 
 	MainRenderView::MainRenderView()
 	{
-		m_pRenderStep = new MainRenderStep();
+
 	}
 
 	MainRenderView::~MainRenderView()
@@ -70,44 +71,17 @@ namespace ma
 
 		m_pScene->GetCullTree()->FindObjectsIn(&m_pCamera->GetFrustum(), -1, m_arrRenderProxy);
 
-		RenderQueue* pGbufferQueue = m_pRenderStep->m_pGbufferStep->m_pRenderQueue.get();
-		RenderQueue* pTransluceQueue = m_pRenderStep->m_pTransluceStep->m_pRenderQueue.get();
-		RenderQueue* pLightQueue = m_pRenderStep->m_pLightStep->m_pRenderQueue.get();
-
-		pGbufferQueue->Clear();
-		pGbufferQueue->SetCamera(m_pCamera.get());
-		pGbufferQueue->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
-
-		pTransluceQueue->Clear();
-		pTransluceQueue->SetCamera(m_pCamera.get());
-		pTransluceQueue->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
-
-		pLightQueue->Clear();
-		pLightQueue->SetCamera(m_pCamera.get());
-		pLightQueue->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
-
-		for (uint32_t i = 0; i < m_arrRenderProxy.size(); ++i)
+		for (auto& step : m_vecRenderStep)
 		{
-			//m_arrRenderComp[i]->GetSceneNode()->SetLastVisibleFrame(GetTimer()->GetFrameCount());
-
-// 			if (m_arrRenderProxy[i]->GetTransluce())
-// 			{
-// 				m_arrRenderProxy[i]->Render(pTransluceQueue, m_pRenderStep->GetTranslucePass());
-// 			}
-// 			else
+			for (uint32_t i = 0; i < m_arrRenderProxy.size(); ++i)
 			{
-				m_arrRenderProxy[i]->Render(pGbufferQueue, m_pRenderStep->GetGpufferPass());
-			}
-
-			LightProxy* pLightProxy = dynamic_cast<LightProxy*>(m_arrRenderProxy[i]);
-			if (pLightProxy)
-			{
-				pLightProxy->Render(pLightQueue, m_pRenderStep->m_pLightStep->m_pRenderPass.get());
+				step->PrepareRender(m_arrRenderProxy[i]);
 			}
 		}
 
-		m_pRenderStep->Render();
+		for (auto& step : m_vecRenderStep)
+		{
+			step->Render();
+		}
 	}
-
-
 }

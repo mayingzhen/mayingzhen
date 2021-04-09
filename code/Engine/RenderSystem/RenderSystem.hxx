@@ -248,77 +248,77 @@ namespace ma
 
 
 
-		static ResourceAllocator* reource_alloc = new ResourceAllocator();
-
-		FrameGraph fg(*reource_alloc);
-
-		std::string name = "final_out";
-		FrameGraphTexture::Descriptor desc;
-		FrameGraphTexture resc;
-		resc.texture = nullptr;
-		FrameGraphId<FrameGraphTexture> final_out = fg.import<FrameGraphTexture>("", desc, resc);
-
-		for (size_t i = 0; i < m_renderStepList.size(); ++i)
-		{
-			struct StepPassData
-			{
-				RefPtr<RenderStep> step;
-				RenderPass* prePass =  nullptr;
-				RenderPass* nextPass = nullptr;
-			};
-
-			auto& stepPass = fg.addPass<StepPassData>("color",
-				[&](FrameGraph::Builder& builder, StepPassData& data)
-				{
-					RenderPass* pRenderPass = m_renderStepList[i]->m_pRenderPass.get();
-
-					if (pRenderPass == GetRenderSystem()->GetBackBufferRenderPass())
-					{
-						final_out = builder.write(final_out);
-					}
-					else
-					{
-						std::string name = "";
-						FrameGraphTexture::Descriptor desc;
-						FrameGraphTexture resc;
-						resc.texture = pRenderPass->m_arrColor[0].m_pTexture;
-						FrameGraphId<FrameGraphTexture> fgRT = fg.import<FrameGraphTexture>("", desc, resc);
-						fgRT = builder.write(fgRT);
-					}
-
-					for (auto& it : m_renderStepList[i]->m_vecReadTextue)
-					{
-						std::string name = "";
-						FrameGraphTexture::Descriptor desc;
-						FrameGraphTexture resc;
-						resc.texture = it;
-						FrameGraphId<FrameGraphTexture> fgRT = fg.import<FrameGraphTexture>("", desc, resc);
-						fgRT = builder.read(fgRT);
-					}
-
-					//builder.sideEffect();
-				
-					data.step = m_renderStepList[i];
-					data.prePass = (i > 0) ? m_renderStepList[i - 1]->m_pRenderPass.get() : nullptr;
-					data.nextPass = i + 1 < m_renderStepList.size() ? m_renderStepList[i + 1]->m_pRenderPass.get() : nullptr;
-
-					
-				},
-				[=](FrameGraphPassResources const& resources, StepPassData const& data) {
-
-					data.step->Render(data.prePass, data.nextPass);
-				}
-			);
-		}
-
-
-		//FrameGraphId<FrameGraphTexture> input = colorPassOutput;
-		//auto output = input;
-		fg.present(final_out);
-		//fg.moveResource(fgViewRenderTarget, output);
-		fg.compile();
-		//fg.export_graphviz(slog.d, view.getName());
-		fg.execute();
+// 		static ResourceAllocator* reource_alloc = new ResourceAllocator();
+// 
+// 		FrameGraph fg(*reource_alloc);
+// 
+// 		std::string name = "final_out";
+// 		FrameGraphTexture::Descriptor desc;
+// 		FrameGraphTexture resc;
+// 		resc.texture = nullptr;
+// 		FrameGraphId<FrameGraphTexture> final_out = fg.import<FrameGraphTexture>("", desc, resc);
+// 
+// 		for (size_t i = 0; i < m_renderStepList.size(); ++i)
+// 		{
+// 			struct StepPassData
+// 			{
+// 				RefPtr<RenderStep> step;
+// 				RenderPass* prePass =  nullptr;
+// 				RenderPass* nextPass = nullptr;
+// 			};
+// 
+// 			auto& stepPass = fg.addPass<StepPassData>("color",
+// 				[&](FrameGraph::Builder& builder, StepPassData& data)
+// 				{
+// 					RenderPass* pRenderPass = m_renderStepList[i]->m_pRenderPass.get();
+// 
+// 					if (pRenderPass == GetRenderSystem()->GetBackBufferRenderPass())
+// 					{
+// 						final_out = builder.write(final_out);
+// 					}
+// 					else
+// 					{
+// 						std::string name = "";
+// 						FrameGraphTexture::Descriptor desc;
+// 						FrameGraphTexture resc;
+// 						resc.texture = pRenderPass->m_arrColor[0].m_pTexture;
+// 						FrameGraphId<FrameGraphTexture> fgRT = fg.import<FrameGraphTexture>("", desc, resc);
+// 						fgRT = builder.write(fgRT);
+// 					}
+// 
+// 					for (auto& it : m_renderStepList[i]->m_vecReadTextue)
+// 					{
+// 						std::string name = "";
+// 						FrameGraphTexture::Descriptor desc;
+// 						FrameGraphTexture resc;
+// 						resc.texture = it;
+// 						FrameGraphId<FrameGraphTexture> fgRT = fg.import<FrameGraphTexture>("", desc, resc);
+// 						fgRT = builder.read(fgRT);
+// 					}
+// 
+// 					//builder.sideEffect();
+// 				
+// 					data.step = m_renderStepList[i];
+// 					data.prePass = (i > 0) ? m_renderStepList[i - 1]->m_pRenderPass.get() : nullptr;
+// 					data.nextPass = i + 1 < m_renderStepList.size() ? m_renderStepList[i + 1]->m_pRenderPass.get() : nullptr;
+// 
+// 					
+// 				},
+// 				[=](FrameGraphPassResources const& resources, StepPassData const& data) {
+// 
+// 					data.step->Render(data.prePass, data.nextPass);
+// 				}
+// 			);
+// 		}
+// 
+// 
+// 		//FrameGraphId<FrameGraphTexture> input = colorPassOutput;
+// 		//auto output = input;
+// 		fg.present(final_out);
+// 		//fg.moveResource(fgViewRenderTarget, output);
+// 		fg.compile();
+// 		//fg.export_graphviz(slog.d, view.getName());
+// 		fg.execute();
 
 	}
 
@@ -521,10 +521,10 @@ namespace ma
 		m_bNeedReloadShader = true;
 	}
 
-	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
-	{
-		m_renderStepList.push_back(renderstep);
-	}
+// 	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
+// 	{
+// 		m_renderStepList.push_back(renderstep);
+// 	}
 
 	void RenderSystem::AddRenderView(RenderView* pRenderView)
 	{

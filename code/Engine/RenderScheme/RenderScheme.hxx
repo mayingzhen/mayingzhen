@@ -17,7 +17,7 @@ namespace ma
 
 		g_pPostProcessPipeline = new PostProcessPipeline();
 
-		SetSceneContext(m_pRenderQueue->GetSceneContext());
+		//SetSceneContext(m_pRenderQueue->GetSceneContext());
 
 		Init();
 	}
@@ -228,7 +228,7 @@ namespace ma
 		m_pGbufferStep = new RenderStep();
 		m_pGbufferStep->m_strName == "GBuffer";
 		m_pGbufferStep->m_pRenderPass = m_pGbufferPass;
-		GetRenderSystem()->AddRenderStep(m_pGbufferStep.get());
+		//GetRenderSystem()->AddRenderStep(m_pGbufferStep.get());
 
 		m_pTransluceStep = new RenderStep();
 		m_pTransluceStep->m_strName = "Transluce";
@@ -262,7 +262,7 @@ namespace ma
 		}
 		m_pLightStep->m_vecReadTextue.push_back(m_pGbufferStep->m_pRenderPass->m_depthStencil.m_pTexture);
 
-		GetRenderSystem()->AddRenderStep(m_pLightStep);
+		//GetRenderSystem()->AddRenderStep(m_pLightStep);
 
 		// Setup Tech
 		if (1)

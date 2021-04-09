@@ -26,62 +26,68 @@ namespace ma
 
 	void RenderQueue::Render(RenderPass* pPass)
 	{
-		for (auto& it : m_vecRenderList)
-		{
-			Render(pPass, it.first, it.first);
-		}
+// 		for (auto& it : m_vecRenderList)
+// 		{
+// 			Render(pPass, it.first, it.first);
+// 		}
 	}
 
 	void RenderQueue::Render(RenderPass* pPass, int stageBegin, int stageEnd)
 	{
-		for (int stage = stageBegin; stage <= stageEnd; ++stage)
-		{
-			auto it = m_vecRenderList.find(stage);
-			if (it == m_vecRenderList.end())
-			{
-				continue;
-			}
-
-			it->second.PrepareRender();
-
-			it->second.Render(pPass, it->first);
-		}
+// 		for (int stage = stageBegin; stage <= stageEnd; ++stage)
+// 		{
+// 			auto it = m_vecRenderList.find(stage);
+// 			if (it == m_vecRenderList.end())
+// 			{
+// 				continue;
+// 			}
+// 
+// 			it->second.PrepareRender();
+// 
+// 			it->second.Render(pPass, it->first);
+// 		}
 	}
 
 	void RenderQueue::Render(RenderCommand* pRenderCommand, int stageBegin, int stageEnd)
 	{
-		for (int stage = stageBegin; stage <= stageEnd; ++stage)
-		{
-			auto it = m_vecRenderList.find(stage);
-			if (it == m_vecRenderList.end())
-			{
-				continue;
-			}
-
-			it->second.PrepareRender();
-
-			it->second.Render(pRenderCommand, it->first);
-		}
+// 		for (int stage = stageBegin; stage <= stageEnd; ++stage)
+// 		{
+// 			auto it = m_vecRenderList.find(stage);
+// 			if (it == m_vecRenderList.end())
+// 			{
+// 				continue;
+// 			}
+// 
+// 			it->second.PrepareRender();
+// 
+// 			it->second.Render(pRenderCommand, it->first);
+// 		}
 	}
 
 	void RenderQueue::Render(RenderCommand* pRenderCommand)
 	{
-		for (auto& it : m_vecRenderList)
-		{
-			Render(pRenderCommand, it.first, it.first);
-		}
+// 		for (auto& it : m_vecRenderList)
+// 		{
+// 			Render(pRenderCommand, it.first, it.first);
+// 		}
 	}
 
 	void RenderQueue::Compute()
 	{
-		m_vecCompute.Compute(GetRenderSystem()->GetComputeCommand());
+		for (auto& it : m_vecCompute)
+		{
+			it.m_renderable->Compute(it.m_tech, GetRenderSystem()->GetComputeCommand());
+		}
 	}
 
 	void RenderQueue::Clear()
 	{
-		m_vecRenderList.clear();
-		m_vecLight.clear();
-		m_vecCompute.Clear();
+		for (uint32_t i = 0; i < RL_Count; ++i)
+		{
+			m_vecRenderList[i].clear();
+		}
+
+		m_vecCompute.clear();
 	}
 
 	void RenderQueue::SetCamera(Camera* pCamera)

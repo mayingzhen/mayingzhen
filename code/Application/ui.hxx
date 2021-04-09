@@ -88,10 +88,10 @@ namespace ma
 			m_pIndexBuffer[i] = GetRenderSystem()->CreateIndexBuffer(NULL, sizeof(uint16_t) * 1024 * 10, sizeof(uint16_t), HBU_DYNAMIC);
 		}
 
-		m_pRenderStep = CreateRenderStep();
-		m_pRenderStep->m_strName = "UI";
-		m_pRenderStep->m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
-		GetRenderSystem()->AddRenderStep(m_pRenderStep.get());
+// 		m_pRenderStep = CreateRenderStep();
+// 		m_pRenderStep->m_strName = "UI";
+// 		m_pRenderStep->m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
+// 		GetRenderSystem()->AddRenderStep(m_pRenderStep.get());
 
 		m_pUICommand = GetRenderDevice()->CreateRenderCommand();
 	}
@@ -237,14 +237,14 @@ namespace ma
 	{
 		uint32_t index = GetRenderSystem()->CurThreadProcess();
 
-		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
-		pRenderQueue->Clear();
-
-		for (uint32_t i = 0; i < m_nUsedCount[index]; ++i)
-		{
-			UIRenderable* pRenderable = m_vecRendeable[index][i].get();
-			pRenderQueue->AddRenderObj(RL_UI, pRenderable, m_pTechUI.get());
-		}
+// 		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
+// 		pRenderQueue->Clear();
+// 
+// 		for (uint32_t i = 0; i < m_nUsedCount[index]; ++i)
+// 		{
+// 			UIRenderable* pRenderable = m_vecRendeable[index][i].get();
+// 			pRenderQueue->AddRenderObj(RL_UI, pRenderable, m_pTechUI.get());
+// 		}
 	}
 
 	bool UI::Begin(const char* name, bool* p_open, int flags)

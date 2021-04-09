@@ -87,6 +87,8 @@ namespace ma
 
 		void				ReLoad();
 
+		bool				GetTransluce();
+
 		RefPtr<Technique>   Clone();
 
 	protected:

@@ -48,7 +48,6 @@ namespace ma
 
 		typedef std::vector<RenderItem> VEC_RENDERABLE;
 
-
 		VEC_RENDERABLE			m_vecRenderList[RL_Count];
 
 		VEC_RENDERABLE			m_vecCompute;

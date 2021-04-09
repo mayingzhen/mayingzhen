@@ -17,6 +17,11 @@ namespace ma
 			m_tech = tech;
 		}
 
+		RenderItem()
+		{
+
+		}
+
 		Renderable* m_renderable = nullptr;
 		Technique* m_tech = nullptr;
 	};

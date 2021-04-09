@@ -73,12 +73,7 @@ namespace ma
 		typedef std::vector<RenderProxy*> VEC_RENDERPROXY;
 		VEC_RENDERPROXY			m_arrRenderProxy;
 
-		//RefPtr<MainRenderStep>	m_pRenderStep;
-		RefPtr<RenderStep>		m_pGbufferStep;
-
-		RefPtr<RenderStep>		m_pTransluceStep;
-
-		RefPtr<RenderStep>		m_pLightStep;
+		std::vector< RefPtr<RenderStep> > m_vecRenderStep;
 
 		RefPtr<LightProcess>	m_pLigtProcess;
 	};
@@ -99,4 +94,11 @@ namespace ma
 
 		void Render();
 	};
+
+	class RenderPipeLine
+	{
+
+	};
+
+
 }

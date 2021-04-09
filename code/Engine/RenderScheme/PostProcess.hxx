@@ -64,7 +64,7 @@ namespace ma
 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
 		m_pRenderStep->m_pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), pTech.get());
 
-		GetRenderSystem()->AddRenderStep(m_pRenderStep);
+		//GetRenderSystem()->AddRenderStep(m_pRenderStep);
 
 
 	}

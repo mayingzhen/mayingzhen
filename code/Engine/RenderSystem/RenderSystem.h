@@ -102,7 +102,7 @@ namespace ma
 
 		void				AddRenderView(RenderView* pRenderView);
 
-		void				AddRenderStep(RefPtr<RenderStep> renderstep);
+		//void				AddRenderStep(RefPtr<RenderStep> renderstep);
 
 	protected: 
 		void				RT_Init(void* wndhandle, int width, int height);
@@ -137,7 +137,7 @@ namespace ma
 
 		std::vector< RefPtr<RenderView> > m_renderView;
 
-		std::vector< RefPtr<RenderStep> > m_renderStepList;
+		//std::vector< RefPtr<RenderStep> > m_renderStepList;
 				
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro

@@ -217,19 +217,19 @@ namespace ma
 		}
 	}
 
-	void MeshRenderProxy::Render(RenderView* pRenderView)
-	{
-		for (auto& pRenderObj : m_arrRenderable)
-		{
-			Technique* Tech = pRenderObj->GetMaterial()->GetTechnqiue(pRenderPass);
-			if (Tech == nullptr)
-			{
-				continue;
-			}
-
-			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj.get(), Tech);
-		}
-	}
+// 	void MeshRenderProxy::Render(RenderView* pRenderView)
+// 	{
+// 		for (auto& pRenderObj : m_arrRenderable)
+// 		{
+// 			Technique* Tech = pRenderObj->GetMaterial()->GetTechnqiue(pRenderPass);
+// 			if (Tech == nullptr)
+// 			{
+// 				continue;
+// 			}
+// 
+// 			pRenderQueue->AddRenderObj(RL_Mesh, pRenderObj.get(), Tech);
+// 		}
+// 	}
 
 }
 

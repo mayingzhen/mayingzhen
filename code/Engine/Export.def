@@ -229,7 +229,6 @@ EXPORTS
 ?RC_AddRenderCommad@RenderThread@ma@@QEAA_NAEBV?$function@$$A6AXXZ@std@@@Z
 ?CreateIndexBuffer@RenderSystem@ma@@QEAA?AV?$RefPtr@VIndexBuffer@ma@@@2@PEAEIHW4HBU_USAGE@2@@Z
 ?CreateVertexBuffer@RenderSystem@ma@@QEAA?AV?$RefPtr@VVertexBuffer@ma@@@2@PEAEIHW4HBU_USAGE@2@@Z
-?AddRenderStep@RenderSystem@ma@@QEAAXV?$RefPtr@VRenderStep@ma@@@2@@Z
 ?CreateRenderStep@ma@@YA?AV?$RefPtr@VRenderStep@ma@@@1@XZ
 ?CreateImageData@ma@@YA?AV?$RefPtr@VImageData@ma@@@1@XZ
 ?SetValue@Technique@ma@@QEAAXPEAVUniform@2@AEBVMatrix4@2@@Z

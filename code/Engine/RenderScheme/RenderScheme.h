@@ -1,11 +1,12 @@
 #pragma once
 
+#include "RenderStep.h"
 
 
 namespace ma
 {
 	class RenderPass;
-	class RenderStep;
+	//class RenderStep;
 	class DeferredShadow;
 	class HDRPostProcess;
 	class SMAAPostProcess;

@@ -750,6 +750,16 @@ namespace ma
 		return pClonTechnique;
 	}
 
+	bool Technique::GetTransluce()
+	{
+		BlendState* pBlendState = m_pShaderProgram->GetShaderCreateInfo().m_pBlendState.get();
+		if (pBlendState == nullptr)
+		{
+			return false;
+		}
+		return pBlendState->m_blendDesc->BlendEnable;
+	}
+
 	RefPtr<Technique> CreateTechnique()
 	{
 		return GetRenderDevice()->CreateTechnique();
