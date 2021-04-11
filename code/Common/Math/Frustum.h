@@ -107,7 +107,8 @@ namespace ma
 		};
 
 		/** This is the set of planes pre-permuted to SSE/Altivec form */
-		SIMDPlane* m_rgSIMDPlane;
+		//SIMDPlane* m_rgSIMDPlane;
+		SIMDPlane m_rgSIMDPlane[8];
 	
 	};
 }

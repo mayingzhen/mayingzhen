@@ -86,6 +86,7 @@ namespace ma
 		int					CurThreadProcess() const {return m_pRenderThread->CurThreadProcess();}
 		int					GetThreadList() {return m_pRenderThread->GetThreadList();}
 		void				FlushAndWait() {return m_pRenderThread->FlushAndWait();}
+		bool				IsRenderThread() { return m_pRenderThread->IsRenderThread(); }
 
 		Scene*				GetScene();
 

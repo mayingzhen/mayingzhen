@@ -120,6 +120,8 @@ namespace ma
 	
 	public:
 		Vector3	m_vDir[2];
+
+		RefPtr<Renderable>	m_pQuad;
 	};
 
 	class PointLightProxy : public LightProxy

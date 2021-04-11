@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void Create();
 
-		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, int stage);
+		virtual RenderCommand* GetThreadCommand(uint32_t nIndex);
 
 		void InitRenderCommamd();
 

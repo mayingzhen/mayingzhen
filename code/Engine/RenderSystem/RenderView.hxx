@@ -3,54 +3,8 @@
 
 namespace ma
 {
-	LightProcess::LightProcess(/*RenderStep* plightStep*/)
-	{
-		//m_pLightStep = plightStep;
-
-		m_pAmbientLight = CreateTechnique("shader/ambientLight.tech", "", m_pLightStep->m_pRenderPass.get());
-	}
-
-	void LightProcess::Render()
-	{
-		RenderQueue* pRenderQueue = m_pLightStep->m_pRenderQueue.get();
-
-		Vector3 cAmbientColor = pRenderQueue->GetSceneContext()->GetAmbientColor();
-		m_pAmbientLight->SetParameter("light_color", Any(cAmbientColor));
-		pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), m_pAmbientLight.get());
-
-		uint32_t index = GetRenderSystem()->CurThreadProcess();
-
-		for (auto& light : m_vecLight)
-		{
-			Uniform* pUniformColor = light->m_pTech->GetUniform(PS, "light_color");
-			light->m_pTech->SetValue(pUniformColor, light->m_vLightColor[index]);
-
-			if (light->m_eLightType == LIGHT_DIRECTIONAL)
-			{
-				DirLightProxy* pDirLight = dynamic_cast<DirLightProxy*>(light.get());
-				ASSERT(pDirLight);
-
-				Uniform* pUniformDir = light->m_pTech->GetUniform(PS, "light_dir");
-				light->m_pTech->SetValue(pUniformDir, pDirLight->m_vDir[index]);
-
-				pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), light->m_pTech.get());
-			}
-			else if (light->m_eLightType == LIGHT_POINT)
-			{
-				PointLightProxy* pPointLight = dynamic_cast<PointLightProxy*>(light.get());
-				ASSERT(pPointLight);
-
-				Uniform* pUniformPosRadius = light->m_pTech->GetUniform(PS, "light_pos_radius");
-				light->m_pTech->SetValue(pUniformPosRadius, pPointLight->m_vPosRadius[index]);
-
-				pRenderQueue->AddRenderObj(RL_Mesh, pPointLight->m_pSphere.get(), light->m_pTech.get());
-			}
-		}
-	}
-
 	MainRenderView::MainRenderView()
 	{
-
 	}
 
 	MainRenderView::~MainRenderView()
@@ -60,7 +14,13 @@ namespace ma
 
 	void MainRenderView::Update()
 	{
-
+		SceneContext sceneData;
+		sceneData.SetCamera(m_pCamera.get());
+		GetRenderSystem()->RC_AddRenderCommad( [this,sceneData]()
+			{
+				*m_pSceneproxy = sceneData;
+			}
+		);
 	}
 
 	void MainRenderView::Render()
@@ -69,13 +29,36 @@ namespace ma
 
 		m_arrRenderProxy.clear();
 
-		m_pScene->GetCullTree()->FindObjectsIn(&m_pCamera->GetFrustum(), -1, m_arrRenderProxy);
+		m_pScene->GetCullTree()->FindObjectsIn(&m_pSceneproxy->m_frustum, -1, m_arrRenderProxy);
 
-		for (auto& step : m_vecRenderStep)
+		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
-			for (uint32_t i = 0; i < m_arrRenderProxy.size(); ++i)
+			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecRenderStep.size());
+			for (uint32_t iStep = 0; iStep < m_vecRenderStep.size(); ++iStep)
 			{
-				step->PrepareRender(m_arrRenderProxy[i]);
+				RenderStep* pStep = m_vecRenderStep[iStep].get();
+
+				GetJobScheduler()->SubmitJob(jobGroup,
+					[pStep, this]() {
+						for (uint32_t iProxy = 0; iProxy < m_arrRenderProxy.size(); ++iProxy)
+						{
+							pStep->PrepareRender(m_arrRenderProxy[iProxy]);
+						}
+					}
+				);
+			}
+			GetJobScheduler()->WaitForGroup(jobGroup);
+		}
+		else
+		{
+			for (uint32_t iStep = 0; iStep < m_vecRenderStep.size(); ++iStep)
+			{
+				RenderStep* pStep = m_vecRenderStep[iStep].get();
+
+				for (uint32_t iProxy = 0; iProxy < m_arrRenderProxy.size(); ++iProxy)
+				{
+					pStep->PrepareRender(m_arrRenderProxy[iProxy]);
+				}
 			}
 		}
 

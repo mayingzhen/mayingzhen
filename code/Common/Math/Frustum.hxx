@@ -7,7 +7,11 @@ namespace ma
 {
 	Frustum::Frustum(void)
 	{
-		m_rgSIMDPlane = NULL;
+// 		m_rgSIMDPlane = new SIMDPlane[8];//static_cast<SIMDPlane*>(AlignedMemory_allocate(8 * sizeof(SIMDPlane), 16));
+// 		for (uint32_t i = 0; i < 8; ++i)
+// 		{
+// 			m_rgSIMDPlane[i] = SIMDPlane();
+// 		}
 	}
 
 	Frustum::Frustum(const Frustum& rkFrustum)
@@ -15,12 +19,14 @@ namespace ma
 		memcpy(m_rgPlane,rkFrustum.m_rgPlane,sizeof(m_rgPlane));
 		memcpy(m_pPoints,rkFrustum.m_pPoints,sizeof(m_pPoints));
 		m_aabb = rkFrustum.m_aabb;
-		m_rgSIMDPlane = NULL;
+		//m_rgSIMDPlane = new SIMDPlane[8];//static_cast<SIMDPlane*>(AlignedMemory_allocate(8 * sizeof(SIMDPlane), 16));
+		memcpy(m_rgSIMDPlane, rkFrustum.m_rgSIMDPlane, 8 * sizeof(SIMDPlane));
 	}
 
 	Frustum::~Frustum(void)
 	{
-		AlignedMemory_deallocate(m_rgSIMDPlane);
+		//delete[] m_rgSIMDPlane;
+		//AlignedMemory_deallocate(m_rgSIMDPlane);
 	}
 
 	void Frustum::UpdatePoint(const Matrix4 &invProjViewMatrix,bool bGLSystem,bool bInvertedY)
@@ -101,15 +107,6 @@ namespace ma
 
 	void Frustum::UpdateSIMDPlanes()
 	{
-		if (m_rgSIMDPlane == NULL)
-		{
-			m_rgSIMDPlane = static_cast<SIMDPlane*>( AlignedMemory_allocate( 8 * sizeof(SIMDPlane) , 16 ) );
-			for (uint32_t i = 0; i < 8; ++i)
-			{
-				m_rgSIMDPlane[i] = SIMDPlane();
-			}
-		}
-
 		m_rgSIMDPlane[0] = SIMDPlane(m_rgPlane[0].normal.x,m_rgPlane[1].normal.x,m_rgPlane[2].normal.x,m_rgPlane[3].normal.x);
 		m_rgSIMDPlane[1] = SIMDPlane(m_rgPlane[0].normal.y,m_rgPlane[1].normal.y,m_rgPlane[2].normal.y,m_rgPlane[3].normal.y);
 		m_rgSIMDPlane[2] = SIMDPlane(m_rgPlane[0].normal.z,m_rgPlane[1].normal.z,m_rgPlane[2].normal.z,m_rgPlane[3].normal.z);

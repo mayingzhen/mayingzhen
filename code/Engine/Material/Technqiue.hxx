@@ -752,6 +752,11 @@ namespace ma
 
 	bool Technique::GetTransluce()
 	{
+		if (m_pShaderProgram == nullptr)
+		{
+			return false;
+		}
+
 		BlendState* pBlendState = m_pShaderProgram->GetShaderCreateInfo().m_pBlendState.get();
 		if (pBlendState == nullptr)
 		{

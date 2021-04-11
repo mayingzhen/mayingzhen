@@ -248,7 +248,7 @@ namespace ma
 
 
 			{
-				Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->GetViewMatrixInv();
+				Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->m_matViewProj.GetMatViewInv();
 				m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
 				m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
 

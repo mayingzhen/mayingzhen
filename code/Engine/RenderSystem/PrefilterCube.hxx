@@ -114,7 +114,7 @@ namespace ma
 				RefPtr<RenderPass> pRenderPass = m_pRendePass[face][0];
 				RefPtr<Technique> PrefilterCopySrc = m_pTechnique[face][0];
 
-				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
+				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0);
 
 				pRenderPass->Begine();
 
@@ -132,7 +132,7 @@ namespace ma
 				RefPtr<RenderPass> pRenderPass = m_pRendePass[face][level];
 				RefPtr<Technique> PrefilterCubeSpecular = m_pTechnique[face][level];
 
-				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
+				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0);
 
 				pRenderPass->Begine();
 
@@ -150,7 +150,7 @@ namespace ma
 				RefPtr<RenderPass> pRenderPass = m_pRendePass[face][m_nOutMipmaps - 1];
 				RefPtr<Technique> PrefilterCubeDiffuse = m_pTechnique[face][m_nOutMipmaps - 1];
 
-				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
+				RenderCommand* pCommand = pRenderPass->GetThreadCommand(0);
 
 				pRenderPass->Begine();
 
@@ -197,7 +197,7 @@ namespace ma
 		info.m_pRenderPass = pRenderPass.get();
 		RefPtr<Technique> pPrefilterBrdf = CreateTechnique(info);
 
-		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0, 0);
+		RenderCommand* pCommand = pRenderPass->GetThreadCommand(0);
 
 		pRenderPass->Begine();
 

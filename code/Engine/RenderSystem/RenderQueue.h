@@ -23,14 +23,6 @@ namespace ma
 		void					AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech);
 
 		void					AddComputeObj(Renderable* pRenderObj, Technique* pTech);
-		
-		void					SetCamera(Camera* pCamera);
-
-		void					SetLightViewProj(const Matrix4& matLightViewProj);
-
-		void					SetMainLight(Light* pMainLight, ColourValue cAmbient);
-
-		SceneContext*			GetSceneContext() { return m_renderContext.get(); }
 
 		void					Render(RenderPass* pPass);
 
@@ -45,14 +37,15 @@ namespace ma
 		void					Clear();
 
 	private:
+		void					ParallelRender(RenderCommand* pCommand, RenderItem* pNodeStart, uint32_t nNodeCount);
+
+	private:
 
 		typedef std::vector<RenderItem> VEC_RENDERABLE;
 
 		VEC_RENDERABLE			m_vecRenderList[RL_Count];
 
 		VEC_RENDERABLE			m_vecCompute;
-
-		RefPtr<SceneContext>	m_renderContext;
 	};
 }
 

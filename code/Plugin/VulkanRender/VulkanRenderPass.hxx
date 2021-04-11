@@ -11,10 +11,8 @@ namespace ma
 		m_vecClearValues[0].color = { { 0.025f, 0.025f, 0.025f, 1.0f } };
 		m_vecClearValues[1].depthStencil = { 1.0f, 0 };
 
-		m_nMaxStageCount = RL_Count;
-
 		uint32_t numThreads = std::thread::hardware_concurrency();
-		m_arrRenderCommand.resize(numThreads * m_nMaxStageCount);
+		m_arrRenderCommand.resize(numThreads);
 		for (uint32_t i = 0; i < m_arrRenderCommand.size(); ++i)
 		{
 			m_arrRenderCommand[i] = new VulkanRenderCommand();
@@ -27,11 +25,11 @@ namespace ma
 
 	}
 
-	RenderCommand* VulkanRenderPass::GetThreadCommand(uint32_t nIndex, int stage)
+	RenderCommand* VulkanRenderPass::GetThreadCommand(uint32_t nIndex)
 	{
 		uint32_t numThreads = std::thread::hardware_concurrency();
 
-		uint32_t nAt = stage * numThreads + nIndex;
+		uint32_t nAt = nIndex;
 		ASSERT(nAt < m_arrRenderCommand.size());
 		if (nAt >= m_arrRenderCommand.size())
 			return NULL;

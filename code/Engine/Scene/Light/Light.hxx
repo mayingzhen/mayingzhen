@@ -91,22 +91,18 @@ namespace ma
 	{
 		m_eLightType = LIGHT_DIRECTIONAL;
 
-		if (GetRenderSystem()->GetDefferedLightRenderPass())
-		{
-			m_pTech = CreateTechnique("shader/dirlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
-		}
+		m_pTech = CreateTechnique("shader/dirlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
+
+		m_pQuad = ScreenQuad::GetRenderable();
 	}
 
 	PointLightProxy::PointLightProxy()
 	{
 		m_eLightType = LIGHT_POINT;
 
-		if (GetRenderSystem()->GetDefferedLightRenderPass())
-		{
-			m_pTech = CreateTechnique("shader/pointlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
+		m_pTech = CreateTechnique("shader/pointlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
 
-			m_pSphere = UnitSphere::CreateRenderable();
-		}
+		m_pSphere = UnitSphere::CreateRenderable();
 	}
 
 	void PointLightProxy::SetWorldMatrix(const Matrix4& matws)

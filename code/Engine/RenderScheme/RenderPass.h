@@ -57,7 +57,7 @@ namespace ma
 
 		virtual void End() = 0;
 
-		virtual RenderCommand* GetThreadCommand(uint32_t nIndex, int stage) = 0;
+		virtual RenderCommand* GetThreadCommand(uint32_t nIndex) = 0;
 
 		void AddRenderCommand(RenderCommand* pCommand);
 

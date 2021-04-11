@@ -6,6 +6,7 @@ namespace ma
 
 	SceneContext* GetSceneContext()
 	{
+		ASSERT(GetRenderSystem()->IsRenderThread());
 		return gpRenderContext;
 	}
 
@@ -14,10 +15,6 @@ namespace ma
 		gpRenderContext = pRenderContext;
 	}
 
-	SceneContext::SceneContext()
-	{
-
-	}
 
 	void SceneContext::SetCamera(Camera* pCamera)
 	{
@@ -27,6 +24,7 @@ namespace ma
 
 		m_fFar = pCamera->GetFarClip();
 		m_fNear = pCamera->GetNearClip();
+		m_frustum = pCamera->GetFrustum();
 	}
 
 	void SceneContext::SetLightViewProj(const Matrix4& matLightViewProj)
@@ -44,55 +42,4 @@ namespace ma
 
 		m_cAmbientColor = cAmbientColor;
 	}
-
-	const Matrix4& SceneContext::GetViewMatrix() const
-	{
-		return m_matViewProj.GetMatView();
-	}
-
-	const Matrix4& SceneContext::GetViewMatrixInv() const
-	{
-		return m_matViewProj.GetMatViewInv();
-	}
-
-	const Matrix4& SceneContext::GetProjMatrix() const 
-	{
-		return m_matViewProj.GetMatProj();
-	}
-
-	const Matrix4& SceneContext::GetViewProjMatrix() const
-	{
-		return m_matViewProj.GetMatViewProj();
-	}
-
-	const Vector3& SceneContext::GetEyeWorldPos() const
-	{
-		return m_vEyeWordPos;
-	}
-
-	float SceneContext::GetNearClip() 
-	{
-		return m_fNear;
-	}
-
-	float SceneContext::GetFarClip() 
-	{
-		return m_fFar;
-	}
-
-	Vector3	SceneContext::GetAmbientColor() const
-	{
-		return Vector3(m_cAmbientColor.r, m_cAmbientColor.g, m_cAmbientColor.b);
-	}
-
-	Vector3	SceneContext::GetDirLightColor() const
-	{
-		return Vector3(m_cMianLightColor.r, m_cMianLightColor.g, m_cMianLightColor.b);
-	}
-
-	Vector3	SceneContext::GetDirLightDir() const
-	{
-		return m_vMainLightDir;
-	}
-
 }

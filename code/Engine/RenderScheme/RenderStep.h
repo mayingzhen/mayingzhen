@@ -17,9 +17,7 @@ namespace ma
 
 		virtual ~RenderStep();
 
-		virtual void Render();
-
-		virtual void Render(RenderPass* prePass, RenderPass* nextPass);
+		virtual void Render() {}
 
 		virtual void Reset() {}
 
@@ -74,6 +72,9 @@ namespace ma
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
 		virtual void Render() override;
+
+	private:
+		RefPtr<Texture>			m_pHDRColorTex;
 	};
 
 	class TransluceStep : public RenderStep

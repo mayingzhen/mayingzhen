@@ -7,32 +7,8 @@ namespace ma
 	class Camera;
 	class MeshComponent;
 	class CullTree;
-	class MainRenderStep;
 	class RenderComponent;
 	class Texture;
-	class DirectonalLight;
-
-	class LightProcess : public Referenced
-	{
-	public:
-		LightProcess();
-
-		void	AddLightObj(LightProxy* pLight) { m_vecLight.push_back(pLight); }
-
-		void	Clear() { m_vecLight.clear(); }
-
-		void	Render();
-
-
-	private:
-		typedef std::vector< RefPtr<LightProxy> > VEC_LIGHTPROXY;
-
-		VEC_LIGHTPROXY			m_vecLight;
-
-		RefPtr<Technique>		m_pAmbientLight;
-
-		RefPtr<RenderStep>		m_pLightStep;
-	};
 
 	class RenderView : public Referenced
 	{
@@ -43,7 +19,7 @@ namespace ma
 
 		virtual ~RenderView() {}
 	
-		void Update() {}
+		virtual void Update() {}
 
 		virtual void Render() {}
 
@@ -54,6 +30,8 @@ namespace ma
 		RefPtr<Scene>	m_pScene;
 
 		std::string		m_name;
+
+		std::shared_ptr<SceneContext>	m_pSceneproxy;
 	};
 
 	class MainRenderView : public RenderView
@@ -64,18 +42,19 @@ namespace ma
 
 		~MainRenderView();
 
-		void Update();
+		void Update() override;
 
 		void Render() override;
 
+		void AddRenderStep(RenderStep* step) { m_vecRenderStep.push_back(step); }
+
 	protected:
+
+		typedef std::vector< RefPtr<RenderStep> > VEC_RENDERSTEP;
+		VEC_RENDERSTEP			m_vecRenderStep;
 
 		typedef std::vector<RenderProxy*> VEC_RENDERPROXY;
 		VEC_RENDERPROXY			m_arrRenderProxy;
-
-		std::vector< RefPtr<RenderStep> > m_vecRenderStep;
-
-		RefPtr<LightProcess>	m_pLigtProcess;
 	};
 
 	class ShadowMapRenderView : public RenderView

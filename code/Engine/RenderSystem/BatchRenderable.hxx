@@ -210,7 +210,7 @@ namespace ma
 
 				RenderItem* ppNodeStart = &(m_arrRenderList[nStartIndex]);
 
-				RenderCommand* pCommand = pPass->GetThreadCommand(iJob, stage);
+				RenderCommand* pCommand = pPass->GetThreadCommand(iJob);
 
 				GetJobScheduler()->SubmitJob(jobGroup, 	[=] () {
 					ParallelRender(pCommand, ppNodeStart, nCount);
@@ -221,7 +221,7 @@ namespace ma
 		}
 		else
 		{
-			RenderCommand* pCommand = pPass->GetThreadCommand(0, stage);
+			RenderCommand* pCommand = pPass->GetThreadCommand(0);
 			RenderItem* ppNodeStart = &(m_arrRenderList[0]);
 			uint32_t nCount = m_arrRenderList.size();
 
