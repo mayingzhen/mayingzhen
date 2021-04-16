@@ -48,6 +48,8 @@ namespace ma
 
 		void AddRenderStep(RenderStep* step) { m_vecRenderStep.push_back(step); }
 
+		void AddExternRenderProxy(RenderProxy* pRenderProxy);
+
 	protected:
 
 		typedef std::vector< RefPtr<RenderStep> > VEC_RENDERSTEP;
@@ -55,6 +57,8 @@ namespace ma
 
 		typedef std::vector<RenderProxy*> VEC_RENDERPROXY;
 		VEC_RENDERPROXY			m_arrRenderProxy;
+
+		std::vector<RenderProxy*> m_arrExternRenderProxy;
 	};
 
 	class ShadowMapRenderView : public RenderView
@@ -72,11 +76,6 @@ namespace ma
 		void Update();
 
 		void Render();
-	};
-
-	class RenderPipeLine
-	{
-
 	};
 
 

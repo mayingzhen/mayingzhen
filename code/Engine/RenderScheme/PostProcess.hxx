@@ -2,6 +2,11 @@
 
 namespace ma
 {
+	PostProcessStep::PostProcessStep(PostProcess* pParent)
+	{
+		m_pParent = pParent;
+	}
+
 	void PostProcessStep::SetInput(const char* pszSamplerName, const char* pszRenderTargetName)
 	{
 		m_strInTexture[pszSamplerName] = pszRenderTargetName;
@@ -23,16 +28,13 @@ namespace ma
 
 	void PostProcessStep::Setup(RenderPass* pInFB, RenderPass* pOutFB)
 	{
-		m_pRenderPass = g_pPostProcessPipeline->GetRenderPass(m_strTargetName.c_str());
+		m_pRenderPass = m_pParent->GetParent()->GetRenderPass(m_strTargetName.c_str());
 		if (m_strTargetName == "[StageOutput]")
 		{
 			m_pRenderPass = pOutFB;
 		}
 		ASSERT(m_pRenderPass);
 
-// 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
-// 		pTech->SetRenderPass(m_pRenderPass.get());
-// 		pTech->ReLoad();
 		SetTechnique(m_pMaterial->GetShadingTechnqiue()->GetResPath());
 
 		std::vector<RefPtr<Texture>> vecInTex;
@@ -46,7 +48,7 @@ namespace ma
 			}
 			else
 			{
-				pTex = g_pPostProcessPipeline->GetRenderTarget(strIn.c_str());
+				pTex = m_pParent->GetParent()->GetRenderTarget(strIn.c_str());
 			}
 			ASSERT(pTex);
 			
@@ -55,31 +57,24 @@ namespace ma
 
 			vecInTex.push_back(pTex);
 		}
+	}
 
-		m_pRenderStep = new RenderStep();
-		m_pRenderStep->m_strName = m_strName;
-		m_pRenderStep->m_pRenderPass = m_pRenderPass;
-		m_pRenderStep->m_vecReadTextue = std::move(vecInTex);
-
-		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
-		m_pRenderStep->m_pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), pTech.get());
-
-		//GetRenderSystem()->AddRenderStep(m_pRenderStep);
-
+	void PostProcessStep::PrepareRender(RenderProxy* proxy)
+	{
 
 	}
 
 	void PostProcessStep::Render()
 	{
-// 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
-// 
-// 		RenderCommand* pCommand = m_pRenderPass->GetThreadCommand(0, 0);
-// 
-// 		pCommand->Begin();
-// 
-// 		ScreenQuad::Render(pTech.get(), pCommand);
-// 
-// 		pCommand->End();
+		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
+
+		RenderCommand* pCommand = m_pRenderPass->GetThreadCommand(0);
+
+		pCommand->Begin();
+
+		ScreenQuad::Render(pTech.get(), pCommand);
+
+		pCommand->End();
 	}
 
 	const char* PostProcessStep::GetName()
@@ -132,6 +127,11 @@ namespace ma
 		m_pMaterial->Export(pXmlMaterial,doc);
 	}
 
+	PostProcess::PostProcess(PostProcessPipeline* pParent)
+	{
+		m_pParent = pParent;
+	}
+
 	const char* PostProcess::GetName()
 	{
 		return m_strName.c_str();
@@ -152,23 +152,25 @@ namespace ma
 		for (uint32_t i = 0; i < m_vecStep.size(); ++i)
 		{
 			m_vecStep[i]->Setup(pInFB, pOutFB);
+
+			m_pParent->GetMainRenderView()->AddRenderStep(m_vecStep[i].get());
 		}
 	}
 
-	void PostProcess::Render()
-	{
-		if (!m_bActive)
-			return;
-
-		for (uint32_t i = 0; i < m_vecStep.size(); ++i)
-		{
-			m_vecStep[i]->GetRenderPass()->Begine();
-
-			m_vecStep[i]->Render();
-
-			m_vecStep[i]->GetRenderPass()->End();
-		}
-	}
+// 	void PostProcess::Render()
+// 	{
+// 		if (!m_bActive)
+// 			return;
+// 
+// 		for (uint32_t i = 0; i < m_vecStep.size(); ++i)
+// 		{
+// 			m_vecStep[i]->GetRenderPass()->Begine();
+// 
+// 			m_vecStep[i]->Render();
+// 
+// 			m_vecStep[i]->GetRenderPass()->End();
+// 		}
+// 	}
 
 	void PostProcess::Import(rapidxml::xml_node<>* pXmlElem)
 	{
@@ -177,7 +179,7 @@ namespace ma
 		rapidxml::xml_node<>* pXmlStep = pXmlElem->first_node("Step");
 		while (pXmlStep)
 		{
-			RefPtr<PostProcessStep> pStep = new PostProcessStep();
+			RefPtr<PostProcessStep> pStep = new PostProcessStep(this);
 			pStep->Import(pXmlStep);
 
 			this->AddStep(pStep.get());
@@ -210,6 +212,11 @@ namespace ma
 		return nullptr;
 	}
 
+	PostProcessPipeline::PostProcessPipeline(MainRenderView* view)
+	{
+		m_pView = view;
+	}
+
 	void PostProcessPipeline::Setup(RenderPass* pInFB, RenderPass* pOutFB)
 	{
 		if (m_vecPostProcess.empty())
@@ -237,13 +244,13 @@ namespace ma
 
 	}
 
-	void PostProcessPipeline::Render()
-	{
-		for (uint32_t i = 0; i < m_vecPostProcess.size(); ++i)
-		{
-			m_vecPostProcess[i]->Render();
-		}
-	}
+// 	void PostProcessPipeline::Render()
+// 	{
+// 		for (uint32_t i = 0; i < m_vecPostProcess.size(); ++i)
+// 		{
+// 			m_vecPostProcess[i]->Render();
+// 		}
+// 	}
 
 	PixelFormat ParaseFormat(const std::string strFormat)
 	{
@@ -397,7 +404,7 @@ namespace ma
 		rapidxml::xml_node<>* pXmlPostProcess = pXmlPostProcesslist->first_node("PostProcess");
 		while (pXmlPostProcess)
 		{
-			RefPtr<PostProcess> pPostProcess = new PostProcess();
+			RefPtr<PostProcess> pPostProcess = new PostProcess(this);
 			pPostProcess->Import(pXmlPostProcess);
 			this->AddPostProcess(pPostProcess.get());
 
@@ -441,9 +448,4 @@ namespace ma
 		return true;
 	}
 
-	PostProcessPipeline* g_pPostProcessPipeline = NULL;
-	PostProcessPipeline* GetPostProcess()
-	{
-		return g_pPostProcessPipeline;
-	}
 }

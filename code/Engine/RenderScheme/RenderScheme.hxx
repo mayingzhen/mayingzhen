@@ -7,38 +7,36 @@ namespace ma
 {
 	DeferredShading::DeferredShading()
 	{
-		m_bShadowMapEnable = true;
+		//m_bShadowMapEnable = true;
 
-		if (m_bShadowMapEnable)
+		//if (m_bShadowMapEnable)
 		{
 			m_pDeferredShadow = new DeferredShadow();
 			m_pDeferredShadow->Init();
 		}
 
-		g_pPostProcessPipeline = new PostProcessPipeline();
+		m_pPostProcessPipeline = new PostProcessPipeline( (MainRenderView*)GetRenderSystem()->GetRenderView(0) );
 
 		//SetSceneContext(m_pRenderQueue->GetSceneContext());
-
-		Init();
 	}
 
 	DeferredShading::~DeferredShading()
 	{
-		SAFE_DELETE(g_pPostProcessPipeline);
+		SAFE_DELETE(m_pPostProcessPipeline);
 	}
 
 
-	void SetupGlow(PostProcess* pGlow)
+	void DeferredShading::SetupGlow(PostProcess* pGlow)
 	{
 		float fScale = 0.5f;
 		uint32_t iterations = 6;
 		for (uint32_t i = 0; i < iterations; ++i)
 		{
 			std::string strDownSampleTarget = std::string("DownSampleTarget") + StringConverter::toString(i);
-			g_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), fScale, PF_A8R8G8B8);
+			m_pPostProcessPipeline->AddRenderPass(strDownSampleTarget.c_str(), fScale, PF_A8R8G8B8);
 
 			std::string strUpSampleTarget = std::string("UpSampleTarget") + StringConverter::toString(i);
-			g_pPostProcessPipeline->AddRenderPass(strUpSampleTarget.c_str(), fScale, PF_A8R8G8B8);
+			m_pPostProcessPipeline->AddRenderPass(strUpSampleTarget.c_str(), fScale, PF_A8R8G8B8);
 
 			fScale = fScale * 0.5f;
 		}
@@ -47,7 +45,7 @@ namespace ma
 		std::string strOuput = "DownSampleTarget0";
 
 		// Prefilter
-		RefPtr<PostProcessStep> pPrefilter = new PostProcessStep();
+		RefPtr<PostProcessStep> pPrefilter = new PostProcessStep(pGlow);
 		pPrefilter->SetName("BloomPrefilter");
 		pPrefilter->SetInput("_MainTex", strInput.c_str());
 		pPrefilter->SetInput("_AutoExposureTex", "IllumAdjust");
@@ -69,7 +67,7 @@ namespace ma
 		{
 			std::string strOuputDownSample = std::string("DownSampleTarget") + StringConverter::toString(i);
 
-			RefPtr<PostProcessStep> pDownSample = new PostProcessStep();
+			RefPtr<PostProcessStep> pDownSample = new PostProcessStep(pGlow);
 			pDownSample->SetName(strOuputDownSample.c_str());
 			pDownSample->SetInput("_MainTex", strOuput.c_str());
 			pDownSample->SetOutput(strOuputDownSample.c_str());
@@ -86,7 +84,7 @@ namespace ma
 			
 			std::string strBloom = std::string("UpSampleTarget") + StringConverter::toString(i + 1);
 
-			RefPtr<PostProcessStep> pUpSample = new PostProcessStep();
+			RefPtr<PostProcessStep> pUpSample = new PostProcessStep(pGlow);
 			pUpSample->SetName(strOuputUpSample.c_str());
 			pUpSample->SetInput("_MainTex", strInput.c_str());
 			pUpSample->SetInput("_BloomTex", strBloom.c_str());
@@ -101,15 +99,15 @@ namespace ma
 
 	}
 
-	void SetupSSAO()
+	void DeferredShading::SetupSSAO()
 	{
-		g_pPostProcessPipeline->AddRenderPass("SSAO", 1.0f, PF_FLOAT16_R);
+		m_pPostProcessPipeline->AddRenderPass("SSAO", 1.0f, PF_FLOAT16_R);
 
-		RefPtr<PostProcess> pSSAO = new PostProcess();
+		RefPtr<PostProcess> pSSAO = new PostProcess(m_pPostProcessPipeline);
 		pSSAO->SetName("SSAO");
-		g_pPostProcessPipeline->AddPostProcess(pSSAO.get());
+		m_pPostProcessPipeline->AddPostProcess(pSSAO.get());
 
-		RefPtr<PostProcessStep> pStep = new PostProcessStep();
+		RefPtr<PostProcessStep> pStep = new PostProcessStep(pSSAO.get());
 		pStep->SetName("SSAO");
 		pStep->SetOutput("SSAO");
 
@@ -119,23 +117,23 @@ namespace ma
 		pSSAO->AddStep(pStep.get());
 	}
 
-	void SetupHDR()
+	void DeferredShading::SetupHDR()
 	{
 		{
-			g_pPostProcessPipeline->AddRenderPass("IllumAdjust", 1, 1, PF_FLOAT32_R);
-			g_pPostProcessPipeline->AddRenderPass("IllumLast", 1, 1, PF_FLOAT32_R);
-			g_pPostProcessPipeline->AddRenderPass("IllumLumLog1", 4, 4, PF_FLOAT32_R);
-			g_pPostProcessPipeline->AddRenderPass("IllumLumLog2", 16, 16, PF_FLOAT32_R);
-			g_pPostProcessPipeline->AddRenderPass("IllumLumLog3", 64, 64, PF_FLOAT32_R);
+			m_pPostProcessPipeline->AddRenderPass("IllumAdjust", 1, 1, PF_FLOAT32_R);
+			m_pPostProcessPipeline->AddRenderPass("IllumLast", 1, 1, PF_FLOAT32_R);
+			m_pPostProcessPipeline->AddRenderPass("IllumLumLog1", 4, 4, PF_FLOAT32_R);
+			m_pPostProcessPipeline->AddRenderPass("IllumLumLog2", 16, 16, PF_FLOAT32_R);
+			m_pPostProcessPipeline->AddRenderPass("IllumLumLog3", 64, 64, PF_FLOAT32_R);
 		}
 
-		RefPtr<PostProcess> pHDR = new PostProcess();
+		RefPtr<PostProcess> pHDR = new PostProcess(m_pPostProcessPipeline);
 		pHDR->SetName("HDR");
-		g_pPostProcessPipeline->AddPostProcess(pHDR.get());
+		m_pPostProcessPipeline->AddPostProcess(pHDR.get());
 
 	
 		{
-			RefPtr<PostProcessStep> pStepLog = new PostProcessStep();
+			RefPtr<PostProcessStep> pStepLog = new PostProcessStep(pHDR.get());
 			pStepLog->SetName("SumLuminanceLog");
 			pStepLog->SetInput("tSrcColor", "[StageInput]");
 			pStepLog->SetOutput("IllumLumLog3");
@@ -146,7 +144,7 @@ namespace ma
 		}
 
 		{
-			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep();
+			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep(pHDR.get());
 			pStepIterative->SetName("SumLuminanceIterative1");
 			pStepIterative->SetInput("tSrcColor", "IllumLumLog3");
 			pStepIterative->SetOutput("IllumLumLog2");
@@ -157,7 +155,7 @@ namespace ma
 		}
 
 		{
-			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep();
+			RefPtr<PostProcessStep> pStepIterative = new PostProcessStep(pHDR.get());
 			pStepIterative->SetName("SumLuminanceIterative2");
 			pStepIterative->SetInput("tSrcColor", "IllumLumLog2");
 			pStepIterative->SetOutput("IllumLumLog1");
@@ -169,7 +167,7 @@ namespace ma
 
 
 		{
-			RefPtr<PostProcessStep> pStepFinal = new PostProcessStep();
+			RefPtr<PostProcessStep> pStepFinal = new PostProcessStep(pHDR.get());
 			pStepFinal->SetName("SumLuminanceFinal");
 			pStepFinal->SetInput("tSrcColor", "IllumLumLog1");
 			pStepFinal->SetInput("g_Texturelast", "IllumLast");
@@ -182,7 +180,7 @@ namespace ma
 		}
 
 		{
-			RefPtr<PostProcessStep> pCopy = new PostProcessStep();
+			RefPtr<PostProcessStep> pCopy = new PostProcessStep(pHDR.get());
 			pCopy->SetName("copy");
 			pCopy->SetInput("tSrcColor", "IllumAdjust");
 			pCopy->SetOutput("IllumLast");
@@ -193,7 +191,7 @@ namespace ma
 		SetupGlow(pHDR.get());
 
 		{
-			RefPtr<PostProcessStep> pStepToneMap = new PostProcessStep();
+			RefPtr<PostProcessStep> pStepToneMap = new PostProcessStep(pHDR.get());
 			pStepToneMap->SetName("ToneMap");
 			pStepToneMap->SetInput("gTex_Scene", "[StageInput]");
 			pStepToneMap->SetInput("gTexBloom", "UpSampleTarget0");
@@ -204,191 +202,34 @@ namespace ma
 		}
 	}
 
-	void DeferredShading::SetupBasePass()
-	{
-		m_pBaseColor = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
-		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
 
-		m_pGbufferPass = GetRenderDevice()->CreateRenderPass();
-		m_pGbufferPass->AttachDepthStencil( RenderSurface(m_pDepthTex) );
-		m_pGbufferPass->AttachColor(0, RenderSurface(m_pBaseColor) );
-		m_pGbufferPass->AttachColor(1, RenderSurface(m_pNormalTex) );
-		GetRenderSystem()->RenderPassStreamComplete(m_pGbufferPass.get());
+	void DeferredShading::Init()
+	{	
+		MainRenderView* pMainView = (MainRenderView*)GetRenderSystem()->GetRenderView(0);
 
-		m_pBaseSampler = CreateSamplerState(m_pBaseColor.get(), CLAMP, TFO_POINT, false);
-		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_textureSceneDiffuse", [this](Renderable*)->SamplerState* {
-			return m_pBaseSampler.get();
-		});
+		RefPtr<GbufferStep> pBufferStep = new GbufferStep();
+		pMainView->AddRenderStep(pBufferStep.get());
+			
+		RefPtr<DefferedLightStep> pLightStep = new DefferedLightStep(pBufferStep->m_pDepthTex.get());
+		pMainView->AddRenderStep(pLightStep.get());
 
-		m_pNormalSampler = CreateSamplerState(m_pNormalTex.get(), CLAMP, TFO_POINT, false);
-		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_textureSceneNormal", [this](Renderable*)->SamplerState* {
-			return m_pNormalSampler.get();
-		});
-
-		m_pGbufferStep = new RenderStep();
-		m_pGbufferStep->m_strName == "GBuffer";
-		m_pGbufferStep->m_pRenderPass = m_pGbufferPass;
-		//GetRenderSystem()->AddRenderStep(m_pGbufferStep.get());
-
-		m_pTransluceStep = new RenderStep();
-		m_pTransluceStep->m_strName = "Transluce";
-		m_pTransluceStep->m_pRenderPass = m_pTranslucePass.get();
-
-	}
-
-	void DeferredShading::SetupLightPass()
-	{
-		if (m_bHDREnable)
-		{
-			m_pLightPass = GetRenderDevice()->CreateRenderPass();
-			m_pLightPass->AttachColor(0, RenderSurface(m_pHDRColorTex) );
-			RenderSurface depth(m_pDepthTex);
-			depth.m_eLoadOp = LOAD_OP_LOAD;
-			m_pLightPass->AttachDepthStencil(depth);
-			GetRenderSystem()->RenderPassStreamComplete(m_pLightPass.get());
-		}
-		else
-		{
-			m_pLightPass = GetRenderSystem()->GetBackBufferRenderPass();
-		}
-
-		m_pLightStep = new RenderStep();
-		m_pLightStep->m_strName = "Light";
-		m_pLightStep->m_pRenderPass = m_pLightPass;
-
-		for (auto& it : m_pGbufferStep->m_pRenderPass->m_arrColor)
-		{
-			m_pLightStep->m_vecReadTextue.push_back(it.m_pTexture);
-		}
-		m_pLightStep->m_vecReadTextue.push_back(m_pGbufferStep->m_pRenderPass->m_depthStencil.m_pTexture);
-
-		//GetRenderSystem()->AddRenderStep(m_pLightStep);
-
-		// Setup Tech
-		if (1)
-		{
-			RefPtr<DepthStencilState> pDS = CreateDepthStencilState();
-			pDS->m_bDepthWrite = false;
-
-			RefPtr<BlendState> pBS = CreateBlendState();
-			pBS->m_blendDesc[0].BlendEnable = true;
-			pBS->m_blendDesc[0].SrcBlend = BLEND_ONE;
-			pBS->m_blendDesc[0].DestBlend = BLEND_ONE;
-
-			RefPtr<RasterizerState> pRS = CreateRasterizerState();
-			pRS->m_eCullMode = CULL_FACE_SIDE_BACK;
-
-			RefPtr<VertexDeclaration> pDec = CreateVertexDeclaration();
-			pDec->AddElement(VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0));
-			pDec->AddElement(VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0));
-
-			ShaderCreateInfo Info;
-			Info.m_strVSFile = "deferredlight.vert:vs_main";
-			Info.m_strPSFile = "deferredlight.frag:ps_main";
-			Info.m_pRenderPass = m_pLightPass;
-			Info.m_pDSState = pDS;
-			Info.m_pVertexDecl = pDec;
-			Info.m_pRSState = pRS;
-
-			{
-				Info.m_shaderMacro = "AMBIENT_LIGHT";
-
-				RefPtr<Technique> pAmbientLight = CreateTechnique(Info);
-				pAmbientLight->SaveToXML("shader/ambientLight.tech");
-
-				GetRenderSystem()->TechniqueStreamComplete(pAmbientLight.get());
-			}
-
-			{
-				Info.m_shaderMacro = "DIRECT_LIGHT";
-				Info.m_pBlendState = pBS;
-
-				RefPtr<Technique> pDirLight = CreateTechnique(Info);
-				pDirLight->SaveToXML("shader/dirlight.tech");
-
-				GetRenderSystem()->TechniqueStreamComplete(pDirLight.get());
-			}
-
-			{
-				Info.m_pVertexDecl = CreateVertexDeclaration();
-				Info.m_pVertexDecl->AddElement(VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0));
-
-				Info.m_shaderMacro = "POINT_LIGHT";
-				Info.m_pBlendState = pBS;
-
-				RefPtr<Technique> pPointLight = CreateTechnique(Info);
-				pPointLight->SaveToXML("shader/pointlight.tech");
-
-				GetRenderSystem()->TechniqueStreamComplete(pPointLight.get());
-			}
-		}
-
-		
-	}
-
-	void DeferredShading::SetupHDRPass()
-	{
-		if (!m_bHDREnable)
-			return;
-
-		RefPtr<RenderPass> pHDRPass = GetRenderDevice()->CreateRenderPass();
-
-		pHDRPass->AttachColor(0, RenderSurface(m_pHDRColorTex) );
-		pHDRPass->AttachDepthStencil( RenderSurface(m_pDepthTex) );
-
-		GetRenderSystem()->RenderPassStreamComplete(pHDRPass.get());
+// 		if (m_pDeferredShadow)
+// 		{
+// 			m_pDeferredShadow->Reset(m_pDepthTex.get());
+// 		}
 
 		if (0)
 		{
 			SetupHDR();
-			g_pPostProcessPipeline->SaveToXML("postprocess.xml");
+			m_pPostProcessPipeline->SaveToXML("postprocess.xml");
 		}
 
-		g_pPostProcessPipeline->LoadFromXML("postprocess.xml");
+		m_pPostProcessPipeline->LoadFromXML("postprocess.xml");
+		m_pPostProcessPipeline->Setup(pLightStep->m_pRenderPass.get(), GetRenderSystem()->GetBackBufferRenderPass());
 
-		RefPtr<RenderPass> pTemPass = GetRenderDevice()->CreateRenderPass();
-		RefPtr<Texture> pTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8);
-		RenderSurface color;
-		color.m_pTexture = pTex;
-		pTemPass->AttachColor(0, color);
-		GetRenderSystem()->RenderPassStreamComplete(pTemPass.get());
+		RefPtr<UIStep> pUIStep = new UIStep();
+		pMainView->AddRenderStep(pUIStep.get());
 
-		g_pPostProcessPipeline->Setup(pHDRPass.get(), pTemPass.get());
-
-		m_lastStep = new PostProcessStep();
-		m_lastStep->SetName("copy");
-		m_lastStep->SetInput("tSrcColor", "[StageInput]");
-		m_lastStep->SetOutput("[StageOutput]");
-		m_lastStep->SetTechnique("shader/copy.tech");
-		m_lastStep->Setup(pTemPass.get(), GetRenderSystem()->GetBaseRenderPass());
-	}
-
-	void DeferredShading::Init()
-	{	
-		m_pBackBaufferPass = GetRenderSystem()->GetBaseRenderPass();
-
-		m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8);
-
-		m_pHDRColorTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT16_RGBA);
-
-		m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
-		GetParameterManager()->AddFunMethodBinding<SamplerState*>("tDeviceDepthMapSampler", [this](Renderable*)->SamplerState* {
-			return m_pDepthSampler.get();
- 		} );
-		
-		SetupBasePass();
-
-		SetupLightPass();
-
-		SetupHDRPass();
-
-		if (m_pDeferredShadow)
-		{
-			m_pDeferredShadow->Reset(m_pDepthTex.get());
-		}
-
-		GetRenderSystem()->SetBaseRenderPass(m_pGbufferPass.get());
-		GetRenderSystem()->SetDefferedLightRenderPass(m_pLightPass.get());
 		GetRenderSystem()->ReloadShader();
 	}
 

@@ -159,6 +159,7 @@ namespace ma
 	{
 	}
 
+	RefPtr<DeferredShading> g_pShading;
 
 	void RenderSystem::RT_Init(void* wndhandle, int width, int height)
 	{
@@ -187,19 +188,10 @@ namespace ma
 		pMainView->m_pSceneproxy = std::make_shared<SceneContext>();
 		SetSceneContext(pMainView->m_pSceneproxy.get());
 
-		if (1)
-		{
-			RefPtr<GbufferStep> pBufferStep = new GbufferStep();
-			pMainView->AddRenderStep(pBufferStep.get());
-			
-			RefPtr<DefferedLightStep> pLightStep = new DefferedLightStep();
-			pMainView->AddRenderStep(pLightStep.get());
+		m_renderView.push_back(pMainView);
 
-			RefPtr<TransluceStep> pTransluceStep = new TransluceStep();
-			pMainView->AddRenderStep(pTransluceStep.get());
-		}
-
-		AddRenderView(pMainView.get());
+		g_pShading = new DeferredShading();
+		g_pShading->Init();
 
 		m_scene = new Scene("defaultScene");
 		pMainView->m_pScene = m_scene;

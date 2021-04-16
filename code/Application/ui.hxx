@@ -1,5 +1,6 @@
 #include "ui.h"
 #include "imgui.h"
+#include "Engine/RenderSystem/RenderView.h"
 
 namespace ma
 {
@@ -15,6 +16,50 @@ namespace ma
 
 	public:
 		Rectangle m_scissor;
+	};
+
+	class UIRenderProxy : public RenderProxy
+	{
+	public:
+		UIRenderProxy()
+		{
+		}
+
+		virtual uint32_t GetRenderableCount() const { return m_nUsedCount; }
+		virtual Renderable* GetRenderableByIndex(uint32_t index) const { return m_vecRendeable[index].get(); }
+
+		virtual uint32_t GetRenderOrder() { return RL_UI; }
+		
+		void Reset()
+		{
+			m_nUsedCount = 0;
+		}
+
+		UIRenderable* GetRenderable()
+		{
+			m_nUsedCount++;
+
+			if (m_nUsedCount >= m_vecRendeable.size())
+			{
+				UIRenderable* pRenderable = new UIRenderable();
+				pRenderable->m_pSubMeshData = CreateSubMeshData();
+				pRenderable->m_pSubMaterial = CreateSubMaterial();
+				//pRenderable->m_pSubMaterial->SetShadingTechnqiue(m_pTechUI.get());
+				m_vecRendeable.push_back(pRenderable);
+
+				return pRenderable;
+			}
+			else
+			{
+				return m_vecRendeable[m_nUsedCount].get();
+			}
+
+		}
+
+	public:
+	
+		std::vector< RefPtr<UIRenderable> > m_vecRendeable;
+		uint32_t m_nUsedCount = 0;
 	};
 
 	UI::UI()
@@ -88,12 +133,8 @@ namespace ma
 			m_pIndexBuffer[i] = GetRenderSystem()->CreateIndexBuffer(NULL, sizeof(uint16_t) * 1024 * 10, sizeof(uint16_t), HBU_DYNAMIC);
 		}
 
-// 		m_pRenderStep = CreateRenderStep();
-// 		m_pRenderStep->m_strName = "UI";
-// 		m_pRenderStep->m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
-// 		GetRenderSystem()->AddRenderStep(m_pRenderStep.get());
-
-		m_pUICommand = GetRenderDevice()->CreateRenderCommand();
+		m_pRenderProxy[0] = new UIRenderProxy();
+		m_pRenderProxy[1] = new UIRenderProxy();
 	}
 
 	void UI::Shutdown()
@@ -107,25 +148,7 @@ namespace ma
 		ImGui::NewFrame();
 	}
 
-	UIRenderable* UI::GetRenderable(uint32_t nIndex)
-	{
-		std::vector< RefPtr<UIRenderable> >& vecRenderable = m_vecRendeable[GetRenderSystem()->CurThreadFill()];
-		if (nIndex >= vecRenderable.size())
-		{
-			UIRenderable* pRenderable = new UIRenderable();
-			pRenderable->m_pSubMeshData = CreateSubMeshData();
-			pRenderable->m_pSubMaterial = CreateSubMaterial();
-			pRenderable->m_pSubMaterial->SetShadingTechnqiue(m_pTechUI.get());
-			vecRenderable.push_back(pRenderable);
 
-			return pRenderable;
-		}
-		else
-		{
-			return vecRenderable[nIndex].get();
-		}
-
-	}
 
 	void UI::RenderDrawData(ImDrawData* draw_data)
 	{
@@ -174,7 +197,7 @@ namespace ma
 		m_pTechUI->SetValue(m_pTechUI->GetUniform(PS,"texture0"), m_pFontSampler.get());
 
 		uint32_t index = GetRenderSystem()->CurThreadFill();
-		m_nUsedCount[index] = 0;
+		m_pRenderProxy[index]->Reset();
 		
 		// Render command lists
 		int vtx_offset = 0;
@@ -201,12 +224,13 @@ namespace ma
 					scissor.right = scissor.left + (uint32_t)(pcmd->ClipRect.z - pcmd->ClipRect.x);
 					scissor.bottom = scissor.top + (uint32_t)(pcmd->ClipRect.w - pcmd->ClipRect.y + 1); // FIXME: Why +1 here?
 
-					UIRenderable* pRenderable = GetRenderable(m_nUsedCount[index]++);
+					UIRenderable* pRenderable = m_pRenderProxy[index]->GetRenderable();
 					pRenderable->m_pVertexBuffer = m_pVertexBuffer[m_nBufferIndex];
 					pRenderable->m_pIndexBuffer = m_pIndexBuffer[m_nBufferIndex];
 					pRenderable->m_pSubMeshData->m_nIndexCount = pcmd->ElemCount;
 					pRenderable->m_pSubMeshData->m_nIndexStart = idx_offset;
 					pRenderable->m_pSubMeshData->m_nVertexStart = vtx_offset;
+					pRenderable->m_pSubMaterial->SetShadingTechnqiue(m_pTechUI.get());
 					
 					pRenderable->m_scissor = scissor;
 				}
@@ -224,27 +248,14 @@ namespace ma
 		{
 			RenderDrawData(ImGui::GetDrawData());
 
-			GetRenderSystem()->RC_AddRenderCommad( [this]() {
-				this->RT_Render();
-				}
-			);
+			MainRenderView* pMainRenderView = (MainRenderView*)GetRenderSystem()->GetRenderView(0);
+
+			uint32_t index = GetRenderSystem()->CurThreadFill();
+	
+			pMainRenderView->AddExternRenderProxy(m_pRenderProxy[index].get());
 		}
 
 		m_bInit = true;
-	}
-
-	void UI::RT_Render()
-	{
-		uint32_t index = GetRenderSystem()->CurThreadProcess();
-
-// 		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
-// 		pRenderQueue->Clear();
-// 
-// 		for (uint32_t i = 0; i < m_nUsedCount[index]; ++i)
-// 		{
-// 			UIRenderable* pRenderable = m_vecRendeable[index][i].get();
-// 			pRenderQueue->AddRenderObj(RL_UI, pRenderable, m_pTechUI.get());
-// 		}
 	}
 
 	bool UI::Begin(const char* name, bool* p_open, int flags)

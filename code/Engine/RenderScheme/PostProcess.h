@@ -3,13 +3,20 @@
 namespace ma
 {
 	class RenderPass;
+	class PostProcess;
+	class PostProcessPipeline;
+	class MainRenderView;
 
-	class PostProcessStep : public Referenced
+	class PostProcessStep : public RenderStep
 	{
 	public:
-		void Setup(RenderPass* pInFB, RenderPass* pOutFB);
+		PostProcessStep(PostProcess* pParent);
 
-		void Render();
+		virtual void PrepareRender(RenderProxy* proxy) override;
+
+		virtual void Render() override;
+
+		void Setup(RenderPass* pInFB, RenderPass* pOutFB);
 
 		void SetInput(const char* pszSamplerName, const char* pszRenderTargetName);
 
@@ -37,12 +44,16 @@ namespace ma
 
 		RefPtr<SubMaterial> m_pMaterial;
 
-		RefPtr<RenderStep> m_pRenderStep;
+		//RefPtr<RenderStep> m_pRenderStep;
+
+		PostProcess* m_pParent = nullptr;
 	};
 
 	class PostProcess : public Referenced
 	{
 	public:
+		PostProcess(PostProcessPipeline* pParent);
+
 		void		Setup(RenderPass* pInFB,RenderPass* pOutFB);
 
 		void		Render();
@@ -57,6 +68,8 @@ namespace ma
 		const char* GetName();
 		void		SetName(const char* pszName);
 
+		PostProcessPipeline* GetParent() { return m_pParent; }
+
 	private:
 		std::vector< RefPtr<PostProcessStep> > m_vecStep;
 
@@ -64,21 +77,20 @@ namespace ma
 
 		bool m_bActive = true;
 
-		RefPtr<RenderStep> m_pRenderStep;
+		PostProcessPipeline* m_pParent = nullptr;
 	};
 
 	class PostProcessPipeline : public Serializable
 	{
 	public:
-		void		Setup(RenderPass* pInFB, RenderPass* pOutFB);
+		PostProcessPipeline(MainRenderView* view);
 
-		void		Render();
+		void		Setup(RenderPass* pInFB, RenderPass* pOutFB);
 
 		RenderPass* GetRenderPass(const char* pszName);
 
 		Texture*	GetRenderTarget(const char* pszName);
 
-		void		AddRenderPass(const char* pszName, RenderPass* pRenderPass);
 		void		AddRenderPass(const char* pszName, int nWidth, int nHeight, PixelFormat format, bool bSRGB = false);
 		void		AddRenderPass(const char* pszName, float fScale, PixelFormat format, bool bSRGB = false);
 
@@ -87,6 +99,8 @@ namespace ma
 
 		bool		Import(rapidxml::xml_node<>* pXmlElem);
 		bool		Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
+
+		MainRenderView* GetMainRenderView() { return m_pView; }
 
 	private:
 
@@ -106,9 +120,9 @@ namespace ma
 		std::vector<TextureInfo> m_vecTextureInfo;
 
 		RefPtr<RenderPass> m_pTempRenderPass;
+
+		MainRenderView* m_pView = nullptr;
 	};
 
-	extern PostProcessPipeline* g_pPostProcessPipeline;
-	PostProcessPipeline* GetPostProcess();
 }
 

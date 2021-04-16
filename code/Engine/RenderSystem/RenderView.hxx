@@ -23,6 +23,15 @@ namespace ma
 		);
 	}
 
+	void MainRenderView::AddExternRenderProxy(RenderProxy* pRenderProxy)
+	{
+		GetRenderSystem()->RC_AddRenderCommad([this, pRenderProxy]()
+			{
+				m_arrExternRenderProxy.push_back(pRenderProxy);
+			}
+		);
+	}
+
 	void MainRenderView::Render()
 	{
 		MICROPROFILE_SCOPEI("", "MainRenderView::Render", 0);
@@ -30,6 +39,10 @@ namespace ma
 		m_arrRenderProxy.clear();
 
 		m_pScene->GetCullTree()->FindObjectsIn(&m_pSceneproxy->m_frustum, -1, m_arrRenderProxy);
+
+		m_arrRenderProxy.insert(m_arrRenderProxy.end(), m_arrExternRenderProxy.begin(), m_arrExternRenderProxy.end());
+
+		m_arrExternRenderProxy.clear();
 
 		if (GetJobScheduler()->GetNumThreads() > 0)
 		{

@@ -216,9 +216,9 @@ namespace ma
 		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
 		for (int i = m_vecFrustum.size() - 1; i >= 0; --i) // ´ÓºóÍùÇ°
 		{
-			pRenderQueue->AddRenderObj(RL_Mesh, m_pRenderable.get(), m_pFrustumVolume[i].get());
+			pRenderQueue->AddRenderObj(RL_Start, m_pRenderable.get(), m_pFrustumVolume[i].get());
 
-			pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), m_pDefferedShadow[i].get());
+			pRenderQueue->AddRenderObj(RL_Start, ScreenQuad::GetRenderable(), m_pDefferedShadow[i].get());
 		}
 	}
 

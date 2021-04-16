@@ -163,7 +163,6 @@ EXPORTS
 ?DrawWireSphere@LineRender@ma@@SAXAEBVMatrix4@2@MVColourValue@2@@Z
 ?GetStep@PostProcess@ma@@QEAAPEAVPostProcessStep@2@PEBD@Z
 ?GetPostProcess@PostProcessPipeline@ma@@QEAAPEAVPostProcess@2@PEBD@Z
-?GetPostProcess@ma@@YAPEAVPostProcessPipeline@1@XZ
 ?CreateSamplerState@ma@@YA?AV?$RefPtr@VSamplerState@ma@@@1@PEBDW4Wrap@1@W4Filter@1@_N@Z
 ?GetValue@Parameter@ma@@QEBAAEBVAny@2@XZ
 ?SetShaderMacroBool@Technique@ma@@QEAAXPEBD_N@Z
@@ -232,3 +231,5 @@ EXPORTS
 ?CreateRenderStep@ma@@YA?AV?$RefPtr@VRenderStep@ma@@@1@XZ
 ?CreateImageData@ma@@YA?AV?$RefPtr@VImageData@ma@@@1@XZ
 ?SetValue@Technique@ma@@QEAAXPEAVUniform@2@AEBVMatrix4@2@@Z
+?AddExternRenderProxy@MainRenderView@ma@@QEAAXPEAVRenderProxy@2@@Z
+?Render@RenderProxy@ma@@UEAAXPEAVRenderView@2@@Z

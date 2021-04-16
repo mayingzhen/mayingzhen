@@ -457,14 +457,15 @@ namespace ma
 
 	enum RenderListType
 	{
-		RL_Mesh,
-		RL_Terrain,
-		RL_TerrainBorder,
-		RL_TerrainSkirt,
-		RL_SkyBox,
-		RL_MeshTrans,
-		RL_UI,
-		RL_LAST,
+		RL_Start = 0,
+		RL_Model = 8,
+		RL_SkinModel = 16,
+		RL_Terrain = 24,
+		RL_Light = 32,
+		RL_SkyBox = 40,
+		RL_Transluce = 48,
+		RL_PostProcess = 56,
+		RL_UI = 64,
 		RL_Count,
 	};
 }

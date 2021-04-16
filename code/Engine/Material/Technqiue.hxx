@@ -784,6 +784,8 @@ namespace ma
 	{
 		Technique* pTech = GetRenderDevice()->CreateTechnique();
 
+		pTech->SetRenderPass(info.m_pRenderPass.get());
+
 		RefPtr<ShaderProgram> pShader = CreateShaderProgram(info);
 
 		pTech->SetShaderProgram(pShader.get());

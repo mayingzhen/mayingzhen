@@ -57,7 +57,7 @@ namespace ma
 
 	void GbufferStep::PrepareRender(RenderProxy* proxy)
 	{
-		if (proxy == nullptr)
+		if (proxy == nullptr || proxy->GetRenderOrder() > RL_SkyBox)
 		{
 			return;
 		}
@@ -89,65 +89,24 @@ namespace ma
 		m_pRenderPass->End();
 	}
 
-	TransluceStep::TransluceStep()
+	DefferedLightStep::DefferedLightStep(Texture* pDepthTexture)
 	{
-		m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
-	}
-
-	void TransluceStep::PrepareRender(RenderProxy* proxy)
-	{
-		if (proxy == nullptr)
-		{
-			return;
-		}
-
-		for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
-		{
-			Renderable* renderable = proxy->GetRenderableByIndex(i);
-			if (renderable == nullptr)
-			{
-				continue;
-			}
-
-			Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
-			if (tech  == nullptr || !tech->GetTransluce())
-			{
-				continue;
-			}
-
-			m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
-		}
-	}
-
-	void TransluceStep::Render()
-	{
-		m_pRenderQueue->Render(m_pRenderPass.get());
-	}
-
-
-	DefferedLightStep::DefferedLightStep()
-	{
-		m_pHDRColorTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT16_RGBA);
+		m_pHDRColorTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_R11G11B10_FLOAT);
 
 		m_pRenderPass = GetRenderDevice()->CreateRenderPass();
-		m_pRenderPass->AttachColor(0, RenderSurface(m_pHDRColorTex));
-		//RenderSurface depth(m_pDepthTex);
-		//depth.m_eLoadOp = LOAD_OP_LOAD;
+		RenderSurface color(m_pHDRColorTex);
+		color.m_cClearColor = ColourValue::Black;
+		m_pRenderPass->AttachColor(0, color);
+		RenderSurface depth(pDepthTexture);
+		depth.m_eLoadOp = LOAD_OP_LOAD;
 		//m_pRenderPass->AttachDepthStencil(depth);
 		GetRenderSystem()->RenderPassStreamComplete(m_pRenderPass.get());
 
 		GetRenderSystem()->SetDefferedLightRenderPass(m_pRenderPass.get());
 	}
 
-
-	void DefferedLightStep::PrepareRender(RenderProxy* proxy)
+	void DefferedLightStep::PrepareLightProxy(LightProxy* light)
 	{
-		LightProxy* light = dynamic_cast<LightProxy*>(proxy);
-		if (light == nullptr)
-		{
-			return;
-		}
-
 		uint32_t index = GetRenderSystem()->CurThreadProcess();
 
 		{
@@ -162,7 +121,7 @@ namespace ma
 				Uniform* pUniformDir = light->m_pTech->GetUniform(PS, "light_dir");
 				light->m_pTech->SetValue(pUniformDir, pDirLight->m_vDir[index]);
 
-				m_pRenderQueue->AddRenderObj(RL_Mesh, ScreenQuad::GetRenderable(), light->m_pTech.get());
+				m_pRenderQueue->AddRenderObj(RL_Light, ScreenQuad::GetRenderable(), light->m_pTech.get());
 			}
 			else if (light->m_eLightType == LIGHT_POINT)
 			{
@@ -172,14 +131,87 @@ namespace ma
 				Uniform* pUniformPosRadius = light->m_pTech->GetUniform(PS, "light_pos_radius");
 				light->m_pTech->SetValue(pUniformPosRadius, pPointLight->m_vPosRadius[index]);
 
-				m_pRenderQueue->AddRenderObj(RL_Mesh, pPointLight->m_pSphere.get(), light->m_pTech.get());
+				m_pRenderQueue->AddRenderObj(RL_Light, pPointLight->m_pSphere.get(), light->m_pTech.get());
+			}
+		}
+	}
+
+	void DefferedLightStep::PrepareRender(RenderProxy* proxy)
+	{
+		LightProxy* light = dynamic_cast<LightProxy*>(proxy);
+		if (light)
+		{
+			PrepareLightProxy(light);
+		}
+		else
+		{
+			if (proxy->GetRenderOrder() > RL_Transluce && proxy->GetRenderOrder() < RL_PostProcess)
+			{
+				for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
+				{
+					Renderable* renderable = proxy->GetRenderableByIndex(i);
+					Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
+					m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
+				}
+			}
+			else
+			{
+				for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
+				{
+					Renderable* renderable = proxy->GetRenderableByIndex(i);
+					if (renderable == nullptr)
+					{
+						continue;
+					}
+
+					Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
+					if (tech == nullptr || !tech->GetTransluce())
+					{
+						continue;
+					}
+
+					m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
+				}
 			}
 		}
 	}
 
 	void DefferedLightStep::Render()
 	{
+		m_pRenderPass->Begine();
+
 		m_pRenderQueue->Render(m_pRenderPass.get());
+
+		m_pRenderPass->End();
+	}
+
+	UIStep::UIStep()
+	{
+		m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
+	}
+
+	void UIStep::PrepareRender(RenderProxy* proxy)
+	{
+		if (proxy == nullptr || proxy->GetRenderOrder() != RL_UI)
+		{
+			return;
+		}
+
+		for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
+		{
+			Renderable* renderable = proxy->GetRenderableByIndex(i);
+			Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
+			m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
+		}
+	}
+
+	void UIStep::Render()
+	{
+		m_pRenderPass->Begine();
+
+		m_pRenderQueue->Render(m_pRenderPass.get());
+
+		m_pRenderPass->End();
 	}
 }
 

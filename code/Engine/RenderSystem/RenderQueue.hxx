@@ -42,13 +42,13 @@ namespace ma
 	void RenderQueue::Render(RenderPass* pPass)
 	{
 		VEC_RENDERABLE vecAllRenderItem;
-		for (uint32_t i = 0; i < RL_Count; ++i)
+		for (auto& vecRenderList : m_vecRenderList)
 		{
-			for (RenderItem& it : m_vecRenderList[i])
+			for (auto& it : vecRenderList)
 			{
 				vecAllRenderItem.emplace_back(it);
 			}
-			m_vecRenderList[i].clear();
+			vecRenderList.clear();
 		}
 
 		if (vecAllRenderItem.empty())
@@ -98,46 +98,6 @@ namespace ma
 		}
 	}
 
-	void RenderQueue::Render(RenderPass* pPass, int stageBegin, int stageEnd)
-	{
-// 		for (int stage = stageBegin; stage <= stageEnd; ++stage)
-// 		{
-// 			auto it = m_vecRenderList.find(stage);
-// 			if (it == m_vecRenderList.end())
-// 			{
-// 				continue;
-// 			}
-// 
-// 			it->second.PrepareRender();
-// 
-// 			it->second.Render(pPass, it->first);
-// 		}
-	}
-
-	void RenderQueue::Render(RenderCommand* pRenderCommand, int stageBegin, int stageEnd)
-	{
-// 		for (int stage = stageBegin; stage <= stageEnd; ++stage)
-// 		{
-// 			auto it = m_vecRenderList.find(stage);
-// 			if (it == m_vecRenderList.end())
-// 			{
-// 				continue;
-// 			}
-// 
-// 			it->second.PrepareRender();
-// 
-// 			it->second.Render(pRenderCommand, it->first);
-// 		}
-	}
-
-	void RenderQueue::Render(RenderCommand* pRenderCommand)
-	{
-// 		for (auto& it : m_vecRenderList)
-// 		{
-// 			Render(pRenderCommand, it.first, it.first);
-// 		}
-	}
-
 	void RenderQueue::Compute()
 	{
 		for (auto& it : m_vecCompute)
@@ -148,9 +108,9 @@ namespace ma
 
 	void RenderQueue::Clear()
 	{
-		for (uint32_t i = 0; i < RL_Count; ++i)
+		for (auto& vecRenderList : m_vecRenderList)
 		{
-			m_vecRenderList[i].clear();
+			vecRenderList.clear();
 		}
 
 		m_vecCompute.clear();

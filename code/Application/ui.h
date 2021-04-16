@@ -5,7 +5,7 @@ struct ImDrawData;
 
 namespace ma
 {
-	class UIRenderable;
+	class UIRenderProxy;
 	
 	class APP_API UI
 	{
@@ -41,25 +41,16 @@ namespace ma
 	private:
 		void RenderDrawData(ImDrawData* draw_dat);
 
-		void RT_Render();
-
-		UIRenderable* GetRenderable(uint32_t nIndex);
-
 	private:
 		RefPtr<Technique> m_pTechUI;
 
 		RefPtr<SamplerState> m_pFontSampler;
 
-		std::vector< RefPtr<UIRenderable> > m_vecRendeable[2];
-		uint32_t m_nUsedCount[2] = { 0,0 };
+		RefPtr<UIRenderProxy> m_pRenderProxy[2];
 
 		RefPtr<VertexBuffer> m_pVertexBuffer[3];
 		RefPtr<IndexBuffer> m_pIndexBuffer[3];
 		uint32_t m_nBufferIndex = 0;
-
-		RefPtr<RenderStep> m_pRenderStep;
-
-		RefPtr<RenderCommand> m_pUICommand;
 
 		bool m_bInit = false;
 	};

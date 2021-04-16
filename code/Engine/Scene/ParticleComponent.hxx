@@ -163,7 +163,7 @@ namespace ma
 		Technique* pTech = m_pRenderable->GetMaterial()->GetShadingTechnqiue();
 
 		pRenderQueue->AddComputeObj(m_pRenderable.get(), pTech);
-		pRenderQueue->AddRenderObj(RL_MeshTrans, m_pRenderable.get(), pTech);
+		pRenderQueue->AddRenderObj(RL_Transluce, m_pRenderable.get(), pTech);
 	}
 
 	void ParticleComponent::SetTexture(const char* pszPath)

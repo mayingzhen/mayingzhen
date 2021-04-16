@@ -17,13 +17,9 @@ namespace ma
 
 		virtual ~RenderStep();
 
-		virtual void Render() {}
-
-		virtual void Reset() {}
-
 		virtual void PrepareRender(RenderProxy* proxy) {}
 
-		virtual void DrawRenderProxy(RenderProxy* proxy) {}
+		virtual void Render() {}
 
 	public:
 
@@ -42,7 +38,6 @@ namespace ma
 	class GbufferStep : public RenderStep
 	{
 	public:
-
 		GbufferStep();
 
 	private:
@@ -51,7 +46,7 @@ namespace ma
 
 		virtual void Render() override;
 
-	private:
+	public:
 
 		RefPtr<Texture>			m_pDepthTex;
 		RefPtr<SamplerState>	m_pDepthSampler;
@@ -66,7 +61,24 @@ namespace ma
 	class DefferedLightStep : public RenderStep
 	{
 	public:
-		DefferedLightStep();
+		DefferedLightStep(Texture* pDepthTexture);
+
+	private:
+		virtual void PrepareRender(RenderProxy* proxy) override;
+
+		virtual void Render() override;
+
+	private:
+		void	PrepareLightProxy(LightProxy* proxy);
+
+	private:
+		RefPtr<Texture>			m_pHDRColorTex;
+	};
+
+	class UIStep : public RenderStep
+	{
+	public:
+		UIStep();
 
 	private:
 		virtual void PrepareRender(RenderProxy* proxy) override;
@@ -77,27 +89,6 @@ namespace ma
 		RefPtr<Texture>			m_pHDRColorTex;
 	};
 
-	class TransluceStep : public RenderStep
-	{
-	public:
-		TransluceStep();
-
-	private:
-
-		virtual void PrepareRender(RenderProxy* proxy) override;
-
-		virtual void Render() override;
-	};
-
-// 	class PostProcessStep : public RenderStep
-// 	{
-// 
-// 	};
-
-	class UIRenderStep : public RenderStep
-	{
-
-	};
 }
 
 

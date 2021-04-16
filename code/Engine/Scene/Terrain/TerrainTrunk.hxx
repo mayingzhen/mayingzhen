@@ -39,7 +39,7 @@ namespace ma
 			Renderable* pRenderObj = lod.m_vecBorder[i].get();
 			Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
 
-			pRenderQueue->AddRenderObj(RL_TerrainBorder, pRenderObj, pTech);
+			pRenderQueue->AddRenderObj(RL_Transluce, pRenderObj, pTech);
 		}
 
 
@@ -53,7 +53,7 @@ namespace ma
 				Renderable* pRenderObj = lod.m_vecSkirt[west].skirt[West].get();
 				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
 
-				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
+				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace ma
 				Renderable* pRenderObj = lod.m_vecSkirt[east].skirt[East].get();
 				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
 
-				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
+				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace ma
 				Renderable* pRenderObj = lod.m_vecSkirt[north].skirt[North].get();
 				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
 
-				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
+				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace ma
 				Renderable* pRenderObj = lod.m_vecSkirt[south].skirt[South].get();
 				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
 
-				pRenderQueue->AddRenderObj(RL_TerrainSkirt, pRenderObj, pTech);
+				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
 			}
 		}
 	}

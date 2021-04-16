@@ -26,12 +26,6 @@ namespace ma
 
 		void					Render(RenderPass* pPass);
 
-		void					Render(RenderPass* pPass, int stageBegin, int stageEnd);
-
-		void					Render(RenderCommand* pRenderCommand);
-
-		void					Render(RenderCommand* pRenderCommand, int stageBegin, int stageEnd);
-
 		void					Compute();
 
 		void					Clear();
@@ -43,7 +37,7 @@ namespace ma
 
 		typedef std::vector<RenderItem> VEC_RENDERABLE;
 
-		VEC_RENDERABLE			m_vecRenderList[RL_Count];
+		std::array<std::vector<RenderItem>,RL_Count>	m_vecRenderList;
 
 		VEC_RENDERABLE			m_vecCompute;
 	};
