@@ -31,12 +31,6 @@ namespace ma
 		m_pRenderPass->End();
 	}
 
-	RefPtr<RenderStep> CreateRenderStep()
-	{
-		return new RenderStep();
-	}
-
-
 	GbufferStep::GbufferStep()
 	{
 		m_strName == "GBuffer";

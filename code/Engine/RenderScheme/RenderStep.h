@@ -31,12 +31,7 @@ namespace ma
 		RefPtr<RenderPass>	m_pRenderPass;
 
 		std::string			m_strName;
-
-		typedef std::vector<RefPtr<Texture>> VEC_TEXTURE;
-		VEC_TEXTURE			m_vecReadTextue;
 	};
-
-	RefPtr<RenderStep> CreateRenderStep();
 
 	class GbufferStep : public RenderStep
 	{
@@ -68,7 +63,7 @@ namespace ma
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
 	private:
-		void	PrepareLightProxy(LightProxy* proxy);
+		void		PrepareLightProxy(LightProxy* proxy);
 
 	private:
 		RefPtr<Texture>			m_pHDRColorTex;

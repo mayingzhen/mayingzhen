@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RenderStep.h"
+
 namespace ma
 {
 	class RenderPass;
@@ -43,8 +45,6 @@ namespace ma
 		std::map<std::string,std::string> m_strInTexture;
 
 		RefPtr<SubMaterial> m_pMaterial;
-
-		//RefPtr<RenderStep> m_pRenderStep;
 
 		PostProcess* m_pParent = nullptr;
 	};

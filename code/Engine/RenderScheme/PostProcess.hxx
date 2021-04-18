@@ -66,6 +66,8 @@ namespace ma
 
 	void PostProcessStep::Render()
 	{
+		m_pRenderPass->Begine();
+
 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
 
 		RenderCommand* pCommand = m_pRenderPass->GetThreadCommand(0);
@@ -75,6 +77,8 @@ namespace ma
 		ScreenQuad::Render(pTech.get(), pCommand);
 
 		pCommand->End();
+
+		m_pRenderPass->End();
 	}
 
 	const char* PostProcessStep::GetName()
@@ -231,14 +235,6 @@ namespace ma
 		}
 
 	}
-
-// 	void PostProcessPipeline::Render()
-// 	{
-// 		for (uint32_t i = 0; i < m_vecPostProcess.size(); ++i)
-// 		{
-// 			m_vecPostProcess[i]->Render();
-// 		}
-// 	}
 
 	PixelFormat ParaseFormat(const std::string strFormat)
 	{

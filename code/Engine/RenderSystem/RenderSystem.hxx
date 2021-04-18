@@ -280,11 +280,6 @@ namespace ma
 		return m_pBaseRenderPass.get();
 	}
 
-// 	void RenderSystem::SetBackBufferRenderPass(RenderPass* pRenderPass)
-// 	{
-// 		m_pBackBufferRenderPass = pRenderPass;
-// 	}
-
 	RenderPass*	RenderSystem::GetBackBufferRenderPass()
 	{
 		return m_pBackBufferRenderPass.get();

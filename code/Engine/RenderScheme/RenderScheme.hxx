@@ -224,6 +224,7 @@ namespace ma
 			m_pPostProcessPipeline->SaveToXML("postprocess.xml");
 		}
 
+		m_pPostProcessPipeline = new PostProcessPipeline((MainRenderView*)GetRenderSystem()->GetRenderView(0));
 		m_pPostProcessPipeline->LoadFromXML("postprocess.xml");
 		m_pPostProcessPipeline->Setup(pLightStep->m_pRenderPass.get(), GetRenderSystem()->GetBackBufferRenderPass());
 

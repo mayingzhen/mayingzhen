@@ -44,6 +44,8 @@ MTLPixelFormat MetalMapping::_getPF(PixelFormat ogrePF)
 		return MTLPixelFormatBGRA8Unorm;
 	case PF_A2R10G10B10:
 		return MTLPixelFormatRGB10A2Unorm;
+	case PF_R11G11B10_FLOAT:
+		return MTLPixelFormatRG11B10Float;
 	case PF_FLOAT16_R:
 		return MTLPixelFormatR16Float;
 	case PF_FLOAT16_RGBA:
