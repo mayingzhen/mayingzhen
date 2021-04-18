@@ -17,6 +17,20 @@ namespace ma
 
 	}
 
+	void RenderStep::BeginePrepareRender()
+	{
+		m_pRenderQueue->Clear(); 
+	}
+
+	void RenderStep::Render() 
+	{
+		m_pRenderPass->Begine();
+
+		m_pRenderQueue->Render(m_pRenderPass.get());
+
+		m_pRenderPass->End();
+	}
+
 	RefPtr<RenderStep> CreateRenderStep()
 	{
 		return new RenderStep();
@@ -78,15 +92,6 @@ namespace ma
 
 			m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
 		}
-	}
-
-	void GbufferStep::Render()
-	{
-		m_pRenderPass->Begine();
-
-		m_pRenderQueue->Render(m_pRenderPass.get());
-
-		m_pRenderPass->End();
 	}
 
 	DefferedLightStep::DefferedLightStep(Texture* pDepthTexture)
@@ -176,18 +181,21 @@ namespace ma
 		}
 	}
 
-	void DefferedLightStep::Render()
+	UIStep::UIStep(SubMaterial* pLastPostProcss)
 	{
-		m_pRenderPass->Begine();
+		m_pLastPostProcss = pLastPostProcss;
 
-		m_pRenderQueue->Render(m_pRenderPass.get());
-
-		m_pRenderPass->End();
+		m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
 	}
 
-	UIStep::UIStep()
+	void UIStep::BeginePrepareRender()
 	{
-		m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
+		RenderStep::BeginePrepareRender();
+
+		if (m_pLastPostProcss)
+		{
+			m_pRenderQueue->AddRenderObj(0, ScreenQuad::GetRenderable(), m_pLastPostProcss->GetShadingTechnqiue());
+		}
 	}
 
 	void UIStep::PrepareRender(RenderProxy* proxy)
@@ -203,15 +211,6 @@ namespace ma
 			Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
 			m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
 		}
-	}
-
-	void UIStep::Render()
-	{
-		m_pRenderPass->Begine();
-
-		m_pRenderQueue->Render(m_pRenderPass.get());
-
-		m_pRenderPass->End();
 	}
 }
 

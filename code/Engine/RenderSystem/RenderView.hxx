@@ -44,6 +44,12 @@ namespace ma
 
 		m_arrExternRenderProxy.clear();
 
+		for (uint32_t iStep = 0; iStep < m_vecRenderStep.size(); ++iStep)
+		{
+			RenderStep* pStep = m_vecRenderStep[iStep].get();
+			pStep->BeginePrepareRender();
+		}
+
 		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecRenderStep.size());

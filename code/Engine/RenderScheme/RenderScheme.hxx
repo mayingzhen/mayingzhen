@@ -227,7 +227,9 @@ namespace ma
 		m_pPostProcessPipeline->LoadFromXML("postprocess.xml");
 		m_pPostProcessPipeline->Setup(pLightStep->m_pRenderPass.get(), GetRenderSystem()->GetBackBufferRenderPass());
 
-		RefPtr<UIStep> pUIStep = new UIStep();
+		PostProcessStep* pLastStep = m_pPostProcessPipeline->GetLastStep();
+
+		RefPtr<UIStep> pUIStep = new UIStep(pLastStep->GetMaterial());
 		pMainView->AddRenderStep(pUIStep.get());
 
 		GetRenderSystem()->ReloadShader();

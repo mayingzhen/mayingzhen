@@ -153,24 +153,12 @@ namespace ma
 		{
 			m_vecStep[i]->Setup(pInFB, pOutFB);
 
-			m_pParent->GetMainRenderView()->AddRenderStep(m_vecStep[i].get());
+			if (m_pParent->GetLastStep() != m_vecStep[i].get())
+			{
+				m_pParent->GetMainRenderView()->AddRenderStep(m_vecStep[i].get());
+			}
 		}
 	}
-
-// 	void PostProcess::Render()
-// 	{
-// 		if (!m_bActive)
-// 			return;
-// 
-// 		for (uint32_t i = 0; i < m_vecStep.size(); ++i)
-// 		{
-// 			m_vecStep[i]->GetRenderPass()->Begine();
-// 
-// 			m_vecStep[i]->Render();
-// 
-// 			m_vecStep[i]->GetRenderPass()->End();
-// 		}
-// 	}
 
 	void PostProcess::Import(rapidxml::xml_node<>* pXmlElem)
 	{

@@ -8,6 +8,7 @@ namespace ma
 	class RenderPass;
 	class RenderQueue;
 	class RenderProxy;
+	class SubMaterial;
 
 	class RenderStep : public Referenced
 	{
@@ -17,9 +18,11 @@ namespace ma
 
 		virtual ~RenderStep();
 
+		virtual void BeginePrepareRender();
+
 		virtual void PrepareRender(RenderProxy* proxy) {}
 
-		virtual void Render() {}
+		virtual void Render();
 
 	public:
 
@@ -44,8 +47,6 @@ namespace ma
 
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
-		virtual void Render() override;
-
 	public:
 
 		RefPtr<Texture>			m_pDepthTex;
@@ -66,8 +67,6 @@ namespace ma
 	private:
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
-		virtual void Render() override;
-
 	private:
 		void	PrepareLightProxy(LightProxy* proxy);
 
@@ -78,15 +77,16 @@ namespace ma
 	class UIStep : public RenderStep
 	{
 	public:
-		UIStep();
+		UIStep(SubMaterial* pLastPostProcss);
 
 	private:
+		virtual void BeginePrepareRender() override;
+
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
-		virtual void Render() override;
-
 	private:
-		RefPtr<Texture>			m_pHDRColorTex;
+		RefPtr<SubMaterial> m_pLastPostProcss;
+	
 	};
 
 }

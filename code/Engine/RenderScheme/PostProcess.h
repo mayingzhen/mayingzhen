@@ -56,8 +56,6 @@ namespace ma
 
 		void		Setup(RenderPass* pInFB,RenderPass* pOutFB);
 
-		void		Render();
-
 		void		AddStep(PostProcessStep* pStep);
 
 		PostProcessStep* GetStep(const char* pszName);
@@ -69,6 +67,8 @@ namespace ma
 		void		SetName(const char* pszName);
 
 		PostProcessPipeline* GetParent() { return m_pParent; }
+
+		PostProcessStep* GetLastStep() { return m_vecStep.back().get(); }
 
 	private:
 		std::vector< RefPtr<PostProcessStep> > m_vecStep;
@@ -101,6 +101,8 @@ namespace ma
 		bool		Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
 
 		MainRenderView* GetMainRenderView() { return m_pView; }
+
+		PostProcessStep* GetLastStep() { return m_vecPostProcess.back()->GetLastStep(); }
 
 	private:
 
