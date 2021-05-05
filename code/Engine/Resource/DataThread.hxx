@@ -26,7 +26,7 @@ namespace ma
 
 	void DataThread::ThreadLoop()
 	{
-		MicroProfileOnThreadCreate("DataThread");
+		ProfileOnThreadCreate("DataThread");
 
 		while(!m_bExit)
 		{

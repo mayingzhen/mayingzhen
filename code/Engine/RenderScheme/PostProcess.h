@@ -37,7 +37,6 @@ namespace ma
 		void		SetName(const char* pszName);
 
 	protected:
-		std::string m_strName;
 
 		std::string m_strTargetName;
 		RefPtr<RenderPass> m_pRenderPass;

@@ -73,7 +73,7 @@ namespace ma
 	{
 		if (m_bNeedReloadShader)
 		{
-			MICROPROFILE_SCOPEI("", "Material::ReLoad", 0);
+			ROFILE_SCOPEI("Material::ReLoad", 0);
 			GetRenderSystem()->FlushAndWait(); // TechniqueStreamComplete 可能还在RenderThread
 			g_pMaterialManager->ReLoad();
 			m_bNeedReloadShader = false;
@@ -103,7 +103,7 @@ namespace ma
 
 	void RenderSystem::Render()
 	{
-		MICROPROFILE_SCOPEI("", "RenderSystem::Render", 0);
+		ROFILE_SCOPEI("RenderSystem::Render", 0);
 
 		this->BegineRender();
 
@@ -222,12 +222,9 @@ namespace ma
 		OnFlushFrame();
 	}
 
-	//MICROPROFILE_DECLARE(RT_Render);
-
 	void RenderSystem::RT_Render()
 	{
-		//SYSTRACE(RT_Render);
-		MICROPROFILE_SCOPEI("", "RenderSystem::RT_Render", 0);
+		ROFILE_SCOPEI("RenderSystem::RT_Render", 0);
 
 		for (auto& render_view : m_renderView)
 		{

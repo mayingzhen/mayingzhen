@@ -62,9 +62,7 @@ namespace ma
 
 	void Engine::Init(void* hWnd, int width, int height, bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
-		MicroProfileOnThreadCreate("Main");
-		MicroProfileSetEnableAllGroups(true);
-		MicroProfileSetForceMetaCounters(true);
+		ProfileInit();
 
 		CImageCodec::Startup();
 
@@ -113,15 +111,12 @@ namespace ma
 		CImageCodec::Shutdown();
 	}
 
-	//MICROPROFILE_DECLARE(Engine_Update);
-	//MICROPROFILE_DECLARE(Engine_Render);
-
 	void Engine::Update()
 	{
-		MicroProfileFlip(nullptr);
+		ProfileUpdateFrame();
 
 		//SYSTRACE(Engine_Update);
-		MICROPROFILE_SCOPEI("", "Engine::Update", 0);
+		ROFILE_SCOPEI("Engine::Update", 0);
 
 		if (GetTimer())
 			GetTimer()->UpdateFrame();
@@ -296,7 +291,7 @@ namespace ma
 	void Engine::Render()
 	{
 		//SYSTRACE(Engine_Render);
-		MICROPROFILE_SCOPEI("", "Engine::Render", 0);
+		ROFILE_SCOPEI("Engine::Render", 0);
 
 
 

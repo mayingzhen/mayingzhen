@@ -66,6 +66,8 @@ namespace ma
 
 	void PostProcessStep::Render()
 	{
+		GetRenderSystem()->BeginProfile(m_strName.c_str());
+
 		m_pRenderPass->Begine();
 
 		RefPtr<Technique> pTech = m_pMaterial->GetShadingTechnqiue();
@@ -79,6 +81,8 @@ namespace ma
 		pCommand->End();
 
 		m_pRenderPass->End();
+
+		GetRenderSystem()->EndProfile();
 	}
 
 	const char* PostProcessStep::GetName()

@@ -53,7 +53,7 @@ namespace ma
 
 	void Scene::Update()
 	{
-		MICROPROFILE_SCOPEI("", "Scene::Update", 0);
+		ROFILE_SCOPEI("Scene::Update", 0);
 
 		if (m_pCamera == NULL || m_pCullTree == NULL)
 			return;

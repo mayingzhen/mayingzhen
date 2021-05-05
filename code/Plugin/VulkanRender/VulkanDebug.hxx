@@ -192,31 +192,31 @@ namespace vks
 			}
 		}
 
-// 		void beginRegion(VkCommandBuffer cmdbuffer, const char* pMarkerName, glm::vec4 color)
-// 		{
-// 			// Check for valid function pointer (may not be present if not running in a debugging application)
-// 			if (pfnCmdDebugMarkerBegin)
-// 			{
-// 				VkDebugMarkerMarkerInfoEXT markerInfo = {};
-// 				markerInfo.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT;
-// 				memcpy(markerInfo.color, &color[0], sizeof(float) * 4);
-// 				markerInfo.pMarkerName = pMarkerName;
-// 				pfnCmdDebugMarkerBegin(cmdbuffer, &markerInfo);
-// 			}
-// 		}
+		void beginRegion(VkCommandBuffer cmdbuffer, const char* pMarkerName, float color[4])
+		{
+			// Check for valid function pointer (may not be present if not running in a debugging application)
+			if (pfnCmdDebugMarkerBegin)
+			{
+				VkDebugMarkerMarkerInfoEXT markerInfo = {};
+				markerInfo.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT;
+				memcpy(markerInfo.color, &color[0], sizeof(float) * 4);
+				markerInfo.pMarkerName = pMarkerName;
+				pfnCmdDebugMarkerBegin(cmdbuffer, &markerInfo);
+			}
+		}
 
-// 		void insert(VkCommandBuffer cmdbuffer, std::string markerName, glm::vec4 color)
-// 		{
-// 			// Check for valid function pointer (may not be present if not running in a debugging application)
-// 			if (pfnCmdDebugMarkerInsert)
-// 			{
-// 				VkDebugMarkerMarkerInfoEXT markerInfo = {};
-// 				markerInfo.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT;
-// 				memcpy(markerInfo.color, &color[0], sizeof(float) * 4);
-// 				markerInfo.pMarkerName = markerName.c_str();
-// 				pfnCmdDebugMarkerInsert(cmdbuffer, &markerInfo);
-// 			}
-// 		}
+		void insert(VkCommandBuffer cmdbuffer, std::string markerName, float color[4])
+		{
+			// Check for valid function pointer (may not be present if not running in a debugging application)
+			if (pfnCmdDebugMarkerInsert)
+			{
+				VkDebugMarkerMarkerInfoEXT markerInfo = {};
+				markerInfo.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT;
+				memcpy(markerInfo.color, &color[0], sizeof(float) * 4);
+				markerInfo.pMarkerName = markerName.c_str();
+				pfnCmdDebugMarkerInsert(cmdbuffer, &markerInfo);
+			}
+		}
 
 		void endRegion(VkCommandBuffer cmdBuffer)
 		{

@@ -34,7 +34,9 @@ namespace ma
 
 	void MainRenderView::Render()
 	{
-		MICROPROFILE_SCOPEI("", "MainRenderView::Render", 0);
+		ROFILE_SCOPEI("MainRenderView::Render", 0);
+
+		GetRenderSystem()->BeginProfile("MainRenderView::Render");
 
 		m_arrRenderProxy.clear();
 
@@ -85,5 +87,7 @@ namespace ma
 		{
 			step->Render();
 		}
+
+		GetRenderSystem()->EndProfile();
 	}
 }

@@ -11,6 +11,7 @@
 #include <thread>
 #include "Engine\RenderSystem\RenderQueue.h"
 #include "util_init.hpp"
+#include "VulkanDebug.h"
 
 namespace ma
 {
@@ -185,6 +186,7 @@ namespace ma
  		VkResult err;
 		err = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
 
+
 #if defined(__ANDROID__)
         if(instance == NULL)
         {
@@ -229,6 +231,10 @@ namespace ma
 		{
 			vks::tools::exitFatal("Could not create Vulkan device: \n" + vks::tools::errorString(res), "Fatal error");
 		}
+
+		vks::debug::setupDebugging(instance, 0, nullptr);
+
+		vks::debugmarker::setup(vulkanDevice->logicalDevice);
 
 		vkGetDeviceQueue(vulkanDevice->logicalDevice, vulkanDevice->queueFamilyIndices.graphics, 0, &m_queue);
 
@@ -640,27 +646,14 @@ namespace ma
 	}
 
 	void VulkanRenderDevice::BeginProfile(const char* pszLale)
-	{
-// 		wchar_t buf[128]; 
-// 		size_t outCount=0; 
-// 		mbstowcs_s(&outCount, buf, pszLale, _countof(buf)-1); 
-// 		D3DPERF_BeginEvent(0xff00ff00, buf); 
+	{ 
+		float color[4] = { 0 };
+		vks::debugmarker::beginRegion(m_drawCmdBuffers, pszLale, color);
 	}
 
 	void VulkanRenderDevice::EndProfile()
 	{
-		//D3DPERF_EndEvent();
-	}
-
-	bool VulkanRenderDevice::CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage)
-	{
-// 		uint32_t D3DUsage =  VulkanMapping::GetD3DTextureUsage(eUsage); 
-// 		D3DFORMAT D3DFormat = VulkanMapping::GetD3DFormat(eFormat);
-// 
-// 		HRESULT hr = D3DXCheckTextureRequirements(m_pD3DDevice, NULL, NULL, NULL, D3DUsage, &D3DFormat, D3DPOOL_DEFAULT);
-// 		return hr == D3D_OK;
-
-		return false;
+		vks::debugmarker::endRegion(m_drawCmdBuffers);
 	}
 
 	void VulkanRenderDevice::NotifyResourceCreated(VulkanResource* pResource)

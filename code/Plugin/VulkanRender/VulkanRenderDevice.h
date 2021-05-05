@@ -61,8 +61,6 @@ namespace ma
 		virtual	void				BeginProfile(const char* pszLale);
 		virtual	void				EndProfile();
 
-		// Help fun
-		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 
 		vks::VulkanDevice*			GetVulkanDevice() { return vulkanDevice; }
 

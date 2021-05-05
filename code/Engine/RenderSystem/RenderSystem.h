@@ -104,7 +104,6 @@ namespace ma
 		void				AddRenderView(RenderView* pRenderView);
 
 		RenderView*			GetRenderView(uint32_t index) { return m_renderView[index].get(); }
-		//void				AddRenderStep(RefPtr<RenderStep> renderstep);
 
 	protected: 
 		void				RT_Init(void* wndhandle, int width, int height);

@@ -80,9 +80,6 @@ namespace ma
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf) = 0;		
 		virtual Matrix4				MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf) = 0;
 
-		//CheckDevice
-		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage) = 0;
-
 		friend class RenderSystem;
 		friend class RenderThread;
 	};

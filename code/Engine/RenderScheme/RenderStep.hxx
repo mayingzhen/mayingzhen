@@ -24,16 +24,20 @@ namespace ma
 
 	void RenderStep::Render() 
 	{
+		GetRenderSystem()->BeginProfile(m_strName.c_str());
+
 		m_pRenderPass->Begine();
 
 		m_pRenderQueue->Render(m_pRenderPass.get());
 
 		m_pRenderPass->End();
+
+		GetRenderSystem()->EndProfile();
 	}
 
 	GbufferStep::GbufferStep()
 	{
-		m_strName == "GBuffer";
+		m_strName = "GBuffer";
 
 		m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8);
 		m_pBaseColor = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8, false);
@@ -95,6 +99,8 @@ namespace ma
 
 	DefferedLightStep::DefferedLightStep(Texture* pDepthTexture)
 	{
+		m_strName = "DefferedLightStep";
+
 		m_pHDRColorTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_R11G11B10_FLOAT);
 
 		m_pRenderPass = GetRenderDevice()->CreateRenderPass();
@@ -163,6 +169,8 @@ namespace ma
 
 	UIStep::UIStep(SubMaterial* pLastPostProcss)
 	{
+		m_strName = "UIStep";
+
 		m_pLastPostProcss = pLastPostProcss;
 
 		m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();

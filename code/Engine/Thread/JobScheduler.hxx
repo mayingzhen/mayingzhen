@@ -4,7 +4,7 @@
 #include <mach/mach_host.h>
 #endif
 
-#include "../Profiler/microprofile.h"
+#include "../Profiler/profile.h"
 
 namespace ma
 {
@@ -54,7 +54,7 @@ public:
     void operator() () const
     {
 		std::string name = std::string("WorkerThread_") + StringConverter::toString(m_uIndex);
-		MicroProfileOnThreadCreate(name.c_str());
+		ProfileOnThreadCreate(name.c_str());
 
 		int activeGroup = -1;
 		while( !m_pOwner->m_bShutDown )

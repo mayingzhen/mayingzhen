@@ -80,7 +80,7 @@ namespace ma
 		if (!m_bShadowEnable)
 			return;
 
-		MICROPROFILE_SCOPEI("", "UpdateShadowMap", 0);
+		ROFILE_SCOPEI("UpdateShadowMap", 0);
 
 	
 		m_curSplitPos = m_SplitPosParam;
@@ -134,7 +134,7 @@ namespace ma
 		if (!m_bShadowEnable)
 			return;	
 
-		MICROPROFILE_SCOPEI("", "UpdateShadowMap", 0);
+		ROFILE_SCOPEI("UpdateShadowMap", 0);
 
 		//GetRenderSystem()->AddRenderStep(m_shadowMapRender);
 

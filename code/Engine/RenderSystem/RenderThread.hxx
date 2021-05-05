@@ -47,7 +47,7 @@ namespace ma
 
 	void RenderThread::ThreadLoop()
 	{
-		MicroProfileOnThreadCreate("RenderThread");
+		ProfileOnThreadCreate("RenderThread");
 
 		void* read_pointer = NULL;
 		uint32_t num_read_bytes = 0;
@@ -327,7 +327,7 @@ namespace ma
 	// Flush current frame and waiting (should be called from main thread)
 	void RenderThread::SyncRenderFrame()
 	{
-		MICROPROFILE_SCOPEI("", "RenderThread::SyncRenderFrame", 0);
+		ROFILE_SCOPEI("RenderThread::SyncRenderFrame", 0);
 
 		if (!m_bMultithread)
 			return;

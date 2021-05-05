@@ -155,7 +155,7 @@ namespace ma
 
 	void ParallelCull::FindObjectsIn(const Frustum* pFrustum,uint32_t mask, OUT vector<RenderProxy*>& vecObj) 
 	{
-		MICROPROFILE_SCOPEI("", "ParallelCull::FindObjectsIn", 0);
+		ROFILE_SCOPEI("ParallelCull::FindObjectsIn", 0);
 
 		ASSERT(vecObj.empty());
 
