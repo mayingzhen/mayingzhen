@@ -81,19 +81,14 @@ namespace ma
 
 	}
 
-	void LightProxy::Render(RenderView* pRenderView)
-	{
-		//pRenderQueue->AddLightObj(this);
-	}
-
-
 	DirLightProxy::DirLightProxy()
 	{
 		m_eLightType = LIGHT_DIRECTIONAL;
 
 		m_pTech = CreateTechnique("shader/dirlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
 
-		m_pQuad = ScreenQuad::GetRenderable();
+		m_pQuad = ScreenQuad::CreateRenderable();
+		m_pQuad->m_nRenderOrder = RL_Light;
 	}
 
 	PointLightProxy::PointLightProxy()
@@ -103,6 +98,7 @@ namespace ma
 		m_pTech = CreateTechnique("shader/pointlight.tech", "", GetRenderSystem()->GetDefferedLightRenderPass());
 
 		m_pSphere = UnitSphere::CreateRenderable();
+		m_pSphere->m_nRenderOrder = RL_Light;
 	}
 
 	void PointLightProxy::SetWorldMatrix(const Matrix4& matws)

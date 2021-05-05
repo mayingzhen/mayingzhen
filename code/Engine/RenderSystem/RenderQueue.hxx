@@ -13,9 +13,9 @@ namespace ma
 	{
 	}
 
-	void RenderQueue::AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech)
+	void RenderQueue::AddRenderObj(Renderable* pRenderObj, Technique* pTech)
 	{
-		m_vecRenderList[stage].emplace_back(RenderItem(pRenderObj, pTech));
+		m_vecRenderList[pRenderObj->GetRenderOrder()].emplace_back(RenderItem(pRenderObj, pTech));
 	}
 
 	void RenderQueue::AddComputeObj(Renderable* pRenderObj, Technique* pTech)

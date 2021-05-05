@@ -12,6 +12,8 @@ namespace ma
 		static void Render(Technique* pTechnique, RenderCommand* pCommand);
 
 		static Renderable* GetRenderable();
+
+		static RefPtr<Renderable> CreateRenderable();
 	};
 
 }

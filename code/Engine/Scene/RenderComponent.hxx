@@ -4,8 +4,6 @@ namespace ma
 {
 	RenderComponent::RenderComponent()
 	{
-		m_bParallelUpdate = false;
-	
 		m_bVisible = true;
 		m_fViwMinZ = 0;
 		m_fViwMaxZ = 0;
@@ -123,12 +121,6 @@ namespace ma
 		int index = GetRenderSystem()->CurThreadProcess();
 		return m_worldAABB[index]; 
 	}
-
-	void RenderProxy::Render(RenderView* pRenderView)
-	{
-		//ASSERT(false);
-	}
-
 
 }
 

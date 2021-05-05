@@ -58,7 +58,6 @@ EXPORTS
 ?GetIndexBuffer@ParallHardWareBuffer@ma@@QEAAPEAVIndexBuffer@2@XZ
 ??0VertexElement@ma@@QEAA@XZ
 ??0VertexElement@ma@@QEAA@FFW4DECL_TYPE@1@W4DECL_USAGE@1@E@Z
-?AddRenderObj@RenderQueue@ma@@QEAAXHPEAVRenderable@2@PEAVTechnique@2@@Z
 ?CreateRasterizerState@ma@@YA?AV?$RefPtr@VRasterizerState@ma@@@1@XZ
 ?CreateBlendState@ma@@YA?AV?$RefPtr@VBlendState@ma@@@1@XZ
 ?GetBackBufferRenderPass@RenderSystem@ma@@QEAAPEAVRenderPass@2@XZ
@@ -231,4 +230,3 @@ EXPORTS
 ?CreateImageData@ma@@YA?AV?$RefPtr@VImageData@ma@@@1@XZ
 ?SetValue@Technique@ma@@QEAAXPEAVUniform@2@AEBVMatrix4@2@@Z
 ?AddExternRenderProxy@MainRenderView@ma@@QEAAXPEAVRenderProxy@2@@Z
-?Render@RenderProxy@ma@@UEAAXPEAVRenderView@2@@Z

@@ -12,13 +12,15 @@ namespace ma
 		m_pTerrain = pTerrain;
 		
 		m_pSceneNode = pTerrain;
+
+		m_pRenderproxy = new TerrainRenderProxy();
 	}
 
 	TerrainTrunk::~TerrainTrunk()
 	{
 	}
 
-	void TerrainTrunk::UpdateRenderable(RenderQueue* pRenderQueue)
+	void TerrainTrunk::UpdateRenderable()
 	{
 		ASSERT(m_uLodIndex >= 0 && m_uLodIndex < m_vecLodRenderable.size());
 		if (m_uLodIndex < 0 || m_uLodIndex >= m_vecLodRenderable.size())
@@ -26,22 +28,17 @@ namespace ma
 
 		TERRAIN_LOD& lod = m_vecLodRenderable[m_uLodIndex];
 
+		VEC_RENDERABLE vecRenerable;
+
 		for (uint32_t i = 0; i < lod.m_vecBody.size(); ++i)
 		{
-			Renderable* pRenderObj = lod.m_vecBody[i].get();
-			Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
-
-			pRenderQueue->AddRenderObj(RL_Terrain, pRenderObj, pTech);
+			vecRenerable.emplace_back(lod.m_vecBody[i]);
 		}
 
 		for (uint32_t i = 0; i < lod.m_vecBorder.size(); ++i)
 		{
-			Renderable* pRenderObj = lod.m_vecBorder[i].get();
-			Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
-
-			pRenderQueue->AddRenderObj(RL_Transluce, pRenderObj, pTech);
+			vecRenerable.emplace_back(lod.m_vecBorder[i]);
 		}
-
 
 		int nTrunkXCellAmont = m_pTerrain->GetXCellAmount() / m_pTerrain->GetTrunkSize();
 		int nTrunkYCellAmont = m_pTerrain->GetYCellAmount() / m_pTerrain->GetTrunkSize();
@@ -50,10 +47,7 @@ namespace ma
 			uint32_t west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < west)
 			{
-				Renderable* pRenderObj = lod.m_vecSkirt[west].skirt[West].get();
-				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
-
-				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
+				vecRenerable.emplace_back(lod.m_vecSkirt[west].skirt[West]);
 			}
 		}
 
@@ -62,10 +56,7 @@ namespace ma
 			uint32_t east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < east)
 			{
-				Renderable* pRenderObj = lod.m_vecSkirt[east].skirt[East].get();
-				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
-
-				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
+				vecRenerable.emplace_back(lod.m_vecSkirt[east].skirt[East]);
 			}
 		}
 
@@ -74,10 +65,7 @@ namespace ma
 			uint32_t north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
 			if (m_uLodIndex < north)
 			{
-				Renderable* pRenderObj = lod.m_vecSkirt[north].skirt[North].get();
-				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
-
-				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
+				vecRenerable.emplace_back(lod.m_vecSkirt[north].skirt[North]);
 			}
 		}
 
@@ -86,15 +74,18 @@ namespace ma
 			uint32_t south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
 			if (m_uLodIndex < south)
 			{
-				Renderable* pRenderObj = lod.m_vecSkirt[south].skirt[South].get();
-				Technique* pTech = pRenderObj->GetMaterial()->GetShadingTechnqiue();
-
-				pRenderQueue->AddRenderObj(RL_Transluce + 1, pRenderObj, pTech);
+				vecRenerable.emplace_back(lod.m_vecSkirt[south].skirt[South]);
 			}
 		}
+
+
+		TerrainRenderProxy* pRenderProxy = static_cast<TerrainRenderProxy*>(m_pRenderproxy.get());
+
+		pRenderProxy->UpdateLod(vecRenerable);
 	}
 
-	void TerrainTrunk::Render(RenderQueue* pRenderQueue)
+
+	void TerrainTrunk::Update()
 	{
 		ASSERT(m_pTerrain->GetNumLod() >= 1);
 
@@ -103,9 +94,9 @@ namespace ma
 		if (m_pTerrain->GetNumLod() > 1)
 		{
 			float fDistance = (this->GetAABBWS().getCenter() - pCamera->GetPos()).length();
-			
+
 			int nNumLodPow2 = Math::PowInt(2, m_pTerrain->GetNumLod() - 1);
-			float fLodValue = Math::Max<float>( 1.0f, Math::Min<float>(fDistance / m_fLodParam, (float)nNumLodPow2) );
+			float fLodValue = Math::Max<float>(1.0f, Math::Min<float>(fDistance / m_fLodParam, (float)nNumLodPow2));
 
 			m_uLodIndex = (uint32_t)Math::Log2(fLodValue);
 
@@ -116,7 +107,7 @@ namespace ma
 			m_uLodIndex = 0;
 		}
 
-		UpdateRenderable(pRenderQueue);
+		UpdateRenderable();
 	}
 
 	bool TerrainTrunk::Init(int i, int j)
@@ -135,6 +126,10 @@ namespace ma
 		}
 
 		SetAABB(aabb);
+
+		TerrainRenderProxy* pRenderProxy = static_cast<TerrainRenderProxy*>(m_pRenderproxy.get());
+
+		pRenderProxy->SetAABBWS(aabb);
 
 		m_vecLodRenderable.resize(m_pTerrain->GetNumLod());
 		m_vecVBDataTemp.resize(m_pTerrain->GetNumLod());
@@ -240,6 +235,7 @@ namespace ma
 				pRenderable->m_pIndexBuffer = m_vecIBTemp[m];
 				pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID)->Clone();
 				pRenderable->m_fMateriID = (float)iMatID;
+				pRenderable->m_nRenderOrder = RL_Terrain;
 				pRenderable->UpdateUniform(this);
 				lod.m_vecBody.push_back(pRenderable);
 			}
@@ -386,6 +382,7 @@ namespace ma
 				pRenderable->m_pIndexBuffer = it->second;
 				pRenderable->m_pSubMaterial = pBorderMaterial;
 				pRenderable->m_fMateriID = (float)it->first;
+				pRenderable->m_nRenderOrder = RL_Transluce;
 				pRenderable->UpdateUniform(this);
 				lod.m_vecBorder.push_back(pRenderable);
 			}
@@ -433,6 +430,7 @@ namespace ma
 					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 					pRenderable->m_pIndexBuffer = skitIB.skirtIB[i];
 					pRenderable->m_pSubMaterial = pSkirtMaterial.get();
+					pRenderable->m_nRenderOrder = RL_Transluce + 1;
 					pRenderable->UpdateUniform(this);
 					skirt.skirt[i] = pRenderable;
 				}
@@ -639,5 +637,22 @@ namespace ma
 		const float Terrain_TrunkYSize = m_pTerrain->GetTrunkSize() * Terrain_CellSize;
 
 		m_fLodParam = Math::Sqrt(Terrain_TrunkXSize * Terrain_TrunkXSize + Terrain_TrunkYSize * Terrain_TrunkYSize) / f;
+	}
+
+	void TerrainRenderProxy::UpdateLod(const std::vector< RefPtr<TerrainRenderable> >& vecRenderable)
+	{
+		GetRenderSystem()->RC_AddRenderCommad([this, vecRenderable]() {
+			m_vecRenderable = vecRenderable;
+			});
+	}
+
+	uint32_t TerrainRenderProxy::GetRenderableCount() const
+	{
+		return m_vecRenderable.size(); 
+	}
+
+	Renderable* TerrainRenderProxy::GetRenderableByIndex(uint32_t index) const
+	{ 
+		return m_vecRenderable[index].get(); 
 	}
 }

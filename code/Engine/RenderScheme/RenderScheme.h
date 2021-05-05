@@ -29,7 +29,7 @@ namespace ma
 
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
 
-		PostProcessPipeline*	m_pPostProcessPipeline = nullptr;
+		RefPtr<PostProcessPipeline>	m_pPostProcessPipeline = nullptr;
 	};
 
 }

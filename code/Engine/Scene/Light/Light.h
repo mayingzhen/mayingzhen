@@ -35,7 +35,7 @@ namespace ma
 		float						GetLightIntensity() {return m_fLightIntensity;}
 
 	private:
-		LightProxy*					GetLightProxy();
+		LightProxy*					GetLightProxy();	
 
 		void						UpdateProxyColor();
 
@@ -100,10 +100,6 @@ namespace ma
 
 	class LightProxy : public RenderProxy
 	{
-
-	public:
-
-		virtual void	Render(RenderView* pRenderView) override;
 
 	public:
 		LightType		m_eLightType;

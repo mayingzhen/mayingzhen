@@ -20,7 +20,7 @@ namespace ma
 
 		~RenderQueue();
 
-		void					AddRenderObj(int stage, Renderable* pRenderObj, Technique* pTech);
+		void					AddRenderObj(Renderable* pRenderObj, Technique* pTech);
 
 		void					AddComputeObj(Renderable* pRenderObj, Technique* pTech);
 

@@ -65,7 +65,7 @@ namespace ma
 
 	void GbufferStep::PrepareRender(RenderProxy* proxy)
 	{
-		if (proxy == nullptr || proxy->GetRenderOrder() > RL_SkyBox)
+		if (proxy == nullptr)
 		{
 			return;
 		}
@@ -78,13 +78,18 @@ namespace ma
 				continue;
 			}
 
+			if (renderable->GetRenderOrder() > RL_SkyBox)
+			{
+				continue;
+			}
+
 			Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
 			if (tech == nullptr || tech->GetTransluce())
 			{
 				continue;
 			}
 
-			m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
+			m_pRenderQueue->AddRenderObj(renderable, tech);
 		}
 	}
 
@@ -120,7 +125,7 @@ namespace ma
 				Uniform* pUniformDir = light->m_pTech->GetUniform(PS, "light_dir");
 				light->m_pTech->SetValue(pUniformDir, pDirLight->m_vDir[index]);
 
-				m_pRenderQueue->AddRenderObj(RL_Light, ScreenQuad::GetRenderable(), light->m_pTech.get());
+				m_pRenderQueue->AddRenderObj(pDirLight->m_pQuad.get(), light->m_pTech.get());
 			}
 			else if (light->m_eLightType == LIGHT_POINT)
 			{
@@ -130,7 +135,7 @@ namespace ma
 				Uniform* pUniformPosRadius = light->m_pTech->GetUniform(PS, "light_pos_radius");
 				light->m_pTech->SetValue(pUniformPosRadius, pPointLight->m_vPosRadius[index]);
 
-				m_pRenderQueue->AddRenderObj(RL_Light, pPointLight->m_pSphere.get(), light->m_pTech.get());
+				m_pRenderQueue->AddRenderObj(pPointLight->m_pSphere.get(), light->m_pTech.get());
 			}
 		}
 	}
@@ -144,32 +149,13 @@ namespace ma
 		}
 		else
 		{
-			if (proxy->GetRenderOrder() > RL_Transluce && proxy->GetRenderOrder() < RL_PostProcess)
+			for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
 			{
-				for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
+				Renderable* renderable = proxy->GetRenderableByIndex(i);
+				if (renderable->GetRenderOrder() > RL_Transluce && renderable->GetRenderOrder() < RL_PostProcess)
 				{
-					Renderable* renderable = proxy->GetRenderableByIndex(i);
 					Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
-					m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
-				}
-			}
-			else
-			{
-				for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
-				{
-					Renderable* renderable = proxy->GetRenderableByIndex(i);
-					if (renderable == nullptr)
-					{
-						continue;
-					}
-
-					Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
-					if (tech == nullptr || !tech->GetTransluce())
-					{
-						continue;
-					}
-
-					m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
+					m_pRenderQueue->AddRenderObj(renderable, tech);
 				}
 			}
 		}
@@ -188,13 +174,15 @@ namespace ma
 
 		if (m_pLastPostProcss)
 		{
-			m_pRenderQueue->AddRenderObj(0, ScreenQuad::GetRenderable(), m_pLastPostProcss->GetShadingTechnqiue());
+			ScreenQuad::GetRenderable()->m_nRenderOrder = 0;
+
+			m_pRenderQueue->AddRenderObj(ScreenQuad::GetRenderable(), m_pLastPostProcss->GetShadingTechnqiue());
 		}
 	}
 
 	void UIStep::PrepareRender(RenderProxy* proxy)
 	{
-		if (proxy == nullptr || proxy->GetRenderOrder() != RL_UI)
+		if (proxy == nullptr)
 		{
 			return;
 		}
@@ -202,8 +190,13 @@ namespace ma
 		for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
 		{
 			Renderable* renderable = proxy->GetRenderableByIndex(i);
+			if (renderable == nullptr || renderable->GetRenderOrder() != RL_UI)
+			{
+				continue;
+			}
+
 			Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
-			m_pRenderQueue->AddRenderObj(proxy->GetRenderOrder(), renderable, tech);
+			m_pRenderQueue->AddRenderObj(renderable, tech);
 		}
 	}
 }

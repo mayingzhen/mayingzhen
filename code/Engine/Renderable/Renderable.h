@@ -23,6 +23,8 @@ namespace ma
 
 		SubMaterial*					GetMaterial() const {return m_pSubMaterial.get();}
 
+		virtual uint32_t				GetRenderOrder() { return m_nRenderOrder; }
+
 	public:
 		PRIMITIVE_TYPE					m_ePrimitiveType;
 		RefPtr<VertexBuffer>			m_pVertexBuffer;	
@@ -31,7 +33,9 @@ namespace ma
 		RefPtr<SubMaterial>				m_pSubMaterial;
 
 		bool							m_bSuportInstace = false;
-	
+		
+		uint32_t						m_nRenderOrder = 0;
+
 	private:
 		Matrix4							m_matWorld[2];
 	};

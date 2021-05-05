@@ -130,7 +130,8 @@ namespace ma
 		pSubMaterial->SetParameter("point_radius", Any(pointRadius));
 
 		m_pRenderable->m_pVertexBuffer = m_pPosBuffer;
-
+		
+		m_pRenderable->m_nRenderOrder = RL_Transluce;
 	}
 
 	void ParticleComponent::RegisterAttribute()
@@ -163,7 +164,7 @@ namespace ma
 		Technique* pTech = m_pRenderable->GetMaterial()->GetShadingTechnqiue();
 
 		pRenderQueue->AddComputeObj(m_pRenderable.get(), pTech);
-		pRenderQueue->AddRenderObj(RL_Transluce, m_pRenderable.get(), pTech);
+		pRenderQueue->AddRenderObj(m_pRenderable.get(), pTech);
 	}
 
 	void ParticleComponent::SetTexture(const char* pszPath)

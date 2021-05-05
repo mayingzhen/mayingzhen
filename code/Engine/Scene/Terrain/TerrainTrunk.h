@@ -14,7 +14,7 @@ namespace ma
 
 		~TerrainTrunk();
 
-		void Render(RenderQueue* pRenderQueue);
+		virtual	void	Update() override;
 
 		bool Init(int i, int j);
 
@@ -43,7 +43,7 @@ namespace ma
 			int nCellAmountSelf,int nCellAmountConnect,
 			int nSelfStart,int nSelfStep);
 
-		void UpdateRenderable(RenderQueue* pRenderQueue);
+		void UpdateRenderable();
 
 		void AddToIBList( vector< vector<uint16_t> >& vecIBList, uint8_t matID, uint16_t triangle[3]);
 
@@ -60,42 +60,59 @@ namespace ma
 
 		uint32_t m_uLodIndex;
 
-		typedef vector< RefPtr<TerrainRenderable> > VEC_RENDERABLE;
+		struct SkitIB
+		{
+			RefPtr<IndexBuffer> skirtIB[SideNum];
+		};
+
+		std::vector< std::set<uint8_t> > m_vecSetMatIDTemp;
+		std::vector< std::vector<uint8_t> > m_vecTriangleMatID;
+
+		std::vector< RefPtr<VertexBuffer> > m_vecVBTemp;
+		std::vector< std::vector<TERRAIN_VERTEX> > m_vecVBDataTemp;
+
+		std::vector< RefPtr<IndexBuffer> > m_vecIBTemp;
+		std::vector< std::vector<uint16_t> > m_vecIBDataTemp;
+
+		std::vector< std::vector<SkitIB> > m_vecSkirt;
+
+		AABB2D m_uvAABB;
+
+		typedef std::vector< RefPtr<TerrainRenderable> > VEC_RENDERABLE;
 
 		struct SkitRenderable
 		{
 			RefPtr<TerrainRenderable> skirt[SideNum];
 		};
 
-		struct SkitIB
-		{
-			RefPtr<IndexBuffer> skirtIB[SideNum];
-		};
-
 		struct TERRAIN_LOD
 		{
-			VEC_RENDERABLE			m_vecBody; 
+			VEC_RENDERABLE			m_vecBody;
 			VEC_RENDERABLE			m_vecBorder;
 
-			vector<SkitRenderable>	m_vecSkirt;
-			
+			std::vector<SkitRenderable>	m_vecSkirt;
+
 		};
-		vector<TERRAIN_LOD> m_vecLodRenderable;
-
-		vector< set<uint8_t> > m_vecSetMatIDTemp;
-		vector< vector<uint8_t> > m_vecTriangleMatID;
-
-		vector< RefPtr<VertexBuffer> > m_vecVBTemp;
-		vector< vector<TERRAIN_VERTEX> > m_vecVBDataTemp;
-
-		vector< RefPtr<IndexBuffer> > m_vecIBTemp;
-		vector< vector<uint16_t> > m_vecIBDataTemp;
-
-		vector< vector<SkitIB> > m_vecSkirt;
-
-		AABB2D m_uvAABB;
+		std::vector<TERRAIN_LOD> m_vecLodRenderable;
 
 		friend class Terrain;
 	};
+
+	class TerrainRenderProxy : public RenderProxy
+	{
+
+	public:
+
+		void UpdateLod(const std::vector< RefPtr<TerrainRenderable> >& vecRenderable);
+
+		virtual uint32_t GetRenderableCount() const override;
+		virtual Renderable* GetRenderableByIndex(uint32_t index) const override;
+
+	private:
+
+		std::vector< RefPtr<TerrainRenderable> > m_vecRenderable;
+
+	};
+
 }
 

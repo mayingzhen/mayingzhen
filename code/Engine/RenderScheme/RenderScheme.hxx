@@ -22,7 +22,6 @@ namespace ma
 
 	DeferredShading::~DeferredShading()
 	{
-		SAFE_DELETE(m_pPostProcessPipeline);
 	}
 
 
@@ -103,7 +102,7 @@ namespace ma
 	{
 		m_pPostProcessPipeline->AddRenderPass("SSAO", 1.0f, PF_FLOAT16_R);
 
-		RefPtr<PostProcess> pSSAO = new PostProcess(m_pPostProcessPipeline);
+		RefPtr<PostProcess> pSSAO = new PostProcess(m_pPostProcessPipeline.get());
 		pSSAO->SetName("SSAO");
 		m_pPostProcessPipeline->AddPostProcess(pSSAO.get());
 
@@ -127,7 +126,7 @@ namespace ma
 			m_pPostProcessPipeline->AddRenderPass("IllumLumLog3", 64, 64, PF_FLOAT32_R);
 		}
 
-		RefPtr<PostProcess> pHDR = new PostProcess(m_pPostProcessPipeline);
+		RefPtr<PostProcess> pHDR = new PostProcess(m_pPostProcessPipeline.get());
 		pHDR->SetName("HDR");
 		m_pPostProcessPipeline->AddPostProcess(pHDR.get());
 

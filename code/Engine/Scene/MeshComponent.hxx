@@ -170,6 +170,8 @@ namespace ma
 
 		SetAABB(m_pMesData->GetBoundingAABB());
 
+		GetMeshRenderProxy()->SetAABBWS(m_pMesData->GetBoundingAABB());
+
 		return true;
 	}
 

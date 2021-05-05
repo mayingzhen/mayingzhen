@@ -72,6 +72,18 @@ namespace ma
 	{
 		return gpScrenQuad;
 	}
+
+	RefPtr<Renderable> ScreenQuad::CreateRenderable()
+	{
+		RefPtr<Renderable> quad = new Renderable();
+
+		quad->m_ePrimitiveType = PRIM_TRIANGLELIST;
+
+		quad->m_pIndexBuffer = gpScrenQuad->m_pIndexBuffer;
+		quad->m_pVertexBuffer = gpScrenQuad->m_pVertexBuffer;
+
+		return quad;
+	}
 }
 
 

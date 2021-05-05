@@ -62,8 +62,6 @@ namespace ma
 
 		bool				m_bShadowCaster;
 
-		bool				m_bParallelUpdate;
-
 		RefPtr<RenderProxy>	m_pRenderproxy;
 	};
 
@@ -80,12 +78,8 @@ namespace ma
 		void			SetAABBWS(const AABB& aabb);
 		const AABB&		GetAABBWS();
 
-		virtual void	Render(RenderView* pRenderView);
-
 		virtual uint32_t GetRenderableCount() const { return 0; }
 		virtual Renderable* GetRenderableByIndex(uint32_t index) const { return nullptr; }
-
-		virtual uint32_t GetRenderOrder() { return 0; }
 
 	protected:
 		CullNode*		m_pCullNode = nullptr;

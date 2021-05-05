@@ -10,6 +10,7 @@ namespace ma
 		this->SetAABB(aabb);
 
 		m_pRenderable = new SkyBoxRenderable();
+		m_pRenderable->m_nRenderOrder = RL_SkyBox;
 	}
 
 	SkyBox::~SkyBox()
@@ -31,7 +32,7 @@ namespace ma
 
 	void SkyBox::Render(RenderQueue* pRenderQueue)
 	{
-		pRenderQueue->AddRenderObj(RL_SkyBox, m_pRenderable.get(), m_pRenderable->GetMaterial()->GetShadingTechnqiue());
+		pRenderQueue->AddRenderObj(m_pRenderable.get(), m_pRenderable->GetMaterial()->GetShadingTechnqiue());
 	}
 
 	void SkyBox::SetCubeMap(const char* pszCubeMap)
