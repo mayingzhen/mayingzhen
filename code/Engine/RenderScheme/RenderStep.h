@@ -2,6 +2,7 @@
 
 #include "Common/Referenced.h"
 #include "Engine/RenderSystem/RenderSystem.h"
+#include "Engine/RenderSystem/BatchRenderable.h"
 
 namespace ma
 {
@@ -40,6 +41,8 @@ namespace ma
 
 	private:
 
+		virtual void BeginePrepareRender();
+
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
 	public:
@@ -52,6 +55,8 @@ namespace ma
 
 		RefPtr<Texture>			m_pNormalTex;
 		RefPtr<SamplerState>	m_pNormalSampler;
+
+		BatchRenderable			m_batchRender;
 	};
 
 	class DefferedLightStep : public RenderStep

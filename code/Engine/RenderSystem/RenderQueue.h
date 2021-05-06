@@ -1,6 +1,5 @@
 #pragma once
 
-#include "BatchRenderable.h"
 #include "RenderContext.h"
 
 namespace ma
@@ -12,6 +11,24 @@ namespace ma
 	class Light;
 	class SceneContext;
 	class LightProxy;
+	class RenderCommand;
+
+	struct RenderItem
+	{
+		RenderItem(Renderable* renderable, Technique* tech)
+		{
+			m_renderable = renderable;
+			m_tech = tech;
+		}
+
+		RenderItem()
+		{
+
+		}
+
+		Renderable* m_renderable = nullptr;
+		Technique* m_tech = nullptr;
+	};
 
 	class RenderQueue : public Referenced
 	{

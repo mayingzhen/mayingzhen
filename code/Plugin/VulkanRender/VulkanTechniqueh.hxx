@@ -19,6 +19,22 @@ namespace ma
 
 	VulkanTechnique::~VulkanTechnique()
 	{
+		vks::VulkanDevice* device = GetVulkanDevice();
+		VulkanShaderProgram* pShader = (VulkanShaderProgram*)this->GetShaderProgram();
+		if (pShader == nullptr)
+		{
+			return;
+		}
+
+		if (m_grapicDescriptorSet != VK_NULL_HANDLE)
+		{
+			vkFreeDescriptorSets(device->logicalDevice, pShader->m_desc_pool, 1, &m_grapicDescriptorSet);
+		}
+
+		if (m_computeDescriptorSet != VK_NULL_HANDLE)
+		{
+			vkFreeDescriptorSets(device->logicalDevice, pShader->m_desc_pool, 1, &m_computeDescriptorSet);
+		}
 	}
 
 	RefPtr<VulkanConstantBuffer> CloneConstBuffer(ConstantBuffer* src)

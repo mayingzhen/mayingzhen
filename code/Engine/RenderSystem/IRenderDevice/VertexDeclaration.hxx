@@ -128,6 +128,11 @@ namespace ma
 
 	uint64_t VertexDeclaration::GetHash()
 	{
+		if (m_nHash)
+		{
+			return m_nHash;
+		}
+
 		uint64_t nNum = 0;
 		for (uint32_t i = 0; i < m_arrStreamElement.size(); ++i)
 		{
@@ -139,7 +144,9 @@ namespace ma
 			}
 		}
 
-		return nNum;
+		m_nHash = nNum;
+
+		return m_nHash;
 	}
 
 	bool VertexDeclaration::Import(rapidxml::xml_node<>* pXmlVD)

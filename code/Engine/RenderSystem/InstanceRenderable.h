@@ -5,13 +5,15 @@ namespace ma
 	class InstanceRenderable : public Renderable
 	{
 	public:
+		InstanceRenderable(Technique* pTech);
+
 		virtual void	PreRender(Technique* pTech);
 
 		virtual	void	Render(Technique* pTechnique, RenderCommand* pRenderCommand);
 
 		void			AddRenderable(Renderable* pRenderObj);
 
-		virtual void	Create();
+		virtual void	PrepareRender(VertexBuffer* pInstanceBuffer, uint32_t& nOffset);
 
 	public:
 		typedef std::vector<Renderable*> VEC_RENDERABLE;
@@ -24,7 +26,8 @@ namespace ma
 
 		std::vector<InstaceData> m_arrInstanceData;
 
-		SubAllocVB m_subVB;
+		RefPtr<VertexBuffer> m_pInstanceBuffer;
+		uint32_t m_nInstaceOffset = 0;
 	};
 }
 

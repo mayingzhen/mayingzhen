@@ -137,8 +137,6 @@ namespace ma
 		bool				m_bDefferedRender = true;
 
 		std::vector< RefPtr<RenderView> > m_renderView;
-
-		//std::vector< RefPtr<RenderStep> > m_renderStepList;
 				
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro

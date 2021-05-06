@@ -22,6 +22,34 @@ namespace ma
 		bool				m_bScissorTest;
 		FillMode			m_eFillMode;
 		CULL_MODE			m_eCullMode;
+
+		bool operator < (const RasterizerState& other) const
+		{
+#define CMPVAR(x) if (x != other.x) return x < other.x;
+			CMPVAR(m_fConstantBias);
+			CMPVAR(m_fSlopeScaleBias);
+			CMPVAR(m_bScissorTest);
+			CMPVAR(m_eFillMode);
+			CMPVAR(m_eCullMode);
+#undef CMPVAR
+
+			return false;
+		}
+
+		bool operator == (const RasterizerState& other) const
+		{
+			if (*this < other)
+				return false;
+			else if (other < *this)
+				return false;
+			else
+				return true;
+		}
+
+		bool operator != (const RasterizerState& other) const
+		{
+			return !(*this == other);
+		}
 	};
 
 	RefPtr<RasterizerState> CreateRasterizerState();
@@ -74,6 +102,21 @@ namespace ma
             
             return false;
         }
+
+		bool operator == (const DepthStencilState& other) const
+		{
+			if (*this < other)
+				return false;
+			else if (other < *this)
+				return false;
+			else
+				return true;
+		}
+
+		bool operator != (const DepthStencilState& other) const
+		{
+			return !(*this == other);
+		}
 	};
 
 	RefPtr<DepthStencilState> CreateDepthStencilState();
@@ -221,6 +264,21 @@ namespace ma
 
 			return false;
         }
+
+		bool operator == (const BlendState& other) const
+		{
+			if (*this < other)
+				return false;
+			else if (other < *this)
+				return false;
+			else
+				return true;
+		}
+
+		bool operator != (const BlendState& other) const
+		{
+			return !(*this == other);
+		}
 	};
 
 	RefPtr<BlendState> CreateBlendState();

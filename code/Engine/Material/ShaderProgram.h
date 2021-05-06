@@ -33,15 +33,18 @@ namespace ma
 		{
 #define CMPVAR(x) if (x != other.x) return x < other.x;
 
+#define CMPCLASSVAR(x) if (x && other.x && *x != *other.x) return *x < *other.x; \
+					   else if (x == nullptr || other.x == nullptr && x != other.x) return x < other.x; 
+
 			CMPVAR(m_pVertexDecl->GetHash());
 			CMPVAR(m_strCSFile);
 			CMPVAR(m_strVSFile)
 			CMPVAR(m_strPSFile);
 			CMPVAR(m_strGSFile);
 			CMPVAR(m_shaderMacro);
-			CMPVAR(m_pBlendState.get());
-			CMPVAR(m_pDSState.get());
-			CMPVAR(m_pRSState.get());
+			CMPCLASSVAR(m_pBlendState.get());
+			CMPCLASSVAR(m_pDSState.get());
+			CMPCLASSVAR(m_pRSState.get());
 			CMPVAR(m_pRenderPass.get());
 
 			return false;

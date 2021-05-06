@@ -4,7 +4,9 @@
 
 namespace ma
 {
-	RefPtr<ParallHardWareBuffer> g_pInstanceBuffer;
+	InstanceRenderable::InstanceRenderable(Technique* pTech)
+	{
+	}
 
 	void InstanceRenderable::PreRender(Technique* pTech)
 	{
@@ -24,9 +26,7 @@ namespace ma
 
 		pRenderCommand->SetVertexBuffer(0, this->m_pVertexBuffer.get(),0);
 
-		VertexBuffer* pInstanceBuffer = g_pInstanceBuffer->GetVertexBuffer();
-		uint32_t nOffset = m_subVB.m_nFirstVertex * sizeof(InstaceData);
-		pRenderCommand->SetVertexBuffer(1, pInstanceBuffer, nOffset);
+		pRenderCommand->SetVertexBuffer(1, m_pInstanceBuffer.get(), m_nInstaceOffset);
 
 		uint32_t nInstancCount = m_arrRenderList.size();
 
@@ -43,7 +43,7 @@ namespace ma
 		m_arrInstanceData.push_back(data);
 	}
 
-	void InstanceRenderable::Create()
+	void InstanceRenderable::PrepareRender(VertexBuffer* pInstanceBuffer, uint32_t& nOffset)
 	{
 		if (m_arrRenderList.empty())
 			return;
@@ -55,14 +55,11 @@ namespace ma
 		m_pSubMeshData = pRenderable->m_pSubMeshData;
 		m_pSubMaterial = pRenderable->m_pSubMaterial;
 
-		if (g_pInstanceBuffer == nullptr)
-		{
-			g_pInstanceBuffer = new ParallHardWareBuffer(sizeof(InstanceRenderable::InstaceData), 1024, 0);
-		}
-
-		m_subVB = g_pInstanceBuffer->AllocVertexBuffer(m_arrInstanceData.size());
-		memcpy(m_subVB.m_pVertices, m_arrInstanceData.data(), m_arrInstanceData.size() * sizeof(InstaceData));
-
+		m_pInstanceBuffer = pInstanceBuffer;
+		m_nInstaceOffset = nOffset;
+		uint32_t nSize = m_arrInstanceData.size() * sizeof(InstaceData);
+		pInstanceBuffer->UpdateData(nOffset, (uint8_t*)m_arrInstanceData.data(), nSize);
+		nOffset += nSize;
 	}
 
 }

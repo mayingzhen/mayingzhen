@@ -29,9 +29,9 @@ namespace ma
 	{
 	public:
 
-// 		virtual	void Begin() = 0;
-// 
-// 		virtual void End() = 0;
+		virtual	void Begin() = 0;
+
+		virtual void End() = 0;
 
 		virtual void SetTechnique(Technique* pTech) = 0;
 

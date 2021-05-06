@@ -67,6 +67,11 @@ namespace ma
 			});
 	}
 
+	void GbufferStep::BeginePrepareRender()
+	{
+		m_batchRender.Clear();
+	}
+
 	void GbufferStep::PrepareRender(RenderProxy* proxy)
 	{
 		if (proxy == nullptr)
@@ -93,8 +98,17 @@ namespace ma
 				continue;
 			}
 
-			m_pRenderQueue->AddRenderObj(renderable, tech);
+			if (renderable->m_bSuportInstace)
+			{
+				m_batchRender.AddRenderObj(renderable, tech);
+			}
+			else
+			{
+				m_pRenderQueue->AddRenderObj(renderable, tech);
+			}
 		}
+
+		m_batchRender.PrepareRender(m_pRenderQueue.get());
 	}
 
 	DefferedLightStep::DefferedLightStep(Texture* pDepthTexture)

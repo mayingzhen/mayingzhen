@@ -58,13 +58,27 @@ namespace ma
 	void HardwareBuffer::UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
 	{
 		ASSERT(m_Usage == HBU_DYNAMIC);
-		uint8_t* pCopyData = new uint8_t[nSize];
-		memcpy(pCopyData, pData, nSize);
-		GetRenderSystem()->RC_AddRenderCommad([this, nOffset, pCopyData, nSize] {
-			this->RT_UpdateData(nOffset, pCopyData, nSize);
-			delete pCopyData;
+
+		if (!GetRenderSystem()->IsRenderThread())
+		{
+			uint8_t* pCopyData = new uint8_t[nSize];
+			memcpy(pCopyData, pData, nSize);
+
+			GetRenderSystem()->RC_AddRenderCommad([this, nOffset, pCopyData, nSize] {
+				this->RT_UpdateData(nOffset, pCopyData, nSize);
+				delete pCopyData;
+				}
+			);
 		}
-		);
+		else
+		{
+			GetRenderSystem()->RC_AddRenderCommad([this, nOffset, pData, nSize] {
+				this->RT_UpdateData(nOffset, pData, nSize);
+				}
+			);
+		}
+	
+
 	}
 
 	void HardwareBuffer::FreeData()

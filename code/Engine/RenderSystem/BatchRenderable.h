@@ -5,75 +5,43 @@ namespace ma
 	class InstanceRenderable;
 	class Renderable;
 	class Technique;
-	class RenderPass;
-	class RenderCommand;
-	class ComputeCommand;
-
-	struct RenderItem
-	{
-		RenderItem(Renderable* renderable, Technique* tech)
-		{
-			m_renderable = renderable;
-			m_tech = tech;
-		}
-
-		RenderItem()
-		{
-
-		}
-
-		Renderable* m_renderable = nullptr;
-		Technique* m_tech = nullptr;
-	};
-
 
 	class BatchRenderable
 	{
 	public:
 		BatchRenderable();
 
-		void InitRenderCommand(uint32_t nCount);
-
 		virtual void	AddRenderObj(Renderable* pRenderObj, Technique* pTech);
 
-		virtual void	PrepareRender();
-
-		virtual void	Render(RenderPass* pPass, int stage);
-
-		virtual void	Render(RenderCommand* pCommand, int stage);
-
-		virtual void	Compute(ComputeCommand* pCommand);
+		virtual void	PrepareRender(RenderQueue* pRenderQueue);
 
 		virtual void	Clear();
-
-	protected:
-		void			PrepareInstance();
-
-		void			PrepareInstance(const std::vector<RenderItem>& batch);
-
-		void			ParallelRender(RenderCommand* pCommand, RenderItem* pNodeStart, uint32_t nNodeCount);
 		
 	private:
 
-		typedef std::vector<RenderItem> VEC_RENDERABLE;
-		VEC_RENDERABLE		m_arrRenderList;
-
-		struct InstRenderItem
+		struct InstanceKey
 		{
-			RefPtr<InstanceRenderable> m_renderable;
-			RefPtr<Technique> m_tech;
+			RefPtr<Technique> m_pTech;
+			RefPtr<IndexBuffer>	m_pIndexBuffer;
+			RefPtr<VertexBuffer> m_pVertexBuffer;
+
+			bool operator < (const InstanceKey& other) const
+			{
+				#define CMPVAR(x) if (x != other.x) return x < other.x;
+				CMPVAR(m_pTech);
+				CMPVAR(m_pIndexBuffer);
+				CMPVAR(m_pVertexBuffer);
+				#undef CMPVAR
+
+				return false;
+			}
 		};
-		typedef std::vector<InstRenderItem> VEC_INSTRENDERABLE;
-		VEC_INSTRENDERABLE	m_arrInsRenderList;
 
-		VEC_RENDERABLE		m_arrNoInsRenderList;
+		typedef std::map<InstanceKey, RefPtr<InstanceRenderable> > MAP_RENDERLIST;
+		MAP_RENDERLIST m_mapInsRenderList;
 
-		VEC_RENDERABLE		m_arrPrePareRenderList;
-
-		VEC_RENDERABLE		m_batchTemp;
-
-		typedef std::vector< RefPtr<RenderCommand> > VEC_COMMAND;
-		VEC_COMMAND			m_vecCommand;
+		RefPtr<VertexBuffer> m_pVertexBuffer[3];
+		uint32_t m_nBufferIndex = 0;
 	};
 }
 

@@ -29,7 +29,7 @@ namespace ma
 
 	void VulkanVertexBuffer::RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
 	{
-		ASSERT(nOffset == 0);
+		//ASSERT(nOffset == 0);
 
 		ASSERT(pData && nSize <= this->GetSize());
 

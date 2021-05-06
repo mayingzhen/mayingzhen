@@ -53,9 +53,11 @@ namespace ma
 
 	protected:
 		typedef std::vector<VertexElement> StreamElement;
-		std::vector<StreamElement> 	m_arrStreamElement;
+		std::vector<StreamElement> 		m_arrStreamElement;
 		
 		std::vector<uint32_t>			m_arrStreamStride;
+
+		uint64_t						m_nHash = 0;
 	};
 
 	RefPtr<VertexDeclaration> CreateVertexDeclaration();
