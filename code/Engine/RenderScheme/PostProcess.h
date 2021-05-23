@@ -9,14 +9,14 @@ namespace ma
 	class PostProcessPipeline;
 	class MainRenderView;
 
-	class PostProcessStep : public RenderStep
+	class PostProcessStep : public MainRenderStep
 	{
 	public:
 		PostProcessStep(PostProcess* pParent);
 
-		virtual void PrepareRender(RenderProxy* proxy) override;
+		virtual void PrepareRender(RenderProxy* proxy);
 
-		virtual void Render() override;
+		virtual void Render(SceneContext* sc) override;
 
 		void Setup(RenderPass* pInFB, RenderPass* pOutFB);
 

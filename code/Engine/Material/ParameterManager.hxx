@@ -12,39 +12,39 @@ namespace ma
 
 	ParameterManager::ParameterManager() 
 	{
-		AddFunMethodBinding<Matrix4>("g_matView", [](Renderable*) { 
-			return GetSceneContext()->m_matViewProj.GetMatView(); } );
+		AddFunMethodBinding<Matrix4>("g_matView", [](Renderable*,SceneContext* sc) { 
+			return sc->m_matViewProj.GetMatView(); } );
 
-		AddFunMethodBinding<Matrix4>("g_matViewInv", [](Renderable*) {
-			return GetSceneContext()->m_matViewProj.GetMatViewInv(); } );
+		AddFunMethodBinding<Matrix4>("g_matViewInv", [](Renderable*,SceneContext* sc) {
+			return sc->m_matViewProj.GetMatViewInv(); } );
 
-		AddFunMethodBinding<Matrix4>("g_matProj", [](Renderable*) {
-			return GetSceneContext()->m_matViewProj.GetMatProj(); } );
+		AddFunMethodBinding<Matrix4>("g_matProj", [](Renderable*,SceneContext* sc) {
+			return sc->m_matViewProj.GetMatProj(); } );
 		
-		AddFunMethodBinding<Matrix4>("g_matProjInv", [](Renderable*) {
-			return GetSceneContext()->m_matViewProj.GetMatProj().inverse(); } );
+		AddFunMethodBinding<Matrix4>("g_matProjInv", [](Renderable*,SceneContext* sc) {
+			return sc->m_matViewProj.GetMatProj().inverse(); } );
 
-		AddFunMethodBinding<Matrix4>("g_matViewProj", [](Renderable*) {
-			return GetSceneContext()->m_matViewProj.GetMatViewProj(); });
+		AddFunMethodBinding<Matrix4>("g_matViewProj", [](Renderable*, SceneContext* sc) {
+			return sc->m_matViewProj.GetMatViewProj(); });
 
-		AddFunMethodBinding<Matrix4>("g_matWorld", [](Renderable* pRenderable) {
+		AddFunMethodBinding<Matrix4>("g_matWorld", [](Renderable* pRenderable, SceneContext* sc) {
 			return pRenderable ? pRenderable->GetWorldMatrix() : Matrix4::IDENTITY; } );
 
-		AddFunMethodBinding<Matrix4>("g_matWorldView", [](Renderable* pRenderable) {
-			return pRenderable ? GetSceneContext()->m_matViewProj.GetMatView() * pRenderable->GetWorldMatrix() : Matrix4::IDENTITY; } );
+		AddFunMethodBinding<Matrix4>("g_matWorldView", [](Renderable* pRenderable, SceneContext* sc) {
+			return pRenderable ? sc->m_matViewProj.GetMatView() * pRenderable->GetWorldMatrix() : Matrix4::IDENTITY; } );
 
-		AddFunMethodBinding<Matrix4>("g_matWorldViewProj", [](Renderable* pRenderable) {
-			return pRenderable ? GetSceneContext()->m_matViewProj.GetMatViewProj() * pRenderable->GetWorldMatrix() : Matrix4::IDENTITY; });
+		AddFunMethodBinding<Matrix4>("g_matWorldViewProj", [](Renderable* pRenderable, SceneContext* sc) {
+			return pRenderable ? sc->m_matViewProj.GetMatViewProj() * pRenderable->GetWorldMatrix() : Matrix4::IDENTITY; });
 
-		AddFunMethodBinding<Vector4>("g_vCameraNearFar", [](Renderable*) {
-			float fZNear = GetSceneContext()->m_fNear;
-			float fZFar = GetSceneContext()->m_fFar;
+		AddFunMethodBinding<Vector4>("g_vCameraNearFar", [](Renderable*, SceneContext* sc) {
+			float fZNear = sc->m_fNear;
+			float fZFar = sc->m_fFar;
 			Vector4 vCameaNearFar(fZNear, fZFar, 1.0f / fZFar, 0);
 			return vCameaNearFar; 
 		} );
 
-		AddFunMethodBinding<Vector3>("g_vEyeWorldPos", [](Renderable*) {
-			return GetSceneContext()->m_vEyeWordPos; 
+		AddFunMethodBinding<Vector3>("g_vEyeWorldPos", [](Renderable*, SceneContext* sc) {
+			return sc->m_vEyeWordPos; 
 		} );
 
 // 		AddFunMethodBinding<Vector3>("g_cSkyLight", [](Renderable*) {

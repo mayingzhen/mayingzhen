@@ -34,9 +34,5 @@ namespace ma
 		Frustum					m_frustum;
 
 	};
-
-	SceneContext*	GetSceneContext();
-
-	void			SetSceneContext(SceneContext* pRenderContext);
 }
 

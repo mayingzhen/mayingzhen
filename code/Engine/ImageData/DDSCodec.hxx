@@ -592,7 +592,7 @@ namespace ma
 
 		if (PixelUtil::isCompressed(sourceFormat))
 		{
-			if (false && !GetDeviceCapabilities()->GetTextureDXTSupported())
+			if (!GetDeviceCapabilities()->GetTextureDXTSupported())
 			{
 				// We'll need to decompress
 				decompressDXT = true;

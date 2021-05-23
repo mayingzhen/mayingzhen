@@ -34,7 +34,7 @@ namespace ma
 	{
 	}
 
-	void MeshBatch::Render(Technique* pTech)
+	void MeshBatch::Render(Technique* pTech, SceneContext* sc)
 	{
 		if (m_pVertexBuffer)
 		{
@@ -46,7 +46,7 @@ namespace ma
 			m_pIndexBuffer->Unlock();
 		}
 
-		pTech->Bind(this);
+		pTech->Bind(this, sc);
 
 		//GetRenderSystem()->DrawRenderable(this,pTech);
 	}

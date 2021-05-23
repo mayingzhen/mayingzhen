@@ -5,6 +5,7 @@
 namespace ma
 {
 	class DeferredShadow;
+	class ShadowRenderView;
 
 	#define MAX_FRUSTUM_SPLIT_NUM 4
 	#define MAX_SHADOW_SAMPLES_NUM 16
@@ -56,8 +57,6 @@ namespace ma
 		void				SetShadowFarDistance(float distance) {m_fShadowFarDist = distance;}
 		float				GetShadowFarDistance() const{ return m_fShadowFarDist; }
 
-		ShadowMapFrustum&	GetShadowMapFrustum(int index) {return m_SpitFrustum[index];}
-
 		RenderPass*			GetShadowMapPass() { return m_pShadowMapPass.get(); }
 
 		SamplerState*		GetShadowMapSampler() { return m_pShadowMapSampler.get(); }
@@ -67,6 +66,8 @@ namespace ma
 
 		void				CreateShadowMap();
 
+		DirLightProxy*		GetDirLightProxy();
+	
 	private:
 		int					m_nMaxSplitCount;
 		Vector4				m_SplitPosParam;
@@ -74,7 +75,7 @@ namespace ma
 
 		int					m_nShadowMapSize;
 
-		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
+		ShadowRenderStep	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
 
 		float				m_fConstantBias;
 		float				m_fSlopeScaledBias;	
@@ -92,7 +93,7 @@ namespace ma
 		RefPtr<Texture>		m_pShdowMapDepth;
 		RefPtr<SamplerState> m_pShadowMapSampler;
 
-		RefPtr<RenderStep> m_shadowMapRender;
+		RefPtr<ShadowRenderView> m_ShadowMapView;
 	};
 
 	RefPtr<DirectonalLight> CreateDirectonalLight();

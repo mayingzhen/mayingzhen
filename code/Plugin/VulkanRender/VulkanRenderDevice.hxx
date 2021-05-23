@@ -666,9 +666,6 @@ namespace ma
 
 	bool VulkanRenderDevice::BuildDeviceCapabilities()
 	{
-		GetDeviceCapabilities()->SetShadowMapColorFormat(PF_A8R8G8B8);
-		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D24S8);
-	
 		GetDeviceCapabilities()->log();
 		return true;
 	}

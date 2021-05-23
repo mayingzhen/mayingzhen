@@ -6,29 +6,39 @@
 namespace ma
 {
 
-	RenderStep::RenderStep()
+// 	RenderStep::RenderStep()
+// 	{
+// 		
+// 	}
+// 	
+// 
+// 	RenderStep::~RenderStep()
+// 	{
+// 
+// 	}
+
+	MainRenderStep::MainRenderStep()
 	{
 		m_pRenderQueue = new RenderQueue;
 	}
-	
 
-	RenderStep::~RenderStep()
+	MainRenderStep::~MainRenderStep()
 	{
 
 	}
 
-	void RenderStep::BeginePrepareRender()
+	void MainRenderStep::BeginePrepareRender()
 	{
-		m_pRenderQueue->Clear(); 
+		m_pRenderQueue->Clear();
 	}
 
-	void RenderStep::Render() 
+	void MainRenderStep::Render(SceneContext* sc)
 	{
 		GetRenderSystem()->BeginProfile(m_strName.c_str());
 
 		m_pRenderPass->Begine();
 
-		m_pRenderQueue->Render(m_pRenderPass.get());
+		m_pRenderQueue->Render(m_pRenderPass.get(), sc);
 
 		m_pRenderPass->End();
 
@@ -52,23 +62,25 @@ namespace ma
 		GetRenderSystem()->SetBaseRenderPass(m_pRenderPass.get());
 
 		m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(), CLAMP, TFO_POINT, false);
-		GetParameterManager()->AddFunMethodBinding<SamplerState*>("tDeviceDepthMapSampler", [this](Renderable*)->SamplerState* {
+		GetParameterManager()->AddFunMethodBinding<SamplerState*>("tDeviceDepthMapSampler", [this](Renderable*,SceneContext*)->SamplerState* {
 			return m_pDepthSampler.get();
 			});
 
 		m_pBaseSampler = CreateSamplerState(m_pBaseColor.get(), CLAMP, TFO_POINT, false);
-		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_textureSceneDiffuse", [this](Renderable*)->SamplerState* {
+		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_textureSceneDiffuse", [this](Renderable*, SceneContext*)->SamplerState* {
 			return m_pBaseSampler.get();
 			});
 
 		m_pNormalSampler = CreateSamplerState(m_pNormalTex.get(), CLAMP, TFO_POINT, false);
-		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_textureSceneNormal", [this](Renderable*)->SamplerState* {
+		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_textureSceneNormal", [this](Renderable*, SceneContext*)->SamplerState* {
 			return m_pNormalSampler.get();
 			});
 	}
 
 	void GbufferStep::BeginePrepareRender()
 	{
+		MainRenderStep::BeginePrepareRender();
+
 		m_batchRender.Clear();
 	}
 
@@ -192,7 +204,7 @@ namespace ma
 
 	void UIStep::BeginePrepareRender()
 	{
-		RenderStep::BeginePrepareRender();
+		MainRenderStep::BeginePrepareRender();
 
 		if (m_pLastPostProcss)
 		{

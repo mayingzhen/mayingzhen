@@ -16,7 +16,7 @@ namespace ma
 		MethodBinding* GetMethodBinding(const char* pszName);
 
 		template<class ReturnType>
-		void AddFunMethodBinding(const char* pszName, const std::function<ReturnType(Renderable*)>& fun)
+		void AddFunMethodBinding(const char* pszName, const std::function<ReturnType(Renderable*, SceneContext*)>& fun)
 		{
 			MethodBinding* pMethod = new MethodFunBinding<ReturnType>(fun);
 			AddMethodBinding(pszName, pMethod);

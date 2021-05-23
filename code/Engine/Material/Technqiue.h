@@ -21,9 +21,9 @@ namespace ma
 
 		static void			RegisterAttribute();
 
-		virtual void		Bind(Renderable* pRenderable);
+		virtual void		Bind(Renderable* pRenderable, SceneContext* sc);
 
-		virtual void		BindCompute(Renderable* pRenderable);
+		virtual void		BindCompute(Renderable* pRenderable, SceneContext* sc);
 
 		virtual void        RT_StreamComplete() = 0;
 
@@ -92,9 +92,9 @@ namespace ma
 		RefPtr<Technique>   Clone();
 
 	protected:
-		void				BindUniform(Renderable* pRenderable, ShaderType eType);
+		void				BindUniform(Renderable* pRenderable, SceneContext* sc, ShaderType eType);
 
-		void				BindParametersUniform(Renderable* pRenderable,Uniform* pUniform,const Any& anyValue);
+		void				BindParametersUniform(Renderable* pRenderable, SceneContext* sc, Uniform* pUniform,const Any& anyValue);
 
 		void				ClearConstBuffer(ShaderType eType);
 

@@ -2,20 +2,6 @@
 
 namespace ma
 {
-	SceneContext* gpRenderContext = NULL;
-
-	SceneContext* GetSceneContext()
-	{
-		ASSERT(GetRenderSystem()->IsRenderThread());
-		return gpRenderContext;
-	}
-
-	void SetSceneContext(SceneContext* pRenderContext)
-	{
-		gpRenderContext = pRenderContext;
-	}
-
-
 	void SceneContext::SetCamera(Camera* pCamera)
 	{
 		m_matViewProj.SetMatView( pCamera->GetMatView() );

@@ -45,7 +45,7 @@ namespace ma
 
 		~Uniform();
 		
-		void		        Bind(Renderable* pRenderable);
+		void		        Bind(Renderable* pRenderable, SceneContext* sc);
 
 		const char*	        GetName() const;
 		void		        SetName(const char* pszName);

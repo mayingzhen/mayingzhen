@@ -11,30 +11,43 @@ namespace ma
 	class RenderProxy;
 	class SubMaterial;
 
-	class RenderStep : public Referenced
+// 	class RenderStep : public Referenced
+// 	{
+// 	public:
+// 		RenderStep();
+// 
+// 		virtual ~RenderStep();
+// 
+// 		virtual void Render() = 0;
+// 
+// 	public:
+// 		RefPtr<RenderPass>	m_pRenderPass;
+// 
+// 		std::string			m_strName;
+// 	};
+
+	class MainRenderStep : public Referenced
 	{
 	public:
+		MainRenderStep();
 
-		RenderStep();
-
-		virtual ~RenderStep();
+		virtual ~MainRenderStep();
 
 		virtual void BeginePrepareRender();
 
-		virtual void PrepareRender(RenderProxy* proxy) {}
+		virtual void PrepareRender(RenderProxy* proxy) = 0;
 
-		virtual void Render();
+		virtual void Render(SceneContext* sc);
 
 	public:
+		std::string			m_strName;
 
 		RefPtr<RenderQueue> m_pRenderQueue;
 
 		RefPtr<RenderPass>	m_pRenderPass;
-
-		std::string			m_strName;
 	};
 
-	class GbufferStep : public RenderStep
+	class GbufferStep : public MainRenderStep
 	{
 	public:
 		GbufferStep();
@@ -59,7 +72,7 @@ namespace ma
 		BatchRenderable			m_batchRender;
 	};
 
-	class DefferedLightStep : public RenderStep
+	class DefferedLightStep : public MainRenderStep
 	{
 	public:
 		DefferedLightStep(Texture* pDepthTexture);
@@ -74,7 +87,7 @@ namespace ma
 		RefPtr<Texture>			m_pHDRColorTex;
 	};
 
-	class UIStep : public RenderStep
+	class UIStep : public MainRenderStep
 	{
 	public:
 		UIStep(SubMaterial* pLastPostProcss);

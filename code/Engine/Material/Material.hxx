@@ -40,7 +40,7 @@ namespace ma
 		}
 	}
 
-	Technique* SubMaterial::GetShadowDepthTechnqiue()
+	Technique* SubMaterial::GetShadowDepthTechnqiue(RenderPass* pShadowPass)
 	{
 		if (m_pShadowDepthTech == NULL)
 		{
@@ -67,7 +67,7 @@ namespace ma
 			info.m_shaderMacro = strShaderMacro;
 			info.m_pVertexDecl = pDeclaration;
 			info.m_pBlendState = pBlendSate;
-			info.m_pRenderPass = pDirLight->GetShadowMapPass();
+			info.m_pRenderPass = pShadowPass;
 			m_pShadowDepthTech = CreateTechnique(info);
 
 			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)

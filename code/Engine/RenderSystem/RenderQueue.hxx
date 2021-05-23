@@ -23,7 +23,7 @@ namespace ma
 		m_vecCompute.emplace_back(RenderItem(pRenderObj, pTech));
 	}
 
-	void RenderQueue::ParallelRender(RenderCommand* pCommand, RenderItem* pNodeStart, uint32_t nNodeCount)
+	void RenderQueue::ParallelRender(RenderCommand* pCommand, SceneContext* sc, RenderItem* pNodeStart, uint32_t nNodeCount)
 	{
 		pCommand->Begin();
 
@@ -31,7 +31,7 @@ namespace ma
 		{
 			RenderItem& pRenderItem = pNodeStart[i];
 
-			pRenderItem.m_renderable->PreRender(pRenderItem.m_tech);
+			pRenderItem.m_renderable->PreRender(pRenderItem.m_tech, sc);
 
 			pRenderItem.m_renderable->Render(pRenderItem.m_tech, pCommand);
 		}
@@ -39,7 +39,23 @@ namespace ma
 		pCommand->End();
 	}
 
-	void RenderQueue::Render(RenderPass* pPass)
+
+	void RenderQueue::Render(RenderCommand* pCommand, SceneContext* sc)
+	{
+		for (auto& vecRenderList : m_vecRenderList)
+		{
+			for (auto& it : vecRenderList)
+			{
+				RenderItem& pRenderItem = it;
+
+				pRenderItem.m_renderable->PreRender(pRenderItem.m_tech, sc);
+
+				pRenderItem.m_renderable->Render(pRenderItem.m_tech, pCommand);
+			}
+		}
+	}
+
+	void RenderQueue::Render(RenderPass* pPass, SceneContext* sc)
 	{
 		VEC_RENDERABLE vecAllRenderItem;
 		for (auto& vecRenderList : m_vecRenderList)
@@ -82,7 +98,7 @@ namespace ma
 				RenderCommand* pCommand = pPass->GetThreadCommand(iJob);
 
 				GetJobScheduler()->SubmitJob(jobGroup, [=]() {
-					ParallelRender(pCommand, ppNodeStart, nCount);
+					ParallelRender(pCommand, sc, ppNodeStart, nCount);
 					});
 			}
 
@@ -94,15 +110,15 @@ namespace ma
 			RenderItem* ppNodeStart = &(vecAllRenderItem[0]);
 			uint32_t nCount = vecAllRenderItem.size();
 
-			ParallelRender(pCommand, ppNodeStart, nCount);
+			ParallelRender(pCommand, sc, ppNodeStart, nCount);
 		}
 	}
 
-	void RenderQueue::Compute()
+	void RenderQueue::Compute(SceneContext* sc)
 	{
 		for (auto& it : m_vecCompute)
 		{
-			it.m_renderable->Compute(it.m_tech, GetRenderSystem()->GetComputeCommand());
+			it.m_renderable->Compute(it.m_tech, GetRenderSystem()->GetComputeCommand(), sc);
 		}
 	}
 

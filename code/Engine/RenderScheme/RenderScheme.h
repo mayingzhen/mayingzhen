@@ -5,13 +5,14 @@ namespace ma
 	class DeferredShadow;
 	class PostProcess;
 	class PostProcessPipeline;
+	class MainRenderView;
 
 
 
 	class DeferredShading : public Referenced
 	{
 	public:
-		DeferredShading();
+		DeferredShading(MainRenderView* renderView);
 
 		~DeferredShading();
 

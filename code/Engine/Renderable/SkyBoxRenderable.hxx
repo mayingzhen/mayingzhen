@@ -9,13 +9,13 @@ namespace ma
 		m_pSubMaterial->SetShadingTechnqiue(pTech.get());
 	}
 
-	void SkyBoxRenderable::PreRender(Technique* pTech)
+	void SkyBoxRenderable::PreRender(Technique* pTech, SceneContext* sc)
 	{
-		pTech->Bind(this);
+		pTech->Bind(this,sc);
 
-		Matrix4 matView = GetSceneContext()->m_matViewProj.GetMatView();
+		Matrix4 matView = sc->m_matViewProj.GetMatView();
 		matView.setTrans(Vector3::ZERO);
-		Matrix4 matViewProj = GetSceneContext()->m_matViewProj.GetMatProj() * matView;
+		Matrix4 matViewProj = sc->m_matViewProj.GetMatProj() * matView;
 		Matrix4 matInvViewProj = matViewProj.inverse();
 
 		pTech->SetValue(pTech->GetUniform(VS,"inv_mvp"), matInvViewProj);

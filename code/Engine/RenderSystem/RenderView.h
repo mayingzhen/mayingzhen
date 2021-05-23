@@ -19,9 +19,9 @@ namespace ma
 
 		virtual ~RenderView() {}
 	
-		virtual void Update() {}
+		virtual void Update() = 0;
 
-		virtual void Render() {}
+		virtual void Render() = 0;
 
 	public:
 
@@ -46,13 +46,13 @@ namespace ma
 
 		void Render() override;
 
-		void AddRenderStep(RenderStep* step) { m_vecRenderStep.push_back(step); }
+		void AddRenderStep(MainRenderStep* step) { m_vecRenderStep.push_back(step); }
 
 		void AddExternRenderProxy(RenderProxy* pRenderProxy);
 
 	protected:
 
-		typedef std::vector< RefPtr<RenderStep> > VEC_RENDERSTEP;
+		typedef std::vector< RefPtr<MainRenderStep> > VEC_RENDERSTEP;
 		VEC_RENDERSTEP			m_vecRenderStep;
 
 		typedef std::vector<RenderProxy*> VEC_RENDERPROXY;
@@ -61,22 +61,7 @@ namespace ma
 		std::vector<RenderProxy*> m_arrExternRenderProxy;
 	};
 
-	class ShadowMapRenderView : public RenderView
-	{
 
-	public:
-
-		Rectangle m_veiwPort;
-	};
-
-	class CSMShadowMapRenderView : public RenderView
-	{
-
-	public:
-		void Update();
-
-		void Render();
-	};
 
 
 }

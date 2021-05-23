@@ -26,6 +26,15 @@ namespace ma
 		}
 	}
 
+	void RenderComponent::SetShadowCaster(bool b)
+	{
+		m_bShadowCaster = b; 
+
+		GetRenderSystem()->RC_AddRenderCommad([this,b]() {
+			m_pRenderproxy->SetShadowCaster(b);
+			});
+	}
+
 	void RenderComponent::SetNeedChange(CHANGE_TYPE eChangeType)
 	{
 		if (eChangeType == CT_FROMPARENT)

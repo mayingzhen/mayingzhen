@@ -7,9 +7,9 @@ namespace ma
 #define PARTICLE_COUNT 256 * 1024
 #define max_num_particles_  65536
 
-	void ParticleRenderable::PreRender(Technique* pTech)
+	void ParticleRenderable::PreRender(Technique* pTech,SceneContext* sc)
 	{
-		pTech->Bind(this);
+		pTech->Bind(this,sc);
 	}
 
 	void ParticleRenderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)
@@ -17,9 +17,9 @@ namespace ma
 		Renderable::Render(pTechnique, pRenderCommand);
 	}
 
-	void ParticleRenderable::Compute(Technique* pTechnique, ComputeCommand* pComputeCmd)
+	void ParticleRenderable::Compute(Technique* pTechnique, ComputeCommand* pComputeCmd, SceneContext* sc)
 	{
-		pTechnique->BindCompute(this);
+		pTechnique->BindCompute(this, sc);
 
 		pComputeCmd->SetTechnique(pTechnique);
 

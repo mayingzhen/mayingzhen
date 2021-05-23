@@ -2,6 +2,9 @@
 
 namespace ma
 {
+
+	class SceneContext;
+
 	struct SMFrustumInfo
 	{
 		Matrix4 m_matFrustum;
@@ -22,7 +25,7 @@ namespace ma
 	
 		void Reset(Texture* pDepthStencil);
 
-		void Render();
+		void Render(SceneContext* sc);
 
 		void Shoutdown();
 
@@ -35,7 +38,7 @@ namespace ma
 
 	private:
 
-		RefPtr<RenderStep>	m_pRenderStep;
+		//RefPtr<RenderStep>	m_pRenderStep;
 
 		RefPtr<Texture>		m_pShadowTex;	
 		RefPtr<SamplerState> m_pShadowSampler;

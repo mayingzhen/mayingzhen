@@ -120,7 +120,7 @@ namespace ma
 
 				pCommand->Begin();
 
-				ScreenQuad::Render(PrefilterCopySrc.get(), pCommand);
+				ScreenQuad::Render(PrefilterCopySrc.get(), pCommand, nullptr);
 
 				pCommand->End();
 
@@ -138,7 +138,7 @@ namespace ma
 
 				pCommand->Begin();
 
-				ScreenQuad::Render(PrefilterCubeSpecular.get(), pCommand);
+				ScreenQuad::Render(PrefilterCubeSpecular.get(), pCommand, nullptr);
 
 				pCommand->End();
 
@@ -154,7 +154,7 @@ namespace ma
 
 				pRenderPass->Begine();
 
-				ScreenQuad::Render(PrefilterCubeDiffuse.get(), pCommand);
+				ScreenQuad::Render(PrefilterCubeDiffuse.get(), pCommand, nullptr);
 
 				pRenderPass->End();
 			}
@@ -203,7 +203,7 @@ namespace ma
 
 		pCommand->Begin();
 
-		ScreenQuad::Render(pPrefilterBrdf.get(), pCommand);
+		ScreenQuad::Render(pPrefilterBrdf.get(), pCommand, nullptr);
 
 		pCommand->End();
 

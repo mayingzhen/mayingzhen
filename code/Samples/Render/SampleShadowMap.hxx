@@ -9,14 +9,14 @@ namespace ma
 
 	void SampleShadowMap::Load()
 	{
-		Vector3 lookAtPos(36, 0, 0);
-		Vector3 eyePos = Vector3(36, 36, -36);
+		Vector3 lookAtPos(100, 0, 0);
+		Vector3 eyePos = Vector3(10, 60, -10);
 		GetCamera()->LookAt(eyePos, lookAtPos);
 
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
 		m_pScene->GetMainDirLight()->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
-		//m_pScene->GetMainDirLight()->SetSplitPosParam(Vector4(500.0f));
-		//m_pScene->GetMainDirLight()->SetShadowEnabled(true);
+		m_pScene->GetMainDirLight()->SetSplitPosParam(Vector4(500.0f));
+		m_pScene->GetMainDirLight()->SetShadowEnabled(true);
 		m_pScene->SetAmbientColor(ColourValue::Black);
 
 		m_pTerrain = CreateTerrain("scene/terrain/test.xml");

@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	DeferredShading::DeferredShading()
+	DeferredShading::DeferredShading(MainRenderView* renderView)
 	{
 		//m_bShadowMapEnable = true;
 
@@ -15,7 +15,7 @@ namespace ma
 			m_pDeferredShadow->Init();
 		}
 
-		m_pPostProcessPipeline = new PostProcessPipeline( (MainRenderView*)GetRenderSystem()->GetRenderView(0) );
+		m_pPostProcessPipeline = new PostProcessPipeline(renderView);
 
 		//SetSceneContext(m_pRenderQueue->GetSceneContext());
 	}

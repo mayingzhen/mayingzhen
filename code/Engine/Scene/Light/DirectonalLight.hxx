@@ -2,6 +2,7 @@
 #include "../Camera.h"
 #include "../../Material/Texture.h"
 #include "PoissonDiskGen.h"
+#include "../../RenderSystem/ShadowRenderView.h"
 
 
 namespace ma
@@ -34,8 +35,6 @@ namespace ma
 		AABB aabb;
 		aabb.setInfinite();
 		SetAABB(aabb);
-
-		m_shadowMapRender = new ShadowMapRenderStep();
 	}
 
 	DirectonalLight::~DirectonalLight()
@@ -85,13 +84,6 @@ namespace ma
 	
 		m_curSplitPos = m_SplitPosParam;
 
-		//Simple Shadow
-		if (m_nMaxSplitCount == 1)
-		{
- 			m_curSplitPos.x = pCamera->GetFarClip(); // For Depth bias
- 			m_SpitFrustum[0].Update(pCamera, m_shadowMapRender.get(), pCamera->GetNearClip(),pCamera->GetFarClip());
- 			return;
- 		}
 
 		UpdateViewMinMaxZ(pCamera);
 
@@ -114,7 +106,7 @@ namespace ma
 			// Setup the shadow camera for the split
 			m_curSplitPos[nCurSplitCount] = fFarSplit;
 
-			m_SpitFrustum[nCurSplitCount].Update(pCamera, m_shadowMapRender.get(), fNearSplit, fFarSplit);
+			//m_SpitFrustum[nCurSplitCount].Update(pCamera, nullptr, fNearSplit, fFarSplit);
 
 			fNearSplit = fFarSplit;
 			++nCurSplitCount;
@@ -136,20 +128,23 @@ namespace ma
 
 		ROFILE_SCOPEI("UpdateShadowMap", 0);
 
-		//GetRenderSystem()->AddRenderStep(m_shadowMapRender);
-
-		for (int i = 0; i < m_nMaxSplitCount; ++i)
-		{
-			m_SpitFrustum[i].Render(pCamera, m_shadowMapRender.get());
-		}
+// 		for (int i = 0; i < m_nMaxSplitCount; ++i)
+// 		{
+// 			m_SpitFrustum[i].Render(pCamera, nullptr);
+// 		}
  	}
 
 	void DirectonalLight::Clear(Camera* pCamera)
 	{
-		for (int i = 0; i < m_nMaxSplitCount; ++i)
-		{
-			m_SpitFrustum[i].Clear(pCamera);
-		}
+// 		for (int i = 0; i < m_nMaxSplitCount; ++i)
+// 		{
+// 			m_SpitFrustum[i].Clear(pCamera);
+// 		}
+	}
+
+	DirLightProxy* DirectonalLight::GetDirLightProxy()
+	{
+		return dynamic_cast<DirLightProxy*>(m_pRenderproxy.get());
 	}
 
 	void DirectonalLight::CreateShadowMap()
@@ -158,21 +153,30 @@ namespace ma
 		uint32_t height = m_nShadowMapSize;
 		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();
 
-		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(width, height, PF_D24S8/*shadowMapDepthFormat*/);
+		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(width, height, shadowMapDepthFormat);
 
 		m_pShadowMapPass = GetRenderDevice()->CreateRenderPass();
 		m_pShadowMapPass->AttachDepthStencil( RenderSurface(m_pShdowMapDepth) );
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowMapPass.get());
 
+		m_ShadowMapView = new ShadowRenderView();
+		m_ShadowMapView->m_pCamera = this->GetSceneNode()->GetScene()->GetCamera();
+		m_ShadowMapView->m_pRenderPass = m_pShadowMapPass;
+
+		GetRenderSystem()->AddRenderView(m_ShadowMapView.get());
+
 		m_pShadowMapSampler = CreateSamplerState(m_pShdowMapDepth.get(), CLAMP, TFO_SHADOWCOMPARE, false);
 
-		m_shadowMapRender->m_pRenderPass = m_pShadowMapPass.get();
+		m_ShadowMapView->m_pRenderPass = m_pShadowMapPass.get();
 
+		DirLightProxy* light_proxy = GetDirLightProxy();
 		for (int i = 0; i < m_nMaxSplitCount; ++i)
 		{
 			Rectangle viewPort = Rectangle(1.0f + i * m_nShadowMapSize, 1.0f,
 				(i + 1) * m_nShadowMapSize - 2.0f, m_nShadowMapSize - 2.0f);
-			m_SpitFrustum[i].InitShadowMap(this, viewPort, m_pShadowMapPass.get());
+			m_SpitFrustum[i].InitShadowMap(light_proxy, viewPort, m_pShadowMapPass.get());
+
+			m_ShadowMapView->AddRenderStep(&m_SpitFrustum[i]);
 		}
 	}
 

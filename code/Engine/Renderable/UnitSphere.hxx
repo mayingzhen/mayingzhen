@@ -9,7 +9,7 @@ namespace ma
 		return gpSphere; 
 	}
 
-	void UnitSphere::Render(Technique* pTech,const Vector3& vPos,float fRadius,RenderCommand* pComomnd)
+	void UnitSphere::Render(Technique* pTech,const Vector3& vPos,float fRadius,RenderCommand* pComomnd,SceneContext* sc)
 	{
 		Matrix4 matTras = Matrix4::IDENTITY;  
 		matTras.setTrans(vPos);
@@ -17,7 +17,7 @@ namespace ma
 
 		gpSphere->SetWorldMatrix(matTras);
 
-		gpSphere->PreRender(pTech);
+		gpSphere->PreRender(pTech,sc);
 		
 		gpSphere->Render(pTech, pComomnd);
 	}

@@ -11,20 +11,11 @@ DeviceCapabilitie* GetDeviceCapabilities()
 
 DeviceCapabilitie::DeviceCapabilitie(void)
 : mVendor(GPU_UNKNOWN)
-, mNumMultiRenderTargets(1)
-, mMaxPointSize(2.19902e+012f)
-, mFloatTexturesSupported(false)
-, m_bMRTIndependentBitDepth(false)
-, m_bIsVSTextureSupported(false)
 , m_bDXT(true)
 , m_bPVRTC(false)
 , m_bETC1(false)
 , m_bAnisotropy(true)
-, m_bNULL(false)
 , m_ShadowMapDepthFormat(PF_D16F)
-, m_ShadowMapColorFormat(PF_A8R8G8B8)
-, m_bSRGBReadSupport(false)
-, m_bSRGBWriteSupport(false)
 {
 
 }
@@ -82,10 +73,6 @@ void DeviceCapabilitie::log()
 	LogInfo(("GPU Vendor: " + vendorToString(getVendor())).c_str());
 	LogInfo(("Device Name: " + mDeviceName).c_str());
 	LogInfo(("Driver Version: " + getDriverVersion().toString()).c_str());
-
-	LogInfo((string(" * Floating point textures: ")	+ (mFloatTexturesSupported?"supported":"not supported")).c_str());
-	LogInfo((" * Multiple Render Targets: "+ StringConverter::toString(mNumMultiRenderTargets)).c_str());
-	LogInfo((" * Max Point Size: "+ StringConverter::toString(mMaxPointSize)).c_str());
 	LogInfo((" * DDS: " + StringConverter::toString(m_bDXT)).c_str());
 	LogInfo((" * PVRTC: " + StringConverter::toString(m_bPVRTC)).c_str());
 	LogInfo((" * ETC1: " + StringConverter::toString(m_bETC1)).c_str());

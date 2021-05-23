@@ -3,9 +3,9 @@
 
 namespace ma
 {
-	void SkinMeshRenderable::PreRender(Technique* pTech)
+	void SkinMeshRenderable::PreRender(Technique* pTech, SceneContext* sc)
 	{
- 		pTech->Bind(this);
+ 		pTech->Bind(this, sc);
 		
 		Uniform* pUniformBoneDQ = pTech->GetUniform(VS, "boneDQ");
 		Uniform* pUniformBoneMatrix = pTech->GetUniform(VS, "boneMatrix");

@@ -7,7 +7,7 @@ namespace ma
 	class SkinMeshRenderable : public MeshRenderable
 	{
 	public:
-		virtual void					PreRender(Technique* pTech);
+		virtual void					PreRender(Technique* pTech, SceneContext* sc) override;
 
 		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32_t nCount);
 

@@ -5,6 +5,7 @@ namespace ma
 {
 	MainRenderView::MainRenderView()
 	{
+		m_pSceneproxy = std::make_shared<SceneContext>();
 	}
 
 	MainRenderView::~MainRenderView()
@@ -46,10 +47,9 @@ namespace ma
 
 		m_arrExternRenderProxy.clear();
 
-		for (uint32_t iStep = 0; iStep < m_vecRenderStep.size(); ++iStep)
+		for (auto& step : m_vecRenderStep)
 		{
-			RenderStep* pStep = m_vecRenderStep[iStep].get();
-			pStep->BeginePrepareRender();
+			step->BeginePrepareRender();
 		}
 
 		if (GetJobScheduler()->GetNumThreads() > 0)
@@ -57,7 +57,7 @@ namespace ma
 			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecRenderStep.size());
 			for (uint32_t iStep = 0; iStep < m_vecRenderStep.size(); ++iStep)
 			{
-				RenderStep* pStep = m_vecRenderStep[iStep].get();
+				MainRenderStep* pStep = m_vecRenderStep[iStep].get();
 
 				GetJobScheduler()->SubmitJob(jobGroup,
 					[pStep, this]() {
@@ -72,20 +72,18 @@ namespace ma
 		}
 		else
 		{
-			for (uint32_t iStep = 0; iStep < m_vecRenderStep.size(); ++iStep)
+			for (auto& step : m_vecRenderStep)
 			{
-				RenderStep* pStep = m_vecRenderStep[iStep].get();
-
-				for (uint32_t iProxy = 0; iProxy < m_arrRenderProxy.size(); ++iProxy)
+				for (auto& render_porxy : m_arrRenderProxy)
 				{
-					pStep->PrepareRender(m_arrRenderProxy[iProxy]);
+					step->PrepareRender(render_porxy);
 				}
 			}
 		}
 
 		for (auto& step : m_vecRenderStep)
 		{
-			step->Render();
+			step->Render(m_pSceneproxy.get());
 		}
 
 		GetRenderSystem()->EndProfile();

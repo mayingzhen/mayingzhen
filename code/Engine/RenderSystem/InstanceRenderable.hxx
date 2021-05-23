@@ -8,9 +8,9 @@ namespace ma
 	{
 	}
 
-	void InstanceRenderable::PreRender(Technique* pTech)
+	void InstanceRenderable::PreRender(Technique* pTech, SceneContext* sc)
 	{
-		pTech->Bind(this);
+		pTech->Bind(this, sc);
 	}
 
 	void InstanceRenderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)

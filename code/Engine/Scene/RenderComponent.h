@@ -28,7 +28,7 @@ namespace ma
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
 		
-		virtual void	SetShadowCaster(bool b) {m_bShadowCaster = b;}
+		virtual void	SetShadowCaster(bool b);
 		bool			GetShadowCaster() const {return m_bShadowCaster;}
 
 		const	AABB&	GetAABB() const;
@@ -81,11 +81,16 @@ namespace ma
 		virtual uint32_t GetRenderableCount() const { return 0; }
 		virtual Renderable* GetRenderableByIndex(uint32_t index) const { return nullptr; }
 
+		virtual void	SetShadowCaster(bool b) { m_bShadowCaster = b; }
+		bool			GetShadowCaster() const { return m_bShadowCaster; }
+
 	protected:
 		CullNode*		m_pCullNode = nullptr;
 		uint32_t		m_nCullIndex = -1;
 
 		AABB			m_worldAABB[2];
+
+		bool			m_bShadowCaster = false;
 	};
 
 	

@@ -12,7 +12,7 @@ namespace ma
 
 		~MeshBatch();
 
-		virtual void	Render(Technique* pTech);
+		virtual void	Render(Technique* pTech, SceneContext* sc);
 
 		void			Reset();
 

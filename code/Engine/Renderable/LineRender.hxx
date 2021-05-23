@@ -171,7 +171,7 @@ namespace ma
 		garrLineVertex[index].clear();
 	}
 
-	void LineRender::Render()
+	void LineRender::Render(SceneContext* sc)
 	{
 		if (gpMeshBatch == NULL)
 			return;
@@ -194,7 +194,7 @@ namespace ma
 			gpMeshBatch->Add(v,2,index,2);
 		}
 
-		gpMeshBatch->Render(gpLinTech.get());	
+		gpMeshBatch->Render(gpLinTech.get(), sc);	
 	}
 	
 }

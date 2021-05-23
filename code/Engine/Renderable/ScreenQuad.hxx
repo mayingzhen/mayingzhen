@@ -61,9 +61,9 @@ namespace ma
 		SAFE_DELETE(gpScrenQuad);
 	}
 
-	void ScreenQuad::Render(Technique* pTechnique, RenderCommand* pCommand)
+	void ScreenQuad::Render(Technique* pTechnique, RenderCommand* pCommand, SceneContext* sc)
 	{
-		gpScrenQuad->PreRender(pTechnique);
+		gpScrenQuad->PreRender(pTechnique, sc);
 
 		gpScrenQuad->Render(pTechnique, pCommand);
 	}

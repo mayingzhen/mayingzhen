@@ -185,12 +185,9 @@ namespace ma
 		RefPtr<MainRenderView> pMainView = new MainRenderView();
 		pMainView->m_name = "MainView";
 
-		pMainView->m_pSceneproxy = std::make_shared<SceneContext>();
-		SetSceneContext(pMainView->m_pSceneproxy.get());
-
 		m_renderView.push_back(pMainView);
 
-		g_pShading = new DeferredShading();
+		g_pShading = new DeferredShading(pMainView.get());
 		g_pShading->Init();
 
 		m_scene = new Scene("defaultScene");
@@ -425,11 +422,6 @@ namespace ma
 	{
 		m_bNeedReloadShader = true;
 	}
-
-// 	void RenderSystem::AddRenderStep(RefPtr<RenderStep> renderstep)
-// 	{
-// 		m_renderStepList.push_back(renderstep);
-// 	}
 
 	void RenderSystem::AddRenderView(RenderView* pRenderView)
 	{

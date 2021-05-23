@@ -7,9 +7,9 @@ namespace ma
 	public:
 		InstanceRenderable(Technique* pTech);
 
-		virtual void	PreRender(Technique* pTech);
+		virtual void	PreRender(Technique* pTech, SceneContext* sc) override;
 
-		virtual	void	Render(Technique* pTechnique, RenderCommand* pRenderCommand);
+		virtual	void	Render(Technique* pTechnique, RenderCommand* pRenderCommand) override;
 
 		void			AddRenderable(Renderable* pRenderObj);
 

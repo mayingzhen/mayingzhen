@@ -41,14 +41,16 @@ namespace ma
 
 		void					AddComputeObj(Renderable* pRenderObj, Technique* pTech);
 
-		void					Render(RenderPass* pPass);
+		void					Render(RenderPass* pPass, SceneContext* sc);
 
-		void					Compute();
+		void					Render(RenderCommand* pCommand, SceneContext* sc);
+
+		void					Compute(SceneContext* sc);
 
 		void					Clear();
 
 	private:
-		void					ParallelRender(RenderCommand* pCommand, RenderItem* pNodeStart, uint32_t nNodeCount);
+		void					ParallelRender(RenderCommand* pCommand, SceneContext* sc, RenderItem* pNodeStart, uint32_t nNodeCount);
 
 	private:
 

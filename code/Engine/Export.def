@@ -64,7 +64,6 @@ EXPORTS
 ?CreateVertexDeclaration@RenderSystem@ma@@QEAA?AV?$RefPtr@VVertexDeclaration@ma@@@2@PEAUVertexElement@2@I@Z
 ?GetRenderSystem@ma@@YAPEAVRenderSystem@1@XZ
 ??0Renderable@ma@@QEAA@XZ
-?PreRender@Renderable@ma@@UEAAXPEAVTechnique@2@@Z
 ?Render@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVRenderCommand@2@@Z
 ?CreateSubMeshData@ma@@YA?AV?$RefPtr@VSubMeshData@ma@@@1@XZ
 ??0ImageData@ma@@QEAA@XZ
@@ -121,8 +120,6 @@ EXPORTS
 ??0SamplerState@ma@@QEAA@XZ
 ??0Technique@ma@@QEAA@XZ
 ??1Technique@ma@@UEAA@XZ
-?Bind@Technique@ma@@UEAAXPEAVRenderable@2@@Z
-?BindCompute@Technique@ma@@UEAAXPEAVRenderable@2@@Z
 ?AddConstBuffer@Technique@ma@@QEAAXW4ShaderType@2@PEAVConstantBuffer@2@@Z
 ?GetConstBufferCount@Technique@ma@@QEAAIW4ShaderType@2@@Z
 ?GetConstBufferByIndex@Technique@ma@@QEAAPEAVConstantBuffer@2@W4ShaderType@2@I@Z
@@ -130,7 +127,6 @@ EXPORTS
 ?AddStorgeBuffer@Technique@ma@@QEAAXPEAVUniform@2@@Z
 ?Import@Technique@ma@@UEAA_NPEAV?$xml_node@D@rapidxml@@@Z
 ?Export@Technique@ma@@UEAA_NPEAV?$xml_node@D@rapidxml@@AEAV?$xml_document@D@4@@Z
-?BindUniform@Technique@ma@@IEAAXPEAVRenderable@2@W4ShaderType@2@@Z
 ?ClearConstBuffer@Technique@ma@@IEAAXW4ShaderType@2@@Z
 ?ClearSampler@Technique@ma@@IEAAXW4ShaderType@2@@Z
 ?ClearStorgeBuffer@Technique@ma@@IEAAXXZ
@@ -214,7 +210,6 @@ EXPORTS
 ?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@AEBUShaderCreateInfo@1@@Z
 ?AddCallBack@Resource@ma@@QEAAXAEBV?$function@$$A6AXPEAVResource@ma@@@Z@std@@@Z
 ?LoadSync@Resource@ma@@UEAA_NPEBD@Z
-?Compute@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVComputeCommand@2@@Z
 ?SetTexture@ParticleComponent@ma@@QEAAXPEBD@Z
 ?CreateDepthStencilState@ma@@YA?AV?$RefPtr@VDepthStencilState@ma@@@1@XZ
 ??0ShaderCreateInfo@ma@@QEAA@XZ
@@ -230,3 +225,8 @@ EXPORTS
 ?CreateImageData@ma@@YA?AV?$RefPtr@VImageData@ma@@@1@XZ
 ?SetValue@Technique@ma@@QEAAXPEAVUniform@2@AEBVMatrix4@2@@Z
 ?AddExternRenderProxy@MainRenderView@ma@@QEAAXPEAVRenderProxy@2@@Z
+?PreRender@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVSceneContext@2@@Z
+?Bind@Technique@ma@@UEAAXPEAVRenderable@2@PEAVSceneContext@2@@Z
+?BindCompute@Technique@ma@@UEAAXPEAVRenderable@2@PEAVSceneContext@2@@Z
+?BindUniform@Technique@ma@@IEAAXPEAVRenderable@2@PEAVSceneContext@2@W4ShaderType@2@@Z
+?Compute@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVComputeCommand@2@PEAVSceneContext@2@@Z

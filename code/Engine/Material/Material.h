@@ -17,7 +17,7 @@ namespace ma
 		Technique*			GetShadingTechnqiue();
 		void				SetShadingTechnqiue(Technique* pTech);
 
-		Technique*			GetShadowDepthTechnqiue();
+		Technique*			GetShadowDepthTechnqiue(RenderPass* pShadowPass);
 
 		Technique*			GetTechnqiue(RenderPass* pPass);
 

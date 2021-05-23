@@ -11,7 +11,7 @@ namespace ma
 
 		static void OnFlushFrame();
 
-		static void Render();
+		static void Render(SceneContext* sc);
 
 		static void DrawLine(const Vector3& p0,const Vector3& p1,ColourValue dwColor);
 

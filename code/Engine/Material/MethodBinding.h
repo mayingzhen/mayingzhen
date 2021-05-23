@@ -17,14 +17,14 @@ namespace ma
 		virtual ~MethodBinding() 
 		{
 		}
-		virtual void SetValue(Renderable* pRenderable, Technique* pTech, Uniform* pParmeter) = 0;
+		virtual void SetValue(Renderable* pRenderable, SceneContext* pScene, Technique* pTech, Uniform* pParmeter) = 0;
 	};
 
 	// Defines a method parameter binding for a single value.
 	template <class ReturnType>
 	class MethodFunBinding : public MethodBinding
 	{
-		typedef std::function<ReturnType(Renderable*)> FUNTYPE;
+		typedef std::function<ReturnType(Renderable*,SceneContext*)> FUNTYPE;
 
 	public:
 
@@ -33,9 +33,9 @@ namespace ma
 			mFunc = std::move(func);
 		}
 
-		void SetValue(Renderable* pRenderable, Technique* pTech, Uniform* pParmeter)
+		void SetValue(Renderable* pRenderable, SceneContext* pScene, Technique* pTech, Uniform* pParmeter)
 		{
-			pTech->SetValue(pParmeter, mFunc(pRenderable));
+			pTech->SetValue(pParmeter, mFunc(pRenderable, pScene));
 		}
 
 	private:
@@ -59,9 +59,9 @@ namespace ma
 			m_nCountMethod = countMethod;
 		}
         
-		void SetValue(Renderable* pRenderable, Technique* pTech, Uniform* pParmeter)
+		void SetValue(Renderable* pRenderable, SceneContext* pScene, Technique* pTech, Uniform* pParmeter)
 		{
-			pTech->SetValue(pParmeter, (m_pInstance->*m_pValueMethod)(pRenderable), (m_pInstance->*m_nCountMethod)(pRenderable));
+			pTech->SetValue(pParmeter, (m_pInstance->*m_pValueMethod)(pRenderable, pScene), (m_pInstance->*m_nCountMethod)(pRenderable));
 		}
         
     private:

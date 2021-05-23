@@ -52,7 +52,7 @@ namespace ma
 	{
 	}
 
-	void Uniform::Bind(Renderable* pRenderable)
+	void Uniform::Bind(Renderable* pRenderable, SceneContext* sc)
 	{
 		Technique* pTech = m_pTech ? m_pTech : m_pCBPtr->GetParent();
 		ASSERT(pTech);
@@ -61,7 +61,7 @@ namespace ma
 
 		if (m_pMethod)
 		{
-			m_pMethod->SetValue(pRenderable, pTech, this);
+			m_pMethod->SetValue(pRenderable, sc, pTech, this);
 		}
 	}
 

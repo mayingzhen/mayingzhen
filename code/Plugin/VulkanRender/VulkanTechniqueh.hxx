@@ -143,9 +143,10 @@ namespace ma
 			UpdateComputeUniformDescriptorSets();
 		}
 
+		SceneContext sc;
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)
 		{
-			BindUniform(NULL, (ShaderType)i);
+			BindUniform(NULL, &sc, (ShaderType)i);
 		}
 
 		for (uint32_t i = 0; i < ShaderType_Number; ++i)

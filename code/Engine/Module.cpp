@@ -73,6 +73,7 @@
 #include "Engine/RenderSystem/IRenderDevice/RenderState.hxx"
 #include "Engine/RenderSystem/PrefilterCube.hxx"
 #include "Engine/RenderSystem/RenderView.hxx"
+#include "Engine/RenderSystem/ShadowRenderView.hxx"
 
 // Material
 #include "Engine/Material/Material.hxx"

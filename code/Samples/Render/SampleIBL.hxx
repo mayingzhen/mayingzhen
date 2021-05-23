@@ -68,19 +68,19 @@ namespace ma
 		Vector2 u_diff_spec_mip(nMip, nMip - 1);
 		pSubMaterial->SetParameter("u_diff_spec_mip", Any(u_diff_spec_mip));
 		
-		RefPtr<MethodBinding> pMethodMetallness = new MethodFunBinding<float>([this](Renderable*) { return m_fMetalness; });
+		RefPtr<MethodBinding> pMethodMetallness = new MethodFunBinding<float>([this](Renderable*,SceneContext*) { return m_fMetalness; });
 		pSubMaterial->SetParameter("u_metalness",Any(pMethodMetallness) );
 
-		RefPtr<MethodBinding> pMethodGlossness = new MethodFunBinding<float>([this](Renderable*) { return m_fGlossiness; });
+		RefPtr<MethodBinding> pMethodGlossness = new MethodFunBinding<float>([this](Renderable*, SceneContext*) { return m_fGlossiness; });
 		pSubMaterial->SetParameter("u_glossiness", Any(pMethodGlossness) );
 
-		RefPtr<MethodBinding> pMethodDiffuseColor = new MethodFunBinding<Vector4>([this](Renderable*) { return m_cColor; });
+		RefPtr<MethodBinding> pMethodDiffuseColor = new MethodFunBinding<Vector4>([this](Renderable*, SceneContext*) { return m_cColor; });
 		pSubMaterial->SetParameter("u_cDiffuseColor", Any(pMethodDiffuseColor));
 
 		const Any& anyValue = pSubMaterial->GetParameter("u_texture")->GetValue();
 		m_pDiffuseTexture = any_cast< RefPtr<SamplerState> >(anyValue);
 
-		RefPtr<MethodBinding> pMethodDiffuseTexture = new MethodFunBinding< SamplerState* >([this](Renderable*) {return m_pDiffuseTexture.get();});
+		RefPtr<MethodBinding> pMethodDiffuseTexture = new MethodFunBinding< SamplerState* >([this](Renderable*, SceneContext*) {return m_pDiffuseTexture.get();});
 		pSubMaterial->SetParameter("u_texture", Any(pMethodDiffuseTexture));
 
 		m_pScene->GetMainDirLight()->GetSceneNode()->LookAt(Vector3(10, 0, 10), Vector3(0, 0, 0));

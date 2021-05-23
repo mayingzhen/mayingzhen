@@ -112,7 +112,7 @@ namespace ma
 
 		m_pShadowSampler = CreateSamplerState(m_pShadowTex.get(),CLAMP,TFO_POINT,false);
 
-		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_TextureSceneShadow", [this](Renderable*)->SamplerState* {
+		GetParameterManager()->AddFunMethodBinding<SamplerState*>("u_TextureSceneShadow", [this](Renderable*,SceneContext*)->SamplerState* {
 			return m_pShadowSampler.get();
 		});
 
@@ -127,9 +127,9 @@ namespace ma
 		m_pShadowPass->AttachDepthStencil(ds);
 		GetRenderSystem()->RenderPassStreamComplete(m_pShadowPass.get());
 
-		m_pRenderStep = new RenderStep();
-		m_pRenderStep->m_strName = "DeferredShadow";
-		m_pRenderStep->m_pRenderPass = m_pShadowPass;
+// 		m_pRenderStep = new RenderStep();
+// 		m_pRenderStep->m_strName = "DeferredShadow";
+// 		m_pRenderStep->m_pRenderPass = m_pShadowPass;
 
 
 		VertexElement element[1];
@@ -213,16 +213,16 @@ namespace ma
 			}
 		}
 
-		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
-		for (int i = m_vecFrustum.size() - 1; i >= 0; --i) // 从后往前
-		{
-			pRenderQueue->AddRenderObj(m_pRenderable.get(), m_pFrustumVolume[i].get());
-
-			pRenderQueue->AddRenderObj(ScreenQuad::GetRenderable(), m_pDefferedShadow[i].get());
-		}
+// 		RenderQueue* pRenderQueue = m_pRenderStep->m_pRenderQueue.get();
+// 		for (int i = m_vecFrustum.size() - 1; i >= 0; --i) // 从后往前
+// 		{
+// 			pRenderQueue->AddRenderObj(m_pRenderable.get(), m_pFrustumVolume[i].get());
+// 
+// 			pRenderQueue->AddRenderObj(ScreenQuad::GetRenderable(), m_pDefferedShadow[i].get());
+// 		}
 	}
 
-	void DeferredShadow::Render()
+	void DeferredShadow::Render(SceneContext* sc)
 	{
 		if (m_vecFrustum.empty())
 		{
@@ -248,7 +248,7 @@ namespace ma
 
 
 			{
-				Matrix4 viewToShadow = shadowMapFru.m_matShadow * GetSceneContext()->m_matViewProj.GetMatViewInv();
+				Matrix4 viewToShadow = shadowMapFru.m_matShadow * sc->m_matViewProj.GetMatViewInv();
 				m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), viewToShadow);
 				m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
 

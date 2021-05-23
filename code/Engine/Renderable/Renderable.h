@@ -6,17 +6,18 @@ namespace ma
 	class Technique;
 	class MeshData;
 	class SubMeshData;
+	class SceneContext;
 
 	class Renderable : public Referenced
 	{
 	public:
 		Renderable();
 
-		virtual void					PreRender(Technique* pTech);
+		virtual void					PreRender(Technique* pTech, SceneContext* sc);
 
 		virtual void					Render(Technique* pTechnique, RenderCommand* pRenderCommand);
 
-		virtual void					Compute(Technique* pTechnique, ComputeCommand* pComputeCmd);
+		virtual void					Compute(Technique* pTechnique, ComputeCommand* pComputeCmd, SceneContext* sc);
 
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;

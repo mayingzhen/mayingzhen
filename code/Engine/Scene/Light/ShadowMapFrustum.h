@@ -14,19 +14,20 @@ namespace ma
 		SHADOW_JITTERIN,
 	};
 
-	class ShadowMapFrustum
+	class ShadowRenderStep : public Referenced
 	{
 	public:
-		ShadowMapFrustum();
+		ShadowRenderStep();
 		
-		~ShadowMapFrustum();
+		~ShadowRenderStep();
 
-		void				InitShadowMap(DirectonalLight* pParent, Rectangle viewPort, RenderPass* pSMPass);
+		void				InitShadowMap(DirLightProxy* pParent, Rectangle viewPort, RenderPass* pSMPass);
 
-		void				Update(Camera* pCamera, RenderStep* shadowStep,float fSpiltNear,float fSpiltFar);
-		void				Render(Camera* pCamera, RenderStep* shadowStep);
+		void				PrepareRender();
 
-		void				Clear(Camera* pCamera);
+		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);
+
+		void				Clear();
 
 		const Matrix4&		GetLightViewProjMatrix() const { return m_matLightViewProj; }
 		const Matrix4&		GetLightViewMatrix() const {return m_matLightView;}
@@ -38,15 +39,14 @@ namespace ma
 	private:
 		void				UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar);
 		void				UpdateFrustum(Camera* pCamera,float fSpiltNear,float fSpiltFar);
-		void				UpdateBatch(Camera* pCamera, RenderStep* shadowSte);
+		void				UpdateBatch(Camera* pCamera);
 		void				UpdateLightMatrix(Camera* pCamera,float fSpiltNear,float fSpiltFar);
 		void				UpdateCropMats();
+		void				UpdateDefferedShadow(Camera* pCamera);
 		void				QuantizeViewSize(float& fWidth,float& fHight);
 		Matrix4				CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort);
 
 	private:
-		//typedef vector<RenderComponent*> VEC_CASTER;
-		//typedef vector<Renderable*>	VEC_RENDERABLE;
 
 		Matrix4				m_matTexAdjust;
 		Matrix4				m_matCrop;	
@@ -57,9 +57,6 @@ namespace ma
 		Vector4				m_uvClamp = Vector4(0.0,0.0,1.0,1.0);
 
 		AABB				m_casterAABB;
-		//VEC_CASTER			m_arrCaster;
-
-		RefPtr<ShadowMapRenderView> m_pShadowView;
 
 		AABB				m_sceneAABB;
 
@@ -79,6 +76,13 @@ namespace ma
 		
 		float				m_fShadowFarDist;
 
-		DirectonalLight*	m_pParent;
+		DirLightProxy*		m_pParent;
+
+		RenderPass*			m_shadowMapPass = nullptr;
+
+	public:
+		RefPtr<RenderQueue> m_pRenderQueue;
+		Rectangle			m_veiwPort;
+		BatchRenderable		m_batchRender;
 	};
 }

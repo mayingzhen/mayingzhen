@@ -64,7 +64,7 @@ namespace ma
 
 	}
 
-	void PostProcessStep::Render()
+	void PostProcessStep::Render(SceneContext* sc)
 	{
 		GetRenderSystem()->BeginProfile(m_strName.c_str());
 
@@ -76,7 +76,7 @@ namespace ma
 
 		pCommand->Begin();
 
-		ScreenQuad::Render(pTech.get(), pCommand);
+		ScreenQuad::Render(pTech.get(), pCommand, sc);
 
 		pCommand->End();
 

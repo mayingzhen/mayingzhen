@@ -22,9 +22,9 @@ namespace ma
 		return m_matWorld[index];
 	}
 
-	void Renderable::PreRender(Technique* pTech)
+	void Renderable::PreRender(Technique* pTech, SceneContext* sc)
 	{
- 		pTech->Bind(this);
+ 		pTech->Bind(this,sc);
 	}
 
 	void Renderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)
@@ -54,7 +54,7 @@ namespace ma
 		}
 	}
 
-	void Renderable::Compute(Technique* pTechnique, ComputeCommand* pComputeCmd)
+	void Renderable::Compute(Technique* pTechnique, ComputeCommand* pComputeCmd, SceneContext* sc)
 	{
 
 	}

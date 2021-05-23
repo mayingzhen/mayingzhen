@@ -28,30 +28,30 @@ namespace ma
 		m_pShaderProgram = pShader;
 	}
 
-	void Technique::Bind(Renderable* pRenderable)
+	void Technique::Bind(Renderable* pRenderable, SceneContext* sc)
 	{
-		BindUniform(pRenderable, VS);
-		BindUniform(pRenderable, GS);
-		BindUniform(pRenderable, PS);
+		BindUniform(pRenderable, sc, VS);
+		BindUniform(pRenderable, sc, GS);
+		BindUniform(pRenderable, sc, PS);
 	}
 
-	void Technique::BindCompute(Renderable* pRenderable)
+	void Technique::BindCompute(Renderable* pRenderable, SceneContext* sc)
 	{
-		BindUniform(pRenderable, CS);
+		BindUniform(pRenderable, sc, CS);
 
 		for (auto &pUniform : m_vecStorgeBuffer)
 		{
-			pUniform->Bind(pRenderable);
+			pUniform->Bind(pRenderable, sc);
 
 			Parameter* pMatParam = GetParameter(pUniform->GetName());
 			if (pMatParam == NULL)
 				continue;
 
-			BindParametersUniform(pRenderable, pUniform.get(), pMatParam->GetValue());
+			BindParametersUniform(pRenderable, sc, pUniform.get(), pMatParam->GetValue());
 		}
 	}
 
-	void Technique::BindUniform(Renderable* pRenderable, ShaderType eType)
+	void Technique::BindUniform(Renderable* pRenderable, SceneContext* sc, ShaderType eType)
 	{
 		for (auto &pCB : m_vecConstBuffer[eType])
 		{
@@ -59,29 +59,29 @@ namespace ma
 			{
 				Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
 
-				pUniform->Bind(pRenderable);
+				pUniform->Bind(pRenderable, sc);
 
 				Parameter* pMatParam = GetParameter(pUniform->GetName());
 				if (pMatParam == NULL)
 					continue;
 
-				BindParametersUniform(pRenderable, pUniform, pMatParam->GetValue());
+				BindParametersUniform(pRenderable, sc, pUniform, pMatParam->GetValue());
 			}
 		}
 
 		for (auto &pSampler : m_vecSamplers[eType])
 		{
-			pSampler->Bind(pRenderable);
+			pSampler->Bind(pRenderable, sc);
 
 			Parameter* pMatParam = GetParameter(pSampler->GetName());
 			if (pMatParam == NULL)
 				continue;
 			
-			BindParametersUniform(pRenderable, pSampler.get(), pMatParam->GetValue());
+			BindParametersUniform(pRenderable, sc, pSampler.get(), pMatParam->GetValue());
 		}
 	}
 
-	void Technique::BindParametersUniform(Renderable* pRenderable, Uniform* pUniform, const Any& anyValue)
+	void Technique::BindParametersUniform(Renderable* pRenderable, SceneContext* sc, Uniform* pUniform, const Any& anyValue)
 	{
 		ASSERT(pUniform);
 		if (pUniform == NULL)
@@ -143,13 +143,13 @@ namespace ma
 		else if (type == typeid(RefPtr<MethodBinding>))
 		{
 			MethodBinding* pMethod = any_cast<RefPtr<MethodBinding>>(&anyValue)->get();
-			pMethod->SetValue(pRenderable, this, pUniform);
+			pMethod->SetValue(pRenderable, sc, this, pUniform);
 		}
 		else if (type == typeid(RefPtr<UniformAnimation>))
 		{
 			UniformAnimation* pUniformAnimation = any_cast<RefPtr<UniformAnimation>>(&anyValue)->get();
 
-			this->BindParametersUniform(pRenderable, pUniform, pUniformAnimation->GetValue());
+			this->BindParametersUniform(pRenderable, sc, pUniform, pUniformAnimation->GetValue());
 		}
 		else
 		{
