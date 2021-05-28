@@ -639,6 +639,11 @@ namespace ma
 		m_fLodParam = Math::Sqrt(Terrain_TrunkXSize * Terrain_TrunkXSize + Terrain_TrunkYSize * Terrain_TrunkYSize) / f;
 	}
 
+	TerrainRenderProxy::TerrainRenderProxy()
+	{
+		m_bShadowCaster = true;
+	}
+
 	void TerrainRenderProxy::UpdateLod(const std::vector< RefPtr<TerrainRenderable> >& vecRenderable)
 	{
 		GetRenderSystem()->RC_AddRenderCommad([this, vecRenderable]() {

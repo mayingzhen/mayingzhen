@@ -32,6 +32,8 @@ namespace ma
 		std::string		m_name;
 
 		std::shared_ptr<SceneContext>	m_pSceneproxy;
+
+		uint32_t		m_nRenderOrder = 0;
 	};
 
 	class MainRenderView : public RenderView

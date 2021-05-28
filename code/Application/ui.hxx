@@ -248,7 +248,7 @@ namespace ma
 		{
 			RenderDrawData(ImGui::GetDrawData());
 
-			MainRenderView* pMainRenderView = (MainRenderView*)GetRenderSystem()->GetRenderView(0);
+			MainRenderView* pMainRenderView = GetRenderSystem()->GetMainRenderView();
 
 			uint32_t index = GetRenderSystem()->CurThreadFill();
 	

@@ -11,6 +11,8 @@ namespace ma
 		m_fFar = pCamera->GetFarClip();
 		m_fNear = pCamera->GetNearClip();
 		m_frustum = pCamera->GetFrustum();
+		m_fFov = pCamera->GetFov();
+		m_fAspect = pCamera->GetAspect();
 	}
 
 	void SceneContext::SetLightViewProj(const Matrix4& matLightViewProj)

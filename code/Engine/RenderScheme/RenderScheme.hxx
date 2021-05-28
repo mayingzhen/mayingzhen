@@ -7,6 +7,8 @@ namespace ma
 {
 	DeferredShading::DeferredShading(MainRenderView* renderView)
 	{
+		m_pMainView = renderView;
+
 		//m_bShadowMapEnable = true;
 
 		//if (m_bShadowMapEnable)
@@ -204,13 +206,11 @@ namespace ma
 
 	void DeferredShading::Init()
 	{	
-		MainRenderView* pMainView = (MainRenderView*)GetRenderSystem()->GetRenderView(0);
-
 		RefPtr<GbufferStep> pBufferStep = new GbufferStep();
-		pMainView->AddRenderStep(pBufferStep.get());
+		m_pMainView->AddRenderStep(pBufferStep.get());
 			
 		RefPtr<DefferedLightStep> pLightStep = new DefferedLightStep(pBufferStep->m_pDepthTex.get());
-		pMainView->AddRenderStep(pLightStep.get());
+		m_pMainView->AddRenderStep(pLightStep.get());
 
 // 		if (m_pDeferredShadow)
 // 		{
@@ -223,14 +223,14 @@ namespace ma
 			m_pPostProcessPipeline->SaveToXML("postprocess.xml");
 		}
 
-		m_pPostProcessPipeline = new PostProcessPipeline((MainRenderView*)GetRenderSystem()->GetRenderView(0));
+		m_pPostProcessPipeline = new PostProcessPipeline(m_pMainView.get());
 		m_pPostProcessPipeline->LoadFromXML("postprocess.xml");
 		m_pPostProcessPipeline->Setup(pLightStep->m_pRenderPass.get(), GetRenderSystem()->GetBackBufferRenderPass());
 
 		PostProcessStep* pLastStep = m_pPostProcessPipeline->GetLastStep();
 
 		RefPtr<UIStep> pUIStep = new UIStep(pLastStep->GetMaterial());
-		pMainView->AddRenderStep(pUIStep.get());
+		m_pMainView->AddRenderStep(pUIStep.get());
 
 		GetRenderSystem()->ReloadShader();
 	}

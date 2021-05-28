@@ -6,6 +6,8 @@ namespace ma
 	MainRenderView::MainRenderView()
 	{
 		m_pSceneproxy = std::make_shared<SceneContext>();
+
+		m_nRenderOrder = -1;
 	}
 
 	MainRenderView::~MainRenderView()
@@ -15,11 +17,12 @@ namespace ma
 
 	void MainRenderView::Update()
 	{
-		SceneContext sceneData;
-		sceneData.SetCamera(m_pCamera.get());
+		SceneContext* sceneData = new SceneContext();
+		sceneData->SetCamera(m_pCamera.get());
 		GetRenderSystem()->RC_AddRenderCommad( [this,sceneData]()
 			{
-				*m_pSceneproxy = sceneData;
+				*m_pSceneproxy = *sceneData;
+				delete sceneData;
 			}
 		);
 	}

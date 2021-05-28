@@ -162,6 +162,7 @@ namespace ma
 		m_ShadowMapView = new ShadowRenderView();
 		m_ShadowMapView->m_pCamera = this->GetSceneNode()->GetScene()->GetCamera();
 		m_ShadowMapView->m_pRenderPass = m_pShadowMapPass;
+		m_ShadowMapView->m_pScene = this->GetSceneNode()->GetScene();
 
 		GetRenderSystem()->AddRenderView(m_ShadowMapView.get());
 
@@ -170,13 +171,23 @@ namespace ma
 		m_ShadowMapView->m_pRenderPass = m_pShadowMapPass.get();
 
 		DirLightProxy* light_proxy = GetDirLightProxy();
+
+		float fNearSplit = m_ShadowMapView->m_pCamera->GetNearClip();
+		float fFarSplit = m_SplitPosParam[0];
+
 		for (int i = 0; i < m_nMaxSplitCount; ++i)
 		{
 			Rectangle viewPort = Rectangle(1.0f + i * m_nShadowMapSize, 1.0f,
 				(i + 1) * m_nShadowMapSize - 2.0f, m_nShadowMapSize - 2.0f);
 			m_SpitFrustum[i].InitShadowMap(light_proxy, viewPort, m_pShadowMapPass.get());
 
+			fFarSplit = m_SplitPosParam[i];
+
+			m_SpitFrustum[i].SetSplitPost(fNearSplit, fFarSplit);
+
 			m_ShadowMapView->AddRenderStep(&m_SpitFrustum[i]);
+
+			fNearSplit = fFarSplit;
 		}
 	}
 

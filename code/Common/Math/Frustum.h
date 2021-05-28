@@ -7,9 +7,12 @@ namespace ma
 	{
 	public:
 		Frustum(void);
-		Frustum(const Frustum& rkFrustum);
+
+		Frustum(const Frustum& p);
 
 		~Frustum(void);
+
+		Frustum& operator=(const Frustum& p);
 
 		void Update(const Matrix4& matViewProj,bool bGLSystem, bool bInvertedY);
 
@@ -107,8 +110,7 @@ namespace ma
 		};
 
 		/** This is the set of planes pre-permuted to SSE/Altivec form */
-		//SIMDPlane* m_rgSIMDPlane;
-		SIMDPlane m_rgSIMDPlane[8];
+		SIMDPlane* m_rgSIMDPlane = nullptr;
 	
 	};
 }

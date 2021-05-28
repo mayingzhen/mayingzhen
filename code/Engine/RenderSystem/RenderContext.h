@@ -25,6 +25,8 @@ namespace ma
 
 		float					m_fNear = 0.0f;
 		float					m_fFar = 0.0f;
+		float					m_fFov = 0.0;
+		float					m_fAspect = 0.0;
 		Vector3					m_vEyeWordPos = Vector3::ZERO;
 
 		Vector3					m_vMainLightDir;

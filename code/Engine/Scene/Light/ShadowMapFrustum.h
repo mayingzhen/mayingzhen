@@ -23,9 +23,9 @@ namespace ma
 
 		void				InitShadowMap(DirLightProxy* pParent, Rectangle viewPort, RenderPass* pSMPass);
 
-		void				PrepareRender();
+		void				PrepareRender(SceneContext* sc, CullTree* cull);
 
-		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);
+		void				Update(SceneContext* sc, CullTree* cull, float fSpiltNear,float fSpiltFar);
 
 		void				Clear();
 
@@ -34,15 +34,17 @@ namespace ma
 		const Matrix4&		GetTexAdjustMatrix() const {return m_matTexAdjust;}
 		const Matrix4&		GetShadowMatrix() const {return m_matShadow;}
 
+		void				SetSplitPost(float fNear, float fFar);
+
 		bool				GetDraw() {return m_bDraw;}
 
 	private:
-		void				UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar);
-		void				UpdateFrustum(Camera* pCamera,float fSpiltNear,float fSpiltFar);
-		void				UpdateBatch(Camera* pCamera);
-		void				UpdateLightMatrix(Camera* pCamera,float fSpiltNear,float fSpiltFar);
+		void				UpdateDepthBias(SceneContext* sc,float fSpiltNear,float fSpiltFar);
+		void				UpdateFrustum(SceneContext* sc,float fSpiltNear,float fSpiltFar);
+		void				UpdateBatch(SceneContext* sc, CullTree* cull);
+		void				UpdateLightMatrix(SceneContext* sc,float fSpiltNear,float fSpiltFar);
 		void				UpdateCropMats();
-		void				UpdateDefferedShadow(Camera* pCamera);
+		void				UpdateDefferedShadow(SceneContext* sc);
 		void				QuantizeViewSize(float& fWidth,float& fHight);
 		Matrix4				CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort);
 
@@ -66,6 +68,8 @@ namespace ma
 
 		float				m_fNear = 0.0f;
 		float				m_fFar = 0.0f;
+
+		float				m_fSplitPos = 0.0f;
 
 		float				m_fConstantBias;
 		float				m_fSlopeScaleBias;

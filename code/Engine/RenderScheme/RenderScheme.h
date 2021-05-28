@@ -31,6 +31,8 @@ namespace ma
 		RefPtr<DeferredShadow>	m_pDeferredShadow;
 
 		RefPtr<PostProcessPipeline>	m_pPostProcessPipeline = nullptr;
+
+		RefPtr<MainRenderView>	m_pMainView;
 	};
 
 }

@@ -6,6 +6,8 @@ namespace ma
 	ShadowRenderView::ShadowRenderView()
 	{
 		m_pSceneproxy = std::make_shared<SceneContext>();
+
+		m_nRenderOrder = 0;
 	}
 
 	void ShadowRenderView::AddRenderStep(ShadowRenderStep* step)
@@ -17,11 +19,12 @@ namespace ma
 
 	void ShadowRenderView::Update()
 	{
-		SceneContext sceneData;
-		sceneData.SetCamera(m_pCamera.get());
+		SceneContext* sceneData = new SceneContext();
+		sceneData->SetCamera(m_pCamera.get());
 		GetRenderSystem()->RC_AddRenderCommad([this, sceneData]()
 			{
-				*m_pSceneproxy = sceneData;
+				*m_pSceneproxy = *sceneData;
+				delete sceneData;
 			}
 		);
 
@@ -33,7 +36,7 @@ namespace ma
 
 		for (auto& subStep : m_vecRenderStep)
 		{
-			subStep->PrepareRender();
+			subStep->PrepareRender(m_pSceneproxy.get(), m_pScene->GetCullTree());
 		}
 
 		m_pRenderPass->Begine();

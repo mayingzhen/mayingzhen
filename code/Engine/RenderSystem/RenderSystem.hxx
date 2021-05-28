@@ -182,17 +182,17 @@ namespace ma
 
 		m_pComputeCommd = GetRenderDevice()->CreateComputeCommand();
 
-		RefPtr<MainRenderView> pMainView = new MainRenderView();
-		pMainView->m_name = "MainView";
+		m_pMainView = new MainRenderView();
+		m_pMainView->m_name = "MainView";
 
-		m_renderView.push_back(pMainView);
+		m_renderView.push_back(m_pMainView);
 
-		g_pShading = new DeferredShading(pMainView.get());
+		g_pShading = new DeferredShading(m_pMainView.get());
 		g_pShading->Init();
 
 		m_scene = new Scene("defaultScene");
-		pMainView->m_pScene = m_scene;
-		pMainView->m_pCamera = m_scene->GetCamera();
+		m_pMainView->m_pScene = m_scene;
+		m_pMainView->m_pCamera = m_scene->GetCamera();
 	}
 
 	void RenderSystem::RT_Reset(uint32_t nWidth,uint32_t nHeight)
@@ -425,8 +425,10 @@ namespace ma
 
 	void RenderSystem::AddRenderView(RenderView* pRenderView)
 	{
-		m_pRenderThread->RC_AddRenderCommad([this,pRenderView]() {
+		m_pRenderThread->RC_AddRenderCommad([this, pRenderView]() {
 			m_renderView.push_back(pRenderView);
+			auto sort_fun = [](RefPtr<RenderView>& a, RefPtr<RenderView>& b)->bool { return a->m_nRenderOrder < b->m_nRenderOrder; };
+			std::sort(m_renderView.begin(), m_renderView.end(), sort_fun);
 			}
 		);
 	}

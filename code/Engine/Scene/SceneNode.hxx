@@ -520,17 +520,17 @@ namespace ma
 
 	Vector3	SceneNode::GetForward() const
 	{
-		return GetMatrixWS().GetColumn(2);
+		return GetMatrixWS().getZAxis();
 	}
 
 	Vector3	SceneNode::GetRight() const
 	{
-		return GetMatrixWS().GetColumn(0);
+		return GetMatrixWS().getXAxis();
 	}
 
 	Vector3	SceneNode::GetUp() const
 	{
-		return GetMatrixWS().GetColumn(1);
+		return GetMatrixWS().getYAxis();
 	}
 
 	void  SceneNode::Forward(float x) 

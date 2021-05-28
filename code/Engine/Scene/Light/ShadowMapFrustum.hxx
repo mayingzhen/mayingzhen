@@ -18,10 +18,18 @@ namespace ma
 		m_matCrop = Matrix4::IDENTITY;
 		m_matShadow  = Matrix4::IDENTITY;
 		m_matTexAdjust = Matrix4::IDENTITY;
+
+		m_pRenderQueue = new RenderQueue;
 	}
 
 	ShadowRenderStep::~ShadowRenderStep()
 	{
+	}
+
+	void ShadowRenderStep::SetSplitPost(float fNear, float fFar)
+	{
+		m_fNear = fNear;
+		m_fFar = fFar;
 	}
 
 	void ShadowRenderStep::InitShadowMap(DirLightProxy* pParent, Rectangle viewPort, RenderPass* pSMPass)
@@ -80,7 +88,7 @@ namespace ma
 		return texAdjust;
 	}
 
-	void ShadowRenderStep::UpdateBatch(Camera* pCamera)
+	void ShadowRenderStep::UpdateBatch(SceneContext* sc, CullTree* cull)
 	{
 		if (!m_bDraw)
 			return;
@@ -92,7 +100,7 @@ namespace ma
 		m_lightFrustum.Update(m_matLightProj * m_matLightView, bGLSystem, bInvY);
 
 		std::vector<RenderProxy*> arrCaster;
-		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1, arrCaster);
+		cull->FindObjectsIn(&m_lightFrustum,-1, arrCaster);
 		
 		for (auto& pRenderComp : arrCaster)
 		{
@@ -117,18 +125,19 @@ namespace ma
 					continue;
 				}
 
-				m_batchRender.AddRenderObj(renderable, tech);
+				//m_batchRender.AddRenderObj(renderable, tech);
+				m_pRenderQueue->AddRenderObj(renderable, tech);
 			}
 		}
 
-		m_batchRender.PrepareRender(m_pRenderQueue.get());
+		//m_batchRender.PrepareRender(m_pRenderQueue.get());
 	}
 
-	void ShadowRenderStep::UpdateFrustum(Camera* pCamera,float fSpiltNear,float fSpiltFar)
+	void ShadowRenderStep::UpdateFrustum(SceneContext* sc,float fSpiltNear,float fSpiltFar)
 	{
-		Matrix4 matView = pCamera->GetMatView();
+		Matrix4 matView =  sc->m_matViewProj.GetMatView();
 		Matrix4 matProj;
-		GetRenderDevice()->MakePerspectiveMatrix(matProj,pCamera->GetFov(),pCamera->GetAspect(),fSpiltNear,fSpiltFar);
+		GetRenderDevice()->MakePerspectiveMatrix(matProj,sc->m_fFov,sc->m_fAspect,fSpiltNear,fSpiltFar);
 
 		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
 		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
@@ -136,25 +145,29 @@ namespace ma
 	}
 
 
-	void ShadowRenderStep::UpdateLightMatrix(Camera* pCamera, float fSpiltNear, float fSpiltFar)
+	void ShadowRenderStep::UpdateLightMatrix(SceneContext* sc, float fSpiltNear, float fSpiltFar)
 	{
-		Scene* pCurScene = pCamera->GetScene();
+		Matrix4 camera_ws = sc->m_matViewProj.GetMatView();
+		camera_ws.inverse();
+		Vector3 vCameraUp = camera_ws.getYAxis();
+		Vector3 vCameraRight = camera_ws.getXAxis();
 
 		uint32_t index = GetRenderSystem()->CurThreadProcess();
 
 		Vector3 vLightDir = m_pParent->m_vDir[index];
 
 		Vector3 vLightUp;
-		if (Math::Abs((-vLightDir).dotProduct(pCamera->GetUp())) > 0.95f)
+
+		if (Math::Abs((-vLightDir).dotProduct(vCameraUp)) > 0.95f)
 		{
-			vLightUp = pCamera->GetRight();
+			vLightUp = vCameraRight;
 		}
 		else
 		{
-			vLightUp = pCamera->GetUp();
+			vLightUp = vCameraUp;
 		}
 
-		Vector3 pos = m_frustum.GetAABB().getCenter() - pCamera->GetFarClip() * vLightDir;
+		Vector3 pos = m_frustum.GetAABB().getCenter() - sc->m_fFar * vLightDir;
 
 		Matrix4 matLightView = Math::MakeLookAtMatrixLH(pos, pos + vLightDir, vLightUp);
 		Matrix4 matInvLightView = matLightView.inverse();
@@ -172,7 +185,7 @@ namespace ma
 			m_sceneAABB.merge(pNode->GetAABBWS());
 		}
 
-		if (1)
+		if (0)
 		{
 			ConvexBody frustumVolume;
 			frustumVolume.define(m_frustum);
@@ -265,7 +278,7 @@ namespace ma
 		m_matCrop.setTrans(Vector3(fOffsetX,fOffsetY,0.0f));
 	}
 
-	void ShadowRenderStep::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)
+	void ShadowRenderStep::UpdateDepthBias(SceneContext* sc,float fSpiltNear,float fSpiltFar)
 	{
 		float fConstantBias = 0;
 		float fSlopeScaleBias = 0;
@@ -278,29 +291,26 @@ namespace ma
 		//m_fSlopeScaleBias = fConstantBias * multiplier;
 	}
 
-	void ShadowRenderStep::PrepareRender()
+	void ShadowRenderStep::PrepareRender(SceneContext* sc, CullTree* cull)
 	{
-
+		Update(sc, cull, m_fNear, m_fFar);
 	}
 
-	void ShadowRenderStep::Update(Camera* pCamera, float fSpiltNear,float fSpiltFar)
+	void ShadowRenderStep::Update(SceneContext* sc, CullTree* cull, float fSpiltNear,float fSpiltFar)
 	{
-		m_fNear = fSpiltNear;
-		m_fFar = fSpiltFar;
-
 		Clear();
 
-		UpdateDepthBias(pCamera,fSpiltNear,fSpiltFar);
+		UpdateDepthBias(sc,fSpiltNear,fSpiltFar);
 
-		UpdateFrustum(pCamera,fSpiltNear,fSpiltFar);
+		UpdateFrustum(sc,fSpiltNear,fSpiltFar);
 
-		UpdateLightMatrix(pCamera,fSpiltNear,fSpiltFar);
+		UpdateLightMatrix(sc,fSpiltNear,fSpiltFar);
 
-		UpdateBatch(pCamera);
+		UpdateBatch(sc, cull);
 
 		UpdateCropMats();
 
-		UpdateDefferedShadow(pCamera);
+		UpdateDefferedShadow(sc);
 
 		m_matLightViewProj = m_matCrop * m_matLightProj * m_matLightView;
 		m_matShadow = m_matTexAdjust * m_matLightViewProj;
@@ -308,7 +318,7 @@ namespace ma
 		m_bDraw = true;
 	}
 
-	void ShadowRenderStep::UpdateDefferedShadow(Camera* pCamera)
+	void ShadowRenderStep::UpdateDefferedShadow(SceneContext* sc)
 	{
 		SMFrustumInfo info;
 		info.m_fNear = m_fNear;
@@ -318,14 +328,14 @@ namespace ma
 		//info.m_pShadowDepth = m_pParent->GetShadowMapSampler();
 		info.m_uvClamp = m_uvClamp;
 
-		Matrix4 matView = pCamera->GetMatView();
+		Matrix4 matView = sc->m_matViewProj.GetMatView();
 		Matrix4 matProj;
-		GetRenderDevice()->MakePerspectiveMatrix(matProj, pCamera->GetFov(), pCamera->GetAspect(), m_fNear, m_fFar);
+		GetRenderDevice()->MakePerspectiveMatrix(matProj, sc->m_fFov, sc->m_fAspect, m_fNear, m_fFar);
 		Matrix4 viewPoj = matProj * matView;
 		info.m_matFrustum = viewPoj.inverse();
 
-		Vector4 vNear = pCamera->GetMatProj() * Vector4(0.0f, 0.0f, m_fNear, 1.0);
-		Vector4 vFar = pCamera->GetMatProj() * Vector4(0.0f, 0.0f, m_fFar, 1.0);
+		Vector4 vNear = sc->m_matViewProj.GetMatProj() * Vector4(0.0f, 0.0f, m_fNear, 1.0);
+		Vector4 vFar = sc->m_matViewProj.GetMatProj() * Vector4(0.0f, 0.0f, m_fFar, 1.0);
 		info.m_fNear = vNear.z / vNear.w;
 		info.m_fFar = vFar.z / vFar.w;
 

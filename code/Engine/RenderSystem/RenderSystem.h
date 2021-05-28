@@ -103,7 +103,7 @@ namespace ma
 
 		void				AddRenderView(RenderView* pRenderView);
 
-		RenderView*			GetRenderView(uint32_t index) { return m_renderView[index].get(); }
+		MainRenderView*		GetMainRenderView() { return m_pMainView.get(); }
 
 	protected: 
 		void				RT_Init(void* wndhandle, int width, int height);
@@ -137,6 +137,8 @@ namespace ma
 		bool				m_bDefferedRender = true;
 
 		std::vector< RefPtr<RenderView> > m_renderView;
+
+		RefPtr<MainRenderView>	m_pMainView;
 				
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro

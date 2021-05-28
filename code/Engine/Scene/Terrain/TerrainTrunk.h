@@ -103,6 +103,8 @@ namespace ma
 
 	public:
 
+		TerrainRenderProxy();
+
 		void UpdateLod(const std::vector< RefPtr<TerrainRenderable> >& vecRenderable);
 
 		virtual uint32_t GetRenderableCount() const override;
