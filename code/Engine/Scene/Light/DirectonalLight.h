@@ -4,7 +4,6 @@
 
 namespace ma
 {
-	class DeferredShadow;
 	class ShadowRenderView;
 
 	#define MAX_FRUSTUM_SPLIT_NUM 4

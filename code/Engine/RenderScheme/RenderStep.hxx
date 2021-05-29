@@ -6,17 +6,6 @@
 namespace ma
 {
 
-// 	RenderStep::RenderStep()
-// 	{
-// 		
-// 	}
-// 	
-// 
-// 	RenderStep::~RenderStep()
-// 	{
-// 
-// 	}
-
 	MainRenderStep::MainRenderStep()
 	{
 		m_pRenderQueue = new RenderQueue;

@@ -76,9 +76,9 @@ namespace ma
 // 			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 // 		});
 
-// 		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*) {
-// 			return GetSceneContext()->m_matLightViewProj; 
-// 		});
+ 		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*, SceneContext* sc) {
+ 			return sc->m_matLightViewProj;
+ 		});
 
 // 		AddFunMethodBinding<Vector4>("g_shadowMapTexelSize", [](Renderable*) {
 // 			ASSERT(false);

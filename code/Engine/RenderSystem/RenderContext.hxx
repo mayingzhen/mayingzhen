@@ -15,11 +15,6 @@ namespace ma
 		m_fAspect = pCamera->GetAspect();
 	}
 
-	void SceneContext::SetLightViewProj(const Matrix4& matLightViewProj)
-	{
-		m_matLightViewProj = matLightViewProj;
-	}
-
 	void SceneContext::SetMainLight(Light* pMianLight, ColourValue cAmbientColor)
 	{
 		if (pMianLight)

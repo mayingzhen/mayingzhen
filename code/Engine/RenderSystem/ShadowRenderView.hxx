@@ -1,5 +1,6 @@
 #include "ShadowRenderView.h"
 #include "../RenderScheme/RenderStep.h"
+#include "../RenderScheme/DeferredShadowPass.h"
 
 namespace ma
 {
@@ -30,6 +31,19 @@ namespace ma
 
 	}
 
+
+	void ShadowRenderView::PrepareDeferredShadow(ShadowRenderStep* step)
+	{
+		SMFrustumInfo info;
+		info.m_fNear = step->GetSplitNear();
+		info.m_fFar = step->GetSplitFar();
+		info.m_matViewToShadow = step->GetShadowMatrix() * m_pSceneproxy->m_matViewProj.GetMatViewInv();
+		info.m_pShadowDepth = m_pShadowMapSampler.get();
+
+		GetRenderSystem()->GetMainRenderView()->GetDeferredShadowSetp()->AddSMFrustumInfo(info);
+	}
+
+
 	void ShadowRenderView::Render()
 	{
 		GetRenderSystem()->BeginProfile("ShadowMapRenderView::Render");
@@ -37,6 +51,8 @@ namespace ma
 		for (auto& subStep : m_vecRenderStep)
 		{
 			subStep->PrepareRender(m_pSceneproxy.get(), m_pScene->GetCullTree());
+
+			PrepareDeferredShadow(subStep.get());
 		}
 
 		m_pRenderPass->Begine();
@@ -51,6 +67,8 @@ namespace ma
 			RenderQueue* cur_renderQueue = subStep->m_pRenderQueue.get();
 
 			pRenderCommand->SetViewPort(subStep->m_veiwPort);
+
+			m_pSceneproxy->m_matLightViewProj = subStep->GetLightViewProjMatrix();
 
 			cur_renderQueue->Render(pRenderCommand, m_pSceneproxy.get());
 

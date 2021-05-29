@@ -167,6 +167,7 @@ namespace ma
 		GetRenderSystem()->AddRenderView(m_ShadowMapView.get());
 
 		m_pShadowMapSampler = CreateSamplerState(m_pShdowMapDepth.get(), CLAMP, TFO_SHADOWCOMPARE, false);
+		m_ShadowMapView->m_pShadowMapSampler = m_pShadowMapSampler;
 
 		m_ShadowMapView->m_pRenderPass = m_pShadowMapPass.get();
 

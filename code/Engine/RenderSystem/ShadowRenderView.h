@@ -17,11 +17,16 @@ namespace ma
 
 		void AddRenderStep(ShadowRenderStep* step);
 
+	private:
+		void PrepareDeferredShadow(ShadowRenderStep* step);
+
 	public:
 		
 		std::vector< RefPtr<ShadowRenderStep> > m_vecRenderStep;
 
 		RefPtr<RenderPass>	m_pRenderPass;
+
+		RefPtr<SamplerState> m_pShadowMapSampler;
 	};
 
 }

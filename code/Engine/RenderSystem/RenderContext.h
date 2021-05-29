@@ -13,8 +13,6 @@ namespace ma
 
 		void					SetCamera(Camera* pCamera); 
 
-		void					SetLightViewProj(const Matrix4& matLightViewProj);
-
 		void					SetMainLight(Light* pMianLight, ColourValue cAmbientColor);
 
 	public:

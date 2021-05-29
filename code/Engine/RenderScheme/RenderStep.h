@@ -11,20 +11,6 @@ namespace ma
 	class RenderProxy;
 	class SubMaterial;
 
-// 	class RenderStep : public Referenced
-// 	{
-// 	public:
-// 		RenderStep();
-// 
-// 		virtual ~RenderStep();
-// 
-// 		virtual void Render() = 0;
-// 
-// 	public:
-// 		RefPtr<RenderPass>	m_pRenderPass;
-// 
-// 		std::string			m_strName;
-// 	};
 
 	class MainRenderStep : public Referenced
 	{
@@ -35,7 +21,7 @@ namespace ma
 
 		virtual void BeginePrepareRender();
 
-		virtual void PrepareRender(RenderProxy* proxy) = 0;
+		virtual void PrepareRender(RenderProxy* proxy) {}
 
 		virtual void Render(SceneContext* sc);
 

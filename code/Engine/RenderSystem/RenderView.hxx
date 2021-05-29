@@ -36,6 +36,22 @@ namespace ma
 		);
 	}
 
+
+	void MainRenderView::AddRenderStep(MainRenderStep* step)
+	{
+		m_vecRenderStep.push_back(step); 
+	}
+
+	DeferredShadow* MainRenderView::GetDeferredShadowSetp() 
+	{
+		return m_pDeferredShadow.get();
+	}
+
+	void MainRenderView::SetDeferredShadowSetp(DeferredShadow* step)
+	{
+		m_pDeferredShadow = step;
+	}
+
 	void MainRenderView::Render()
 	{
 		ROFILE_SCOPEI("MainRenderView::Render", 0);

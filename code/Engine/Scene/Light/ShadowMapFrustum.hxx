@@ -310,40 +310,11 @@ namespace ma
 
 		UpdateCropMats();
 
-		UpdateDefferedShadow(sc);
-
 		m_matLightViewProj = m_matCrop * m_matLightProj * m_matLightView;
 		m_matShadow = m_matTexAdjust * m_matLightViewProj;
 
 		m_bDraw = true;
 	}
-
-	void ShadowRenderStep::UpdateDefferedShadow(SceneContext* sc)
-	{
-		SMFrustumInfo info;
-		info.m_fNear = m_fNear;
-		info.m_fFar = m_fFar;
-		info.m_matLightViewProj = m_matLightProj * m_matLightView/*m_matLightViewProj*/;
-		info.m_matShadow = m_matShadow;
-		//info.m_pShadowDepth = m_pParent->GetShadowMapSampler();
-		info.m_uvClamp = m_uvClamp;
-
-		Matrix4 matView = sc->m_matViewProj.GetMatView();
-		Matrix4 matProj;
-		GetRenderDevice()->MakePerspectiveMatrix(matProj, sc->m_fFov, sc->m_fAspect, m_fNear, m_fFar);
-		Matrix4 viewPoj = matProj * matView;
-		info.m_matFrustum = viewPoj.inverse();
-
-		Vector4 vNear = sc->m_matViewProj.GetMatProj() * Vector4(0.0f, 0.0f, m_fNear, 1.0);
-		Vector4 vFar = sc->m_matViewProj.GetMatProj() * Vector4(0.0f, 0.0f, m_fFar, 1.0);
-		info.m_fNear = vNear.z / vNear.w;
-		info.m_fFar = vFar.z / vFar.w;
-
-		GetRenderSystem()->RC_AddRenderCommad([info]() {
-			GetDeferredShadow()->AddSMFrustumInfo(info);
-			});
-	}
-
 
 	void ShadowRenderStep::Clear()
 	{

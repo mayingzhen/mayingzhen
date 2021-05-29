@@ -35,6 +35,8 @@ namespace ma
 		const Matrix4&		GetShadowMatrix() const {return m_matShadow;}
 
 		void				SetSplitPost(float fNear, float fFar);
+		float				GetSplitNear() { return m_fNear; }
+		float				GetSplitFar() { return m_fFar; }
 
 		bool				GetDraw() {return m_bDraw;}
 
@@ -44,7 +46,6 @@ namespace ma
 		void				UpdateBatch(SceneContext* sc, CullTree* cull);
 		void				UpdateLightMatrix(SceneContext* sc,float fSpiltNear,float fSpiltFar);
 		void				UpdateCropMats();
-		void				UpdateDefferedShadow(SceneContext* sc);
 		void				QuantizeViewSize(float& fWidth,float& fHight);
 		Matrix4				CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort);
 

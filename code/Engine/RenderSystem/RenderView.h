@@ -9,6 +9,7 @@ namespace ma
 	class CullTree;
 	class RenderComponent;
 	class Texture;
+	class DeferredShadow;
 
 	class RenderView : public Referenced
 	{
@@ -48,9 +49,12 @@ namespace ma
 
 		void Render() override;
 
-		void AddRenderStep(MainRenderStep* step) { m_vecRenderStep.push_back(step); }
+		void AddRenderStep(MainRenderStep* step);
 
 		void AddExternRenderProxy(RenderProxy* pRenderProxy);
+
+		DeferredShadow* GetDeferredShadowSetp();
+		void SetDeferredShadowSetp(DeferredShadow* step);
 
 	protected:
 
@@ -61,6 +65,8 @@ namespace ma
 		VEC_RENDERPROXY			m_arrRenderProxy;
 
 		std::vector<RenderProxy*> m_arrExternRenderProxy;
+
+		RefPtr<DeferredShadow>	m_pDeferredShadow;
 	};
 
 

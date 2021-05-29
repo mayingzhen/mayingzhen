@@ -9,17 +9,7 @@ namespace ma
 	{
 		m_pMainView = renderView;
 
-		//m_bShadowMapEnable = true;
-
-		//if (m_bShadowMapEnable)
-		{
-			m_pDeferredShadow = new DeferredShadow();
-			m_pDeferredShadow->Init();
-		}
-
 		m_pPostProcessPipeline = new PostProcessPipeline(renderView);
-
-		//SetSceneContext(m_pRenderQueue->GetSceneContext());
 	}
 
 	DeferredShading::~DeferredShading()
@@ -208,14 +198,14 @@ namespace ma
 	{	
 		RefPtr<GbufferStep> pBufferStep = new GbufferStep();
 		m_pMainView->AddRenderStep(pBufferStep.get());
+
+		RefPtr<DeferredShadow> pShadowStep = new DeferredShadow(pBufferStep->m_pDepthTex.get());
+		m_pMainView->AddRenderStep(pShadowStep.get());
+		m_pMainView->SetDeferredShadowSetp(pShadowStep.get());
 			
 		RefPtr<DefferedLightStep> pLightStep = new DefferedLightStep(pBufferStep->m_pDepthTex.get());
 		m_pMainView->AddRenderStep(pLightStep.get());
 
-// 		if (m_pDeferredShadow)
-// 		{
-// 			m_pDeferredShadow->Reset(m_pDepthTex.get());
-// 		}
 
 		if (0)
 		{
