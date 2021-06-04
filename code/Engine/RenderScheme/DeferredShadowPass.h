@@ -11,8 +11,8 @@ namespace ma
 	{
 		Matrix4	m_matViewToShadow;
 		SamplerState* m_pShadowDepth = nullptr;
-		float m_fNear = 0.0f;
-		float m_fFar = 0.0f;
+		float m_fDepthNear = 0.0f;
+		float m_fDepthFar = 0.0f;
 	};
 
 	class DeferredShadow : public MainRenderStep
@@ -22,14 +22,10 @@ namespace ma
 	
 		void Reset(Texture* pDepthStencil);
 
-		virtual void BeginePrepareRender() override;
+		virtual void Render(SceneContext* sc) override;
 
 		void AddSMFrustumInfo(const SMFrustumInfo& info);
 
-		SamplerState* GetShadowSampler() {return m_pShadowSampler.get();}
-
-	private:
-		void CreateSimpleLightFrustumMesh();
 
 	private:
 

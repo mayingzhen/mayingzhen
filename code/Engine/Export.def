@@ -64,7 +64,6 @@ EXPORTS
 ?CreateVertexDeclaration@RenderSystem@ma@@QEAA?AV?$RefPtr@VVertexDeclaration@ma@@@2@PEAUVertexElement@2@I@Z
 ?GetRenderSystem@ma@@YAPEAVRenderSystem@1@XZ
 ??0Renderable@ma@@QEAA@XZ
-?Render@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVRenderCommand@2@@Z
 ?CreateSubMeshData@ma@@YA?AV?$RefPtr@VSubMeshData@ma@@@1@XZ
 ??0ImageData@ma@@QEAA@XZ
 ?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PEAVImageData@1@_N1@Z
@@ -225,8 +224,8 @@ EXPORTS
 ?CreateImageData@ma@@YA?AV?$RefPtr@VImageData@ma@@@1@XZ
 ?SetValue@Technique@ma@@QEAAXPEAVUniform@2@AEBVMatrix4@2@@Z
 ?AddExternRenderProxy@MainRenderView@ma@@QEAAXPEAVRenderProxy@2@@Z
-?PreRender@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVSceneContext@2@@Z
 ?Bind@Technique@ma@@UEAAXPEAVRenderable@2@PEAVSceneContext@2@@Z
 ?BindCompute@Technique@ma@@UEAAXPEAVRenderable@2@PEAVSceneContext@2@@Z
 ?BindUniform@Technique@ma@@IEAAXPEAVRenderable@2@PEAVSceneContext@2@W4ShaderType@2@@Z
 ?Compute@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVComputeCommand@2@PEAVSceneContext@2@@Z
+?Render@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVRenderCommand@2@PEAVSceneContext@2@@Z

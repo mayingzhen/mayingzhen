@@ -14,8 +14,6 @@ namespace ma
 
 		~TerrainRenderable();
 
-		void PreRender(Technique* pTech,SceneContext* sc) override;
-
 		void UpdateUniform(TerrainTrunk* pParent);
 
 	public:

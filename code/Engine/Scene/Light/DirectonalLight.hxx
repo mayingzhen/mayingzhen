@@ -173,7 +173,7 @@ namespace ma
 
 		DirLightProxy* light_proxy = GetDirLightProxy();
 
-		float fNearSplit = m_ShadowMapView->m_pCamera->GetNearClip();
+		float fNearSplit = m_ShadowMapView->m_pCamera->GetNearClip() + 0.1f;
 		float fFarSplit = m_SplitPosParam[0];
 
 		for (int i = 0; i < m_nMaxSplitCount; ++i)

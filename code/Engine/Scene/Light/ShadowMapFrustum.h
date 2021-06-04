@@ -57,7 +57,6 @@ namespace ma
 		Matrix4				m_matLightView;
 		Matrix4				m_matLightViewProj;
 		Matrix4				m_matShadow;
-		Vector4				m_uvClamp = Vector4(0.0,0.0,1.0,1.0);
 
 		AABB				m_casterAABB;
 

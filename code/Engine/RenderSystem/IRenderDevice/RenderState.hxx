@@ -25,16 +25,6 @@ namespace ma
 
 	DepthStencilState::DepthStencilState()
 	{
-		m_bDepthWrite = true;
-		m_eDepthCheckMode = CMPF_LESS_EQUAL;
-		m_bStencil = false;
-		m_eStencilfunc = CMPF_ALWAYS_PASS;
-		m_eStencilPass = SOP_KEEP;
-		m_eStencilFail = SOP_KEEP;
-		m_eDepthFailOp = SOP_KEEP;
-		//m_nStencilRefValue = -1;
-		m_nStencilMask = -1;
-		m_nStencilWriteMask = -1;
 	}
 
 	void DepthStencilState::RegisterAttribute()

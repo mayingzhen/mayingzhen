@@ -9,9 +9,7 @@ namespace ma
 	public:
 		SkyBoxRenderable();
 
-		virtual void	PreRender(Technique* pTech, SceneContext* sc) override;
-
-		virtual void	Render(Technique* pTechnique, RenderCommand* pRenderCommand) override;
+		virtual void	Render(Technique* pTechnique, RenderCommand* pRenderCommand, SceneContext* sc) override;
 
     };
 }

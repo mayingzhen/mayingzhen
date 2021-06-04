@@ -66,14 +66,14 @@ namespace ma
 		virtual void	RT_StreamComplete() { ASSERT(false); };
 
 	public:
-		bool				m_bStencil;
-		CompareFunction		m_eStencilfunc;
-		StencilOperation	m_eStencilPass;
-		StencilOperation	m_eStencilFail;
-		StencilOperation	m_eDepthFailOp;
-		uint32_t            m_nStencilMask;
-		uint32_t			m_nStencilWriteMask;
-		uint32_t			m_nStencilRef;
+		bool				m_bStencil = false;
+		CompareFunction		m_eStencilfunc = CMPF_ALWAYS_PASS;
+		StencilOperation	m_eStencilPass = SOP_KEEP;
+		StencilOperation	m_eStencilFail = SOP_KEEP;
+		StencilOperation	m_eDepthFailOp = SOP_KEEP;
+		uint32_t            m_nStencilMask = -1;
+		uint32_t			m_nStencilWriteMask = -1;
+		uint32_t			m_nStencilRef = 0;
 
 		bool				m_bBackFaceStencil = false;
 		CompareFunction		m_eBackStencilfunc = CMPF_ALWAYS_PASS;
@@ -82,8 +82,8 @@ namespace ma
 		StencilOperation	m_eBackDepthFailOp = SOP_KEEP;
 
 
-		bool				m_bDepthWrite;
-		CompareFunction		m_eDepthCheckMode;
+		bool				m_bDepthWrite = true;
+		CompareFunction		m_eDepthCheckMode = CMPF_LESS_EQUAL;
         
         bool operator < (const DepthStencilState& other) const
         {

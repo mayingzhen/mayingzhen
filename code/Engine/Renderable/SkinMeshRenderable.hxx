@@ -3,10 +3,8 @@
 
 namespace ma
 {
-	void SkinMeshRenderable::PreRender(Technique* pTech, SceneContext* sc)
+	void SkinMeshRenderable::Render(Technique* pTech, RenderCommand* pRenderCommand, SceneContext* sc)
 	{
- 		pTech->Bind(this, sc);
-		
 		Uniform* pUniformBoneDQ = pTech->GetUniform(VS, "boneDQ");
 		Uniform* pUniformBoneMatrix = pTech->GetUniform(VS, "boneMatrix");
 
@@ -22,6 +20,8 @@ namespace ma
 			uint32_t nNumMatrix = GetSkinMatrixCount();
 			pTech->SetValue(pUniformBoneMatrix, (const Vector4*)pMatrix, nNumMatrix * 3 );
 		}
+
+		Renderable::Render(pTech, pRenderCommand, sc);
 	}
 
 	const DualQuaternion* SkinMeshRenderable::GetSkinDQ()

@@ -35,10 +35,5 @@ namespace ma
 		m_pSubMaterial->SetParameter("tc_extent_center", Any(tc_extent_center));
 	}
 
-	void TerrainRenderable::PreRender(Technique* pTech,SceneContext* sc)
-	{
-		pTech->Bind(this,sc);
-	}
-
 }
 

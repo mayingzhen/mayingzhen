@@ -199,6 +199,9 @@ namespace ma
 		RefPtr<GbufferStep> pBufferStep = new GbufferStep();
 		m_pMainView->AddRenderStep(pBufferStep.get());
 
+		RefPtr<LinearDepthStep> pLinearDepthStep = new LinearDepthStep(pBufferStep->m_pDepthTex.get());
+		m_pMainView->AddRenderStep(pLinearDepthStep.get());
+
 		RefPtr<DeferredShadow> pShadowStep = new DeferredShadow(pBufferStep->m_pDepthTex.get());
 		m_pMainView->AddRenderStep(pShadowStep.get());
 		m_pMainView->SetDeferredShadowSetp(pShadowStep.get());

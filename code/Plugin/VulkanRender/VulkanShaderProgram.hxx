@@ -528,7 +528,11 @@ namespace ma
 			pVertexDec->RT_StreamComplete();
 		}
 
-		const std::vector<VkDynamicState> dynamicStateEnables = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
+		std::vector<VkDynamicState> dynamicStateEnables = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
+		if (info.m_bDepthBouds)
+		{
+			dynamicStateEnables.push_back(VK_DYNAMIC_STATE_DEPTH_BOUNDS);
+		}
 		VkPipelineDynamicStateCreateInfo dynamicState = {};
 		dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 		dynamicState.pNext = NULL;

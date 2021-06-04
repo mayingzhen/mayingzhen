@@ -22,13 +22,10 @@ namespace ma
 		return m_matWorld[index];
 	}
 
-	void Renderable::PreRender(Technique* pTech, SceneContext* sc)
+	void Renderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand, SceneContext* sc)
 	{
- 		pTech->Bind(this,sc);
-	}
+		pTechnique->Bind(this, sc);
 
-	void Renderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)
-	{
 		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
 
 		uint32_t nIndexBufferNumber = m_pIndexBuffer ? m_pIndexBuffer->GetNumber() : 0;

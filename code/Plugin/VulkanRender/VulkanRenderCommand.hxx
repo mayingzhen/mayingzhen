@@ -160,6 +160,11 @@ namespace ma
 		vkCmdSetScissor(m_vkCmdBuffer, 0, 1, &vecScissor[0]);
 	}
 
+	void VulkanRenderCommand::SetDepthBounds(float fDepthNear, float fDepthFar)
+	{
+		vkCmdSetDepthBounds(m_vkCmdBuffer, fDepthNear, fDepthFar);
+	}
+
 
 	VulkanComputeCommand::VulkanComputeCommand()
 	{

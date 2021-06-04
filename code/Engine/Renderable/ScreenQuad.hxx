@@ -63,9 +63,7 @@ namespace ma
 
 	void ScreenQuad::Render(Technique* pTechnique, RenderCommand* pCommand, SceneContext* sc)
 	{
-		gpScrenQuad->PreRender(pTechnique, sc);
-
-		gpScrenQuad->Render(pTechnique, pCommand);
+		gpScrenQuad->Render(pTechnique, pCommand, sc);
 	}
 
 	Renderable* ScreenQuad::GetRenderable()

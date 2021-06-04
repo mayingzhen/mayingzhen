@@ -58,10 +58,25 @@ namespace ma
 		BatchRenderable			m_batchRender;
 	};
 
+	class LinearDepthStep : public MainRenderStep
+	{
+	public:
+		LinearDepthStep(Texture* pDepthBuffer);
+
+		virtual void BeginePrepareRender();
+
+	public:
+		RefPtr<Texture>			m_pLinearDepthTex;
+		RefPtr<SamplerState>	m_pLinearDepthSampler;
+
+		RefPtr<Technique>		m_pTechnique;
+	};
+
+
 	class DefferedLightStep : public MainRenderStep
 	{
 	public:
-		DefferedLightStep(Texture* pDepthTexture);
+		DefferedLightStep(Texture* pDepthBuffer);
 
 	private:
 		virtual void PrepareRender(RenderProxy* proxy) override;

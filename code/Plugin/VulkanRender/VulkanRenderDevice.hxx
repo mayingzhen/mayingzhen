@@ -134,14 +134,27 @@ namespace ma
 		vkEnumerateInstanceLayerProperties(&InstanceLayerCount, vk_props.data());
 
 
-		bool enableValidation = true;
+		int32_t validationLayerCount = 1;
+		const char* validationLayerNames[] = {
+			"VK_LAYER_KHRONOS_validation"
+		};
+
+		bool enableValidation = false;
+		for (auto& prop : vk_props)
+		{
+			if (strcmp(prop.layerName, validationLayerNames[0]) == 0)
+			{
+				enableValidation = true;
+				break;
+			}
+		}
 
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		//appInfo.pApplicationName = Game::GetInstance()->GetGameName();
 		//appInfo.pEngineName = Game::GetInstance()->GetGameName();
-		appInfo.apiVersion = VK_API_VERSION_1_1;
+		appInfo.apiVersion = VK_API_VERSION_1_2;
 
 		std::vector<const char*> instanceExtensions = { VK_KHR_SURFACE_EXTENSION_NAME };
 
@@ -178,13 +191,14 @@ namespace ma
 		}
  		if (enableValidation)
  		{
- 			instanceCreateInfo.enabledLayerCount = vks::debug::validationLayerCount;
- 			instanceCreateInfo.ppEnabledLayerNames = vks::debug::validationLayerNames;
+ 			instanceCreateInfo.enabledLayerCount = validationLayerCount;
+			instanceCreateInfo.ppEnabledLayerNames = validationLayerNames;
  		}
 
 
  		VkResult err;
 		err = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+		ASSERT(err == VK_SUCCESS);
 
 
 #if defined(__ANDROID__)
@@ -208,6 +222,16 @@ namespace ma
 		}
 
 		uint32_t selectedDevice = 0;
+		for (uint32_t i = 0; i < gpuCount; ++i)
+		{
+			vkGetPhysicalDeviceProperties(physicalDevices[i], &deviceProperties);
+			std::string strGpuName = deviceProperties.deviceName;
+			if (strGpuName.find("GeForce") != std::string::npos)
+			{
+				selectedDevice = i;
+				break;
+			}
+		}
 
 		physicalDevice = physicalDevices[selectedDevice];
 
@@ -215,6 +239,8 @@ namespace ma
 		vkGetPhysicalDeviceProperties(physicalDevice, &deviceProperties);
 		vkGetPhysicalDeviceFeatures(physicalDevice, &deviceFeatures);
 		vkGetPhysicalDeviceMemoryProperties(physicalDevice, &deviceMemoryProperties);
+
+		LogInfo("GpuCount = %d, select %d, name %s", gpuCount, selectedDevice, deviceProperties.deviceName);
 
 		// Queue family properties, used for setting up requested queues upon device creation
 		uint32_t queueFamilyCount;
@@ -232,7 +258,10 @@ namespace ma
 			vks::tools::exitFatal("Could not create Vulkan device: \n" + vks::tools::errorString(res), "Fatal error");
 		}
 
-		vks::debug::setupDebugging(instance, 0, nullptr);
+// 		if (enableValidation)
+// 		{
+// 			vks::debug::setupDebugging(instance, 0, nullptr);
+// 		}
 
 		vks::debugmarker::setup(vulkanDevice->logicalDevice);
 

@@ -5,10 +5,6 @@ namespace ma
 
 	class ParticleRenderable : public Renderable
 	{
-		virtual void	PreRender(Technique* pTech,SceneContext* sc) override;
-
-		virtual void	Render(Technique* pTechnique, RenderCommand* pRenderCommand) override;
-
 		virtual void	Compute(Technique* pTechnique, ComputeCommand* pComputeCmd, SceneContext* sc) override;
 	};
 

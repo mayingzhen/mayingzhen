@@ -7,11 +7,11 @@ namespace ma
 	class UIRenderable : public Renderable
 	{
 	public:
-		virtual void Render(Technique* pTechnique, RenderCommand* pRenderCommand)
+		virtual void Render(Technique* pTechnique, RenderCommand* pRenderCommand, SceneContext* sc) override
 		{
 			pRenderCommand->SetScissor(m_scissor);
 
-			Renderable::Render(pTechnique, pRenderCommand);
+			Renderable::Render(pTechnique, pRenderCommand, sc);
 		}
 
 	public:

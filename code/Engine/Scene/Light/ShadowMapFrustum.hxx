@@ -42,13 +42,6 @@ namespace ma
 
 		Texture* pShadowTexture = pSMPass->m_depthStencil.m_pTexture.get();
 
-		float width = (float)pShadowTexture->GetWidth();
-		float height = (float)pShadowTexture->GetHeight();
-		Vector2 mini((float)viewPort.left / width, (float)viewPort.top / height);
-		Vector2 offset((float)viewPort.width() / width, (float)viewPort.height() / height);
-		Vector2 max = mini + offset;
-		m_uvClamp = Vector4(mini.x, mini.y, max.x, max.y);
-
 		m_matTexAdjust = CalculateTexAdjustMatrix(pShadowTexture, viewPort);
 	}
 

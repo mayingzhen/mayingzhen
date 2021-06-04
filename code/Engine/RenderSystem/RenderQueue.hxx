@@ -31,9 +31,7 @@ namespace ma
 		{
 			RenderItem& pRenderItem = pNodeStart[i];
 
-			pRenderItem.m_renderable->PreRender(pRenderItem.m_tech, sc);
-
-			pRenderItem.m_renderable->Render(pRenderItem.m_tech, pCommand);
+			pRenderItem.m_renderable->Render(pRenderItem.m_tech, pCommand, sc);
 		}
 
 		pCommand->End();
@@ -48,9 +46,7 @@ namespace ma
 			{
 				RenderItem& pRenderItem = it;
 
-				pRenderItem.m_renderable->PreRender(pRenderItem.m_tech, sc);
-
-				pRenderItem.m_renderable->Render(pRenderItem.m_tech, pCommand);
+				pRenderItem.m_renderable->Render(pRenderItem.m_tech, pCommand, sc);
 			}
 		}
 	}

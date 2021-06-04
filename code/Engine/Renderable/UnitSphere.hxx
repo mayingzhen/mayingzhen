@@ -16,10 +16,8 @@ namespace ma
 		matTras.setScale(Vector3(fRadius ,fRadius ,fRadius));
 
 		gpSphere->SetWorldMatrix(matTras);
-
-		gpSphere->PreRender(pTech,sc);
 		
-		gpSphere->Render(pTech, pComomnd);
+		gpSphere->Render(pTech, pComomnd, sc);
 	}
 
 	void SphereTessR(Vector3& v0, Vector3& v1, Vector3& v2, int depth, vector<uint16_t>& indBuff, vector<Vector3>& vertBuff)

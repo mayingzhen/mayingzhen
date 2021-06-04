@@ -13,9 +13,7 @@ namespace ma
 	public:
 		Renderable();
 
-		virtual void					PreRender(Technique* pTech, SceneContext* sc);
-
-		virtual void					Render(Technique* pTechnique, RenderCommand* pRenderCommand);
+		virtual void					Render(Technique* pTechnique, RenderCommand* pRenderCommand, SceneContext* sc);
 
 		virtual void					Compute(Technique* pTechnique, ComputeCommand* pComputeCmd, SceneContext* sc);
 

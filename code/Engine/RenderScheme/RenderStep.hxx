@@ -112,7 +112,47 @@ namespace ma
 		m_batchRender.PrepareRender(m_pRenderQueue.get());
 	}
 
-	DefferedLightStep::DefferedLightStep(Texture* pDepthTexture)
+	LinearDepthStep::LinearDepthStep(Texture* pDepthBuffer)
+	{
+		m_strName = "LinearDepthStep";
+
+		m_pLinearDepthTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT32_R, false);
+		m_pLinearDepthSampler = CreateSamplerState(m_pLinearDepthTex.get(), CLAMP, TFO_POINT, false);
+
+		GetParameterManager()->AddFunMethodBinding<SamplerState*>("tDepthMapSampler", [this](Renderable*, SceneContext*)->SamplerState* {
+			return m_pLinearDepthSampler.get();
+			});
+
+
+		m_pRenderPass = GetRenderDevice()->CreateRenderPass();
+		m_pRenderPass->AttachColor(0, RenderSurface(m_pLinearDepthTex));
+		GetRenderSystem()->RenderPassStreamComplete(m_pRenderPass.get());
+
+		VertexElement element[1];
+		element[0] = VertexElement(0, 0, DT_FLOAT3, DU_POSITION, 0);
+		RefPtr<VertexDeclaration> pVolumeDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 1);
+
+		RefPtr<VertexDeclaration> pDec = CreateVertexDeclaration();
+		pDec->AddElement(VertexElement(0, 0, DT_FLOAT2, DU_POSITION, 0));
+		pDec->AddElement(VertexElement(0, 8, DT_FLOAT2, DU_TEXCOORD, 0));
+
+		ShaderCreateInfo info;
+		info.m_pRenderPass = m_pRenderPass;
+		info.m_strVSFile = "linearizedepth.hlsl:vs_main";
+		info.m_strPSFile = "linearizedepth.hlsl:ps_main";
+		info.m_pVertexDecl = pDec;
+
+		m_pTechnique = CreateTechnique(info);
+	}
+
+	void LinearDepthStep::BeginePrepareRender()
+	{
+		MainRenderStep::BeginePrepareRender();
+
+		m_pRenderQueue->AddRenderObj(ScreenQuad::GetRenderable(), m_pTechnique.get());
+	}
+
+	DefferedLightStep::DefferedLightStep(Texture* pDepthBuffer)
 	{
 		m_strName = "DefferedLightStep";
 
@@ -122,9 +162,9 @@ namespace ma
 		RenderSurface color(m_pHDRColorTex);
 		color.m_cClearColor = ColourValue::Black;
 		m_pRenderPass->AttachColor(0, color);
-		RenderSurface depth(pDepthTexture);
+		RenderSurface depth(pDepthBuffer);
 		depth.m_eLoadOp = LOAD_OP_LOAD;
-		//m_pRenderPass->AttachDepthStencil(depth);
+		m_pRenderPass->AttachDepthStencil(depth);
 		GetRenderSystem()->RenderPassStreamComplete(m_pRenderPass.get());
 
 		GetRenderSystem()->SetDefferedLightRenderPass(m_pRenderPass.get());

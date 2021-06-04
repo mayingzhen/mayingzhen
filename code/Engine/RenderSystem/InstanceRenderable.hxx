@@ -8,12 +8,7 @@ namespace ma
 	{
 	}
 
-	void InstanceRenderable::PreRender(Technique* pTech, SceneContext* sc)
-	{
-		pTech->Bind(this, sc);
-	}
-
-	void InstanceRenderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand)
+	void InstanceRenderable::Render(Technique* pTechnique, RenderCommand* pRenderCommand, SceneContext* sc)
 	{
 		const RefPtr<SubMeshData>& pSubMeshData = this->m_pSubMeshData;
 

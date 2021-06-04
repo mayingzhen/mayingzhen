@@ -35,14 +35,27 @@ namespace ma
 	void ShadowRenderView::PrepareDeferredShadow(ShadowRenderStep* step)
 	{
 		SMFrustumInfo info;
-		info.m_fNear = step->GetSplitNear();
-		info.m_fFar = step->GetSplitFar();
+		
+		Vector4 vNear(0, 0, step->GetSplitNear(), 1.0);
+		Vector4 vFar(0, 0, step->GetSplitFar(), 1.0);
+		vNear = m_pSceneproxy->m_matViewProj.GetMatProj() * vNear;
+		vFar = m_pSceneproxy->m_matViewProj.GetMatProj() * vFar;
+		info.m_fDepthNear = vNear.z / vNear.w;
+		info.m_fDepthFar = vFar.z / vFar.w;
+
+		ASSERT(info.m_fDepthNear >= 0.0 && info.m_fDepthNear < 1.0);
+		ASSERT(info.m_fDepthFar >= 0.0 && info.m_fDepthFar < 1.0);
+		ASSERT(info.m_fDepthNear < info.m_fDepthFar);
+
 		info.m_matViewToShadow = step->GetShadowMatrix() * m_pSceneproxy->m_matViewProj.GetMatViewInv();
 		info.m_pShadowDepth = m_pShadowMapSampler.get();
 
-		GetRenderSystem()->GetMainRenderView()->GetDeferredShadowSetp()->AddSMFrustumInfo(info);
+		DeferredShadow* pDeferredShadow = GetRenderSystem()->GetMainRenderView()->GetDeferredShadowSetp();
+		if (pDeferredShadow)
+		{
+			GetRenderSystem()->GetMainRenderView()->GetDeferredShadowSetp()->AddSMFrustumInfo(info);
+		}
 	}
-
 
 	void ShadowRenderView::Render()
 	{
