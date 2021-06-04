@@ -14,6 +14,7 @@ SamplerState sDepthMapSampler;
 Texture2D tDeviceDepthMapSampler;
 SamplerState sDeviceDepthMapSampler;
 
+#define USING_LINEARDEPTH 1
 
 float GetLinearDepth(float2 tc)
 {

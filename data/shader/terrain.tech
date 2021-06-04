@@ -8,7 +8,7 @@
 	</Shader>
 	<RenderState>
 		<RasterizerState ClassName="RasterizerState">
-			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
+			<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_FRONT"/>
 		</RasterizerState>
 	</RenderState>
 </Technique>

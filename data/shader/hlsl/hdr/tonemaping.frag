@@ -79,7 +79,7 @@ float4 main(PS_IN In) : SV_TARGET
 
 	texColor += texBright0;
 
-	float3 color = ToneMap_Hejl2015(texColor * ExposureValue);
+	float3 color = texColor;//ToneMap_Hejl2015(texColor * ExposureValue);
 
 	
 	//color += texBright;
