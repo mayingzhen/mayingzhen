@@ -123,7 +123,8 @@ namespace ma
                 this->AddSampler(eType,pUniformCopy.get());
             }
 
-            BindUniform(nullptr,eType);
+            SceneContext sc;
+            BindUniform(nullptr, &sc, eType);
         
             for (uint32_t j = 0; j < this->GetSamplerCount(eType); ++j)
             {

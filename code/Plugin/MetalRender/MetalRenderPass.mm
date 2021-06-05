@@ -70,11 +70,9 @@ namespace ma
         }
 	}
     
-    RenderCommand* MetalRenderPass::GetThreadCommand(uint32_t nIndex, int stage)
+    RenderCommand* MetalRenderPass::GetThreadCommand(uint32_t nIndex)
     {
-		uint32_t numThreads = std::thread::hardware_concurrency();
-        uint32_t nAt = stage * numThreads + nIndex;
-        return m_arrRenderCommand[nAt].get();
+        return m_arrRenderCommand[nIndex].get();
     }
 }
 

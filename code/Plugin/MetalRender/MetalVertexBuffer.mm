@@ -31,21 +31,17 @@ namespace ma
 
 		ASSERT(m_Size);
         
-        if (m_pData == NULL)
-        {
-            mMetalVertexBuffer = [GetMetalDevive() newBufferWithLength:m_Size options:MTLResourceOptionCPUCacheModeDefault];
-        }
-        else
-        {
-            mMetalVertexBuffer = [GetMetalDevive() newBufferWithBytes:m_pData length:m_Size options:MTLResourceOptionCPUCacheModeDefault];
-        }
+        mMetalVertexBuffer = [GetMetalDevive() newBufferWithLength:m_Size options:MTLResourceOptionCPUCacheModeDefault];
+       
         mMetalVertexBuffer.label = @"VertexBuffer";
-        
-        if (!m_bShadowData)
-        {
-            FreeData();
-        }
 	}
+
+    void MetalVertexBuffer::RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize)
+    {
+        ASSERT(nSize <= m_Size);
+        void* pLock = [mMetalVertexBuffer contents];
+        memcpy(pLock, pData, std::min<uint32_t>(nSize,m_Size));
+    }
 
 	id<MTLBuffer> MetalVertexBuffer::GetMetalVertexBuffer()
 	{

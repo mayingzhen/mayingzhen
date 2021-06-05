@@ -478,11 +478,11 @@ namespace ma
         std::string strMslVSSource = HlslToMsl(strVshSource, strVSFunName, VS);
         std::string strMslFSSource = HlslToMsl(strFshSource, strFSFunName, PS);
         
-        if (0)
+        if (1)
         {
             uint32_t hashid = StringHash::Calculate(strMacro.c_str());
             std::string strHashId = StaticFunc::ToString(hashid);
-            std::string savePath = GetArchiveMananger()->GetSaveDir();
+            std::string savePath = GetArchiveMananger()->GetSaveDir() + std::string("/");
             std::string saveVSPath = savePath + strHashId + ".vs";
             FILE *fp = fopen(saveVSPath.c_str(),"w+");
             //ASSERT(fp);
@@ -493,7 +493,7 @@ namespace ma
             }
         }
         
-        if (0)
+        if (1)
         {
            // NSFileManager *fileManager = [NSFileManagerdefaultManager];
 

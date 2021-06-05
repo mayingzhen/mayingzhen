@@ -27,6 +27,8 @@ namespace ma
         virtual void SetViewPort(const Rectangle& viewPort);
         
         virtual void SetScissor(const Rectangle& viewPort);
+        
+        virtual void SetDepthBounds(float fDepthNear, float fDepthFar);
 
 		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount);
         
@@ -54,9 +56,9 @@ namespace ma
         id<MTLSamplerState> m_preSampler[ShaderType_Number][16] = {0};
 	};
 
-	class MetalComputeCommad : public ComputeCommad
+    class MetalComputeCommad : public ComputeCommand
 	{
- public:
+    public:
 
 		virtual	void Begin();
 

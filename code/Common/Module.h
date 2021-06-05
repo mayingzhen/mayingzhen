@@ -43,7 +43,7 @@
 
 // Utile
 #include "BitField.h"
-#include "BitmaskEnum.h"
+//#include "BitmaskEnum.h"
 #include "TArray.h"
 
 #include "StringUtils.h"

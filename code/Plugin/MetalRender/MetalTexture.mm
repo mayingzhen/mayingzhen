@@ -61,7 +61,7 @@ namespace ma
         textureDesc.arrayLength = 1;
         textureDesc.pixelFormat = m_descFormat;
         textureDesc.sampleCount= 1;
-        if (m_eUsage == USAGE_DYNAMIC)
+        if (m_eUsage == TEXTURE_USAGE::USAGE_DYNAMIC)
         {
             textureDesc.resourceOptions = MTLResourceStorageModeShared;
         }
@@ -70,7 +70,7 @@ namespace ma
             textureDesc.resourceOptions = MTLResourceCPUCacheModeDefaultCache;
         }
         
-        if (m_eUsage == USAGE_RENDERTARGET || m_eUsage == USAGE_DEPTHSTENCIL)
+        if (m_eUsage == TEXTURE_USAGE::USAGE_RENDERTARGET || m_eUsage == TEXTURE_USAGE::USAGE_DEPTHSTENCIL)
         {
             textureDesc.usage = MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget;
         }
@@ -107,7 +107,7 @@ namespace ma
 		textureDesc.arrayLength = 1;
 		textureDesc.pixelFormat = m_descFormat;
 		textureDesc.sampleCount= 1;
-		if (m_eUsage == USAGE_DYNAMIC)
+		if (m_eUsage == TEXTURE_USAGE::USAGE_DYNAMIC)
 		{
 			textureDesc.resourceOptions = MTLResourceStorageModeShared;
 		}
@@ -116,7 +116,7 @@ namespace ma
 			textureDesc.resourceOptions = MTLResourceCPUCacheModeDefaultCache;
 		}
         
-        if (m_eUsage == USAGE_RENDERTARGET || m_eUsage == USAGE_DEPTHSTENCIL)
+        if (m_eUsage == TEXTURE_USAGE::USAGE_RENDERTARGET || m_eUsage == TEXTURE_USAGE::USAGE_DEPTHSTENCIL)
         {
             textureDesc.usage = MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget;
         }

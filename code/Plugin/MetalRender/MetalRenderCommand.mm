@@ -182,6 +182,11 @@ namespace ma
         [m_encoder setScissorRect:scissorRect];
     }
 
+    void MetalRenderCommand::SetDepthBounds(float fDepthNear, float fDepthFar)
+    {
+        
+    }
+
     void MetalRenderCommand::DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount)
     {
         PRIMITIVE_TYPE ePrType = PRIM_TRIANGLELIST;

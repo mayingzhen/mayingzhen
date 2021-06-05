@@ -21,6 +21,8 @@ namespace ma
 		virtual void	UnlockImpl();
 
 		virtual void	RT_StreamComplete();
+        
+        virtual void    RT_UpdateData(uint32_t nOffset, uint8_t* pData, uint32_t nSize);
 
 	protected:
 		id<MTLBuffer>	mMetalVertexBuffer;

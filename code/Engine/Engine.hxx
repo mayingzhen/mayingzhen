@@ -2,7 +2,7 @@
 #include <thread>
 //#include "Scene/SoftwareRasterizer/Rasterizer.h"
 
-#include "FrameGraph/FrameGraph.h"
+//#include "FrameGraph/FrameGraph.h"
 
 namespace ma
 {

@@ -46,12 +46,12 @@ namespace ma
 
 	Texture* MetalRenderDevice::CreateRenderTarget(int nWidth,int nHeight,uint32_t nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
-		return new MetalTexture(nWidth,nHeight,nMipMap,format,bSRGB,USAGE_RENDERTARGET,eType);
+		return new MetalTexture(nWidth,nHeight,nMipMap,format,bSRGB,TEXTURE_USAGE::USAGE_RENDERTARGET,eType);
 	}
 
 	Texture* MetalRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format)
 	{
-		return new MetalTexture(nWidth,nHeight,1,format,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
+		return new MetalTexture(nWidth,nHeight,1,format,false,TEXTURE_USAGE::USAGE_DEPTHSTENCIL,TEXTYPE_2D);
 	}
 
 	VertexDeclaration* MetalRenderDevice::CreateVertexDeclaration()
@@ -116,7 +116,7 @@ namespace ma
         return new MetalRenderCommand();
     }
 
-    ComputeCommad* MetalRenderDevice::CreateComputeCommand()
+    ComputeCommand* MetalRenderDevice::CreateComputeCommand()
     {
         return new MetalComputeCommad();
     }
@@ -415,7 +415,6 @@ namespace ma
 
 	bool MetalRenderDevice::BuildDeviceCapabilities()
 	{
-		GetDeviceCapabilities()->SetShadowMapColorFormat(PF_A8R8G8B8);
 		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D16F);
         GetDeviceCapabilities()->SetTextureDXTSupported(false);
 	

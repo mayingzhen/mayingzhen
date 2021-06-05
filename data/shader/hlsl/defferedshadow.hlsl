@@ -55,7 +55,7 @@ void vs_main(
 }
 
 
-void ps_main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
+void ps_main( VS_OUT In, out float4 color : SV_TARGET )
 {
 	float fLinearDepth = GetLinearDepth(In.oTc); 
 	float3 view_dir = normalize(In.oViewDir.xyz);

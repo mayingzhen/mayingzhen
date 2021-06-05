@@ -88,7 +88,9 @@
         ma::Platform::GetInstance().SetAppPath(appPath.c_str());
         ma::Platform::GetInstance().SetWindId(self.layer);
         
-        std::string docPath = appPath + "Documents/";
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *docDir = [paths objectAtIndex:0];
+        std::string docPath = [docDir fileSystemRepresentation];
         ma::GetArchiveMananger()->SetSaveDir(docPath.c_str());
         
         CGSize screen_size = [[UIScreen mainScreen] bounds].size;

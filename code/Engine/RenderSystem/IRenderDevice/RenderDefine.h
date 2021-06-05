@@ -48,7 +48,7 @@ namespace ma
 		SUBPASS_INPUT = 0x20,
 	};
 
-	template<> struct EnableBitMaskOperators<TEXTURE_USAGE> : public std::true_type {};
+	//template<> struct EnableBitMaskOperators<TEXTURE_USAGE> : public std::true_type {};
 
 	enum BUFFER_USAGE
 	{
