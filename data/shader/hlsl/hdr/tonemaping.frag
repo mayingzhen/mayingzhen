@@ -63,7 +63,7 @@ float3 ToneMap_Hejl2015(float3 hdr)
 }
 
 
-float4 main(PS_IN In) : SV_TARGET
+float4 ps_main(PS_IN In) : SV_TARGET
 {
 	float avgLuminance = gTex_Lum.Sample(gSam_Lum, float2(0.5, 0.5)).r;
 	avgLuminance = max(avgLuminance, 0.001);

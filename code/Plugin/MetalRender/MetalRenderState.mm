@@ -39,7 +39,7 @@ namespace ma
         {
         
             MTLDepthStencilDescriptor* stateDesc = [[[MTLDepthStencilDescriptor alloc] init] autorelease];
-            stateDesc.depthWriteEnabled = true;
+            stateDesc.depthWriteEnabled = m_bDepthWrite;
             stateDesc.depthCompareFunction = MetalMapping::get(m_eDepthCheckMode);
         
             if(m_bStencil)

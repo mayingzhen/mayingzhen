@@ -17,43 +17,6 @@ namespace ma
     class MetalRasterizerStateObject;
     class MetalRenderPass;
     
-    /* metal fence is used to sync CPU with GPU,
-     * MetalCommandBuffer creates a fence at the start of each frame, and signal this fence when GPU complete this command buffer
-     * resouce can wait this fence to make sure GPU finished using this resource
-     */
-    struct MetalFence
-    {
-        MetalFence() :  mRefCount(0), mSignal(false)
-        {
-        }
-        
-    public:
-        void	Aquire();
-        void	Release();
-        
-        void	Wait();
-        void	Signal();
-        
-        std::mutex				mLock;
-        std::condition_variable	mCompleteCondVar;
-        std::atomic<int>		mRefCount;
-        std::atomic<bool>		mSignal;
-    };
-    
-    struct MetalCommandBuffer
-    {
-        MetalCommandBuffer() : mBuffer(nil), mCompleteFence(nil)
-        {}
-        
-        ~MetalCommandBuffer() {}
-        
-        id<MTLCommandBuffer>	mBuffer;
-        MetalFence*				mCompleteFence;
-        
-        void BeginEncodeCommand();
-        void EndEncodeCommand();
-    };
-
 	class MetalRenderDevice : public IRenderDevice
 	{
 	public:
@@ -122,7 +85,7 @@ namespace ma
         id<MTLDevice>               m_device;
         id<MTLCommandQueue>         m_command_queue;
         dispatch_semaphore_t        _inflight_semaphore;
-        id<MTLCommandBuffer>           m_command_buffer;
+        id<MTLCommandBuffer>        m_command_buffer;
         
         RefPtr<MetalRenderPass>     m_pDefaultRenderPass;
         

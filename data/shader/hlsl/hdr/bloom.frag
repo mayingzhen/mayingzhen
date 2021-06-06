@@ -49,14 +49,14 @@ float4 QuadraticThreshold(float4 color, float threshold, float3 curve)
 }
 
 
-Texture2D _AutoExposureTex;
-SamplerState sampler_AutoExposureTex;
+Texture2D _AutoExposureTex : register(t0);
+SamplerState sampler_AutoExposureTex : register(s0);
 
-Texture2D _MainTex;
-SamplerState sampler_MainTex;
+Texture2D _MainTex : register(t1);
+SamplerState sampler_MainTex : register(s1);
 
-Texture2D _BloomTex;
-SamplerState sampler_BloomTex;
+Texture2D _BloomTex : register(t2);
+SamplerState sampler_BloomTex : register(s2);
 
 float _SampleScale;
 float4 _Threshold;

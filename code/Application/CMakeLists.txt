@@ -27,7 +27,7 @@ set(SOURCE_FILES
 		Module.cpp
 		)
 	
-if (iOS)
+if (IOS)
 	list(APPEND SOURCE_FILES ${iOS_h} ${iOS_mm})
 endif()
 

@@ -51,7 +51,7 @@ namespace ma
             NSError* ns_error = nil;
             
             id<MTLLibrary> library = [[GetMetalDevive() newLibraryWithSource:ns_src_content options:options error:&ns_error] autorelease];
-            //ASSERT(library != nil);
+            ASSERT(library != nil);
             if (library == nil && ns_error != nil)
             {
                 LogError("Shader vs %s compile error: %s", info.m_strVSFile.c_str(), ns_error.localizedDescription.UTF8String);
@@ -59,23 +59,6 @@ namespace ma
             
             m_pVertexShader = [library newFunctionWithName:ns_fun];
             ASSERT(m_pVertexShader);
-        
-            /*
-            if (m_pVertexShader.vertexAttributes != nil)
-            {
-                for(MTLVertexAttribute * mtlAttr in m_pVertexShader.vertexAttributes)
-                {
-                    if (mtlAttr.active)
-                    {
-                        int i = 5;
-                    }
-                    else
-                    {
-                        int i = 5;
-                    }
-                }
-            }
-             */
         }
 
 
@@ -89,7 +72,7 @@ namespace ma
             NSError* ns_error = nil;
             
             id<MTLLibrary> library = [[GetMetalDevive() newLibraryWithSource:ns_src_content options:options error:&ns_error] autorelease];
-            //ASSERT(library != nil);
+            ASSERT(library != nil);
             if (library == nil && ns_error != nil)
             {
                 LogError("Shader vs %s compile error: %s", info.m_strPSFile.c_str(), ns_error.localizedDescription.UTF8String);
@@ -402,21 +385,6 @@ namespace ma
         {
             msl.set_decoration(resource.id, spv::DecorationDescriptorSet, 3);
             
-            /*
-            if (resource.name == "g_tShadowMap")
-            {
-                //const spirv_cross::SPIRType& spType = msl.get_type(resource.type_id);
-                //const spirv_cross::SPIRType& spTypeSelf = msl.get_type(spType.self);
-                //spirv_cross::SPIRType* pSpTypeSelf = (spirv_cross::SPIRType*)&spTypeSelf;
-                //pSpTypeSelf->image.depth = true;
-                
-                //spirv_cross::SPIRType* pSpType = (spirv_cross::SPIRType*)&spType;
-                //pSpType->image.depth = true;
-
-				bShadow = true;
-            }
-             */
-            
             unsigned binding = msl.get_decoration(resource.id, spv::DecorationBinding);
             
             spirv_cross::MSLResourceBinding resBinding;
@@ -435,19 +403,6 @@ namespace ma
         
         // Compile to GLSL, ready to give to GL driver.
         std::string source = msl.compile(NULL, &vecResBinding);
-
-        /*
-		if (bShadow)
-		{
-			std::string strFrom = "sample_compare(g_sShadowMap,";
-			std::string strTo = "sample_compare(sampler(coord::normalized, filter::linear, address::clamp_to_edge, compare_func::less),";
-			source = StringUtil::replaceAll(source, strFrom, strTo);
-            
-            strFrom = "texture2d<float> g_tShadowMap";
-            strTo = "depth2d<float> g_tShadowMap";
-            source = StringUtil::replaceAll(source, strFrom, strTo);
-		}
-         */
         
         return source;
     }
@@ -478,51 +433,19 @@ namespace ma
         std::string strMslVSSource = HlslToMsl(strVshSource, strVSFunName, VS);
         std::string strMslFSSource = HlslToMsl(strFshSource, strFSFunName, PS);
         
-        if (1)
+        if (0)
         {
             uint32_t hashid = StringHash::Calculate(strMacro.c_str());
             std::string strHashId = StaticFunc::ToString(hashid);
             std::string savePath = GetArchiveMananger()->GetSaveDir() + std::string("/");
             std::string saveVSPath = savePath + strHashId + ".vs";
             FILE *fp = fopen(saveVSPath.c_str(),"w+");
-            //ASSERT(fp);
+            ASSERT(fp);
             if(fp)
             {
                 fprintf(fp,"%s",strMslVSSource.c_str());
                 fclose(fp);
             }
-        }
-        
-        if (1)
-        {
-           // NSFileManager *fileManager = [NSFileManagerdefaultManager];
-
-            //if ([fileManagerfileExistsAtPath:filePath])
-           // {
-          //      NSLog(@"FileExists");/
-          //  }
-           // else
-            //{
-            //    NSLog(@"FileNotExists");
-           //     [fileManager createFileAtPath:filePathcontents:nilattributes:nil];
-           // }
-
-            
-            NSString* vs_src_content = [NSString stringWithUTF8String:strMslVSSource.c_str()];
-            
-            char macroFilePath[128];
-            uint32_t hashid = StringHash::Calculate(strMacro.c_str());
-            sprintf(macroFilePath, "%08x.macro", hashid);
-            NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString* documentsDirectory = [paths objectAtIndex:0];
-            NSString *appFile=[documentsDirectory stringByAppendingPathComponent:@"personal.plist"];
-            //NSString* appFile = [NSString stringWithFormat:@"%@/%s", documentsDirectory, macroFilePath];
-            [vs_src_content writeToFile:appFile atomically:YES];
-            
-            //char mtlFile[128];
-            //sprintf(mtlFile, "%08x_%08x.metal", StringID(source->Path.c_str()), source->Defines->GetStringID());
-            //NSString* mtlFilePath = [NSString stringWithFormat:@"%@/shaders/%s", documentsDirectory, mtlFile];
-            //[ns_src_content writeToFile:mtlFilePath atomically:NO];
         }
         
         CreateFromSource(strMslVSSource, strVSFunName, strMslFSSource, strFSFunName);

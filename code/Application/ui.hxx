@@ -79,6 +79,10 @@ namespace ma
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
+        
+        Rectangle rect = GetRenderSystem()->GetViewPort();
+        io.DisplaySize.x = rect.width();
+        io.DisplaySize.y = rect.height();
 
 		// Setup style
 		ImGui::StyleColorsDark();

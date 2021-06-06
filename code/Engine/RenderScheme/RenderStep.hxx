@@ -141,6 +141,7 @@ namespace ma
 		info.m_strVSFile = "linearizedepth.hlsl:vs_main";
 		info.m_strPSFile = "linearizedepth.hlsl:ps_main";
 		info.m_pVertexDecl = pDec;
+        info.m_pDSState->m_bDepthWrite = false;
 
 		m_pTechnique = CreateTechnique(info);
 	}
