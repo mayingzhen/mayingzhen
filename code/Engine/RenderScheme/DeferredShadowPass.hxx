@@ -53,12 +53,12 @@ namespace ma
 		shadow_info.m_strVSFile = "defferedShadow.hlsl:vs_main";
 		shadow_info.m_strPSFile = "defferedShadow.hlsl:ps_main";
 		shadow_info.m_pVertexDecl = pDec;
-		shadow_info.m_bDepthBouds = true;
 
 		for (int i = 0; i < 4; ++i)
 		{
 			shadow_info.m_pDSState = CreateDepthStencilState();
 			shadow_info.m_pDSState->m_bDepthWrite = false;
+			shadow_info.m_pDSState->m_bDepthBoundsTest = true;
 // 			shadow_info.m_pDSState->m_bStencil = true;
 // 			shadow_info.m_pDSState->m_eStencilfunc = CMPF_NOT_EQUAL;
 // 			//shadow_info.m_pDSState->m_nStencilWriteMask = stenCillUse;

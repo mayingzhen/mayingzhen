@@ -16,7 +16,7 @@ namespace ma
 
 	}
 
-	void MainRenderStep::BeginePrepareRender()
+	void MainRenderStep::BeginePrepareRender(SceneContext* sc)
 	{
 		m_pRenderQueue->Clear();
 	}
@@ -66,9 +66,9 @@ namespace ma
 			});
 	}
 
-	void GbufferStep::BeginePrepareRender()
+	void GbufferStep::BeginePrepareRender(SceneContext* sc)
 	{
-		MainRenderStep::BeginePrepareRender();
+		MainRenderStep::BeginePrepareRender(sc);
 
 		m_batchRender.Clear();
 	}
@@ -146,9 +146,9 @@ namespace ma
 		m_pTechnique = CreateTechnique(info);
 	}
 
-	void LinearDepthStep::BeginePrepareRender()
+	void LinearDepthStep::BeginePrepareRender(SceneContext* sc)
 	{
-		MainRenderStep::BeginePrepareRender();
+		MainRenderStep::BeginePrepareRender(sc);
 
 		m_pRenderQueue->AddRenderObj(ScreenQuad::GetRenderable(), m_pTechnique.get());
 	}
@@ -169,6 +169,10 @@ namespace ma
 		GetRenderSystem()->RenderPassStreamComplete(m_pRenderPass.get());
 
 		GetRenderSystem()->SetDefferedLightRenderPass(m_pRenderPass.get());
+
+		m_pAmbientItem = ScreenQuad::CreateRenderable();
+		m_pAmbientItem->m_nRenderOrder = RL_Light;
+		m_pAmbientLight = CreateTechnique("shader/ambientlight.tech", nullptr, m_pRenderPass.get());
 	}
 
 	void DefferedLightStep::PrepareLightProxy(LightProxy* light)
@@ -202,6 +206,15 @@ namespace ma
 		}
 	}
 
+	void DefferedLightStep::BeginePrepareRender(SceneContext* sc)
+	{
+		MainRenderStep::BeginePrepareRender(sc);
+
+		m_pAmbientLight->SetValue(m_pAmbientLight->GetUniform(PS, "light_color"), sc->m_cAmbientColor);
+			
+		m_pRenderQueue->AddRenderObj(m_pAmbientItem.get(), m_pAmbientLight.get());
+	}
+
 	void DefferedLightStep::PrepareRender(RenderProxy* proxy)
 	{
 		LightProxy* light = dynamic_cast<LightProxy*>(proxy);
@@ -232,9 +245,9 @@ namespace ma
 		m_pRenderPass = GetRenderSystem()->GetBackBufferRenderPass();
 	}
 
-	void UIStep::BeginePrepareRender()
+	void UIStep::BeginePrepareRender(SceneContext* sc)
 	{
-		MainRenderStep::BeginePrepareRender();
+		MainRenderStep::BeginePrepareRender(sc);
 
 		if (m_pLastPostProcss)
 		{

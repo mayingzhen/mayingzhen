@@ -68,7 +68,7 @@ namespace ma
 
 		for (auto& step : m_vecRenderStep)
 		{
-			step->BeginePrepareRender();
+			step->BeginePrepareRender(m_pSceneproxy.get());
 		}
 
 		if (GetJobScheduler()->GetNumThreads() > 0)

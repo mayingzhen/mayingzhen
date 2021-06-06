@@ -529,7 +529,7 @@ namespace ma
 		}
 
 		std::vector<VkDynamicState> dynamicStateEnables = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
-		if (info.m_bDepthBouds)
+		if (pVulkanDS && pVulkanDS->m_bDepthBoundsTest)
 		{
 			dynamicStateEnables.push_back(VK_DYNAMIC_STATE_DEPTH_BOUNDS);
 		}

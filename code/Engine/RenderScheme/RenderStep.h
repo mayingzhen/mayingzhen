@@ -19,7 +19,7 @@ namespace ma
 
 		virtual ~MainRenderStep();
 
-		virtual void BeginePrepareRender();
+		virtual void BeginePrepareRender(SceneContext* sc);
 
 		virtual void PrepareRender(RenderProxy* proxy) {}
 
@@ -40,7 +40,7 @@ namespace ma
 
 	private:
 
-		virtual void BeginePrepareRender();
+		virtual void BeginePrepareRender(SceneContext* sc);
 
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
@@ -63,7 +63,7 @@ namespace ma
 	public:
 		LinearDepthStep(Texture* pDepthBuffer);
 
-		virtual void BeginePrepareRender();
+		virtual void BeginePrepareRender(SceneContext* sc) override;
 
 	public:
 		RefPtr<Texture>			m_pLinearDepthTex;
@@ -79,6 +79,8 @@ namespace ma
 		DefferedLightStep(Texture* pDepthBuffer);
 
 	private:
+		virtual void BeginePrepareRender(SceneContext* sc) override;
+
 		virtual void PrepareRender(RenderProxy* proxy) override;
 
 	private:
@@ -86,6 +88,9 @@ namespace ma
 
 	private:
 		RefPtr<Texture>			m_pHDRColorTex;
+
+		RefPtr<Technique>		m_pAmbientLight;
+		RefPtr<Renderable>		m_pAmbientItem;
 	};
 
 	class UIStep : public MainRenderStep
@@ -94,7 +99,7 @@ namespace ma
 		UIStep(SubMaterial* pLastPostProcss);
 
 	private:
-		virtual void BeginePrepareRender() override;
+		virtual void BeginePrepareRender(SceneContext* sc) override;
 
 		virtual void PrepareRender(RenderProxy* proxy) override;
 

@@ -250,35 +250,25 @@ namespace ma
 			}
 		}
 
-
 		// SetLoayout
-// 		VkCommandBuffer Cmd = device->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
-// 
-// 		VkImageSubresourceRange subresourceRange = {};
-// 		if (m_eUsage == USAGE_DEPTHSTENCIL)
-// 		{
-// 			subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-// 		}
-// 		else
-// 		{
-// 			subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-// 		}
-// 		subresourceRange.baseMipLevel = 0;
-// 		subresourceRange.levelCount = m_nMipLevels;
-// 		subresourceRange.layerCount = nFaceCount;
-// 
-// 		// Change texture image layout to shader read after all mip levels have been copied
-// 		m_imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-// 		vks::tools::setImageLayout(
-// 			Cmd,
-// 			m_image,
-// 			VK_IMAGE_LAYOUT_UNDEFINED,
-// 			m_imageLayout,
-// 			subresourceRange);
-// 
-// 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
-// 
-// 		device->flushCommandBuffer(Cmd, pRender->m_queue);
+		VkCommandBuffer Cmd = device->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
+
+		view.subresourceRange.baseMipLevel = 0;
+		view.subresourceRange.levelCount = m_nMipLevels;
+		view.subresourceRange.layerCount = nFaceCount;
+
+		// Change texture image layout to shader read after all mip levels have been copied
+		m_imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		vks::tools::setImageLayout(
+			Cmd,
+			m_image,
+			VK_IMAGE_LAYOUT_UNDEFINED,
+			m_imageLayout,
+			view.subresourceRange);
+
+		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
+
+		device->flushCommandBuffer(Cmd, pRender->m_queue);
 	}
 
 	bool VulkanTexture::LoadFromImagData(const ImageData& imageData)

@@ -84,6 +84,7 @@ namespace ma
 
 		bool				m_bDepthWrite = true;
 		CompareFunction		m_eDepthCheckMode = CMPF_LESS_EQUAL;
+		bool				m_bDepthBoundsTest = false;
         
         bool operator < (const DepthStencilState& other) const
         {
@@ -98,6 +99,7 @@ namespace ma
             
             CMPVAR(m_bDepthWrite);
             CMPVAR(m_eDepthCheckMode);
+			CMPVAR(m_bDepthBoundsTest);
 #undef CMPVAR
             
             return false;

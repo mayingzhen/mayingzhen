@@ -25,8 +25,6 @@ namespace ma
 		std::string						m_strGSFile;
 		std::string						m_shaderMacro;
 
-		bool							m_bDepthBouds = false;
-
 		PRIMITIVE_TYPE					m_ePrimitiveType = PRIM_TRIANGLELIST;
         
 		ShaderCreateInfo();

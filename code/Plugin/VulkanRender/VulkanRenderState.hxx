@@ -56,6 +56,7 @@ namespace ma
 	{
 		ds.depthWriteEnable = m_bDepthWrite;
 		ds.depthCompareOp = VulkanMapping::get(m_eDepthCheckMode);
+		ds.depthBoundsTestEnable = m_bDepthBoundsTest;
 		
 		ds.stencilTestEnable = m_bStencil;
 		ds.front.failOp = VulkanMapping::get(m_eStencilFail);

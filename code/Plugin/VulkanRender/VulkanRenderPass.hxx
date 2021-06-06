@@ -103,7 +103,7 @@ namespace ma
 			color.storeOp = VulkanMapping::get(m_arrColor[i].m_eStoreOp);;
 			color.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 			color.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-			color.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			color.initialLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 			color.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
 			vecAttachments.push_back(color);
@@ -133,8 +133,8 @@ namespace ma
 			ds.storeOp = VulkanMapping::get(m_depthStencil.m_eStoreOp);
 			ds.stencilLoadOp = VulkanMapping::get(m_depthStencil.m_eLoadOp);
 			ds.stencilStoreOp = VulkanMapping::get(m_depthStencil.m_eStoreOp);
-			ds.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-			ds.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL; // Attachment will be transitioned to shader read at render pass end
+			ds.initialLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			ds.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL; // Attachment will be transitioned to shader read at render pass end
 
 			vecAttachments.push_back(ds);
 			
