@@ -12,15 +12,6 @@ namespace ma
         
         std::string out;
 
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
-		{
-			out.insert(0,"#define D3D11\n");
-		}
-		else if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
-		{
-			out.insert(0, "#define OPENGL_ES\n");
-		}
-
 		if (defines == NULL || strcmp(defines,"") == 0 )
 			return out;
 

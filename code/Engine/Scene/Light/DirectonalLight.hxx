@@ -51,7 +51,7 @@ namespace ma
 	{
 		Light::Update();
 
-		Vector3 vDir = -this->GetSceneNode()->GetForward().normalisedCopy();
+		Vector3 vDir = this->GetSceneNode()->GetForward().normalisedCopy();
 		DirLightProxy* pProxy = dynamic_cast<DirLightProxy*>(m_pRenderproxy.get());
 		ASSERT(pProxy);
 		pProxy->m_vDir[GetRenderSystem()->CurThreadFill()] = vDir;

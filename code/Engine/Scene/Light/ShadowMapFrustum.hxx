@@ -56,27 +56,13 @@ namespace ma
 
 		Vector2 scale( 0.5f * (float)veiewPort.width() / width, 0.5f * (float)veiewPort.height() / height );
 
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
-		{
-			offset.x += scale.x;
-			offset.y += scale.y;
+		offset.x += scale.x;
+		offset.y += scale.y;
 
-			texAdjust.setTrans(Vector3(offset.x, offset.y, 0.5f));
-			texAdjust.setScale(Vector3(scale.x, scale.y, 0.5f));
-		}
-		else
-		{
-			offset.x += scale.x;
-			offset.y += scale.y;
+		scale.y = -scale.y;
 
-			if (GetRenderDevice()->GetRenderDeviceType() != RenderDevice_VULKAN)
-			{
-				scale.y = -scale.y;
-			}
-
-			texAdjust.setTrans(Vector3(offset.x, offset.y, 0.0f));
-			texAdjust.setScale(Vector3(scale.x, scale.y, 1.0f));
-		}
+		texAdjust.setTrans(Vector3(offset.x, offset.y, 0.0f));
+		texAdjust.setScale(Vector3(scale.x, scale.y, 1.0f));
 
 		return texAdjust;
 	}
@@ -88,9 +74,7 @@ namespace ma
 
 		m_pRenderQueue->Clear();
 
-		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
-		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
-		m_lightFrustum.Update(m_matLightProj * m_matLightView, bGLSystem, bInvY);
+		m_lightFrustum.Update(m_matLightProj * m_matLightView);
 
 		std::vector<RenderProxy*> arrCaster;
 		cull->FindObjectsIn(&m_lightFrustum,-1, arrCaster);
@@ -132,9 +116,7 @@ namespace ma
 		Matrix4 matProj;
 		GetRenderDevice()->MakePerspectiveMatrix(matProj,sc->m_fFov,sc->m_fAspect,fSpiltNear,fSpiltFar);
 
-		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
-		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
-		m_frustum.Update(matProj * matView, bGLSystem, bInvY);
+		m_frustum.Update(matProj * matView);
 	}
 
 

@@ -14,7 +14,7 @@ namespace ma
 
 		Frustum& operator=(const Frustum& p);
 
-		void Update(const Matrix4& matViewProj,bool bGLSystem, bool bInvertedY);
+		void Update(const Matrix4& matViewProj);
 
 		enum Visibility
 		{
@@ -77,7 +77,7 @@ namespace ma
 		void Transformed(Matrix4 matTrans);
 
 	private:
-		void UpdatePoint(const Matrix4 &invProjViewMatrix,bool bGLSystem,bool bInvertedY);
+		void UpdatePoint(const Matrix4 &invProjViewMatrix);
 
 		void UpdatePlanes();
 	

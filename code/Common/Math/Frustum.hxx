@@ -30,15 +30,10 @@ namespace ma
 		AlignedMemory_deallocate(m_rgSIMDPlane);
 	}
 
-	void Frustum::UpdatePoint(const Matrix4 &invProjViewMatrix,bool bGLSystem,bool bInvertedY)
+	void Frustum::UpdatePoint(const Matrix4 &invProjViewMatrix)
 	{
 		float nearZ = 0.0f;
 		float farZ = 1.0f; // gl -1 ~ 1
-		if (bGLSystem) 
-		{
-			nearZ = -1.0f;
-			farZ = 1.0f;
-		}
 
 		Vector3	pPoints[PointsNumber];
 		pPoints[near_left_top] = Vector3(-1, 1, nearZ);
@@ -50,14 +45,6 @@ namespace ma
 		pPoints[far_left_bottom] =  Vector3(-1, -1, farZ);
 		pPoints[far_right_top] =  Vector3(1, 1, farZ);
 		pPoints[far_right_bottom] = Vector3(1, -1, farZ);
-
-		if (bInvertedY)
-		{
-			for (uint32_t i = 0; i < PointsNumber; ++i)
-			{
-				pPoints[i].y *= -1.0f;
-			}
-		}
 
 		for (uint32_t i = 0; i < PointsNumber; ++i)
 		{
@@ -71,9 +58,9 @@ namespace ma
 		}
 	}
 
-	void Frustum::Update(const Matrix4& matViewProj, bool bGLSystem, bool bInvertedY)
+	void Frustum::Update(const Matrix4& matViewProj)
 	{
-		UpdatePoint(matViewProj.inverse(),false,false);
+		UpdatePoint(matViewProj.inverse());
 
 		UpdatePlanes();
 

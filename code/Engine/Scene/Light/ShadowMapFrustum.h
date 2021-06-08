@@ -30,8 +30,6 @@ namespace ma
 		void				Clear();
 
 		const Matrix4&		GetLightViewProjMatrix() const { return m_matLightViewProj; }
-		const Matrix4&		GetLightViewMatrix() const {return m_matLightView;}
-		const Matrix4&		GetTexAdjustMatrix() const {return m_matTexAdjust;}
 		const Matrix4&		GetShadowMatrix() const {return m_matShadow;}
 
 		void				SetSplitPost(float fNear, float fFar);

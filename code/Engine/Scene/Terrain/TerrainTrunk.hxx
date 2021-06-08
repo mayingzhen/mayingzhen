@@ -589,9 +589,9 @@ namespace ma
 					int nXVert = m_pTerrain->GetXCellAmount() *  m_nX  + i * nStep;
 					int nYVert = m_pTerrain->GetYCellAmount() *  m_nY  + j * nStep;
 
-					uint16_t iIndexTopLeft = i  * (nYCellsAmount+1) + j;			    
-					uint16_t iIndexTopRight = (i+1)   * (nYCellsAmount+1) + j;	    
-					uint16_t iIndexBottomLeft = (i) * (nYCellsAmount+1) + j+1;			
+					uint16_t iIndexTopLeft = i * (nYCellsAmount + 1) + j;
+					uint16_t iIndexTopRight = i * (nYCellsAmount + 1) + j + 1;
+					uint16_t iIndexBottomLeft = (i + 1) * (nYCellsAmount + 1) + j;
 					uint16_t iIndexBottomRight = (i+1)   * (nYCellsAmount+1) + j + 1; 
 					uint16_t iRect[4] = {iIndexTopLeft,iIndexTopRight,iIndexBottomLeft,iIndexBottomRight};
 
