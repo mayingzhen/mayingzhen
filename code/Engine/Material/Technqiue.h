@@ -94,6 +94,8 @@ namespace ma
 	protected:
 		void				BindUniform(Renderable* pRenderable, SceneContext* sc, ShaderType eType);
 
+		void				BindOneUniform(Renderable* pRenderable, SceneContext* sc, Uniform* pUniform);
+
 		void				BindParametersUniform(Renderable* pRenderable, SceneContext* sc, Uniform* pUniform,const Any& anyValue);
 
 		void				ClearConstBuffer(ShaderType eType);
@@ -124,4 +126,35 @@ namespace ma
 	RefPtr<Technique> CreateTechnique();
 	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine, RenderPass* pPass);
 	RefPtr<Technique> CreateTechnique(const ShaderCreateInfo& info);
+
+	class ComputeShader;
+
+	class ComputeTechnique
+	{
+	public:
+		ComputeShader*		GetShaderProgram() const { return m_pShaderProgram.get(); }
+		void				SetShaderProgram(ShaderProgram* pShader);
+
+	protected:
+		void				BindUniform(Renderable* pRenderable, SceneContext* sc);
+
+		void				BindParametersUniform(Renderable* pRenderable, SceneContext* sc, Uniform* pUniform, const Any& anyValue);
+
+		void				ClearConstBuffer();
+
+		void				ClearStorgeBuffer();
+
+	private:
+		std::string						m_strDefine;
+
+		RefPtr<ComputeShader>			m_pShaderProgram;
+
+		std::vector<Parameter>			m_arrParameters;
+
+		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
+		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
+
+		typedef std::vector< RefPtr<Uniform> > VEC_STOREGEBUFFER;
+		VEC_STOREGEBUFFER				m_vecStorgeBuffer;
+	};
 }

@@ -40,7 +40,7 @@ float BlendVP(float3 vp, bool blendOut)
 struct VS_OUT
 {
    float2 oTc : TEXCOORD0;
-   float4 oViewDir : TEXCOORD1;
+   //float4 oViewDir : TEXCOORD1;
    float4 pos : SV_POSITION;
 };
 
@@ -50,7 +50,7 @@ void vs_main(
     out VS_OUT vOut)
 {
    vOut.pos = float4(pos.x, pos.y, 0.0, 1);
-   vOut.oViewDir = mul(float4(vOut.pos.xyz ,1),g_matProjInv);
+   //vOut.oViewDir = mul(float4(vOut.pos.xyz ,1),g_matProjInv);
    vOut.oTc = iUV;
 }
 
@@ -58,7 +58,10 @@ void vs_main(
 void ps_main( VS_OUT In, out float4 color : SV_TARGET )
 {
 	float fLinearDepth = GetLinearDepth(In.oTc); 
-	float3 view_dir = normalize(In.oViewDir.xyz);
+
+	//float3 view_dir = normalize(In.oViewDir.xyz);
+	float3 view_dir = mul(float4(In.pos.xyz ,1),g_matProjInv).xyz;
+	view_dir = normalize(view_dir.xyz);
 	float3 pos_es = view_dir * (fLinearDepth / view_dir.z); 
 
 	float4 vShadowPos = mul(float4(pos_es,1.0),g_matViewToShadow);

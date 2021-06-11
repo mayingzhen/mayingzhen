@@ -20,9 +20,6 @@ namespace ma
 		uint32_t		GetUniformCount();
 		Uniform*	    GetUniformByIndex(uint32_t nIndex);
 
-		Technique*	    GetParent() { return m_pTech; }
-		void		    SetParent(Technique* pTech) { m_pTech = pTech; }
-
 		void		    SetName(const char* pszName);
 		const char*     GetName();
 
@@ -32,8 +29,6 @@ namespace ma
 		uint32_t m_nBound = 0;
 
 		uint32_t m_nSize = 0;
-
-		Technique* m_pTech = NULL;
 
 		std::vector< RefPtr<Uniform> > m_vecUniform;
 	};
@@ -56,9 +51,6 @@ namespace ma
 		void		        SetParent(ConstantBuffer* pCB) { m_pCBPtr = pCB; }
 		ConstantBuffer*     GetParent() { return m_pCBPtr; }
 
-		void		        SetTechnique(Technique* pTech) { m_pTech = pTech; }
-		Technique*	        GetTechnique() { return m_pTech; }
-
 		uint32_t	        GetOffset() { return m_nOffSetInCB; }
 		void		        SetOffset(uint32_t nOffset) { m_nOffSetInCB = nOffset;}
 
@@ -78,7 +70,6 @@ namespace ma
 		ConstantBuffer*     m_pCBPtr = NULL;
 		uint32_t			m_nOffSetInCB = 0;
 		uint32_t			m_nSizeInCB = 0;
-		Technique*		    m_pTech = NULL;
 
 		ShaderType			m_eType;
 

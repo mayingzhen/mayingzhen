@@ -41,13 +41,7 @@ namespace ma
 
 		for (auto &pUniform : m_vecStorgeBuffer)
 		{
-			pUniform->Bind(pRenderable, sc);
-
-			Parameter* pMatParam = GetParameter(pUniform->GetName());
-			if (pMatParam == NULL)
-				continue;
-
-			BindParametersUniform(pRenderable, sc, pUniform.get(), pMatParam->GetValue());
+			BindOneUniform(pRenderable, sc, pUniform.get());
 		}
 	}
 
@@ -58,26 +52,34 @@ namespace ma
 			for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
 			{
 				Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
-
-				pUniform->Bind(pRenderable, sc);
-
-				Parameter* pMatParam = GetParameter(pUniform->GetName());
-				if (pMatParam == NULL)
-					continue;
-
-				BindParametersUniform(pRenderable, sc, pUniform, pMatParam->GetValue());
+				
+				BindOneUniform(pRenderable, sc, pUniform);
 			}
 		}
 
 		for (auto &pSampler : m_vecSamplers[eType])
 		{
-			pSampler->Bind(pRenderable, sc);
+			BindOneUniform(pRenderable, sc, pSampler.get());
+		}
+	}
 
-			Parameter* pMatParam = GetParameter(pSampler->GetName());
+	void Technique::BindOneUniform(Renderable* pRenderable, SceneContext* sc, Uniform* pUniform)
+	{
+		ASSERT(pUniform);
+		if (pUniform == nullptr)
+			return;
+
+		if (pUniform->GetMethodBinding())
+		{
+			pUniform->GetMethodBinding()->SetValue(pRenderable, sc, this, pUniform);
+		}
+		else
+		{
+			Parameter* pMatParam = GetParameter(pUniform->GetName());
 			if (pMatParam == NULL)
-				continue;
-			
-			BindParametersUniform(pRenderable, sc, pSampler.get(), pMatParam->GetValue());
+				return;
+
+			BindParametersUniform(pRenderable, sc, pUniform, pMatParam->GetValue());
 		}
 	}
 

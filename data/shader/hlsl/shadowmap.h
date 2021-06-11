@@ -113,13 +113,13 @@ float DoShadowMappingSampler(float4 vShadowPos,float2 vRandDirTC,float fDistance
 {
 	float fShadow = 1.0f;
 
-#if SHADOW_BLUR == 2
-	fShadow = shadow_jitterin(vShadowPos,vRandDirTC,shadowMapTexelSize);
-#elif SHADOW_BLUR == 1
-	fShadow = shadow_pcf(vShadowPos,shadowMapTexelSize);
-#else
+//#if SHADOW_BLUR == 2
+//	fShadow = shadow_jitterin(vShadowPos,vRandDirTC,shadowMapTexelSize);
+//#elif SHADOW_BLUR == 1
+//	fShadow = shadow_pcf(vShadowPos,shadowMapTexelSize);
+//#else
 	fShadow = ShadowDepthCompare(vShadowPos);
-#endif
+//#endif
 
 	fShadow = fShadow + g_fShadowExt;;
 
