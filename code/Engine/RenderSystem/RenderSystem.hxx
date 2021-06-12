@@ -319,14 +319,14 @@ namespace ma
 		m_pRenderThread->RC_SetUniformValue(pUniform,data,nSize);
 	}
 
-	void RenderSystem::SetSampler(Uniform* pUniform, SamplerState* pSampler)
+	void RenderSystem::SetSampler(Uniform* pUniform, SamplerState* pSampler, Technique* pTech)
 	{
-		m_pRenderThread->RC_SetSampler(pUniform, pSampler);
+		m_pRenderThread->RC_SetSampler(pUniform, pSampler, pTech);
 	}
 
-	void RenderSystem::SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+	void RenderSystem::SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer, ComputeTechnique* pTech)
 	{
-		m_pRenderThread->RC_SetStorageBuffer(pUniform, pBuffer);
+		m_pRenderThread->RC_SetStorageBuffer(pUniform, pBuffer, pTech);
 	}
 
 	void RenderSystem::BeginProfile(const char* pszLale)

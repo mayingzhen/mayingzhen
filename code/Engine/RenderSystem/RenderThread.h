@@ -12,6 +12,8 @@ namespace ma
 {
 	class Uniform;
 	class RenderPass;
+    class Techniquel;
+    class ComputeTechnique;
 	
 
 
@@ -84,8 +86,8 @@ namespace ma
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		
 		void	RC_SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);
-		void	RC_SetSampler(Uniform* pUniform, SamplerState* pSampler);
-		void	RC_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
+		void	RC_SetSampler(Uniform* pUniform, SamplerState* pSampler, Technique* pTech);
+		void	RC_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer, ComputeTechnique* pTech);
 
 
 		void	RC_BeginProfile(const char* pszLale);

@@ -29,8 +29,6 @@ namespace ma
 
 		virtual void		RT_SetSampler(Uniform* pUniform, SamplerState* pSampler) = 0;
 
-		virtual void		RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer) = 0;
-
 		const char*			GetShaderDefine() const;
 		void				SetShaderDefine(const char* pszDefine);
 
@@ -71,14 +69,8 @@ namespace ma
 		void				AddSampler(ShaderType eType, Uniform* pUniform);
 		uint32_t			GetSamplerCount(ShaderType eType);
 		Uniform*			GetSamplerByIndex(ShaderType eType, uint32_t nIndex);
-
-		void				AddStorgeBuffer(Uniform* pUniform);
-		uint32_t			GetStorgeBufferCount();
-		Uniform*			GetStorgeBufferByIndex(uint32_t nIndex);
 		
 		void				SetActiveSampler(Uniform* pUniform, SamplerState* pSampler);
-
-		void				SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
 
 		RefPtr<Technique>	CreateInstTech();
 
@@ -134,6 +126,14 @@ namespace ma
 	public:
 		ComputeShader*		GetShaderProgram() const { return m_pShaderProgram.get(); }
 		void				SetShaderProgram(ShaderProgram* pShader);
+        
+        void                SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
+        
+        virtual void        RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer) = 0;
+        
+        void                AddStorgeBuffer(Uniform* pUniform);
+        uint32_t            GetStorgeBufferCount();
+        Uniform*            GetStorgeBufferByIndex(uint32_t nIndex);
 
 	protected:
 		void				BindUniform(Renderable* pRenderable, SceneContext* sc);
@@ -152,7 +152,7 @@ namespace ma
 		std::vector<Parameter>			m_arrParameters;
 
 		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
-		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
+		VEC_CONSTBUFFER					m_vecConstBuffer;
 
 		typedef std::vector< RefPtr<Uniform> > VEC_STOREGEBUFFER;
 		VEC_STOREGEBUFFER				m_vecStorgeBuffer;

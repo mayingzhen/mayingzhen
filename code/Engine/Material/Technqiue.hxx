@@ -482,38 +482,11 @@ namespace ma
 		m_vecSamplers[eType].clear();
 	}
 
-	void Technique::AddStorgeBuffer(Uniform* pUniform)
-	{
-		m_vecStorgeBuffer.push_back(pUniform);
-	}
-
-	uint32_t Technique::GetStorgeBufferCount()
-	{
-		return m_vecStorgeBuffer.size();
-	}
-
-	Uniform* Technique::GetStorgeBufferByIndex(uint32_t nIndex)
-	{
-		ASSERT(nIndex < m_vecStorgeBuffer.size());
-		if (nIndex >= m_vecStorgeBuffer.size())
-			return NULL;
-
-		return m_vecStorgeBuffer[nIndex].get();
-	}
-
-	void Technique::ClearStorgeBuffer()
-	{
-		m_vecStorgeBuffer.clear();
-	}
-
 	void Technique::SetActiveSampler(Uniform* pUniform, SamplerState* pSampler)
 	{
-		GetRenderSystem()->SetSampler(pUniform, pSampler);
-	}
-
-	void Technique::SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
-	{
-		GetRenderSystem()->SetStorageBuffer(pUniform, pBuffer);
+        GetRenderSystem()->RC_AddRenderCommad([this, pUniform, pSampler]() {
+            this->RT_SetSampler(pUniform,pSampler);
+        });
 	}
 
 	Uniform* Technique::GetUniform(ShaderType eType, const char* pszName)
@@ -796,6 +769,31 @@ namespace ma
 
 		return pTech;
 	}
+
+    void ComputeTechnique::AddStorgeBuffer(Uniform* pUniform)
+    {
+        m_vecStorgeBuffer.push_back(pUniform);
+    }
+
+    uint32_t ComputeTechnique::GetStorgeBufferCount()
+    {
+        return m_vecStorgeBuffer.size();
+    }
+
+    Uniform* ComputeTechnique::GetStorgeBufferByIndex(uint32_t nIndex)
+    {
+        ASSERT(nIndex < m_vecStorgeBuffer.size());
+        if (nIndex >= m_vecStorgeBuffer.size())
+            return NULL;
+
+        return m_vecStorgeBuffer[nIndex].get();
+    }
+
+    void ComputeTechnique::ClearStorgeBuffer()
+    {
+        m_vecStorgeBuffer.clear();
+    }
+
 
 }
 
