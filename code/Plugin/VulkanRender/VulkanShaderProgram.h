@@ -15,9 +15,11 @@ namespace ma
 	private:
 		virtual void RT_StreamComplete();
 
-		void CreateShaderMode(const std::string& shaderFile, const std::string shaderMacro, ShaderType type);
-
 		void Destory();
+
+		void HlslToSpirv(const char* vshSource, uint32_t vshSize, const char* funName, ShaderType eType, std::vector<uint32_t>& vtx_spv);
+
+		VkPipelineShaderStageCreateInfo CreateShaderMode(const std::string& shaderFile, ShaderType type);
 
 		void CreatePipelineLayout();
 
@@ -27,9 +29,13 @@ namespace ma
 
 		void CreateGraphicsPipeline();
 
+		void CreateComputePipeline(const VkPipelineShaderStageCreateInfo& stage);
+
 	public:
 		VkDescriptorPool m_desc_pool = VK_NULL_HANDLE;
+
 		
+
 		struct Pipeline
 		{
 			VkDescriptorSetLayout m_desc_layout = VK_NULL_HANDLE;
@@ -42,6 +48,8 @@ namespace ma
 		};
 
 		Pipeline m_graphicPip;
+
+		Pipeline m_computePip;
 
 		std::vector<VkPipelineShaderStageCreateInfo> m_shaderStages;
 

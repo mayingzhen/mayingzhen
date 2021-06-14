@@ -74,8 +74,8 @@ namespace ma
 		void				UpdteHardwareBuffer(HardwareBuffer* pHB, const void* data, uint32_t nSize);
 
 		void				SetUniformValue(Uniform* pUniform, const void* data, uint32_t nSize);
-		void				SetSampler(Uniform* pUniform, SamplerState* pSampler, Technique* pTech);
-		void				SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer, ComputeTechnique* pTech);
+		void				SetSampler(Uniform* pUniform, SamplerState* pSampler);
+		void				SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer);
 
 		void				BeginProfile(const char* pszLale);
 		void				EndProfile();

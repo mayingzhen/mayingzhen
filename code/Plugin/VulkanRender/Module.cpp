@@ -9,7 +9,6 @@
 #include "VulkanRender/VulkanIndexBuffer.hxx"
 #include "VulkanRender/VulkanMapping.hxx"
 #include "VulkanRender/VulkanVertexDeclaration.hxx"
-#include "VulkanRender/VulkanShaderUtil.hxx"
 #include "VulkanRender/VulkanShaderProgram.hxx"
 #include "VulkanRender/VulkanRenderDevice.hxx"
 #include "VulkanRender/VulkanConstantBuffer.hxx"
@@ -18,7 +17,6 @@
 #include "VulkanRender/VulkanTechniqueh.hxx"
 #include "VulkanRender/VulkanRenderPass.hxx"
 #include "VulkanRender/VulkanRenderCommand.hxx"
-#include "VulkanRender/VulkanComputeShader.hxx"
 
 #include "VulkanRender/util_init.hxx"
 
@@ -34,7 +32,6 @@ using namespace ma;
 void VulkanRenderModuleInit()
 {
 	glslang::InitializeProcess();
-	VulkanShaderUtil::InitShiftBinding();
 
 #if defined(__ANDROID__)
 	// Vulkan library is loaded dynamically on Android

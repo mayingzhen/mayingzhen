@@ -275,23 +275,23 @@ namespace ma
 
 	void VulkanComputeCommand::SetTechnique(Technique* pTech)
 	{
-// 		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
-// 		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
-// 
-// 		//if (m_prePipeline != pVulkanShader->m_computePip._Pipeline)
-// 		{
-// 			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_pipeline);
-// 
-// 			m_prePipeline = pVulkanShader->m_pipeline;
-// 		}
-// 
-// 		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_computePip._Layout, 0,
-// 			1, &pVulkanTech->m_computeDescriptorSet, 0, NULL);
+		VulkanTechnique* pVulkanTech = (VulkanTechnique*)(pTech);
+		VulkanShaderProgram* pVulkanShader = (VulkanShaderProgram*)(pTech->GetShaderProgram());
+
+		//if (m_prePipeline != pVulkanShader->m_computePip._Pipeline)
+		{
+			vkCmdBindPipeline(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_computePip._Pipeline);
+
+			m_prePipeline = pVulkanShader->m_computePip._Pipeline;
+		}
+
+		vkCmdBindDescriptorSets(m_vkCmdBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pVulkanShader->m_computePip._Layout, 0,
+			1, &pVulkanTech->m_computeDescriptorSet, 0, NULL);
 	}
 
 	void VulkanComputeCommand::Dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)
 	{
-		//vkCmdDispatch(m_vkCmdBuffer, groupCountX, groupCountY, groupCountZ);
+		vkCmdDispatch(m_vkCmdBuffer, groupCountX, groupCountY, groupCountZ);
 	}
 
 }

@@ -52,6 +52,19 @@ namespace ma
 	{
 	}
 
+	void Uniform::Bind(Renderable* pRenderable, SceneContext* sc)
+	{
+		Technique* pTech = m_pTech ? m_pTech : m_pCBPtr->GetParent();
+		ASSERT(pTech);
+		if (pTech == NULL)
+			return;
+
+		if (m_pMethod)
+		{
+			m_pMethod->SetValue(pRenderable, sc, pTech, this);
+		}
+	}
+
 	const char* Uniform::GetName() const
 	{
 		return m_name.c_str();

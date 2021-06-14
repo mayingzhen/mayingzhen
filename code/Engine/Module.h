@@ -64,7 +64,6 @@
 #include "Engine/ImageData/ImageData.h"
 #include "Engine/Material/Texture.h"
 #include "Engine/Material/ShaderProgram.h"
-#include "Engine/Material/ComputeShader.h"
 #include "Engine/Material/MaterialParameter.h"
 #include "Engine/Material/Technqiue.h"
 #include "Engine/Material/Material.h"

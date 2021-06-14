@@ -41,7 +41,13 @@ namespace ma
 
 		for (auto &pUniform : m_vecStorgeBuffer)
 		{
-			BindOneUniform(pRenderable, sc, pUniform.get());
+			pUniform->Bind(pRenderable, sc);
+
+			Parameter* pMatParam = GetParameter(pUniform->GetName());
+			if (pMatParam == NULL)
+				continue;
+
+			BindParametersUniform(pRenderable, sc, pUniform.get(), pMatParam->GetValue());
 		}
 	}
 
@@ -52,34 +58,26 @@ namespace ma
 			for (uint32_t iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
 			{
 				Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
-				
-				BindOneUniform(pRenderable, sc, pUniform);
+
+				pUniform->Bind(pRenderable, sc);
+
+				Parameter* pMatParam = GetParameter(pUniform->GetName());
+				if (pMatParam == NULL)
+					continue;
+
+				BindParametersUniform(pRenderable, sc, pUniform, pMatParam->GetValue());
 			}
 		}
 
 		for (auto &pSampler : m_vecSamplers[eType])
 		{
-			BindOneUniform(pRenderable, sc, pSampler.get());
-		}
-	}
+			pSampler->Bind(pRenderable, sc);
 
-	void Technique::BindOneUniform(Renderable* pRenderable, SceneContext* sc, Uniform* pUniform)
-	{
-		ASSERT(pUniform);
-		if (pUniform == nullptr)
-			return;
-
-		if (pUniform->GetMethodBinding())
-		{
-			pUniform->GetMethodBinding()->SetValue(pRenderable, sc, this, pUniform);
-		}
-		else
-		{
-			Parameter* pMatParam = GetParameter(pUniform->GetName());
+			Parameter* pMatParam = GetParameter(pSampler->GetName());
 			if (pMatParam == NULL)
-				return;
-
-			BindParametersUniform(pRenderable, sc, pUniform, pMatParam->GetValue());
+				continue;
+			
+			BindParametersUniform(pRenderable, sc, pSampler.get(), pMatParam->GetValue());
 		}
 	}
 
@@ -482,11 +480,38 @@ namespace ma
 		m_vecSamplers[eType].clear();
 	}
 
+	void Technique::AddStorgeBuffer(Uniform* pUniform)
+	{
+		m_vecStorgeBuffer.push_back(pUniform);
+	}
+
+	uint32_t Technique::GetStorgeBufferCount()
+	{
+		return m_vecStorgeBuffer.size();
+	}
+
+	Uniform* Technique::GetStorgeBufferByIndex(uint32_t nIndex)
+	{
+		ASSERT(nIndex < m_vecStorgeBuffer.size());
+		if (nIndex >= m_vecStorgeBuffer.size())
+			return NULL;
+
+		return m_vecStorgeBuffer[nIndex].get();
+	}
+
+	void Technique::ClearStorgeBuffer()
+	{
+		m_vecStorgeBuffer.clear();
+	}
+
 	void Technique::SetActiveSampler(Uniform* pUniform, SamplerState* pSampler)
 	{
-        GetRenderSystem()->RC_AddRenderCommad([this, pUniform, pSampler]() {
-            this->RT_SetSampler(pUniform,pSampler);
-        });
+		GetRenderSystem()->SetSampler(pUniform, pSampler);
+	}
+
+	void Technique::SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+	{
+		GetRenderSystem()->SetStorageBuffer(pUniform, pBuffer);
 	}
 
 	Uniform* Technique::GetUniform(ShaderType eType, const char* pszName)
@@ -769,31 +794,6 @@ namespace ma
 
 		return pTech;
 	}
-
-    void ComputeTechnique::AddStorgeBuffer(Uniform* pUniform)
-    {
-        m_vecStorgeBuffer.push_back(pUniform);
-    }
-
-    uint32_t ComputeTechnique::GetStorgeBufferCount()
-    {
-        return m_vecStorgeBuffer.size();
-    }
-
-    Uniform* ComputeTechnique::GetStorgeBufferByIndex(uint32_t nIndex)
-    {
-        ASSERT(nIndex < m_vecStorgeBuffer.size());
-        if (nIndex >= m_vecStorgeBuffer.size())
-            return NULL;
-
-        return m_vecStorgeBuffer[nIndex].get();
-    }
-
-    void ComputeTechnique::ClearStorgeBuffer()
-    {
-        m_vecStorgeBuffer.clear();
-    }
-
 
 }
 

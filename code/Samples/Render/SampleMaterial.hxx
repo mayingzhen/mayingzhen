@@ -19,7 +19,7 @@ namespace ma
 			CreateMeshMaterial("magician/magician/body.tga", "magician/magician/Body.mtl", "SKIN;LIGHT;BRDF;SPEC");
 		}
 		
-		if (1);
+		if (1)
 		{
 			for (uint32_t i = 1; i < 4; ++i)
 			{

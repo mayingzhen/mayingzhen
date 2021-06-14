@@ -79,7 +79,6 @@
 #include "Engine/Material/Material.hxx"
 #include "Engine/Material/MaterialParameter.hxx"
 #include "Engine/Material/ShaderProgram.hxx"
-#include "Engine/Material/ComputeShader.hxx"
 #include "Engine/Material/ShaderManager.hxx"
 #include "Engine/Material/Texture.hxx"
 #include "Engine/Material/TextureManager.hxx"

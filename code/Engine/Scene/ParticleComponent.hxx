@@ -23,50 +23,6 @@ namespace ma
 		aabb.setInfinite();
 		this->SetAABB(aabb);
 
-		m_pRenderproxy = new ParticleProxy();
-	}
-
-	void ParticleComponent::RegisterAttribute()
-	{
-		REGISTER_OBJECT(ParticleComponent, CreateParticleComponent);
-	}
-
-
-	void ParticleComponent::Update()
-	{
-		RenderComponent::Update();
-
-		GetRenderSystem()->RC_AddRenderCommad([this]() {
-			GetParticlePoxy()->Update();
-			});
-	}
-
-	ParticleProxy* ParticleComponent::GetParticlePoxy()
-	{
-		return static_cast<ParticleProxy*>(m_pRenderproxy.get());
-	}
-
-	void ParticleComponent::Render(RenderQueue* pRenderQueue)
-	{
-// 		Technique* pTech = m_pRenderable->GetMaterial()->GetShadingTechnqiue();
-// 
-// 		pRenderQueue->AddComputeObj(m_pRenderable.get(), pTech);
-// 		pRenderQueue->AddRenderObj(m_pRenderable.get(), pTech);
-	}
-
-	void ParticleComponent::SetTexture(const char* pszPath)
-	{
-		RefPtr<SamplerState> pSampler = CreateSamplerState(pszPath);
-
-		GetRenderSystem()->RC_AddRenderCommad([pSampler,this]() {
-			this->GetParticlePoxy()->SetTexture(pSampler);
-			});
-
-		
-	}
-
-	ParticleProxy::ParticleProxy()
-	{
 		m_pRenderable = new ParticleRenderable();
 
 		RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
@@ -164,31 +120,48 @@ namespace ma
 		pSubMaterial->SetParameter("point_radius", Any(pointRadius));
 
 		m_pRenderable->m_pVertexBuffer = m_pPosBuffer;
-
+		
 		m_pRenderable->m_nRenderOrder = RL_Transluce;
 	}
 
-	void ParticleProxy::Update()
+	void ParticleComponent::RegisterAttribute()
 	{
+		REGISTER_OBJECT(ParticleComponent, CreateParticleComponent);
+	}
+
+
+	void ParticleComponent::Update()
+	{
+		RenderComponent::Update();
+
 		float freq = 256.0f;
 		float inv_emit_freq_ = 1.0f / freq;
 
 		float elapsed_time = GetTimer()->GetFrameDeltaTime();
-		m_fAccumulateTime += elapsed_time;
-		if (m_fAccumulateTime >= max_num_particles_ * inv_emit_freq_)
+		accumulate_time_ += elapsed_time;
+		if (accumulate_time_ >= max_num_particles_ * inv_emit_freq_)
 		{
-			m_fAccumulateTime = 0;
+			accumulate_time_ = 0;
 		}
 
 		m_pRenderable->m_pSubMaterial->SetParameter("elapse_time", Any(elapsed_time));
-		m_pRenderable->m_pSubMaterial->SetParameter("accumulate_time", Any(m_fAccumulateTime));
+		m_pRenderable->m_pSubMaterial->SetParameter("accumulate_time", Any(accumulate_time_));
 	}
 
-	void ParticleProxy::SetTexture(RefPtr<SamplerState> sampler)
-	{
-		m_pSampler = sampler;
 
-		m_pRenderable->m_pSubMaterial->SetParameter("particle_tex", Any(m_pSampler));
+	void ParticleComponent::Render(RenderQueue* pRenderQueue)
+	{
+		Technique* pTech = m_pRenderable->GetMaterial()->GetShadingTechnqiue();
+
+		pRenderQueue->AddComputeObj(m_pRenderable.get(), pTech);
+		pRenderQueue->AddRenderObj(m_pRenderable.get(), pTech);
+	}
+
+	void ParticleComponent::SetTexture(const char* pszPath)
+	{
+		m_pSampler = CreateSamplerState(pszPath);
+
+		m_pRenderable->m_pSubMaterial->SetParameter("particle_tex",Any(m_pSampler));
 	}
 
 	RefPtr<ParticleComponent> CreateParticleComponent()

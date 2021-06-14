@@ -30,6 +30,11 @@ namespace ma
 		{
 			vkFreeDescriptorSets(device->logicalDevice, pShader->m_desc_pool, 1, &m_grapicDescriptorSet);
 		}
+
+		if (m_computeDescriptorSet != VK_NULL_HANDLE)
+		{
+			vkFreeDescriptorSets(device->logicalDevice, pShader->m_desc_pool, 1, &m_computeDescriptorSet);
+		}
 	}
 
 	RefPtr<VulkanConstantBuffer> CloneConstBuffer(ConstantBuffer* src)
@@ -102,7 +107,7 @@ namespace ma
 			
 			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
 			pUniformCopy->SetShaderType(pUniform->GetShaderType());
-	
+			pUniformCopy->SetTechnique(this);
 			pUniformCopy->SetIndex(pUniform->GetIndex());
 			pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
 
@@ -120,6 +125,22 @@ namespace ma
 			vks::VulkanDevice* device = GetVulkanDevice();
 			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_grapicDescriptorSet);
 			assert(res == VK_SUCCESS);
+		}
+
+		if (pShader->m_computePip._Pipeline != VK_NULL_HANDLE)
+		{
+			VkDescriptorSetAllocateInfo alloc_info[1];
+			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+			alloc_info[0].pNext = NULL;
+			alloc_info[0].descriptorPool = pShader->m_desc_pool;
+			alloc_info[0].descriptorSetCount = 1;
+			alloc_info[0].pSetLayouts = &pShader->m_computePip.m_desc_layout;
+
+			vks::VulkanDevice* device = GetVulkanDevice();
+			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_computeDescriptorSet);
+			assert(res == VK_SUCCESS);
+
+			UpdateComputeUniformDescriptorSets();
 		}
 
 		SceneContext sc;
@@ -143,6 +164,11 @@ namespace ma
 	{
 		ShaderType eType = pUniform->GetShaderType();
 		UpdateGrapicSamplerDescriptorSets(eType, pUniform, pSampler);
+	}
+
+	void VulkanTechnique::RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
+	{
+		UpdateComputeStogeBufferDescriptorSets(pUniform, pBuffer);
 	}
 
 	void VulkanTechnique::UpdateGrapicUniformDescriptorSets(ShaderType eType)
@@ -218,111 +244,7 @@ namespace ma
 		vkUpdateDescriptorSets(device->logicalDevice, vec_write.size(), vec_write.data(), 0, NULL);
 	}
 
-
-	VulkanComputeTechnique::~VulkanComputeTechnique()
-	{
-		VulkanComputeShader* pShader = (VulkanComputeShader*)this->GetShaderProgram();
-		if (pShader == nullptr)
-		{
-			return;
-		}
-
-		if (m_computeDescriptorSet != VK_NULL_HANDLE)
-		{
-			vkFreeDescriptorSets(device->logicalDevice, pShader->m_desc_pool, 1, &m_computeDescriptorSet);
-		}
-	}
-
-	void VulkanComputeTechnique::RT_StreamComplete()
-	{
-		VulkanComputeShader* pShader = (VulkanComputeShader*)this->GetShaderProgram();
-		ASSERT(pShader->IsReady());
-		if (!pShader->IsReady())
-			return;
-
-		{
-			this->ClearConstBuffer();
-
-			for (uint32_t j = 0; j < pShader->GetConstBufferCount(); ++j)
-			{
-				ConstantBuffer* pShaderCS = pShader->GetConstBufferByIndex(j);
-				RefPtr<VulkanConstantBuffer> pConstantBuffer = CloneConstBuffer(pShaderCS);
-				pConstantBuffer->SetParent(this);
-
-				this->AddConstBuffer(pConstantBuffer.get());
-			}
-
-			this->ClearSampler();
-
-			for (uint32_t j = 0; j < pShader->GetSamplerCount(); ++j)
-			{
-				Uniform* pUniform = pShader->GetSamplerByIndex(j);
-
-				RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
-				pUniformCopy->SetShaderType(pUniform->GetShaderType());
-				pUniformCopy->SetTechnique(this);
-				pUniformCopy->SetIndex(pUniform->GetIndex());
-				pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
-
-				this->AddSampler(eType, pUniformCopy.get());
-			}
-		}
-
-		this->ClearStorgeBuffer();
-
-		for (uint32_t j = 0; j < pShader->GetStorgeBufferCount(); ++j)
-		{
-			Uniform* pUniform = pShader->GetStorgeBufferByIndex(j);
-
-			RefPtr<Uniform> pUniformCopy = CreateUniform(pUniform->GetName());
-			pUniformCopy->SetShaderType(pUniform->GetShaderType());
-			pUniformCopy->SetTechnique(this);
-			pUniformCopy->SetIndex(pUniform->GetIndex());
-			pUniformCopy->SetMethodBinding(pUniform->GetMethodBinding());
-
-			this->AddStorgeBuffer(pUniformCopy.get());
-		}
-
-		if (pShader->m_pipeline != VK_NULL_HANDLE)
-		{
-			VkDescriptorSetAllocateInfo alloc_info[1];
-			alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-			alloc_info[0].pNext = NULL;
-			alloc_info[0].descriptorPool = pShader->m_desc_pool;
-			alloc_info[0].descriptorSetCount = 1;
-			alloc_info[0].pSetLayouts = &pShader->m_computePip.m_desc_layout;
-
-			vks::VulkanDevice* device = GetVulkanDevice();
-			VkResult res = vkAllocateDescriptorSets(device->logicalDevice, alloc_info, &m_computeDescriptorSet);
-			assert(res == VK_SUCCESS);
-
-			UpdateComputeUniformDescriptorSets();
-		}
-
-		SceneContext sc;
-		for (uint32_t i = 0; i < ShaderType_Number; ++i)
-		{
-			BindUniform(NULL, &sc, (ShaderType)i);
-		}
-
-		for (uint32_t i = 0; i < ShaderType_Number; ++i)
-		{
-			ShaderType eType = (ShaderType)i;
-
-			if (eType == CS)
-				continue;
-
-			UpdateGrapicUniformDescriptorSets(eType);
-		}
-	}
-
-
-	void VulkanComputeTechnique::RT_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
-	{
-		UpdateComputeStogeBufferDescriptorSets(pUniform, pBuffer);
-	}
-
-	void VulkanComputeTechnique::UpdateComputeUniformDescriptorSets()
+	void VulkanTechnique::UpdateComputeUniformDescriptorSets()
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 
@@ -351,7 +273,7 @@ namespace ma
 		}
 	}
 
-	void VulkanComputeTechnique::UpdateComputeStogeBufferDescriptorSets(Uniform* pUniform, HardwareBuffer* pBuffer)
+	void VulkanTechnique::UpdateComputeStogeBufferDescriptorSets(Uniform* pUniform, HardwareBuffer* pBuffer)
 	{
 		vks::VulkanDevice* device = GetVulkanDevice();
 

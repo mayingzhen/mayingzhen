@@ -226,31 +226,31 @@ namespace ma
 			} );
 	}
 
-	void RenderThread::RC_SetSampler(Uniform* pUniform, SamplerState* pSampler, Technique* pTech)
+	void RenderThread::RC_SetSampler(Uniform* pUniform, SamplerState* pSampler)
 	{
 		// job 线程也会调用到这边
 		if (IsRenderThread() || !IsMainThread())
 		{
-			pTech->RT_SetSampler(pUniform, pSampler);
+			pUniform->GetTechnique()->RT_SetSampler(pUniform, pSampler);
 			return;
 		}
 
-		RC_AddRenderCommad([pUniform, pSampler, pTech]() {
-			pTech->RT_SetSampler(pUniform, pSampler);
+		RC_AddRenderCommad([pUniform, pSampler]() {
+			pUniform->GetTechnique()->RT_SetSampler(pUniform, pSampler);
 		});
 	}
 
-	void RenderThread::RC_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer, ComputeTechnique* pTech)
+	void RenderThread::RC_SetStorageBuffer(Uniform* pUniform, HardwareBuffer* pBuffer)
 	{
 		// job 线程也会调用到这边
 		if (IsRenderThread() || !IsMainThread())
 		{
-			pTech->RT_SetStorageBuffer(pUniform, pBuffer);
+			pUniform->GetTechnique()->RT_SetStorageBuffer(pUniform, pBuffer);
 			return;
 		}
 
 		RC_AddRenderCommad([pUniform, pBuffer]() {
-			pTech->RT_SetStorageBuffer(pUniform, pBuffer);
+			pUniform->GetTechnique()->RT_SetStorageBuffer(pUniform, pBuffer);
 		});
 	}
 
