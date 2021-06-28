@@ -165,6 +165,10 @@ namespace ma
 		vkCmdSetDepthBounds(m_vkCmdBuffer, fDepthNear, fDepthFar);
 	}
 
+	void VulkanRenderCommand::SetDepthBias(float fConstant, float fSlope)
+	{
+		vkCmdSetDepthBias(m_vkCmdBuffer, fConstant, 0.0, fSlope);
+	}
 
 	VulkanComputeCommand::VulkanComputeCommand()
 	{

@@ -3,12 +3,12 @@
 
 cbuffer ObjectVS : register(b5)
 {
+	float4x4	g_matWorld;	
+
 	float3 pos_extent;
 	float3 pos_center;
 	float4 tc_extent_center;
-	
-	float4x4	g_matWorld;	
-	float4x4	matLightViewProj;
+
 };
 
 // Attributes
@@ -77,7 +77,7 @@ VS_OUT vs_main( VS_IN In)
 	WindVertex(matWorld, worldPos, In.a_position, In.a_normal);
 #endif
 
-	Out.oPos = mul(worldPos, matLightViewProj);
+	Out.oPos = mul(worldPos, g_matLightViewProj);
 	
 	Out.oUV = iUV;
 

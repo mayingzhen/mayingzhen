@@ -19,7 +19,7 @@ namespace ma
 		{
 			SceneNode* pBox = m_pScene->CreateSceneNode();
 			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
-			pBoxMesh->SetSuportInstance(true);
+			//pBoxMesh->SetSuportInstance(true);
 			pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
 		}
 

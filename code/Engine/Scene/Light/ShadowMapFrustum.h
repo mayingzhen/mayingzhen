@@ -21,7 +21,7 @@ namespace ma
 		
 		~ShadowRenderStep();
 
-		void				InitShadowMap(DirLightProxy* pParent, Rectangle viewPort, RenderPass* pSMPass);
+		void				InitShadowMap(DirLightProxy* pParent, Rectangle viewPort, RenderPass* pSMPass, uint32_t nSubIndex);
 
 		void				PrepareRender(SceneContext* sc, CullTree* cull);
 
@@ -82,9 +82,13 @@ namespace ma
 
 		RenderPass*			m_shadowMapPass = nullptr;
 
-	public:
 		RefPtr<RenderQueue> m_pRenderQueue;
 		Rectangle			m_veiwPort;
 		BatchRenderable		m_batchRender;
+
+		uint32_t			m_nSubIndex = 0;
+
+
+		friend class ShadowRenderView;
 	};
 }

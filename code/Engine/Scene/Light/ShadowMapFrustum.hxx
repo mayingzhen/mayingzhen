@@ -32,8 +32,10 @@ namespace ma
 		m_fFar = fFar;
 	}
 
-	void ShadowRenderStep::InitShadowMap(DirLightProxy* pParent, Rectangle viewPort, RenderPass* pSMPass)
+	void ShadowRenderStep::InitShadowMap(DirLightProxy* pParent, Rectangle viewPort, RenderPass* pSMPass, uint32_t nSubIndex)
 	{
+		m_nSubIndex = nSubIndex;
+
 		m_shadowMapPass = pSMPass;
 
 		m_pParent = pParent;
@@ -59,7 +61,10 @@ namespace ma
 		offset.x += scale.x;
 		offset.y += scale.y;
 
-		scale.y = -scale.y;
+		//if (GetRenderDevice()->GetRenderDeviceType() != RenderDevice_VULKAN)
+		{
+			scale.y = -scale.y;
+		}
 
 		texAdjust.setTrans(Vector3(offset.x, offset.y, 0.0f));
 		texAdjust.setScale(Vector3(scale.x, scale.y, 1.0f));
@@ -96,7 +101,7 @@ namespace ma
 					continue;
 				}
 
-				Technique* tech = renderable->GetMaterial()->GetShadowDepthTechnqiue(m_shadowMapPass);
+				Technique* tech = renderable->GetMaterial()->GetShadowDepthTechnqiue(m_shadowMapPass, m_nSubIndex);
 				if (tech == nullptr || tech->GetTransluce())
 				{
 					continue;

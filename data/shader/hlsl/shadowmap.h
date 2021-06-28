@@ -51,6 +51,8 @@ float GetDirShadowFade(float inLight, float depth)
 
 float ShadowDepthCompare(float4 vTexCoord)
 {
+	//vTexCoord.y = 1.0 - vTexCoord.y;
+	//return g_tShadowMap.Sample(g_sShadowMap, vTexCoord.xy).r < vTexCoord.z;
 	return g_tShadowMap.SampleCmpLevelZero(g_sShadowMap, vTexCoord.xy, vTexCoord.z);
 }
 
@@ -58,9 +60,9 @@ float ShadowDepthCompare(float4 vTexCoord)
 float shadow_pcf(float4 shadowPos,float4 shadowMapTexelSize)
 {
 	float fShadow0 = ShadowDepthCompare(shadowPos);
-	float fShadow1 = ShadowDepthCompare(float4(shadowPos.x + shadowMapTexelSize.y, shadowPos.yzw));
-	float fShadow2 = ShadowDepthCompare(float4(shadowPos.x, shadowPos.y + shadowMapTexelSize.y, shadowPos.zw));
-	float fShadow3 = ShadowDepthCompare(float4(shadowPos.xy + shadowMapTexelSize.yy, shadowPos.zw));
+	float fShadow1 = ShadowDepthCompare(float4(shadowPos.x + shadowMapTexelSize.z, shadowPos.yzw));
+	float fShadow2 = ShadowDepthCompare(float4(shadowPos.x, shadowPos.y + shadowMapTexelSize.w, shadowPos.zw));
+	float fShadow3 = ShadowDepthCompare(float4(shadowPos.xy + shadowMapTexelSize.zw, shadowPos.zw));
 
 	return (fShadow0 + fShadow1 + fShadow2 + fShadow3) * 0.25f;
 }

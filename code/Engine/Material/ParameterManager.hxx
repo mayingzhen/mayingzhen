@@ -76,7 +76,7 @@ namespace ma
 // 			return pCurScene->GetMainDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 // 		});
 
- 		AddFunMethodBinding<Matrix4>("matLightViewProj", [](Renderable*, SceneContext* sc) {
+ 		AddFunMethodBinding<Matrix4>("g_matLightViewProj", [](Renderable*, SceneContext* sc) {
  			return sc->m_matLightViewProj;
  		});
 

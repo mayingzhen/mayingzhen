@@ -19,6 +19,7 @@ namespace ma
 	{
 		SceneContext* sceneData = new SceneContext();
 		sceneData->SetCamera(m_pCamera.get());
+		sceneData->SetMainLight(m_pScene->GetMainDirLight(), m_pScene->GetAmbientColor());
 		GetRenderSystem()->RC_AddRenderCommad( [this,sceneData]()
 			{
 				*m_pSceneproxy = *sceneData;

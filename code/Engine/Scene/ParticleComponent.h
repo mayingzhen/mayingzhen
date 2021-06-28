@@ -2,9 +2,12 @@
 
 namespace ma
 {
+	class ParticleProxy;
 
 	class ParticleRenderable : public Renderable
 	{
+		virtual void	Render(Technique* pTechnique, RenderCommand* pRenderCommand, SceneContext* sc) override;
+
 		virtual void	Compute(Technique* pTechnique, ComputeCommand* pComputeCmd, SceneContext* sc) override;
 	};
 
@@ -18,13 +21,27 @@ namespace ma
 
 		static void			RegisterAttribute();
 
-		virtual	void		Update();
-
-		virtual void		Render(RenderQueue* pRenderQueue);
+		virtual	void		Update() override;
 
 		void				SetTexture(const char* pszPath);
 
 	private:
+		ParticleProxy*		GetParticlePoxy();
+	};
+
+	class ParticleProxy : public RenderProxy
+	{
+	public:
+		ParticleProxy();
+
+		uint32_t					GetRenderableCount() const { return 1; }
+		Renderable*					GetRenderableByIndex(uint32_t index) const { return m_pRenderable.get(); }
+
+		void						Update();
+
+		void						SetTexture(RefPtr<SamplerState> sampler);
+
+	protected:
 		RefPtr<ParticleRenderable>	m_pRenderable;
 
 		RefPtr<VertexBuffer>		m_pInitVelBuffer;
@@ -35,7 +52,7 @@ namespace ma
 
 		RefPtr<SamplerState>		m_pSampler;
 
-		float accumulate_time_ = 0;
+		float						m_fAccumulateTime = 0;
 	};
 
 	RefPtr<ParticleComponent> CreateParticleComponent();

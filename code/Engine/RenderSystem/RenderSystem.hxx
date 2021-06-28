@@ -146,7 +146,7 @@ namespace ma
 	void RenderSystem::InitGlobeMarco()
 	{
 		m_mapMacros["USING_SHADOW"] = "0";
-		m_mapMacros["SHADOW_BLUR"] = "0";
+		m_mapMacros["SHADOW_BLUR"] = "1";
 		m_mapMacros["USING_HW_PCF"] = "1";
 		m_mapMacros["ENCODENORMAL"] = "1";
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";

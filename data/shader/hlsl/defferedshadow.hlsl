@@ -12,6 +12,8 @@ cbuffer ObjectPS : register(b5)
 	float4x4 g_matNextViewToShadow;
 
 	float4 uv_calmp;
+
+	int cascad_index;
 };
 
 
@@ -39,9 +41,9 @@ float BlendVP(float3 vp, bool blendOut)
 
 struct VS_OUT
 {
-   float2 oTc : TEXCOORD0;
-   float4 oViewDir : TEXCOORD1;
-   float4 pos : SV_POSITION;
+	float4 pos : SV_POSITION;
+	float2 oTc : TEXCOORD0;
+	float4 oScreen : TEXCOORD1;
 };
 
 void vs_main(
@@ -50,22 +52,38 @@ void vs_main(
     out VS_OUT vOut)
 {
    vOut.pos = float4(pos.x, pos.y, 0.0, 1);
-   vOut.oViewDir = mul(float4(vOut.pos.xyz ,1),g_matProjInv);
+   vOut.oScreen = vOut.pos;
    vOut.oTc = iUV;
 }
 
 
 void ps_main( VS_OUT In, out float4 color : SV_TARGET )
 {
-	float fLinearDepth = GetLinearDepth(In.oTc); 
-	float3 view_dir = normalize(In.oViewDir.xyz);
-	float3 pos_es = view_dir * (fLinearDepth / view_dir.z); 
+	float depth = tDeviceDepthMapSampler.Sample(sDeviceDepthMapSampler, In.oTc).r;
+	float4 position_ndc = float4(In.oScreen.x, In.oScreen.y, depth, 1.0f);
+	float4 pos_es = mul(position_ndc,g_matProjInv);
+	pos_es = pos_es / pos_es.w;
 
-	float4 vShadowPos = mul(float4(pos_es,1.0),g_matViewToShadow);
+	float4 vShadowPos = mul(pos_es,g_matViewToShadow);
+
+	vShadowPos = vShadowPos / vShadowPos.w;
+
+
+	if (cascad_index == 0)
+		color = float4(1.0,0.0,0.0,1.0);
+	else if (cascad_index == 1)
+		color = float4(0.0,1.0,0.0,1.0);
+	else if (cascad_index == 2)
+		color = float4(0.0,0.0,1.0,1.0);
+	else if (cascad_index == 3)
+		color = float4(1.0,1.0,0.0,1.0);
+	else
+		color = float4(1.0,1.0,1.0,1.0);
 
     float shadow = DoShadowMapping(vShadowPos,float2(0,0),vShadowPos.w);   
 
-    color = float4(shadow,shadow,shadow,1.0);    
+    //color = float4(shadow,shadow,shadow,shadow);   
+	color.a = shadow; 
 }
 
 

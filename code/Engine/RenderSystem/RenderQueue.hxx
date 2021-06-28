@@ -15,6 +15,7 @@ namespace ma
 
 	void RenderQueue::AddRenderObj(Renderable* pRenderObj, Technique* pTech)
 	{
+		ASSERT(pRenderObj && pTech);
 		m_vecRenderList[pRenderObj->GetRenderOrder()].emplace_back(RenderItem(pRenderObj, pTech));
 	}
 

@@ -189,7 +189,7 @@ namespace ma
 				ASSERT(pDirLight);
 
 				Uniform* pUniformDir = light->m_pTech->GetUniform(PS, "light_dir");
-				light->m_pTech->SetValue(pUniformDir, pDirLight->m_vDir[index]);
+				light->m_pTech->SetValue(pUniformDir, -pDirLight->m_vDir[index]);
 
 				m_pRenderQueue->AddRenderObj(pDirLight->m_pQuad.get(), light->m_pTech.get());
 			}
@@ -227,7 +227,7 @@ namespace ma
 			for (uint32_t i = 0; i < proxy->GetRenderableCount(); ++i)
 			{
 				Renderable* renderable = proxy->GetRenderableByIndex(i);
-				if (renderable->GetRenderOrder() > RL_Transluce && renderable->GetRenderOrder() < RL_PostProcess)
+				if (renderable->GetRenderOrder() >= RL_Transluce && renderable->GetRenderOrder() < RL_PostProcess)
 				{
 					Technique* tech = renderable->GetMaterial()->GetTechnqiue(m_pRenderPass.get());
 					m_pRenderQueue->AddRenderObj(renderable, tech);

@@ -16,12 +16,12 @@ namespace ma
 		virtual void	RT_StreamComplete() { ASSERT(false); }
 
 	public:
-		float				m_fConstantBias;
-		float				m_fSlopeScaleBias;
+		float				m_fConstantBias = 0;
+		float				m_fSlopeScaleBias = 0;
 
-		bool				m_bScissorTest;
-		FillMode			m_eFillMode;
-		CULL_MODE			m_eCullMode;
+		bool				m_bScissorTest = false;
+		FillMode			m_eFillMode = FILL_SOLID;
+		CULL_MODE			m_eCullMode = CULL_FACE_SIDE_BACK;
 
 		bool operator < (const RasterizerState& other) const
 		{

@@ -22,6 +22,8 @@ namespace ma
 
 		virtual	void SetDepthBounds(float fDepthNear, float fDepthFar) = 0;
 
+		virtual void SetDepthBias(float fConstant, float fSlope) = 0;
+
 		virtual void DrawIndex(uint32_t nIndexStart, uint32_t nIndexCount, uint32_t nVertexStart, uint32_t nInstanceCount) = 0;
 
 		virtual void Draw(uint32_t nVertexStart, uint32_t nVertexCount, uint32_t nInstanceCount) = 0;

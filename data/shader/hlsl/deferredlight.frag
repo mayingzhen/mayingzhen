@@ -128,9 +128,10 @@ void ps_main( VS_OUT vout, out PS_OUT pout )
    DeferredLightPS(vout,pout);   
    
 #if USING_SHADOW != 0
-   float shadow = u_TextureSceneShadow.Sample(s_TextureSceneShadow, vout.oTc).r;
+   float4 shadow = u_TextureSceneShadow.Sample(s_TextureSceneShadow, vout.oTc).rgba;
    
-   //pout.flagColor *= shadow;
+   pout.flagColor *= shadow.a;
+   //pout.flagColor = shadow;
 #endif
 
 #endif

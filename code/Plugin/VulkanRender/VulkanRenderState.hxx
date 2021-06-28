@@ -25,6 +25,9 @@ namespace ma
 	void VulkanRasterizerState::RT_StreamComplete()
 	{
 		rs.cullMode = VulkanMapping::get(m_eCullMode);
+		rs.depthBiasEnable = m_fConstantBias > 0.0f;
+		rs.depthBiasConstantFactor = m_fConstantBias;
+		rs.depthBiasSlopeFactor = m_fSlopeScaleBias;
 	}
 
 	VulkanDepthStencilState::VulkanDepthStencilState()

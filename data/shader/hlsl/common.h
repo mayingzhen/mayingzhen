@@ -15,6 +15,8 @@ cbuffer CameraVS : register(b1)
 	float2 g_vViewport;
 	float2 g_vViewportInv;
 	float4  g_vCameraNearFar;
+
+	float4x4 g_matLightViewProj;
 };
 
 cbuffer LightPS : register(b3)

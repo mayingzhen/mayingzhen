@@ -10,6 +10,7 @@ namespace ma
 	struct SMFrustumInfo
 	{
 		Matrix4	m_matViewToShadow;
+		Matrix4	m_matLightViewProj;
 		SamplerState* m_pShadowDepth = nullptr;
 		float m_fDepthNear = 0.0f;
 		float m_fDepthFar = 0.0f;

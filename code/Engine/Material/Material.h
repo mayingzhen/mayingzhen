@@ -17,7 +17,7 @@ namespace ma
 		Technique*			GetShadingTechnqiue();
 		void				SetShadingTechnqiue(Technique* pTech);
 
-		Technique*			GetShadowDepthTechnqiue(RenderPass* pShadowPass);
+		Technique*			GetShadowDepthTechnqiue(RenderPass* pShadowPass, uint32_t nSubIndex);
 
 		Technique*			GetTechnqiue(RenderPass* pPass);
 
@@ -34,7 +34,7 @@ namespace ma
 	private:
 		RefPtr<Technique>	m_pShadingTech;
 
-		RefPtr<Technique>	m_pShadowDepthTech;
+		std::vector<RefPtr<Technique>>	m_vecShadowDepthTech;
 
 		std::vector<RefPtr<Technique> >	m_vecExtTech;
 

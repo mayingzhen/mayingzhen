@@ -27,7 +27,10 @@ namespace ma
 			}
 		}
 
-		return nullptr;
+		m_pShadingTech->SetRenderPass(pPass);
+		m_pShadingTech->ReLoad();
+		
+		return m_pShadingTech.get();
 	}
 
 	void SubMaterial::SetShadingTechnqiue(Technique* pTech)
@@ -40,9 +43,14 @@ namespace ma
 		}
 	}
 
-	Technique* SubMaterial::GetShadowDepthTechnqiue(RenderPass* pShadowPass)
+	Technique* SubMaterial::GetShadowDepthTechnqiue(RenderPass* pShadowPass, uint32_t nSubIndex)
 	{
-		if (m_pShadowDepthTech == NULL)
+		if (m_vecShadowDepthTech.size() <= nSubIndex)
+		{
+			m_vecShadowDepthTech.resize(nSubIndex + 1);
+		}
+
+		if (m_vecShadowDepthTech[nSubIndex] == NULL)
 		{
 			VertexDeclaration* pVertexDecl = m_pShadingTech->GetShaderProgram()->GetShaderCreateInfo().m_pVertexDecl.get();
 
@@ -59,6 +67,10 @@ namespace ma
 			RefPtr<BlendState> pBlendSate = CreateBlendState();
 			pBlendSate->m_blendDesc[0].nColorWrite = 0;
 
+			RefPtr<RasterizerState> pRasState = CreateRasterizerState();
+			pRasState->m_fConstantBias = 1.25f;
+			pRasState->m_fSlopeScaleBias = 1.75f;
+
 			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
 
 			ShaderCreateInfo info;
@@ -67,16 +79,19 @@ namespace ma
 			info.m_shaderMacro = strShaderMacro;
 			info.m_pVertexDecl = pDeclaration;
 			info.m_pBlendState = pBlendSate;
+			info.m_pRSState = pRasState;
 			info.m_pRenderPass = pShadowPass;
-			m_pShadowDepthTech = CreateTechnique(info);
+			RefPtr<Technique> pShadowDepthTech = CreateTechnique(info);
 
 			for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
 			{
-				m_pShadowDepthTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
+				pShadowDepthTech->SetParameter(m_arrParameters[i].GetName(), m_arrParameters[i].GetValue());
 			}
+
+			m_vecShadowDepthTech[nSubIndex] = pShadowDepthTech;
 		}
 
-		return m_pShadowDepthTech.get();
+		return m_vecShadowDepthTech[nSubIndex].get();
 	}
 
 	Technique* SubMaterial::GetShadingTechnqiue()
@@ -94,18 +109,6 @@ namespace ma
 			RenderPass* pRenderPass = GetRenderSystem()->GetBaseRenderPass();
 
 			m_pShadingTech = CreateTechnique(pszTechName, pszTechMacro, pRenderPass);
-		}
-
-		rapidxml::xml_node<>* pXmlShadowDepthTech = pXmlElem->first_node("ShadowDepthTech");
-		if (pXmlShadowDepthTech)
-		{
-			const char* pszTechName = pXmlShadingTech->findAttribute("TechName");
-			const char* pszTechMacro = pXmlShadingTech->findAttribute("TechMarco");
-
-			DirectonalLight* pDirLight = GetRenderSystem()->GetScene()->GetMainDirLight();
-			RenderPass* pRenderPass = pDirLight->GetShadowMapPass();
-
-			m_pShadowDepthTech = CreateTechnique(pszTechName, pszTechMacro, pRenderPass);
 		}
 
 		rapidxml::xml_node<>* pXmlParameter = pXmlElem->first_node("Parameters");
@@ -133,18 +136,6 @@ namespace ma
 
 			rapidxml::append_attribute(pXmlShadingTech, doc, "TechName", pszName);
 			rapidxml::append_attribute(pXmlShadingTech, doc, "TechMarco", pszMacro);
-		}
-
-		if (m_pShadowDepthTech)
-		{
-			rapidxml::xml_node<>* pXmlShadowDepthTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ShadowDepthTech"));
-			pXmlElem->append_node(pXmlShadowDepthTech);
-			
-			const char* pszName = m_pShadowDepthTech->GetResPath();
-			const char* pszMacro = m_pShadowDepthTech->GetShaderDefine();
-
-			rapidxml::append_attribute(pXmlShadowDepthTech, doc, "TechName", pszName);
-			rapidxml::append_attribute(pXmlShadowDepthTech, doc, "TechMarco", pszMacro);
 		}
 
 		for (uint32_t i = 0; i < m_arrParameters.size(); ++i)
@@ -176,11 +167,6 @@ namespace ma
 		{
 			m_pShadingTech->SetParameter(pszName, value);
 		}
-
-		if (m_pShadowDepthTech)
-		{
-			m_pShadowDepthTech->SetParameter(pszName, value);
-		}
 	}
 
 	Parameter* SubMaterial::GetParameter(const char* pszName)
@@ -202,7 +188,7 @@ namespace ma
 
 	void SubMaterial::ReLoad()
 	{
-		m_pShadowDepthTech = NULL;
+		m_vecShadowDepthTech.clear();
 
 		m_pShadingTech->ReLoad();
 	}

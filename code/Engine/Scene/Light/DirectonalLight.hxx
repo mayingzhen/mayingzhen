@@ -18,7 +18,7 @@ namespace ma
 		m_eLightType = LIGHT_DIRECTIONAL;
 		m_bShadowEnable = false;
 		m_nMaxSplitCount = 4;
-		m_nShadowMapSize = 512;
+		m_nShadowMapSize = 1024;
 		m_SplitPosParam = Vector4(30.0f,60.0f,120.0f,270.0f);
 		m_curSplitPos = m_SplitPosParam;
 
@@ -180,7 +180,7 @@ namespace ma
 		{
 			Rectangle viewPort = Rectangle(1.0f + i * m_nShadowMapSize, 1.0f,
 				(i + 1) * m_nShadowMapSize - 2.0f, m_nShadowMapSize - 2.0f);
-			m_SpitFrustum[i].InitShadowMap(light_proxy, viewPort, m_pShadowMapPass.get());
+			m_SpitFrustum[i].InitShadowMap(light_proxy, viewPort, m_pShadowMapPass.get(), i);
 
 			fFarSplit = m_SplitPosParam[i];
 

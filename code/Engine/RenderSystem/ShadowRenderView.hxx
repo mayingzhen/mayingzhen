@@ -48,6 +48,7 @@ namespace ma
 		ASSERT(info.m_fDepthNear < info.m_fDepthFar);
 
 		info.m_matViewToShadow = step->GetShadowMatrix() * m_pSceneproxy->m_matViewProj.GetMatViewInv();
+		info.m_matLightViewProj = step->GetLightViewProjMatrix();
 		info.m_pShadowDepth = m_pShadowMapSampler.get();
 
 		DeferredShadow* pDeferredShadow = GetRenderSystem()->GetMainRenderView()->GetDeferredShadowSetp();
@@ -82,6 +83,8 @@ namespace ma
 			pRenderCommand->SetViewPort(subStep->m_veiwPort);
 
 			m_pSceneproxy->m_matLightViewProj = subStep->GetLightViewProjMatrix();
+
+			pRenderCommand->SetDepthBias(1.25f, 1.75f);
 
 			cur_renderQueue->Render(pRenderCommand, m_pSceneproxy.get());
 

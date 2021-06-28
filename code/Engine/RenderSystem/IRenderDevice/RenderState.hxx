@@ -6,11 +6,6 @@ namespace ma
 
 	RasterizerState::RasterizerState()
 	{
-		m_fConstantBias = 0;
-		m_fSlopeScaleBias = 0;
-		m_eCullMode = CULL_FACE_SIDE_BACK;
-		m_eFillMode = FILL_SOLID;
-		m_bScissorTest = false;
 	}
 
 	void RasterizerState::RegisterAttribute()

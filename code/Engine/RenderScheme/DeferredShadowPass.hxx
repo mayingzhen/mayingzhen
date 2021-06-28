@@ -23,7 +23,7 @@ namespace ma
 
 	void DeferredShadow::Reset(Texture* pDepthStencil)
 	{
-		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_FLOAT16_R,false);
+		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8/*PF_FLOAT16_R*/,false);
 
 		m_pShadowSampler = CreateSamplerState(m_pShadowTex.get(),CLAMP,TFO_POINT,false);
 
@@ -87,8 +87,16 @@ namespace ma
 		{
 			SMFrustumInfo& shadowMapFru = m_vecFrustum[i];
 
+			sc->m_matLightViewProj = shadowMapFru.m_matLightViewProj;
+
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_matViewToShadow"), shadowMapFru.m_matViewToShadow);
 			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_tShadowMap"), shadowMapFru.m_pShadowDepth);
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "cascad_index"), i);
+
+ 			Texture* pTexture = shadowMapFru.m_pShadowDepth->GetTexture();
+ 			Vector4 vTexelSize = Vector4((float)pTexture->GetWidth(), (float)pTexture->GetHeight(), 
+				1.0f / (float)pTexture->GetWidth(), 1.0f / (float)pTexture->GetHeight());
+			m_pDefferedShadow[i]->SetValue(m_pDefferedShadow[i]->GetUniform(PS, "g_shadowMapTexelSize"), vTexelSize);
 
 			pRenderCommand->SetDepthBounds(shadowMapFru.m_fDepthNear, shadowMapFru.m_fDepthFar);
 
