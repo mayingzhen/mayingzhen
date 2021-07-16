@@ -26,6 +26,7 @@ namespace ma
 		float					m_fFov = 0.0;
 		float					m_fAspect = 0.0;
 		Vector3					m_vEyeWordPos = Vector3::ZERO;
+		Vector4					m_vViewPort = Vector4::ZERO;
 
 		Vector3					m_vMainLightDir;
 		ColourValue				m_cMianLightColor;

@@ -1,0 +1,18 @@
+<Technique>
+	<Shader VSFile="gi.hlsl:vs_main" PSFile="gi.hlsl:ps_main">
+		<VertexDeclaration>
+			<Element Value="0,0,DT_FLOAT2,DU_POSITION,0"/>
+			<Element Value="0,8,DT_FLOAT2,DU_TEXCOORD,0"/>
+		</VertexDeclaration>
+	</Shader>
+	<RenderState>
+		<BlendState/>
+		<DepthStencilState ClassName="DepthStencilState">
+			<Attribute Name="DepthWrite" Type="bool" Value="false"/>
+			<Attribute Name="StencilMask" Type="uint32_t" Value="4294967295"/>
+			<Attribute Name="WriteMask" Type="uint32_t" Value="4294967295"/>
+		</DepthStencilState>
+		<RasterizerState ClassName="RasterizerState"/>
+	</RenderState>
+</Technique>
+

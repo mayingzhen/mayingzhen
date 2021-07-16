@@ -13,6 +13,9 @@ namespace ma
 		m_frustum = pCamera->GetFrustum();
 		m_fFov = pCamera->GetFov();
 		m_fAspect = pCamera->GetAspect();
+
+		Rectangle rect = GetRenderSystem()->GetViewPort();
+		m_vViewPort = Vector4(rect.width(), rect.height(), 1.0f / rect.width(), 1.0 / rect.height());
 	}
 
 	void SceneContext::SetMainLight(Light* pMianLight, ColourValue cAmbientColor)

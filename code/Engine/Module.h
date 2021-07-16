@@ -79,6 +79,7 @@
 #include "Engine/Scene/Camera.h"
 #include "Engine/Scene/MeshComponent.h"
 #include "Engine/Scene/SkinMeshComponent.h"
+#include "Engine/Scene/Screen.h"
 #include "Engine/Scene/Light/Light.h"
 #include "Engine/Scene/Light/DirectonalLight.h"
 

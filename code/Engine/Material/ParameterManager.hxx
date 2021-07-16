@@ -27,6 +27,9 @@ namespace ma
 		AddFunMethodBinding<Matrix4>("g_matViewProj", [](Renderable*, SceneContext* sc) {
 			return sc->m_matViewProj.GetMatViewProj(); });
 
+		AddFunMethodBinding<Matrix4>("g_matViewProjInv", [](Renderable*, SceneContext* sc) {
+			return sc->m_matViewProj.GetMatViewProjInv(); });
+
 		AddFunMethodBinding<Matrix4>("g_matWorld", [](Renderable* pRenderable, SceneContext* sc) {
 			return pRenderable ? pRenderable->GetWorldMatrix() : Matrix4::IDENTITY; } );
 
@@ -46,6 +49,10 @@ namespace ma
 		AddFunMethodBinding<Vector3>("g_vEyeWorldPos", [](Renderable*, SceneContext* sc) {
 			return sc->m_vEyeWordPos; 
 		} );
+
+		AddFunMethodBinding<Vector4>("g_vViewport", [](Renderable*, SceneContext* sc) {
+			return sc->m_vViewPort;
+			});
 
 // 		AddFunMethodBinding<Vector3>("g_cSkyLight", [](Renderable*) {
 // 			return GetSceneContext()->m_cAmbientColor; 

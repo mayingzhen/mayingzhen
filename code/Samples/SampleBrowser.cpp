@@ -25,6 +25,7 @@
 #include "Samples/Render/SampleShadowMap.hxx"
 #include "Samples/Render/SampleMaterial.hxx"
 #include "Samples/Render/SampleIBL.hxx"
+#include "Samples/Render/SampleGI.hxx"
 #include "Samples/Render/SampleComputeShader.hxx"
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
 // #include "Samples/Physics/SampleRigidBody.hxx"
@@ -208,6 +209,10 @@ namespace ma
 		else if(strcmp(pSample,"SampleIBL") == 0)
 		{
 			m_pCurSample = new SampleIBL();
+		}
+		else if (strcmp(pSample, "SampleGI") == 0)
+		{
+			m_pCurSample = new SampleGI();
 		}
 		else if(strcmp(pSample,"SampleTerrain") == 0)
 		{

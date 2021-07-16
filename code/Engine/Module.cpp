@@ -110,6 +110,7 @@
 #include "Engine/Scene/RenderComponent.hxx"
 #include "Engine/Scene/MeshComponent.hxx"
 #include "Engine/Scene/SkinMeshComponent.hxx"
+#include "Engine/Scene/Screen.hxx"
 #include "Engine/Scene/SceneNode.hxx"
 #include "Engine/Scene/Scene.hxx"
 #include "Engine/Scene/OctreeNode.hxx"

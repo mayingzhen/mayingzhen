@@ -229,3 +229,5 @@ EXPORTS
 ?BindUniform@Technique@ma@@IEAAXPEAVRenderable@2@PEAVSceneContext@2@W4ShaderType@2@@Z
 ?Compute@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVComputeCommand@2@PEAVSceneContext@2@@Z
 ?Render@Renderable@ma@@UEAAXPEAVTechnique@2@PEAVRenderCommand@2@PEAVSceneContext@2@@Z
+?SetTech@ScreenRender@ma@@QEAAXPEBD@Z
+?CreateScreenRender@ma@@YA?AV?$RefPtr@VScreenRender@ma@@@1@XZ

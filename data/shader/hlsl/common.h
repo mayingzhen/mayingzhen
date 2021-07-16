@@ -10,10 +10,10 @@ cbuffer CameraVS : register(b1)
 	float4x4 g_matProj;
 	float4x4 g_matProjInv;
 	float4x4 g_matViewProj;
+	float4x4 g_matViewProjInv;
 
 	float3 g_vEyeWorldPos;
-	float2 g_vViewport;
-	float2 g_vViewportInv;
+	float4 g_vViewport;
 	float4  g_vCameraNearFar;
 
 	float4x4 g_matLightViewProj;
